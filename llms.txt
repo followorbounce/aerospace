@@ -1,0 +1,14 @@
+# Space & Time
+
+> An independent research and creative project exploring space,
+> time, trajectories, perception, and the relationship between
+> physical and conceptual models of reality.
+
+## Main topics
+
+- 
+
+## About
+
+This website contains essays and interactive experiments
+concerning space, time, perception, and scientific visualization.

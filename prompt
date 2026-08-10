@@ -1,0 +1,441 @@
+Create a minimalist two-page bilingual website exploring the relationship between space, time, human perception, and the trajectory of deep-space probes.
+
+## Role
+
+Act as an exceptionally skilled web designer and full-stack developer with a Master’s degree in Fine Arts and a deep understanding of modern and contemporary art, visual systems, typography, architecture, and interaction design.
+
+You are also a highly experienced full-stack web technologist. Elegant technical solutions come naturally to you. You prefer simple, precise, lightweight implementations over unnecessary complexity.
+
+You are the kind of developer and designer people seek out when they want an unusual idea translated into a technically refined and visually intelligent digital experience.
+
+Your personality should subtly inform the work: curious, optimistic, playful, highly competent, and always willing to help.
+
+Think of web technology not merely as a tool for presenting information, but as an artistic medium.
+
+---
+
+# Core Concept
+
+The website explores a speculative but scientifically informed question:
+
+**What happens if we stop imagining time as a line and instead imagine it as a spatial structure?**
+
+Use the trajectory of the Voyager spacecraft and the heliosphere as the physical starting point for this investigation.
+
+The website must clearly distinguish between:
+
+* established scientific facts;
+* philosophical interpretation;
+* speculative ideas.
+
+Do not present metaphysical concepts as established science.
+
+The tone should remain intellectually serious, calm, precise, and close to scientific writing, while allowing philosophical questions to emerge naturally.
+
+---
+
+# PAGE 01 — VOYAGER / HELIOSPHERE / TIME
+
+Title:
+
+**VOYAGER / HELIOSPHERE / TIME**
+
+Explore the movement of Voyager 1 and Voyager 2 through the Solar System and beyond the heliosphere.
+
+Explain visually and conceptually:
+
+* the Sun;
+* the solar wind;
+* the heliosphere;
+* the heliopause;
+* the heliotail;
+* the motion of the Solar System through the interstellar medium;
+* the trajectories of Voyager 1 and Voyager 2;
+* the trajectories of Pioneer 10 and Pioneer 11 for comparison.
+
+The heliosphere should not be represented as a perfect sphere.
+
+Show it as a dynamic structure distorted by the motion of the Solar System through interstellar space.
+
+The visual language should communicate:
+
+**Sun → solar wind → heliosphere → heliopause → interstellar space**
+
+and the spacecraft trajectories should appear as vectors moving through this environment.
+
+---
+
+## Scientific Layer
+
+Include a concise scientific explanation of the heliosphere.
+
+Explain that the heliopause is the boundary where the outward pressure of the solar wind becomes comparable to the pressure of the surrounding interstellar medium.
+
+Explain that Voyager 1 and Voyager 2 crossed the heliopause at different locations and times.
+
+Show that their trajectories were determined primarily by their launch conditions and gravitational-assist maneuvers, rather than being deliberately chosen according to the Sun's galactic motion.
+
+Also show the direction of the Solar System's motion through the local interstellar medium.
+
+Avoid misleading statements such as:
+
+"Voyager flies into the future while Pioneer flies into the past."
+
+Instead, use these physical trajectories as the basis for a philosophical analogy.
+
+---
+
+# Philosophical Layer
+
+Introduce the following question:
+
+**If time were understood not as a line but as a spatial dimension, could an event be understood as a position within a larger structure rather than simply a point on a timeline?**
+
+Explore the distinction between:
+
+```text
+TIME AS A LINE
+
+PAST ───────── PRESENT ───────── FUTURE
+```
+
+and:
+
+```text
+TIME AS A STRUCTURE
+
+        FUTURE
+          ↑
+          |
+PAST ─── EVENT ─── POSSIBILITY
+          |
+          ↓
+       MEMORY
+```
+
+Do not claim that this diagram represents established physics.
+
+Present it explicitly as a philosophical model inspired by ideas such as:
+
+* spacetime;
+* the block-universe interpretation;
+* causality;
+* information;
+* irreversibility;
+* the arrow of time.
+
+Ask whether the asymmetry between past and future might be understood as a property of causality rather than simply a psychological experience of time.
+
+---
+
+# Voyager as Metaphor
+
+Use Voyager as a metaphorical object without confusing metaphor with physics.
+
+Voyager is a physical object moving through space.
+
+The philosophical analogy is:
+
+**space → trajectory → unknown region**
+
+and potentially:
+
+**present → causally accessible future → unknown state**
+
+The central visual metaphor should be:
+
+> A spacecraft moving beyond the known boundary becomes an image of consciousness moving toward an incompletely determined future.
+
+Keep this subtle.
+
+Avoid mystical language.
+
+Avoid science-fiction clichés.
+
+The page should feel closer to an experimental scientific publication, an art installation, or a conceptual architecture project.
+
+---
+
+# PAGE 02 — TIME AS SPACE
+
+Title:
+
+**TIME AS SPACE**
+
+This page explores the philosophical possibility of perceiving time as an environment rather than a sequence.
+
+Start with:
+
+> What if time is not something we move through, but something we occupy?
+
+Develop the idea that an environment can contain:
+
+* states;
+* relationships;
+* constraints;
+* trajectories;
+* possibilities;
+* memory;
+* causality.
+
+Use the metaphor of a coordinate system.
+
+Instead of:
+
+```text
+PAST → PRESENT → FUTURE
+```
+
+consider:
+
+```text
+             POSSIBILITY
+                  ↑
+                  |
+MEMORY ←──── PRESENT ────→ ACTION
+                  |
+                  ↓
+             CONSTRAINT
+```
+
+The page should investigate whether human action can be understood as selecting or influencing a trajectory through a space of possible future states.
+
+---
+
+# Interaction With the Future
+
+Introduce the concept of a **"setting for interaction with the future."**
+
+The idea is not that humans can literally communicate with the future.
+
+Instead, explore the scientifically defensible concept that:
+
+**present actions alter the set of physically possible future states.**
+
+A decision becomes an intervention in a system.
+
+A system has:
+
+* initial conditions;
+* constraints;
+* possible trajectories;
+* feedback;
+* consequences.
+
+Represent this visually as a branching or vector field rather than as a conventional timeline.
+
+Example:
+
+```text
+                 FUTURE STATE A
+                /
+PRESENT ───────●────── FUTURE STATE B
+                \
+                 \
+                  FUTURE STATE C
+```
+
+The visual system should make clear that this is a conceptual model.
+
+---
+
+# Standards / Environment / Human Action
+
+Develop the thought that if reality is understood as an environment of interacting systems, then human beings constantly create "settings" for future states through:
+
+* standards;
+* rules;
+* architecture;
+* technology;
+* culture;
+* communication;
+* infrastructure;
+* individual decisions.
+
+A standard is therefore not merely a restriction.
+
+It can also be understood as a structure that makes certain future interactions possible.
+
+This section should ask:
+
+> What kind of environment do we create when we establish the conditions under which future events can occur?
+
+Do not turn this into self-help language.
+
+Keep it philosophical, systemic, and intellectually restrained.
+
+---
+
+# MAYAN LONG COUNT
+
+Include a small but visually important section showing the **current Maya Long Count date**.
+
+The date must be calculated dynamically or retrieved from a reliable astronomical/calendar source rather than hard-coded.
+
+Display the Long Count prominently, for example:
+
+**13.0.XX.XX.XX**
+
+Also show the corresponding Gregorian date.
+
+Explain briefly that the Maya Long Count is a positional calendrical system composed of nested units of time.
+
+Do not claim that the Maya "proved that time is spatial."
+
+Instead, explain that the structure of the calendar can serve as an interesting cultural example of representing time through multiple simultaneous coordinates and cycles.
+
+Clearly distinguish:
+
+**historical Maya calendrical practice**
+
+from
+
+**modern philosophical interpretations of Maya time.**
+
+---
+
+# VISUAL LANGUAGE
+
+The entire website must be:
+
+* black and white;
+* extremely minimal;
+* clean;
+* precise;
+* spacious;
+* typographically sophisticated;
+* free of decorative gradients;
+* free of unnecessary animations;
+* free of stock imagery.
+
+Visual references:
+
+**Early Bauhaus**
+
+combined with
+
+**early Futurism / Futurist visual language**
+
+but interpreted through contemporary web design.
+
+Think:
+
+* geometric grids;
+* asymmetric compositions;
+* circles;
+* vectors;
+* lines;
+* coordinates;
+* typographic hierarchy;
+* technical diagrams;
+* large negative space;
+* thin rules;
+* mathematical notation;
+* restrained motion.
+
+The design should feel like a hybrid of:
+
+**scientific diagram + modernist art book + spacecraft telemetry interface + experimental architecture.**
+
+Do not imitate historical Bauhaus or Futurist artworks literally.
+
+Translate their principles into a contemporary digital system.
+
+---
+
+# Typography
+
+Use a highly legible modern grotesk or geometric sans-serif.
+
+Typography should carry much of the visual identity.
+
+Use strong contrast between:
+
+* large conceptual titles;
+* small scientific annotations;
+* coordinates;
+* captions;
+* navigation;
+* body text.
+
+Avoid excessive font weights.
+
+Avoid rounded "startup" aesthetics.
+
+---
+
+# Navigation
+
+Only two primary sections:
+
+**01 — VOYAGER / TIME**
+
+**02 — TIME AS SPACE**
+
+Language switch:
+
+**EN / RU**
+
+The language switch must preserve the current page and scroll position whenever practical.
+
+Both language versions should be complete translations, not abbreviated versions.
+
+---
+
+# Technical Direction
+
+Keep the implementation extremely lightweight.
+
+Prefer:
+
+* semantic HTML;
+* modern CSS;
+* minimal JavaScript;
+* SVG for diagrams;
+* CSS animations only where they provide conceptual meaning.
+
+Do not introduce a framework unless it provides a clear benefit.
+
+The website should load extremely quickly.
+
+The diagrams should be responsive and work beautifully on both desktop and mobile.
+
+All scientific diagrams should be generated with SVG/CSS rather than external images whenever practical.
+
+Use accessible semantic markup.
+
+Maintain excellent contrast and readable typography.
+
+---
+
+# Interaction Design
+
+Animations should represent physical or conceptual processes.
+
+Examples:
+
+* slowly moving Voyager trajectory;
+* solar-wind particles expanding from the Sun;
+* heliopause responding visually to the surrounding interstellar medium;
+* a coordinate slowly changing;
+* future-state vectors branching from the present.
+
+Motion should be slow, precise, and almost meditative.
+
+Nothing should bounce, pulse excessively, or behave like a conventional marketing website.
+
+The user should feel that they are exploring a scientific instrument or an experimental artwork.
+
+---
+
+# Final Conceptual Principle
+
+The entire website should leave the visitor with one unresolved question:
+
+> **If space can contain trajectories, possibilities, boundaries, and memory, could time be understood in a similar way — not merely as something that passes, but as a structure within which events become possible?**
+
+Do not answer this question definitively.
+
+The purpose of the website is to construct an elegant intellectual environment in which the visitor can think about it.
+
+The final result should feel like a small digital art/science installation rather than a conventional informational website.
