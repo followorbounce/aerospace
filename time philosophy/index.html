@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-title-en="Voyager / Heliosphere / Time" data-title-ru="Вояджер / Гелиосфера / Время">Voyager / Heliosphere / Time</title>
+<meta name="description" content="A study of the Voyager trajectories, the heliosphere, and what it might mean to think of time as a structure rather than a line.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <span>V/H/T</span><span class="dot">·</span>
+      <span data-telemetry>Δ 0.00 AU</span>
+    </div>
+    <nav class="pages-nav" aria-label="Sections">
+      <a href="index.html">01 — <span data-lang="en">VOYAGER / TIME</span><span data-lang="ru">ВОЯДЖЕР / ВРЕМЯ</span></a>
+      <a href="time-as-space.html">02 — <span data-lang="en">TIME AS SPACE</span><span data-lang="ru">ВРЕМЯ КАК ПРОСТРАНСТВО</span></a>
+    </nav>
+    <div class="nav-right">
+      <div class="langsw" aria-label="Language">
+        <button type="button" data-lang="en">EN</button><span>/</span><button type="button" data-lang="ru">RU</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow"><b>01</b> — <span data-lang="en">A trajectory, read as a question</span><span data-lang="ru">Траектория, прочитанная как вопрос</span></p>
+      <h1 class="title">VOYAGER /<br>HELIOSPHERE /<br>TIME</h1>
+      <p class="lede">
+        <span data-lang="en">Two spacecraft launched in 1977 are still moving outward, past the edge of the Sun's influence. Their physical trajectories are a fact. What we make of them &mdash; a question.</span>
+        <span data-lang="ru">Два аппарата, запущенные в 1977 году, всё ещё движутся наружу, за пределы влияния Солнца. Их физические траектории &mdash; факт. То, что мы из них выводим, &mdash; вопрос.</span>
+      </p>
+      <div class="hero-grid">
+        <div class="hero-field">
+          <svg viewBox="0 0 900 460" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Schematic of the heliosphere with spacecraft trajectories">
+            <!-- interstellar flow marks -->
+            <g stroke="var(--space-line)" stroke-width="1">
+              <line x1="10" y1="70" x2="70" y2="70"/><line x1="10" y1="120" x2="70" y2="120"/>
+              <line x1="10" y1="170" x2="70" y2="170"/><line x1="10" y1="340" x2="70" y2="340"/>
+              <line x1="10" y1="390" x2="70" y2="390"/>
+            </g>
+            <!-- heliopause boundary, comet-shaped, asymmetric -->
+            <path d="M 120 230 C 90 130, 180 40, 330 40 C 560 40, 830 130, 870 230 C 830 330, 560 420, 330 420 C 180 420, 90 330, 120 230 Z"
+                  fill="none" stroke="var(--space-line)" stroke-width="1.2"/>
+            <!-- heliosheath inner -->
+            <path d="M 190 230 C 175 160, 250 100, 340 100 C 500 100, 700 155, 740 230 C 700 305, 500 360, 340 360 C 250 360, 175 300, 190 230 Z"
+                  fill="none" stroke="var(--space-faint)" stroke-width="1"/>
+            <!-- Sun -->
+            <circle cx="300" cy="230" r="5" fill="var(--paper)"/>
+            <circle cx="300" cy="230" r="4" class="pulse-out" fill="none" stroke="var(--paper)" stroke-width="1"/>
+            <text x="300" y="255" text-anchor="middle" class="coord" fill="var(--space-dim)" font-size="10">SUN</text>
+            <!-- Voyager 1 vector -->
+            <line x1="300" y1="230" x2="620" y2="95" stroke="var(--paper)" stroke-width="1.1" class="dash-flow"/>
+            <circle cx="620" cy="95" r="3" fill="var(--paper)"/>
+            <text x="632" y="92" class="coord" fill="var(--paper)" font-size="10">V1</text>
+            <text x="632" y="106" class="coord" fill="var(--space-dim)" font-size="9">121.7 AU · 2012</text>
+            <!-- Voyager 2 vector -->
+            <line x1="300" y1="230" x2="600" y2="360" stroke="var(--paper)" stroke-width="1.1" class="dash-flow"/>
+            <circle cx="600" cy="360" r="3" fill="var(--paper)"/>
+            <text x="612" y="358" class="coord" fill="var(--paper)" font-size="10">V2</text>
+            <text x="612" y="372" class="coord" fill="var(--space-dim)" font-size="9">119.0 AU · 2018</text>
+            <!-- Pioneer 10 -->
+            <line x1="300" y1="230" x2="470" y2="150" stroke="var(--space-faint)" stroke-width="1" stroke-dasharray="2 4"/>
+            <circle cx="470" cy="150" r="2.5" fill="none" stroke="var(--space-faint)"/>
+            <text x="480" y="148" class="coord" fill="var(--space-faint)" font-size="9">P10 · signal lost 2003</text>
+            <!-- Pioneer 11 -->
+            <line x1="300" y1="230" x2="430" y2="320" stroke="var(--space-faint)" stroke-width="1" stroke-dasharray="2 4"/>
+            <circle cx="430" cy="320" r="2.5" fill="none" stroke="var(--space-faint)"/>
+            <text x="440" y="332" class="coord" fill="var(--space-faint)" font-size="9">P11 · signal lost 1995</text>
+            <!-- motion direction -->
+            <line x1="60" y1="230" x2="115" y2="230" stroke="var(--paper)" stroke-width="1"/>
+            <polygon points="115,230 107,226 107,234" fill="var(--paper)"/>
+            <text x="65" y="215" class="coord" fill="var(--space-dim)" font-size="9">MOTION THROUGH ISM</text>
+          </svg>
+        </div>
+        <div class="hero-foot">
+          <span class="scrollcue"><i></i><span data-lang="en">SCROLL</span><span data-lang="ru">ВНИЗ</span></span>
+          <span class="coord" data-lang="en">FIG. 0 — SCHEMATIC, NOT TO SCALE</span>
+          <span class="coord" data-lang="ru">РИС. 0 — СХЕМА, БЕЗ СОБЛЮДЕНИЯ МАСШТАБА</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCIENTIFIC LAYER — HELIOSPHERE ============ -->
+  <section class="pad-block" data-reveal>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="layer-tag fact">
+            <span data-lang="en">Scientific layer</span><span data-lang="ru">Научный слой</span>
+          </span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang="en">The heliosphere is not a sphere</span>
+          <span data-lang="ru">Гелиосфера — не сфера</span>
+        </h2>
+      </div>
+
+      <div class="grid-12">
+        <div class="col-7">
+          <p class="body-text" data-lang="en">The Sun continuously releases a stream of charged particles &mdash; the solar wind &mdash; in every direction. Where the outward pressure of that wind becomes comparable to the pressure of the surrounding interstellar medium, a boundary forms: the <strong>heliopause</strong>. Inside it lies the heliosphere, the Sun's zone of magnetic and material influence. Outside it begins interstellar space.</p>
+          <p class="body-text" data-lang="en">Because the Sun is itself moving &mdash; carrying the entire solar system with it &mdash; through the surrounding interstellar cloud, this boundary is not a sphere. It is pushed inward on the leading side and drawn out into a long <strong>heliotail</strong> on the trailing side, the way a bow wave and wake form around a body moving through a fluid. The heliosphere is closer to a comet's shape than a soap bubble's.</p>
+          <p class="body-text" data-lang="en">Before reaching the heliopause, the solar wind first crosses the <strong>termination shock</strong>, where it abruptly slows from supersonic to subsonic speed. The region between the two boundaries, the <strong>heliosheath</strong>, is turbulent, compressed, and still dominated by solar material.</p>
+        </div>
+        <div class="col-5">
+          <div class="diagram" data-reveal>
+            <div class="diagram-head">
+              <span class="eyebrow" data-lang="en">Structure</span><span class="eyebrow" data-lang="ru">Структура</span>
+              <span class="caption" data-lang="en">Sun → solar wind → termination shock → heliosheath → heliopause → interstellar medium</span>
+              <span class="caption" data-lang="ru">Солнце → солнечный ветер → ударная волна → гелиооболочка → гелиопауза → межзвёздная среда</span>
+            </div>
+            <svg viewBox="0 0 420 300" role="img" aria-label="Heliosphere structure diagram">
+              <path d="M 60 150 C 45 90, 110 40, 200 40 C 330 40, 400 100, 400 150 C 400 200, 330 260, 200 260 C 110 260, 45 210, 60 150 Z"
+                    fill="none" stroke="var(--ink)" stroke-width="1"/>
+              <path d="M 100 150 C 90 110, 135 75, 200 75 C 290 75, 345 115, 345 150 C 345 185, 290 225, 200 225 C 135 225, 90 190, 100 150 Z"
+                    fill="none" stroke="var(--gray-2)" stroke-width="1" stroke-dasharray="3 4"/>
+              <circle cx="150" cy="150" r="4" fill="var(--ink)"/>
+              <circle cx="150" cy="150" r="4" class="pulse-out" fill="none" stroke="var(--ink)" stroke-width="1"/>
+              <line x1="30" y1="150" x2="60" y2="150" stroke="var(--ink)" stroke-width="1"/>
+              <polygon points="60,150 52,146 52,154" fill="var(--ink)"/>
+              <text x="150" y="172" text-anchor="middle" class="coord" font-size="9">SUN</text>
+              <text x="102" y="115" class="coord" font-size="8.5" fill="var(--gray-1)">TERMINATION SHOCK</text>
+              <text x="145" y="98" class="coord" font-size="8.5" fill="var(--gray-1)">HELIOSHEATH</text>
+              <text x="215" y="52" class="coord" font-size="8.5" fill="var(--ink)">HELIOPAUSE</text>
+              <text x="330" y="150" class="coord" font-size="8.5" fill="var(--gray-1)">HELIOTAIL →</text>
+              <text x="15" y="140" class="coord" font-size="8" fill="var(--gray-1)" data-lang="en">MOTION</text>
+              <text x="10" y="140" class="coord" font-size="8" fill="var(--gray-1)" data-lang="ru">ДВИЖЕНИЕ</text>
+            </svg>
+            <div class="diagram-foot">
+              <div class="legend">
+                <span class="legend-item"><i></i><span data-lang="en">Heliopause</span><span data-lang="ru">Гелиопауза</span></span>
+                <span class="legend-item"><i class="dashed"></i><span data-lang="en">Termination shock</span><span data-lang="ru">Ударная волна</span></span>
+                <span class="legend-item"><i class="dot"></i><span data-lang="en">Sun</span><span data-lang="ru">Солнце</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============ TRAJECTORY TABLE ============ -->
+  <section class="pad-block" data-reveal>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="layer-tag fact"><span data-lang="en">Scientific layer</span><span data-lang="ru">Научный слой</span></span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang="en">Four probes, four trajectories</span>
+          <span data-lang="ru">Четыре аппарата, четыре траектории</span>
+        </h2>
+      </div>
+      <div class="grid-12">
+        <div class="col-12">
+          <table class="tele-table">
+            <thead>
+              <tr>
+                <th data-lang="en">Probe</th><th data-lang="ru">Аппарат</th>
+                <th data-lang="en">Launch</th><th data-lang="ru">Запуск</th>
+                <th data-lang="en">Termination shock</th><th data-lang="ru">Ударная волна</th>
+                <th data-lang="en">Heliopause / status</th><th data-lang="ru">Гелиопауза / статус</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Voyager 1</td>
+                <td>5 Sept 1977</td>
+                <td class="num">Dec 2004 · 94 AU</td>
+                <td>
+                  <span data-lang="en">Crossed 25 Aug 2012 · 121.7 AU — first craft in interstellar space</span>
+                  <span data-lang="ru">Пересёк 25 авг. 2012 · 121,7 а.е. — первый аппарат в межзвёздном пространстве</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Voyager 2</td>
+                <td>20 Aug 1977</td>
+                <td class="num">Aug 2007 · 84 AU</td>
+                <td>
+                  <span data-lang="en">Crossed 5 Nov 2018 · 119.0 AU — different location, confirmed by plasma density</span>
+                  <span data-lang="ru">Пересёк 5 нояб. 2018 · 119,0 а.е. — другая точка, подтверждено плотностью плазмы</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Pioneer 10</td>
+                <td>2 Mar 1972</td>
+                <td class="num">—</td>
+                <td>
+                  <span data-lang="en">Last signal 2003 · ~80 AU — power lost before reaching the heliopause; still coasting outward</span>
+                  <span data-lang="ru">Последний сигнал 2003 · ~80 а.е. — потеря питания до гелиопаузы; продолжает движение по инерции</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Pioneer 11</td>
+                <td>5 Apr 1973</td>
+                <td class="num">—</td>
+                <td>
+                  <span data-lang="en">Last signal 1995 · ~44 AU — power lost early; trajectory bends toward the constellation Aquila</span>
+                  <span data-lang="ru">Последний сигнал 1995 · ~44 а.е. — питание потеряно рано; траектория идёт в сторону созвездия Орла</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="small-note" style="margin-top:12px" data-lang="en">Both Pioneer spacecraft are silent but not stopped: ballistic and unpowered, they continue to recede from the Sun, their present positions no longer tracked.</p>
+          <p class="small-note" style="margin-top:12px" data-lang="ru">Оба аппарата «Пионер» молчат, но не остановлены: баллистически, без связи, они продолжают удаляться от Солнца, их текущее положение больше не отслеживается.</p>
+        </div>
+      </div>
+
+      <div class="grid-12" style="margin-top:36px">
+        <div class="col-8">
+          <p class="body-text" data-lang="en">The four trajectories point in different directions because they were shaped by <strong>launch windows and gravitational-assist maneuvers</strong> past Jupiter, Saturn, Uranus, and Neptune &mdash; not because they were aimed with respect to the Sun's own path through the galaxy. Voyager 2 left two weeks before Voyager 1, on a slower route built to visit all four giant planets; Voyager 1 took a faster path past Jupiter and Saturn and overtook its twin in December 1977.</p>
+          <p class="body-text" data-lang="en">Separately, the Sun itself is moving at roughly 23 km/s relative to the surrounding interstellar cloud, toward a point in the sky near the constellation Hercules known as the solar apex. That motion is what gives the heliosphere its asymmetric, comet-like shape &mdash; it has no direct relationship to where any spacecraft happened to be sent.</p>
+          <div class="avoid" style="margin-top:18px">
+            <s data-lang="en">"Voyager flies into the future while Pioneer flies into the past."</s>
+            <s data-lang="ru">«Вояджер летит в будущее, а Пионер — в прошлое».</s>
+            <br>
+            <span data-lang="en">— a poetic phrase, but not a physical statement. Both craft move through ordinary space at ordinary (if extraordinary by human standards) sub-light speeds. Neither is closer to or farther from any moment in time than the other.</span>
+            <span data-lang="ru">— красивая фраза, но не физическое утверждение. Оба аппарата движутся в обычном пространстве с обычными (пусть и впечатляющими по человеческим меркам) досветовыми скоростями. Ни один из них не «ближе» и не «дальше» от какого-либо момента времени, чем другой.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============ PHILOSOPHICAL LAYER ============ -->
+  <section class="pad-block" data-reveal>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="layer-tag phil"><span data-lang="en">Philosophical layer</span><span data-lang="ru">Философский слой</span></span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang="en">What if a moment is a position, not a point?</span>
+          <span data-lang="ru">Что, если момент — это положение, а не точка?</span>
+        </h2>
+      </div>
+
+      <div class="grid-12">
+        <div class="col-7">
+          <p class="lede" data-lang="en">If time were understood not as a line but as a spatial dimension, could an event be understood as a position within a larger structure &mdash; rather than simply a point on a timeline?</p>
+          <p class="lede" data-lang="ru">Если бы время понималось не как линия, а как пространственное измерение, можно ли было бы рассматривать событие как положение внутри более крупной структуры &mdash; а не просто как точку на временной шкале?</p>
+          <p class="body-text" style="margin-top:22px" data-lang="en">This is not a claim about physics. It is a way of asking what changes if the metaphors we use for time borrow from space instead of from a river or an arrow. The idea has real company: in relativity, space and time are already unified into a single four-dimensional structure, spacetime. In the <strong>block-universe</strong> interpretation, some physicists and philosophers argue that past, present, and future are all equally real regions of that structure &mdash; a position, not a passage.</p>
+          <p class="body-text" data-lang="en">None of this is settled. It is one interpretation among several live debates in the philosophy of physics. What it offers here is a useful shift of vocabulary: from motion to structure, from passing to occupying.</p>
+        </div>
+        <div class="col-5">
+          <div class="diagram" data-reveal>
+            <div class="diagram-head">
+              <span class="eyebrow" data-lang="en">Two models</span><span class="eyebrow" data-lang="ru">Две модели</span>
+            </div>
+            <svg viewBox="0 0 380 120" style="margin-bottom:6px">
+              <line x1="20" y1="60" x2="360" y2="60" stroke="var(--ink)" stroke-width="1"/>
+              <polygon points="360,60 350,55 350,65" fill="var(--ink)"/>
+              <circle cx="190" cy="60" r="3" fill="var(--ink)"/>
+              <text x="34" y="46" class="coord" font-size="9" data-lang="en">PAST</text>
+              <text x="34" y="46" class="coord" font-size="9" data-lang="ru">ПРОШЛОЕ</text>
+              <text x="168" y="46" class="coord" font-size="9" data-lang="en">PRESENT</text>
+              <text x="160" y="46" class="coord" font-size="9" data-lang="ru">НАСТОЯЩЕЕ</text>
+              <text x="320" y="46" class="coord" font-size="9" data-lang="en">FUTURE</text>
+              <text x="312" y="46" class="coord" font-size="9" data-lang="ru">БУДУЩЕЕ</text>
+            </svg>
+            <p class="caption" style="margin-bottom:14px" data-lang="en">TIME AS A LINE — the familiar model. Sequence only.</p>
+            <p class="caption" style="margin-bottom:14px" data-lang="ru">ВРЕМЯ КАК ЛИНИЯ — привычная модель. Только последовательность.</p>
+            <hr class="rule" style="margin:14px 0">
+            <svg viewBox="0 0 380 200">
+              <line x1="190" y1="20" x2="190" y2="180" stroke="var(--ink)" stroke-width="1"/>
+              <line x1="20" y1="100" x2="360" y2="100" stroke="var(--ink)" stroke-width="1"/>
+              <polygon points="190,20 185,30 195,30" fill="var(--ink)"/>
+              <polygon points="190,180 185,170 195,170" fill="var(--ink)"/>
+              <polygon points="20,100 30,95 30,105" fill="var(--ink)"/>
+              <polygon points="360,100 350,95 350,105" fill="var(--ink)"/>
+              <circle cx="190" cy="100" r="4" fill="var(--ink)"/>
+              <text x="196" y="16" class="coord" font-size="9" data-lang="en">FUTURE</text>
+              <text x="196" y="16" class="coord" font-size="9" data-lang="ru">БУДУЩЕЕ</text>
+              <text x="24" y="90" class="coord" font-size="9" data-lang="en">PAST</text>
+              <text x="24" y="90" class="coord" font-size="9" data-lang="ru">ПРОШЛОЕ</text>
+              <text x="176" y="120" class="coord" font-size="9" text-anchor="middle" data-lang="en">EVENT</text>
+              <text x="176" y="120" class="coord" font-size="9" text-anchor="middle" data-lang="ru">СОБЫТИЕ</text>
+              <text x="296" y="90" class="coord" font-size="9" data-lang="en">POSSIBILITY</text>
+              <text x="286" y="90" class="coord" font-size="9" data-lang="ru">ВОЗМОЖНОСТЬ</text>
+              <text x="182" y="196" class="coord" font-size="9" data-lang="en">MEMORY</text>
+              <text x="182" y="196" class="coord" font-size="9" data-lang="ru">ПАМЯТЬ</text>
+            </svg>
+            <p class="caption" data-lang="en">TIME AS A STRUCTURE — a philosophical model, not established physics. An event as a position among axes.</p>
+            <p class="caption" data-lang="ru">ВРЕМЯ КАК СТРУКТУРА — философская модель, не установленная физика. Событие как положение среди осей.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-12" style="margin-top:44px">
+        <div class="col-8">
+          <p class="body-text" data-lang="en">The diagram above is deliberately not physics. It borrows the visual grammar of a coordinate system to ask a question physics leaves open: is the felt asymmetry between past and future &mdash; the sense that we remember one and only anticipate the other &mdash; a fact about the deep structure of causality, or a fact about how minds happen to process information? Philosophers call this second possibility the psychological or thermodynamic arrow of time, tied to the steady increase of entropy. Whether that is the whole explanation, or only part of one, remains an open question.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============ VOYAGER AS METAPHOR (SPECULATIVE) ============ -->
+  <section class="pad-block" data-reveal>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="layer-tag spec"><span data-lang="en">Speculative layer</span><span data-lang="ru">Спекулятивный слой</span></span>
+        </div>
+        <h2 class="section-title">
+          <span data-lang="en">Voyager as an image, not an argument</span>
+          <span data-lang="ru">Вояджер как образ, а не аргумент</span>
+        </h2>
+      </div>
+      <div class="grid-12">
+        <div class="col-8">
+          <p class="body-text" data-lang="en">Voyager 1 is a physical object moving through physical space, carried by momentum and gravity toward a region its designers never precisely mapped. Nothing about that motion is metaphorical.</p>
+          <p class="body-text" data-lang="en">The metaphor, held at arm's length, is this: <strong>space → trajectory → unknown region</strong> resembles, structurally, <strong>present → causally accessible future → unknown state</strong>. A spacecraft moving beyond a known boundary becomes, for a moment, an image of a mind moving toward a future that is not yet fixed &mdash; not because the future is mystical, but because it is underdetermined by what is currently knowable.</p>
+          <p class="body-text" data-lang="en">This is offered as an image, not a proof. It is meant to be held lightly &mdash; useful for thinking, not a claim that consciousness literally travels, or that the heliopause is a boundary of time. The two domains, spaceflight and cognition, share a shape. They do not share a mechanism.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MAYA LONG COUNT ============ -->
+  <section class="maya" data-reveal>
+    <div class="wrap">
+      <div class="maya-grid">
+        <div>
+          <p class="eyebrow"><span data-lang="en">A cultural coordinate, for comparison</span><span data-lang="ru">Культурная координата, для сравнения</span></p>
+          <h3 class="sub-title" style="color:var(--paper); margin-top:8px">
+            <span data-lang="en">The Maya Long Count, today</span>
+            <span data-lang="ru">Долгий счёт майя, сегодня</span>
+          </h3>
+          <div class="maya-count" data-maya-count aria-live="polite">13.0.13.0.0</div>
+          <p class="maya-sub" data-maya-gregorian><span data-lang="en"></span><span data-lang="ru"></span></p>
+          <div class="maya-units" data-maya-units></div>
+        </div>
+        <div>
+          <p class="body-text" style="color:var(--space-dim)" data-lang="en">The Long Count is a positional calendrical system: nested cycles of days (kin), 20-day months (uinal), 360-day years (tun), 20-tun periods (katun), and 400-tun periods (baktun), each digit rolling into the next much as hours roll into days in a clock. A date is a coordinate made of several simultaneous cycles rather than a single accumulating number.</p>
+          <p class="body-text" style="color:var(--space-dim)" data-lang="ru">Долгий счёт — позиционная календарная система: вложенные циклы дней (кин), 20-дневных месяцев (уинал), 360-дневных лет (тун), периодов по 20 тунов (катун) и по 400 тунов (бактун); каждый разряд переходит в следующий примерно так же, как часы переходят в сутки. Дата — это координата, составленная из нескольких одновременных циклов, а не единое накапливающееся число.</p>
+          <p class="body-text" style="color:var(--space-dim); margin-top:14px" data-lang="en">This is offered as a cultural point of comparison, not as evidence for the philosophical model above. Classic Maya calendrical practice was a precise, historically documented astronomical and ritual system; it did not anticipate spacetime physics. What is genuinely interesting, and fair to say, is that it represents time through multiple simultaneous coordinates and cycles rather than a single line &mdash; a structurally different intuition worth noting on its own terms.</p>
+          <p class="body-text" style="color:var(--space-dim); margin-top:14px" data-lang="ru">Это культурное сопоставление, а не подтверждение философской модели выше. Календарная практика классических майя была точной, исторически задокументированной астрономической и ритуальной системой; она не предвосхищала физику пространства-времени. Что действительно интересно и корректно отметить — она представляет время через несколько одновременных координат и циклов, а не через одну линию: структурно иная интуиция, заслуживающая внимания сама по себе.</p>
+          <p class="caption" style="margin-top:16px; color:var(--space-faint)" data-lang="en">Computed live using the Goodman–Martínez–Thompson correlation (584283), from the visitor's current date.</p>
+          <p class="caption" style="margin-top:16px; color:var(--space-faint)" data-lang="ru">Вычисляется динамически по корреляции Гудмана–Мартинеса–Томпсона (584283), на основе текущей даты посетителя.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <p class="foot-question" data-lang="en">If a trajectory can be tracked through space, could a life &mdash; or a moment &mdash; be tracked through something structurally similar?</p>
+      <p class="foot-question" data-lang="ru">Если траекторию можно отследить в пространстве, можно ли отследить жизнь — или момент — в чём-то структурно похожем?</p>
+      <div class="foot-next">
+        <span class="marker" data-lang="en">NEXT</span><span class="marker" data-lang="ru">ДАЛЕЕ</span>
+        <a href="time-as-space.html">02 — <span data-lang="en">TIME AS SPACE</span><span data-lang="ru">ВРЕМЯ КАК ПРОСТРАНСТВО</span></a>
+      </div>
+      <div class="foot-meta">
+        <span data-lang="en">A study in two pages.<br>Black and white. No stock imagery.<br>Sources: NASA/JPL Voyager mission status; Nature Astronomy (2019), heliopause crossings.</span>
+        <span data-lang="ru">Исследование в двух страницах.<br>Чёрно-белое. Без стоковых изображений.<br>Источники: статус миссии «Вояджер» NASA/JPL; Nature Astronomy (2019), пересечения гелиопаузы.</span>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script src="maya.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
