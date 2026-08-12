@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASCENT — MERCURY &amp; THE FIRST ASTRONAUTS / «МЕРКУРИЙ» И ПЕРВЫЕ АСТРОНАВТЫ</title>
+<meta name="description" content="An interactive engineering-style journey through Project Mercury and the beginning of human spaceflight.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+.grid-7{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+  .grid-7{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.velocity-card{background:var(--white); padding:22px; display:flex; flex-direction:column; gap:8px;}
+.velocity-card .vnum{font-family:var(--font-mono); font-size:11.5px; color:var(--mid);}
+.velocity-card .vval{font-family:var(--font-display); font-size:1.5rem;}
+.velocity-card p{font-size:13px; color:#333;}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:10px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.6rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.stage-btn{font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.04em; border:1px solid var(--ink); background:var(--paper); padding:9px 14px;}
+.stage-btn.active{background:var(--ink); color:var(--white);}
+.stage-row{display:flex; justify-content:center; gap:8px; margin-top:20px; flex-wrap:wrap;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-viewport{width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto;}
+.sim-verdict{margin-top:16px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:13px; min-height:20px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">ASCENT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">ALT</span><span id="hud-alt">0 KM</span></div>
+  <div class="hud-row"><span class="hud-label">VEL</span><span id="hud-vel">0.00 KM/S</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="0 KM" data-vel="0.00 KM/S" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — SEVEN MEN, SIX FLIGHTS, ONE QUESTION" data-ru="РИС. 00 — СЕМЬ ЧЕЛОВЕК, ШЕСТЬ ПОЛЁТОВ, ОДИН ВОПРОС">FIG. 00 — SEVEN MEN, SIX FLIGHTS, ONE QUESTION</span>
+        <span data-en="1958 → 1963" data-ru="1958 → 1963">1958 → 1963</span>
+      </div>
+      <h1><span data-en="ASCENT" data-ru="ВОСХОЖДЕНИЕ">ASCENT</span><br><em data-en="A FIELD GUIDE TO MERCURY &amp; THE FIRST ASTRONAUTS" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО «МЕРКУРИЮ» И ПЕРВЫМ АСТРОНАВТАМ">A FIELD GUIDE TO MERCURY &amp; THE FIRST ASTRONAUTS</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the question Project Mercury was built to answer — can a human being survive, think, and work in space — and on the capsule, the rocket, and the seven men who answered it. Scroll to begin the mission." data-ru="Десять глав о вопросе, ради ответа на который была создана программа «Меркурий»: способен ли человек выжить, мыслить и работать в космосе, — и о капсуле, ракете и семи людях, давших на него ответ. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the question Project Mercury was built to answer — can a human being survive, think, and work in space — and on the capsule, the rocket, and the seven men who answered it. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — SPACE RACE BEGINS -->
+<section id="ch1" class="section" data-phase="SPACE RACE 1957–61" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="THE SPACE RACE BEGINS" data-ru="НАЧАЛО КОСМИЧЕСКОЙ ГОНКИ">THE SPACE RACE BEGINS</span></div>
+    <h2 class="h-lg" data-en="Beaten to orbit by three weeks" data-ru="Опередили на три недели">Beaten to orbit by three weeks</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Sputnik 1's launch in October 1957 caught the United States by surprise and reordered its scientific priorities almost overnight. NASA was formed within a year, and Project Mercury — America's first human spaceflight program — became one of its very first acts, in October 1958." data-ru="Запуск «Спутника-1» в октябре 1957 года застал Соединённые Штаты врасплох и почти мгновенно изменил их научные приоритеты. В течение года было создано NASA, и программа «Меркурий» — первая американская программа пилотируемых полётов — стала одним из первых его начинаний, в октябре 1958 года.">Sputnik 1's launch in October 1957 caught the United States by surprise and reordered its scientific priorities almost overnight. NASA was formed within a year, and Project Mercury — America's first human spaceflight program — became one of its very first acts, in October 1958.</p>
+      <p class="body-col" data-en="By the time Mercury was ready to fly a man, the Soviet Union got there first: Yuri Gagarin orbited the Earth aboard Vostok 1 on April 12, 1961. Alan Shepard followed just three weeks later — not into orbit, but into space." data-ru="К тому моменту, когда «Меркурий» был готов отправить человека в полёт, Советский Союз уже опередил его: 12 апреля 1961 года Юрий Гагарин облетел Землю на «Востоке-1». Алан Шепард последовал за ним всего через три недели — не на орбиту, но в космос.">By the time Mercury was ready to fly a man, the Soviet Union got there first: Yuri Gagarin orbited the Earth aboard Vostok 1 on April 12, 1961. Alan Shepard followed just three weeks later — not into orbit, but into space.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — MERCURY SEVEN -->
+<section id="ch2" class="section" data-phase="ASTRONAUT SELECTION" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE MERCURY SEVEN" data-ru="«МЕРКЬЮРИ СЕВЕН»">THE MERCURY SEVEN</span></div>
+    <h2 class="h-lg" data-en="Chosen from 508 candidates" data-ru="Отобраны из 508 кандидатов">Chosen from 508 candidates</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="NASA required military test pilots under 40, under 5'11\", with engineering training and jet experience — a shortlist that began at 508 names and ended, in April 1959, at seven." data-ru="NASA требовало военных лётчиков-испытателей моложе 40 лет, ростом не выше 180 см, с инженерной подготовкой и опытом полётов на реактивных самолётах — список, начавшийся с 508 имён и завершившийся в апреле 1959 года семью.">NASA required military test pilots under 40, under 5'11", with engineering training and jet experience — a shortlist that began at 508 names and ended, in April 1959, at seven.</p>
+    <div class="grid-7" id="astronautGrid" style="margin-top:24px;"></div>
+  </div>
+</section>
+
+<!-- CH3 — MAN-RATING -->
+<section id="ch3" class="section" data-phase="MAN-RATING A ROCKET" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="MAN-RATING A ROCKET" data-ru="ДОПУСК РАКЕТЫ ДЛЯ ЧЕЛОВЕКА">MAN-RATING A ROCKET</span></div>
+    <h2 class="h-lg" data-en="Built to fail safely, not just to fly" data-ru="Построена не просто летать, а безопасно отказывать">Built to fail safely, not just to fly</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Neither the Redstone nor the Atlas rocket was designed with a person in mind — both began as military missiles. Man-rating meant adding redundant systems, tighter quality control, and one entirely new component: a solid-fuel escape tower, mounted above the capsule, able to yank it clear of a failing rocket in a fraction of a second." data-ru="Ни «Редстоун», ни «Атлас» не проектировались с расчётом на человека — обе ракеты начинались как военные баллистические ракеты. Допуск для пилотируемых полётов означал добавление резервных систем, более строгий контроль качества и один совершенно новый узел: твердотопливную башню аварийного спасения над капсулой, способную за доли секунды отдёрнуть его от разрушающейся ракеты.">Neither the Redstone nor the Atlas rocket was designed with a person in mind — both began as military missiles. Man-rating meant adding redundant systems, tighter quality control, and one entirely new component: a solid-fuel escape tower, mounted above the capsule, able to yank it clear of a failing rocket in a fraction of a second.</p>
+      <div class="grid-3" style="margin-top:0;">
+        <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.3rem;">Redstone</div><div class="fig-num" data-en="SUBORBITAL FLIGHTS" data-ru="СУБОРБИТАЛЬНЫЕ ПОЛЁТЫ">SUBORBITAL FLIGHTS</div></div>
+        <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.3rem;">Atlas</div><div class="fig-num" data-en="ORBITAL FLIGHTS" data-ru="ОРБИТАЛЬНЫЕ ПОЛЁТЫ">ORBITAL FLIGHTS</div></div>
+        <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.3rem;">~0.4 s</div><div class="fig-num" data-en="ESCAPE TOWER REACTION" data-ru="РЕАКЦИЯ БАШНИ СПАСЕНИЯ">ESCAPE TOWER REACTION</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — CAPSULE ANATOMY -->
+<section id="ch4" class="section" data-phase="CAPSULE ANATOMY" data-alt="~260 KM" data-vel="7.8 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="ANATOMY OF THE CAPSULE" data-ru="УСТРОЙСТВО КАПСУЛЫ">ANATOMY OF THE CAPSULE</span></div>
+    <h2 class="h-lg" data-en="Small enough to wear, not board" data-ru="Такая маленькая, что её «надевали», а не садились в неё">Small enough to wear, not board</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="At just 1.9 metres across, the Mercury capsule left barely any room to move — astronauts joked they didn't climb in, they put it on. Select a component." data-ru="Всего 1,9 метра в диаметре — в капсуле «Меркурий» почти не было места, чтобы шевельнуться; астронавты шутили, что её не надевают, а «носят». Выберите компонент.">At just 1.9 metres across, the Mercury capsule left barely any room to move — astronauts joked they didn't climb in, they put it on. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="capsuleSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="capsulePanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — SIX FLIGHTS -->
+<section id="ch5" class="section" data-phase="SIX FLIGHTS 1961–63" data-alt="VARIES" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="SIX FLIGHTS" data-ru="ШЕСТЬ ПОЛЁТОВ">SIX FLIGHTS</span></div>
+    <h2 class="h-lg" data-en="Fifty-four hours, total" data-ru="Пятьдесят четыре часа в сумме">Fifty-four hours, total</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Every Mercury astronaut named their own capsule with a '7' in honour of the original seven. Scrub through the program." data-ru="Каждый астронавт «Меркурия» сам называл свою капсулу, добавляя «7» в честь исходной семёрки. Пролистайте хронологию программы.">Every Mercury astronaut named their own capsule with a '7' in honour of the original seven. Scrub through the program.</p>
+    <div class="mir-timeline">
+      <div class="mt-track"></div>
+      <div class="mt-events" id="flightEvents"></div>
+      <div class="mt-detail corner-frame" id="flightDetail"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — SUBORBITAL VS ORBITAL -->
+<section id="ch6" class="section" data-phase="SUBORBITAL VS ORBITAL" data-alt="187 / 260 KM" data-vel="2.3 / 7.8 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="SUBORBITAL VS ORBITAL" data-ru="СУБОРБИТАЛЬНЫЙ И ОРБИТАЛЬНЫЙ">SUBORBITAL VS ORBITAL</span></div>
+    <h2 class="h-lg" data-en="Fifteen minutes against five hours" data-ru="Пятнадцать минут против пяти часов">Fifteen minutes against five hours</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Shepard's flight proved a human could survive launch and weightlessness. Glenn's, nine months later, proved a human could survive an entire orbit — and the much hotter re-entry that came with it." data-ru="Полёт Шепарда доказал, что человек способен пережить старт и невесомость. Полёт Гленна, девять месяцев спустя, доказал, что человек способен пережить целый виток — и куда более горячий вход в атмосферу, который за ним следует.">Shepard's flight proved a human could survive launch and weightlessness. Glenn's, nine months later, proved a human could survive an entire orbit — and the much hotter re-entry that came with it.</p>
+    <div class="dash-grid" id="subOrbGrid"></div>
+  </div>
+</section>
+
+<!-- CH7 — MERCURY & VOSTOK -->
+<section id="ch7" class="section" data-phase="MERCURY VS VOSTOK" data-alt="VARIES" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="MERCURY &amp; VOSTOK" data-ru="«МЕРКУРИЙ» И «ВОСТОК»">MERCURY &amp; VOSTOK</span></div>
+    <h2 class="h-lg" data-en="Two answers to the same problem" data-ru="Два решения одной задачи">Two answers to the same problem</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="The Soviet Vostok capsule solved re-entry differently — its cosmonauts ejected and parachuted down separately from the spacecraft, a detail kept secret for years because it fell outside international records rules for a valid landing." data-ru="Советская капсула «Восток» решала проблему посадки иначе — космонавты катапультировались и приземлялись отдельно от аппарата на собственном парашюте, деталь, которую годами держали в секрете, поскольку она не соответствовала международным правилам засчитываемой посадки.">The Soviet Vostok capsule solved re-entry differently — its cosmonauts ejected and parachuted down separately from the spacecraft, a detail kept secret for years because it fell outside international records rules for a valid landing.</p>
+    <div class="dash-grid" id="vostokGrid"></div>
+  </div>
+</section>
+
+<!-- CH8 — RE-ENTRY -->
+<section id="ch8" class="section" data-phase="RE-ENTRY" data-alt="120 → 0 KM" data-vel="7.8 → 0 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="RE-ENTRY" data-ru="ВХОД В АТМОСФЕРУ">RE-ENTRY</span></div>
+    <h2 class="h-lg" data-en="Blunt end forward, on purpose" data-ru="Тупым концом вперёд — намеренно">Blunt end forward, on purpose</h2>
+    <p class="body-col" style="margin-bottom:32px;" data-en="Mercury's capsule shape was chosen specifically to create a shockwave that stood off from the heat shield, keeping the worst of re-entry heat away from the vehicle itself. Step through the sequence." data-ru="Форма капсулы «Меркурий» была выбрана специально так, чтобы создавать ударную волну, отстоящую от теплового экрана, — это удерживало основной жар входа в атмосферу подальше от самого аппарата. Пройдите по этапам.">Mercury's capsule shape was chosen specifically to create a shockwave that stood off from the heat shield, keeping the worst of re-entry heat away from the vehicle itself. Step through the sequence.</p>
+    <div class="sim-panel corner-frame" style="max-width:560px; margin:0 auto;">
+      <div class="sim-viewport" style="max-width:340px;"><svg id="reentrySvg" viewBox="0 0 300 300" width="100%" height="100%"></svg></div>
+      <div class="stage-row" id="reentryControls"></div>
+      <div class="sim-verdict" id="reentryCaption" style="margin-top:20px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — WHAT MERCURY PROVED -->
+<section id="ch9" class="section" data-phase="PROVEN CAPABILITIES" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="WHAT MERCURY PROVED" data-ru="ЧТО ДОКАЗАЛ «МЕРКУРИЙ»">WHAT MERCURY PROVED</span></div>
+    <h2 class="h-lg" data-en="The questions Apollo didn't have to ask" data-ru="Вопросы, которые «Аполлону» уже не пришлось задавать">The questions Apollo didn't have to ask</h2>
+    <div id="provenList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="From a one-man capsule to a space station" data-ru="От одноместной капсулы — до космической станции">From a one-man capsule to a space station</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Every American who has ever flown in space, up to and including those living on the ISS today, is downstream of the questions Mercury answered first." data-ru="Каждый американец, когда-либо летавший в космос, вплоть до тех, кто сегодня живёт на МКС, обязан программе «Меркурий», впервые ответившей на эти вопросы.">Every American who has ever flown in space, up to and including those living on the ISS today, is downstream of the questions Mercury answered first.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="ASCENT — A FIELD GUIDE TO MERCURY &amp; THE FIRST ASTRONAUTS" data-ru="ASCENT — ПОЛЕВОЙ СПРАВОЧНИК ПО «МЕРКУРИЮ» И ПЕРВЫМ АСТРОНАВТАМ">ASCENT — A FIELD GUIDE TO MERCURY &amp; THE FIRST ASTRONAUTS</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH2 — MERCURY SEVEN ============ */
+var ASTRONAUTS = [
+  {en:'Scott Carpenter', ru:'Скотт Карпентер', flightEn:'Aurora 7 — 3 orbits', flightRu:'«Аврора-7» — 3 витка'},
+  {en:'Gordon Cooper', ru:'Гордон Купер', flightEn:'Faith 7 — 22 orbits', flightRu:'«Фейт-7» — 22 витка'},
+  {en:'John Glenn', ru:'Джон Гленн', flightEn:'Friendship 7 — 3 orbits', flightRu:'«Френдшип-7» — 3 витка'},
+  {en:'Gus Grissom', ru:'Гас Гриссом', flightEn:'Liberty Bell 7 — suborbital', flightRu:'«Либерти Белл-7» — суборбитальный'},
+  {en:'Wally Schirra', ru:'Уолли Ширра', flightEn:'Sigma 7 — 6 orbits', flightRu:'«Сигма-7» — 6 витков'},
+  {en:'Alan Shepard', ru:'Алан Шепард', flightEn:'Freedom 7 — suborbital, first American in space', flightRu:'«Фридом-7» — суборбитальный, первый американец в космосе'},
+  {en:'Deke Slayton', ru:'Дик Слейтон', flightEn:'Grounded — flew later on Apollo-Soyuz, 1975', flightRu:'Отстранён от полётов — позже летал в «Союз — Аполлон», 1975'}
+];
+function renderAstronauts(){
+  var wrap = document.getElementById('astronautGrid');
+  wrap.innerHTML='';
+  ASTRONAUTS.forEach(function(a){
+    var card = document.createElement('div');
+    card.className='velocity-card';
+    card.innerHTML = '<span class="vnum">'+(lang==='en'?'MERCURY 7':'МЕРКЬЮРИ 7')+'</span><span class="vval">'+(lang==='en'?a.en:a.ru)+'</span><p>'+(lang==='en'?a.flightEn:a.flightRu)+'</p>';
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH4 — CAPSULE SCHEMATIC ============ */
+var CAPSULE_PARTS = [
+  {id:'tower', en:'Escape Tower', ru:'Башня аварийного спасения', cEn:'Solid-fuel rocket, jettisoned after launch', cRu:'Твердотопливная ракета, сбрасывалась после старта', x:280, y:90, w:130, h:34,
+   dEn:'A separate rocket mounted above the capsule, capable of pulling it clear of a failing booster within about four-tenths of a second — never needed on a crewed flight, but proven on unmanned aborts.', dRu:'Отдельная ракета над капсулой, способная за примерно четыре десятых секунды оттянуть её от разрушающейся ракеты-носителя — ни разу не понадобилась в пилотируемом полёте, но была проверена в беспилотных аварийных пусках.'},
+  {id:'heatshield', en:'Ablative Heat Shield', ru:'Абляционный тепловой экран', cEn:'Fibreglass-resin, blunt convex disc', cRu:'Стеклопластик со смолой, выпуклый диск', x:280, y:210, w:130, h:34,
+   dEn:'A blunt, convex shield at the base of the capsule designed to char and erode away during re-entry, carrying heat off with it rather than letting it soak into the structure.', dRu:'Тупой выпуклый экран в основании капсулы, рассчитанный на обугливание и постепенное разрушение при входе в атмосферу — он уносит тепло с собой, не давая ему проникнуть в конструкцию.'},
+  {id:'retro', en:'Retro-Rocket Pack', ru:'Блок тормозных двигателей', cEn:'3 solid rockets, strapped to heat shield', cRu:'3 твердотопливных двигателя на тепловом экране', x:460, y:210, w:130, h:34,
+   dEn:'Three small rockets fired in sequence to slow the capsule out of orbit, then jettisoned — their retaining straps doubled as extra structural support for the heat shield.', dRu:'Три небольших двигателя, включавшихся поочерёдно для схода с орбиты, а затем сбрасывавшихся — их крепёжные ремни одновременно служили дополнительной опорой для теплового экрана.'},
+  {id:'periscope', en:'Periscope', ru:'Перископ', cEn:'Retractable, for orbital navigation', cRu:'Выдвижной, для орбитальной навигации', x:60, y:150, w:130, h:34,
+   dEn:'Gave the astronaut a direct view of Earth for navigation and photography, retracting before re-entry to avoid damage.', dRu:'Давал астронавту прямой обзор Земли для навигации и съёмки, убирался перед входом в атмосферу во избежание повреждений.'},
+  {id:'panel', en:'Instrument Panel', ru:'Приборная панель', cEn:'~120 switches, dials, and indicators', cRu:'~120 тумблеров, индикаторов и приборов', x:460, y:90, w:130, h:34,
+   dEn:'Packed into a space in front of a fully reclined pilot, giving Mercury astronauts real manual control — not just passengers, as some engineers had originally proposed.', dRu:'Размещалась перед полностью откинутым пилотом и давала астронавтам «Меркурия» настоящее ручное управление — они не были простыми пассажирами, как поначалу предлагали некоторые инженеры.'}
+];
+function renderCapsule(){
+  var svg = document.getElementById('capsuleSvg');
+  var panel = document.getElementById('capsulePanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:150,x2:700,y2:150,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('path',{d:'M 330 130 L 390 130 L 375 175 L 345 175 Z', fill:'none', stroke:'#0b0b0c','stroke-width':1.6},svg);
+  CAPSULE_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<150? m.y+m.h : m.y),x2:360,y2:150,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, CAPSULE_PARTS, m.id); });
+  });
+  selectPart(svg, panel, CAPSULE_PARTS, CAPSULE_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH5 — SIX FLIGHTS TIMELINE ============ */
+var FLIGHTS = [
+  {y:'MAY 1961', crisis:false, tEn:'Freedom 7', tRu:'«Фридом-7»', dEn:'Alan Shepard becomes the first American in space on a 15-minute suborbital hop, reaching 187 km before splashing down in the Atlantic.', dRu:'Алан Шепард становится первым американцем в космосе за 15-минутный суборбитальный «прыжок», достигнув высоты 187 км и приводнившись в Атлантике.'},
+  {y:'JUL 1961', crisis:true, tEn:'Liberty Bell 7', tRu:'«Либерти Белл-7»', dEn:'Gus Grissom repeats Shepard\'s flight profile successfully, but the hatch blows prematurely after splashdown and the capsule sinks — Grissom is recovered safely from the water.', dRu:'Гас Гриссом успешно повторяет профиль полёта Шепарда, но после приводнения преждевременно срабатывает люк, и капсула тонет — самого Гриссома благополучно поднимают из воды.'},
+  {y:'FEB 1962', crisis:false, tEn:'Friendship 7', tRu:'«Френдшип-7»', dEn:'John Glenn becomes the first American to orbit Earth, completing three orbits in just under five hours despite a heat-shield sensor scare during re-entry.', dRu:'Джон Гленн становится первым американцем на орбите, совершив три витка менее чем за пять часов, несмотря на тревожный сигнал датчика теплового экрана при входе в атмосферу.'},
+  {y:'MAY 1962', crisis:false, tEn:'Aurora 7', tRu:'«Аврора-7»', dEn:'Scott Carpenter duplicates Glenn\'s three-orbit flight, overshooting the planned splashdown point after using more manoeuvring fuel than expected.', dRu:'Скотт Карпентер повторяет трёхвитковый полёт Гленна, промахнувшись мимо расчётной точки приводнения из-за перерасхода топлива на манёвры.'},
+  {y:'OCT 1962', crisis:false, tEn:'Sigma 7', tRu:'«Сигма-7»', dEn:'Wally Schirra flies a deliberately conservative, fuel-sparing six-orbit mission, proving Mercury could support a longer, calmer flight.', dRu:'Уолли Ширра выполняет намеренно осторожный, экономный по топливу шестивитковый полёт, доказывая, что «Меркурий» способен на более долгий и спокойный полёт.'},
+  {y:'MAY 1963', crisis:false, tEn:'Faith 7', tRu:'«Фейт-7»', dEn:'Gordon Cooper closes out the program with 22 orbits over 34 hours — the longest Mercury flight, including a stretch flown on manual control after an electrical failure.', dRu:'Гордон Купер завершает программу 22 витками за 34 часа — самым длинным полётом «Меркурия», включая участок, пройденный на ручном управлении после отказа электросистемы.'}
+];
+function renderFlights(){
+  var events = document.getElementById('flightEvents');
+  var detail = document.getElementById('flightDetail');
+  events.innerHTML='';
+  FLIGHTS.forEach(function(ev,i){
+    var wrap = document.createElement('div');
+    wrap.style.position='relative'; wrap.style.flex='1'; wrap.style.display='flex'; wrap.style.justifyContent='center';
+    var dot = document.createElement('div');
+    dot.className='mt-dot'+(ev.crisis?' crisis':'')+(i===0?' active':'');
+    var yr = document.createElement('div');
+    yr.className='mt-year'; yr.textContent=ev.y;
+    wrap.appendChild(dot); wrap.appendChild(yr);
+    dot.addEventListener('click', function(){ selectFlight(i); });
+    events.appendChild(wrap);
+  });
+  function selectFlight(i){
+    events.querySelectorAll('.mt-dot').forEach(function(d,j){ d.classList.toggle('active', j===i); });
+    var ev = FLIGHTS[i];
+    detail.innerHTML = '<div class="mt-y">'+(lang==='en'?ev.tEn:ev.tRu)+'</div><div class="mt-t">'+ev.y+'</div><p style="font-size:14.5px;">'+(lang==='en'?ev.dEn:ev.dRu)+'</p>';
+  }
+  selectFlight(0);
+}
+
+/* ============ CH6 — SUBORBITAL VS ORBITAL DASHBOARD ============ */
+function renderSubOrb(){
+  var wrap = document.getElementById('subOrbGrid');
+  wrap.innerHTML='';
+  var data = [
+    {en:'Freedom 7 (Shepard)', ru:'«Фридом-7» (Шепард)', statusEn:'SUBORBITAL', statusRu:'СУБОРБИТАЛЬНЫЙ', dead:false,
+     rows:[{lEn:'DATE', lRu:'ДАТА', v:'5 May 1961'},{lEn:'DURATION', lRu:'ДЛИТЕЛЬНОСТЬ', v:'15 min 28 s'},{lEn:'MAX ALTITUDE', lRu:'МАКС. ВЫСОТА', v:'187.5 km'},{lEn:'ROCKET', lRu:'РАКЕТА', v:'Redstone'}]},
+    {en:'Friendship 7 (Glenn)', ru:'«Френдшип-7» (Гленн)', statusEn:'ORBITAL', statusRu:'ОРБИТАЛЬНЫЙ', dead:false,
+     rows:[{lEn:'DATE', lRu:'ДАТА', v:'20 Feb 1962'},{lEn:'DURATION', lRu:'ДЛИТЕЛЬНОСТЬ', v:'4 h 55 min'},{lEn:'ORBITS', lRu:'ВИТКОВ', v:'3'},{lEn:'ROCKET', lRu:'РАКЕТА', v:'Atlas'}]}
+  ];
+  data.forEach(function(d){
+    var card = document.createElement('div');
+    card.className='dash-card';
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+r.v+'</span></div>'; }).join('');
+    card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span><span class="dc-status">'+(lang==='en'?d.statusEn:d.statusRu)+'</span></div>'+rowsHtml;
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH7 — MERCURY VS VOSTOK DASHBOARD ============ */
+function renderVostok(){
+  var wrap = document.getElementById('vostokGrid');
+  wrap.innerHTML='';
+  var data = [
+    {en:'Mercury (USA)', ru:'«Меркурий» (США)', statusEn:'6 FLIGHTS', statusRu:'6 ПОЛЁТОВ', dead:false,
+     rows:[{lEn:'FIRST FLIGHT', lRu:'ПЕРВЫЙ ПОЛЁТ', v:'5 May 1961 (suborbital)'},{lEn:'CAPSULE MASS', lRu:'МАССА КАПСУЛЫ', v:'~1,400 kg'},{lEn:'LANDING', lRu:'ПОСАДКА', v:'Splashdown, crew inside'},{lEn:'CONTROL', lRu:'УПРАВЛЕНИЕ', v:'Astronaut had manual control'}]},
+    {en:'Vostok (USSR)', ru:'«Восток» (СССР)', statusEn:'6 FLIGHTS', statusRu:'6 ПОЛЁТОВ', dead:false,
+     rows:[{lEn:'FIRST FLIGHT', lRu:'ПЕРВЫЙ ПОЛЁТ', v:'12 Apr 1961 (orbital)'},{lEn:'CAPSULE MASS', lRu:'МАССА КАПСУЛЫ', v:'~4,700 kg'},{lEn:'LANDING', lRu:'ПОСАДКА', v:'Cosmonaut ejected, parachuted separately'},{lEn:'CONTROL', lRu:'УПРАВЛЕНИЕ', v:'Mostly automated, locked controls'}]}
+  ];
+  data.forEach(function(d){
+    var card = document.createElement('div');
+    card.className='dash-card';
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+r.v+'</span></div>'; }).join('');
+    card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span><span class="dc-status">'+(lang==='en'?d.statusEn:d.statusRu)+'</span></div>'+rowsHtml;
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH8 — RE-ENTRY STAGES ============ */
+var REENTRY_STAGES = [
+  {tEn:'01 — Retro-fire', tRu:'01 — Включение тормозных двигателей', cEn:'Three solid retro-rockets fire in sequence, slowing the capsule just enough to drop out of orbit.', cRu:'Три твердотопливных тормозных двигателя включаются поочерёдно, замедляя капсулу ровно настолько, чтобы она сошла с орбиты.'},
+  {tEn:'02 — Entry interface', tRu:'02 — Вход в атмосферу', cEn:'The blunt heat shield hits the atmosphere first, generating a shockwave that stands off from the capsule and carries most of the heat away.', cRu:'Тупой тепловой экран первым входит в атмосферу, создавая ударную волну, отстоящую от капсулы и уносящую большую часть тепла.'},
+  {tEn:'03 — Communications blackout', tRu:'03 — Радиомолчание', cEn:'Ionised air around the capsule blocks radio signals for several minutes — mission control simply has to wait.', cRu:'Ионизированный воздух вокруг капсулы на несколько минут блокирует радиосигнал — центру управления остаётся только ждать.'},
+  {tEn:'04 — Drogue &amp; main parachute', tRu:'04 — Тормозной и основной парашюты', cEn:'A small drogue chute stabilises the capsule at high altitude before the main parachute opens to slow final descent.', cRu:'Небольшой тормозной парашют стабилизирует капсулу на большой высоте, прежде чем раскрывается основной парашют для окончательного торможения.'},
+  {tEn:'05 — Splashdown', tRu:'05 — Приводнение', cEn:'The capsule lands in the ocean, buoyant enough to float while a recovery ship or helicopter retrieves the astronaut.', cRu:'Капсула приводняется в океан, обладая достаточной плавучестью, пока корабль или вертолёт спасательной службы не подберёт астронавта.'}
+];
+function renderReentry(){
+  var controls = document.getElementById('reentryControls');
+  controls.innerHTML='';
+  REENTRY_STAGES.forEach(function(s,i){
+    var b = document.createElement('button');
+    b.className='stage-btn'+(i===0?' active':'');
+    b.textContent = (lang==='en'?s.tEn:s.tRu);
+    b.addEventListener('click', function(){ showStage(i); });
+    controls.appendChild(b);
+  });
+  function showStage(i){
+    controls.querySelectorAll('.stage-btn').forEach(function(b,j){ b.classList.toggle('active', j===i); });
+    document.getElementById('reentryCaption').textContent = lang==='en' ? REENTRY_STAGES[i].cEn : REENTRY_STAGES[i].cRu;
+    drawStage(i);
+  }
+  showStage(0);
+}
+function drawStage(stage){
+  var svg = document.getElementById('reentrySvg');
+  svg.innerHTML='';
+  var cx=150, cy=150;
+  if(stage===0){
+    ns('path',{d:'M 130 150 L 170 150 L 158 190 L 142 190 Z', fill:'none', stroke:'#0b0b0c','stroke-width':1.6},svg);
+    [125,150,175].forEach(function(x){ ns('line',{x1:x,y1:190,x2:x,y2:210,stroke:'#c9c9c1','stroke-width':1},svg); });
+  } else if(stage===1){
+    ns('path',{d:'M 130 150 L 170 150 L 158 190 L 142 190 Z', fill:'#0b0b0c'},svg);
+    ns('path',{d:'M 110 180 Q 150 165 190 180 Q 150 200 110 180',fill:'none',stroke:'#c9c9c1','stroke-width':1},svg);
+  } else if(stage===2){
+    ns('path',{d:'M 130 150 L 170 150 L 158 190 L 142 190 Z', fill:'#0b0b0c'},svg);
+    for(var i=0;i<8;i++){
+      var a = i*Math.PI/4;
+      ns('line',{x1:150+Math.cos(a)*35,y1:170+Math.sin(a)*35,x2:150+Math.cos(a)*48,y2:170+Math.sin(a)*48,stroke:'#c9c9c1','stroke-width':0.8},svg);
+    }
+  } else if(stage===3){
+    ns('path',{d:'M 130 190 L 170 190 L 158 230 L 142 230 Z', fill:'none', stroke:'#0b0b0c','stroke-width':1.6},svg);
+    ns('path',{d:'M 100 100 Q 150 60 200 100 L 158 190 L 142 190 Z', fill:'none', stroke:'#0b0b0c','stroke-width':1.2},svg);
+    [100,200].forEach(function(x){ ns('line',{x1:x,y1:100,x2:145,y2:190,stroke:'#0b0b0c','stroke-width':1},svg); });
+  } else {
+    ns('line',{x1:20,y1:260,x2:280,y2:260,stroke:'#0b0b0c','stroke-width':1.4},svg);
+    for(var w=20;w<280;w+=20){ ns('path',{d:'M '+w+' 260 q 5 6 10 0', fill:'none', stroke:'#c9c9c1','stroke-width':1},svg); }
+    ns('path',{d:'M 135 235 L 165 235 L 155 255 L 145 255 Z', fill:'#0b0b0c'},svg);
+    ns('text',{x:150,y:280,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'10'},svg).textContent = (lang==='en'?'SPLASHDOWN':'ПРИВОДНЕНИЕ');
+  }
+}
+
+/* ============ CH9 — WHAT MERCURY PROVED ============ */
+var PROVEN = [
+  {en:'A human can function normally in weightlessness', ru:'Человек способен нормально функционировать в невесомости',
+   bEn:'Some physicians feared a person might be unable to swallow, see clearly, or stay conscious without gravity. Every Mercury flight showed otherwise.', bRu:'Некоторые врачи опасались, что человек без гравитации не сможет глотать, ясно видеть или оставаться в сознании. Каждый полёт «Меркурия» доказал обратное.'},
+  {en:'Manual control is not just possible — it\'s necessary', ru:'Ручное управление не просто возможно — оно необходимо',
+   bEn:'Engineers originally wanted fully automated capsules; astronaut pressure won them manual controls, later put to real use during in-flight malfunctions on more than one mission.', bRu:'Инженеры изначально хотели полностью автоматические капсулы; давление астронавтов добилось ручного управления, впоследствии реально применённого при неполадках в полёте не в одной миссии.'},
+  {en:'Re-entry heat can be managed, repeatedly', ru:'Тепло входа в атмосферу можно контролировать — раз за разом',
+   bEn:'Six capsules, six successful ablative heat shield performances, validating the blunt-body re-entry approach every capsule since has used in some form.', bRu:'Шесть капсул — шесть успешных срабатываний абляционного теплового экрана, подтвердивших подход «тупого тела» при входе в атмосферу, который в той или иной форме используют все последующие капсулы.'},
+  {en:'Long-duration flight is survivable', ru:'Длительный полёт переносим',
+   bEn:'Cooper\'s 34-hour, 22-orbit flight on Faith 7 showed the body tolerates more than a day in space without major issue — a direct rehearsal for Gemini\'s week-plus missions.', bRu:'34-часовой, 22-витковый полёт Купера на «Фейт-7» показал, что организм переносит более суток в космосе без серьёзных проблем — прямая репетиция для недельных и более долгих миссий «Джемини».'}
+];
+function renderProven(){
+  var wrap = document.getElementById('provenList');
+  wrap.innerHTML='';
+  PROVEN.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1961–63', en:'Mercury', ru:'«Меркурий»', noteEn:'1 astronaut, 6 flights', noteRu:'1 астронавт, 6 полётов', h:20},
+  {y:'1965–66', en:'Gemini', ru:'«Джемини»', noteEn:'2 astronauts, spacewalks &amp; docking', noteRu:'2 астронавта, выходы в космос и стыковки', h:28},
+  {y:'1968–72', en:'Apollo', ru:'«Аполлон»', noteEn:'3 astronauts, Moon landings', noteRu:'3 астронавта, посадки на Луну', h:38},
+  {y:'1981–2011', en:'Space Shuttle', ru:'Space Shuttle', noteEn:'Reusable, up to 7 crew', noteRu:'Многоразовый, до 7 членов экипажа', h:46},
+  {y:'2000–present', en:'ISS', ru:'МКС', noteEn:'Continuous crewed presence', noteRu:'Непрерывное пребывание экипажа', h:52}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><rect x="'+(50-l.h/3)+'" y="10" width="'+(l.h/1.5)+'" height="'+l.h+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderAstronauts();
+  renderCapsule();
+  renderFlights();
+  renderSubOrb();
+  renderVostok();
+  renderReentry();
+  renderProven();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
