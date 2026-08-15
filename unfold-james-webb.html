@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNFOLD — JAMES WEBB SPACE TELESCOPE / «ДЖЕЙМС УЭББ»</title>
+<meta name="description" content="An interactive engineering-style journey through the James Webb Space Telescope, its deployment, and its discoveries.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.velocity-card{background:var(--white); padding:24px; display:flex; flex-direction:column; gap:10px;}
+.velocity-card .vnum{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.velocity-card .vval{font-family:var(--font-display); font-size:1.6rem;}
+.velocity-card p{font-size:13.5px; color:#333;}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse,.hotspot polygon{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse,
+.hotspot:hover polygon, .hotspot.active polygon{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:10px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.4rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-viewport{width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto;}
+.sim-verdict{margin-top:16px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:13px; min-height:20px;}
+.stage-btn{font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.04em; border:1px solid var(--ink); background:var(--paper); padding:9px 14px;}
+.stage-btn.active{background:var(--ink); color:var(--white);}
+.stage-row{display:flex; justify-content:center; gap:8px; margin-top:20px; flex-wrap:wrap;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">UNFOLD — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">DIST</span><span id="hud-alt">0 KM</span></div>
+  <div class="hud-row"><span class="hud-label">VEL</span><span id="hud-vel">0.00 KM/S</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="0 KM" data-vel="0.00 KM/S" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — 344 WAYS THIS COULD HAVE FAILED" data-ru="РИС. 00 — 344 СПОСОБА ПОТЕРПЕТЬ НЕУДАЧУ">FIG. 00 — 344 WAYS THIS COULD HAVE FAILED</span>
+        <span data-en="2021 → PRESENT" data-ru="2021 → НАСТОЯЩЕЕ ВРЕМЯ">2021 → PRESENT</span>
+      </div>
+      <h1><span data-en="UNFOLD" data-ru="РАЗВЁРТЫВАНИЕ">UNFOLD</span><br><em data-en="A FIELD GUIDE TO THE JAMES WEBB SPACE TELESCOPE" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО «ДЖЕЙМСУ УЭББУ»">A FIELD GUIDE TO THE JAMES WEBB SPACE TELESCOPE</em></h1>
+      <p class="sub lede" data-en="Ten chapters on a telescope too large to launch fully built — folded like origami into a rocket fairing, unpacked over two weeks a million and a half kilometres from any repair crew, and now rewriting how early the universe got interesting. Scroll to begin the mission." data-ru="Десять глав о телескопе, слишком большом, чтобы запустить его в собранном виде, — сложенном подобно оригами в обтекателе ракеты, развёрнутом за две недели в полутора миллионах километров от любой ремонтной бригады и теперь переписывающем представления о том, насколько рано Вселенная стала интересной. Пролистайте вниз, чтобы начать миссию.">Ten chapters on a telescope too large to launch fully built — folded like origami into a rocket fairing, unpacked over two weeks a million and a half kilometres from any repair crew, and now rewriting how early the universe got interesting. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY L2 -->
+<section id="ch1" class="section" data-phase="TRAVELING TO L2" data-alt="→1.5M KM" data-vel="~1 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="WHY GO TO L2" data-ru="ПОЧЕМУ ТОЧКА L2">WHY GO TO L2</span></div>
+    <h2 class="h-lg" data-en="A parking spot a million miles out" data-ru="Стоянка в миллионе миль от Земли">A parking spot a million miles out</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Hubble orbits Earth at 535 km, crossing in and out of daylight every 95 minutes. Webb doesn't orbit Earth at all — it orbits the Sun, parked in a large halo around the second Sun-Earth Lagrange point, roughly 1.5 million km out, where gravity from the Sun and Earth balances just enough to hold a stable position while staying in line with Earth as both move around the Sun." data-ru="«Хаббл» обращается вокруг Земли на высоте 535 км, каждые 95 минут переходя из дня в ночь. «Уэбб» же вокруг Земли вообще не обращается — он обращается вокруг Солнца, расположившись на большой гало-орбите вокруг второй точки Лагранжа системы Солнце — Земля, примерно в 1,5 миллиона км, где притяжение Солнца и Земли уравновешивается ровно настолько, чтобы удерживать устойчивое положение, оставаясь на одной линии с Землёй, пока обе они движутся вокруг Солнца.">Hubble orbits Earth at 535 km, crossing in and out of daylight every 95 minutes. Webb doesn't orbit Earth at all — it orbits the Sun, parked in a large halo around the second Sun-Earth Lagrange point, roughly 1.5 million km out, where gravity from the Sun and Earth balances just enough to hold a stable position while staying in line with Earth as both move around the Sun.</p>
+      <p class="body-col" data-en="That position lets a single sunshield block the Sun, Earth, and Moon all at once, keeping the telescope in permanent, deep shadow — essential for an instrument that has to stay colder than almost anything else humans have ever built." data-ru="Такое положение позволяет одному солнцезащитному экрану одновременно блокировать Солнце, Землю и Луну, удерживая телескоп в постоянной глубокой тени — необходимое условие для прибора, который должен оставаться холоднее почти всего, что человек когда-либо строил.">That position lets a single sunshield block the Sun, Earth, and Moon all at once, keeping the telescope in permanent, deep shadow — essential for an instrument that has to stay colder than almost anything else humans have ever built.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — THE SUNSHIELD -->
+<section id="ch2" class="section" data-phase="SUNSHIELD" data-alt="1.5M KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE SUNSHIELD" data-ru="СОЛНЦЕЗАЩИТНЫЙ ЭКРАН">THE SUNSHIELD</span></div>
+    <h2 class="h-lg" data-en="A 330°C temperature drop, five layers thin" data-ru="Перепад в 330°C через пять тонких слоёв">A 330°C temperature drop, five layers thin</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Roughly the size and shape of a tennis court, the sunshield is five layers of a reflective polymer film, each thinner than a human hair, spaced apart to let heat radiate away between them." data-ru="Примерно размером и формой с теннисный корт, солнцезащитный экран состоит из пяти слоёв отражающей полимерной плёнки, каждый тоньше человеческого волоса, разнесённых так, чтобы тепло могло рассеиваться между ними.">Roughly the size and shape of a tennis court, the sunshield is five layers of a reflective polymer film, each thinner than a human hair, spaced apart to let heat radiate away between them.</p>
+    <div class="grid-3">
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">~85°C</div><div class="fig-num" data-en="SUN-FACING SIDE" data-ru="СТОРОНА К СОЛНЦУ">SUN-FACING SIDE</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">−233°C</div><div class="fig-num" data-en="INSTRUMENT SIDE" data-ru="СТОРОНА С ПРИБОРАМИ">INSTRUMENT SIDE</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">5</div><div class="fig-num" data-en="LAYERS" data-ru="СЛОЁВ">LAYERS</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — THE MIRROR -->
+<section id="ch3" class="section" data-phase="MIRROR ANATOMY" data-alt="1.5M KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="THE SEGMENTED MIRROR" data-ru="СЕГМЕНТИРОВАННОЕ ЗЕРКАЛО">THE SEGMENTED MIRROR</span></div>
+    <h2 class="h-lg" data-en="Eighteen hexagons, one mirror" data-ru="Восемнадцать шестиугольников — одно зеркало">Eighteen hexagons, one mirror</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="At 6.5 metres across, Webb's primary mirror was too large to fit any rocket fairing whole, so engineers built it from 18 gold-coated beryllium hexagons that fold flat for launch and unfold into a single optical surface in space, each one individually adjustable to within a fraction of a wavelength of light." data-ru="Диаметром 6,5 метра главное зеркало «Уэбба» было слишком велико, чтобы целиком поместиться под любым обтекателем ракеты, поэтому инженеры собрали его из 18 позолоченных бериллиевых шестиугольников, складывающихся для запуска и раскрывающихся в единую оптическую поверхность в космосе, причём каждый регулируется индивидуально с точностью до доли длины волны света.">At 6.5 metres across, Webb's primary mirror was too large to fit any rocket fairing whole, so engineers built it from 18 gold-coated beryllium hexagons that fold flat for launch and unfold into a single optical surface in space, each one individually adjustable to within a fraction of a wavelength of light.</p>
+  </div>
+</section>
+
+<!-- CH4 — OBSERVATORY ANATOMY -->
+<section id="ch4" class="section" data-phase="OBSERVATORY ANATOMY" data-alt="1.5M KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="ANATOMY OF WEBB" data-ru="УСТРОЙСТВО «УЭББА»">ANATOMY OF WEBB</span></div>
+    <h2 class="h-lg" data-en="An observatory, not just a telescope" data-ru="Обсерватория, а не просто телескоп">An observatory, not just a telescope</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Four instruments, a mirror, a sunshield, and a spacecraft bus — every piece with no possibility of a repair mission. Select a component." data-ru="Четыре прибора, зеркало, солнцезащитный экран и служебный модуль — и ни для одной детали нет возможности ремонтной миссии. Выберите компонент.">Four instruments, a mirror, a sunshield, and a spacecraft bus — every piece with no possibility of a repair mission. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="webbSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="webbPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — DEPLOYMENT -->
+<section id="ch5" class="section" data-phase="DEPLOYMENT SEQUENCE" data-alt="0→1.5M KM" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="344 SINGLE POINTS OF FAILURE" data-ru="344 ТОЧКИ ВОЗМОЖНОГО ОТКАЗА">344 SINGLE POINTS OF FAILURE</span></div>
+    <h2 class="h-lg" data-en="Two weeks of unfolding, no rehearsal in space" data-ru="Две недели развёртывания — без репетиции в космосе">Two weeks of unfolding, no rehearsal in space</h2>
+    <p class="body-col" style="margin-bottom:32px;" data-en="Engineers counted 344 mechanisms that had to work correctly — hinges, motors, and releases — with no way to test the full sequence in real conditions until it actually happened, a million and a half kilometres past any rescue mission's reach. Step through the sequence." data-ru="Инженеры насчитали 344 механизма, которые должны были сработать правильно, — шарниры, моторы, замки, — не имея возможности испытать всю последовательность в реальных условиях до самого момента её выполнения, в полутора миллионах километров от досягаемости любой спасательной миссии. Пройдите по этапам.">Engineers counted 344 mechanisms that had to work correctly — hinges, motors, and releases — with no way to test the full sequence in real conditions until it actually happened, a million and a half kilometres past any rescue mission's reach. Step through the sequence.</p>
+    <div class="sim-panel corner-frame" style="max-width:560px; margin:0 auto;">
+      <div class="sim-viewport" style="max-width:340px;"><svg id="deploySvg" viewBox="0 0 300 300" width="100%" height="100%"></svg></div>
+      <div class="stage-row" id="deployControls"></div>
+      <div class="sim-verdict" id="deployCaption" style="margin-top:20px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — FIRST LIGHT -->
+<section id="ch6" class="section" data-phase="FIRST LIGHT JULY 2022" data-alt="1.5M KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="FIRST LIGHT" data-ru="ПЕРВЫЙ СВЕТ">FIRST LIGHT</span></div>
+    <h2 class="h-lg" data-en="Five images, six months in the making" data-ru="Пять снимков, шесть месяцев подготовки">Five images, six months in the making</h2>
+    <div id="firstLightList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH7 — INFRARED VISION -->
+<section id="ch7" class="section" data-phase="INFRARED VISION" data-alt="1.5M KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="WHAT INFRARED REVEALS" data-ru="ЧТО РАСКРЫВАЕТ ИНФРАКРАСНЫЙ СВЕТ">WHAT INFRARED REVEALS</span></div>
+    <h2 class="h-lg" data-en="Seeing through dust, and back through time" data-ru="Сквозь пыль — и сквозь время">Seeing through dust, and back through time</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Infrared light passes through the dust clouds that block visible light, letting Webb see stars being born inside nebulae that would otherwise look like solid dark walls." data-ru="Инфракрасный свет проходит сквозь пылевые облака, блокирующие видимый свет, позволяя «Уэббу» видеть рождающиеся звёзды внутри туманностей, которые иначе выглядели бы как сплошные тёмные стены.">Infrared light passes through the dust clouds that block visible light, letting Webb see stars being born inside nebulae that would otherwise look like solid dark walls.</p>
+      <p class="body-col" data-en="It also solves a problem unique to the very edge of the observable universe: the expansion of space stretches light from the earliest galaxies so much that it shifts out of visible wavelengths entirely and into the infrared — exactly the band Webb was built to see." data-ru="Он же решает проблему, характерную для самого края наблюдаемой Вселенной: расширение пространства настолько растягивает свет древнейших галактик, что он полностью выходит за пределы видимого диапазона и смещается в инфракрасный — именно тот диапазон, для которого построен «Уэбб».">It also solves a problem unique to the very edge of the observable universe: the expansion of space stretches light from the earliest galaxies so much that it shifts out of visible wavelengths entirely and into the infrared — exactly the band Webb was built to see.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — DISCOVERIES -->
+<section id="ch8" class="section" data-phase="MAJOR DISCOVERIES" data-alt="1.5M KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="DISCOVERIES RESHAPING ASTRONOMY" data-ru="ОТКРЫТИЯ, ПЕРЕКРАИВАЮЩИЕ АСТРОНОМИЮ">DISCOVERIES RESHAPING ASTRONOMY</span></div>
+    <h2 class="h-lg" data-en="The early universe looks nothing like predicted" data-ru="Ранняя Вселенная выглядит совсем не так, как предсказывали">The early universe looks nothing like predicted</h2>
+    <div id="discoveryList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH9 — HUBBLE & WEBB -->
+<section id="ch9" class="section" data-phase="HUBBLE &amp; WEBB" data-alt="535 KM / 1.5M KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="HUBBLE &amp; WEBB, WORKING TOGETHER" data-ru="«ХАББЛ» И «УЭББ» — ВМЕСТЕ">HUBBLE &amp; WEBB, WORKING TOGETHER</span></div>
+    <h2 class="h-lg" data-en="Two eyes, two kinds of light, one target" data-ru="Два взгляда, два вида света, одна цель">Two eyes, two kinds of light, one target</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Astronomers regularly point both telescopes at the same object, combining Hubble's ultraviolet-through-visible view with Webb's infrared one to build a far more complete picture than either could alone." data-ru="Астрономы регулярно направляют оба телескопа на один и тот же объект, объединяя вид «Хаббла» в ультрафиолетовом и видимом диапазонах с инфракрасным взглядом «Уэбба», чтобы получить куда более полную картину, чем мог бы дать любой из них по отдельности.">Astronomers regularly point both telescopes at the same object, combining Hubble's ultraviolet-through-visible view with Webb's infrared one to build a far more complete picture than either could alone.</p>
+    <div class="dash-grid" id="hubbleWebbGrid"></div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="Built for decades, not years" data-ru="Построен на десятилетия, а не на годы">Built for decades, not years</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Webb launched with enough propellant for a mission well beyond its planned ten years — and it is already shaping what the next generation of observatories will need to answer next." data-ru="«Уэбб» стартовал с запасом топлива на миссию, значительно превышающую запланированные десять лет, — и он уже формирует то, на какие вопросы предстоит ответить следующему поколению обсерваторий.">Webb launched with enough propellant for a mission well beyond its planned ten years — and it is already shaping what the next generation of observatories will need to answer next.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="UNFOLD — A FIELD GUIDE TO THE JAMES WEBB SPACE TELESCOPE" data-ru="UNFOLD — ПОЛЕВОЙ СПРАВОЧНИК ПО «ДЖЕЙМСУ УЭББУ»">UNFOLD — A FIELD GUIDE TO THE JAMES WEBB SPACE TELESCOPE</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH4 — WEBB SCHEMATIC ============ */
+var WEBB_PARTS = [
+  {id:'mirror', en:'Primary Mirror', ru:'Главное зеркало', cEn:'18 gold-coated hexagons, 6.5 m', cRu:'18 позолоченных шестиугольников, 6,5 м', x:280, y:110, w:150, h:34,
+   dEn:'Collects infrared light and focuses it toward the instruments — over six times the collecting area of Hubble\'s single mirror.', dRu:'Собирает инфракрасный свет и фокусирует его на приборы — более чем в шесть раз больше собирающая площадь, чем у единого зеркала «Хаббла».'},
+  {id:'sunshield2', en:'Sunshield', ru:'Солнцезащитный экран', cEn:'5 layers, tennis-court sized', cRu:'5 слоёв, размером с теннисный корт', x:60, y:150, w:150, h:34,
+   dEn:'Blocks heat from the Sun, Earth, and Moon simultaneously, keeping the telescope\'s instrument side below −233°C.', dRu:'Одновременно блокирует тепло от Солнца, Земли и Луны, удерживая сторону телескопа с приборами ниже −233°C.'},
+  {id:'nircam', en:'NIRCam', ru:'NIRCam', cEn:'Near-infrared camera', cRu:'Ближняя ИК-камера', x:280, y:210, w:150, h:34,
+   dEn:'The primary imaging instrument, responsible for most of Webb\'s deep-field and galaxy images, and for aligning the 18 mirror segments during commissioning.', dRu:'Основной инструмент съёмки, ответственный за большинство глубоких снимков и изображений галактик «Уэбба», а также за юстировку 18 сегментов зеркала при вводе в строй.'},
+  {id:'miri', en:'MIRI', ru:'MIRI', cEn:'Mid-infrared instrument', cRu:'Прибор среднего ИК-диапазона', x:460, y:150, w:150, h:34,
+   dEn:'Sees longer infrared wavelengths than the other instruments, needing extra cooling to a colder temperature than the rest of the observatory.', dRu:'Улавливает более длинные инфракрасные волны, чем остальные приборы, и требует дополнительного охлаждения до более низкой температуры, чем весь остальной телескоп.'},
+  {id:'bus', en:'Spacecraft Bus', ru:'Служебный модуль', cEn:'Power, propulsion, communications', cRu:'Питание, двигательная установка, связь', x:460, y:210, w:150, h:34,
+   dEn:'Houses the solar panels, thrusters for station-keeping at L2, and the high-gain antenna that sends data home.', dRu:'Вмещает солнечные панели, двигатели для удержания позиции в точке L2 и остронаправленную антенну, передающую данные на Землю.'}
+];
+function renderWebb(){
+  var svg = document.getElementById('webbSvg');
+  var panel = document.getElementById('webbPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  WEBB_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, WEBB_PARTS, m.id); });
+  });
+  selectPart(svg, panel, WEBB_PARTS, WEBB_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH5 — DEPLOYMENT STAGES ============ */
+var DEPLOY_STAGES = [
+  {tEn:'01 — Launch, folded', tRu:'01 — Запуск в сложенном виде', cEn:'Webb lifts off December 25, 2021 aboard an Ariane 5, folded into a shape that fits the rocket fairing — mirror wings bent back, sunshield stacked in layers.', cRu:'25 декабря 2021 года «Уэбб» стартует на «Ариан-5», сложенный в форму, помещающуюся под обтекатель ракеты, — крылья зеркала отогнуты назад, слои солнцезащитного экрана уложены стопкой.'},
+  {tEn:'02 — Antenna &amp; solar array', tRu:'02 — Антенна и солнечная батарея', cEn:'Within hours of launch, the solar array and high-gain antenna deploy first, giving the observatory power and a way to phone home.', cRu:'В первые часы после запуска разворачиваются солнечная батарея и остронаправленная антенна, давая обсерватории энергию и возможность передавать данные на Землю.'},
+  {tEn:'03 — Sunshield unfolds', tRu:'03 — Раскрытие солнцезащитного экрана', cEn:'Over about a week, the five-layer sunshield extends and tensions into its full tennis-court shape — the single riskiest phase of the entire deployment.', cRu:'В течение примерно недели пятислойный солнцезащитный экран разворачивается и натягивается до полной формы теннисного корта — самая рискованная фаза всего развёртывания.'},
+  {tEn:'04 — Mirror wings open', tRu:'04 — Раскрытие крыльев зеркала', cEn:'The two folded side segments of the primary mirror swing out and lock into place, completing the full 6.5-metre honeycomb.', cRu:'Две сложенные боковые секции главного зеркала раскрываются и фиксируются на месте, завершая полное 6,5-метровое сотовое зеркало.'},
+  {tEn:'05 — L2 arrival &amp; alignment', tRu:'05 — Прибытие в L2 и юстировка', cEn:'Around day 30, Webb enters its halo orbit at L2, then spends months precisely aligning all 18 mirror segments before the first science images.', cRu:'Примерно на 30-й день «Уэбб» выходит на гало-орбиту вокруг L2, после чего месяцы уходят на точную юстировку всех 18 сегментов зеркала перед первыми научными снимками.'}
+];
+function renderDeploy(){
+  var controls = document.getElementById('deployControls');
+  controls.innerHTML='';
+  DEPLOY_STAGES.forEach(function(s,i){
+    var b = document.createElement('button');
+    b.className='stage-btn'+(i===0?' active':'');
+    b.textContent = (lang==='en'?s.tEn:s.tRu);
+    b.addEventListener('click', function(){ showStage(i); });
+    controls.appendChild(b);
+  });
+  function showStage(i){
+    controls.querySelectorAll('.stage-btn').forEach(function(b,j){ b.classList.toggle('active', j===i); });
+    document.getElementById('deployCaption').textContent = lang==='en' ? DEPLOY_STAGES[i].cEn : DEPLOY_STAGES[i].cRu;
+    drawDeploy(i);
+  }
+  showStage(0);
+}
+function drawDeploy(stage){
+  var svg = document.getElementById('deploySvg');
+  svg.innerHTML='';
+  var cx=150, cy=170;
+  if(stage===0){
+    ns('rect',{x:cx-20,y:cy-40,width:40,height:80,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  } else if(stage===1){
+    ns('rect',{x:cx-20,y:cy-40,width:40,height:80,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+    ns('line',{x1:cx,y1:cy-40,x2:cx,y2:cy-70,stroke:'#0b0b0c','stroke-width':1.2},svg);
+    ns('circle',{cx:cx,cy:cy-76,r:6,fill:'none',stroke:'#0b0b0c','stroke-width':1.2},svg);
+    ns('rect',{x:cx+22,y:cy-10,width:26,height:14,fill:'none',stroke:'#0b0b0c','stroke-width':1.2},svg);
+  } else if(stage===2){
+    ns('polygon',{points:(cx-70)+','+cy+' '+(cx+70)+','+(cy-30)+' '+(cx+70)+','+(cy+30), fill:'none', stroke:'#0b0b0c','stroke-width':1.4},svg);
+    ns('rect',{x:cx-16,y:cy-14,width:32,height:28,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  } else if(stage===3){
+    ns('polygon',{points:(cx-70)+','+cy+' '+(cx+70)+','+(cy-30)+' '+(cx+70)+','+(cy+30), fill:'none', stroke:'#c9c9c1','stroke-width':1},svg);
+    [-1,0,1].forEach(function(i){
+      ns('polygon',{points: (cx-16+i*22)+','+(cy-12)+' '+(cx-4+i*22)+','+(cy-18)+' '+(cx+8+i*22)+','+(cy-12)+' '+(cx+8+i*22)+','+(cy+12)+' '+(cx-4+i*22)+','+(cy+18)+' '+(cx-16+i*22)+','+(cy+12), fill:'none', stroke:'#0b0b0c','stroke-width':1.2},svg);
+    });
+  } else {
+    ns('circle',{cx:cx,cy:cy,r:6,fill:'#0b0b0c'},svg);
+    ns('circle',{cx:cx,cy:cy,r:60,fill:'none',stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'3 3'},svg);
+    ns('circle',{cx:cx+60,cy:cy,r:5,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+    ns('text',{x:cx,y:cy+90,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'10'},svg).textContent = 'L2';
+  }
+}
+
+/* ============ CH6 — FIRST LIGHT ============ */
+var FIRST_LIGHT = [
+  {en:'Webb\'s First Deep Field', ru:'Первое глубокое поле «Уэбба»',
+   bEn:'Released July 12, 2022, this image of galaxy cluster SMACS 0723 used gravitational lensing to reveal thousands of galaxies in a patch of sky the size of a grain of sand at arm\'s length — the deepest infrared image of the universe taken to that point.', bRu:'Опубликованный 12 июля 2022 года, этот снимок скопления галактик SMACS 0723 использовал гравитационное линзирование, чтобы показать тысячи галактик на участке неба размером с песчинку на расстоянии вытянутой руки, — самый глубокий инфракрасный снимок Вселенной на тот момент.'},
+  {en:'The Cosmic Cliffs of Carina', ru:'«Космические скалы» туманности Киля',
+   bEn:'A star-forming region in the Carina Nebula, rendered in dramatic detail as towering clouds of gas and dust with hundreds of previously hidden young stars.', bRu:'Область звездообразования в туманности Киля, показанная с эффектной детализацией как высокие облака газа и пыли с сотнями ранее скрытых молодых звёзд.'},
+  {en:'Stephan\'s Quintet', ru:'Квинтет Стефана',
+   bEn:'A group of five galaxies, four of them locked in a slow gravitational dance, shown with resolution fine enough to trace shockwaves from their repeated close encounters.', bRu:'Группа из пяти галактик, четыре из которых вовлечены в медленный гравитационный «танец», показанная с разрешением, достаточным, чтобы проследить ударные волны от их повторяющихся сближений.'},
+  {en:'An Exoplanet\'s Atmosphere', ru:'Атмосфера экзопланеты',
+   bEn:'The first release also included a spectrum of the hot gas giant WASP-96b\'s atmosphere, showing clear evidence of water vapour — a preview of Webb\'s core mission to characterise worlds around other stars.', bRu:'В первый релиз также вошёл спектр атмосферы горячего газового гиганта WASP-96b, показавший чёткие признаки водяного пара, — предвестие ключевой задачи «Уэбба»: изучения миров вокруг других звёзд.'}
+];
+function renderFirstLight(){
+  var wrap = document.getElementById('firstLightList');
+  wrap.innerHTML='';
+  FIRST_LIGHT.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH8 — DISCOVERIES ============ */
+var DISCOVERIES = [
+  {en:'Impossibly bright early galaxies', ru:'Невероятно яркие ранние галактики',
+   bEn:'Webb has repeatedly found compact galaxies from within the universe\'s first billion years that are far brighter and more massive than models predicted was possible that early, forcing revisions to theories of how quickly galaxies can form.', bRu:'«Уэбб» неоднократно обнаруживал компактные галактики из первого миллиарда лет существования Вселенной, гораздо более яркие и массивные, чем допускали модели для столь раннего периода, — это вынуждает пересматривать теории о том, как быстро могут формироваться галактики.'},
+  {en:'TRAPPIST-1\'s seven worlds', ru:'Семь миров TRAPPIST-1',
+   bEn:'Webb has been systematically checking the atmospheres of TRAPPIST-1\'s seven Earth-sized planets, so far ruling out thick, hydrogen-rich atmospheres on the innermost ones.', bRu:'«Уэбб» систематически проверяет атмосферы семи землеразмерных планет TRAPPIST-1, уже исключив плотные, богатые водородом атмосферы у самых внутренних из них.'},
+  {en:'A hint of a biosignature — and a fierce debate', ru:'Намёк на биомаркер — и жаркие споры',
+   bEn:'Carbon-bearing molecules detected in the atmosphere of sub-Neptune K2-18b sparked debate over whether dimethyl sulfide, associated with life on Earth, might be present — a claim most astronomers still treat as unconfirmed.', bRu:'Углеродсодержащие молекулы, обнаруженные в атмосфере суб-нептуна K2-18b, вызвали споры о возможном присутствии диметилсульфида, связанного с жизнью на Земле, — утверждение, которое большинство астрономов пока считают неподтверждённым.'},
+  {en:'An interstellar visitor, up close', ru:'Межзвёздный гость вблизи',
+   bEn:'When comet 3I/ATLAS, only the third confirmed interstellar object ever detected, passed through the Solar System, Webb captured its chemical composition in detail no telescope had managed for the previous two.', bRu:'Когда комета 3I/ATLAS — лишь третий подтверждённый межзвёздный объект в истории наблюдений — прошла через Солнечную систему, «Уэбб» подробно зафиксировал её химический состав с детализацией, недостижимой ни для одного из двух предыдущих таких объектов.'},
+  {en:'A black hole older than its galaxy', ru:'Чёрная дыра старше своей галактики',
+   bEn:'Observations of a quasar over 13 billion light-years away suggest its supermassive black hole may have formed before its host galaxy did, challenging assumptions about which comes first.', bRu:'Наблюдения квазара на расстоянии свыше 13 миллиардов световых лет позволяют предположить, что его сверхмассивная чёрная дыра могла сформироваться раньше собственной галактики, — вызов представлениям о том, что появляется первым.'}
+];
+function renderDiscoveries(){
+  var wrap = document.getElementById('discoveryList');
+  wrap.innerHTML='';
+  DISCOVERIES.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH9 — HUBBLE & WEBB ============ */
+function renderHubbleWebb(){
+  var wrap = document.getElementById('hubbleWebbGrid');
+  wrap.innerHTML='';
+  var data = [
+    {en:'Hubble', ru:'«Хаббл»', statusEn:'LOW EARTH ORBIT', statusRu:'НИЗКАЯ ОКОЛОЗЕМНАЯ ОРБИТА', dead:false,
+     rows:[{lEn:'LAUNCHED', lRu:'ЗАПУСК', v:'1990'},{lEn:'MIRROR', lRu:'ЗЕРКАЛО', v:'2.4 m, single piece'},{lEn:'LIGHT', lRu:'СВЕТ', v:'UV, visible, near-IR'},{lEn:'STRENGTH', lRu:'СИЛЬНАЯ СТОРОНА', v:'Sharp visible-light imaging'}]},
+    {en:'Webb', ru:'«Уэбб»', statusEn:'SUN-EARTH L2', statusRu:'ТОЧКА L2 СИСТЕМЫ СОЛНЦЕ-ЗЕМЛЯ', dead:false,
+     rows:[{lEn:'LAUNCHED', lRu:'ЗАПУСК', v:'2021'},{lEn:'MIRROR', lRu:'ЗЕРКАЛО', v:'6.5 m, 18 segments'},{lEn:'LIGHT', lRu:'СВЕТ', v:'Infrared only'},{lEn:'STRENGTH', lRu:'СИЛЬНАЯ СТОРОНА', v:'Earliest galaxies, dust penetration'}]}
+  ];
+  data.forEach(function(d){
+    var card = document.createElement('div');
+    card.className='dash-card';
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+r.v+'</span></div>'; }).join('');
+    card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span><span class="dc-status">'+(lang==='en'?d.statusEn:d.statusRu)+'</span></div>'+rowsHtml;
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1990', en:'Hubble', ru:'«Хаббл»', noteEn:'UV / visible / near-IR', noteRu:'УФ / видимый / ближний ИК', h:30},
+  {y:'2021', en:'James Webb', ru:'«Джеймс Уэбб»', noteEn:'Infrared, at L2', noteRu:'ИК, в точке L2', h:44},
+  {y:'2027', en:'Nancy Grace Roman', ru:'«Нэнси Грейс Роман»', noteEn:'Wide-field infrared survey', noteRu:'Широкопольный ИК-обзор', h:26},
+  {y:'2030s', en:'Habitable Worlds Observatory', ru:'Обсерватория обитаемых миров', noteEn:'Proposed, direct exoplanet imaging', noteRu:'Проект, прямая съёмка экзопланет', h:36},
+  {y:'Future', en:'What Comes Next', ru:'Что дальше', noteEn:'Built on lessons from Webb\'s deployment', noteRu:'Опирается на уроки развёртывания «Уэбба»', h:22}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderWebb();
+  renderDeploy();
+  renderFirstLight();
+  renderDiscoveries();
+  renderHubbleWebb();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>

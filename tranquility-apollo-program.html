@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRANQUILITY — THE APOLLO PROGRAM / «АПОЛЛОН»</title>
+<meta name="description" content="An interactive engineering-style journey through the Apollo Program and the first crewed Moon landings.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.velocity-card{background:var(--white); padding:24px; display:flex; flex-direction:column; gap:10px;}
+.velocity-card .vnum{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.velocity-card .vval{font-family:var(--font-display); font-size:1.6rem;}
+.velocity-card p{font-size:13.5px; color:#333;}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:10px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.6rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.stage-btn{font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.04em; border:1px solid var(--ink); background:var(--paper); padding:9px 14px;}
+.stage-btn.active{background:var(--ink); color:var(--white);}
+.stage-row{display:flex; justify-content:center; gap:8px; margin-top:20px; flex-wrap:wrap;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-viewport{width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto;}
+.sim-verdict{margin-top:16px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:13px; min-height:20px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">TRANQUILITY — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">ALT</span><span id="hud-alt">384,400 KM</span></div>
+  <div class="hud-row"><span class="hud-label">VEL</span><span id="hud-vel">0.00 KM/S</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="384,400 KM" data-vel="0.00 KM/S" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — TWELVE BOOTPRINTS, A DECADE-LONG DEADLINE" data-ru="РИС. 00 — ДВЕНАДЦАТЬ СЛЕДОВ, СРОК В ОДНО ДЕСЯТИЛЕТИЕ">FIG. 00 — TWELVE BOOTPRINTS, A DECADE-LONG DEADLINE</span>
+        <span data-en="1961 → 1972" data-ru="1961 → 1972">1961 → 1972</span>
+      </div>
+      <h1><span data-en="TRANQUILITY" data-ru="СПОКОЙСТВИЕ">TRANQUILITY</span><br><em data-en="A FIELD GUIDE TO THE APOLLO PROGRAM" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «АПОЛЛОН»">A FIELD GUIDE TO THE APOLLO PROGRAM</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the eight-year sprint from a presidential deadline to a boot print in the Sea of Tranquility — the rocket, the spacecraft, the near-disasters, and the six landings that followed. Scroll to begin the mission." data-ru="Десять глав о восьмилетнем рывке от президентского срока до следа ботинка в Море Спокойствия — о ракете, корабле, едва не случившихся катастрофах и шести посадках, за ними последовавших. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the eight-year sprint from a presidential deadline to a boot print in the Sea of Tranquility — the rocket, the spacecraft, the near-disasters, and the six landings that followed. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE DEADLINE -->
+<section id="ch1" class="section" data-phase="THE DEADLINE" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="KENNEDY'S DEADLINE" data-ru="СРОК КЕННЕДИ">KENNEDY'S DEADLINE</span></div>
+    <h2 class="h-lg" data-en="Eight years, four months, and change" data-ru="Восемь лет, четыре месяца и немного">Eight years, four months, and change</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On May 25, 1961 — six weeks after Gagarin's flight and just twenty days after Alan Shepard's fifteen minutes above the atmosphere — President Kennedy committed the United States to landing a man on the Moon and returning him safely, before the decade was out. At the time, America had a grand total of fifteen minutes of crewed spaceflight experience." data-ru="25 мая 1961 года — через шесть недель после полёта Гагарина и всего через двадцать дней после пятнадцати минут Алана Шепарда над атмосферой — президент Кеннеди объявил, что Соединённые Штаты высадят человека на Луну и благополучно вернут его на Землю до конца десятилетия. На тот момент весь пилотируемый космический опыт Америки составлял ровно пятнадцать минут.">On May 25, 1961 — six weeks after Gagarin's flight and just twenty days after Alan Shepard's fifteen minutes above the atmosphere — President Kennedy committed the United States to landing a man on the Moon and returning him safely, before the decade was out. At the time, America had a grand total of fifteen minutes of crewed spaceflight experience.</p>
+      <p class="body-col" data-en="Apollo 11 touched down on July 20, 1969 — with five months to spare." data-ru="«Аполлон-11» совершил посадку 20 июля 1969 года — с запасом в пять месяцев.">Apollo 11 touched down on July 20, 1969 — with five months to spare.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — SATURN V -->
+<section id="ch2" class="section" data-phase="THE SATURN V" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE SATURN V" data-ru="«САТУРН V»">THE SATURN V</span></div>
+    <h2 class="h-lg" data-en="Still the most powerful rocket ever flown" data-ru="До сих пор самая мощная летавшая ракета">Still the most powerful rocket ever flown</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Thirteen Saturn Vs flew, and every single one succeeded — a perfect record for the largest, most powerful rocket ever to reach orbit." data-ru="Тринадцать «Сатурн V» слетали, и каждый — успешно: идеальный результат для крупнейшей и мощнейшей ракеты, когда-либо выходившей на орбиту.">Thirteen Saturn Vs flew, and every single one succeeded — a perfect record for the largest, most powerful rocket ever to reach orbit.</p>
+    <div class="grid-4">
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.5rem;">111 m</div><div class="fig-num" data-en="HEIGHT" data-ru="ВЫСОТА">HEIGHT</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.5rem;">2,970 t</div><div class="fig-num" data-en="LAUNCH MASS" data-ru="СТАРТОВАЯ МАССА">LAUNCH MASS</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.5rem;">3</div><div class="fig-num" data-en="STAGES" data-ru="СТУПЕНИ">STAGES</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.5rem;">13/13</div><div class="fig-num" data-en="SUCCESSFUL LAUNCHES" data-ru="УСПЕШНЫХ ЗАПУСКОВ">SUCCESSFUL LAUNCHES</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — SPACECRAFT ANATOMY -->
+<section id="ch3" class="section" data-phase="SPACECRAFT ANATOMY" data-alt="384,400 KM" data-vel="~11 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="ANATOMY OF THE SPACECRAFT" data-ru="УСТРОЙСТВО КОРАБЛЯ">ANATOMY OF THE SPACECRAFT</span></div>
+    <h2 class="h-lg" data-en="Three modules, one mission each" data-ru="Три модуля, у каждого своя задача">Three modules, one mission each</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Apollo flew as three separate vehicles docked together — only one of which was ever meant to touch the Moon. Select a component." data-ru="«Аполлон» летал как три отдельных, состыкованных друг с другом аппарата — и лишь один из них был предназначен для касания лунной поверхности. Выберите компонент.">Apollo flew as three separate vehicles docked together — only one of which was ever meant to touch the Moon. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="apolloSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="apolloPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — BUILDING TO ELEVEN -->
+<section id="ch4" class="section" data-phase="BUILDING TO ELEVEN 1967–69" data-alt="VARIES" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="BUILDING UP TO ELEVEN" data-ru="ПУТЬ К «ОДИННАДЦАТОМУ»">BUILDING UP TO ELEVEN</span></div>
+    <h2 class="h-lg" data-en="A tragedy, then four flights of firsts" data-ru="Трагедия, затем четыре полёта первенств">A tragedy, then four flights of firsts</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Apollo's road to the Moon began with its worst day. Scrub through the buildup." data-ru="Путь «Аполлона» к Луне начался с самого тяжёлого дня программы. Пролистайте хронологию подготовки.">Apollo's road to the Moon began with its worst day. Scrub through the buildup.</p>
+    <div class="mir-timeline">
+      <div class="mt-track"></div>
+      <div class="mt-events" id="buildupEvents"></div>
+      <div class="mt-detail corner-frame" id="buildupDetail"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — APOLLO 11 LANDING -->
+<section id="ch5" class="section" data-phase="APOLLO 11 LANDING" data-alt="0 KM (SURFACE)" data-vel="1.7 → 0 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="APOLLO 11: THE LANDING" data-ru="«АПОЛЛОН-11»: ПОСАДКА">APOLLO 11: THE LANDING</span></div>
+    <h2 class="h-lg" data-en="Thirty seconds of fuel to spare" data-ru="Тридцать секунд запаса топлива">Thirty seconds of fuel to spare</h2>
+    <p class="body-col" style="margin-bottom:32px;" data-en="The final descent nearly didn't happen as planned — alarms nobody had trained for went off, and the autopilot was steering toward a boulder field. Step through what happened." data-ru="Финальный спуск едва не пошёл не по плану — сработали сигналы тревоги, к которым никто не готовился, а автопилот вёл корабль прямо на поле валунов. Пройдите по этапам произошедшего.">The final descent nearly didn't happen as planned — alarms nobody had trained for went off, and the autopilot was steering toward a boulder field. Step through what happened.</p>
+    <div class="sim-panel corner-frame" style="max-width:560px; margin:0 auto;">
+      <div class="sim-viewport" style="max-width:340px;"><svg id="landingSvg" viewBox="0 0 300 300" width="100%" height="100%"></svg></div>
+      <div class="stage-row" id="landingControls"></div>
+      <div class="sim-verdict" id="landingCaption" style="margin-top:20px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — SIX LANDINGS -->
+<section id="ch6" class="section" data-phase="SIX LANDINGS 1969–72" data-alt="0 KM (SURFACE)" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="SIX LANDINGS" data-ru="ШЕСТЬ ПОСАДОК">SIX LANDINGS</span></div>
+    <h2 class="h-lg" data-en="Each one bolder than the last" data-ru="Каждая смелее предыдущей">Each one bolder than the last</h2>
+    <div id="landingsList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH7 — APOLLO 13 -->
+<section id="ch7" class="section" data-phase="APOLLO 13 CRISIS" data-alt="VARIES" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="APOLLO 13" data-ru="«АПОЛЛОН-13»">APOLLO 13</span></div>
+    <h2 class="h-lg" data-en="Failure is not an option" data-ru="Неудача — не вариант">Failure is not an option</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On April 13, 1970, an oxygen tank in the service module exploded, crippling the spacecraft's power, water, and life support two days from the Moon. The lunar landing was abandoned within hours; the entire mission became a single objective — getting three men home alive." data-ru="13 апреля 1970 года взорвался кислородный бак в служебном модуле, лишив корабль энергии, воды и систем жизнеобеспечения в двух днях пути от Луны. Посадку на Луну отменили в течение нескольких часов; вся миссия свелась к одной цели — вернуть троих людей домой живыми.">On April 13, 1970, an oxygen tank in the service module exploded, crippling the spacecraft's power, water, and life support two days from the Moon. The lunar landing was abandoned within hours; the entire mission became a single objective — getting three men home alive.</p>
+      <p class="body-col" data-en="The crew used the still-intact lunar module as a lifeboat, rationing power and water while ground teams improvised a carbon-dioxide filter fix from spare parts and duct tape. All three astronauts splashed down safely on April 17 — a failure that became, by NASA's own account, its finest hour." data-ru="Экипаж использовал ещё целый лунный модуль как спасательную шлюпку, экономя энергию и воду, пока наземные команды на скорую руку собирали фильтр для углекислого газа из подручных деталей и скотча. Все трое астронавтов благополучно приводнились 17 апреля — неудача, ставшая, по собственному признанию NASA, его звёздным часом.">The crew used the still-intact lunar module as a lifeboat, rationing power and water while ground teams improvised a carbon-dioxide filter fix from spare parts and duct tape. All three astronauts splashed down safely on April 17 — a failure that became, by NASA's own account, its finest hour.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — SAMPLE SCIENCE -->
+<section id="ch8" class="section" data-phase="SAMPLE SCIENCE" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="WHAT THEY BROUGHT BACK" data-ru="ЧТО ОНИ ПРИВЕЗЛИ">WHAT THEY BROUGHT BACK</span></div>
+    <h2 class="h-lg" data-en="382 kilograms of another world" data-ru="382 килограмма другого мира">382 kilograms of another world</h2>
+    <div id="scienceList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH9 — APOLLO VS N1-L3 -->
+<section id="ch9" class="section" data-phase="APOLLO VS N1-L3" data-alt="VARIES" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="APOLLO &amp; THE N1-L3" data-ru="«АПОЛЛОН» И N1-Л3">APOLLO &amp; THE N1-L3</span></div>
+    <h2 class="h-lg" data-en="The Soviet Moon program nobody saw" data-ru="Советская лунная программа, которую никто не видел">The Soviet Moon program nobody saw</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="The USSR ran its own crewed lunar program in parallel — kept entirely secret until 1989, eighteen years after it quietly failed." data-ru="СССР параллельно вёл собственную пилотируемую лунную программу — полностью засекреченную вплоть до 1989 года, спустя восемнадцать лет после её тихого провала.">The USSR ran its own crewed lunar program in parallel — kept entirely secret until 1989, eighteen years after it quietly failed.</p>
+    <div class="dash-grid" id="n1Grid"></div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="Twelve footprints, still the only ones" data-ru="Двенадцать следов — до сих пор единственные">Twelve footprints, still the only ones</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="More than fifty years later, the twelve men who walked on the Moon between 1969 and 1972 remain the only human beings who ever have." data-ru="Спустя более пятидесяти лет двенадцать человек, ходивших по Луне с 1969 по 1972 год, остаются единственными людьми, которым это когда-либо удавалось.">More than fifty years later, the twelve men who walked on the Moon between 1969 and 1972 remain the only human beings who ever have.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="TRANQUILITY — A FIELD GUIDE TO THE APOLLO PROGRAM" data-ru="TRANQUILITY — ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «АПОЛЛОН»">TRANQUILITY — A FIELD GUIDE TO THE APOLLO PROGRAM</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH3 — SPACECRAFT SCHEMATIC ============ */
+var APOLLO_PARTS = [
+  {id:'cm', en:'Command Module', ru:'Командный модуль', cEn:'Crew cabin, only part that returns to Earth', cRu:'Кабина экипажа, единственная часть, возвращающаяся на Землю', x:280, y:110, w:150, h:34,
+   dEn:'The cone-shaped cabin where the crew lived during transit and re-entry — the only piece of the entire stack that ever touched Earth again.', dRu:'Кабина конической формы, где экипаж находился во время перелёта и входа в атмосферу, — единственная часть всей связки, когда-либо вновь коснувшаяся Земли.'},
+  {id:'sm', en:'Service Module', ru:'Служебный модуль', cEn:'Engine, fuel cells, oxygen', cRu:'Двигатель, топливные элементы, кислород', x:60, y:150, w:150, h:34,
+   dEn:'Provided propulsion, electrical power, and life-support consumables for the whole trip — and was where Apollo 13\'s oxygen tank exploded.', dRu:'Обеспечивал двигательную установку, электроэнергию и запасы жизнеобеспечения на весь полёт — именно здесь взорвался кислородный бак «Аполлона-13».'},
+  {id:'lm', en:'Lunar Module', ru:'Лунный модуль', cEn:'Two stages: descent + ascent', cRu:'Две ступени: посадочная и взлётная', x:460, y:150, w:150, h:34,
+   dEn:'The only crewed spacecraft ever designed to fly exclusively outside Earth\'s atmosphere — its descent stage stayed on the Moon as a launch pad for the ascent stage.', dRu:'Единственный пилотируемый аппарат, спроектированный летать исключительно за пределами земной атмосферы, — его посадочная ступень оставалась на Луне как стартовая площадка для взлётной ступени.'},
+  {id:'heatshield2', en:'Ablative Heat Shield', ru:'Абляционный тепловой экран', cEn:'Rated for lunar-return re-entry speed', cRu:'Рассчитан на скорость возврата от Луны', x:280, y:210, w:150, h:34,
+   dEn:'Had to survive a much faster, hotter re-entry than any Earth-orbit mission — Apollo capsules came home at nearly 11 km/s.', dRu:'Должен был выдержать вход в атмосферу гораздо более быстрый и горячий, чем у любой околоземной миссии, — капсулы «Аполлон» возвращались домой со скоростью почти 11 км/с.'},
+  {id:'sla', en:'Launch Escape System', ru:'Система аварийного спасения', cEn:'Tower jettisoned after ascent', cRu:'Башня сбрасывалась после подъёма', x:60, y:210, w:150, h:34,
+   dEn:'A solid rocket tower above the Command Module, ready to pull the crew clear of a failing Saturn V — never needed on a crewed flight.', dRu:'Твердотопливная башня над командным модулем, готовая оттянуть экипаж от аварийного «Сатурна V», — ни разу не понадобилась в пилотируемом полёте.'}
+];
+function renderApollo(){
+  var svg = document.getElementById('apolloSvg');
+  var panel = document.getElementById('apolloPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  APOLLO_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, APOLLO_PARTS, m.id); });
+  });
+  selectPart(svg, panel, APOLLO_PARTS, APOLLO_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH4 — BUILDUP TIMELINE ============ */
+var BUILDUP = [
+  {y:'1967', crisis:true, tEn:'Apollo 1', tRu:'«Аполлон-1»', dEn:'A cabin fire during a launch pad test on January 27 kills astronauts Gus Grissom, Ed White, and Roger Chaffee, forcing a total redesign of the Command Module\'s hatch and wiring.', dRu:'27 января пожар в кабине во время наземного испытания на стартовой площадке уносит жизни астронавтов Гаса Гриссома, Эда Уайта и Роджера Чаффи, вынуждая полностью переработать люк и проводку командного модуля.'},
+  {y:'1968', crisis:false, tEn:'Apollo 7', tRu:'«Аполлон-7»', dEn:'The redesigned Command Module flies crewed for the first time in October, testing systems in Earth orbit after the twenty-month grounding.', dRu:'Переработанный командный модуль впервые летит с экипажем в октябре, испытывая системы на околоземной орбите после двадцатимесячного простоя.'},
+  {y:'1968', crisis:false, tEn:'Apollo 8', tRu:'«Аполлон-8»', dEn:'In December, a crew leaves Earth orbit for the first time in history, circling the Moon ten times and reading from Genesis on a Christmas Eve broadcast.', dRu:'В декабре экипаж впервые в истории покидает околоземную орбиту, десять раз облетает Луну и читает Книгу Бытия в новогодней трансляции.'},
+  {y:'1969', crisis:false, tEn:'Apollo 9', tRu:'«Аполлон-9»', dEn:'In March, the Lunar Module flies crewed for the first time, testing docking and undocking in Earth orbit before anyone trusts it near the Moon.', dRu:'В марте лунный модуль впервые летит с экипажем, отрабатывая стыковку и расстыковку на околоземной орбите, прежде чем ему доверят полёт к Луне.'},
+  {y:'1969', crisis:false, tEn:'Apollo 10', tRu:'«Аполлон-10»', dEn:'In May, a full dress rehearsal flies the Lunar Module to within 15 km of the lunar surface — everything but the actual landing.', dRu:'В мае проходит полная генеральная репетиция: лунный модуль спускается до 15 км над поверхностью Луны — всё, кроме самой посадки.'}
+];
+function renderBuildup(){
+  var events = document.getElementById('buildupEvents');
+  var detail = document.getElementById('buildupDetail');
+  events.innerHTML='';
+  BUILDUP.forEach(function(ev,i){
+    var wrap = document.createElement('div');
+    wrap.style.position='relative'; wrap.style.flex='1'; wrap.style.display='flex'; wrap.style.justifyContent='center';
+    var dot = document.createElement('div');
+    dot.className='mt-dot'+(ev.crisis?' crisis':'')+(i===0?' active':'');
+    var yr = document.createElement('div');
+    yr.className='mt-year'; yr.textContent=ev.y;
+    wrap.appendChild(dot); wrap.appendChild(yr);
+    dot.addEventListener('click', function(){ selectBuildup(i); });
+    events.appendChild(wrap);
+  });
+  function selectBuildup(i){
+    events.querySelectorAll('.mt-dot').forEach(function(d,j){ d.classList.toggle('active', j===i); });
+    var ev = BUILDUP[i];
+    detail.innerHTML = '<div class="mt-y">'+(lang==='en'?ev.tEn:ev.tRu)+'</div><div class="mt-t">'+ev.y+'</div><p style="font-size:14.5px;">'+(lang==='en'?ev.dEn:ev.dRu)+'</p>';
+  }
+  selectBuildup(0);
+}
+
+/* ============ CH5 — LANDING STAGES ============ */
+var LANDING_STAGES = [
+  {tEn:'01 — Powered descent', tRu:'01 — Управляемый спуск', cEn:'The Lunar Module fires its descent engine to drop out of lunar orbit, beginning a twelve-minute controlled fall toward the surface.', cRu:'Лунный модуль включает посадочный двигатель, чтобы сойти с окололунной орбиты, начиная двенадцатиминутное управляемое снижение к поверхности.'},
+  {tEn:'02 — Program alarms', tRu:'02 — Сигналы тревоги компьютера', cEn:'The guidance computer throws unfamiliar 1202 and 1201 alarms — overloaded, not broken — forcing a tense judgment call to keep going.', cRu:'Компьютер наведения выдаёт незнакомые сигналы 1202 и 1201 — он перегружен, но не сломан, — что вынуждает принять напряжённое решение продолжать спуск.'},
+  {tEn:'03 — Manual takeover', tRu:'03 — Ручное управление', cEn:'Armstrong sees the autopilot steering toward a boulder-strewn crater and takes manual control, flying further downrange to find clearer ground.', cRu:'Армстронг видит, что автопилот ведёт корабль к кратеру, усеянному валунами, и берёт ручное управление, пролетая дальше в поисках более ровного участка.'},
+  {tEn:'04 — Low fuel', tRu:'04 — Малый остаток топлива', cEn:'Ground controllers call out fuel warnings as the search for a landing spot eats into the reserve, down to roughly 30 seconds of hover time left.', cRu:'Наземные операторы объявляют предупреждения о топливе — поиск места посадки съедает резерв, остаётся всего около 30 секунд возможности зависания.'},
+  {tEn:'05 — Touchdown', tRu:'05 — Посадка', cEn:'"The Eagle has landed" — Apollo 11 touches down in the Sea of Tranquility at 20:17 UTC on July 20, 1969.', cRu:'«Орёл сел» — «Аполлон-11» совершает посадку в Море Спокойствия в 20:17 UTC 20 июля 1969 года.'}
+];
+function renderLanding(){
+  var controls = document.getElementById('landingControls');
+  controls.innerHTML='';
+  LANDING_STAGES.forEach(function(s,i){
+    var b = document.createElement('button');
+    b.className='stage-btn'+(i===0?' active':'');
+    b.textContent = (lang==='en'?s.tEn:s.tRu);
+    b.addEventListener('click', function(){ showStage(i); });
+    controls.appendChild(b);
+  });
+  function showStage(i){
+    controls.querySelectorAll('.stage-btn').forEach(function(b,j){ b.classList.toggle('active', j===i); });
+    document.getElementById('landingCaption').textContent = lang==='en' ? LANDING_STAGES[i].cEn : LANDING_STAGES[i].cRu;
+    drawLanding(i);
+  }
+  showStage(0);
+}
+function drawLanding(stage){
+  var svg = document.getElementById('landingSvg');
+  svg.innerHTML='';
+  ns('line',{x1:20,y1:260,x2:280,y2:260,stroke:'#0b0b0c','stroke-width':1.4},svg);
+  for(var w=20;w<280;w+=18){ ns('circle',{cx:w,cy:260,r:2,fill:'#c9c9c1'},svg); }
+  var altY = 40+stage*40;
+  ns('path',{d:'M 135 '+altY+' L 165 '+altY+' L 150 '+(altY+22)+' Z', fill:'none', stroke:'#0b0b0c','stroke-width':1.6},svg);
+  ns('line',{x1:135,y1:altY,x2:105,y2:altY,stroke:'#0b0b0c','stroke-width':1},svg);
+  ns('line',{x1:165,y1:altY,x2:195,y2:altY,stroke:'#0b0b0c','stroke-width':1},svg);
+  if(stage===1){
+    ns('text',{x:150,y:altY-14,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'12',fill:'#0b0b0c'},svg).textContent='1202';
+  }
+  if(stage===2){
+    ns('circle',{cx:220,cy:250,r:14,fill:'none',stroke:'#c9c9c1','stroke-width':1},svg);
+    ns('path',{d:'M 150 '+(altY+22)+' Q 190 '+(altY+40)+' 220 250', fill:'none', stroke:'#0b0b0c','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+  }
+  if(stage===3){
+    ns('text',{x:150,y:altY-14,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'11',fill:'#0b0b0c'},svg).textContent = lang==='en'?'LOW FUEL':'МАЛО ТОПЛИВА';
+  }
+  if(stage===4){
+    ns('text',{x:150,y:280,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'10'},svg).textContent = lang==='en'?'SEA OF TRANQUILITY':'МОРЕ СПОКОЙСТВИЯ';
+  }
+}
+
+/* ============ CH6 — SIX LANDINGS LIST ============ */
+var LANDINGS = [
+  {en:'Apollo 11 — July 1969', ru:'«Аполлон-11» — июль 1969',
+   bEn:'The first landing, at Sea of Tranquility — a cautious, minimal-risk mission focused entirely on proving it could be done at all.', bRu:'Первая посадка, в Море Спокойствия, — осторожная миссия с минимальным риском, полностью нацеленная на то, чтобы доказать саму возможность.'},
+  {en:'Apollo 12 — November 1969', ru:'«Аполлон-12» — ноябрь 1969',
+   bEn:'A precision landing within walking distance of the robotic Surveyor 3 probe, proving pinpoint accuracy for future missions.', bRu:'Точная посадка в пешей досягаемости от автоматического зонда «Сервейер-3», доказавшая возможность высокоточных посадок для будущих миссий.'},
+  {en:'Apollo 14 — January 1971', ru:'«Аполлон-14» — январь 1971',
+   bEn:'Recovering from Apollo 13\'s abort, Alan Shepard — the same man who flew America\'s first spaceflight a decade earlier — became the fifth man to walk on the Moon.', bRu:'После срыва «Аполлона-13» Алан Шепард — тот же человек, что совершил первый космический полёт Америки десятилетием ранее, — стал пятым человеком, ступившим на Луну.'},
+  {en:'Apollo 15 — July 1971', ru:'«Аполлон-15» — июль 1971',
+   bEn:'The first "J-mission" — longer stays, a full science payload, and the first Lunar Roving Vehicle, extending each moonwalk\'s range dramatically.', bRu:'Первая «J-миссия» — более долгое пребывание, полноценная научная программа и первый лунный электромобиль, резко расширивший дальность вылазок.'},
+  {en:'Apollo 16 — April 1972', ru:'«Аполлон-16» — апрель 1972',
+   bEn:'Landed in the lunar highlands rather than a mare plain, returning some of the oldest rock samples of the entire program.', bRu:'Совершил посадку в лунном высокогорье, а не на равнине моря, доставив одни из самых древних образцов пород за всю программу.'},
+  {en:'Apollo 17 — December 1972', ru:'«Аполлон-17» — декабрь 1972',
+   bEn:'The final landing and the only one to carry a professional geologist, Harrison Schmitt — Gene Cernan\'s final words on the surface remain the last spoken by anyone standing on the Moon.', bRu:'Последняя посадка и единственная, в составе которой был профессиональный геолог Харрисон Шмитт, — последние слова Джина Сернана на поверхности остаются последними, сказанными кем-либо стоящим на Луне.'}
+];
+function renderLandings(){
+  var wrap = document.getElementById('landingsList');
+  wrap.innerHTML='';
+  LANDINGS.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH8 — SAMPLE SCIENCE ============ */
+var SCIENCE = [
+  {en:'382 kilograms of rock and soil', ru:'382 килограмма камней и грунта',
+   bEn:'Across six landings, astronauts collected samples ranging from the oldest lunar highland rocks to young volcanic basalts — still being studied with instruments that didn\'t exist in 1972.', bRu:'За шесть посадок астронавты собрали образцы — от древнейших пород лунного высокогорья до молодых вулканических базальтов, — которые до сих пор изучают приборами, не существовавшими в 1972 году.'},
+  {en:'ALSEP science stations', ru:'Научные станции ALSEP',
+   bEn:'Five of the six landings left behind an Apollo Lunar Surface Experiments Package — seismometers, heat-flow probes, and solar wind detectors that kept transmitting for years after the astronauts left.', bRu:'Пять из шести посадок оставили на поверхности комплект научных приборов ALSEP — сейсмометры, датчики теплового потока и детекторы солнечного ветра, продолжавшие передавать данные годами после отлёта астронавтов.'},
+  {en:'Confirming the Moon\'s violent origin', ru:'Подтверждение бурного происхождения Луны',
+   bEn:'Chemical analysis of the returned samples became the strongest evidence for the giant-impact hypothesis — that the Moon formed from debris after a Mars-sized body struck the early Earth.', bRu:'Химический анализ доставленных образцов стал сильнейшим доказательством в пользу гипотезы гигантского столкновения — того, что Луна образовалась из обломков после удара тела размером с Марс о молодую Землю.'},
+  {en:'A retroreflector still in use today', ru:'Ретрорефлектор, используемый до сих пор',
+   bEn:'Mirror arrays left by Apollo 11, 14, and 15 still bounce laser beams from Earth back to their source, letting scientists measure the Earth-Moon distance to within centimetres.', bRu:'Зеркальные массивы, оставленные «Аполлонами-11, 14 и 15», до сих пор отражают лазерные лучи с Земли обратно к источнику, позволяя учёным измерять расстояние Земля — Луна с точностью до сантиметров.'}
+];
+function renderScience(){
+  var wrap = document.getElementById('scienceList');
+  wrap.innerHTML='';
+  SCIENCE.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH9 — APOLLO VS N1-L3 ============ */
+function renderN1(){
+  var wrap = document.getElementById('n1Grid');
+  wrap.innerHTML='';
+  var data = [
+    {en:'Apollo / Saturn V (USA)', ru:'«Аполлон» / «Сатурн V» (США)', statusEn:'6 LANDINGS', statusRu:'6 ПОСАДОК', dead:false,
+     rows:[{lEn:'ROCKET LAUNCHES', lRu:'ЗАПУСКОВ РАКЕТЫ', v:'13, all successful'},{lEn:'PROGRAM COST', lRu:'СТОИМОСТЬ ПРОГРАММЫ', v:'~$25 billion (1960s dollars)'},{lEn:'PROGRAM STATUS', lRu:'СТАТУС ПРОГРАММЫ', v:'Public from the start'}]},
+    {en:'N1-L3 (USSR)', ru:'N1-Л3 (СССР)', statusEn:'0 LAUNCHES SUCCEEDED', statusRu:'0 УСПЕШНЫХ ЗАПУСКОВ', dead:true,
+     rows:[{lEn:'ROCKET LAUNCHES', lRu:'ЗАПУСКОВ РАКЕТЫ', v:'4, all failed, 1969–1972'},{lEn:'PROGRAM COST', lRu:'СТОИМОСТЬ ПРОГРАММЫ', v:'10+ billion rubles'},{lEn:'PROGRAM STATUS', lRu:'СТАТУС ПРОГРАММЫ', v:'Secret until 1989, cancelled 1974'}]}
+  ];
+  data.forEach(function(d){
+    var card = document.createElement('div');
+    card.className='dash-card';
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+r.v+'</span></div>'; }).join('');
+    card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span><span class="dc-status'+(d.dead?' dead':'')+'">'+(lang==='en'?d.statusEn:d.statusRu)+'</span></div>'+rowsHtml;
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1961', en:'Mercury &amp; Gemini', ru:'«Меркурий» и «Джемини»', noteEn:'Learning to fly, dock, and walk in space', noteRu:'Учились летать, стыковаться и выходить в открытый космос', h:22},
+  {y:'1969–72', en:'Apollo', ru:'«Аполлон»', noteEn:'Six crewed Moon landings', noteRu:'Шесть пилотируемых посадок на Луну', h:44},
+  {y:'1973', en:'Skylab', ru:'«Скайлэб»', noteEn:'Built from leftover Apollo hardware', noteRu:'Построен из оставшегося оборудования «Аполлона»', h:30},
+  {y:'1981', en:'Space Shuttle', ru:'Space Shuttle', noteEn:'Reusable, low Earth orbit only', noteRu:'Многоразовый, только низкая околоземная орбита', h:36},
+  {y:'2026+', en:'Artemis', ru:'Artemis', noteEn:'Returning humans to the Moon', noteRu:'Возвращение людей на Луну', h:40}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><rect x="'+(50-l.h/3)+'" y="10" width="'+(l.h/1.5)+'" height="'+l.h+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderApollo();
+  renderBuildup();
+  renderLanding();
+  renderLandings();
+  renderScience();
+  renderN1();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>

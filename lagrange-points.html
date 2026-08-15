@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EQUILIBRIUM — LAGRANGE POINTS / ТОЧКИ ЛАГРАНЖА</title>
+<meta name="description" content="An interactive, formula-driven journey through the physics of Lagrange points and where they occur across the Solar System.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+sup, sub{font-size:0.68em;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px); letter-spacing:0.01em;}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-viewport{width:100%; aspect-ratio:5/4; max-width:520px; margin:0 auto;}
+.sim-controls{margin-top:20px;}
+.sim-controls input[type=range]{width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:18px 0 8px;}
+.sim-controls input[type=range]::-webkit-slider-thumb{appearance:none; width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-controls input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-readout{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px;}
+.sim-verdict{margin-top:16px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.preset-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.preset-btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); padding:7px 11px;}
+.preset-btn:hover{border-color:var(--ink);}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:11.5px;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+
+.velocity-card{background:var(--white); padding:22px; display:flex; flex-direction:column; gap:8px;}
+.velocity-card .vnum{font-family:var(--font-mono); font-size:11.5px; color:var(--mid);}
+.velocity-card .vval{font-family:var(--font-display); font-size:1.4rem;}
+.velocity-card p{font-size:13px; color:#333;}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:10px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.6rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">EQUILIBRIUM — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE PROBLEM</span></div>
+  <div class="hud-row"><span class="hud-label">SYSTEM</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE THREE-BODY PROBLEM" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — FIVE PLACES TO STAND STILL WHILE ORBITING" data-ru="РИС. 00 — ПЯТЬ МЕСТ, ГДЕ МОЖНО ЗАСТЫТЬ НА ОРБИТЕ">FIG. 00 — FIVE PLACES TO STAND STILL WHILE ORBITING</span>
+        <span data-en="LAGRANGE, 1772" data-ru="ЛАГРАНЖ, 1772">LAGRANGE, 1772</span>
+      </div>
+      <h1><span data-en="EQUILIBRIUM" data-ru="РАВНОВЕСИЕ">EQUILIBRIUM</span><br><em data-en="A FIELD GUIDE TO LAGRANGE POINTS" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО ТОЧКАМ ЛАГРАНЖА">A FIELD GUIDE TO LAGRANGE POINTS</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the five points where gravity and rotation cancel out — worked with the actual formulas, not just the concept — and on where those points turn out to sit, from the spacecraft parked near Earth to the asteroid swarms trailing Jupiter. Scroll to begin." data-ru="Десять глав о пяти точках, где гравитация и вращение взаимно уравновешиваются, — разобранных с настоящими формулами, а не только на уровне идеи, — и о том, где эти точки в итоге оказываются: от аппаратов, «припаркованных» у Земли, до роёв астероидов, сопровождающих Юпитер. Пролистайте вниз, чтобы начать.">Ten chapters on the five points where gravity and rotation cancel out — worked with the actual formulas, not just the concept — and on where those points turn out to sit, from the spacecraft parked near Earth to the asteroid swarms trailing Jupiter. Scroll to begin.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THREE-BODY PROBLEM -->
+<section id="ch1" class="section" data-phase="THE THREE-BODY PROBLEM" data-alt="GENERAL" data-vel="NO CLOSED FORM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="THE THREE-BODY PROBLEM" data-ru="ЗАДАЧА ТРЁХ ТЕЛ">THE THREE-BODY PROBLEM</span></div>
+    <h2 class="h-lg" data-en="Two bodies solve cleanly. Three don't." data-ru="Два тела решаются точно. Три — нет.">Two bodies solve cleanly. Three don't.</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Newton's gravity gives an exact, closed-form answer for two bodies orbiting each other: an ellipse, fully described by Kepler's laws. Add a third body, and in general there is no such formula — the system has to be simulated step by step, forever sensitive to its starting conditions." data-ru="Закон тяготения Ньютона даёт точное решение в замкнутой форме для двух тел, обращающихся друг вокруг друга: эллипс, полностью описываемый законами Кеплера. Добавьте третье тело — и в общем случае такой формулы уже не существует: систему приходится моделировать шаг за шагом, и она навсегда остаётся чувствительной к начальным условиям.">Newton's gravity gives an exact, closed-form answer for two bodies orbiting each other: an ellipse, fully described by Kepler's laws. Add a third body, and in general there is no such formula — the system has to be simulated step by step, forever sensitive to its starting conditions.</p>
+      <p class="body-col" data-en="In 1772, Joseph-Louis Lagrange found a special case that does solve cleanly: assume the third body is so small it doesn't affect the other two, which continue in ordinary circular orbits around their shared centre of mass. Under that restriction — the \"restricted three-body problem\" — he found exactly five points where the third body can sit motionless relative to the other two, forever." data-ru="В 1772 году Жозеф Луи Лагранж нашёл частный случай, который всё же решается точно: предположить, что третье тело настолько мало, что не влияет на два других, продолжающих обычное круговое движение вокруг общего центра масс. При таком ограничении — «ограниченной задаче трёх тел» — он обнаружил ровно пять точек, где третье тело может оставаться неподвижным относительно двух других — навсегда.">In 1772, Joseph-Louis Lagrange found a special case that does solve cleanly: assume the third body is so small it doesn't affect the other two, which continue in ordinary circular orbits around their shared centre of mass. Under that restriction — the "restricted three-body problem" — he found exactly five points where the third body can sit motionless relative to the other two, forever.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="RESTRICTED THREE-BODY ASSUMPTION" data-ru="ДОПУЩЕНИЕ ОГРАНИЧЕННОЙ ЗАДАЧИ ТРЁХ ТЕЛ">RESTRICTED THREE-BODY ASSUMPTION</div>
+      <div class="eq-body">m<sub>3</sub> ≪ m<sub>1</sub>,&nbsp; m<sub>2</sub> &nbsp;→&nbsp; m<sub>1</sub>, m<sub>2</sub> orbit their barycentre undisturbed</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — ROTATING FRAME -->
+<section id="ch2" class="section" data-phase="ROTATING FRAME" data-alt="M₁ + M₂" data-vel="CO-ROTATING">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE ROTATING FRAME" data-ru="ВРАЩАЮЩАЯСЯ СИСТЕМА ОТСЧЁТА">THE ROTATING FRAME</span></div>
+    <h2 class="h-lg" data-en="Freezing the picture by spinning with it" data-ru="«Замораживаем» картину, вращаясь вместе с ней">Freezing the picture by spinning with it</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The trick that makes the problem tractable: switch to a reference frame that rotates at the same rate the two large bodies orbit their common centre of mass. In that frame, both large bodies appear frozen in place, and a third, small object feels three apparent forces — the real gravity of each large body, plus a centrifugal force pushing it outward from the rotation axis." data-ru="Приём, делающий задачу разрешимой: перейти в систему отсчёта, вращающуюся с той же скоростью, с которой два крупных тела обращаются вокруг общего центра масс. В этой системе оба крупных тела кажутся неподвижными, а третье, малое тело испытывает три кажущиеся силы — реальную гравитацию каждого крупного тела и центробежную силу, толкающую его наружу от оси вращения.">The trick that makes the problem tractable: switch to a reference frame that rotates at the same rate the two large bodies orbit their common centre of mass. In that frame, both large bodies appear frozen in place, and a third, small object feels three apparent forces — the real gravity of each large body, plus a centrifugal force pushing it outward from the rotation axis.</p>
+      <p class="body-col" data-en="Combine gravity and the centrifugal term into a single \"effective potential.\" A Lagrange point is simply a place where that combined potential is flat — where its gradient is zero, so nothing pushes the object away in any direction, at least to first order." data-ru="Объединив гравитацию и центробежный член, получаем единый «эффективный потенциал». Точка Лагранжа — это просто место, где этот суммарный потенциал плоский: его градиент равен нулю, и объект ничто не выталкивает ни в одном направлении, по крайней мере в первом приближении.">Combine gravity and the centrifugal term into a single "effective potential." A Lagrange point is simply a place where that combined potential is flat — where its gradient is zero, so nothing pushes the object away in any direction, at least to first order.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="ANGULAR VELOCITY OF THE ROTATING FRAME" data-ru="УГЛОВАЯ СКОРОСТЬ ВРАЩАЮЩЕЙСЯ СИСТЕМЫ">ANGULAR VELOCITY OF THE ROTATING FRAME</div>
+      <div class="eq-body">ω² = G(M<sub>1</sub> + M<sub>2</sub>) / R³</div>
+      <div class="eq-note" data-en="R = separation between the two large bodies. This is just Kepler's third law, rearranged." data-ru="R — расстояние между двумя крупными телами. Это просто перегруппированный третий закон Кеплера.">R = separation between the two large bodies. This is just Kepler's third law, rearranged.</div>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="EFFECTIVE POTENTIAL (PER UNIT MASS)" data-ru="ЭФФЕКТИВНЫЙ ПОТЕНЦИАЛ (НА ЕДИНИЦУ МАССЫ)">EFFECTIVE POTENTIAL (PER UNIT MASS)</div>
+      <div class="eq-body">Φ<sub>eff</sub> = −GM<sub>1</sub>/r<sub>1</sub> − GM<sub>2</sub>/r<sub>2</sub> − ½ω²(x² + y²)</div>
+      <div class="eq-note" data-en="r₁, r₂ = distance from the test point to each large body. Lagrange points satisfy ∇Φₑff = 0." data-ru="r₁, r₂ — расстояния от пробной точки до каждого крупного тела. В точках Лагранжа ∇Φₑff = 0.">r₁, r₂ = distance from the test point to each large body. Lagrange points satisfy ∇Φₑff = 0.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — FIVE POINTS INTERACTIVE -->
+<section id="ch3" class="section" data-phase="FIVE POINTS" data-alt="M₁ + M₂" data-vel="L1–L5">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="FIVE POINTS OF BALANCE" data-ru="ПЯТЬ ТОЧЕК РАВНОВЕСИЯ">FIVE POINTS OF BALANCE</span></div>
+    <h2 class="h-lg" data-en="Solve ∇Φₑff = 0 and exactly five points fall out" data-ru="Решите ∇Φₑff = 0 — и получите ровно пять точек">Solve ∇Φₑff = 0 and exactly five points fall out</h2>
+    <div class="grid-2">
+      <div class="body-col">
+        <p style="margin-bottom:16px;" data-en="Three lie on the straight line through both large bodies — L1, L2, and L3. Two form equilateral triangles with the pair — L4 and L5, one leading and one trailing the smaller body's orbit." data-ru="Три лежат на прямой, проходящей через оба крупных тела, — L1, L2 и L3. Два образуют равносторонние треугольники с этой парой — L4 и L5, один впереди, другой позади орбиты меньшего тела.">Three lie on the straight line through both large bodies — L1, L2, and L3. Two form equilateral triangles with the pair — L4 and L5, one leading and one trailing the smaller body's orbit.</p>
+        <p data-en="Drag the mass ratio below, or jump to a real system, and watch where all five points land." data-ru="Потяните ползунок отношения масс ниже или выберите реальную систему — и посмотрите, куда попадут все пять точек.">Drag the mass ratio below, or jump to a real system, and watch where all five points land.</p>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="sim-viewport"><svg id="lagrangeSvg" viewBox="0 0 500 400" width="100%" height="100%"></svg></div>
+        <div class="sim-controls">
+          <div class="sim-readout"><span class="mono" data-en="MASS RATIO μ = M₂/(M₁+M₂)" data-ru="ОТНОШЕНИЕ МАСС μ = M₂/(M₁+M₂)">MASS RATIO μ = M₂/(M₁+M₂)</span><span class="mono" id="muVal">0.0100</span></div>
+          <input id="muSlider" type="range" min="-6" max="-0.35" step="0.01" value="-2">
+        </div>
+        <div class="preset-row" id="presetRow"></div>
+        <div class="readout-grid" id="readoutGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — L1 -->
+<section id="ch4" class="section" data-phase="L1 — INNER GATEWAY" data-alt="SUN–EARTH" data-vel="UNSTABLE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="L1 — THE INNER GATEWAY" data-ru="L1 — ВНУТРЕННИЕ ВОРОТА">L1 — THE INNER GATEWAY</span></div>
+    <h2 class="h-lg" data-en="Between the two bodies, tipped toward the small one" data-ru="Между двумя телами, ближе к меньшему">Between the two bodies, tipped toward the small one</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="L1 sits between the two masses. There, the smaller body's gravity works against the larger one's pull, so the point can orbit in sync with the pair at a slightly smaller radius than an unaided orbit around the large body alone would need." data-ru="L1 находится между двумя массами. Здесь гравитация меньшего тела работает против притяжения большего, поэтому точка может обращаться синхронно с парой на чуть меньшем радиусе, чем потребовалось бы для самостоятельной орбиты вокруг одного лишь крупного тела.">L1 sits between the two masses. There, the smaller body's gravity works against the larger one's pull, so the point can orbit in sync with the pair at a slightly smaller radius than an unaided orbit around the large body alone would need.</p>
+      <p class="body-col" data-en="For the Sun–Earth system, this formula predicts roughly 1.5 million km sunward of Earth — almost exactly where SOHO has watched the Sun continuously since 1995." data-ru="Для системы Солнце — Земля эта формула предсказывает примерно 1,5 миллиона км в сторону Солнца от Земли — почти точно там, где с 1995 года непрерывно наблюдает за Солнцем аппарат SOHO.">For the Sun–Earth system, this formula predicts roughly 1.5 million km sunward of Earth — almost exactly where SOHO has watched the Sun continuously since 1995.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="L1 DISTANCE FROM THE SMALLER BODY (M₂ ≪ M₁)" data-ru="РАССТОЯНИЕ L1 ОТ МЕНЬШЕГО ТЕЛА (M₂ ≪ M₁)">L1 DISTANCE FROM THE SMALLER BODY (M₂ ≪ M₁)</div>
+      <div class="eq-body">r<sub>L1</sub> ≈ R · ∛(M<sub>2</sub> / 3M<sub>1</sub>)</div>
+      <div class="eq-note" data-en="Worked example, Sun–Earth: M₂/M₁ ≈ 3.00×10⁻⁶ → r ≈ 0.01 R ≈ 1.5×10⁶ km." data-ru="Пример расчёта, Солнце — Земля: M₂/M₁ ≈ 3,00×10⁻⁶ → r ≈ 0,01 R ≈ 1,5×10⁶ км.">Worked example, Sun–Earth: M₂/M₁ ≈ 3.00×10⁻⁶ → r ≈ 0.01 R ≈ 1.5×10⁶ km.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — L2 -->
+<section id="ch5" class="section" data-phase="L2 — OBSERVER'S PERCH" data-alt="SUN–EARTH" data-vel="UNSTABLE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="L2 — THE OBSERVER'S PERCH" data-ru="L2 — НАБЛЮДАТЕЛЬНЫЙ ПУНКТ">L2 — THE OBSERVER'S PERCH</span></div>
+    <h2 class="h-lg" data-en="Same formula, the opposite side" data-ru="Та же формула, противоположная сторона">Same formula, the opposite side</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="L2 sits just beyond the smaller body, away from the larger one, at almost exactly the same distance as L1 — the leading-order formula is identical. Physically, the combined gravity of both bodies there is strong enough to hold an object in an orbit matching Earth's one-year period, even though that object sits farther out than Earth." data-ru="L2 находится чуть за меньшим телом, в стороне от большего, почти на том же расстоянии, что и L1, — формула первого порядка идентична. Физически суммарная гравитация обоих тел там достаточно сильна, чтобы удерживать объект на орбите с периодом, совпадающим с земным годом, хотя сам объект находится дальше от Солнца, чем Земля.">L2 sits just beyond the smaller body, away from the larger one, at almost exactly the same distance as L1 — the leading-order formula is identical. Physically, the combined gravity of both bodies there is strong enough to hold an object in an orbit matching Earth's one-year period, even though that object sits farther out than Earth.</p>
+      <p class="body-col" data-en="This is where Webb, Gaia, and Euclid all sit — permanently shadowed from the Sun by Earth, at a distance close enough for high-bandwidth communication but far enough for total thermal isolation." data-ru="Именно здесь находятся «Уэбб», Gaia и Euclid — постоянно затенённые Землёй от Солнца, на расстоянии, достаточно близком для высокоскоростной связи, но достаточно далёком для полной тепловой изоляции.">This is where Webb, Gaia, and Euclid all sit — permanently shadowed from the Sun by Earth, at a distance close enough for high-bandwidth communication but far enough for total thermal isolation.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="L2 DISTANCE FROM THE SMALLER BODY (M₂ ≪ M₁)" data-ru="РАССТОЯНИЕ L2 ОТ МЕНЬШЕГО ТЕЛА (M₂ ≪ M₁)">L2 DISTANCE FROM THE SMALLER BODY (M₂ ≪ M₁)</div>
+      <div class="eq-body">r<sub>L2</sub> ≈ R · ∛(M<sub>2</sub> / 3M<sub>1</sub>)</div>
+      <div class="eq-note" data-en="Same order of magnitude as L1 — for Sun–Earth, also about 1.5×10⁶ km, matching Webb's real position." data-ru="Тот же порядок величины, что и у L1, — для Солнца и Земли также около 1,5×10⁶ км, что совпадает с реальным положением «Уэбба».">Same order of magnitude as L1 — for Sun–Earth, also about 1.5×10⁶ km, matching Webb's real position.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — L3 -->
+<section id="ch6" class="section" data-phase="L3 — HIDDEN POINT" data-alt="SUN–EARTH" data-vel="UNSTABLE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="L3 — THE HIDDEN POINT" data-ru="L3 — СКРЫТАЯ ТОЧКА">L3 — THE HIDDEN POINT</span></div>
+    <h2 class="h-lg" data-en="On the far side of the Sun, almost exactly on Earth's orbit" data-ru="За Солнцем, почти точно на орбите Земли">On the far side of the Sun, almost exactly on Earth's orbit</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="L3 sits on the opposite side of the larger body from the smaller one — for Sun–Earth, permanently hidden behind the Sun. The correction term is tiny: for Earth's mass, it works out to only a few hundred kilometres farther from the Sun than Earth's own orbit." data-ru="L3 находится по другую сторону крупного тела от меньшего — для пары Солнце — Земля это точка, постоянно скрытая за Солнцем. Поправочный член крайне мал: для массы Земли он составляет всего несколько сотен километров дальше от Солнца, чем собственная орбита Земли.">L3 sits on the opposite side of the larger body from the smaller one — for Sun–Earth, permanently hidden behind the Sun. The correction term is tiny: for Earth's mass, it works out to only a few hundred kilometres farther from the Sun than Earth's own orbit.</p>
+      <p class="body-col" data-en="Its permanent hiding place behind the Sun made it a favourite of science fiction — a \"Counter-Earth\" no one could ever see. No such planet exists; spacecraft observing from the sides have long since confirmed there's nothing there." data-ru="Постоянное укрытие за Солнцем сделало эту точку любимицей научной фантастики — «Контр-Земля», которую никто и никогда не мог увидеть. Такой планеты не существует; аппараты, наблюдавшие сбоку, давно подтвердили, что там ничего нет.">Its permanent hiding place behind the Sun made it a favourite of science fiction — a "Counter-Earth" no one could ever see. No such planet exists; spacecraft observing from the sides have long since confirmed there's nothing there.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="L3 DISTANCE FROM THE LARGER BODY" data-ru="РАССТОЯНИЕ L3 ОТ БОЛЬШОГО ТЕЛА">L3 DISTANCE FROM THE LARGER BODY</div>
+      <div class="eq-body">r<sub>L3</sub> ≈ R · (1 + 5M<sub>2</sub> / 12M<sub>1</sub>)</div>
+      <div class="eq-note" data-en="Worked example, Sun–Earth: the correction is only ≈1.25×10⁻⁶ R ≈ 187 km beyond Earth's orbital radius." data-ru="Пример расчёта, Солнце — Земля: поправка составляет лишь ≈1,25×10⁻⁶ R ≈ 187 км сверх радиуса орбиты Земли.">Worked example, Sun–Earth: the correction is only ≈1.25×10⁻⁶ R ≈ 187 km beyond Earth's orbital radius.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — L4 & L5 -->
+<section id="ch7" class="section" data-phase="L4 &amp; L5 — STABLE TRIANGLES" data-alt="SUN–JUPITER" data-vel="STABLE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="L4 &amp; L5 — THE STABLE TRIANGLES" data-ru="L4 И L5 — УСТОЙЧИВЫЕ ТРЕУГОЛЬНИКИ">L4 &amp; L5 — THE STABLE TRIANGLES</span></div>
+    <h2 class="h-lg" data-en="An exact result, for any mass ratio at all" data-ru="Точный результат при любом отношении масс">An exact result, for any mass ratio at all</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Unlike L1, L2, and L3, the positions of L4 and L5 need no approximation at all — they sit at the two points that form an equilateral triangle with the two large bodies, exactly, regardless of the mass ratio between them." data-ru="В отличие от L1, L2 и L3, положения L4 и L5 вообще не требуют приближений — они находятся ровно в тех двух точках, которые образуют равносторонний треугольник с двумя крупными телами, точно, независимо от отношения масс между ними.">Unlike L1, L2, and L3, the positions of L4 and L5 need no approximation at all — they sit at the two points that form an equilateral triangle with the two large bodies, exactly, regardless of the mass ratio between them.</p>
+      <p class="body-col" data-en="Whether an object actually stays near that point, though, depends entirely on the mass ratio — below a sharp threshold, small perturbations curve back around the point rather than growing." data-ru="А вот останется ли объект вблизи этой точки на практике, полностью зависит от отношения масс: ниже чёткого порога малые возмущения закручиваются обратно вокруг точки, а не нарастают.">Whether an object actually stays near that point, though, depends entirely on the mass ratio — below a sharp threshold, small perturbations curve back around the point rather than growing.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="L4 / L5 STABILITY CRITERION" data-ru="КРИТЕРИЙ УСТОЙЧИВОСТИ L4 / L5">L4 / L5 STABILITY CRITERION</div>
+      <div class="eq-body">μ = M<sub>2</sub>/(M<sub>1</sub>+M<sub>2</sub>) &nbsp;&lt;&nbsp; ½(1 − √(23/27)) ≈ 0.0385</div>
+      <div class="eq-note" data-en="Below this ratio, L4/L5 are dynamically stable thanks to the Coriolis force. Above it, they are not." data-ru="Ниже этого отношения L4/L5 динамически устойчивы благодаря силе Кориолиса. Выше — нет.">Below this ratio, L4/L5 are dynamically stable thanks to the Coriolis force. Above it, they are not.</div>
+    </div>
+    <div class="grid-3">
+      <div class="dash-card" style="text-align:center; background:var(--white); padding:16px;"><div class="dc-name" style="font-size:1.2rem;">μ ≈ 0.000954</div><div class="fig-num" data-en="SUN–JUPITER — STABLE" data-ru="СОЛНЦЕ–ЮПИТЕР — УСТОЙЧИВО">SUN–JUPITER — STABLE</div></div>
+      <div class="dash-card" style="text-align:center; background:var(--white); padding:16px;"><div class="dc-name" style="font-size:1.2rem;">μ ≈ 0.0121</div><div class="fig-num" data-en="EARTH–MOON — STABLE" data-ru="ЗЕМЛЯ–ЛУНА — УСТОЙЧИВО">EARTH–MOON — STABLE</div></div>
+      <div class="dash-card" style="text-align:center; background:var(--white); padding:16px;"><div class="dc-name" style="font-size:1.2rem;">μ ≈ 0.108</div><div class="fig-num" data-en="PLUTO–CHARON — UNSTABLE" data-ru="ПЛУТОН–ХАРОН — НЕУСТОЙЧИВО">PLUTO–CHARON — UNSTABLE</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — WHY STABILITY DIFFERS -->
+<section id="ch8" class="section" data-phase="STABILITY ANALYSIS" data-alt="VARIES" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="WHY STABILITY DIFFERS" data-ru="ПОЧЕМУ УСТОЙЧИВОСТЬ РАЗНАЯ">WHY STABILITY DIFFERS</span></div>
+    <h2 class="h-lg" data-en="Sitting on a hilltop that curves you back in" data-ru="На вершине холма, которая заворачивает вас обратно">Sitting on a hilltop that curves you back in</h2>
+    <div class="grid-2">
+      <div class="body-col">
+        <p style="margin-bottom:16px;" data-en="L1, L2, and L3 are saddle points of the effective potential — stable in some directions, unstable in others. Any small drift eventually grows, which is why spacecraft parked there fly small looping paths and fire thrusters every few weeks to stay put." data-ru="L1, L2 и L3 — седловые точки эффективного потенциала: устойчивые в одних направлениях, неустойчивые в других. Любое малое отклонение со временем нарастает, поэтому аппараты, «припаркованные» там, летают по небольшим петлевым траекториям и раз в несколько недель включают двигатели, чтобы удержаться на месте.">L1, L2, and L3 are saddle points of the effective potential — stable in some directions, unstable in others. Any small drift eventually grows, which is why spacecraft parked there fly small looping paths and fire thrusters every few weeks to stay put.</p>
+        <p data-en="L4 and L5 sit on local hilltops of that same potential — which sounds like it should be even less stable. But an object drifting away from a hilltop there picks up sideways motion, and the Coriolis force curves that motion back around the point rather than letting it escape — provided the mass ratio is small enough. It's one of the more counterintuitive results in orbital mechanics: a maximum of potential energy that is nonetheless dynamically stable." data-ru="L4 и L5 находятся на локальных вершинах того же потенциала, что, казалось бы, должно быть ещё менее устойчиво. Но объект, отклоняющийся от такой вершины, приобретает боковое движение, и сила Кориолиса заворачивает это движение обратно вокруг точки, а не позволяет ему уйти, — при условии, что отношение масс достаточно мало. Это один из наиболее контринтуитивных результатов небесной механики: максимум потенциальной энергии, тем не менее динамически устойчивый.">L4 and L5 sit on local hilltops of that same potential — which sounds like it should be even less stable. But an object drifting away from a hilltop there picks up sideways motion, and the Coriolis force curves that motion back around the point rather than letting it escape — provided the mass ratio is small enough. It's one of the more counterintuitive results in orbital mechanics: a maximum of potential energy that is nonetheless dynamically stable.</p>
+      </div>
+      <div class="sim-panel corner-frame">
+        <svg id="potentialSvg" viewBox="0 0 400 320" width="100%" height="100%"></svg>
+        <p class="fig-num" style="margin-top:12px;" data-en="FIG. 8.1 — SCHEMATIC EQUIPOTENTIAL CONTOURS (ILLUSTRATIVE, NOT COMPUTED)" data-ru="РИС. 8.1 — СХЕМАТИЧНЫЕ ЭКВИПОТЕНЦИАЛЬНЫЕ ЛИНИИ (ИЛЛЮСТРАТИВНО, БЕЗ РАСЧЁТА)">FIG. 8.1 — SCHEMATIC EQUIPOTENTIAL CONTOURS (ILLUSTRATIVE, NOT COMPUTED)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — ACROSS THE SOLAR SYSTEM -->
+<section id="ch9" class="section" data-phase="ACROSS THE SOLAR SYSTEM" data-alt="VARIES" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="ACROSS THE SOLAR SYSTEM" data-ru="ПО ВСЕЙ СОЛНЕЧНОЙ СИСТЕМЕ">ACROSS THE SOLAR SYSTEM</span></div>
+    <h2 class="h-lg" data-en="Every orbiting pair has its own set of five" data-ru="У каждой обращающейся пары — свой набор из пяти точек">Every orbiting pair has its own set of five</h2>
+    <p class="lede" style="margin-bottom:32px;" data-en="The formulas apply to any two-body system — not just the Sun and a planet." data-ru="Формулы применимы к любой двухтельной системе — не только к Солнцу и планете.">The formulas apply to any two-body system — not just the Sun and a planet.</p>
+    <div id="systemCards" class="grid-3"></div>
+  </div>
+</section>
+
+<!-- CH10 — MISSIONS -->
+<section id="ch10" class="section" data-phase="MISSIONS" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="MISSIONS THAT USE THEM" data-ru="МИССИИ, ИСПОЛЬЗУЮЩИЕ ИХ">MISSIONS THAT USE THEM</span></div>
+    <h2 class="h-lg" data-en="From one 1978 comet chaser to a growing fleet" data-ru="От одного «охотника за кометами» 1978 года — до целого флота">From one 1978 comet chaser to a growing fleet</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Scrub through the spacecraft that have called a Lagrange point home." data-ru="Пролистайте аппараты, для которых точка Лагранжа стала домом.">Scrub through the spacecraft that have called a Lagrange point home.</p>
+    <div class="mir-timeline">
+      <div class="mt-track"></div>
+      <div class="mt-events" id="missionEvents"></div>
+      <div class="mt-detail corner-frame" id="missionDetail"></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="EQUILIBRIUM — A FIELD GUIDE TO LAGRANGE POINTS" data-ru="EQUILIBRIUM — ПОЛЕВОЙ СПРАВОЧНИК ПО ТОЧКАМ ЛАГРАНЖА">EQUILIBRIUM — A FIELD GUIDE TO LAGRANGE POINTS</span>
+  <span data-en="EDUCATIONAL — FORMULAS ARE LEADING-ORDER APPROXIMATIONS UNLESS NOTED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ФОРМУЛЫ ЯВЛЯЮТСЯ ПРИБЛИЖЕНИЯМИ ПЕРВОГО ПОРЯДКА, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL — FORMULAS ARE LEADING-ORDER APPROXIMATIONS UNLESS NOTED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH3 — LAGRANGE EXPLORER ============ */
+var PRESETS = [
+  {en:'Sun–Earth', ru:'Солнце–Земля', logMu:Math.log10(3.003e-6)},
+  {en:'Sun–Jupiter', ru:'Солнце–Юпитер', logMu:Math.log10(9.54e-4)},
+  {en:'Earth–Moon', ru:'Земля–Луна', logMu:Math.log10(0.0121)},
+  {en:'Pluto–Charon', ru:'Плутон–Харон', logMu:Math.log10(0.108)}
+];
+var lagrangeSlider, lagrangeMuVal;
+function renderLagrangeExplorer(){
+  var svg = document.getElementById('lagrangeSvg');
+  lagrangeSlider = document.getElementById('muSlider');
+  lagrangeMuVal = document.getElementById('muVal');
+  var presetRow = document.getElementById('presetRow');
+  presetRow.innerHTML='';
+  PRESETS.forEach(function(p){
+    var b = document.createElement('button');
+    b.className='preset-btn';
+    b.textContent = (lang==='en'?p.en:p.ru);
+    b.addEventListener('click', function(){
+      lagrangeSlider.value = p.logMu;
+      draw();
+    });
+    presetRow.appendChild(b);
+  });
+
+  function draw(){
+    var logMu = parseFloat(lagrangeSlider.value);
+    var mu = Math.pow(10, logMu);
+    if(mu >= 0.5) mu = 0.499;
+    var q = mu/(1-mu); // M2/M1
+
+    lagrangeMuVal.textContent = mu < 0.001 ? mu.toExponential(2) : mu.toFixed(4);
+
+    var cx=250, cy=210, Rpx=150;
+    var m1x = cx - Rpx*mu;
+    var m2x = cx + Rpx*(1-mu);
+    var r1 = Rpx*Math.cbrt(q/3);
+    var r3off = Rpx*(5*q/12);
+
+    var l1x = m2x - r1;
+    var l2x = m2x + r1;
+    var l3x = m1x - Rpx - r3off;
+    var midx = (m1x+m2x)/2;
+    var triH = Rpx*0.866;
+    var l4y = cy - triH, l5y = cy + triH;
+
+    svg.innerHTML='';
+    ns('line',{x1:20,y1:cy,x2:480,y2:cy,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 4'},svg);
+    // triangle guides
+    ns('line',{x1:m1x,y1:cy,x2:midx,y2:l4y,stroke:'#c9c9c1','stroke-width':0.8},svg);
+    ns('line',{x1:m2x,y1:cy,x2:midx,y2:l4y,stroke:'#c9c9c1','stroke-width':0.8},svg);
+    ns('line',{x1:m1x,y1:cy,x2:midx,y2:l5y,stroke:'#c9c9c1','stroke-width':0.8},svg);
+    ns('line',{x1:m2x,y1:cy,x2:midx,y2:l5y,stroke:'#c9c9c1','stroke-width':0.8},svg);
+
+    // bodies
+    var m1r = Math.max(14, Math.min(26, 26-mu*20));
+    ns('circle',{cx:m1x,cy:cy,r:m1r,fill:'#0b0b0c'},svg);
+    var m2r = Math.max(4, Math.min(14, 4+mu*22));
+    ns('circle',{cx:m2x,cy:cy,r:m2r,fill:'#0b0b0c'},svg);
+    // barycentre
+    ns('line',{x1:cx,y1:cy-6,x2:cx,y2:cy+6,stroke:'#0b0b0c','stroke-width':1},svg);
+    ns('line',{x1:cx-6,y1:cy,x2:cx+6,y2:cy,stroke:'#0b0b0c','stroke-width':1},svg);
+
+    function point(px,py,label){
+      var g = ns('g',{},svg);
+      ns('circle',{cx:px,cy:py,r:5,fill:'none',stroke:'#0b0b0c','stroke-width:1.4' in {} ? '' : '1.4'},g);
+      var c = ns('circle',{cx:px,cy:py,r:5,fill:'none',stroke:'#0b0b0c'},g);
+      c.setAttribute('stroke-width','1.4');
+      var t = ns('text',{x:px,y:py-10,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'11',fill:'#0b0b0c'},g);
+      t.textContent = label;
+    }
+    point(l1x, cy, 'L1');
+    point(l2x, cy, 'L2');
+    point(l3x, cy, 'L3');
+    point(midx, l4y, 'L4');
+    point(midx, l5y, 'L5');
+
+    // readout grid
+    var stable = mu < 0.03852;
+    var grid = document.getElementById('readoutGrid');
+    var cells = [
+      [lang==='en'?'q = M₂/M₁':'q = M₂/M₁', q<0.001? q.toExponential(2): q.toFixed(4)],
+      [lang==='en'?'r(L1,L2) / R':'r(L1,L2) / R', (r1/Rpx).toFixed(4)],
+      [lang==='en'?'L3 offset / R':'Смещение L3 / R', (r3off/Rpx).toExponential(2)],
+      [lang==='en'?'L4/L5 STATUS':'СТАТУС L4/L5', stable ? (lang==='en'?'STABLE':'УСТОЙЧИВО') : (lang==='en'?'UNSTABLE':'НЕУСТОЙЧИВО')]
+    ];
+    grid.innerHTML = cells.map(function(c){return '<div class="readout-cell"><span class="rl">'+c[0]+'</span>'+c[1]+'</div>';}).join('');
+  }
+  lagrangeSlider.addEventListener('input', draw);
+  draw();
+}
+
+/* ============ CH8 — SCHEMATIC POTENTIAL ============ */
+function renderPotential(){
+  var svg = document.getElementById('potentialSvg');
+  svg.innerHTML='';
+  var cx1=140, cx2=260, cy=160;
+  // schematic contour rings around each mass (wells)
+  [cx1,cx2].forEach(function(cx, idx){
+    var rings = idx===0 ? [14,26,40,56,74] : [8,16,26,38];
+    rings.forEach(function(r,i){
+      var c = ns('circle',{cx:cx,cy:cy,r:r,fill:'none',stroke:'#0b0b0c','stroke-width':0.8},svg);
+      c.setAttribute('opacity', 0.25+i*0.12);
+    });
+  });
+  ns('circle',{cx:cx1,cy:cy,r:6,fill:'#0b0b0c'},svg);
+  ns('circle',{cx:cx2,cy:cy,r:4,fill:'#0b0b0c'},svg);
+  // saddle markers L1 L2 L3
+  var l1x=(cx1+cx2)/2+20, l2x=cx2+40, l3x=cx1-90;
+  [[l1x,cy,'L1'],[l2x,cy,'L2'],[l3x,cy,'L3']].forEach(function(p){
+    ns('path',{d:'M '+(p[0]-8)+' '+p[1]+' L '+(p[0]+8)+' '+p[1]+' M '+p[0]+' '+(p[1]-8)+' L '+p[0]+' '+(p[1]+8), stroke:'#0b0b0c','stroke-width':1.2},svg);
+    ns('text',{x:p[0],y:p[1]-14,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'11'},svg).textContent=p[2];
+  });
+  // hilltop markers L4 L5
+  var midx=(cx1+cx2)/2, triH=(cx2-cx1)*0.866;
+  [[midx,cy-triH,'L4'],[midx,cy+triH,'L5']].forEach(function(p){
+    ns('circle',{cx:p[0],cy:p[1],r:10,fill:'none',stroke:'#0b0b0c','stroke-width':1.2,'stroke-dasharray':'2 2'},svg);
+    ns('text',{x:p[0],y:p[1]-16,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'11'},svg).textContent=p[2];
+  });
+}
+
+/* ============ CH9 — SYSTEM CARDS ============ */
+var SYSTEMS = [
+  {en:'Sun–Earth L1 / L2', ru:'Солнце–Земля L1 / L2', bEn:'≈1.5 million km from Earth. Home to SOHO, ACE, DSCOVR (L1) and Webb, Gaia, Euclid (L2).', bRu:'≈1,5 миллиона км от Земли. Здесь работают SOHO, ACE, DSCOVR (L1) и «Уэбб», Gaia, Euclid (L2).'},
+  {en:'Earth–Moon L4 / L5', ru:'Земля–Луна L4 / L5', bEn:'Stable, but host only faint, hard-to-confirm Kordylewski dust clouds — no significant natural bodies found there.', bRu:'Устойчивы, но содержат лишь слабые, трудноподтверждаемые пылевые облака Кордылевского — сколько-нибудь значимых естественных тел там не обнаружено.'},
+  {en:'Sun–Jupiter L4 / L5', ru:'Солнце–Юпитер L4 / L5', bEn:'Home to the Jupiter Trojans — over 12,000 catalogued asteroids sharing Jupiter\'s orbit, split into leading and trailing swarms.', bRu:'Здесь находятся троянцы Юпитера — свыше 12 000 каталогизированных астероидов, разделяющих орбиту Юпитера, сгруппированных в передний и задний рои.'},
+  {en:'Sun–Mars L4 / L5', ru:'Солнце–Марс L4 / L5', bEn:'A handful of confirmed Mars Trojans occupy these points — a much smaller population than Jupiter\'s.', bRu:'Несколько подтверждённых троянцев Марса занимают эти точки — гораздо меньшая по численности популяция, чем у Юпитера.'},
+  {en:'Sun–Neptune L4 / L5', ru:'Солнце–Нептун L4 / L5', bEn:'A growing catalogue of Neptune Trojans, with models suggesting the true population may rival or exceed Jupiter\'s.', bRu:'Растущий каталог троянцев Нептуна; по некоторым моделям, их истинная численность может сравниться с юпитерианской или превзойти её.'},
+  {en:'Sun–Earth L3', ru:'Солнце–Земля L3', bEn:'Empty — no natural or artificial occupants. Permanently hidden behind the Sun, and famous only in fiction.', bRu:'Пуста — ни естественных, ни искусственных «жильцов». Постоянно скрыта за Солнцем, известна лишь по художественной литературе.'}
+];
+function renderSystems(){
+  var wrap = document.getElementById('systemCards');
+  wrap.innerHTML='';
+  SYSTEMS.forEach(function(s){
+    var card = document.createElement('div');
+    card.className='velocity-card';
+    card.innerHTML = '<span class="vnum">'+(lang==='en'?s.en:s.ru)+'</span><p>'+(lang==='en'?s.bEn:s.bRu)+'</p>';
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — MISSIONS TIMELINE ============ */
+var MISSIONS = [
+  {y:1978, tEn:'ISEE-3', tRu:'ISEE-3', dEn:'The first spacecraft ever to use a Lagrange point, entering a halo orbit at Sun–Earth L1 to study the solar wind before its later comet-flyby extension.', dRu:'Первый аппарат, когда-либо использовавший точку Лагранжа, — вышел на гало-орбиту вокруг точки L1 системы Солнце — Земля для изучения солнечного ветра, а позже был направлен к комете.'},
+  {y:1995, tEn:'SOHO', tRu:'SOHO', dEn:'Has watched the Sun continuously from L1 since 1995, becoming one of the most scientifically productive missions in history.', dRu:'Непрерывно наблюдает за Солнцем из точки L1 с 1995 года, став одной из самых научно продуктивных миссий в истории.'},
+  {y:2001, tEn:'WMAP', tRu:'WMAP', dEn:'Moved to L2 to map the cosmic microwave background with minimal interference from the Sun, Earth, and Moon.', dRu:'Была направлена в точку L2 для картирования реликтового излучения с минимальными помехами от Солнца, Земли и Луны.'},
+  {y:2009, tEn:'Herschel &amp; Planck', tRu:'«Гершель» и «Планк»', dEn:'Two European observatories shared L2, studying infrared light and the cosmic microwave background respectively.', dRu:'Две европейские обсерватории делили точку L2, изучая соответственно инфракрасный свет и реликтовое излучение.'},
+  {y:2013, tEn:'Gaia', tRu:'Gaia', dEn:'Mapping the precise positions of over a billion stars from L2, building the most detailed 3D map of the Milky Way ever made.', dRu:'Картирует точные положения свыше миллиарда звёзд из точки L2, создавая самую подробную трёхмерную карту Млечного Пути.'},
+  {y:2021, tEn:'James Webb', tRu:'«Джеймс Уэбб»', dEn:'The largest and most complex spacecraft ever sent to L2, requiring a sunshield the size of a tennis court to stay cold enough to operate.', dRu:'Крупнейший и самый сложный аппарат, когда-либо отправлявшийся в точку L2, — ему требуется солнцезащитный экран размером с теннисный корт, чтобы оставаться достаточно холодным для работы.'}
+];
+function renderMissions(){
+  var events = document.getElementById('missionEvents');
+  var detail = document.getElementById('missionDetail');
+  events.innerHTML='';
+  MISSIONS.forEach(function(ev,i){
+    var wrap = document.createElement('div');
+    wrap.style.position='relative'; wrap.style.flex='1'; wrap.style.display='flex'; wrap.style.justifyContent='center';
+    var dot = document.createElement('div');
+    dot.className='mt-dot'+(i===0?' active':'');
+    var yr = document.createElement('div');
+    yr.className='mt-year'; yr.textContent=ev.y;
+    wrap.appendChild(dot); wrap.appendChild(yr);
+    dot.addEventListener('click', function(){ selectMission(i); });
+    events.appendChild(wrap);
+  });
+  function selectMission(i){
+    events.querySelectorAll('.mt-dot').forEach(function(d,j){ d.classList.toggle('active', j===i); });
+    var ev = MISSIONS[i];
+    detail.innerHTML = '<div class="mt-y">'+(lang==='en'?ev.tEn:ev.tRu)+'</div><div class="mt-t">'+ev.y+'</div><p style="font-size:14.5px;">'+(lang==='en'?ev.dEn:ev.dRu)+'</p>';
+  }
+  selectMission(0);
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderLagrangeExplorer();
+  renderPotential();
+  renderSystems();
+  renderMissions();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>

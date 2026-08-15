@@ -1,15 +1,8 @@
-
-Explore the distinction between:
-
-```text
 TIME AS A LINE
 
 PAST ───────── PRESENT ───────── FUTURE
 ```
 
-and:
-
-```text
 TIME AS A STRUCTURE
 
         FUTURE
@@ -21,17 +14,8 @@ PAST ─── EVENT ─── POSSIBILITY
        MEMORY
 ```
 
-the metaphor of a coordinate system.
-
-Instead of:
-
-```text
-PAST → PRESENT → FUTURE
-```
 
 consider:
-
-```text
              POSSIBILITY
                   ↑
                   |
@@ -40,15 +24,44 @@ MEMORY ←──── PRESENT ────→ ACTION
                   ↓
              CONSTRAINT
 ```
-
-Example:
-
-```text
                  FUTURE STATE A
                 /
 PRESENT ───────●────── FUTURE STATE B
                 \
                  \
                   FUTURE STATE C
+
+                  Time is not:
+
+Or Time as a Cicle
+
+        ↑
+        │
+    Future
+        │
+        │
+Present ◄──► Cycles
+        │
+        │
+      Past
+        │
+        ▼
+
+Everything returns,
+but never in exactly the same form.
+
+           COSMOS
+              ◉
+           ↗     ↖
+        Creation  Return
+          ↘       ↙
+             Human
+            Experience
+          ↗         ↖
+      Birth       Death
+          ↘       ↙
+             Renewal
+
+        (cycle repeats)
 ```
 

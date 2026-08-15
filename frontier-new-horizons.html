@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRONTIER — NEW HORIZONS &amp; THE KUIPER BELT / «НОВЫЕ ГОРИЗОНТЫ» И ПОЯС КОЙПЕРА</title>
+<meta name="description" content="An interactive engineering-style journey through New Horizons, Pluto, and the Kuiper Belt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+.notice{font-family:var(--font-mono); font-size:12px; color:var(--mid); border:1px dashed var(--line); padding:10px 14px; margin-bottom:32px; max-width:640px;}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-viewport{width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto;}
+.sim-controls{margin-top:20px;}
+.sim-controls input[type=range]{width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:18px 0 8px;}
+.sim-controls input[type=range]::-webkit-slider-thumb{appearance:none; width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-controls input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-readout{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:13px;}
+.sim-verdict{margin-top:16px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:13px; min-height:20px;}
+
+.velocity-card{background:var(--white); padding:24px; display:flex; flex-direction:column; gap:10px;}
+.velocity-card .vnum{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.velocity-card .vval{font-family:var(--font-display); font-size:1.7rem;}
+.velocity-card .vbar-track{height:6px; background:var(--paper); border:1px solid var(--ink); position:relative; margin-top:6px;}
+.velocity-card .vbar-fill{height:100%; background:var(--ink);}
+.velocity-card p{font-size:13px; color:#333;}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:10px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.6rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">FRONTIER — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">DIST</span><span id="hud-alt">1 AU</span></div>
+  <div class="hud-row"><span class="hud-label">VEL</span><span id="hud-vel">0.00 KM/S</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="1 AU" data-vel="0.00 KM/S" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — THE FASTEST SPACECRAFT EVER LAUNCHED" data-ru="РИС. 00 — САМЫЙ БЫСТРЫЙ АППАРАТ ИЗ КОГДА-ЛИБО ЗАПУЩЕННЫХ">FIG. 00 — THE FASTEST SPACECRAFT EVER LAUNCHED</span>
+        <span data-en="2006 → PRESENT" data-ru="2006 → НАСТОЯЩЕЕ ВРЕМЯ">2006 → PRESENT</span>
+      </div>
+      <h1><span data-en="FRONTIER" data-ru="РУБЕЖ">FRONTIER</span><br><em data-en="A FIELD GUIDE TO NEW HORIZONS &amp; THE KUIPER BELT" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО «НОВЫМ ГОРИЗОНТАМ» И ПОЯСУ КОЙПЕРА">A FIELD GUIDE TO NEW HORIZONS &amp; THE KUIPER BELT</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the piano-sized probe that left Earth faster than anything before it, spent nine years reaching a world it beat to the punch by weeks, and is now the only spacecraft ever to fly close past two different frontiers of the Solar System. Scroll to begin the mission." data-ru="Десять глав о зонде размером с рояль, покинувшем Землю быстрее всего, что летало до него, потратившем девять лет на достижение мира, который сам едва не опередил, — и ставшем единственным аппаратом, пролетевшим вблизи сразу двух разных рубежей Солнечной системы. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the piano-sized probe that left Earth faster than anything before it, spent nine years reaching a world it beat to the punch by weeks, and is now the only spacecraft ever to fly close past two different frontiers of the Solar System. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — FASTEST LAUNCH -->
+<section id="ch1" class="section" data-phase="FASTEST LAUNCH EVER" data-alt="1 AU" data-vel="16.26 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="THE FASTEST LAUNCH EVER" data-ru="САМЫЙ БЫСТРЫЙ СТАРТ В ИСТОРИИ">THE FASTEST LAUNCH EVER</span></div>
+    <h2 class="h-lg" data-en="No time to loop around Earth first" data-ru="Некогда было даже облететь Землю">No time to loop around Earth first</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Most interplanetary probes first settle into a parking orbit around Earth before firing toward their target. New Horizons skipped that step entirely — a triple-stage Atlas V plus an extra solid kick motor threw it directly onto a Jupiter-bound trajectory, leaving Earth at roughly 16.26 km/s, faster than any spacecraft launched before or since." data-ru="Большинство межпланетных зондов сначала выходят на опорную околоземную орбиту, прежде чем разгоняться к цели. «Новые горизонты» полностью пропустили этот этап — трёхступенчатый «Атлас V» с дополнительным твердотопливным разгонным блоком сразу вывел аппарат на траекторию к Юпитеру, и он покинул Землю со скоростью около 16,26 км/с — быстрее любого аппарата, запущенного до или после него.">Most interplanetary probes first settle into a parking orbit around Earth before firing toward their target. New Horizons skipped that step entirely — a triple-stage Atlas V plus an extra solid kick motor threw it directly onto a Jupiter-bound trajectory, leaving Earth at roughly 16.26 km/s, faster than any spacecraft launched before or since.</p>
+      <p class="body-col" data-en="It reached the Moon's orbital distance in just nine hours — a trip that took Apollo crews three days." data-ru="До расстояния лунной орбиты аппарат долетел всего за девять часов — путь, на который у экипажей «Аполлона» уходило трое суток.">It reached the Moon's orbital distance in just nine hours — a trip that took Apollo crews three days.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — WHY PLUTO TOOK SO LONG -->
+<section id="ch2" class="section" data-phase="MISSION APPROVAL" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="WHY PLUTO TOOK SO LONG" data-ru="ПОЧЕМУ К ПЛУТОНУ ШЛИ ТАК ДОЛГО">WHY PLUTO TOOK SO LONG</span></div>
+    <h2 class="h-lg" data-en="Seventeen years of campaigning" data-ru="Семнадцать лет борьбы за миссию">Seventeen years of campaigning</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="A small group of self-described \"Plutophiles\" began pushing for a Pluto mission in 1989. Proposals were cancelled, revived, and redesigned for over a decade before New Horizons finally launched on January 19, 2006 — completing the reconnaissance of every classical planet exactly fifty years after the Space Age began." data-ru="Небольшая группа энтузиастов, называвших себя «плутофилами», начала добиваться миссии к Плутону ещё в 1989 году. Проекты отменяли, возрождали и перерабатывали больше десяти лет, прежде чем «Новые горизонты» наконец стартовали 19 января 2006 года — завершив разведку всех классических планет ровно через пятьдесят лет после начала космической эры.">A small group of self-described "Plutophiles" began pushing for a Pluto mission in 1989. Proposals were cancelled, revived, and redesigned for over a decade before New Horizons finally launched on January 19, 2006 — completing the reconnaissance of every classical planet exactly fifty years after the Space Age began.</p>
+    <p class="body-col" data-en="Eight months later, the International Astronomical Union reclassified Pluto as a dwarf planet — the probe had launched to visit a planet and would arrive at something the textbooks had already redefined." data-ru="Восемь месяцев спустя Международный астрономический союз переклассифицировал Плутон в карликовую планету — зонд стартовал к планете, а прибыть должен был уже к объекту, который учебники успели переопределить.">Eight months later, the International Astronomical Union reclassified Pluto as a dwarf planet — the probe had launched to visit a planet and would arrive at something the textbooks had already redefined.</p>
+  </div>
+</section>
+
+<!-- CH3 — JUPITER SLINGSHOT -->
+<section id="ch3" class="section" data-phase="JUPITER GRAVITY ASSIST" data-alt="~5.2 AU" data-vel="~23 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="THE JUPITER SLINGSHOT" data-ru="ГРАВИТАЦИОННЫЙ МАНЁВР У ЮПИТЕРА">THE JUPITER SLINGSHOT</span></div>
+    <h2 class="h-lg" data-en="A free boost, four years saved" data-ru="Бесплатное ускорение, четыре года экономии">A free boost, four years saved</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On February 28, 2007, New Horizons swung past Jupiter, borrowing enough of the planet's orbital momentum to add roughly 4 km/s to its speed — cutting three to four years off the trip to Pluto compared to a direct flight." data-ru="28 февраля 2007 года «Новые горизонты» пролетели мимо Юпитера, позаимствовав достаточно орбитального момента планеты, чтобы добавить к своей скорости около 4 км/с, — это сократило перелёт к Плутону на три-четыре года по сравнению с прямым полётом.">On February 28, 2007, New Horizons swung past Jupiter, borrowing enough of the planet's orbital momentum to add roughly 4 km/s to its speed — cutting three to four years off the trip to Pluto compared to a direct flight.</p>
+      <p class="body-col" data-en="The flyby doubled as a dress rehearsal, returning detailed images of Jupiter's moons Io, Europa, and Ganymede — including active volcanic plumes on Io — while every instrument was tested for the encounter still nine years away." data-ru="Пролёт заодно стал генеральной репетицией: аппарат передал подробные снимки спутников Юпитера — Ио, Европы и Ганимеда, включая действующие вулканические выбросы на Ио, — а заодно проверил все приборы перед встречей, до которой оставалось ещё девять лет.">The flyby doubled as a dress rehearsal, returning detailed images of Jupiter's moons Io, Europa, and Ganymede — including active volcanic plumes on Io — while every instrument was tested for the encounter still nine years away.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — SPACECRAFT ANATOMY -->
+<section id="ch4" class="section" data-phase="SPACECRAFT ANATOMY" data-alt="VARIES" data-vel="~16 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="ANATOMY OF NEW HORIZONS" data-ru="УСТРОЙСТВО «НОВЫХ ГОРИЗОНТОВ»">ANATOMY OF NEW HORIZONS</span></div>
+    <h2 class="h-lg" data-en="A piano-sized probe, taken apart" data-ru="Зонд размером с рояль — по частям">A piano-sized probe, taken apart</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="At roughly the size and mass of a grand piano, New Horizons is small and simple by deep-space standards — every gram had to earn its place on a nine-year, one-shot mission. Select a component." data-ru="Размером и массой примерно с рояль, «Новые горизонты» — небольшой и простой по меркам дальнего космоса аппарат: каждый грамм должен был оправдывать своё место в девятилетней миссии, не оставлявшей права на ошибку. Выберите компонент.">At roughly the size and mass of a grand piano, New Horizons is small and simple by deep-space standards — every gram had to earn its place on a nine-year, one-shot mission. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="probeSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="probePanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — NINE YEARS TO PLUTO -->
+<section id="ch5" class="section" data-phase="NINE-YEAR CRUISE" data-alt="→39 AU" data-vel="~16 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="NINE YEARS TO PLUTO" data-ru="ДЕВЯТЬ ЛЕТ ДО ПЛУТОНА">NINE YEARS TO PLUTO</span></div>
+    <h2 class="h-lg" data-en="Mostly asleep for the ride" data-ru="Большую часть пути — во сне">Mostly asleep for the ride</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="With nothing to observe in the long empty stretch between Jupiter and Pluto, New Horizons spent roughly two-thirds of the cruise in hibernation — powered down to save wear on its electronics and simplify operations for a small ground team. Scrub through the timeline." data-ru="Поскольку на долгом пустом участке между Юпитером и Плутоном наблюдать было нечего, «Новые горизонты» провели примерно две трети перелёта в спящем режиме — с отключённым питанием, чтобы поберечь электронику и упростить работу небольшой наземной команды. Пролистайте хронологию.">With nothing to observe in the long empty stretch between Jupiter and Pluto, New Horizons spent roughly two-thirds of the cruise in hibernation — powered down to save wear on its electronics and simplify operations for a small ground team. Scrub through the timeline.</p>
+    <div class="mir-timeline">
+      <div class="mt-track"></div>
+      <div class="mt-events" id="cruiseEvents"></div>
+      <div class="mt-detail corner-frame" id="cruiseDetail"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — PLUTO SYSTEM -->
+<section id="ch6" class="section" data-phase="PLUTO FLYBY" data-alt="39 AU" data-vel="~14 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="THE PLUTO SYSTEM UP CLOSE" data-ru="СИСТЕМА ПЛУТОНА ВБЛИЗИ">THE PLUTO SYSTEM UP CLOSE</span></div>
+    <h2 class="h-lg" data-en="A blurry dot becomes a world" data-ru="Размытая точка становится миром">A blurry dot becomes a world</h2>
+    <div id="plutoList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH7 — ARROKOTH -->
+<section id="ch7" class="section" data-phase="ARROKOTH FLYBY" data-alt="43 AU" data-vel="~14 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="DEEPER INTO THE KUIPER BELT" data-ru="ГЛУБЖЕ В ПОЯС КОЙПЕРА">DEEPER INTO THE KUIPER BELT</span></div>
+    <h2 class="h-lg" data-en="The most distant object ever visited" data-ru="Самый далёкий объект, когда-либо посещённый">The most distant object ever visited</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On January 1, 2019, New Horizons flew past Arrokoth, a small Kuiper Belt object discovered specifically as a target for this extended mission. It turned out to be a contact binary — two lobes gently fused together — a shape that had never been seen up close and preserved almost exactly as it formed 4.5 billion years ago." data-ru="1 января 2019 года «Новые горизонты» пролетели мимо Аррокота — небольшого объекта пояса Койпера, обнаруженного специально как цель для этой продлённой миссии. Аррокот оказался контактной двойной системой — двумя мягко сросшимися лопастями, — формой, которую прежде никогда не видели вблизи и которая сохранилась почти в точности такой, какой сформировалась 4,5 миллиарда лет назад.">On January 1, 2019, New Horizons flew past Arrokoth, a small Kuiper Belt object discovered specifically as a target for this extended mission. It turned out to be a contact binary — two lobes gently fused together — a shape that had never been seen up close and preserved almost exactly as it formed 4.5 billion years ago.</p>
+      <p class="body-col" data-en="Because Kuiper Belt objects orbit too far from the Sun to have been much altered by heat or collisions, Arrokoth offered something Pluto couldn't: a near-pristine sample of the material the whole Solar System was built from." data-ru="Поскольку объекты пояса Койпера обращаются слишком далеко от Солнца, чтобы сильно измениться от тепла или столкновений, Аррокот дал то, чего не мог дать Плутон, — почти нетронутый образец материала, из которого была построена вся Солнечная система.">Because Kuiper Belt objects orbit too far from the Sun to have been much altered by heat or collisions, Arrokoth offered something Pluto couldn't: a near-pristine sample of the material the whole Solar System was built from.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — WHERE IT IS NOW -->
+<section id="ch8" class="section" data-phase="CURRENT POSITION" data-alt="~63 AU" data-vel="~14 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="WHERE NEW HORIZONS IS NOW" data-ru="ГДЕ СЕЙЧАС «НОВЫЕ ГОРИЗОНТЫ»">WHERE NEW HORIZONS IS NOW</span></div>
+    <h2 class="h-lg" data-en="Awake, healthy, and still transmitting" data-ru="Активен, исправен и всё ещё передаёт данные">Awake, healthy, and still transmitting</h2>
+    <p class="lede" data-en="Figures below are current to mid-2026 and illustrative — hibernation cycles and exact distances shift as the mission continues." data-ru="Приведённые ниже данные актуальны на середину 2026 года и носят ориентировочный характер — циклы гибернации и точные расстояния меняются по мере продолжения миссии.">Figures below are current to mid-2026 and illustrative — hibernation cycles and exact distances shift as the mission continues.</p>
+    <div class="dash-grid" id="statusGrid"></div>
+  </div>
+</section>
+
+<!-- CH9 — WHAT'S LEFT -->
+<section id="ch9" class="section" data-phase="EXTENDED MISSION" data-alt="54–75 AU" data-vel="~14 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="WHAT'S LEFT TO EXPLORE" data-ru="ЧТО ЕЩЁ ПРЕДСТОИТ ИССЛЕДОВАТЬ">WHAT'S LEFT TO EXPLORE</span></div>
+    <h2 class="h-lg" data-en="The Solar System's third zone" data-ru="Третья зона Солнечной системы">The Solar System's third zone</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="New Horizons was the first mission built specifically for what scientists call the \"third zone\" — beyond the rocky planets, beyond the gas giants, out in the Kuiper Belt itself. There's a lot of it left to see." data-ru="«Новые горизонты» стали первой миссией, построенной специально для того, что учёные называют «третьей зоной», — за пределами каменистых планет, за газовыми гигантами, в самом поясе Койпера. Увидеть предстоит ещё немало.">New Horizons was the first mission built specifically for what scientists call the "third zone" — beyond the rocky planets, beyond the gas giants, out in the Kuiper Belt itself. There's a lot of it left to see.</p>
+    <div id="nextList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="Completing what Voyager started" data-ru="Завершая то, что начал «Вояджер»">Completing what Voyager started</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Voyager passed through the outer planets on its way out of the Solar System. New Horizons was built to stop and look — the first mission with the whole Kuiper Belt as its actual destination, not just something to fly through on the way to somewhere else." data-ru="«Вояджер» проходил мимо внешних планет на пути прочь из Солнечной системы. «Новые горизонты» же были построены, чтобы остановиться и присмотреться, — первая миссия, для которой весь пояс Койпера стал настоящей целью, а не просто пространством, которое нужно пролететь по дороге куда-то ещё.">Voyager passed through the outer planets on its way out of the Solar System. New Horizons was built to stop and look — the first mission with the whole Kuiper Belt as its actual destination, not just something to fly through on the way to somewhere else.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="FRONTIER — A FIELD GUIDE TO NEW HORIZONS &amp; THE KUIPER BELT" data-ru="FRONTIER — ПОЛЕВОЙ СПРАВОЧНИК ПО «НОВЫМ ГОРИЗОНТАМ» И ПОЯСУ КОЙПЕРА">FRONTIER — A FIELD GUIDE TO NEW HORIZONS &amp; THE KUIPER BELT</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH4 — SPACECRAFT SCHEMATIC ============ */
+var PROBE_PARTS = [
+  {id:'rtg', en:'RTG Power Unit', ru:'Блок РИТЭГ', cEn:'1x radioisotope generator', cRu:'1 радиоизотопный генератор', x:520, y:150, w:150, h:34,
+   dEn:'A single plutonium-238 generator on a boom, producing about 245 watts at launch — enough to run the whole spacecraft on roughly the power of a household hair dryer.', dRu:'Единственный генератор на плутонии-238 на выносной штанге, дававший при запуске около 245 ватт — этого хватает для питания всего аппарата, что примерно соответствует мощности бытового фена.'},
+  {id:'lorri', en:'LORRI Camera', ru:'Камера LORRI', cEn:'Long Range Reconnaissance Imager', cRu:'Аппарат дальней разведочной съёмки', x:280, y:110, w:150, h:34,
+   dEn:'A telescopic camera that captured the sharpest long-range images of both Pluto and Arrokoth, resolving detail years before either target was more than a dot.', dRu:'Телескопическая камера, сделавшая самые чёткие дальние снимки и Плутона, и Аррокота, различавшая детали за годы до того, как обе цели переставали быть точками.'},
+  {id:'ralph', en:'Ralph Instrument', ru:'Прибор Ralph', cEn:'Colour imager + infrared spectrometer', cRu:'Цветная камера и ИК-спектрометр', x:280, y:210, w:150, h:34,
+   dEn:'Mapped surface composition and colour across Pluto, Charon, and Arrokoth, identifying ices of nitrogen, methane, and carbon monoxide.', dRu:'Картировал состав и цвет поверхности Плутона, Харона и Аррокота, выявив льды азота, метана и угарного газа.'},
+  {id:'antenna5', en:'High-Gain Antenna', ru:'Остронаправленная антенна', cEn:'2.1 m dish', cRu:'Тарелка диаметром 2,1 м', x:60, y:150, w:150, h:34,
+   dEn:'Keeps a faint signal detectable across billions of kilometres — a round trip to Earth from beyond Pluto takes roughly nine hours.', dRu:'Обеспечивает различимость слабого сигнала на расстоянии в миллиарды километров — сигнал от аппарата за орбитой Плутона идёт до Земли и обратно около девяти часов.'},
+  {id:'alice2', en:'Alice Spectrometer', ru:'Спектрометр Alice', cEn:'Ultraviolet imaging spectrograph', cRu:'УФ-спектрограф', x:460, y:210, w:150, h:34,
+   dEn:'Analysed Pluto\'s thin, hazy nitrogen atmosphere, tracing how it escapes into space and interacts with sunlight.', dRu:'Анализировал разрежённую, дымчатую азотную атмосферу Плутона, отслеживая, как она рассеивается в космос и взаимодействует с солнечным светом.'}
+];
+function renderProbe(){
+  var svg = document.getElementById('probeSvg');
+  var panel = document.getElementById('probePanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  PROBE_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, PROBE_PARTS, m.id); });
+  });
+  selectPart(svg, panel, PROBE_PARTS, PROBE_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH5 — CRUISE TIMELINE ============ */
+var CRUISE_EVENTS = [
+  {y:'2006', crisis:false, tEn:'Launch', tRu:'Запуск', dEn:'New Horizons launches January 19 on an Atlas V, immediately breaking every prior spacecraft launch-speed record.', dRu:'19 января «Новые горизонты» стартуют на ракете «Атлас V», немедленно побив все прежние рекорды скорости запуска.'},
+  {y:'2007', crisis:false, tEn:'Jupiter Flyby', tRu:'Пролёт Юпитера', dEn:'A gravity assist on February 28 adds speed and doubles as an instrument test, returning detailed images of Jupiter\'s moons.', dRu:'28 февраля гравитационный манёвр добавляет скорость и заодно служит проверкой приборов, дав подробные снимки спутников Юпитера.'},
+  {y:'2007–14', crisis:false, tEn:'Hibernation Cruise', tRu:'Спящий перелёт', dEn:'New Horizons spends roughly two-thirds of the seven-year gap between Jupiter and Pluto powered down, waking periodically for health checks.', dRu:'На протяжении примерно двух третей семилетнего перелёта между Юпитером и Плутоном «Новые горизонты» находятся в спящем режиме, периодически просыпаясь для проверки состояния систем.'},
+  {y:'2015', crisis:true, tEn:'Pluto Flyby', tRu:'Пролёт Плутона', dEn:'On July 14, New Horizons passes within 12,500 km of Pluto\'s surface — the only close flyby of the dwarf planet ever attempted.', dRu:'14 июля «Новые горизонты» проходят на расстоянии 12 500 км от поверхности Плутона — единственный в истории близкий пролёт карликовой планеты.'},
+  {y:'2019', crisis:false, tEn:'Arrokoth Flyby', tRu:'Пролёт Аррокота', dEn:'On January 1, New Horizons flies past Arrokoth — the most distant object ever explored up close, over 6.6 billion km from Earth.', dRu:'1 января «Новые горизонты» пролетают мимо Аррокота — самого далёкого объекта, когда-либо исследованного вблизи, на расстоянии свыше 6,6 миллиарда км от Земли.'}
+];
+function renderCruise(){
+  var events = document.getElementById('cruiseEvents');
+  var detail = document.getElementById('cruiseDetail');
+  events.innerHTML='';
+  CRUISE_EVENTS.forEach(function(ev,i){
+    var wrap = document.createElement('div');
+    wrap.style.position='relative'; wrap.style.flex='1'; wrap.style.display='flex'; wrap.style.justifyContent='center';
+    var dot = document.createElement('div');
+    dot.className='mt-dot'+(ev.crisis?' crisis':'')+(i===0?' active':'');
+    var yr = document.createElement('div');
+    yr.className='mt-year'; yr.textContent=ev.y;
+    wrap.appendChild(dot); wrap.appendChild(yr);
+    dot.addEventListener('click', function(){ selectCruise(i); });
+    events.appendChild(wrap);
+  });
+  function selectCruise(i){
+    events.querySelectorAll('.mt-dot').forEach(function(d,j){ d.classList.toggle('active', j===i); });
+    var ev = CRUISE_EVENTS[i];
+    detail.innerHTML = '<div class="mt-y">'+(lang==='en'?ev.tEn:ev.tRu)+'</div><div class="mt-t">'+ev.y+'</div><p style="font-size:14.5px;">'+(lang==='en'?ev.dEn:ev.dRu)+'</p>';
+  }
+  selectCruise(0);
+}
+
+/* ============ CH6 — PLUTO FINDINGS ============ */
+var PLUTO_FINDINGS = [
+  {en:'Sputnik Planitia', ru:'Равнина Спутник',
+   bEn:'A vast, heart-shaped plain of frozen nitrogen, its surface split into cells by slow convection — proof Pluto is still geologically active despite its distance from the Sun.', bRu:'Обширная равнина замёрзшего азота в форме сердца, поверхность которой разбита на ячейки медленной конвекцией — доказательство того, что Плутон до сих пор геологически активен, несмотря на удалённость от Солнца.'},
+  {en:'Mountains of water ice', ru:'Горы из водяного льда',
+   bEn:'Ranges up to 3,500 metres tall, made of water ice hard as rock at Pluto\'s temperatures, rising unexpectedly from a world many assumed would be geologically dead.', bRu:'Хребты высотой до 3500 метров, сложенные водяным льдом, твёрдым как камень при температурах Плутона, — неожиданно поднимающиеся на мире, который многие считали геологически мёртвым.'},
+  {en:'A hazy blue atmosphere', ru:'Дымчатая голубая атмосфера',
+   bEn:'Backlit images revealed dozens of distinct haze layers extending high above the surface, scattering sunlight blue in a way no one had predicted.', bRu:'Снимки в контровом свете выявили десятки отдельных дымчатых слоёв, простирающихся высоко над поверхностью и рассеивающих солнечный свет с голубым оттенком, которого никто не предсказывал.'},
+  {en:'Charon\'s canyon system', ru:'Каньоны Харона',
+   bEn:'Pluto\'s largest moon turned out to have a belt of canyons deeper than the Grand Canyon, alongside a mysterious dark red polar cap.', bRu:'У крупнейшего спутника Плутона обнаружился пояс каньонов глубже Гранд-Каньона, а также загадочная тёмно-красная полярная шапка.'}
+];
+function renderPluto(){
+  var wrap = document.getElementById('plutoList');
+  wrap.innerHTML='';
+  PLUTO_FINDINGS.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH8 — STATUS DASHBOARD ============ */
+function renderStatus(){
+  var wrap = document.getElementById('statusGrid');
+  wrap.innerHTML='';
+  var data = [
+    {en:'Spacecraft Health', ru:'Состояние аппарата', statusEn:'HEALTHY', statusRu:'ИСПРАВЕН', dead:false,
+     rows:[{lEn:'DISTANCE FROM EARTH', lRu:'РАССТОЯНИЕ ОТ ЗЕМЛИ', v:'~9.5 billion km (~63 AU)'},{lEn:'LAST HIBERNATION', lRu:'ПОСЛЕДНЯЯ ГИБЕРНАЦИЯ', v:'321 days, woke June 2026'},{lEn:'SIGNAL DELAY', lRu:'ЗАДЕРЖКА СИГНАЛА', v:'~8 hr 52 min one-way'}]},
+    {en:'Extended Mission', ru:'Продлённая миссия', statusEn:'ACTIVE THROUGH ~2029', statusRu:'АКТИВНА ПРИМЕРНО ДО 2029', dead:false,
+     rows:[{lEn:'CURRENT PHASE', lRu:'ТЕКУЩАЯ ФАЗА', v:'Kuiper Belt Extended Mission 2'},{lEn:'RANGE', lRu:'ДИАПАЗОН', v:'54–75 AU from the Sun'},{lEn:'GOAL', lRu:'ЦЕЛЬ', v:'Heliophysics data, search for next KBO target'}]}
+  ];
+  data.forEach(function(d){
+    var card = document.createElement('div');
+    card.className='dash-card';
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+r.v+'</span></div>'; }).join('');
+    card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span><span class="dc-status">'+(lang==='en'?d.statusEn:d.statusRu)+'</span></div>'+rowsHtml;
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH9 — WHAT'S LEFT ============ */
+var NEXT = [
+  {en:'A possible second KBO target', ru:'Возможная вторая цель среди объектов пояса Койпера',
+   bEn:'Mission scientists continue searching, using ground- and space-based telescopes, for another Kuiper Belt object New Horizons could reach with its remaining fuel.', bRu:'Учёные миссии продолжают поиск, используя наземные и космические телескопы, ещё одного объекта пояса Койпера, который «Новые горизонты» могли бы достичь с оставшимся запасом топлива.'},
+  {en:'Heliosphere science from a unique vantage point', ru:'Наука о гелиосфере с уникальной точки наблюдения',
+   bEn:'From deep in the Kuiper Belt, New Horizons measures the solar wind, interplanetary dust, and cosmic rays from a distance ground telescopes and near-Earth spacecraft simply can\'t match.', bRu:'Из глубины пояса Койпера «Новые горизонты» измеряют солнечный ветер, межпланетную пыль и космические лучи с расстояния, недостижимого для наземных телескопов и околоземных аппаратов.'},
+  {en:'Power to spare into the 2030s', ru:'Запас энергии до 2030-х годов',
+   bEn:'The mission\'s principal investigator has estimated the RTG could keep supplying enough power for operations into the next decade, if funding continues.', bRu:'По оценке главного исследователя миссии, РИТЭГ способен обеспечивать работу аппарата ещё на протяжении следующего десятилетия — при условии продолжения финансирования.'},
+  {en:'The exit from the Kuiper Belt', ru:'Выход из пояса Койпера',
+   bEn:'New Horizons is expected to cross the outer edge of the Kuiper Belt around 2028 or 2029, opening the question of what its mission becomes next.', bRu:'Ожидается, что «Новые горизонты» пересекут внешнюю границу пояса Койпера примерно в 2028–2029 годах, открывая вопрос о том, чем станет миссия дальше.'}
+];
+function renderNext(){
+  var wrap = document.getElementById('nextList');
+  wrap.innerHTML='';
+  NEXT.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1972–73', en:'Pioneer 10 &amp; 11', ru:'«Пионер-10» и «Пионер-11»', noteEn:'First through the asteroid belt', noteRu:'Первые пересекли пояс астероидов', h:24},
+  {y:'1977', en:'Voyager 1 &amp; 2', ru:'«Вояджер-1» и «Вояджер-2»', noteEn:'Grand Tour of the outer planets', noteRu:'Большое путешествие по внешним планетам', h:34},
+  {y:'2006', en:'New Horizons', ru:'«Новые горизонты»', noteEn:'First dedicated Kuiper Belt mission', noteRu:'Первая миссия, посвящённая поясу Койпера', h:42},
+  {y:'2028+', en:'Kuiper Belt Exit', ru:'Выход из пояса Койпера', noteEn:'Mission\'s next chapter, still open', noteRu:'Следующая глава миссии, пока открыта', h:28},
+  {y:'Future', en:'Interstellar Probe Concepts', ru:'Проекты межзвёздных зондов', noteEn:'Proposed successor missions', noteRu:'Предлагаемые миссии-преемники', h:36}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderProbe();
+  renderCruise();
+  renderPluto();
+  renderStatus();
+  renderNext();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
