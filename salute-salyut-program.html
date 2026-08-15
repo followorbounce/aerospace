@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SALUTE — THE SALYUT PROGRAM / ПРОГРАММА «САЛЮТ»</title>
+<meta name="description" content="An interactive engineering-style journey through the Soviet Salyut space station program.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:9.5px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.5rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.stage-btn{font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.04em; border:1px solid var(--ink); background:var(--paper); padding:9px 14px;}
+.stage-btn.active{background:var(--ink); color:var(--white);}
+.stage-row{display:flex; justify-content:center; gap:8px; margin-top:20px; flex-wrap:wrap;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-viewport{width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto;}
+.sim-verdict{margin-top:16px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:13px; min-height:20px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">SALUTE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">ALT</span><span id="hud-alt">0 KM</span></div>
+  <div class="hud-row"><span class="hud-label">VEL</span><span id="hud-vel">0.00 KM/S</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="0 KM" data-vel="0.00 KM/S" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — SEVEN STATIONS, ONE COVER NAME" data-ru="РИС. 00 — СЕМЬ СТАНЦИЙ, ОДНО ПРИКРЫТИЕ">FIG. 00 — SEVEN STATIONS, ONE COVER NAME</span>
+        <span data-en="1971 → 1991" data-ru="1971 → 1991">1971 → 1991</span>
+      </div>
+      <h1><span data-en="SALUTE" data-ru="САЛЮТ">SALUTE</span><br><em data-en="A FIELD GUIDE TO THE SALYUT PROGRAM" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «САЛЮТ»">A FIELD GUIDE TO THE SALYUT PROGRAM</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the name the Soviet Union gave to two entirely different station programs at once — one civilian, one military — that survived a launch-day tragedy, a dead station brought back from the frozen dark, and became the direct ancestor of Mir and the ISS. Scroll to begin the mission." data-ru="Десять глав об имени, которое Советский Союз одновременно дал двум совершенно разным программам станций — гражданской и военной, — переживших трагедию в день старта, мёртвую станцию, оживлённую из ледяной темноты, и ставших прямыми предками «Мира» и МКС. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the name the Soviet Union gave to two entirely different station programs at once — one civilian, one military — that survived a launch-day tragedy, a dead station brought back from the frozen dark, and became the direct ancestor of Mir and the ISS. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — TWO PROGRAMS, ONE NAME -->
+<section id="ch1" class="section" data-phase="TWO PROGRAMS, ONE NAME" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="TWO PROGRAMS WEARING ONE NAME" data-ru="ДВЕ ПРОГРАММЫ ПОД ОДНИМ ИМЕНЕМ">TWO PROGRAMS WEARING ONE NAME</span></div>
+    <h2 class="h-lg" data-en="A civilian station and a spy station, indistinguishable from outside" data-ru="Гражданская станция и станция-шпион, неотличимые снаружи">A civilian station and a spy station, indistinguishable from outside</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Two competing Soviet design bureaus were building space stations at once: a civilian \"DOS\" line racing to beat America's Skylab into orbit, and a military reconnaissance line called Almaz, built around a powerful camera rather than a laboratory. A February 1970 decree merged their public identity — every station from either program, civilian or military, would be announced to the world as \"Salyut.\"" data-ru="Два конкурирующих советских конструкторских бюро одновременно строили космические станции: гражданская линия «ДОС», стремившаяся опередить американский «Скайлэб», и военная разведывательная линия «Алмаз», построенная вокруг мощной камеры, а не лаборатории. Постановление от февраля 1970 года объединило их публичный образ — каждая станция любой из программ, гражданская или военная, объявлялась миру под именем «Салют».">Two competing Soviet design bureaus were building space stations at once: a civilian "DOS" line racing to beat America's Skylab into orbit, and a military reconnaissance line called Almaz, built around a powerful camera rather than a laboratory. A February 1970 decree merged their public identity — every station from either program, civilian or military, would be announced to the world as "Salyut."</p>
+      <p class="body-col" data-en="The result is a numbering sequence that looks continuous from outside but hides two unrelated engineering lineages — Salyut 2, 3, and 5 were secretly Almaz military stations; Salyut 1, 4, 6, and 7 were the civilian DOS line." data-ru="В итоге получилась нумерация, выглядящая снаружи непрерывной, но скрывающая две независимые инженерные линии — «Салют-2, 3 и 5» на самом деле были военными станциями «Алмаз», а «Салют-1, 4, 6 и 7» — гражданской линией ДОС.">The result is a numbering sequence that looks continuous from outside but hides two unrelated engineering lineages — Salyut 2, 3, and 5 were secretly Almaz military stations; Salyut 1, 4, 6, and 7 were the civilian DOS line.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — SALYUT 1 -->
+<section id="ch2" class="section" data-phase="SALYUT 1 — FIRST IN THE WORLD" data-alt="200–222 KM" data-vel="7.8 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="SALYUT 1 — FIRST IN THE WORLD" data-ru="«САЛЮТ-1» — ПЕРВАЯ В МИРЕ">SALYUT 1 — FIRST IN THE WORLD</span></div>
+    <h2 class="h-lg" data-en="The first space station, two years ahead of Skylab" data-ru="Первая космическая станция, на два года раньше «Скайлэб»">The first space station, two years ahead of Skylab</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Launched April 19, 1971, Salyut 1 became the first space station in history, orbiting at 200–222 km. Its first crew, Soyuz 10, failed to achieve a hard docking and had to return without boarding. Its second crew, Soyuz 11, succeeded — living aboard from June 7 to June 29, 1971, and setting a new endurance record." data-ru="Запущенный 19 апреля 1971 года, «Салют-1» стал первой в истории космической станцией, обращавшейся на орбите высотой 200–222 км. Первый экипаж, «Союз-10», не смог выполнить жёсткую стыковку и был вынужден вернуться, не перейдя на борт. Второй экипаж, «Союз-11», справился с задачей — прожив на станции с 7 по 29 июня 1971 года и установив новый рекорд длительности полёта.">Launched April 19, 1971, Salyut 1 became the first space station in history, orbiting at 200–222 km. Its first crew, Soyuz 10, failed to achieve a hard docking and had to return without boarding. Its second crew, Soyuz 11, succeeded — living aboard from June 7 to June 29, 1971, and setting a new endurance record.</p>
+  </div>
+</section>
+
+<!-- CH3 — SOYUZ 11 -->
+<section id="ch3" class="section" data-phase="SOYUZ 11 TRAGEDY" data-alt="~200 KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="SOYUZ 11 — THE ONLY DEATHS IN SPACE" data-ru="«СОЮЗ-11» — ЕДИНСТВЕННЫЕ СМЕРТИ В КОСМОСЕ">SOYUZ 11 — THE ONLY DEATHS IN SPACE</span></div>
+    <h2 class="h-lg" data-en="A valve, a seal, and thirty seconds" data-ru="Клапан, уплотнитель и тридцать секунд">A valve, a seal, and thirty seconds</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Returning to Earth on June 30, 1971, cosmonauts Georgy Dobrovolsky, Vladislav Volkov, and Viktor Patsayev were killed when a cabin pressure-equalisation valve jolted open during module separation, venting their air into the vacuum of space in about thirty seconds. Without pressure suits — deemed unnecessary for the flight — none survived." data-ru="Возвращаясь на Землю 30 июня 1971 года, космонавты Георгий Добровольский, Владислав Волков и Виктор Пацаев погибли, когда клапан выравнивания давления в кабине распахнулся при разделении отсеков, за примерно тридцать секунд выпустив воздух в вакуум космоса. Без скафандров — сочтённых ненужными для этого полёта — никто не выжил.">Returning to Earth on June 30, 1971, cosmonauts Georgy Dobrovolsky, Vladislav Volkov, and Viktor Patsayev were killed when a cabin pressure-equalisation valve jolted open during module separation, venting their air into the vacuum of space in about thirty seconds. Without pressure suits — deemed unnecessary for the flight — none survived.</p>
+      <p class="body-col" data-en="They remain, to this day, the only human beings ever to have died above the Kármán line — in space itself, rather than during launch or a lower-altitude re-entry accident. Every Soyuz crew since has worn a pressure suit for launch and landing." data-ru="Они по сей день остаются единственными людьми, погибшими выше линии Кармана — непосредственно в космосе, а не при старте или аварии на меньшей высоте при спуске. С тех пор каждый экипаж «Союза» надевает скафандр на старт и посадку.">They remain, to this day, the only human beings ever to have died above the Kármán line — in space itself, rather than during launch or a lower-altitude re-entry accident. Every Soyuz crew since has worn a pressure suit for launch and landing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — REBUILDING -->
+<section id="ch4" class="section" data-phase="REBUILDING 1972–76" data-alt="VARIES" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="REBUILDING, STATION BY STATION" data-ru="ВОССТАНОВЛЕНИЕ — СТАНЦИЯ ЗА СТАНЦИЕЙ">REBUILDING, STATION BY STATION</span></div>
+    <h2 class="h-lg" data-en="Three failures before the program found its footing" data-ru="Три неудачи, прежде чем программа встала на ноги">Three failures before the program found its footing</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="The next several stations struggled: DOS-2 was destroyed in a launch failure in July 1972; the Almaz station later named Salyut 2 depressurised and was abandoned before any crew reached it; a third DOS station, publicly disguised as \"Cosmos 557\" to hide its failure, lost control before it could be crewed. Salyut 3, 4, and 5 followed with mixed but improving results through the mid-1970s, rebuilding confidence in the program one flight at a time." data-ru="Несколько следующих станций сталкивались с трудностями: ДОС-2 была уничтожена аварией ракеты-носителя в июле 1972 года; станция «Алмаз», позже названная «Салют-2», разгерметизировалась и была оставлена ещё до прибытия экипажа; третья станция ДОС, публично замаскированная под «Космос-557», чтобы скрыть неудачу, потеряла управление до того, как на неё смог прибыть экипаж. «Салют-3, 4 и 5» последовали за ними со смешанными, но постепенно улучшавшимися результатами в середине 1970-х, шаг за шагом восстанавливая доверие к программе.">The next several stations struggled: DOS-2 was destroyed in a launch failure in July 1972; the Almaz station later named Salyut 2 depressurised and was abandoned before any crew reached it; a third DOS station, publicly disguised as "Cosmos 557" to hide its failure, lost control before it could be crewed. Salyut 3, 4, and 5 followed with mixed but improving results through the mid-1970s, rebuilding confidence in the program one flight at a time.</p>
+  </div>
+</section>
+
+<!-- CH5 — STATION ANATOMY -->
+<section id="ch5" class="section" data-phase="STATION ANATOMY" data-alt="~350 KM" data-vel="7.8 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="ANATOMY OF A SECOND-GENERATION SALYUT" data-ru="УСТРОЙСТВО СТАНЦИИ ВТОРОГО ПОКОЛЕНИЯ">ANATOMY OF A SECOND-GENERATION SALYUT</span></div>
+    <h2 class="h-lg" data-en="Two doors change everything" data-ru="Два входа меняют всё">Two doors change everything</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Salyut 6 and 7 shared a design built around one decisive change from Salyut 1: a second docking port. Select a component." data-ru="«Салют-6» и «Салют-7» разделяли конструкцию, построенную вокруг одного решающего изменения относительно «Салюта-1»: второго стыковочного узла. Выберите компонент.">Salyut 6 and 7 shared a design built around one decisive change from Salyut 1: a second docking port. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="salyutSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="salyutPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — SALYUT 6 -->
+<section id="ch6" class="section" data-phase="SALYUT 6 — THE BREAKTHROUGH" data-alt="~350 KM" data-vel="7.8 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="SALYUT 6 — THE BREAKTHROUGH" data-ru="«САЛЮТ-6» — ПРОРЫВ">SALYUT 6 — THE BREAKTHROUGH</span></div>
+    <h2 class="h-lg" data-en="Resupply changes what a station can be" data-ru="Снабжение меняет саму суть станции">Resupply changes what a station can be</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Launched September 29, 1977, Salyut 6 was the first station whose two docking ports were actually used simultaneously — one for crewed Soyuz spacecraft, the other for uncrewed Progress cargo ships delivering food, fuel, and equipment. That single change let cosmonauts stay for months instead of weeks, resupplied rather than stranded with whatever they'd launched with." data-ru="Запущенный 29 сентября 1977 года «Салют-6» стал первой станцией, чьи два стыковочных узла действительно использовались одновременно — один для пилотируемых кораблей «Союз», другой для беспилотных грузовиков «Прогресс», доставлявших еду, топливо и оборудование. Это единственное изменение позволило космонавтам оставаться месяцами, а не неделями, — снабжаемыми, а не ограниченными тем, что было взято при старте.">Launched September 29, 1977, Salyut 6 was the first station whose two docking ports were actually used simultaneously — one for crewed Soyuz spacecraft, the other for uncrewed Progress cargo ships delivering food, fuel, and equipment. That single change let cosmonauts stay for months instead of weeks, resupplied rather than stranded with whatever they'd launched with.</p>
+      <p class="body-col" data-en="It also enabled crew handovers — a new team could dock while a resident crew was still aboard, overlap for a few days, and swap places, keeping the station continuously staffed in a way no station had managed before. Salyut 6 also hosted the first \"guest cosmonauts\" from outside the Soviet Union." data-ru="Это также позволило проводить пересменку экипажей — новая команда могла состыковаться, пока прежний экипаж ещё находился на борту, провести несколько дней вместе и поменяться местами, обеспечивая непрерывное присутствие людей на станции так, как ни одна станция прежде не могла. «Салют-6» также принял первых «гостей-космонавтов» из-за пределов Советского Союза.">It also enabled crew handovers — a new team could dock while a resident crew was still aboard, overlap for a few days, and swap places, keeping the station continuously staffed in a way no station had managed before. Salyut 6 also hosted the first "guest cosmonauts" from outside the Soviet Union.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — SALYUT 7 RESCUE -->
+<section id="ch7" class="section" data-phase="SALYUT 7 RESCUE 1985" data-alt="~350 KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="SALYUT 7'S NEAR-DEATH AND RESURRECTION" data-ru="«САЛЮТ-7»: НА ГРАНИ ГИБЕЛИ — И ВОСКРЕШЕНИЕ">SALYUT 7'S NEAR-DEATH AND RESURRECTION</span></div>
+    <h2 class="h-lg" data-en="Docking with a dead, silent, tumbling station" data-ru="Стыковка с мёртвой, молчащей, кувыркающейся станцией">Docking with a dead, silent, tumbling station</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="In February 1985, a power-system failure left Salyut 7 completely dead — no electricity, no heating, no radio contact, tumbling slowly through space with its interior frozen. No one had ever attempted to dock with, board, and revive a fully unresponsive space station before." data-ru="В феврале 1985 года отказ энергосистемы полностью обесточил «Салют-7» — ни электричества, ни отопления, ни радиосвязи, станция медленно кувыркалась в космосе с промёрзшим нутром. Никто прежде не пытался состыковаться, попасть на борт и оживить полностью неотзывчивую космическую станцию.">In February 1985, a power-system failure left Salyut 7 completely dead — no electricity, no heating, no radio contact, tumbling slowly through space with its interior frozen. No one had ever attempted to dock with, board, and revive a fully unresponsive space station before.</p>
+      <p class="body-col" data-en="Cosmonauts Vladimir Dzhanibekov and Viktor Savinykh flew Soyuz T-13 to the tumbling wreck, matched its rotation entirely by eye with no automated docking aids, and forced their way aboard through a freezing, dark interior to begin restarting its systems one by one — an improvised rescue that succeeded and kept Salyut 7 flying for six more years." data-ru="Космонавты Владимир Джанибеков и Виктор Савиных подвели «Союз Т-13» к кувыркающейся станции, полностью на глаз согласовав её вращение без каких-либо автоматических средств стыковки, и пробились на борт сквозь промёрзший тёмный интерьер, чтобы начать перезапускать системы одну за другой, — импровизированное спасение, увенчавшееся успехом и продлившее полёт «Салюта-7» ещё на шесть лет.">Cosmonauts Vladimir Dzhanibekov and Viktor Savinykh flew Soyuz T-13 to the tumbling wreck, matched its rotation entirely by eye with no automated docking aids, and forced their way aboard through a freezing, dark interior to begin restarting its systems one by one — an improvised rescue that succeeded and kept Salyut 7 flying for six more years.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — INTERKOSMOS -->
+<section id="ch8" class="section" data-phase="INTERKOSMOS VISITORS" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="THE INTERKOSMOS VISITORS" data-ru="ГОСТИ ИЗ ПРОГРАММЫ «ИНТЕРКОСМОС»">THE INTERKOSMOS VISITORS</span></div>
+    <h2 class="h-lg" data-en="The first astronauts who were neither Soviet nor American" data-ru="Первые космонавты, не бывшие ни советскими, ни американскими">The first astronauts who were neither Soviet nor American</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Starting with a Czechoslovak cosmonaut aboard Salyut 6 in 1978, the Interkosmos program flew guest cosmonauts from Poland, East Germany, Bulgaria, Hungary, Vietnam, Cuba, Mongolia, Romania, and beyond — turning Salyut into a genuinely international symbol years before Mir formalised the idea with the West." data-ru="Начиная с чехословацкого космонавта на борту «Салюта-6» в 1978 году, программа «Интеркосмос» отправила в космос гостей из Польши, ГДР, Болгарии, Венгрии, Вьетнама, Кубы, Монголии, Румынии и других стран, превратив «Салют» в по-настоящему международный символ за годы до того, как «Мир» официально закрепил эту идею уже с Западом.">Starting with a Czechoslovak cosmonaut aboard Salyut 6 in 1978, the Interkosmos program flew guest cosmonauts from Poland, East Germany, Bulgaria, Hungary, Vietnam, Cuba, Mongolia, Romania, and beyond — turning Salyut into a genuinely international symbol years before Mir formalised the idea with the West.</p>
+  </div>
+</section>
+
+<!-- CH9 — WHAT SALYUT PROVED -->
+<section id="ch9" class="section" data-phase="PROVEN CAPABILITIES" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="WHAT SALYUT PROVED" data-ru="ЧТО ДОКАЗАЛ «САЛЮТ»">WHAT SALYUT PROVED</span></div>
+    <h2 class="h-lg" data-en="The template every station since has followed" data-ru="Шаблон, которому следует каждая станция с тех пор">The template every station since has followed</h2>
+    <div id="provenList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="Twenty years, seven stations, one straight line to the ISS" data-ru="Двадцать лет, семь станций, прямая линия к МКС">Twenty years, seven stations, one straight line to the ISS</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Mir's core module was internally designated DOS-7 — a direct descendant of the Salyut line. The ISS's Zvezda module, still flying today, was built from a hull originally intended as DOS-8." data-ru="Базовый блок «Мира» внутри назывался ДОС-7 — прямой потомок линии «Салют». Модуль «Звезда» МКС, летающий и сегодня, был построен на корпусе, изначально предназначавшемся для ДОС-8.">Mir's core module was internally designated DOS-7 — a direct descendant of the Salyut line. The ISS's Zvezda module, still flying today, was built from a hull originally intended as DOS-8.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="SALUTE — A FIELD GUIDE TO THE SALYUT PROGRAM" data-ru="SALUTE — ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «САЛЮТ»">SALUTE — A FIELD GUIDE TO THE SALYUT PROGRAM</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH5 — STATION SCHEMATIC ============ */
+var SALYUT_PARTS = [
+  {id:'forward', en:'Forward Docking Port', ru:'Передний стыковочный узел', cEn:'Crewed Soyuz spacecraft', cRu:'Пилотируемые корабли «Союз»', x:60, y:150, w:150, h:34,
+   dEn:'Received incoming and outgoing crews aboard Soyuz spacecraft, and — critically — allowed a new crew to dock while a resident crew was still aboard for handover.', dRu:'Принимал прибывающие и убывающие экипажи на кораблях «Союз» и, что особенно важно, позволял новому экипажу состыковаться, пока прежний ещё находился на борту, для пересменки.'},
+  {id:'aft', en:'Aft Docking Port', ru:'Кормовой стыковочный узел', cEn:'Uncrewed Progress cargo ships', cRu:'Беспилотные грузовики «Прогресс»', x:460, y:150, w:150, h:34,
+   dEn:'Received Progress cargo ships carrying food, water, fuel, and equipment — the single addition that let a station be resupplied rather than abandoned when consumables ran low.', dRu:'Принимал грузовики «Прогресс» с едой, водой, топливом и оборудованием — единственное дополнение, позволившее пополнять запасы станции, а не покидать её при исчерпании расходных материалов.'},
+  {id:'workcompartment', en:'Work Compartment', ru:'Рабочий отсек', cEn:'Main living and laboratory space', cRu:'Основное жилое и лабораторное пространство', x:280, y:110, w:150, h:34,
+   dEn:'The largest pressurised volume aboard, combining crew quarters, scientific instruments, and the main control station in a single cylindrical space.', dRu:'Крупнейший герметичный объём на борту, объединявший каюты экипажа, научные приборы и основной пульт управления в едином цилиндрическом пространстве.'},
+  {id:'solar3', en:'Solar Arrays', ru:'Солнечные батареи', cEn:'3 rotatable panels', cRu:'3 поворотные панели', x:280, y:210, w:150, h:34,
+   dEn:'Three panels that could rotate independently to track the Sun, an upgrade over Salyut 1\'s fixed arrays that significantly increased available power.', dRu:'Три панели, способные независимо поворачиваться вслед за Солнцем, — усовершенствование по сравнению с неподвижными батареями «Салюта-1», заметно увеличившее располагаемую мощность.'},
+  {id:'fuel', en:'Refuellable Propellant Tanks', ru:'Дозаправляемые топливные баки', cEn:'Topped up via Progress', cRu:'Пополнялись через «Прогресс»', x:60, y:210, w:150, h:34,
+   dEn:'Unlike Salyut 1\'s fixed fuel supply, these tanks could be refilled by docked Progress ships, letting the station maintain its orbit for years instead of months.', dRu:'В отличие от фиксированного запаса топлива «Салюта-1», эти баки могли дозаправляться пристыкованными кораблями «Прогресс», позволяя станции годами, а не месяцами удерживать орбиту.'}
+];
+function renderSalyut(){
+  var svg = document.getElementById('salyutSvg');
+  var panel = document.getElementById('salyutPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  SALYUT_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, SALYUT_PARTS, m.id); });
+  });
+  selectPart(svg, panel, SALYUT_PARTS, SALYUT_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH9 — WHAT SALYUT PROVED ============ */
+var PROVEN = [
+  {en:'Resupply, not just endurance, is the key to duration', ru:'Ключ к длительности — снабжение, а не только выносливость',
+   bEn:'Salyut 6 and 7 proved that a station\'s lifespan is limited by logistics, not by how much a crew can physically endure — a principle every station since, including the ISS, is built around.', bRu:'«Салют-6» и «Салют-7» доказали, что срок службы станции ограничен логистикой, а не тем, сколько способен выдержать экипаж физически, — принцип, вокруг которого построена каждая последующая станция, включая МКС.'},
+  {en:'A dead station can be brought back', ru:'Мёртвую станцию можно оживить',
+   bEn:'The Soyuz T-13 rescue proved that even total power loss and complete loss of contact aren\'t necessarily fatal to a space station — a confidence-building precedent for every emergency plan written since.', bRu:'Спасение на «Союзе Т-13» доказало, что даже полная потеря энергии и связи не обязательно означают гибель станции, — прецедент, придавший уверенности каждому написанному с тех пор аварийному плану.'},
+  {en:'International crews build political durability', ru:'Международные экипажи укрепляют политическую устойчивость',
+   bEn:'The Interkosmos guest-cosmonaut program showed that flying international crews builds broader political support for a station\'s continued funding — the same logic behind the ISS\'s multinational partnership.', bRu:'Программа гостей-космонавтов «Интеркосмос» показала, что полёты международных экипажей укрепляют политическую поддержку финансирования станции — та же логика лежит в основе многонационального партнёрства МКС.'},
+  {en:'Crew handover keeps a station alive between missions', ru:'Пересменка экипажа поддерживает жизнь станции между миссиями',
+   bEn:'Overlapping incoming and outgoing crews let a station pass on tacit knowledge and keep systems running without ever going fully unattended — standard practice ever since.', bRu:'Пересечение прибывающего и убывающего экипажей позволяло передавать неформальные знания и поддерживать работу систем, не оставляя станцию полностью без присмотра, — стандартная практика с тех пор.'}
+];
+function renderProven(){
+  var wrap = document.getElementById('provenList');
+  wrap.innerHTML='';
+  PROVEN.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1971', en:'Salyut 1', ru:'«Салют-1»', noteEn:'First space station', noteRu:'Первая космическая станция', h:22},
+  {y:'1977', en:'Salyut 6', ru:'«Салют-6»', noteEn:'First resupply, crew handover', noteRu:'Первое снабжение, пересменка экипажа', h:32},
+  {y:'1982', en:'Salyut 7', ru:'«Салют-7»', noteEn:'Survived its own death', noteRu:'Пережила собственную гибель', h:40},
+  {y:'1986', en:'Mir', ru:'«Мир»', noteEn:'Core module internally DOS-7', noteRu:'Базовый блок — внутренне ДОС-7', h:48},
+  {y:'2000', en:'ISS Zvezda', ru:'«Звезда» МКС', noteEn:'Hull originally built as DOS-8', noteRu:'Корпус, изначально строившийся как ДОС-8', h:56}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderSalyut();
+  renderProven();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
