@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIAMOND — THE ALMAZ PROGRAM / ПРОГРАММА «АЛМАЗ»</title>
+<meta name="description" content="An interactive engineering-style journey through the Soviet Almaz military space station program.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:9.5px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.5rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">DIAMOND — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">CLASSIFIED</span></div>
+  <div class="hud-row"><span class="hud-label">ALT</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">VEL</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="CLASSIFIED" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — THE STATION THAT CARRIED A CANNON" data-ru="РИС. 00 — СТАНЦИЯ, НЕСШАЯ ПУШКУ">FIG. 00 — THE STATION THAT CARRIED A CANNON</span>
+        <span data-en="1973 → 1978 — SECRET UNTIL THE 1990s" data-ru="1973 → 1978 — В СЕКРЕТЕ ДО 1990-Х">1973 → 1978 — SECRET UNTIL THE 1990s</span>
+      </div>
+      <h1><span data-en="DIAMOND" data-ru="АЛМАЗ">DIAMOND</span><br><em data-en="A FIELD GUIDE TO THE ALMAZ PROGRAM" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «АЛМАЗ»">A FIELD GUIDE TO THE ALMAZ PROGRAM</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the Soviet military space station hidden inside the public Salyut program — a reconnaissance outpost armed with a real aircraft cannon, fired once in orbit, that the world wasn't told about until it was already history. Scroll to begin the mission." data-ru="Десять глав о советской военной космической станции, скрытой внутри публичной программы «Салют», — разведывательном форпосте, вооружённом настоящей авиационной пушкой, единожды выстрелившей на орбите, о существовании которой миру не сообщали, пока это уже не стало историей. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the Soviet military space station hidden inside the public Salyut program — a reconnaissance outpost armed with a real aircraft cannon, fired once in orbit, that the world wasn't told about until it was already history. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — CHELOMEI'S RIVAL BUREAU -->
+<section id="ch1" class="section" data-phase="CHELOMEI'S RIVAL BUREAU" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="CHELOMEI'S RIVAL BUREAU" data-ru="КОНКУРИРУЮЩЕЕ КБ ЧЕЛОМЕЯ">CHELOMEI'S RIVAL BUREAU</span></div>
+    <h2 class="h-lg" data-en="A second Soviet space programme, competing with the first" data-ru="Вторая советская космическая программа, конкурировавшая с первой">A second Soviet space programme, competing with the first</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="While Sergei Korolev's bureau built the civilian Vostok, Soyuz, and eventually the DOS line that became Salyut, designer Vladimir Chelomei ran a rival design bureau — OKB-52, later TsKBM — pursuing its own military space station under a program called Almaz, Russian for \"Diamond.\"" data-ru="Пока конструкторское бюро Сергея Королёва строило гражданские «Восток», «Союз» и в конечном счёте линию ДОС, ставшую «Салютом», конструктор Владимир Челомей руководил конкурирующим КБ — ОКБ-52, позже ЦКБМ, — работавшим над собственной военной космической станцией по программе «Алмаз».">While Sergei Korolev's bureau built the civilian Vostok, Soyuz, and eventually the DOS line that became Salyut, designer Vladimir Chelomei ran a rival design bureau — OKB-52, later TsKBM — pursuing its own military space station under a program called Almaz, Russian for "Diamond."</p>
+      <p class="body-col" data-en="Almaz absorbed an earlier, cancelled military station concept called Soyuz-R, inheriting its place in the schedule and giving Chelomei's bureau a station core, later called OPS (\"Orbital Piloted Station\"), purpose-built for photographic and radar reconnaissance of the ground below." data-ru="«Алмаз» поглотил более раннюю, отменённую концепцию военной станции «Союз-Р», унаследовав её место в графике и дав бюро Челомея базовый блок станции, позже названный ОПС («орбитальная пилотируемая станция»), спроектированный специально для фото- и радиолокационной разведки поверхности внизу.">Almaz absorbed an earlier, cancelled military station concept called Soyuz-R, inheriting its place in the schedule and giving Chelomei's bureau a station core, later called OPS ("Orbital Piloted Station"), purpose-built for photographic and radar reconnaissance of the ground below.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — AMERICA'S MIRROR IMAGE -->
+<section id="ch2" class="section" data-phase="AMERICA'S MIRROR IMAGE" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="AMERICA'S MIRROR IMAGE: MOL" data-ru="АМЕРИКАНСКОЕ ЗЕРКАЛО: MOL">AMERICA'S MIRROR IMAGE: MOL</span></div>
+    <h2 class="h-lg" data-en="The US had the same idea — and cancelled it first" data-ru="У США была та же идея — но её отменили первой">The US had the same idea — and cancelled it first</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="The United States pursued an almost identical concept: the Manned Orbiting Laboratory, a crewed reconnaissance station disguised as a scientific mission. MOL never flew a single crew — cancelled in 1969 as automated spy satellites improved fast enough to make a crewed alternative hard to justify. Almaz kept going for another decade, becoming the only crewed military space station humanity has ever actually flown." data-ru="Соединённые Штаты развивали почти идентичную концепцию: пилотируемую орбитальную лабораторию (MOL) — разведывательную станцию, замаскированную под научную миссию. MOL так и не отправила в космос ни одного экипажа — программу закрыли в 1969 году, когда автоматические разведывательные спутники совершенствовались достаточно быстро, чтобы сделать пилотируемую альтернативу труднообоснованной. «Алмаз» продержался ещё десятилетие, став единственной пилотируемой военной космической станцией, когда-либо реально летавшей.">The United States pursued an almost identical concept: the Manned Orbiting Laboratory, a crewed reconnaissance station disguised as a scientific mission. MOL never flew a single crew — cancelled in 1969 as automated spy satellites improved fast enough to make a crewed alternative hard to justify. Almaz kept going for another decade, becoming the only crewed military space station humanity has ever actually flown.</p>
+  </div>
+</section>
+
+<!-- CH3 — HIDDEN UNDER A CIVILIAN NAME -->
+<section id="ch3" class="section" data-phase="HIDDEN UNDER A CIVILIAN NAME" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="HIDDEN UNDER A CIVILIAN NAME" data-ru="СКРЫТА ПОД ГРАЖДАНСКИМ ИМЕНЕМ">HIDDEN UNDER A CIVILIAN NAME</span></div>
+    <h2 class="h-lg" data-en="OPS-1, 2, and 3 — announced to the world as Salyut" data-ru="ОПС-1, 2 и 3 — объявленные миру как «Салют»">OPS-1, 2, and 3 — announced to the world as Salyut</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Three Almaz stations flew between 1973 and 1976, internally designated OPS-1, OPS-2, and OPS-3. Each, the moment it reached orbit, was publicly renamed — becoming Salyut 2, Salyut 3, and Salyut 5 — folded into the numbering of the civilian program to hide that the Soviet Union was running two separate station lineages at once." data-ru="Три станции «Алмаз» летали с 1973 по 1976 год, внутренне обозначаясь как ОПС-1, ОПС-2 и ОПС-3. Каждую, как только она достигала орбиты, публично переименовывали — в «Салют-2», «Салют-3» и «Салют-5», — встраивая в нумерацию гражданской программы, чтобы скрыть, что Советский Союз одновременно вёл две независимые линии станций.">Three Almaz stations flew between 1973 and 1976, internally designated OPS-1, OPS-2, and OPS-3. Each, the moment it reached orbit, was publicly renamed — becoming Salyut 2, Salyut 3, and Salyut 5 — folded into the numbering of the civilian program to hide that the Soviet Union was running two separate station lineages at once.</p>
+      <p class="body-col" data-en="The deception held for decades — Almaz's true military nature, and the cannon aboard it, weren't confirmed publicly until the 1990s, after the Soviet Union itself had ceased to exist." data-ru="Эта маскировка держалась десятилетиями — истинная военная природа «Алмаза» и наличие на его борту пушки были публично подтверждены лишь в 1990-х, уже после того, как не стало самого Советского Союза.">The deception held for decades — Almaz's true military nature, and the cannon aboard it, weren't confirmed publicly until the 1990s, after the Soviet Union itself had ceased to exist.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — ANATOMY -->
+<section id="ch4" class="section" data-phase="STATION ANATOMY" data-alt="~220–270 KM" data-vel="7.8 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="ANATOMY OF AN ALMAZ STATION" data-ru="УСТРОЙСТВО СТАНЦИИ «АЛМАЗ»">ANATOMY OF AN ALMAZ STATION</span></div>
+    <h2 class="h-lg" data-en="A camera, a film capsule, and a gun" data-ru="Камера, капсула с плёнкой и пушка">A camera, a film capsule, and a gun</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Built around reconnaissance rather than science, an Almaz station's internal layout looked nothing like its civilian Salyut cousins. Select a component." data-ru="Построенная вокруг разведки, а не науки, внутренняя компоновка станции «Алмаз» совсем не напоминала её гражданских «родственников» серии «Салют». Выберите компонент.">Built around reconnaissance rather than science, an Almaz station's internal layout looked nothing like its civilian Salyut cousins. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="almazSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="almazPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — THE GUN -->
+<section id="ch5" class="section" data-phase="THE GUN IN ORBIT" data-alt="~250 KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="THE GUN IN ORBIT" data-ru="ПУШКА НА ОРБИТЕ">THE GUN IN ORBIT</span></div>
+    <h2 class="h-lg" data-en="The only weapon ever fired in space" data-ru="Единственное оружие, когда-либо стрелявшее в космосе">The only weapon ever fired in space</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Mounted on the forward belly of the station was a modified Nudelman-Rikhter aircraft cannon, adapted from a Soviet bomber's tail gun — designed to defend against interceptor satellites the Soviets feared the US might use to inspect or disable Almaz." data-ru="На передней нижней части станции была установлена модифицированная авиационная пушка Нудельмана-Рихтера, переделанная из кормовой установки советского бомбардировщика, — предназначенная для защиты от спутников-перехватчиков, которые, как опасались в СССР, США могли бы использовать для осмотра или вывода из строя «Алмаза».">Mounted on the forward belly of the station was a modified Nudelman-Rikhter aircraft cannon, adapted from a Soviet bomber's tail gun — designed to defend against interceptor satellites the Soviets feared the US might use to inspect or disable Almaz.</p>
+      <p class="body-col" data-en="On January 24, 1975, with Salyut 3 flying uncrewed, ground controllers commanded a live test — firing the cannon at a target satellite between roughly 3,000 and 500 metres away. Cosmonauts later confirmed the target was destroyed. The station was deliberately deorbited the very next day, its purpose served." data-ru="24 января 1975 года, когда «Салют-3» летал без экипажа, наземные операторы провели боевое испытание, выстрелив из пушки по спутнику-мишени на расстоянии примерно от 3000 до 500 метров. Космонавты позже подтвердили, что мишень была уничтожена. Уже на следующий день станцию намеренно свели с орбиты — своё назначение она выполнила.">On January 24, 1975, with Salyut 3 flying uncrewed, ground controllers commanded a live test — firing the cannon at a target satellite between roughly 3,000 and 500 metres away. Cosmonauts later confirmed the target was destroyed. The station was deliberately deorbited the very next day, its purpose served.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — SALYUT 2 -->
+<section id="ch6" class="section" data-phase="SALYUT 2 — DEAD ON ARRIVAL" data-alt="~250 KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="SALYUT 2 — DEAD ON ARRIVAL" data-ru="«САЛЮТ-2» — МЁРТВ ПО ПРИБЫТИИ">SALYUT 2 — DEAD ON ARRIVAL</span></div>
+    <h2 class="h-lg" data-en="Disabled before a single crew reached it" data-ru="Выведена из строя ещё до прибытия первого экипажа">Disabled before a single crew reached it</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="OPS-1, launched April 3, 1973, suffered a serious malfunction and depressurisation within days of reaching orbit — likely damage from its own upper stage, though the exact cause remains debated. No crew ever boarded; the station tumbled and broke apart weeks later. It counts as the program's first flight and its first outright failure in the same breath." data-ru="ОПС-1, запущенная 3 апреля 1973 года, в течение нескольких дней после выхода на орбиту получила серьёзную неисправность и разгерметизацию — вероятно, из-за повреждения собственной верхней ступенью, хотя точная причина до сих пор оспаривается. Ни один экипаж так и не попал на борт; станция закувыркалась и развалилась несколько недель спустя. Она одновременно считается первым полётом программы и её первой полной неудачей.">OPS-1, launched April 3, 1973, suffered a serious malfunction and depressurisation within days of reaching orbit — likely damage from its own upper stage, though the exact cause remains debated. No crew ever boarded; the station tumbled and broke apart weeks later. It counts as the program's first flight and its first outright failure in the same breath.</p>
+  </div>
+</section>
+
+<!-- CH7 — SALYUT 3 & 5 -->
+<section id="ch7" class="section" data-phase="SALYUT 3 &amp; 5 — MISSIONS THAT WORKED" data-alt="~250 KM" data-vel="7.8 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="SALYUT 3 &amp; 5 — THE MISSIONS THAT WORKED" data-ru="«САЛЮТ-3» И «САЛЮТ-5» — МИССИИ, КОТОРЫЕ СРАБОТАЛИ">SALYUT 3 &amp; 5 — THE MISSIONS THAT WORKED</span></div>
+    <h2 class="h-lg" data-en="Three crews, eighty-one days total, in orbit for real reconnaissance" data-ru="Три экипажа, восемьдесят один день в сумме — на орбите ради настоящей разведки">Three crews, eighty-one days total, in orbit for real reconnaissance</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Salyut 3 (OPS-2) hosted Pavel Popovich and Yuri Artyukhin for fifteen days in July 1974, operating its reconnaissance cameras and returning exposed film to Earth in a small recoverable capsule. Salyut 5 (OPS-3) followed in 1976, hosting two crews — Soyuz 21 and Soyuz 24 — across 409 days in orbit, the most operationally mature of the three stations." data-ru="«Салют-3» (ОПС-2) принимал Павла Поповича и Юрия Артюхина на протяжении пятнадцати дней в июле 1974 года, используя разведывательные камеры и возвращая отснятую плёнку на Землю в небольшой спускаемой капсуле. «Салют-5» (ОПС-3) последовал в 1976 году, приняв два экипажа — «Союз-21» и «Союз-24» — за 409 суток на орбите, став наиболее технически зрелой из трёх станций.">Salyut 3 (OPS-2) hosted Pavel Popovich and Yuri Artyukhin for fifteen days in July 1974, operating its reconnaissance cameras and returning exposed film to Earth in a small recoverable capsule. Salyut 5 (OPS-3) followed in 1976, hosting two crews — Soyuz 21 and Soyuz 24 — across 409 days in orbit, the most operationally mature of the three stations.</p>
+  </div>
+</section>
+
+<!-- CH8 — TKS -->
+<section id="ch8" class="section" data-phase="THE TKS SPACECRAFT" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="THE TKS SPACECRAFT THAT ALMOST WAS" data-ru="КОРАБЛЬ ТКС, КОТОРЫЙ ПОЧТИ СОСТОЯЛСЯ">THE TKS SPACECRAFT THAT ALMOST WAS</span></div>
+    <h2 class="h-lg" data-en="A resupply ship designed for a mission it never flew" data-ru="Грузовой корабль, спроектированный для миссии, которую так и не выполнил">A resupply ship designed for a mission it never flew</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Almaz's original plan called for a purpose-built ferry, the TKS (Transport Supply Craft), carrying both cargo and crew in a reusable descent capsule called VA. In practice, Soyuz — already flight-proven for the civilian program — carried every Almaz crew instead, and TKS never flew crewed at all." data-ru="Изначальный план «Алмаза» предполагал специально построенный корабль-снабженец ТКС (транспортный корабль снабжения), несущий и груз, и экипаж в многоразовой спускаемой капсуле ВА. На практике же каждый экипаж «Алмаза» доставлял уже проверенный в полётах гражданский «Союз», а ТКС так ни разу и не слетал с экипажем.">Almaz's original plan called for a purpose-built ferry, the TKS (Transport Supply Craft), carrying both cargo and crew in a reusable descent capsule called VA. In practice, Soyuz — already flight-proven for the civilian program — carried every Almaz crew instead, and TKS never flew crewed at all.</p>
+      <p class="body-col" data-en="Four TKS spacecraft eventually flew uncrewed between 1977 and 1984 — not to an Almaz station, but docked instead to the civilian Salyut 6 and Salyut 7, delivering cargo and, in one case, military sensor payloads originally built for Almaz's cancelled fourth station." data-ru="Четыре корабля ТКС в итоге слетали беспилотными с 1977 по 1984 год — не к станции «Алмаз», а состыковавшись с гражданскими «Салютом-6» и «Салютом-7», доставив грузы и в одном случае военные датчики, изначально построенные для отменённой четвёртой станции «Алмаз».">Four TKS spacecraft eventually flew uncrewed between 1977 and 1984 — not to an Almaz station, but docked instead to the civilian Salyut 6 and Salyut 7, delivering cargo and, in one case, military sensor payloads originally built for Almaz's cancelled fourth station.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — CANCELLED, BUT NOT WASTED -->
+<section id="ch9" class="section" data-phase="CANCELLED BUT NOT WASTED" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="CANCELLED, BUT NOT WASTED" data-ru="ОТМЕНЕНА, НО НЕ ПРОПАЛА ЗРЯ">CANCELLED, BUT NOT WASTED</span></div>
+    <h2 class="h-lg" data-en="Judged inferior to a satellite with no life support to worry about" data-ru="Признана хуже спутника, которому не нужно заботиться о жизнеобеспечении">Judged inferior to a satellite with no life support to worry about</h2>
+    <div id="cancelList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="A cancelled military program, quietly holding up the ISS" data-ru="Отменённая военная программа, тихо поддерживающая МКС">A cancelled military program, quietly holding up the ISS</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="The TKS spacecraft's pressurised hull design became the direct ancestor of the FGB (\"Functional Cargo Block\") — the same lineage that produced the ISS's Zarya module and, decades later, the core of China's Tianhe. A weapon built to fight a space war that never happened ended up, indirectly, holding two later stations together." data-ru="Конструкция герметичного корпуса корабля ТКС стала прямым предком ФГБ («функционально-грузового блока») — той же линии, что дала модуль «Заря» МКС, а десятилетиями позже — базовый блок китайского «Тяньхэ». Оружие, созданное для войны в космосе, которая так и не случилась, в итоге косвенно скрепило собой две более поздние станции.">The TKS spacecraft's pressurised hull design became the direct ancestor of the FGB ("Functional Cargo Block") — the same lineage that produced the ISS's Zarya module and, decades later, the core of China's Tianhe. A weapon built to fight a space war that never happened ended up, indirectly, holding two later stations together.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="DIAMOND — A FIELD GUIDE TO THE ALMAZ PROGRAM" data-ru="DIAMOND — ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «АЛМАЗ»">DIAMOND — A FIELD GUIDE TO THE ALMAZ PROGRAM</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH4 — STATION SCHEMATIC ============ */
+var ALMAZ_PARTS = [
+  {id:'camera', en:'Agat-1 Reconnaissance Camera', ru:'Разведывательная камера «Агат-1»', cEn:'High-resolution optical imaging', cRu:'Оптическая съёмка высокого разрешения', x:280, y:110, w:150, h:34,
+   dEn:'A large optical camera occupying much of the station\'s interior, photographing ground targets in far greater detail than most contemporary automated satellites.', dRu:'Крупная оптическая камера, занимавшая значительную часть внутреннего пространства станции, снимавшая наземные цели с гораздо большей детализацией, чем большинство современных ей автоматических спутников.'},
+  {id:'capsule', en:'Film Return Capsule', ru:'Капсула возврата плёнки', cEn:'Small recoverable descent capsule', cRu:'Небольшая спускаемая капсула', x:60, y:150, w:150, h:34,
+   dEn:'Exposed reconnaissance film was loaded into a small capsule and fired back to Earth for recovery and development — the only way to get the imagery home before digital transmission was practical.', dRu:'Отснятую разведывательную плёнку загружали в небольшую капсулу и отправляли обратно на Землю для проявки — единственный способ доставить снимки, пока цифровая передача была недоступна.'},
+  {id:'cannon', en:'Nudelman-Rikhter Cannon', ru:'Пушка Нудельмана-Рихтера', cEn:'Modified 23mm aircraft cannon', cRu:'Модифицированная авиапушка 23 мм', x:280, y:210, w:150, h:34,
+   dEn:'Mounted on the forward hull and aimed by rotating the entire station, this weapon was fired once, by remote command, while the station flew uncrewed.', dRu:'Установленное на носовой части корпуса и наводимое поворотом всей станции, это оружие было применено один раз — по дистанционной команде, пока станция летала без экипажа.'},
+  {id:'quarters', en:'Crew Quarters', ru:'Каюты экипажа', cEn:'2-person capacity', cRu:'Рассчитаны на 2 человек', x:460, y:150, w:150, h:34,
+   dEn:'Smaller and more spartan than a civilian Salyut, reflecting a mission built around operating cameras on a schedule rather than long-duration scientific research.', dRu:'Меньше и аскетичнее, чем на гражданском «Салюте», — отражение миссии, построенной вокруг работы с камерами по графику, а не долгосрочных научных исследований.'},
+  {id:'dock2', en:'Soyuz Docking Port', ru:'Стыковочный узел для «Союза»', cEn:'Single aft port', cRu:'Единственный кормовой узел', x:280, y:70, w:150, h:34,
+   dEn:'Received crewed Soyuz spacecraft — the vehicle originally meant to be replaced by the purpose-built TKS ferry that never flew crewed.', dRu:'Принимал пилотируемые корабли «Союз» — аппарат, который изначально планировалось заменить специально построенным кораблём ТКС, так и не слетавшим с экипажем.'}
+];
+function renderAlmaz(){
+  var svg = document.getElementById('almazSvg');
+  var panel = document.getElementById('almazPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ALMAZ_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    g.addEventListener('click', function(){ selectPart(svg, panel, ALMAZ_PARTS, m.id); });
+  });
+  selectPart(svg, panel, ALMAZ_PARTS, ALMAZ_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH9 — CANCELLATION ============ */
+var CANCEL = [
+  {en:'Automated satellites got better, faster', ru:'Автоматические спутники совершенствовались быстрее',
+   bEn:'By the late 1970s, unmanned reconnaissance satellites had closed much of the resolution gap with a crewed camera platform, while needing no life support, no return capsule, and no risk to a human crew.', bRu:'К концу 1970-х беспилотные разведывательные спутники во многом сократили разрыв в разрешении с пилотируемой камерной платформой, при этом не нуждаясь ни в жизнеобеспечении, ни в возвращаемой капсуле, ни в риске для человеческого экипажа.'},
+  {en:'A crewed station is expensive to keep flying', ru:'Пилотируемая станция дорога в эксплуатации',
+   bEn:'Every Almaz mission required a Soyuz launch, a trained crew, and constant life-support logistics — overhead an automated satellite simply doesn\'t carry.', bRu:'Каждая миссия «Алмаза» требовала запуска «Союза», подготовленного экипажа и постоянной логистики жизнеобеспечения — накладных расходов, которых у автоматического спутника попросту нет.'},
+  {en:'The fourth station never got its funding', ru:'Четвёртая станция так и не получила финансирования',
+   bEn:'Plans for OPS-4, with side-looking radar and no reconnaissance camera at all, stalled as priorities shifted, and the Ministry of Defence formally passed on accepting Almaz into full operational service in 1978.', bRu:'Планы по ОПС-4, с боковым радаром и вовсе без разведывательной камеры, застопорились по мере смещения приоритетов, и в 1978 году Министерство обороны официально отказалось принять «Алмаз» на полное боевое дежурство.'},
+  {en:'The hardware and the people didn\'t disappear', ru:'Техника и люди никуда не делись',
+   bEn:'Chelomei\'s bureau, its Proton rocket, and the TKS hull design all continued in other programs — the cancellation ended one specific station concept, not the expertise behind it.', bRu:'Бюро Челомея, его ракета «Протон» и конструкция корпуса ТКС продолжили жить в других программах — отмена закрыла одну конкретную концепцию станции, а не стоящую за ней экспертизу.'}
+];
+function renderCancel(){
+  var wrap = document.getElementById('cancelList');
+  wrap.innerHTML='';
+  CANCEL.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1966', en:'Almaz Begins', ru:'Начало «Алмаза»', noteEn:'Chelomei absorbs Soyuz-R', noteRu:'Челомей поглощает «Союз-Р»', h:20},
+  {y:'1973', en:'Salyut 2', ru:'«Салют-2»', noteEn:'First flight, disabled before crew', noteRu:'Первый полёт, отказ до прибытия экипажа', h:26},
+  {y:'1974–76', en:'Salyut 3 &amp; 5', ru:'«Салют-3» и «Салют-5»', noteEn:'Three successful crews, the cannon test', noteRu:'Три успешных экипажа, испытание пушки', h:38},
+  {y:'1978', en:'Program Ends', ru:'Завершение программы', noteEn:'Judged inferior to automated satellites', noteRu:'Признана хуже автоматических спутников', h:22},
+  {y:'2000', en:'ISS Zarya', ru:'«Заря» МКС', noteEn:'Built on TKS/FGB hull heritage', noteRu:'Построена на наследии корпуса ТКС/ФГБ', h:48}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderAlmaz();
+  renderCancel();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>

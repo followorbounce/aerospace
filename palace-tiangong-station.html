@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PALACE — TIANGONG SPACE STATION / СТАНЦИЯ «ТЯНЬГУН»</title>
+<meta name="description" content="An interactive engineering-style journey through China's Tiangong space station.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:9.5px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.5rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">PALACE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">ALT</span><span id="hud-alt">0 KM</span></div>
+  <div class="hud-row"><span class="hud-label">VEL</span><span id="hud-vel">0.00 KM/S</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="0 KM" data-vel="0.00 KM/S" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — A STATION BUILT AFTER BEING TOLD NO" data-ru="РИС. 00 — СТАНЦИЯ, ПОСТРОЕННАЯ ПОСЛЕ ОТКАЗА">FIG. 00 — A STATION BUILT AFTER BEING TOLD NO</span>
+        <span data-en="2011 → PRESENT" data-ru="2011 → НАСТОЯЩЕЕ ВРЕМЯ">2011 → PRESENT</span>
+      </div>
+      <h1><span data-en="PALACE" data-ru="ДВОРЕЦ">PALACE</span><br><em data-en="A FIELD GUIDE TO TIANGONG" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО «ТЯНЬГУН»">A FIELD GUIDE TO TIANGONG</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the \"Heavenly Palace\" China built alone after being legally shut out of the ISS — from two throwaway test labs, through a T-shaped station now permanently crewed, to a co-orbiting space telescope still to come. Scroll to begin the mission." data-ru="Десять глав о «Небесном дворце», который Китай построил в одиночку после того, как был законодательно отстранён от МКС, — от двух одноразовых испытательных лабораторий через Т-образную станцию, ныне постоянно обитаемую, до ещё не запущенного сопровождающего космического телескопа. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the "Heavenly Palace" China built alone after being legally shut out of the ISS — from two throwaway test labs, through a T-shaped station now permanently crewed, to a co-orbiting space telescope still to come. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — NOT PART OF THE CLUB -->
+<section id="ch1" class="section" data-phase="NOT PART OF THE CLUB" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="NOT PART OF THE CLUB" data-ru="НЕ ЧАСТЬ КЛУБА">NOT PART OF THE CLUB</span></div>
+    <h2 class="h-lg" data-en="Excluded by law, not by choice" data-ru="Исключён по закону, а не по выбору">Excluded by law, not by choice</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="China was never invited to join the ISS partnership, and a 2011 U.S. law — restricting NASA's bilateral contact with Chinese space agencies over national-security concerns — effectively closed that door for good. Rather than seek a seat at a table it couldn't reach, China's space program committed to building an entire station of its own." data-ru="Китай никогда не приглашали присоединиться к партнёрству МКС, а закон США 2011 года, ограничивший двусторонние контакты NASA с китайскими космическими агентствами из соображений национальной безопасности, фактически окончательно закрыл эту дверь. Вместо того чтобы добиваться места за столом, до которого не дотянуться, китайская космическая программа взяла курс на постройку собственной полноценной станции.">China was never invited to join the ISS partnership, and a 2011 U.S. law — restricting NASA's bilateral contact with Chinese space agencies over national-security concerns — effectively closed that door for good. Rather than seek a seat at a table it couldn't reach, China's space program committed to building an entire station of its own.</p>
+      <p class="body-col" data-en="That decision, formally called Project 921, unfolded in three deliberate stages: crewed spaceflight, then spacewalks and docking, then a permanent station — each stage proven before the next began." data-ru="Это решение, официально названное «Проект 921», развивалось в три продуманных этапа: пилотируемые полёты, затем выходы в открытый космос и стыковки, затем постоянная станция — каждый этап отрабатывался прежде, чем начинался следующий.">That decision, formally called Project 921, unfolded in three deliberate stages: crewed spaceflight, then spacewalks and docking, then a permanent station — each stage proven before the next began.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — PRECURSORS -->
+<section id="ch2" class="section" data-phase="PRECURSORS 2011–16" data-alt="~350–393 KM" data-vel="7.8 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="PRECURSORS: TIANGONG-1 &amp; TIANGONG-2" data-ru="ПРЕДШЕСТВЕННИКИ: «ТЯНЬГУН-1» И «ТЯНЬГУН-2»">PRECURSORS: TIANGONG-1 &amp; TIANGONG-2</span></div>
+    <h2 class="h-lg" data-en="Two throwaway labs, built to be outgrown" data-ru="Две одноразовые лаборатории, созданные, чтобы их переросли">Two throwaway labs, built to be outgrown</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Tiangong-1, launched in 2011, was a single small module — never intended as a long-term station, but as a target to practice rendezvous and docking with crewed and uncrewed Shenzhou spacecraft. Tiangong-2 followed in 2016, adding longer stays and refuelling tests." data-ru="«Тяньгун-1», запущенный в 2011 году, был единственным небольшим модулем — никогда не задумывавшимся как долговременная станция, а служившим целью для отработки сближения и стыковки с пилотируемыми и беспилотными кораблями «Шэньчжоу». В 2016 году последовал «Тяньгун-2», добавивший более длительные пребывания и испытания дозаправки.">Tiangong-1, launched in 2011, was a single small module — never intended as a long-term station, but as a target to practice rendezvous and docking with crewed and uncrewed Shenzhou spacecraft. Tiangong-2 followed in 2016, adding longer stays and refuelling tests.</p>
+      <p class="body-col" data-en="Both were deliberately temporary and both eventually re-entered the atmosphere — Tiangong-1 in an uncontrolled re-entry in 2018 that drew international attention, Tiangong-2 in a controlled, deliberate one in 2019. Everything learned flying them fed directly into the real station's design." data-ru="Обе станции изначально были временными и в итоге вошли в атмосферу — «Тяньгун-1» неконтролируемо в 2018 году, что привлекло международное внимание, «Тяньгун-2» — управляемо и намеренно в 2019-м. Всё, что узнали при их эксплуатации, напрямую легло в основу конструкции настоящей станции.">Both were deliberately temporary and both eventually re-entered the atmosphere — Tiangong-1 in an uncontrolled re-entry in 2018 that drew international attention, Tiangong-2 in a controlled, deliberate one in 2019. Everything learned flying them fed directly into the real station's design.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — TIANHE -->
+<section id="ch3" class="section" data-phase="TIANHE CORE MODULE" data-alt="~390 KM" data-vel="7.67 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="TIANHE — THE CORE MODULE" data-ru="«ТЯНЬХЭ» — БАЗОВЫЙ МОДУЛЬ">TIANHE — THE CORE MODULE</span></div>
+    <h2 class="h-lg" data-en="Launched April 2021, with a Russian family resemblance" data-ru="Запущен в апреле 2021 года — с русским фамильным сходством">Launched April 2021, with a Russian family resemblance</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Tianhe — \"Harmony of the Heavens\" — became the anchor of the real station on April 29, 2021. Its design draws on the Functional Cargo Block heritage that also produced the ISS's Zarya module, but its propulsion is distinctly modern: four xenon Hall-effect thrusters, an efficient electric propulsion system rarely used on a crewed vehicle before." data-ru="«Тяньхэ» — «Гармония небес» — стал якорем настоящей станции 29 апреля 2021 года. Его конструкция опирается на наследие функционально-грузового блока, породившего в том числе модуль «Заря» МКС, но двигательная установка заметно современнее: четыре ксеноновых холловских двигателя — эффективная электрическая двигательная система, прежде редко применявшаяся на пилотируемых аппаратах.">Tianhe — "Harmony of the Heavens" — became the anchor of the real station on April 29, 2021. Its design draws on the Functional Cargo Block heritage that also produced the ISS's Zarya module, but its propulsion is distinctly modern: four xenon Hall-effect thrusters, an efficient electric propulsion system rarely used on a crewed vehicle before.</p>
+  </div>
+</section>
+
+<!-- CH4 — ANATOMY -->
+<section id="ch4" class="section" data-phase="STATION ANATOMY" data-alt="~390 KM" data-vel="7.67 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="ANATOMY OF TIANGONG" data-ru="УСТРОЙСТВО «ТЯНЬГУН»">ANATOMY OF TIANGONG</span></div>
+    <h2 class="h-lg" data-en="A T-shape, built to a plan from the start" data-ru="Т-образная форма, заложенная в план с самого начала">A T-shape, built to a plan from the start</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Unlike the ISS, assembled piece by piece over more than a decade with an evolving design, Tiangong's three-module T-shape was the plan from day one. Select a component." data-ru="В отличие от МКС, собиравшейся по частям более десяти лет с эволюционировавшей конструкцией, Т-образная форма «Тяньгун» из трёх модулей была планом с самого начала. Выберите компонент.">Unlike the ISS, assembled piece by piece over more than a decade with an evolving design, Tiangong's three-module T-shape was the plan from day one. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="tiangongSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="tiangongPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — WENTIAN & MENGTIAN -->
+<section id="ch5" class="section" data-phase="WENTIAN &amp; MENGTIAN" data-alt="~390 KM" data-vel="7.67 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="WENTIAN &amp; MENGTIAN — COMPLETING THE T" data-ru="«ВЭНЬТЯНЬ» И «МЭНЬТЯНЬ» — ЗАВЕРШЕНИЕ Т-ОБРАЗНОЙ ФОРМЫ">WENTIAN &amp; MENGTIAN — COMPLETING THE T</span></div>
+    <h2 class="h-lg" data-en="Two laboratories, five months apart" data-ru="Две лаборатории с разницей в пять месяцев">Two laboratories, five months apart</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Wentian — \"Quest for the Heavens\" — docked on July 24, 2022, adding extra living quarters, backup life support, and a dedicated airlock for spacewalks. Mengtian — \"Dreaming of the Heavens\" — followed on October 31, 2022, contributing a small airlock built specifically for moving science payloads in and out to an exposed external platform." data-ru="«Вэньтянь» — «Поиск небес» — состыковался 24 июля 2022 года, добавив дополнительные жилые отсеки, резервное жизнеобеспечение и специальный шлюз для выходов в открытый космос. «Мэньтянь» — «Мечты о небесах» — последовал 31 октября 2022 года, добавив небольшой шлюз, специально построенный для перемещения научных грузов на открытую внешнюю платформу и обратно.">Wentian — "Quest for the Heavens" — docked on July 24, 2022, adding extra living quarters, backup life support, and a dedicated airlock for spacewalks. Mengtian — "Dreaming of the Heavens" — followed on October 31, 2022, contributing a small airlock built specifically for moving science payloads in and out to an exposed external platform.</p>
+      <p class="body-col" data-en="Both modules initially docked at Tianhe's forward port, then were relocated by robotic arm to their final positions on the sides of the T — a deliberate, choreographed rearrangement rather than a direct docking at their permanent spot." data-ru="Оба модуля сначала стыковались к переднему порту «Тяньхэ», а затем перемещались роботизированной рукой на свои финальные позиции по бокам буквы «Т» — намеренная, спланированная перестановка, а не прямая стыковка на постоянное место.">Both modules initially docked at Tianhe's forward port, then were relocated by robotic arm to their final positions on the sides of the T — a deliberate, choreographed rearrangement rather than a direct docking at their permanent spot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — CONTINUOUS OCCUPATION -->
+<section id="ch6" class="section" data-phase="CONTINUOUS OCCUPATION" data-alt="~390 KM" data-vel="7.67 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="CONTINUOUS OCCUPATION" data-ru="НЕПРЕРЫВНОЕ ПРЕБЫВАНИЕ">CONTINUOUS OCCUPATION</span></div>
+    <h2 class="h-lg" data-en="Three residents, six during the handshake" data-ru="Три постоянных жильца, шесть во время пересменки">Three residents, six during the handshake</h2>
+    <p class="lede" style="margin-bottom:32px;" data-en="Tiangong has hosted a rotating crew of three astronauts on roughly six-month tours since its first permanent crew arrived, with capacity to briefly host six during the few days each rotation overlaps outgoing and incoming teams." data-ru="«Тяньгун» с момента прибытия первого постоянного экипажа принимает сменяющих друг друга по три астронавта на вахты продолжительностью примерно шесть месяцев, с возможностью кратковременно вместить шесть человек в те несколько дней, когда пересекаются убывающая и прибывающая команды.">Tiangong has hosted a rotating crew of three astronauts on roughly six-month tours since its first permanent crew arrived, with capacity to briefly host six during the few days each rotation overlaps outgoing and incoming teams.</p>
+    <div class="grid-3">
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">340 m³</div><div class="fig-num" data-en="PRESSURISED VOLUME" data-ru="ГЕРМЕТИЧНЫЙ ОБЪЁМ">PRESSURISED VOLUME</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">~100 t</div><div class="fig-num" data-en="TOTAL MASS" data-ru="ОБЩАЯ МАССА">TOTAL MASS</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">5</div><div class="fig-num" data-en="ROBOTIC ARMS" data-ru="РОБОТИЗИРОВАННЫХ РУК">ROBOTIC ARMS</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — LIFE AND SCIENCE -->
+<section id="ch7" class="section" data-phase="LIFE &amp; SCIENCE ABOARD" data-alt="~390 KM" data-vel="7.67 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="LIFE AND SCIENCE ABOARD" data-ru="ЖИЗНЬ И НАУКА НА БОРТУ">LIFE AND SCIENCE ABOARD</span></div>
+    <h2 class="h-lg" data-en="A working laboratory, not a showpiece" data-ru="Рабочая лаборатория, а не витрина">A working laboratory, not a showpiece</h2>
+    <div id="scienceList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH8 — TIANGONG VS ISS -->
+<section id="ch8" class="section" data-phase="TIANGONG VS ISS" data-alt="VARIES" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="TIANGONG &amp; THE ISS" data-ru="«ТЯНЬГУН» И МКС">TIANGONG &amp; THE ISS</span></div>
+    <h2 class="h-lg" data-en="Smaller, newer, and built by one country" data-ru="Меньше, новее и построена одной страной">Smaller, newer, and built by one country</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Tiangong is roughly a fifth the mass of the ISS — but it's also a fraction of the age, run entirely by one national program rather than a five-agency partnership, and open to international science payloads through the United Nations rather than a formal multinational treaty." data-ru="«Тяньгун» примерно в пять раз легче МКС, но при этом на порядок моложе, управляется целиком одной национальной программой, а не партнёрством пяти агентств, и открыта для международных научных экспериментов через ООН, а не через официальный многосторонний договор.">Tiangong is roughly a fifth the mass of the ISS — but it's also a fraction of the age, run entirely by one national program rather than a five-agency partnership, and open to international science payloads through the United Nations rather than a formal multinational treaty.</p>
+    <div class="dash-grid" id="compareGrid"></div>
+  </div>
+</section>
+
+<!-- CH9 — XUNTIAN -->
+<section id="ch9" class="section" data-phase="XUNTIAN TELESCOPE" data-alt="CO-ORBITING" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="XUNTIAN: THE CO-ORBITING TELESCOPE" data-ru="«СЮНЬТЯНЬ»: СОПРОВОЖДАЮЩИЙ ТЕЛЕСКОП">XUNTIAN: THE CO-ORBITING TELESCOPE</span></div>
+    <h2 class="h-lg" data-en="A Hubble-class eye that can call for a repair crew" data-ru="Телескоп класса «Хаббл», способный вызвать ремонтную бригаду">A Hubble-class eye that can call for a repair crew</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Planned as a 2-metre space telescope with roughly Hubble's resolution but a field of view hundreds of times wider, Xuntian — \"Survey the Heavens\" — is designed to fly in formation with Tiangong rather than attach to it permanently." data-ru="Запланированный как двухметровый космический телескоп с разрешением примерно как у «Хаббла», но полем зрения в сотни раз шире, «Сюньтянь» — «Обозревающий небеса» — спроектирован летать в связке с «Тяньгун», а не быть постоянно к нему прикреплённым.">Planned as a 2-metre space telescope with roughly Hubble's resolution but a field of view hundreds of times wider, Xuntian — "Survey the Heavens" — is designed to fly in formation with Tiangong rather than attach to it permanently.</p>
+      <p class="body-col" data-en="When it needs maintenance, refuelling, or an instrument upgrade, it can dock directly with the station — letting astronauts service a major space telescope in person, something no Hubble or Webb servicing mission has been possible since the Space Shuttle retired." data-ru="Когда ему потребуется обслуживание, дозаправка или замена приборов, он сможет напрямую состыковаться со станцией, позволяя астронавтам лично обслуживать крупный космический телескоп, — то, что для «Хаббла» или «Уэбба» невозможно со времён списания шаттлов.">When it needs maintenance, refuelling, or an instrument upgrade, it can dock directly with the station — letting astronauts service a major space telescope in person, something no Hubble or Webb servicing mission has been possible since the Space Shuttle retired.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="Fifteen years from a single test module to a national station" data-ru="Пятнадцать лет от одного испытательного модуля до национальной станции">Fifteen years from a single test module to a national station</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="With the ISS approaching the end of its own service life, Tiangong is positioned to become one of very few — possibly the only — continuously crewed station in orbit within the next decade." data-ru="По мере приближения конца срока службы МКС «Тяньгун» готова стать одной из очень немногих — возможно, единственной — непрерывно обитаемой станцией на орбите в следующем десятилетии.">With the ISS approaching the end of its own service life, Tiangong is positioned to become one of very few — possibly the only — continuously crewed station in orbit within the next decade.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="PALACE — A FIELD GUIDE TO TIANGONG" data-ru="PALACE — ПОЛЕВОЙ СПРАВОЧНИК ПО «ТЯНЬГУН»">PALACE — A FIELD GUIDE TO TIANGONG</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH4 — STATION SCHEMATIC ============ */
+var TIANGONG_PARTS = [
+  {id:'tianhe', en:'Tianhe (Core Module)', ru:'«Тяньхэ» (базовый модуль)', cEn:'Launched Apr 2021', cRu:'Запущен в апреле 2021', x:280, y:150, w:150, h:34,
+   dEn:'The station\'s anchor, carrying main propulsion (four xenon Hall-effect thrusters), life support, and the primary docking hub for both modules and visiting spacecraft.', dRu:'Опорный элемент станции, несущий основную двигательную установку (четыре ксеноновых холловских двигателя), системы жизнеобеспечения и главный стыковочный узел для модулей и прибывающих кораблей.'},
+  {id:'wentian', en:'Wentian', ru:'«Вэньтянь»', cEn:'Docked Jul 2022', cRu:'Состыкован в июле 2022', x:60, y:150, w:150, h:34,
+   dEn:'Adds extra crew quarters, backup life support and control systems, and a dedicated airlock used for most of the station\'s spacewalks.', dRu:'Добавляет дополнительные жилые отсеки, резервные системы жизнеобеспечения и управления, а также специальный шлюз, используемый для большинства выходов в открытый космос со станции.'},
+  {id:'mengtian', en:'Mengtian', ru:'«Мэньтянь»', cEn:'Docked Oct 2022', cRu:'Состыкован в октябре 2022', x:460, y:150, w:150, h:34,
+   dEn:'Carries a small cargo airlock built specifically to move science payloads onto an exposed external platform without a full spacewalk.', dRu:'Несёт небольшой грузовой шлюз, специально построенный для вывода научных грузов на открытую внешнюю платформу без полноценного выхода в космос.'},
+  {id:'arms', en:'Robotic Arms', ru:'Роботизированные руки', cEn:'5 total, 2 large + smaller units', cRu:'5 всего, 2 крупные и меньшие', x:280, y:230, w:150, h:34,
+   dEn:'A large arm on Tianhe and a smaller one on Wentian can work together or separately, and can \"crawl\" around the station\'s exterior to relocate modules and assist spacewalks.', dRu:'Крупная рука на «Тяньхэ» и меньшая на «Вэньтянь» могут работать вместе или порознь и способны «переползать» по внешней поверхности станции для перемещения модулей и помощи при выходах в космос.'},
+  {id:'ports', en:'Docking Ports', ru:'Стыковочные узлы', cEn:'3 external Chinese Docking Mechanism ports', cRu:'3 внешних узла китайского стыковочного механизма', x:280, y:70, w:150, h:34,
+   dEn:'Receive crewed Shenzhou spacecraft and uncrewed Tianzhou cargo ships, keeping the station continuously crewed and resupplied.', dRu:'Принимают пилотируемые корабли «Шэньчжоу» и беспилотные грузовики «Тяньчжоу», обеспечивая непрерывное пребывание экипажа и снабжение станции.'}
+];
+function renderTiangong(){
+  var svg = document.getElementById('tiangongSvg');
+  var panel = document.getElementById('tiangongPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  TIANGONG_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    g.addEventListener('click', function(){ selectPart(svg, panel, TIANGONG_PARTS, m.id); });
+  });
+  selectPart(svg, panel, TIANGONG_PARTS, TIANGONG_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH7 — SCIENCE ============ */
+var SCIENCE = [
+  {en:'Space Medicine', ru:'Космическая медицина',
+   bEn:'Ongoing studies of how six-month stays affect bone density, muscle mass, and cardiovascular health — the same core questions every long-duration station has to answer.', bRu:'Постоянные исследования того, как шестимесячное пребывание влияет на плотность костей, мышечную массу и сердечно-сосудистую систему, — те же базовые вопросы, на которые должна отвечать любая станция долговременного пребывания.'},
+  {en:'Combustion &amp; Fluid Physics', ru:'Горение и физика жидкостей',
+   bEn:'Experiments studying how flames and fluids behave without gravity-driven convection, research with direct applications to more efficient engines and materials on Earth.', bRu:'Эксперименты по изучению поведения пламени и жидкостей без вызванной гравитацией конвекции — исследования с прямым применением для более эффективных двигателей и материалов на Земле.'},
+  {en:'Biology in Microgravity', ru:'Биология в невесомости',
+   bEn:'Growing cell cultures, plants, and studying small organisms to understand how living systems adapt — or fail to adapt — to sustained weightlessness.', bRu:'Выращивание клеточных культур, растений и изучение мелких организмов для понимания того, как живые системы адаптируются — или не адаптируются — к длительной невесомости.'},
+  {en:'International Payloads', ru:'Международные полезные нагрузки',
+   bEn:'Though built and run by China alone, Tiangong has flown experiments selected through a United Nations cooperation program, opening a narrow but real door for international science.', bRu:'Хотя построена и управляется исключительно Китаем, «Тяньгун» проводила эксперименты, отобранные через программу сотрудничества с ООН, открывая узкую, но реальную дверь для международной науки.'}
+];
+function renderScience(){
+  var wrap = document.getElementById('scienceList');
+  wrap.innerHTML='';
+  SCIENCE.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH8 — COMPARE ============ */
+function renderCompare(){
+  var wrap = document.getElementById('compareGrid');
+  wrap.innerHTML='';
+  var data = [
+    {en:'Tiangong', ru:'«Тяньгун»', statusEn:'ACTIVE', statusRu:'АКТИВНА',
+     rows:[{lEn:'MASS', lRu:'МАССА', v:'~100,000 kg'},{lEn:'MODULES', lRu:'МОДУЛЕЙ', v:'3'},{lEn:'CREW', lRu:'ЭКИПАЖ', v:'3 (6 during handover)'},{lEn:'PARTNERS', lRu:'ПАРТНЁРЫ', v:'China, with UN-selected international payloads'}]},
+    {en:'ISS', ru:'МКС', statusEn:'ACTIVE', statusRu:'АКТИВНА',
+     rows:[{lEn:'MASS', lRu:'МАССА', v:'~420,000 kg'},{lEn:'MODULES', lRu:'МОДУЛЕЙ', v:'16+'},{lEn:'CREW', lRu:'ЭКИПАЖ', v:'7 (up to 13 during handover)'},{lEn:'PARTNERS', lRu:'ПАРТНЁРЫ', v:'NASA, Roscosmos, ESA, JAXA, CSA'}]}
+  ];
+  data.forEach(function(d){
+    var card = document.createElement('div');
+    card.className='dash-card';
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+r.v+'</span></div>'; }).join('');
+    card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span><span class="dc-status">'+(lang==='en'?d.statusEn:d.statusRu)+'</span></div>'+rowsHtml;
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'2011', en:'Tiangong-1', ru:'«Тяньгун-1»', noteEn:'First test module', noteRu:'Первый испытательный модуль', h:20},
+  {y:'2016', en:'Tiangong-2', ru:'«Тяньгун-2»', noteEn:'Longer stays, refuelling tests', noteRu:'Более долгие полёты, испытания дозаправки', h:24},
+  {y:'2021–22', en:'Tiangong Station', ru:'Станция «Тяньгун»', noteEn:'Tianhe, Wentian, Mengtian complete', noteRu:'«Тяньхэ», «Вэньтянь», «Мэньтянь» завершены', h:44},
+  {y:'2026+', en:'Xuntian', ru:'«Сюньтянь»', noteEn:'Co-orbiting space telescope, planned', noteRu:'Сопровождающий космический телескоп, в планах', h:36},
+  {y:'Future', en:'Continued Expansion', ru:'Дальнейшее расширение', noteEn:'Additional modules under discussion', noteRu:'Обсуждаются дополнительные модули', h:30}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderTiangong();
+  renderScience();
+  renderCompare();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
