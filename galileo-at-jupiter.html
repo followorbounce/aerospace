@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UMBRELLA — GALILEO AT JUPITER / «ГАЛИЛЕО» У ЮПИТЕРА</title>
+<meta name="description" content="An interactive engineering-style journey through NASA's Galileo mission to Jupiter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">UMBRELLA — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">DIST</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">VEL</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — AN ANTENNA THAT WOULDN'T OPEN, A MISSION THAT DID" data-ru="РИС. 00 — АНТЕННА, НЕ ОТКРЫВШАЯСЯ, И МИССИЯ, КОТОРАЯ СОСТОЯЛАСЬ">FIG. 00 — AN ANTENNA THAT WOULDN'T OPEN, A MISSION THAT DID</span>
+        <span data-en="1989 → 2003" data-ru="1989 → 2003">1989 → 2003</span>
+      </div>
+      <h1><span data-en="UMBRELLA" data-ru="ЗОНТ">UMBRELLA</span><br><em data-en="A FIELD GUIDE TO GALILEO AT JUPITER" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО «ГАЛИЛЕО» У ЮПИТЕРА">A FIELD GUIDE TO GALILEO AT JUPITER</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the spacecraft whose main antenna jammed shut like a broken umbrella just as its real mission began — and on the improvised fix, the plunging atmospheric probe, and eight years of discovery that followed anyway. Scroll to begin the mission." data-ru="Десять глав об аппарате, чья главная антенна заклинилась, точно сломанный зонт, ровно тогда, когда начиналась настоящая миссия, — и об импровизированном решении, нырнувшем в атмосферу зонде и восьми годах открытий, которые всё же последовали. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the spacecraft whose main antenna jammed shut like a broken umbrella just as its real mission began — and on the improvised fix, the plunging atmospheric probe, and eight years of discovery that followed anyway. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="ch1" class="section" data-phase="LONG ROAD TO LAUNCH" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="A LONG ROAD TO LAUNCH" data-ru="ДОЛГИЙ ПУТЬ К СТАРТУ">A LONG ROAD TO LAUNCH</span></div>
+    <h2 class="h-lg" data-en="Delayed by a disaster that had nothing to do with Jupiter" data-ru="Задержана катастрофой, не имевшей отношения к Юпитеру">Delayed by a disaster that had nothing to do with Jupiter</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Originally planned for a 1982 launch on a powerful Centaur upper stage, Galileo's schedule slipped repeatedly — then the 1986 Challenger disaster grounded the Space Shuttle fleet entirely and eliminated the Centaur as an option on safety grounds. Galileo finally launched October 18, 1989, riding a weaker solid-fuel Inertial Upper Stage that couldn't send it directly to Jupiter — forcing an entirely different route to get there." data-ru="Изначально планировавшийся к запуску в 1982 году на мощном разгонном блоке «Центавр», график «Галилео» неоднократно сдвигался — а затем катастрофа шаттла «Челленджер» в 1986 году полностью остановила программу шаттлов и исключила «Центавр» как вариант по соображениям безопасности. «Галилео» наконец стартовал 18 октября 1989 года на более слабом твердотопливном разгонном блоке IUS, неспособном отправить его прямо к Юпитеру, — что вынудило выбрать совершенно иной маршрут.">Originally planned for a 1982 launch on a powerful Centaur upper stage, Galileo's schedule slipped repeatedly — then the 1986 Challenger disaster grounded the Space Shuttle fleet entirely and eliminated the Centaur as an option on safety grounds. Galileo finally launched October 18, 1989, riding a weaker solid-fuel Inertial Upper Stage that couldn't send it directly to Jupiter — forcing an entirely different route to get there.</p>
+  </div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2" class="section" data-phase="THE LONG WAY TO JUPITER" data-alt="VEEGA TRAJECTORY" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE LONG WAY TO JUPITER" data-ru="ОКОЛЬНЫЙ ПУТЬ К ЮПИТЕРУ">THE LONG WAY TO JUPITER</span></div>
+    <h2 class="h-lg" data-en="Venus, Earth, Earth again — then finally outward" data-ru="Венера, Земля, снова Земля — и наконец наружу">Venus, Earth, Earth again — then finally outward</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="With too little raw thrust to fly direct, Galileo followed a VEEGA trajectory — Venus-Earth-Earth Gravity Assist — swinging past Venus in February 1990 and Earth twice, in December 1990 and December 1992, stealing a little orbital momentum from each flyby." data-ru="Без достаточной тяги для прямого полёта «Галилео» пошёл по траектории VEEGA — гравитационные манёвры у Венеры, Земли, Земли, — пролетев мимо Венеры в феврале 1990 года и дважды мимо Земли, в декабре 1990-го и декабре 1992-го, каждый раз заимствуя немного орбитального момента.">With too little raw thrust to fly direct, Galileo followed a VEEGA trajectory — Venus-Earth-Earth Gravity Assist — swinging past Venus in February 1990 and Earth twice, in December 1990 and December 1992, stealing a little orbital momentum from each flyby.</p>
+      <p class="body-col" data-en="The roundabout route paid an unplanned bonus: passing through the asteroid belt, Galileo became the first spacecraft ever to fly close past an asteroid — Gaspra in 1991, then Ida in 1993, where it discovered Ida's own tiny moon, Dactyl, the first confirmed asteroid moon." data-ru="Окольный маршрут принёс незапланированный бонус: пролетая через пояс астероидов, «Галилео» стал первым аппаратом, когда-либо пролетевшим вблизи астероида, — Гаспры в 1991 году, затем Иды в 1993-м, где он открыл её собственный крошечный спутник Дактиль, первый подтверждённый спутник астероида.">The roundabout route paid an unplanned bonus: passing through the asteroid belt, Galileo became the first spacecraft ever to fly close past an asteroid — Gaspra in 1991, then Ida in 1993, where it discovered Ida's own tiny moon, Dactyl, the first confirmed asteroid moon.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3" class="section" data-phase="THE UMBRELLA THAT WOULDN'T OPEN" data-alt="~1.9 AU" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="THE UMBRELLA THAT WOULDN'T OPEN" data-ru="ЗОНТ, КОТОРЫЙ НЕ ОТКРЫЛСЯ">THE UMBRELLA THAT WOULDN'T OPEN</span></div>
+    <h2 class="h-lg" data-en="Stuck ribs, lost lubricant, and a mission at risk" data-ru="Заклиненные спицы, потерянная смазка — миссия под угрозой">Stuck ribs, lost lubricant, and a mission at risk</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Galileo's high-gain antenna was a furlable, umbrella-like mesh dish, folded shut for launch and meant to open once safely away from the Sun's heat. On April 11, 1991, it refused — several of its ribs stuck fast, most likely because friction-reducing lubricant on the mechanism had worn away during years of cross-country truck transport and vibration testing before launch." data-ru="Остронаправленная антенна «Галилео» представляла собой складную, похожую на зонт сетчатую тарелку, сложенную для запуска и предназначенную раскрыться, когда аппарат окажется на безопасном расстоянии от солнечного тепла. 11 апреля 1991 года она отказалась раскрываться — несколько спиц намертво заклинило, вероятнее всего, из-за того, что снижающая трение смазка на механизме стёрлась за годы автомобильных перевозок через всю страну и вибрационных испытаний до запуска.">Galileo's high-gain antenna was a furlable, umbrella-like mesh dish, folded shut for launch and meant to open once safely away from the Sun's heat. On April 11, 1991, it refused — several of its ribs stuck fast, most likely because friction-reducing lubricant on the mechanism had worn away during years of cross-country truck transport and vibration testing before launch.</p>
+      <p class="body-col" data-en="Repeated attempts to shake, heat, and coax it open all failed. Without the high-gain dish, Galileo was left to talk to Earth through its small backup antenna — able to send data at roughly one ten-thousandth the planned rate, a bandwidth crisis that threatened to strand almost the entire mission's science return." data-ru="Повторные попытки встряхнуть, нагреть и «уговорить» антенну раскрыться не удались. Без остронаправленной тарелки «Галилео» мог общаться с Землёй лишь через маленькую резервную антенну — способную передавать данные примерно в десять тысяч раз медленнее запланированного, кризис пропускной способности, грозивший похоронить почти весь научный результат миссии.">Repeated attempts to shake, heat, and coax it open all failed. Without the high-gain dish, Galileo was left to talk to Earth through its small backup antenna — able to send data at roughly one ten-thousandth the planned rate, a bandwidth crisis that threatened to strand almost the entire mission's science return.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4" class="section" data-phase="ENGINEERING A WORKAROUND" data-alt="—" data-vel="LOW-GAIN ONLY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="ENGINEERING A WORKAROUND" data-ru="ИНЖЕНЕРНОЕ РЕШЕНИЕ">ENGINEERING A WORKAROUND</span></div>
+    <h2 class="h-lg" data-en="Rewriting the mission from a quarter-billion kilometres away" data-ru="Переписывая миссию за четверть миллиарда километров">Rewriting the mission from a quarter-billion kilometres away</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Engineers at JPL spent years rewriting Galileo's onboard software from Earth — building far more aggressive data compression, using the spacecraft's tape recorder to store observations and trickle them home slowly, and redesigning entire observation sequences around the antenna it no longer had. The fix didn't restore the original plan; it built a new one, patiently, around a permanent constraint no one had designed for." data-ru="Инженеры JPL годами переписывали бортовое программное обеспечение «Галилео» с Земли — создав гораздо более агрессивное сжатие данных, используя бортовой магнитофон для хранения наблюдений с последующей медленной передачей и перестроив целые последовательности наблюдений вокруг антенны, которой у аппарата больше не было. Это решение не восстановило исходный план — оно терпеливо выстроило новый, вокруг постоянного ограничения, для которого никто изначально не проектировал.">Engineers at JPL spent years rewriting Galileo's onboard software from Earth — building far more aggressive data compression, using the spacecraft's tape recorder to store observations and trickle them home slowly, and redesigning entire observation sequences around the antenna it no longer had. The fix didn't restore the original plan; it built a new one, patiently, around a permanent constraint no one had designed for.</p>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5" class="section" data-phase="SPACECRAFT ANATOMY" data-alt="JUPITER SYSTEM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="ANATOMY OF GALILEO" data-ru="УСТРОЙСТВО «ГАЛИЛЕО»">ANATOMY OF GALILEO</span></div>
+    <h2 class="h-lg" data-en="A spinning half, a steady half" data-ru="Вращающаяся половина, неподвижная половина">A spinning half, a steady half</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Galileo was unusual among probes of its era — half the spacecraft spun continuously for stability, while the other half stayed fixed to keep cameras and sensors pointed precisely. Select a component." data-ru="«Галилео» был необычен среди зондов своей эпохи — половина аппарата непрерывно вращалась для стабилизации, а другая оставалась неподвижной, чтобы камеры и датчики были точно наведены. Выберите компонент.">Galileo was unusual among probes of its era — half the spacecraft spun continuously for stability, while the other half stayed fixed to keep cameras and sensors pointed precisely. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="galileoSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="galileoPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 -->
+<section id="ch6" class="section" data-phase="THE PROBE'S ONE HOUR" data-alt="JUPITER ATMOSPHERE" data-vel="170,000 KM/H → 0">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="THE ATMOSPHERIC PROBE'S ONE HOUR" data-ru="ОДИН ЧАС АТМОСФЕРНОГО ЗОНДА">THE ATMOSPHERIC PROBE'S ONE HOUR</span></div>
+    <h2 class="h-lg" data-en="Released months early, arriving exactly on time" data-ru="Отделён на месяцы раньше — прибыл точно в срок">Released months early, arriving exactly on time</h2>
+    <div id="probeTabs" style="display:flex; flex-wrap:wrap; border-bottom:1px solid var(--ink);"></div>
+    <div id="probePanels"></div>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7" class="section" data-phase="WITNESSING SHOEMAKER-LEVY 9" data-alt="JUPITER ORBIT" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="WITNESSING SHOEMAKER-LEVY 9" data-ru="СВИДЕТЕЛЬ ПАДЕНИЯ ШУМЕЙКЕРА-ЛЕВИ 9">WITNESSING SHOEMAKER-LEVY 9</span></div>
+    <h2 class="h-lg" data-en="The only eyes on the far side of the impact" data-ru="Единственные глаза на другой стороне удара">The only eyes on the far side of the impact</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="In July 1994, more than twenty fragments of comet Shoemaker-Levy 9 struck Jupiter in full view of telescopes on Earth — but the impacts happened on the side of Jupiter facing away from us. Galileo, still en route and still a year from Jupiter orbit, was the only spacecraft positioned to see the impacts directly, capturing the flashes no observer on Earth could witness." data-ru="В июле 1994 года более двадцати фрагментов кометы Шумейкера-Леви 9 столкнулись с Юпитером на глазах у земных телескопов — но удары пришлись на сторону планеты, обращённую от нас. «Галилео», всё ещё находившийся в пути и на год отстававший от выхода на орбиту Юпитера, оказался единственным аппаратом, способным увидеть удары напрямую, зафиксировав вспышки, которые не мог наблюдать ни один земной наблюдатель.">In July 1994, more than twenty fragments of comet Shoemaker-Levy 9 struck Jupiter in full view of telescopes on Earth — but the impacts happened on the side of Jupiter facing away from us. Galileo, still en route and still a year from Jupiter orbit, was the only spacecraft positioned to see the impacts directly, capturing the flashes no observer on Earth could witness.</p>
+  </div>
+</section>
+
+<!-- CH8 -->
+<section id="ch8" class="section" data-phase="EIGHT YEARS TOURING THE MOONS" data-alt="JUPITER SYSTEM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="EIGHT YEARS TOURING THE MOONS" data-ru="ВОСЕМЬ ЛЕТ ПУТЕШЕСТВИЯ ПО СПУТНИКАМ">EIGHT YEARS TOURING THE MOONS</span></div>
+    <h2 class="h-lg" data-en="Thirty-five close passes, three hidden oceans" data-ru="Тридцать пять близких пролётов, три скрытых океана">Thirty-five close passes, three hidden oceans</h2>
+    <div id="moonsList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH9 -->
+<section id="ch9" class="section" data-phase="THE PLANETARY PROTECTION QUESTION" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="THE PLANETARY PROTECTION QUESTION" data-ru="ВОПРОС ПЛАНЕТАРНОЙ ЗАЩИТЫ">THE PLANETARY PROTECTION QUESTION</span></div>
+    <h2 class="h-lg" data-en="Destroyed to protect the ocean it discovered" data-ru="Уничтожен, чтобы защитить океан, который сам же и открыл">Destroyed to protect the ocean it discovered</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="By 2002, Galileo's propellant was nearly gone and its systems, worn down by years of radiation, could no longer be trusted to hold a precise orbit. With the spacecraft potentially unable to steer, mission planners couldn't rule out an eventual accidental crash into Europa." data-ru="К 2002 году топливо «Галилео» почти закончилось, а его системы, изношенные годами радиации, уже не могли гарантированно удерживать точную орбиту. Поскольку аппарат мог оказаться неуправляемым, планировщики миссии не могли исключить возможность случайного падения на Европу в будущем.">By 2002, Galileo's propellant was nearly gone and its systems, worn down by years of radiation, could no longer be trusted to hold a precise orbit. With the spacecraft potentially unable to steer, mission planners couldn't rule out an eventual accidental crash into Europa.</p>
+      <p class="body-col" data-en="That mattered because Galileo's own data had made Europa's subsurface ocean a serious candidate for life — and a spacecraft that launched from Earth, however well cleaned, could carry Earth microbes able to contaminate it. NASA chose a deliberate, controlled plunge into Jupiter itself on September 21, 2003, destroying the very spacecraft that had made the discovery, precisely because of what it had found." data-ru="Это было важно, поскольку собственные данные «Галилео» сделали подповерхностный океан Европы серьёзным кандидатом на существование жизни, — а аппарат, стартовавший с Земли, каким бы тщательно очищенным он ни был, мог нести земные микроорганизмы, способные его загрязнить. NASA выбрало намеренное, управляемое погружение в сам Юпитер 21 сентября 2003 года, уничтожив тот самый аппарат, что сделал открытие, — именно из-за того, что он нашёл.">That mattered because Galileo's own data had made Europa's subsurface ocean a serious candidate for life — and a spacecraft that launched from Earth, however well cleaned, could carry Earth microbes able to contaminate it. NASA chose a deliberate, controlled plunge into Jupiter itself on September 21, 2003, destroying the very spacecraft that had made the discovery, precisely because of what it had found.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="From flybys to a standing invitation to look closer" data-ru="От пролётов — до постоянного приглашения приглядеться внимательнее">From flybys to a standing invitation to look closer</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Pioneer and Voyager had glimpsed Jupiter's moons in passing. Galileo stayed long enough to turn Europa from a strange, cracked surface into a genuine target for the search for life — a case it made so convincingly that entire missions now exist just to follow up on it." data-ru="«Пионер» и «Вояджер» лишь мельком видели спутники Юпитера. «Галилео» задержался достаточно долго, чтобы превратить Европу из странной, покрытой трещинами поверхности в настоящую цель для поиска жизни, — доказав это настолько убедительно, что теперь существуют целые миссии, посвящённые продолжению этой работы.">Pioneer and Voyager had glimpsed Jupiter's moons in passing. Galileo stayed long enough to turn Europa from a strange, cracked surface into a genuine target for the search for life — a case it made so convincingly that entire missions now exist just to follow up on it.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="UMBRELLA — A FIELD GUIDE TO GALILEO AT JUPITER" data-ru="UMBRELLA — ПОЛЕВОЙ СПРАВОЧНИК ПО «ГАЛИЛЕО» У ЮПИТЕРА">UMBRELLA — A FIELD GUIDE TO GALILEO AT JUPITER</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+var GALILEO_PARTS = [
+  {id:'rtg2', en:'RTG Power Units', ru:'Блоки РИТЭГ', cEn:'2x radioisotope generators', cRu:'2 радиоизотопных генератора', x:60, y:150, w:150, h:34,
+   dEn:'Two generators on booms, chosen over solar panels because Jupiter receives roughly 4% of the sunlight Earth does — far too little for practical solar power that far out.', dRu:'Два генератора на штангах, выбранные вместо солнечных панелей, поскольку Юпитер получает лишь около 4% солнечного света, достающегося Земле, — слишком мало для практичной солнечной энергетики на таком удалении.'},
+  {id:'antenna7', en:'High-Gain Antenna (Furled)', ru:'Остронаправленная антенна (сложена)', cEn:'Never fully opened', cRu:'Так и не раскрылась полностью', x:280, y:110, w:150, h:34,
+   dEn:'A furlable, umbrella-like mesh dish that jammed on deployment and stayed folded for the entire mission, forcing reliance on a much slower backup antenna.', dRu:'Складная сетчатая тарелка, похожая на зонт, заклинившая при раскрытии и оставшаяся сложенной на протяжении всей миссии, что вынудило полагаться на гораздо более медленную резервную антенну.'},
+  {id:'probe2', en:'Atmospheric Probe', ru:'Атмосферный зонд', cEn:'Released, then destroyed on impact', cRu:'Отделён, разрушен при входе', x:280, y:210, w:150, h:34,
+   dEn:'A separate, self-contained spacecraft carried to Jupiter and released months before orbit insertion, built to survive a single, violent plunge into the atmosphere below.', dRu:'Отдельный, автономный аппарат, доставленный к Юпитеру и отделённый за месяцы до выхода на орбиту, построенный, чтобы пережить единственное, жестокое погружение в атмосферу внизу.'},
+  {id:'scanplatform', en:'Scan Platform', ru:'Сканирующая платформа', cEn:'4 optical instruments, despun', cRu:'4 оптических прибора, не вращается', x:460, y:150, w:150, h:34,
+   dEn:'Held cameras and spectrometers on the non-spinning half of the spacecraft, letting them stay precisely pointed at a target while the rest of Galileo rotated for stability.', dRu:'Несла камеры и спектрометры на невращающейся половине аппарата, позволяя им оставаться точно наведёнными на цель, пока остальная часть «Галилео» вращалась ради стабилизации.'},
+  {id:'magboom', en:'Magnetometer Boom', ru:'Штанга магнитометра', cEn:'11 m extended boom', cRu:'Выдвижная штанга, 11 м', x:460, y:210, w:150, h:34,
+   dEn:'Extended far from the spacecraft body to measure Jupiter\'s powerful magnetic field without interference from Galileo\'s own electronics.', dRu:'Вынесена далеко от корпуса аппарата, чтобы измерять мощное магнитное поле Юпитера без помех от собственной электроники «Галилео».'}
+];
+function renderGalileo(){
+  var svg = document.getElementById('galileoSvg');
+  var panel = document.getElementById('galileoPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  GALILEO_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, GALILEO_PARTS, m.id); });
+  });
+  selectPart(svg, panel, GALILEO_PARTS, GALILEO_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+var PROBE_STAGES = [
+  {id:'release', en:'Release', ru:'Отделение', bEn:'On July 13, 1995, the probe separated from the orbiter with no engine of its own, coasting on a pre-aimed ballistic path toward Jupiter for nearly five months.', bRu:'13 июля 1995 года зонд отделился от орбитального модуля, не имея собственного двигателя, — почти пять месяцев он летел по заранее нацеленной баллистической траектории к Юпитеру.'},
+  {id:'entry', en:'Entry', ru:'Вход в атмосферу', bEn:'On December 7, 1995, the probe slammed into Jupiter\'s atmosphere at roughly 170,000 km/h, decelerating so violently that its heat shield lost more than half its mass to ablation in under two minutes.', bRu:'7 декабря 1995 года зонд врезался в атмосферу Юпитера со скоростью около 170 000 км/ч, замедляясь настолько резко, что его теплозащитный экран потерял больше половины массы за счёт абляции менее чем за две минуты.'},
+  {id:'descent', en:'Parachute Descent', ru:'Спуск на парашюте', bEn:'A parachute slowed the final descent as the probe measured wind speed, temperature, pressure, and chemical composition on the way down through the clouds.', bRu:'Парашют замедлил финальный спуск, пока зонд измерял скорость ветра, температуру, давление и химический состав на пути вниз сквозь облака.'},
+  {id:'end', en:'The End of Transmission', ru:'Конец передачи', bEn:'After 57–58 minutes of transmission, the probe fell silent — not from failure, but because it had descended deep enough that Jupiter\'s crushing pressure and heat finally overwhelmed it.', bRu:'После 57–58 минут передачи данных зонд замолчал — не из-за отказа, а потому что опустился достаточно глубоко, чтобы сокрушающее давление и жар Юпитера наконец его одолели.'}
+];
+function renderProbeTabs(){
+  var tabs = document.getElementById('probeTabs');
+  var panels = document.getElementById('probePanels');
+  tabs.innerHTML=''; panels.innerHTML='';
+  PROBE_STAGES.forEach(function(t,i){
+    var btn = document.createElement('button');
+    btn.style.cssText='background:none; border:none; border-right:1px solid var(--line); padding:12px 16px; font-family:var(--font-mono); font-size:12px; letter-spacing:0.04em; color:var(--mid); cursor:pointer;';
+    if(i===0){ btn.style.background='var(--ink)'; btn.style.color='var(--white)'; }
+    btn.textContent = (lang==='en'?t.en:t.ru);
+    btn.addEventListener('click', function(){
+      tabs.querySelectorAll('button').forEach(function(x){x.style.background='none'; x.style.color='var(--mid)';});
+      panels.querySelectorAll('div.probe-panel').forEach(function(x){x.style.display='none';});
+      btn.style.background='var(--ink)'; btn.style.color='var(--white)';
+      document.getElementById('probePanel-'+t.id).style.display='block';
+    });
+    tabs.appendChild(btn);
+    var panel = document.createElement('div');
+    panel.className='probe-panel';
+    panel.id='probePanel-'+t.id;
+    panel.style.cssText='border:1px solid var(--ink); border-top:none; padding:28px; background:var(--white); display:'+(i===0?'block':'none')+';';
+    panel.innerHTML = '<p style="font-size:14.5px; max-width:640px;">'+(lang==='en'?t.bEn:t.bRu)+'</p>';
+    panels.appendChild(panel);
+  });
+}
+
+var MOONS = [
+  {en:'Io — The Volcanic Moon', ru:'Ио — вулканический спутник',
+   bEn:'Close flybys confirmed Io as the most volcanically active body in the Solar System, its surface constantly repaved by sulphurous eruptions driven by tidal flexing from Jupiter\'s gravity.', bRu:'Близкие пролёты подтвердили, что Ио — самое вулканически активное тело в Солнечной системе, чья поверхность постоянно перекраивается серными извержениями, вызванными приливным изгибанием под действием гравитации Юпитера.'},
+  {en:'Europa — A Hidden Ocean', ru:'Европа — скрытый океан',
+   bEn:'Magnetic field measurements provided strong evidence for a salty, liquid ocean beneath Europa\'s icy shell — likely containing more liquid water than all of Earth\'s oceans combined.', bRu:'Измерения магнитного поля дали веские доказательства существования солёного жидкого океана под ледяной оболочкой Европы — вероятно, содержащего больше жидкой воды, чем все земные океаны вместе взятые.'},
+  {en:'Ganymede — Its Own Magnetic Field', ru:'Ганимед — собственное магнитное поле',
+   bEn:'Galileo discovered Ganymede generates its own magnetic field, the only moon known to do so — and found evidence suggesting it, too, may hide a subsurface ocean.', bRu:'«Галилео» обнаружил, что Ганимед генерирует собственное магнитное поле — единственный известный спутник, способный на это, — и нашёл признаки того, что он тоже может скрывать подповерхностный океан.'},
+  {en:'Callisto — An Ancient, Cratered Surface', ru:'Каллисто — древняя, испещрённая кратерами поверхность',
+   bEn:'The most heavily cratered object yet studied in the Solar System, Callisto\'s surface preserves a record of impacts stretching back billions of years, with hints of its own subsurface ocean as well.', bRu:'Наиболее густо покрытый кратерами объект из всех изученных в Солнечной системе, поверхность Каллисто хранит летопись столкновений, уходящую на миллиарды лет назад, — с намёками также на собственный подповерхностный океан.'}
+];
+function renderMoons(){
+  var wrap = document.getElementById('moonsList');
+  wrap.innerHTML='';
+  MOONS.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+var LEGACY = [
+  {y:'1973–74', en:'Pioneer 10 &amp; 11', ru:'«Пионер-10» и «Пионер-11»', noteEn:'First Jupiter flybys', noteRu:'Первые пролёты Юпитера', h:20},
+  {y:'1979', en:'Voyager 1 &amp; 2', ru:'«Вояджер-1» и «Вояджер-2»', noteEn:'Discovered Io\'s volcanoes', noteRu:'Открыли вулканы на Ио', h:28},
+  {y:'1995–2003', en:'Galileo', ru:'«Галилео»', noteEn:'First orbiter, first atmospheric probe', noteRu:'Первый орбитальный аппарат, первый атмосферный зонд', h:44},
+  {y:'2016', en:'Juno', ru:'Juno', noteEn:'Polar orbiter, still active', noteRu:'Полярная орбита, всё ещё активен', h:34},
+  {y:'2030', en:'Europa Clipper', ru:'Europa Clipper', noteEn:'Dozens of Europa flybys, arriving 2030', noteRu:'Десятки пролётов Европы, прибытие в 2030', h:38}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+function renderAll(){
+  renderGalileo();
+  renderProbeTabs();
+  renderMoons();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
