@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FINALE — CASSINI-HUYGENS AT SATURN / «КАССИНИ-ГЮЙГЕНС» У САТУРНА</title>
+<meta name="description" content="An interactive engineering-style journey through the Cassini-Huygens mission to Saturn and Titan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:9.5px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.5rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.stage-btn{font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.04em; border:1px solid var(--ink); background:var(--paper); padding:9px 14px;}
+.stage-btn.active{background:var(--ink); color:var(--white);}
+.stage-row{display:flex; justify-content:center; gap:8px; margin-top:20px; flex-wrap:wrap;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-viewport{width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto;}
+.sim-verdict{margin-top:16px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:13px; min-height:20px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">FINALE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">DIST</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — TWENTY YEARS, ENDING ON PURPOSE" data-ru="РИС. 00 — ДВАДЦАТЬ ЛЕТ, ЗАВЕРШИВШИЕСЯ НАМЕРЕННО">FIG. 00 — TWENTY YEARS, ENDING ON PURPOSE</span>
+        <span data-en="1997 → 2017" data-ru="1997 → 2017">1997 → 2017</span>
+      </div>
+      <h1><span data-en="FINALE" data-ru="ФИНАЛ">FINALE</span><br><em data-en="A FIELD GUIDE TO CASSINI-HUYGENS" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО «КАССИНИ-ГЮЙГЕНС»">A FIELD GUIDE TO CASSINI-HUYGENS</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the mission that carried a European probe seven years across the Solar System to land on a moon with rivers of methane, spent thirteen more years finding water where no one expected it, and ended by deliberately burning itself up rather than risk contaminating what it found. Scroll to begin the mission." data-ru="Десять глав о миссии, семь лет несшей европейский зонд через Солнечную систему, чтобы посадить его на луну с реками из метана, затем ещё тринадцать лет находившей воду там, где её никто не ждал, — и завершившейся намеренным сгоранием, лишь бы не рисковать заражением того, что она нашла. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the mission that carried a European probe seven years across the Solar System to land on a moon with rivers of methane, spent thirteen more years finding water where no one expected it, and ended by deliberately burning itself up rather than risk contaminating what it found. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="ch1" class="section" data-phase="A JOINT MISSION" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="A MISSION BORN FROM TWO SPACE AGENCIES" data-ru="МИССИЯ, РОЖДЁННАЯ ДВУМЯ КОСМИЧЕСКИМИ АГЕНТСТВАМИ">A MISSION BORN FROM TWO SPACE AGENCIES</span></div>
+    <h2 class="h-lg" data-en="An orbiter and a lander, designed an ocean apart" data-ru="Орбитальный аппарат и посадочный модуль, спроектированные по разные стороны океана">An orbiter and a lander, designed an ocean apart</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="First proposed jointly by the U.S. National Academy of Sciences and the European Science Foundation in the early 1980s, the mission formally became a NASA-ESA-ASI partnership in 1988: NASA would build the Cassini orbiter, ESA would build the Huygens lander, and Italy's ASI would contribute the high-gain antenna and other key hardware — a genuinely split design built to work as one machine." data-ru="Впервые совместно предложенная Национальной академией наук США и Европейским научным фондом в начале 1980-х, миссия официально стала партнёрством NASA, ЕКА и Итальянского космического агентства в 1988 году: NASA строило орбитальный аппарат «Кассини», ЕКА — посадочный модуль «Гюйгенс», а итальянское ASI предоставило остронаправленную антенну и другое ключевое оборудование — по-настоящему разделённая конструкция, построенная работать как единый механизм.">First proposed jointly by the U.S. National Academy of Sciences and the European Science Foundation in the early 1980s, the mission formally became a NASA-ESA-ASI partnership in 1988: NASA would build the Cassini orbiter, ESA would build the Huygens lander, and Italy's ASI would contribute the high-gain antenna and other key hardware — a genuinely split design built to work as one machine.</p>
+  </div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2" class="section" data-phase="SEVEN YEARS TO SATURN" data-alt="→1.4 BILLION KM" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="SEVEN YEARS TO SATURN" data-ru="СЕМЬ ЛЕТ ДО САТУРНА">SEVEN YEARS TO SATURN</span></div>
+    <h2 class="h-lg" data-en="3.5 billion kilometres, four gravity assists" data-ru="3,5 миллиарда километров, четыре гравитационных манёвра">3.5 billion kilometres, four gravity assists</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Launched October 15, 1997, on a Titan IVB/Centaur, Cassini-Huygens was too massive to fly straight to Saturn. Its route looped past Venus twice, then Earth, then Jupiter, borrowing speed from each before finally reaching Saturn's system on June 30, 2004 — nearly seven years and 3.5 billion kilometres after leaving Cape Canaveral." data-ru="Запущенный 15 октября 1997 года на ракете «Титан-4Б» с разгонным блоком «Центавр», «Кассини-Гюйгенс» был слишком массивен, чтобы лететь к Сатурну напрямую. Его маршрут дважды огибал Венеру, затем Землю, затем Юпитер, заимствуя скорость на каждом этапе, прежде чем аппарат наконец достиг системы Сатурна 30 июня 2004 года — спустя почти семь лет и 3,5 миллиарда километров после старта с мыса Канаверал.">Launched October 15, 1997, on a Titan IVB/Centaur, Cassini-Huygens was too massive to fly straight to Saturn. Its route looped past Venus twice, then Earth, then Jupiter, borrowing speed from each before finally reaching Saturn's system on June 30, 2004 — nearly seven years and 3.5 billion kilometres after leaving Cape Canaveral.</p>
+      <p class="body-col" data-en="At 6 tonnes and nearly 7 metres tall, Cassini remains the largest and most sophisticated outer-planet spacecraft ever built — big enough that it needed every one of those gravity assists just to get moving fast enough." data-ru="При массе 6 тонн и высоте почти 7 метров «Кассини» остаётся крупнейшим и наиболее технически сложным аппаратом, когда-либо построенным для внешних планет, — настолько крупным, что ему потребовался каждый из этих гравитационных манёвров, лишь чтобы набрать нужную скорость.">At 6 tonnes and nearly 7 metres tall, Cassini remains the largest and most sophisticated outer-planet spacecraft ever built — big enough that it needed every one of those gravity assists just to get moving fast enough.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3" class="section" data-phase="SPACECRAFT ANATOMY" data-alt="SATURN SYSTEM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="ANATOMY OF CASSINI" data-ru="УСТРОЙСТВО «КАССИНИ»">ANATOMY OF CASSINI</span></div>
+    <h2 class="h-lg" data-en="An orbiter built to carry a lander piggyback" data-ru="Орбитальный аппарat, несущий на себе посадочный модуль">An orbiter built to carry a lander piggyback</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Select a component to see what it did during the thirteen years Cassini spent circling Saturn." data-ru="Выберите компонент, чтобы узнать, чем он занимался за тринадцать лет, что «Кассини» провёл на орбите вокруг Сатурна.">Select a component to see what it did during the thirteen years Cassini spent circling Saturn.</p>
+    <div class="schematic-wrap">
+      <svg id="cassiniSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="cassiniPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4" class="section" data-phase="HUYGENS IN SLEEP MODE" data-alt="EN ROUTE" data-vel="DORMANT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="HUYGENS: RIDING IN SLEEP MODE" data-ru="«ГЮЙГЕНС»: В СПЯЩЕМ РЕЖИМЕ">HUYGENS: RIDING IN SLEEP MODE</span></div>
+    <h2 class="h-lg" data-en="Seven years dormant, woken twice a year to check its pulse" data-ru="Семь лет в спячке, дважды в год просыпаясь для проверки">Seven years dormant, woken twice a year to check its pulse</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bolted to Cassini's side for the entire seven-year cruise, the Huygens probe spent almost the whole journey powered down, waking for a brief three-hour health check roughly every six months before returning to sleep — a probe designed to work for barely over an hour, kept in storage for a trip that lasted years." data-ru="Прикреплённый к боку «Кассини» на весь семилетний перелёт, зонд «Гюйгенс» провёл почти всё путешествие обесточенным, просыпаясь примерно раз в полгода на короткую трёхчасовую проверку состояния, прежде чем снова уснуть, — зонд, рассчитанный на работу чуть больше часа, хранился в пути, длившемся годы.">Bolted to Cassini's side for the entire seven-year cruise, the Huygens probe spent almost the whole journey powered down, waking for a brief three-hour health check roughly every six months before returning to sleep — a probe designed to work for barely over an hour, kept in storage for a trip that lasted years.</p>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5" class="section" data-phase="FIRST LANDING — TITAN" data-alt="TITAN SURFACE" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="THE FIRST LANDING IN THE OUTER SOLAR SYSTEM" data-ru="ПЕРВАЯ ПОСАДКА ВО ВНЕШНЕЙ СОЛНЕЧНОЙ СИСТЕМЕ">THE FIRST LANDING IN THE OUTER SOLAR SYSTEM</span></div>
+    <h2 class="h-lg" data-en="Seventy-two minutes on a moon with rivers of methane" data-ru="Семьдесят две минуты на луне с реками из метана">Seventy-two minutes on a moon with rivers of methane</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Huygens separated from Cassini on December 25, 2004, and spent nearly three weeks coasting toward Titan alone. On January 14, 2005, it plunged into Titan's thick atmosphere, deployed a sequence of parachutes, and descended for about two and a half hours, photographing a landscape of drainage channels and what looked unmistakably like a shoreline." data-ru="«Гюйгенс» отделился от «Кассини» 25 декабря 2004 года и почти три недели летел к Титану в одиночку. 14 января 2005 года он вошёл в плотную атмосферу Титана, развернул последовательность парашютов и спускался около двух с половиной часов, фотографируя ландшафт с дренажными каналами и тем, что безошибочно напоминало береговую линию.">Huygens separated from Cassini on December 25, 2004, and spent nearly three weeks coasting toward Titan alone. On January 14, 2005, it plunged into Titan's thick atmosphere, deployed a sequence of parachutes, and descended for about two and a half hours, photographing a landscape of drainage channels and what looked unmistakably like a shoreline.</p>
+      <p class="body-col" data-en="It touched down softly enough to survive, and kept transmitting for 72 more minutes from the surface — the first, and so far only, landing ever achieved on a moon or planet in the outer Solar System, sending back images of a river delta and confirming a world shaped by liquid, just not liquid water." data-ru="Он приземлился достаточно мягко, чтобы уцелеть, и продолжал передавать данные ещё 72 минуты с поверхности — первая и пока единственная в истории посадка на луну или планету внешней Солнечной системы, передавшая снимки дельты реки и подтвердившая мир, сформированный жидкостью, — просто не водой.">It touched down softly enough to survive, and kept transmitting for 72 more minutes from the surface — the first, and so far only, landing ever achieved on a moon or planet in the outer Solar System, sending back images of a river delta and confirming a world shaped by liquid, just not liquid water.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 -->
+<section id="ch6" class="section" data-phase="ENCELADUS — THE PLUMES" data-alt="SATURN SYSTEM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="ENCELADUS: THE PLUMES" data-ru="ЭНЦЕЛАД: ГЕЙЗЕРЫ">ENCELADUS: THE PLUMES</span></div>
+    <h2 class="h-lg" data-en="The discovery nobody planned for" data-ru="Открытие, которого никто не планировал">The discovery nobody planned for</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Cassini's cameras caught something no one expected from a small, icy moon: geysers of water vapour and ice grains erupting from cracks near Enceladus's south pole. Follow-up flybys — some flown directly through the plume itself — found organic molecules and strong evidence of a global subsurface ocean, possibly with hydrothermal activity on its floor, turning a minor moon into one of the Solar System's most serious candidates for life." data-ru="Камеры «Кассини» зафиксировали то, чего никто не ожидал от небольшой ледяной луны: гейзеры водяного пара и ледяных частиц, бьющие из трещин у южного полюса Энцелада. Последующие пролёты — некоторые прямо сквозь сам гейзер — обнаружили органические молекулы и веские доказательства глобального подповерхностного океана, возможно, с гидротермальной активностью на дне, превратив небольшую луну в одного из самых серьёзных кандидатов на существование жизни в Солнечной системе.">Cassini's cameras caught something no one expected from a small, icy moon: geysers of water vapour and ice grains erupting from cracks near Enceladus's south pole. Follow-up flybys — some flown directly through the plume itself — found organic molecules and strong evidence of a global subsurface ocean, possibly with hydrothermal activity on its floor, turning a minor moon into one of the Solar System's most serious candidates for life.</p>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7" class="section" data-phase="SATURN'S RINGS" data-alt="SATURN ORBIT" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="SATURN'S RINGS, REWRITTEN" data-ru="КОЛЬЦА САТУРНА — ПЕРЕПИСАНЫ ЗАНОВО">SATURN'S RINGS, REWRITTEN</span></div>
+    <h2 class="h-lg" data-en="Younger, and far more complicated, than anyone thought" data-ru="Моложе и куда сложнее, чем кто-либо думал">Younger, and far more complicated, than anyone thought</h2>
+    <div id="ringsList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH8 -->
+<section id="ch8" class="section" data-phase="THE GRAND FINALE" data-alt="RING GAP" data-vel="22 DIVES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="THE GRAND FINALE" data-ru="БОЛЬШОЙ ФИНАЛ">THE GRAND FINALE</span></div>
+    <h2 class="h-lg" data-en="Twenty-two dives through a 2,000-kilometre gap" data-ru="Двадцать два нырка сквозь щель шириной 2000 километров">Twenty-two dives through a 2,000-kilometre gap</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Starting in April 2017, with propellant running low, Cassini began an entirely new kind of orbit — diving, once a week, through the roughly 2,000-kilometre-wide gap between Saturn's cloud tops and the inner edge of its rings, a region no spacecraft had ever entered. Each pass returned data no distant orbit could have provided, on the planet's gravity, magnetic field, and the fine structure of the rings themselves." data-ru="Начиная с апреля 2017 года, с истощающимся запасом топлива, «Кассини» начал совершенно новый тип орбиты — раз в неделю ныряя сквозь щель шириной примерно 2000 километров между облачными вершинами Сатурна и внутренним краем его колец, — область, куда прежде не заходил ни один аппарат. Каждый пролёт давал данные о гравитации планеты, магнитном поле и тонкой структуре самих колец, недостижимые с дальней орбиты.">Starting in April 2017, with propellant running low, Cassini began an entirely new kind of orbit — diving, once a week, through the roughly 2,000-kilometre-wide gap between Saturn's cloud tops and the inner edge of its rings, a region no spacecraft had ever entered. Each pass returned data no distant orbit could have provided, on the planet's gravity, magnetic field, and the fine structure of the rings themselves.</p>
+  </div>
+</section>
+
+<!-- CH9 -->
+<section id="ch9" class="section" data-phase="A DELIBERATE DEATH" data-alt="SATURN ATMOSPHERE" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="A DELIBERATE DEATH" data-ru="НАМЕРЕННАЯ ГИБЕЛЬ">A DELIBERATE DEATH</span></div>
+    <h2 class="h-lg" data-en="Burned up on purpose, to protect what it found" data-ru="Сгорел намеренно — чтобы защитить найденное">Burned up on purpose, to protect what it found</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="With its fuel nearly exhausted and no way to guarantee control forever, Cassini faced the same problem Galileo had at Jupiter years earlier: an uncontrolled spacecraft could eventually drift into Enceladus or Titan and contaminate them with Earth microbes. On September 15, 2017, mission controllers sent Cassini on a final, deliberate plunge into Saturn's atmosphere, where it burned up completely — ending the mission the same way its Jupiter-orbiting predecessor had, for exactly the same reason." data-ru="С почти исчерпанным топливом и без гарантии вечного контроля «Кассини» столкнулся с той же проблемой, что и «Галилео» у Юпитера годами ранее: неуправляемый аппарат мог со временем дрейфовать к Энцеладу или Титану и заразить их земными микроорганизмами. 15 сентября 2017 года операторы миссии направили «Кассини» в последнее, намеренное погружение в атмосферу Сатурна, где он полностью сгорел, — завершив миссию точно так же, как это сделал его предшественник на орбите Юпитера, и по той же самой причине.">With its fuel nearly exhausted and no way to guarantee control forever, Cassini faced the same problem Galileo had at Jupiter years earlier: an uncontrolled spacecraft could eventually drift into Enceladus or Titan and contaminate them with Earth microbes. On September 15, 2017, mission controllers sent Cassini on a final, deliberate plunge into Saturn's atmosphere, where it burned up completely — ending the mission the same way its Jupiter-orbiting predecessor had, for exactly the same reason.</p>
+  </div>
+</section>
+
+<!-- CH10 -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="From a single flyby to two new targets for life" data-ru="От единственного пролёта — до двух новых целей в поисках жизни">From a single flyby to two new targets for life</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Pioneer 11 and Voyager 1 and 2 had only glimpsed Saturn in passing. Cassini-Huygens turned that glimpse into thirteen years of residence, leaving behind two genuinely new places to search for life — Enceladus's ocean and Titan's strange, hydrocarbon-soaked chemistry — that later missions are now being built to follow up on directly." data-ru="«Пионер-11» и «Вояджеры-1 и 2» лишь мельком видели Сатурн, пролетая мимо. «Кассини-Гюйгенс» превратил этот беглый взгляд в тринадцать лет постоянного присутствия, оставив после себя два по-настоящему новых места для поиска жизни — океан Энцелада и странную, пропитанную углеводородами химию Титана, — к которым уже сейчас готовятся миссии-продолжения.">Pioneer 11 and Voyager 1 and 2 had only glimpsed Saturn in passing. Cassini-Huygens turned that glimpse into thirteen years of residence, leaving behind two genuinely new places to search for life — Enceladus's ocean and Titan's strange, hydrocarbon-soaked chemistry — that later missions are now being built to follow up on directly.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="FINALE — A FIELD GUIDE TO CASSINI-HUYGENS" data-ru="FINALE — ПОЛЕВОЙ СПРАВОЧНИК ПО «КАССИНИ-ГЮЙГЕНС»">FINALE — A FIELD GUIDE TO CASSINI-HUYGENS</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH3 — SPACECRAFT SCHEMATIC ============ */
+var CASSINI_PARTS = [
+  {id:'rtg3', en:'RTG Power Units', ru:'Блоки РИТЭГ', cEn:'3x radioisotope generators', cRu:'3 радиоизотопных генератора', x:60, y:150, w:150, h:34,
+   dEn:'Three generators supplying power far from the Sun, where Saturn receives roughly 1% of the sunlight Earth does — nowhere near enough for practical solar panels.', dRu:'Три генератора, обеспечивающие питание вдали от Солнца, где Сатурн получает лишь около 1% солнечного света, достающегося Земле, — далеко не достаточно для практичных солнечных панелей.'},
+  {id:'antenna8', en:'High-Gain Antenna', ru:'Остронаправленная антенна', cEn:'4 m dish, built by ASI', cRu:'Тарелка 4 м, построена ASI', x:280, y:110, w:150, h:34,
+   dEn:'Italy\'s contribution to the mission — used for both communicating with Earth and, cleverly, for radar mapping of Titan\'s cloud-covered surface.', dRu:'Итальянский вклад в миссию — использовалась и для связи с Землёй, и, что немаловажно, для радиолокационного картирования затянутой облаками поверхности Титана.'},
+  {id:'huygens2', en:'Huygens Probe', ru:'Зонд «Гюйгенс»', cEn:'Released Dec 2004, ESA-built', cRu:'Отделён в декабре 2004, построен ЕКА', x:280, y:210, w:150, h:34,
+   dEn:'A self-contained lander bolted to Cassini for the entire cruise, released to make its own way to Titan and the only outer-Solar-System landing achieved to date.', dRu:'Автономный посадочный модуль, закреплённый на «Кассини» на весь перелёт, отделившийся, чтобы самостоятельно достичь Титана, — единственная на сегодня посадка во внешней Солнечной системе.'},
+  {id:'instruments2', en:'Remote-Sensing Instruments', ru:'Приборы дистанционного зондирования', cEn:'Cameras, spectrometers, radar', cRu:'Камеры, спектрометры, радар', x:460, y:150, w:150, h:34,
+   dEn:'Captured the imagery of Enceladus\'s plumes, mapped Saturn\'s rings in fine detail, and photographed Titan\'s hydrocarbon lakes through radar, since visible light can\'t penetrate its haze.', dRu:'Зафиксировали изображения гейзеров Энцелада, детально картировали кольца Сатурна и с помощью радара сфотографировали углеводородные озёра Титана, поскольку видимый свет не проникает сквозь его дымку.'},
+  {id:'magboom2', en:'Magnetometer Boom', ru:'Штанга магнитометра', cEn:'11 m extended boom', cRu:'Выдвижная штанга, 11 м', x:460, y:210, w:150, h:34,
+   dEn:'Measured Saturn\'s magnetic field and its interaction with the rings and moons throughout the thirteen-year orbital tour.', dRu:'Измеряла магнитное поле Сатурна и его взаимодействие с кольцами и спутниками на протяжении тринадцатилетнего орбитального тура.'}
+];
+function renderCassini(){
+  var svg = document.getElementById('cassiniSvg');
+  var panel = document.getElementById('cassiniPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  CASSINI_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, CASSINI_PARTS, m.id); });
+  });
+  selectPart(svg, panel, CASSINI_PARTS, CASSINI_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH7 — RINGS ============ */
+var RINGS = [
+  {en:'Younger than expected', ru:'Моложе, чем ожидалось',
+   bEn:'Before Cassini, scientists debated whether Saturn\'s rings were as old as the planet itself. Cassini\'s data pointed instead to an age of roughly 10 to 100 million years — geologically young, meaning the rings may not always have existed and won\'t last forever.', bRu:'До «Кассини» учёные спорили, ровесники ли кольца Сатурна самой планете. Данные «Кассини» указали вместо этого на возраст примерно от 10 до 100 миллионов лет — геологически молодой, а значит, кольца, возможно, существовали не всегда и не будут длиться вечно.'},
+  {en:'New moons, new rings', ru:'Новые спутники, новые кольца',
+   bEn:'The mission found several previously unknown small moons and additional faint rings, revealing a system considerably more complex than the handful of bands visible from Earth.', bRu:'Миссия обнаружила несколько ранее неизвестных небольших спутников и дополнительные слабые кольца, показав систему, значительно более сложную, чем несколько полос, видимых с Земли.'},
+  {en:'Shepherd moons at work', ru:'«Пастушьи» спутники за работой',
+   bEn:'Close observation confirmed how small \"shepherd\" moons gravitationally sculpt sharp edges and gaps into the rings, keeping particles confined to precise bands.', bRu:'Тщательные наблюдения подтвердили, как небольшие спутники-«пастухи» гравитационно формируют чёткие края и зазоры в кольцах, удерживая частицы в пределах точных полос.'},
+  {en:'Ring rain', ru:'«Дождь» из колец',
+   bEn:'Cassini\'s final orbits detected material raining down from the rings into Saturn\'s atmosphere at a significant rate — a process that, over long timescales, is slowly eroding the rings away.', bRu:'На последних орбитах «Кассини» зафиксировал заметный поток вещества, «выпадающего» из колец в атмосферу Сатурна, — процесс, который на длительных временных масштабах медленно разрушает кольца.'}
+];
+function renderRings(){
+  var wrap = document.getElementById('ringsList');
+  wrap.innerHTML='';
+  RINGS.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1979', en:'Pioneer 11', ru:'«Пионер-11»', noteEn:'First Saturn flyby', noteRu:'Первый пролёт Сатурна', h:20},
+  {y:'1980–81', en:'Voyager 1 &amp; 2', ru:'«Вояджер-1» и «Вояджер-2»', noteEn:'Detailed flyby imagery', noteRu:'Подробная съёмка при пролёте', h:28},
+  {y:'2004–17', en:'Cassini-Huygens', ru:'«Кассини-Гюйгенс»', noteEn:'13-year orbital tour, Titan landing', noteRu:'13-летний орбитальный тур, посадка на Титан', h:46},
+  {y:'2028+', en:'Dragonfly', ru:'Dragonfly', noteEn:'Planned rotorcraft, launching to Titan', noteRu:'Планируемый винтокрылый аппарат для Титана', h:34},
+  {y:'Future', en:'Enceladus Follow-Up', ru:'Продолжение изучения Энцелада', noteEn:'Proposed missions to sample the plumes', noteRu:'Предлагаемые миссии для забора проб из гейзеров', h:30}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+function renderAll(){
+  renderCassini();
+  renderRings();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
