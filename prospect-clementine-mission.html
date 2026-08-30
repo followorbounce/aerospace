@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROSPECT — THE CLEMENTINE MISSION / МИССИЯ «КЛЕМЕНТИНА»</title>
+<meta name="description" content="An interactive engineering-style journey through the Clementine lunar mission.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:9.5px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.5rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">PROSPECT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">ALT</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — A MISSILE-DEFENSE TEST THAT FOUND ICE" data-ru="РИС. 00 — ИСПЫТАНИЕ ПРОТИВОРАКЕТНОЙ ОБОРОНЫ, НАШЕДШЕЕ ЛЁД">FIG. 00 — A MISSILE-DEFENSE TEST THAT FOUND ICE</span>
+        <span data-en="1994 — 22 MONTHS, START TO LAUNCH" data-ru="1994 — 22 МЕСЯЦА ОТ ЗАМЫСЛА ДО ЗАПУСКА">1994 — 22 MONTHS, START TO LAUNCH</span>
+      </div>
+      <h1><span data-en="PROSPECT" data-ru="ПОИСК">PROSPECT</span><br><em data-en="A FIELD GUIDE TO THE CLEMENTINE MISSION" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО МИССИИ «КЛЕМЕНТИНА»">A FIELD GUIDE TO THE CLEMENTINE MISSION</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the small, fast, oddly-named spacecraft — built to test missile-defense sensors, not to do lunar science — that mapped the whole Moon in two months, found the first hint of polar ice, then spun itself out of fuel and out of history. Scroll to begin the mission." data-ru="Десять глав о небольшом, быстро построенном, странно названном аппарате — созданном для испытания сенсоров противоракетной обороны, а не для лунной науки, — который за два месяца картировал всю Луну, нашёл первый намёк на полярный лёд, а затем закружился, лишившись топлива и выпав из истории. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the small, fast, oddly-named spacecraft — built to test missile-defense sensors, not to do lunar science — that mapped the whole Moon in two months, found the first hint of polar ice, then spun itself out of fuel and out of history. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="ch1" class="section" data-phase="A SONG ABOUT LOSS" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="A SONG ABOUT LOSS, A MISSION ABOUT ICE" data-ru="ПЕСНЯ О ПОТЕРЕ, МИССИЯ О ЛЬДЕ">A SONG ABOUT LOSS, A MISSION ABOUT ICE</span></div>
+    <h2 class="h-lg" data-en="Named after a miner's daughter, lost and gone forever" data-ru="Названа в честь дочери старателя, потерянной навсегда">Named after a miner's daughter, lost and gone forever</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Clementine takes its name from the 19th-century American folk song about a gold miner's daughter who is lost and never found — a fitting, if unintentional, forecast for a mission that would itself eventually spin away, out of fuel and out of contact, deep in space." data-ru="«Клементина» получила имя в честь американской народной песни XIX века о дочери золотоискателя, которая теряется и никогда не находится, — уместное, пусть и непреднамеренное, предзнаменование для миссии, которой самой предстояло однажды закружиться прочь, лишившись топлива и связи, глубоко в космосе.">Clementine takes its name from the 19th-century American folk song about a gold miner's daughter who is lost and never found — a fitting, if unintentional, forecast for a mission that would itself eventually spin away, out of fuel and out of contact, deep in space.</p>
+  </div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2" class="section" data-phase="MISSILE DEFENSE IN DISGUISE" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="A MISSILE DEFENSE PROJECT IN DISGUISE" data-ru="ПРОЕКТ ПРОТИВОРАКЕТНОЙ ОБОРОНЫ ПОД ПРИКРЫТИЕМ">A MISSILE DEFENSE PROJECT IN DISGUISE</span></div>
+    <h2 class="h-lg" data-en="The Moon as a convenient target to shoot sensors at" data-ru="Луна как удобная мишень для испытания сенсоров">The Moon as a convenient target to shoot sensors at</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Clementine was jointly run by NASA and the Ballistic Missile Defense Organization — formerly the Strategic Defense Initiative Organization, the Cold War \"Star Wars\" missile-defense program. BMDO's real interest was testing lightweight sensors and spacecraft components meant for detecting incoming missiles; the Moon and a nearby asteroid simply gave those sensors something real to observe." data-ru="«Клементиной» совместно управляли NASA и Организация противоракетной обороны (BMDO) — бывшая Организация стратегической оборонной инициативы, программа противоракетной обороны времён холодной войны, известная как «Звёздные войны». Настоящим интересом BMDO было испытание лёгких сенсоров и компонентов аппаратуры, предназначенных для обнаружения приближающихся ракет; Луна и находящийся неподалёку астероид просто дали этим сенсорам реальный объект для наблюдения.">Clementine was jointly run by NASA and the Ballistic Missile Defense Organization — formerly the Strategic Defense Initiative Organization, the Cold War "Star Wars" missile-defense program. BMDO's real interest was testing lightweight sensors and spacecraft components meant for detecting incoming missiles; the Moon and a nearby asteroid simply gave those sensors something real to observe.</p>
+      <p class="body-col" data-en="NASA's interest was the opposite: use hardware someone else was paying to test anyway to get real lunar science almost for free. The arrangement let a defense-technology demonstration double as one of the most productive lunar mapping missions of its era." data-ru="Интерес NASA был противоположным: использовать аппаратуру, за испытание которой уже платил кто-то другой, чтобы получить настоящую лунную науку почти бесплатно. Такая договорённость позволила демонстрации оборонных технологий одновременно стать одной из самых продуктивных лунных картографических миссий своей эпохи.">NASA's interest was the opposite: use hardware someone else was paying to test anyway to get real lunar science almost for free. The arrangement let a defense-technology demonstration double as one of the most productive lunar mapping missions of its era.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3" class="section" data-phase="22 MONTHS START TO FINISH" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="22 MONTHS, START TO LAUNCH" data-ru="22 МЕСЯЦА — ОТ ЗАМЫСЛА ДО ЗАПУСКА">22 MONTHS, START TO LAUNCH</span></div>
+    <h2 class="h-lg" data-en="Built by a naval laboratory, faster than anyone expected" data-ru="Построена военно-морской лабораторией — быстрее, чем кто-либо ожидал">Built by a naval laboratory, faster than anyone expected</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Designed and built by the Naval Research Laboratory, Clementine went from concept to launch pad in just 22 months — years ahead of NASA's own \"faster, better, cheaper\" push and its later Discovery Program of low-cost planetary missions, which Clementine effectively previewed." data-ru="Спроектированная и построенная Военно-морской исследовательской лабораторией, «Клементина» прошла путь от замысла до стартовой площадки всего за 22 месяца — на годы опередив собственный курс NASA «быстрее, лучше, дешевле» и последующую программу Discovery недорогих планетарных миссий, которую «Клементина» фактически предвосхитила.">Designed and built by the Naval Research Laboratory, Clementine went from concept to launch pad in just 22 months — years ahead of NASA's own "faster, better, cheaper" push and its later Discovery Program of low-cost planetary missions, which Clementine effectively previewed.</p>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4" class="section" data-phase="SPACECRAFT ANATOMY" data-alt="LUNAR ORBIT" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="ANATOMY OF CLEMENTINE" data-ru="УСТРОЙСТВО «КЛЕМЕНТИНЫ»">ANATOMY OF CLEMENTINE</span></div>
+    <h2 class="h-lg" data-en="A sensor test bed that happened to be a spacecraft" data-ru="Испытательный стенд для сенсоров, оказавшийся космическим аппаратом">A sensor test bed that happened to be a spacecraft</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Every instrument aboard was, first and foremost, a missile-defense sensor prototype. Select a component." data-ru="Каждый прибор на борту был прежде всего прототипом сенсора противоракетной обороны. Выберите компонент.">Every instrument aboard was, first and foremost, a missile-defense sensor prototype. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="clemSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="clemPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5" class="section" data-phase="TWO MONTHS MAPPING THE MOON" data-alt="400–8,300 KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="TWO MONTHS MAPPING A WHOLE MOON" data-ru="ДВА МЕСЯЦА НА КАРТОГРАФИРОВАНИЕ ЦЕЛОЙ ЛУНЫ">TWO MONTHS MAPPING A WHOLE MOON</span></div>
+    <h2 class="h-lg" data-en="1.8 million images, eleven colours of light" data-ru="1,8 миллиона снимков, одиннадцать цветов света">1.8 million images, eleven colours of light</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="After lunar orbit insertion on February 21, 1994, Clementine spent about two months mapping — first a month centred on the south pole, then a month centred on the north, flying a looping polar orbit that dipped to roughly 400 km at its closest and swung out to about 8,300 km at its farthest." data-ru="После выхода на окололунную орбиту 21 февраля 1994 года «Клементина» провела около двух месяцев за картографированием — сначала месяц с фокусом на южном полюсе, затем месяц на северном, летая по петлевой полярной орбите, снижавшейся примерно до 400 км в ближайшей точке и удалявшейся почти до 8300 км в дальней.">After lunar orbit insertion on February 21, 1994, Clementine spent about two months mapping — first a month centred on the south pole, then a month centred on the north, flying a looping polar orbit that dipped to roughly 400 km at its closest and swung out to about 8,300 km at its farthest.</p>
+      <p class="body-col" data-en="Its cameras captured roughly 1.8 million images across eleven wavelength bands, from ultraviolet through infrared, building the first-ever complete multispectral map of the lunar surface — data still used by researchers today." data-ru="Его камеры сделали около 1,8 миллиона снимков в одиннадцати диапазонах длин волн — от ультрафиолета до инфракрасного, — построив первую в истории полную мультиспектральную карту лунной поверхности, данными которой исследователи пользуются до сих пор.">Its cameras captured roughly 1.8 million images across eleven wavelength bands, from ultraviolet through infrared, building the first-ever complete multispectral map of the lunar surface — data still used by researchers today.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 -->
+<section id="ch6" class="section" data-phase="THE RADAR EXPERIMENT" data-alt="SOUTH POLE" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="THE RADAR EXPERIMENT AT THE POLE" data-ru="РАДАРНЫЙ ЭКСПЕРИМЕНТ У ПОЛЮСА">THE RADAR EXPERIMENT AT THE POLE</span></div>
+    <h2 class="h-lg" data-en="Bouncing a signal off a crater that never sees the Sun" data-ru="Отражая сигнал от кратера, никогда не видящего Солнца">Bouncing a signal off a crater that never sees the Sun</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On April 9, 1994, controllers aimed Clementine's high-gain antenna at the lunar south pole and let its radio signal bounce off the surface back to giant dish antennas on Earth — a bistatic radar experiment never planned as the mission's headline result." data-ru="9 апреля 1994 года операторы направили остронаправленную антенну «Клементины» на южный полюс Луны и позволили её радиосигналу отразиться от поверхности обратно к гигантским антеннам-тарелкам на Земле — бистатический радарный эксперимент, никогда не задумывавшийся как главный результат миссии.">On April 9, 1994, controllers aimed Clementine's high-gain antenna at the lunar south pole and let its radio signal bounce off the surface back to giant dish antennas on Earth — a bistatic radar experiment never planned as the mission's headline result.</p>
+      <p class="body-col" data-en="Analysis published in 1996 suggested the reflected signal carried a signature consistent with water ice hiding in permanently shadowed craters near the pole — a single, debated data set that nonetheless reignited serious interest in lunar ice and helped justify the mission that would later confirm it." data-ru="Анализ, опубликованный в 1996 году, показал, что отражённый сигнал нёс признаки, соответствующие наличию водяного льда, скрытого в постоянно затенённых кратерах вблизи полюса, — единственный, спорный набор данных, тем не менее возродивший серьёзный интерес к лунному льду и во многом обосновавший миссию, которая позже это подтвердит.">Analysis published in 1996 suggested the reflected signal carried a signature consistent with water ice hiding in permanently shadowed craters near the pole — a single, debated data set that nonetheless reignited serious interest in lunar ice and helped justify the mission that would later confirm it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7" class="section" data-phase="THE SPIN" data-alt="EN ROUTE TO ASTEROID" data-vel="80 RPM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="THE SPIN THAT ENDED THE ASTEROID ENCOUNTER" data-ru="ВРАЩЕНИЕ, ПОЛОЖИВШЕЕ КОНЕЦ ВСТРЕЧЕ С АСТЕРОИДОМ">THE SPIN THAT ENDED THE ASTEROID ENCOUNTER</span></div>
+    <h2 class="h-lg" data-en="Eleven minutes of a stuck thruster, and the fuel was gone" data-ru="Одиннадцать минут заклинившего двигателя — и топлива не стало">Eleven minutes of a stuck thruster, and the fuel was gone</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Having finished mapping the Moon, Clementine left lunar orbit bound for a flyby of the near-Earth asteroid 1620 Geographos. On May 7, 1994, a software fault left an attitude-control thruster firing continuously for eleven minutes, exhausting the spacecraft's remaining fuel and setting it tumbling at roughly 80 revolutions per minute." data-ru="Завершив картографирование Луны, «Клементина» покинула окололунную орбиту, направляясь к пролёту околоземного астероида 1620 Географос. 7 мая 1994 года программная ошибка привела к тому, что двигатель ориентации непрерывно работал одиннадцать минут, израсходовав оставшееся топливо аппарата и закрутив его со скоростью около 80 оборотов в минуту.">Having finished mapping the Moon, Clementine left lunar orbit bound for a flyby of the near-Earth asteroid 1620 Geographos. On May 7, 1994, a software fault left an attitude-control thruster firing continuously for eleven minutes, exhausting the spacecraft's remaining fuel and setting it tumbling at roughly 80 revolutions per minute.</p>
+      <p class="body-col" data-en="With no fuel left to stabilise itself, Clementine could no longer point its instruments or its main antenna reliably — the Geographos flyby, the mission's other original objective, was cancelled outright." data-ru="Без топлива для стабилизации «Клементина» больше не могла надёжно наводить приборы или основную антенну — пролёт Географоса, вторая изначальная цель миссии, был полностью отменён.">With no fuel left to stabilise itself, Clementine could no longer point its instruments or its main antenna reliably — the Geographos flyby, the mission's other original objective, was cancelled outright.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 -->
+<section id="ch8" class="section" data-phase="LOST, THEN BRIEFLY FOUND" data-alt="—" data-vel="SIGNAL LOST">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="LOST, THEN BRIEFLY FOUND AGAIN" data-ru="ПОТЕРЯНА, ЗАТЕМ НЕНАДОЛГО НАЙДЕНА СНОВА">LOST, THEN BRIEFLY FOUND AGAIN</span></div>
+    <h2 class="h-lg" data-en="Gone and lost forever — almost exactly like the song" data-ru="Потеряна и пропала навсегда — почти точно как в песне">Gone and lost forever — almost exactly like the song</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Still tumbling and unable to point steadily, Clementine's signal faded to nothing by June 1994. Mission controllers briefly re-established contact in February 1995, confirming the spacecraft was still alive but with no realistic way to recover its original mission — a fitting, almost literal echo of the folk song it was named for." data-ru="Продолжая кувыркаться и не имея возможности устойчиво наводиться, «Клементина» к июню 1994 года полностью потеряла сигнал. Операторы миссии ненадолго восстановили связь в феврале 1995 года, подтвердив, что аппарат ещё жив, но без реального способа возобновить исходную миссию — уместное, почти буквальное эхо народной песни, в честь которой она была названа.">Still tumbling and unable to point steadily, Clementine's signal faded to nothing by June 1994. Mission controllers briefly re-established contact in February 1995, confirming the spacecraft was still alive but with no realistic way to recover its original mission — a fitting, almost literal echo of the folk song it was named for.</p>
+  </div>
+</section>
+
+<!-- CH9 -->
+<section id="ch9" class="section" data-phase="CONFIRMED BY ITS SUCCESSOR" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="CONFIRMED BY ITS SUCCESSOR" data-ru="ПОДТВЕРЖДЕНО ПРЕЕМНИКОМ">CONFIRMED BY ITS SUCCESSOR</span></div>
+    <h2 class="h-lg" data-en="A hint becomes a fact, four years later" data-ru="Намёк становится фактом четыре года спустя">A hint becomes a fact, four years later</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Clementine's radar hint of ice was suggestive but far from conclusive on its own. NASA's Lunar Prospector, launched in 1998 specifically to follow up on it, used a neutron spectrometer — a completely different technique — and confirmed signs of hydrogen consistent with water ice at both lunar poles, turning Clementine's ambiguous echo into a genuine scientific finding." data-ru="Радарный намёк «Клементины» на лёд был наводящим, но сам по себе далеко не окончательным. Запущенный в 1998 году специально для проверки этой находки «Лунар Проспектор» использовал нейтронный спектрометр — совершенно иную методику — и подтвердил признаки водорода, соответствующие водяному льду на обоих лунных полюсах, превратив неоднозначное эхо «Клементины» в настоящее научное открытие.">Clementine's radar hint of ice was suggestive but far from conclusive on its own. NASA's Lunar Prospector, launched in 1998 specifically to follow up on it, used a neutron spectrometer — a completely different technique — and confirmed signs of hydrogen consistent with water ice at both lunar poles, turning Clementine's ambiguous echo into a genuine scientific finding.</p>
+  </div>
+</section>
+
+<!-- CH10 -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="A side project that pointed at the reason to go back" data-ru="Побочный проект, указавший причину вернуться">A side project that pointed at the reason to go back</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="A mission built to test missile-defense hardware ended up supplying the single data point that redirected decades of lunar exploration toward the poles — the same ice that today's Artemis and international programs are being built specifically to reach." data-ru="Миссия, построенная для испытания аппаратуры противоракетной обороны, в итоге дала ту единственную деталь, что перенаправила десятилетия лунных исследований к полюсам, — тот самый лёд, ради которого сегодня специально строятся программы Artemis и международные проекты.">A mission built to test missile-defense hardware ended up supplying the single data point that redirected decades of lunar exploration toward the poles — the same ice that today's Artemis and international programs are being built specifically to reach.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="PROSPECT — A FIELD GUIDE TO THE CLEMENTINE MISSION" data-ru="PROSPECT — ПОЛЕВОЙ СПРАВОЧНИК ПО МИССИИ «КЛЕМЕНТИНА»">PROSPECT — A FIELD GUIDE TO THE CLEMENTINE MISSION</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+var CLEM_PARTS = [
+  {id:'hires', en:'HIRES Camera', ru:'Камера HIRES', cEn:'High-resolution imager', cRu:'Камера высокого разрешения', x:60, y:150, w:150, h:34,
+   dEn:'Captured detailed imagery of selected areas, especially the polar regions later linked to the ice hypothesis — a sensor originally meant to resolve fine detail on a target missile.', dRu:'Снимала подробные изображения отдельных участков, особенно полярных областей, позже связанных с гипотезой о льде, — сенсор, изначально предназначенный для различения мелких деталей на ракете-цели.'},
+  {id:'uvvis', en:'UV/Visible Camera', ru:'УФ/видимая камера', cEn:'Multispectral imager', cRu:'Мультиспектральная камера', x:280, y:110, w:150, h:34,
+   dEn:'Imaged the Moon across several visible and ultraviolet bands, used to map variations in surface mineral composition.', dRu:'Снимала Луну в нескольких видимых и ультрафиолетовых диапазонах, использовалась для картирования вариаций минерального состава поверхности.'},
+  {id:'nir', en:'Near-Infrared Camera', ru:'Ближняя ИК-камера', cEn:'Cooled infrared sensor', cRu:'Охлаждаемый ИК-сенсор', x:280, y:210, w:150, h:34,
+   dEn:'Extended the mapping into infrared wavelengths, helping distinguish rock and soil types invisible to the eye — technology developed to detect the heat signature of missiles.', dRu:'Расширяла картографирование в инфракрасный диапазон, помогая различать типы пород и грунта, невидимые глазу, — технология, разработанная для обнаружения теплового следа ракет.'},
+  {id:'lidar', en:'Laser Altimeter', ru:'Лазерный высотомер', cEn:'LIDAR ranging instrument', cRu:'Лидарный дальномер', x:460, y:150, w:150, h:34,
+   dEn:'Bounced laser pulses off the surface to measure elevation, building the first detailed global topographic map of the Moon up to ±75° latitude.', dRu:'Отражал лазерные импульсы от поверхности для измерения высот, построив первую подробную глобальную топографическую карту Луны до широты ±75°.'},
+  {id:'startracker', en:'Star Trackers', ru:'Звёздные датчики', cEn:'Attitude reference sensors', cRu:'Датчики ориентации', x:460, y:210, w:150, h:34,
+   dEn:'Kept the spacecraft precisely oriented for mapping — until the May 1994 thruster malfunction overwhelmed the attitude-control system entirely.', dRu:'Поддерживали точную ориентацию аппарата для картографирования — пока авария двигателя в мае 1994 года полностью не вывела из строя систему ориентации.'}
+];
+function renderClem(){
+  var svg = document.getElementById('clemSvg');
+  var panel = document.getElementById('clemPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  CLEM_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, CLEM_PARTS, m.id); });
+  });
+  selectPart(svg, panel, CLEM_PARTS, CLEM_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+var LEGACY = [
+  {y:'1994', en:'Clementine', ru:'«Клементина»', noteEn:'First hint of polar ice', noteRu:'Первый намёк на полярный лёд', h:24},
+  {y:'1998', en:'Lunar Prospector', ru:'«Лунар Проспектор»', noteEn:'Confirmed ice at both poles', noteRu:'Подтвердил лёд на обоих полюсах', h:34},
+  {y:'2009', en:'LCROSS', ru:'LCROSS', noteEn:'Impacted a shadowed crater directly', noteRu:'Врезался прямо в затенённый кратер', h:28},
+  {y:'2023', en:'Chandrayaan-3', ru:'«Чандраян-3»', noteEn:'First landing near the south pole', noteRu:'Первая посадка вблизи южного полюса', h:38},
+  {y:'2026+', en:'Artemis Base Camp', ru:'Базовый лагерь Artemis', noteEn:'Built specifically to mine this ice', noteRu:'Строится специально ради добычи этого льда', h:46}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+function renderAll(){
+  renderClem();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
