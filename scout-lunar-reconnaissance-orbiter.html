@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCOUT — LUNAR RECONNAISSANCE ORBITER / ОРБИТАЛЬНЫЙ РАЗВЕДЧИК ЛУНЫ</title>
+<meta name="description" content="An interactive engineering-style journey through NASA's Lunar Reconnaissance Orbiter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:9.5px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.5rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">SCOUT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">ALT</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — SEVENTEEN YEARS OF SCOUTING THE WAY BACK" data-ru="РИС. 00 — СЕМНАДЦАТЬ ЛЕТ РАЗВЕДКИ ПУТИ НАЗАД">FIG. 00 — SEVENTEEN YEARS OF SCOUTING THE WAY BACK</span>
+        <span data-en="2009 → PRESENT" data-ru="2009 → НАСТОЯЩЕЕ ВРЕМЯ">2009 → PRESENT</span>
+      </div>
+      <h1><span data-en="SCOUT" data-ru="РАЗВЕДЧИК">SCOUT</span><br><em data-en="A FIELD GUIDE TO THE LUNAR RECONNAISSANCE ORBITER" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО ОРБИТАЛЬНОМУ РАЗВЕДЧИКУ ЛУНЫ">A FIELD GUIDE TO THE LUNAR RECONNAISSANCE ORBITER</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the mission built not primarily for science but to answer one practical question — where, exactly, can humans safely land — and which has spent seventeen years and counting mapping the Moon in more detail than anyone thought possible. Scroll to begin the mission." data-ru="Десять глав о миссии, построенной прежде всего не ради науки, а чтобы ответить на один практический вопрос — где именно человек может безопасно приземлиться, — и вот уже семнадцать лет и более картографирующей Луну с детализацией, которую никто не считал возможной. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the mission built not primarily for science but to answer one practical question — where, exactly, can humans safely land — and which has spent seventeen years and counting mapping the Moon in more detail than anyone thought possible. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="ch1" class="section" data-phase="A SCOUT, NOT A SCIENTIST FIRST" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="A SCOUT, NOT A SCIENTIST, FIRST" data-ru="СНАЧАЛА РАЗВЕДЧИК, ПОТОМ УЧЁНЫЙ">A SCOUT, NOT A SCIENTIST, FIRST</span></div>
+    <h2 class="h-lg" data-en="Built to answer a real-estate question, not a research question" data-ru="Построен, чтобы ответить на риэлторский вопрос, а не научный">Built to answer a real-estate question, not a research question</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="LRO's original mandate wasn't pure science — it was reconnaissance in the literal sense: build a 3D map of the Moon precise enough to pick safe landing sites, locate resources like water ice, and measure the radiation environment future crews would have to survive. The science came almost as a byproduct of doing that job extremely well." data-ru="Изначальный мандат LRO не был чистой наукой — это была разведка в буквальном смысле: построить трёхмерную карту Луны, достаточно точную для выбора безопасных мест посадки, найти ресурсы вроде водяного льда и измерить радиационную обстановку, которую предстоит пережить будущим экипажам. Наука появилась почти как побочный продукт исключительно качественного выполнения этой задачи.">LRO's original mandate wasn't pure science — it was reconnaissance in the literal sense: build a 3D map of the Moon precise enough to pick safe landing sites, locate resources like water ice, and measure the radiation environment future crews would have to survive. The science came almost as a byproduct of doing that job extremely well.</p>
+  </div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2" class="section" data-phase="RIDING TOGETHER, SPLITTING APART" data-alt="EN ROUTE" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="RIDING TOGETHER, SPLITTING APART" data-ru="ЛЕТЕЛИ ВМЕСТЕ, РАЗДЕЛИЛИСЬ">RIDING TOGETHER, SPLITTING APART</span></div>
+    <h2 class="h-lg" data-en="One rocket, two missions, one deliberate crash" data-ru="Одна ракета, две миссии, одно намеренное падение">One rocket, two missions, one deliberate crash</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="LRO launched June 18, 2009, on an Atlas V, sharing the ride with a second spacecraft, LCROSS, riding on the same spent Centaur upper stage. LRO settled into lunar orbit on June 23; LCROSS and its Centaur stage kept going, deliberately, toward a fatal appointment." data-ru="LRO стартовал 18 июня 2009 года на ракете «Атлас V», разделив полёт со вторым аппаратом, LCROSS, летевшим на той же отработавшей верхней ступени «Центавр». LRO вышел на окололунную орбиту 23 июня; LCROSS и его ступень «Центавр» продолжили путь, намеренно, к роковой встрече.">LRO launched June 18, 2009, on an Atlas V, sharing the ride with a second spacecraft, LCROSS, riding on the same spent Centaur upper stage. LRO settled into lunar orbit on June 23; LCROSS and its Centaur stage kept going, deliberately, toward a fatal appointment.</p>
+      <p class="body-col" data-en="On October 9, 2009, the Centaur stage struck Cabeus crater near the lunar south pole at high speed, followed minutes later by the LCROSS spacecraft itself, flying straight through the resulting debris plume to sample it before also impacting. Instruments — including LRO's, watching from orbit — detected clear signs of water in the material thrown up by the impact." data-ru="9 октября 2009 года ступень «Центавр» на высокой скорости врезалась в кратер Кабеус вблизи южного полюса Луны, а через несколько минут за ней последовал и сам аппарат LCROSS, пролетевший прямо сквозь образовавшийся шлейф обломков, чтобы взять из него пробу, прежде чем также столкнуться с поверхностью. Приборы, включая приборы LRO, наблюдавшего с орбиты, зафиксировали чёткие признаки воды в веществе, поднятом ударом.">On October 9, 2009, the Centaur stage struck Cabeus crater near the lunar south pole at high speed, followed minutes later by the LCROSS spacecraft itself, flying straight through the resulting debris plume to sample it before also impacting. Instruments — including LRO's, watching from orbit — detected clear signs of water in the material thrown up by the impact.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3" class="section" data-phase="SPACECRAFT ANATOMY" data-alt="~50 KM" data-vel="~1.6 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="ANATOMY OF THE SEVEN EYES" data-ru="УСТРОЙСТВО «СЕМИ ГЛАЗ»">ANATOMY OF THE SEVEN EYES</span></div>
+    <h2 class="h-lg" data-en="Seven instruments, each answering a different question" data-ru="Семь приборов — и каждый отвечает на свой вопрос">Seven instruments, each answering a different question</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Engineers nicknamed LRO's instrument suite the \"Seven Eyes.\" Select one." data-ru="Инженеры прозвали набор приборов LRO «семью глазами». Выберите один.">Engineers nicknamed LRO's instrument suite the "Seven Eyes." Select one.</p>
+    <div class="schematic-wrap">
+      <svg id="lroSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="lroPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4" class="section" data-phase="MOST ACCURATE MAP EVER MADE" data-alt="~50 KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="BUILDING THE MOST ACCURATE MAP EVER MADE" data-ru="СОЗДАНИЕ САМОЙ ТОЧНОЙ КАРТЫ ИЗ КОГДА-ЛИБО СОЗДАННЫХ">BUILDING THE MOST ACCURATE MAP EVER MADE</span></div>
+    <h2 class="h-lg" data-en="Ninety-eight percent of the Moon, one laser pulse at a time" data-ru="Девяносто восемь процентов Луны — импульс за импульсом">Ninety-eight percent of the Moon, one laser pulse at a time</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="LOLA — the Lunar Orbiter Laser Altimeter — fires laser pulses at the surface and times their reflection to measure elevation. By December 2010, that data had produced the most detailed topographic map of the Moon ever made, covering more than 98% of the surface and establishing the precise geodetic reference frame every later lunar mission still measures against." data-ru="LOLA — лунный орбитальный лазерный альтиметр — посылает лазерные импульсы к поверхности и по времени их отражения измеряет высоту. К декабрю 2010 года эти данные позволили построить самую подробную топографическую карту Луны, когда-либо созданную, охватывающую более 98% поверхности и установившую точную геодезическую систему отсчёта, относительно которой до сих пор ведут измерения все последующие лунные миссии.">LOLA — the Lunar Orbiter Laser Altimeter — fires laser pulses at the surface and times their reflection to measure elevation. By December 2010, that data had produced the most detailed topographic map of the Moon ever made, covering more than 98% of the surface and establishing the precise geodetic reference frame every later lunar mission still measures against.</p>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5" class="section" data-phase="SEEING WHAT APOLLO LEFT BEHIND" data-alt="~50 KM" data-vel="0.5 M/PIXEL">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="SEEING WHAT APOLLO LEFT BEHIND" data-ru="ВИДЯ ТО, ЧТО ОСТАВИЛ «АПОЛЛОН»">SEEING WHAT APOLLO LEFT BEHIND</span></div>
+    <h2 class="h-lg" data-en="Sharp enough to spot a discarded backpack" data-ru="Достаточно резкая, чтобы разглядеть брошенный рюкзак">Sharp enough to spot a discarded backpack</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="LROC's narrow-angle cameras resolve detail down to roughly half a metre per pixel — sharp enough to photograph the Apollo descent stages still sitting where they landed, the faint tracks left by lunar rovers, and even the paths where astronauts walked between experiments, laid out decades after the fact in unprecedented clarity." data-ru="Узкоугольные камеры LROC различают детали размером примерно до полуметра на пиксель — достаточно резко, чтобы сфотографировать посадочные ступени «Аполлонов», всё ещё стоящие там, где они сели, слабые следы, оставленные луноходами, и даже тропинки, по которым астронавты ходили между экспериментами, — всё это разложено спустя десятилетия с беспрецедентной чёткостью.">LROC's narrow-angle cameras resolve detail down to roughly half a metre per pixel — sharp enough to photograph the Apollo descent stages still sitting where they landed, the faint tracks left by lunar rovers, and even the paths where astronauts walked between experiments, laid out decades after the fact in unprecedented clarity.</p>
+  </div>
+</section>
+
+<!-- CH6 -->
+<section id="ch6" class="section" data-phase="HUNTING FOR ICE" data-alt="SOUTH POLE" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="HUNTING FOR ICE IN PERMANENT DARKNESS" data-ru="ПОИСК ЛЬДА В ВЕЧНОЙ ТЬМЕ">HUNTING FOR ICE IN PERMANENT DARKNESS</span></div>
+    <h2 class="h-lg" data-en="Mapping craters that have never once seen sunlight" data-ru="Картографирование кратеров, никогда не видевших солнечного света">Mapping craters that have never once seen sunlight</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="LEND's neutron detector senses hydrogen just beneath the surface — a strong sign of water ice — while LAMP images permanently shadowed craters using faint ultraviolet starlight, since no sunlight ever reaches their floors at all. Combined with the direct confirmation from the LCROSS impact, this instrument pair turned decades of speculation, dating back to Clementine's ambiguous radar echo, into a mapped, targetable resource." data-ru="Нейтронный детектор LEND улавливает водород прямо под поверхностью — сильный признак водяного льда, — а LAMP снимает постоянно затенённые кратеры при слабом ультрафиолетовом звёздном свете, поскольку солнечный свет вообще никогда не достигает их дна. В сочетании с прямым подтверждением от удара LCROSS эта пара приборов превратила десятилетия догадок, восходящих к неоднозначному радарному эху «Клементины», в картографированный, доступный для освоения ресурс.">LEND's neutron detector senses hydrogen just beneath the surface — a strong sign of water ice — while LAMP images permanently shadowed craters using faint ultraviolet starlight, since no sunlight ever reaches their floors at all. Combined with the direct confirmation from the LCROSS impact, this instrument pair turned decades of speculation, dating back to Clementine's ambiguous radar echo, into a mapped, targetable resource.</p>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7" class="section" data-phase="LOWERING THE ORBIT" data-alt="20×165 KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="LOWERING THE ORBIT FOR A CLOSER LOOK" data-ru="СНИЖЕНИЕ ОРБИТЫ РАДИ БОЛЕЕ БЛИЗКОГО ВЗГЛЯДА">LOWERING THE ORBIT FOR A CLOSER LOOK</span></div>
+    <h2 class="h-lg" data-en="Moving the low point of the orbit right over the target" data-ru="Смещая ближнюю точку орбиты прямо над целью">Moving the low point of the orbit right over the target</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="On May 4, 2015, controllers fired LRO's engines twice, tightening its orbit to roughly 20 by 165 kilometres — with the closest point, its perilune, deliberately placed near the south pole. That put LRO's most sensitive instruments right over the exact region later missions, including Artemis, are targeting for a landing." data-ru="4 мая 2015 года операторы дважды включили двигатели LRO, сузив его орбиту примерно до 20 на 165 километров — с ближайшей точкой, перилунием, намеренно размещённой у южного полюса. Это поставило самые чувствительные приборы LRO прямо над тем самым регионом, который позднейшие миссии, включая Artemis, выбрали целью для посадки.">On May 4, 2015, controllers fired LRO's engines twice, tightening its orbit to roughly 20 by 165 kilometres — with the closest point, its perilune, deliberately placed near the south pole. That put LRO's most sensitive instruments right over the exact region later missions, including Artemis, are targeting for a landing.</p>
+  </div>
+</section>
+
+<!-- CH8 -->
+<section id="ch8" class="section" data-phase="A POSTCARD FROM THE MOON" data-alt="—" data-vel="LASER LINK">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="A POSTCARD FROM THE MOON" data-ru="ОТКРЫТКА С ЛУНЫ">A POSTCARD FROM THE MOON</span></div>
+    <h2 class="h-lg" data-en="Beaming the Mona Lisa across the Earth-Moon distance" data-ru="Передавая «Мону Лизу» через расстояние Земля — Луна">Beaming the Mona Lisa across the Earth-Moon distance</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="In January 2013, engineers used LRO to demonstrate laser-based communication with a lunar spacecraft for the first time — encoding a low-resolution image of the Mona Lisa into laser pulses and beaming it roughly 384,000 km from a ground station in Maryland to LRO's existing laser-ranging receiver, a low-key test of a technology future missions could use for much higher data rates than radio alone." data-ru="В январе 2013 года инженеры впервые продемонстрировали с помощью LRO лазерную связь с окололунным аппаратом — закодировав изображение «Моны Лизы» низкого разрешения в лазерные импульсы и передав его примерно на 384 000 км от наземной станции в Мэриленде до уже имевшегося на LRO приёмника лазерной дальнометрии — неприметное испытание технологии, которую будущие миссии смогут использовать для передачи данных на скоростях, недостижимых одной лишь радиосвязью.">In January 2013, engineers used LRO to demonstrate laser-based communication with a lunar spacecraft for the first time — encoding a low-resolution image of the Mona Lisa into laser pulses and beaming it roughly 384,000 km from a ground station in Maryland to LRO's existing laser-ranging receiver, a low-key test of a technology future missions could use for much higher data rates than radio alone.</p>
+  </div>
+</section>
+
+<!-- CH9 -->
+<section id="ch9" class="section" data-phase="SEVENTEEN YEARS AND COUNTING" data-alt="~50 KM" data-vel="ACTIVE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="SEVENTEEN YEARS AND COUNTING" data-ru="СЕМНАДЦАТЬ ЛЕТ И ПРОДОЛЖАЕТ РАБОТАТЬ">SEVENTEEN YEARS AND COUNTING</span></div>
+    <h2 class="h-lg" data-en="The longest-lived lunar orbiter ever flown" data-ru="Самый долгоживущий окололунный аппарат за всю историю">The longest-lived lunar orbiter ever flown</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Now the longest-operating lunar orbiting mission in history, LRO continues gathering data well beyond its original one-year design life — capturing the Moon's shadow crossing the United States during the 2017 and 2024 solar eclipses along the way — and remains NASA's primary source for identifying safe, resource-rich landing sites for the current generation of Moon missions." data-ru="Ныне самая долгоживущая окололунная миссия в истории, LRO продолжает собирать данные далеко за пределами изначально рассчитанного одного года эксплуатации — попутно зафиксировав тень Луны, пересекающую США во время солнечных затмений 2017 и 2024 годов, — и остаётся для NASA основным источником данных для выбора безопасных, богатых ресурсами мест посадки для нынешнего поколения лунных миссий.">Now the longest-operating lunar orbiting mission in history, LRO continues gathering data well beyond its original one-year design life — capturing the Moon's shadow crossing the United States during the 2017 and 2024 solar eclipses along the way — and remains NASA's primary source for identifying safe, resource-rich landing sites for the current generation of Moon missions.</p>
+  </div>
+</section>
+
+<!-- CH10 -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="From a debated echo to a map with a landing site circled on it" data-ru="От спорного эха — до карты с обведённым местом посадки">From a debated echo to a map with a landing site circled on it</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Clementine's radar gave a single ambiguous hint. Lunar Prospector confirmed hydrogen was there. LRO and LCROSS confirmed it was water, mapped exactly where, and measured the terrain precisely enough to plan a landing on it — closing a three-decade chain of missions that turned a guess into a destination." data-ru="Радар «Клементины» дал единственный неоднозначный намёк. «Лунар Проспектор» подтвердил наличие водорода. LRO и LCROSS подтвердили, что это вода, картировали точное местоположение и измерили рельеф достаточно точно, чтобы спланировать на нём посадку, — завершив тридцатилетнюю цепочку миссий, превративших догадку в пункт назначения.">Clementine's radar gave a single ambiguous hint. Lunar Prospector confirmed hydrogen was there. LRO and LCROSS confirmed it was water, mapped exactly where, and measured the terrain precisely enough to plan a landing on it — closing a three-decade chain of missions that turned a guess into a destination.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="SCOUT — A FIELD GUIDE TO THE LUNAR RECONNAISSANCE ORBITER" data-ru="SCOUT — ПОЛЕВОЙ СПРАВОЧНИК ПО ОРБИТАЛЬНОМУ РАЗВЕДЧИКУ ЛУНЫ">SCOUT — A FIELD GUIDE TO THE LUNAR RECONNAISSANCE ORBITER</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+var LRO_PARTS = [
+  {id:'lroc', en:'LROC', ru:'LROC', cEn:'Wide + 2 narrow-angle cameras', cRu:'Широкоугольная + 2 узкоугольные камеры', x:60, y:150, w:150, h:34,
+   dEn:'The camera suite, sharp enough at roughly 0.5 m/pixel to photograph Apollo hardware still sitting on the surface decades later.', dRu:'Комплекс камер, различающий детали примерно до 0,5 м/пиксель — достаточно резко, чтобы спустя десятилетия сфотографировать оборудование «Аполлонов», всё ещё стоящее на поверхности.'},
+  {id:'lola', en:'LOLA', ru:'LOLA', cEn:'Laser altimeter', cRu:'Лазерный высотомер', x:280, y:110, w:150, h:34,
+   dEn:'Built the most precise topographic map of the Moon ever made, covering over 98% of the surface and serving as the reference frame for every mission since.', dRu:'Построил самую точную топографическую карту Луны из когда-либо созданных, охватывающую свыше 98% поверхности и служащую системой отсчёта для всех последующих миссий.'},
+  {id:'diviner', en:'Diviner', ru:'Diviner', cEn:'Thermal radiometer', cRu:'Тепловой радиометр', x:280, y:210, w:150, h:34,
+   dEn:'Measures surface temperature across the Moon, identifying the coldest permanently shadowed spots most likely to trap ice.', dRu:'Измеряет температуру поверхности по всей Луне, выявляя самые холодные постоянно затенённые участки, наиболее вероятно удерживающие лёд.'},
+  {id:'lend', en:'LEND', ru:'LEND', cEn:'Neutron spectrometer', cRu:'Нейтронный спектрометр', x:460, y:150, w:150, h:34,
+   dEn:'Detects hydrogen just beneath the surface, a strong indirect signature of water ice, especially concentrated near the poles.', dRu:'Обнаруживает водород чуть ниже поверхности — сильный косвенный признак водяного льда, особенно сконцентрированного у полюсов.'},
+  {id:'lamp', en:'LAMP', ru:'LAMP', cEn:'Ultraviolet spectrograph', cRu:'Ультрафиолетовый спектрограф', x:460, y:210, w:150, h:34,
+   dEn:'Images permanently shadowed craters using only faint starlight and interplanetary UV glow, since no sunlight ever reaches their floors.', dRu:'Снимает постоянно затенённые кратеры, используя лишь слабый звёздный свет и межпланетное УФ-свечение, поскольку солнечный свет никогда не достигает их дна.'}
+];
+function renderLro(){
+  var svg = document.getElementById('lroSvg');
+  var panel = document.getElementById('lroPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  LRO_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, LRO_PARTS, m.id); });
+  });
+  selectPart(svg, panel, LRO_PARTS, LRO_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'INSTRUMENT SELECTED':'ВЫБРАННЫЙ ПРИБОР')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+var LEGACY = [
+  {y:'1994', en:'Clementine', ru:'«Клементина»', noteEn:'First ambiguous radar hint', noteRu:'Первый неоднозначный радарный намёк', h:20},
+  {y:'1998', en:'Lunar Prospector', ru:'«Лунар Проспектор»', noteEn:'Confirmed hydrogen at both poles', noteRu:'Подтвердил водород на обоих полюсах', h:30},
+  {y:'2009', en:'LRO / LCROSS', ru:'LRO / LCROSS', noteEn:'Direct confirmation, precise mapping', noteRu:'Прямое подтверждение, точное картографирование', h:44},
+  {y:'2023–26', en:'Landing Missions', ru:'Посадочные миссии', noteEn:'Chandrayaan-3, commercial landers use LRO maps', noteRu:'«Чандраян-3», коммерческие модули используют карты LRO', h:36},
+  {y:'2028+', en:'Artemis Landings', ru:'Посадки Artemis', noteEn:'Sites selected using LRO data', noteRu:'Места посадки выбраны по данным LRO', h:48}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+function renderAll(){
+  renderLro();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>

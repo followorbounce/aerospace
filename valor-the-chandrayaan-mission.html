@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VALOR — THE CHANDRAYAAN MISSIONS / МИССИИ «ЧАНДРАЯН»</title>
+<meta name="description" content="An interactive engineering-style journey through India's Chandrayaan lunar missions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:640px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:24px;}
+.dash-card .dc-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.3rem;}
+.dash-card .dc-status{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; padding:3px 8px; border:1px solid var(--ink);}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+.dash-row{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; padding:6px 0; border-top:1px solid var(--line);}
+.dash-row span:first-child{color:var(--mid);}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">VALOR — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">ALT</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — ONE FAILURE, THEN A FIRST FOR THE WORLD" data-ru="РИС. 00 — ОДНА НЕУДАЧА, ЗАТЕМ ПЕРВЕНСТВО ДЛЯ ВСЕГО МИРА">FIG. 00 — ONE FAILURE, THEN A FIRST FOR THE WORLD</span>
+        <span data-en="2008 → 2023" data-ru="2008 → 2023">2008 → 2023</span>
+      </div>
+      <h1><span data-en="VALOR" data-ru="ОТВАГА">VALOR</span><br><em data-en="A FIELD GUIDE TO THE CHANDRAYAAN MISSIONS" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО МИССИЯМ «ЧАНДРАЯН»">A FIELD GUIDE TO THE CHANDRAYAAN MISSIONS</em></h1>
+      <p class="sub lede" data-en="Ten chapters on India's fifteen-year, three-mission climb to the Moon — an orbiter that found water, a lander that crashed, and a third attempt, named for valor, that became the first ever to land near the lunar south pole. Scroll to begin the mission." data-ru="Десять глав о пятнадцатилетнем, состоящем из трёх миссий восхождении Индии к Луне — орбитальном аппарате, нашедшем воду, посадочном модуле, разбившемся при посадке, и третьей попытке, названной в честь отваги, ставшей первой в истории посадкой вблизи южного полюса Луны. Пролистайте вниз, чтобы начать миссию.">Ten chapters on India's fifteen-year, three-mission climb to the Moon — an orbiter that found water, a lander that crashed, and a third attempt, named for valor, that became the first ever to land near the lunar south pole. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="ch1" class="section" data-phase="INDIA'S LONG GAME" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="INDIA'S LONG GAME AT THE MOON" data-ru="ДОЛГАЯ ИГРА ИНДИИ У ЛУНЫ">INDIA'S LONG GAME AT THE MOON</span></div>
+    <h2 class="h-lg" data-en="Orbit, then attempt to land, then land" data-ru="Сначала орбита, затем попытка посадки, затем посадка">Orbit, then attempt to land, then land</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Chandrayaan — Sanskrit for \"moon craft\" — unfolded as a deliberate, step-by-step campaign rather than a single leap: an orbiter first, to prove the basics; a combined orbiter-lander-rover next, to prove landing; and only on the third attempt, everything working together at once." data-ru="«Чандраян» — на санскрите «лунный аппарат» — разворачивался как продуманная, пошаговая кампания, а не единый рывок: сначала орбитальный аппарат, чтобы доказать основы; затем связка орбитальный аппарат — посадочный модуль — ровер, чтобы доказать посадку; и лишь с третьей попытки — всё сразу и одновременно.">Chandrayaan — Sanskrit for "moon craft" — unfolded as a deliberate, step-by-step campaign rather than a single leap: an orbiter first, to prove the basics; a combined orbiter-lander-rover next, to prove landing; and only on the third attempt, everything working together at once.</p>
+  </div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2" class="section" data-phase="CHANDRAYAAN-1 — WATER DISCOVERY" data-alt="LUNAR ORBIT" data-vel="2008–09">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="CHANDRAYAAN-1: THE WATER DISCOVERY" data-ru="«ЧАНДРАЯН-1»: ОТКРЫТИЕ ВОДЫ">CHANDRAYAAN-1: THE WATER DISCOVERY</span></div>
+    <h2 class="h-lg" data-en="India's first Moon mission, and a genuine surprise" data-ru="Первая лунная миссия Индии — и настоящий сюрприз">India's first Moon mission, and a genuine surprise</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Launched in October 2008, Chandrayaan-1 carried NASA's Moon Mineralogy Mapper instrument, whose data provided some of the clearest evidence yet of water molecules bound into the lunar surface itself — not just ice in shadowed craters, but a thin, widespread layer across much of the Moon." data-ru="Запущенный в октябре 2008 года, «Чандраян-1» нёс на борту прибор NASA Moon Mineralogy Mapper, данные которого дали одно из самых чётких на тот момент доказательств наличия молекул воды, связанных с самой лунной поверхностью, — не только льда в затенённых кратерах, но и тонкого, широко распространённого слоя почти по всей Луне.">Launched in October 2008, Chandrayaan-1 carried NASA's Moon Mineralogy Mapper instrument, whose data provided some of the clearest evidence yet of water molecules bound into the lunar surface itself — not just ice in shadowed craters, but a thin, widespread layer across much of the Moon.</p>
+      <p class="body-col" data-en="The mission also released a small Moon Impact Probe that deliberately crashed near the south pole, releasing a puff of dust for the orbiter to analyse — a first, tiny rehearsal for landings still fifteen years away. Overheating problems ended the mission early, in 2009, less than a year after launch." data-ru="Миссия также выпустила небольшой ударный зонд, намеренно врезавшийся в поверхность вблизи южного полюса, подняв облачко пыли для анализа орбитальным аппаратом, — первая, крошечная репетиция посадок, которым только предстояло состояться через пятнадцать лет. Проблемы с перегревом досрочно завершили миссию в 2009 году, менее чем через год после запуска.">The mission also released a small Moon Impact Probe that deliberately crashed near the south pole, releasing a puff of dust for the orbiter to analyse — a first, tiny rehearsal for landings still fifteen years away. Overheating problems ended the mission early, in 2009, less than a year after launch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3" class="section" data-phase="CHANDRAYAAN-2" data-alt="~100 KM" data-vel="2019">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="CHANDRAYAAN-2: A SUCCESSFUL ORBITER, A CRASHED LANDER" data-ru="«ЧАНДРАЯН-2»: УСПЕШНЫЙ ОРБИТАЛЬНЫЙ АППАРАТ, РАЗБИВШИЙСЯ ПОСАДОЧНЫЙ МОДУЛЬ">CHANDRAYAAN-2: A SUCCESSFUL ORBITER, A CRASHED LANDER</span></div>
+    <h2 class="h-lg" data-en="Two out of three parts worked exactly as planned" data-ru="Две из трёх частей сработали точно по плану">Two out of three parts worked exactly as planned</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Chandrayaan-2 launched in 2019 with three components: an orbiter, the Vikram lander, and the Pragyan rover tucked inside it. The orbiter reached lunar orbit successfully and remains active there today, still returning data years later." data-ru="«Чандраян-2» стартовал в 2019 году с тремя компонентами: орбитальным аппаратом, посадочным модулем «Викрам» и укрытым внутри него ровером «Прагьян». Орбитальный аппарат успешно вышел на окололунную орбиту и остаётся активным там по сей день, спустя годы всё ещё передавая данные.">Chandrayaan-2 launched in 2019 with three components: an orbiter, the Vikram lander, and the Pragyan rover tucked inside it. The orbiter reached lunar orbit successfully and remains active there today, still returning data years later.</p>
+      <p class="body-col" data-en="Vikram's descent did not go the same way. A software issue during the final braking phase sent the lander off its planned trajectory, and it struck the surface hard enough to be destroyed, taking Pragyan down with it — a landing lost in the last few kilometres of a nearly 400,000-kilometre journey." data-ru="Спуск «Викрама» пошёл иначе. Программная неполадка на финальном этапе торможения увела посадочный модуль с расчётной траектории, и он врезался в поверхность достаточно сильно, чтобы разрушиться, увлекая за собой «Прагьян», — посадка, проигранная на последних нескольких километрах почти 400 000-километрового пути.">Vikram's descent did not go the same way. A software issue during the final braking phase sent the lander off its planned trajectory, and it struck the surface hard enough to be destroyed, taking Pragyan down with it — a landing lost in the last few kilometres of a nearly 400,000-kilometre journey.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4" class="section" data-phase="LEARNING FROM FAILURE" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="LEARNING FROM FAILURE" data-ru="УРОКИ НЕУДАЧИ">LEARNING FROM FAILURE</span></div>
+    <h2 class="h-lg" data-en="Rebuilding a lander to survive its own mistakes" data-ru="Перестраивая посадочный модуль, чтобы он пережил собственные ошибки">Rebuilding a lander to survive its own mistakes</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Chandrayaan-3's lander was deliberately over-engineered against the specific failure that doomed its predecessor: more propellant margin, stronger and wider legs, additional sensors, and a landing zone widened considerably so the lander had more room for error if it drifted off course — a design philosophy built directly around one crash report." data-ru="Посадочный модуль «Чандраяна-3» намеренно был переусилен против той самой неполадки, что погубила предшественника: больший запас топлива, более прочные и широкие опоры, дополнительные датчики и значительно расширенная зона посадки, дающая модулю больше права на ошибку при отклонении от курса, — философия проектирования, выстроенная напрямую вокруг одного отчёта об аварии.">Chandrayaan-3's lander was deliberately over-engineered against the specific failure that doomed its predecessor: more propellant margin, stronger and wider legs, additional sensors, and a landing zone widened considerably so the lander had more room for error if it drifted off course — a design philosophy built directly around one crash report.</p>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5" class="section" data-phase="SPACECRAFT ANATOMY" data-alt="SOUTH POLE" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="ANATOMY OF CHANDRAYAAN-3" data-ru="УСТРОЙСТВО «ЧАНДРАЯНА-3»">ANATOMY OF CHANDRAYAAN-3</span></div>
+    <h2 class="h-lg" data-en="A propulsion ride, a lander named valor, a rover named wisdom" data-ru="Разгонный модуль, посадочный модуль «Отвага», ровер «Мудрость»">A propulsion ride, a lander named valor, a rover named wisdom</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Vikram means \"valor\" in Sanskrit; Pragyan means \"wisdom.\" Select a component." data-ru="Викрам означает «отвага» на санскрите; Прагьян означает «мудрость». Выберите компонент.">Vikram means "valor" in Sanskrit; Pragyan means "wisdom." Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="candraSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="candraPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 -->
+<section id="ch6" class="section" data-phase="THE LANDING" data-alt="LUNAR SOUTH POLE" data-vel="AUG 23 2023">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="THE LANDING — AUGUST 23, 2023" data-ru="ПОСАДКА — 23 АВГУСТА 2023">THE LANDING — AUGUST 23, 2023</span></div>
+    <h2 class="h-lg" data-en="Fourth country to land, first to land this far south" data-ru="Четвёртая страна с посадкой, первая — так далеко на юге">Fourth country to land, first to land this far south</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Vikram separated from the propulsion module on August 17, 2023, and used the still-orbiting Chandrayaan-2 orbiter as a communication relay throughout its descent. Guided by a fully automatic landing system referencing pre-loaded surface maps, it touched down safely on August 23, 2023, making India the fourth country ever to achieve a soft lunar landing." data-ru="«Викрам» отделился от разгонного модуля 17 августа 2023 года и на протяжении всего спуска использовал всё ещё находящийся на орбите аппарат «Чандраян-2» в качестве ретранслятора связи. Ведомый полностью автоматической системой посадки, сверявшейся с заранее загруженными картами поверхности, он благополучно сел 23 августа 2023 года, сделав Индию четвёртой страной в истории, добившейся мягкой посадки на Луну.">Vikram separated from the propulsion module on August 17, 2023, and used the still-orbiting Chandrayaan-2 orbiter as a communication relay throughout its descent. Guided by a fully automatic landing system referencing pre-loaded surface maps, it touched down safely on August 23, 2023, making India the fourth country ever to achieve a soft lunar landing.</p>
+      <p class="body-col" data-en="More significantly, it landed farther south than any spacecraft ever had — at roughly 70° south latitude, in the rugged highland terrain near the lunar south pole that every major lunar program is now targeting." data-ru="Что ещё важнее, посадка прошла южнее, чем когда-либо у любого другого аппарата, — примерно на 70° южной широты, в пересечённом высокогорье вблизи южного полюса Луны, куда сегодня нацелена каждая крупная лунная программа.">More significantly, it landed farther south than any spacecraft ever had — at roughly 70° south latitude, in the rugged highland terrain near the lunar south pole that every major lunar program is now targeting.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7" class="section" data-phase="ONE WEEK OF DISCOVERIES" data-alt="SOUTH POLE" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="ONE WEEK OF DISCOVERIES" data-ru="НЕДЕЛЯ ОТКРЫТИЙ">ONE WEEK OF DISCOVERIES</span></div>
+    <h2 class="h-lg" data-en="A lunar day's worth of firsts" data-ru="Первенства длиной в лунный день">A lunar day's worth of firsts</h2>
+    <div id="findingsList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH8 -->
+<section id="ch8" class="section" data-phase="INTO THE LONG NIGHT" data-alt="SOUTH POLE" data-vel="SIGNAL LOST">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="INTO THE LONG NIGHT, AND SILENCE" data-ru="В ДОЛГУЮ НОЧЬ — И МОЛЧАНИЕ">INTO THE LONG NIGHT, AND SILENCE</span></div>
+    <h2 class="h-lg" data-en="Put to sleep, never woken up" data-ru="Уложены спать — и не проснулись">Put to sleep, never woken up</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="With no power source able to survive the roughly two-week lunar night's plunge to below −120°C, ISRO deliberately put both Vikram and Pragyan into sleep mode in early September 2023, hoping the electronics would revive when sunlight returned on September 22. Contact attempts on that date, and after, went unanswered — the cold had very likely damaged their batteries and electronics beyond recovery, closing out the mission exactly as planned for its active phase, if not for its silent one." data-ru="Не имея источника энергии, способного пережить падение температуры ниже −120°C за примерно двухнедельную лунную ночь, ISRO намеренно перевело «Викрам» и «Прагьян» в спящий режим в начале сентября 2023 года, надеясь, что электроника оживёт с возвращением солнечного света 22 сентября. Попытки связи в этот день и позже остались без ответа — холод, вероятно, безвозвратно повредил батареи и электронику, завершив миссию именно так, как и планировалось для её активной фазы, — но не для последовавшего за ней молчания.">With no power source able to survive the roughly two-week lunar night's plunge to below −120°C, ISRO deliberately put both Vikram and Pragyan into sleep mode in early September 2023, hoping the electronics would revive when sunlight returned on September 22. Contact attempts on that date, and after, went unanswered — the cold had very likely damaged their batteries and electronics beyond recovery, closing out the mission exactly as planned for its active phase, if not for its silent one.</p>
+  </div>
+</section>
+
+<!-- CH9 -->
+<section id="ch9" class="section" data-phase="WHAT COMES NEXT" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="WHAT COMES NEXT" data-ru="ЧТО ДАЛЬШЕ">WHAT COMES NEXT</span></div>
+    <h2 class="h-lg" data-en="From landing, to roving, to bringing pieces home" data-ru="От посадки, через передвижение — до возврата образцов домой">From landing, to roving, to bringing pieces home</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="ISRO is now developing Chandrayaan-4, planned as India's first robotic lunar sample-return mission, alongside LUPEX, a joint lunar rover mission being developed with Japan's space agency to search for ice near the south pole — all feeding into India's broader ambitions for crewed spaceflight under its Gaganyaan program." data-ru="ISRO сейчас разрабатывает «Чандраян-4», задуманный как первая индийская автоматическая миссия по возврату лунного грунта, наряду с LUPEX — совместной с японским космическим агентством миссией лунохода для поиска льда вблизи южного полюса, — всё это питает более широкие амбиции Индии в области пилотируемых полётов в рамках программы «Гаганьян».">ISRO is now developing Chandrayaan-4, planned as India's first robotic lunar sample-return mission, alongside LUPEX, a joint lunar rover mission being developed with Japan's space agency to search for ice near the south pole — all feeding into India's broader ambitions for crewed spaceflight under its Gaganyaan program.</p>
+  </div>
+</section>
+
+<!-- CH10 -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="A crash report that became a landing" data-ru="Отчёт об аварии, ставший посадкой">A crash report that became a landing</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Few space programs turn a public, well-documented failure into a successful mission just four years later. Chandrayaan-3's landing was less a single triumph than the visible payoff of treating Chandrayaan-2's crash as data rather than an ending." data-ru="Немногие космические программы превращают публичную, хорошо задокументированную неудачу в успешную миссию всего четыре года спустя. Посадка «Чандраяна-3» была не столько отдельным триумфом, сколько видимым итогом того, что аварию «Чандраяна-2» восприняли как данные, а не как конец пути.">Few space programs turn a public, well-documented failure into a successful mission just four years later. Chandrayaan-3's landing was less a single triumph than the visible payoff of treating Chandrayaan-2's crash as data rather than an ending.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="VALOR — A FIELD GUIDE TO THE CHANDRAYAAN MISSIONS" data-ru="VALOR — ПОЛЕВОЙ СПРАВОЧНИК ПО МИССИЯМ «ЧАНДРАЯН»">VALOR — A FIELD GUIDE TO THE CHANDRAYAAN MISSIONS</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+var CANDRA_PARTS = [
+  {id:'prop', en:'Propulsion Module', ru:'Разгонный модуль', cEn:'Carries lander to lunar orbit', cRu:'Доставляет посадочный модуль на окололунную орбиту', x:60, y:150, w:150, h:34,
+   dEn:'Carried Vikram from Earth to a roughly 100 km lunar orbit, then remained behind carrying the SHAPE instrument to study Earth\'s reflected light from lunar orbit.', dRu:'Доставил «Викрам» с Земли на окололунную орбиту высотой около 100 км, а затем остался на орбите с прибором SHAPE для изучения отражённого света Земли.'},
+  {id:'vikram', en:'Vikram Lander', ru:'Посадочный модуль «Викрам»', cEn:'Named for valor', cRu:'Назван в честь отваги', x:280, y:110, w:150, h:34,
+   dEn:'Carried ChaSTE (a temperature probe), ILSA (a seismometer), and a radio plasma experiment, landing with reinforced legs and extra fuel margin learned from Chandrayaan-2\'s crash.', dRu:'Нёс ChaSTE (температурный зонд), ILSA (сейсмометр) и радиоплазменный эксперимент, приземлившись с усиленными опорами и дополнительным запасом топлива — уроком аварии «Чандраяна-2».'},
+  {id:'pragyan', en:'Pragyan Rover', ru:'Ровер «Прагьян»', cEn:'Named for wisdom', cRu:'Назван в честь мудрости', x:280, y:210, w:150, h:34,
+   dEn:'A small six-wheeled rover carrying LIBS and APXS spectrometers, which confirmed sulphur and mapped other elements in the soil near the landing site.', dRu:'Небольшой шестиколёсный ровер со спектрометрами LIBS и APXS, подтвердивший наличие серы и картировавший другие элементы в грунте вблизи места посадки.'},
+  {id:'chaste', en:'ChaSTE Probe', ru:'Зонд ChaSTE', cEn:'Temperature-depth sensor', cRu:'Датчик температуры по глубине', x:460, y:150, w:150, h:34,
+   dEn:'Penetrated 10 cm into the lunar soil with ten separate temperature sensors, producing the first-ever temperature-depth profile recorded at the lunar south pole.', dRu:'Проникал на 10 см в лунный грунт с десятью отдельными датчиками температуры, построив первый в истории профиль температуры по глубине у южного полюса Луны.'},
+  {id:'ilsa', en:'ILSA Seismometer', ru:'Сейсмометр ILSA', cEn:'Instrument for Lunar Seismic Activity', cRu:'Прибор для регистрации лунной сейсмической активности', x:460, y:210, w:150, h:34,
+   dEn:'Detected a natural event consistent with a moonquake during the mission\'s brief active period, adding to the sparse record of seismic activity at the pole.', dRu:'Зафиксировал природное событие, соответствующее лунотрясению, в течение краткого активного периода миссии, пополнив скудную летопись сейсмической активности у полюса.'}
+];
+function renderCandra(){
+  var svg = document.getElementById('candraSvg');
+  var panel = document.getElementById('candraPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  CANDRA_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, CANDRA_PARTS, m.id); });
+  });
+  selectPart(svg, panel, CANDRA_PARTS, CANDRA_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+var FINDINGS = [
+  {en:'A temperature-depth profile of the south pole', ru:'Профиль температуры по глубине у южного полюса',
+   bEn:'ChaSTE produced the first-ever measurement of how lunar soil temperature changes with depth this close to the pole, essential data for any future base planning to use the ground for insulation.', bRu:'ChaSTE впервые измерил, как температура лунного грунта меняется с глубиной так близко к полюсу, — важные данные для планирования любой будущей базы, рассчитывающей использовать грунт для теплоизоляции.'},
+  {en:'Confirmed sulphur in the south polar soil', ru:'Подтверждённая сера в грунте у южного полюса',
+   bEn:'Pragyan\'s LIBS instrument performed the first-ever in-situ chemical measurement at the lunar south pole, unambiguously confirming sulphur in the soil — something no orbiter\'s remote sensing had been able to establish with certainty.', bRu:'Прибор LIBS ровера «Прагьян» впервые в истории провёл прямое химическое измерение в месте посадки у южного полюса, однозначно подтвердив наличие серы в грунте, — то, что дистанционное зондирование ни одного орбитального аппарата не могло установить с уверенностью.'},
+  {en:'A sparse plasma environment', ru:'Разрежённая плазменная обстановка',
+   bEn:'A radio experiment aboard Vikram found the plasma density directly above the south pole to be considerably lower than expected, refining models of the Moon\'s thin, variable ionosphere-like environment.', bRu:'Радиоэксперимент на борту «Викрама» обнаружил, что плотность плазмы непосредственно над южным полюсом заметно ниже ожидаемой, уточнив модели разрежённой, переменчивой ионосфероподобной среды Луны.'},
+  {en:'A possible moonquake', ru:'Возможное лунотрясение',
+   bEn:'The ILSA seismometer picked up a natural signal consistent with seismic activity during the short active mission — a rare direct measurement in a region with almost no prior ground-based data.', bRu:'Сейсмометр ILSA зафиксировал природный сигнал, соответствующий сейсмической активности в течение короткой активной миссии, — редкое прямое измерение в регионе, где прежде почти не было наземных данных.'}
+];
+function renderFindings(){
+  var wrap = document.getElementById('findingsList');
+  wrap.innerHTML='';
+  FINDINGS.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+var LEGACY = [
+  {y:'2008', en:'Chandrayaan-1', ru:'«Чандраян-1»', noteEn:'Found evidence of water molecules', noteRu:'Обнаружил признаки молекул воды', h:24},
+  {y:'2019', en:'Chandrayaan-2', ru:'«Чандраян-2»', noteEn:'Orbiter succeeds, lander crashes', noteRu:'Орбитальный аппарат успешен, модуль разбился', h:20},
+  {y:'2023', en:'Chandrayaan-3', ru:'«Чандраян-3»', noteEn:'First landing near the south pole', noteRu:'Первая посадка вблизи южного полюса', h:44},
+  {y:'2028+', en:'Chandrayaan-4', ru:'«Чандраян-4»', noteEn:'Planned lunar sample return', noteRu:'Планируемый возврат лунного грунта', h:34},
+  {y:'2030s', en:'LUPEX (with Japan)', ru:'LUPEX (совместно с Японией)', noteEn:'Joint rover mission to search for ice', noteRu:'Совместная миссия лунохода для поиска льда', h:30}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+function renderAll(){
+  renderCandra();
+  renderFindings();
+  renderLegacy();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
