@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TROY — THE SPIRIT ROVER / МАРСОХОД SPIRIT</title>
+<meta name="description" content="An interactive, referenced field guide to NASA's Spirit rover and the Mars Exploration Rover mission.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+sup{font-size:0.65em; vertical-align:super;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:660px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:9.5px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.5rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-note{font-size:12.5px; color:var(--mid); margin-top:6px; line-height:1.5;}
+.cite{font-family:var(--font-mono); font-size:11px; color:var(--mid); vertical-align:super; margin-left:1px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">TROY — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">SITE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — NINETY DAYS PLANNED, SIX YEARS DELIVERED" data-ru="РИС. 00 — ЗАПЛАНИРОВАНО НА 90 ДНЕЙ, ПРОРАБОТАЛ ШЕСТЬ ЛЕТ">FIG. 00 — NINETY DAYS PLANNED, SIX YEARS DELIVERED</span>
+        <span data-en="2004 → 2010" data-ru="2004 → 2010">2004 → 2010</span>
+      </div>
+      <h1><span data-en="TROY" data-ru="ТРОЯ">TROY</span><br><em data-en="A FIELD GUIDE TO THE SPIRIT ROVER" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО МАРСОХОДУ SPIRIT">A FIELD GUIDE TO THE SPIRIT ROVER</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the golf-cart-sized geologist that outlasted its warranty by twenty times over, climbed a range of hills no rover had attempted before, stumbled into one of its best discoveries by accident, and finally became trapped in a patch of ground its own engineers named after a siege that couldn't be won. Scroll to begin the mission." data-ru="Десять глав о геологе размером с гольф-кар, пережившем свой гарантийный срок в двадцать раз, покорившем гряду холмов, на которую прежде не решался ни один ровер, случайно наткнувшемся на одно из своих лучших открытий и в итоге застрявшем на участке грунта, который его же инженеры назвали в честь осады, которую невозможно было выиграть. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the golf-cart-sized geologist that outlasted its warranty by twenty times over, climbed a range of hills no rover had attempted before, stumbled into one of its best discoveries by accident, and finally became trapped in a patch of ground its own engineers named after a siege that couldn't be won. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="ch1" class="section" data-phase="TWIN ROVERS" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="TWINS BOUND FOR DIFFERENT SIDES OF MARS" data-ru="БЛИЗНЕЦЫ, ЛЕТЯЩИЕ НА РАЗНЫЕ СТОРОНЫ МАРСА">TWINS BOUND FOR DIFFERENT SIDES OF MARS</span></div>
+    <h2 class="h-lg" data-en="Named by a nine-year-old, in a contest with ten thousand entries" data-ru="Названа девятилетней девочкой в конкурсе с десятью тысячами заявок">Named by a nine-year-old, in a contest with ten thousand entries</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Spirit and its twin, Opportunity, formed NASA's Mars Exploration Rover mission, part of the broader Mars Exploration Program searching for evidence of past water.<sup class='cite'>[7]</sup> Their names came from a NASA-sponsored student essay contest, sponsored jointly with The Planetary Society and LEGO, that drew nearly 10,000 entries before Spirit and Opportunity were chosen.<sup class='cite'>[3]</sup>" data-ru="Spirit и его близнец Opportunity составили миссию NASA Mars Exploration Rover в рамках более широкой программы исследования Марса, искавшей следы существования воды в прошлом.<sup class='cite'>[7]</sup> Их имена были выбраны в студенческом конкурсе эссе, организованном NASA совместно с The Planetary Society и LEGO, — конкурс собрал почти 10 000 заявок, прежде чем были выбраны имена Spirit и Opportunity.<sup class='cite'>[3]</sup>">Spirit and its twin, Opportunity, formed NASA's Mars Exploration Rover mission, part of the broader Mars Exploration Program searching for evidence of past water.<sup class="cite">[7]</sup> Their names came from a NASA-sponsored student essay contest, sponsored jointly with The Planetary Society and LEGO, that drew nearly 10,000 entries before Spirit and Opportunity were chosen.<sup class="cite">[3]</sup></p>
+      <p class="body-col" data-en="Spirit launched first, on June 10, 2003, aboard a Delta II rocket from Cape Canaveral, with Opportunity following about a month later.<sup class=\'cite\'>[8]</sup> The two were deliberately targeted at opposite sides of Mars, each chosen because orbital imagery suggested liquid water might once have shaped the ground there.<sup class='cite'>[6]</sup>" data-ru="Spirit стартовал первым, 10 июня 2003 года, на ракете «Дельта-2» с мыса Канаверал, а Opportunity последовал примерно через месяц.<sup class='cite'>[8]</sup> Оба аппарата намеренно нацелили на противоположные стороны Марса — каждую точку выбрали потому, что снимки с орбиты указывали на возможное присутствие жидкой воды, некогда сформировавшей этот рельеф.<sup class='cite'>[6]</sup>">Spirit launched first, on June 10, 2003, aboard a Delta II rocket from Cape Canaveral, with Opportunity following about a month later.<sup class="cite">[8]</sup> The two were deliberately targeted at opposite sides of Mars, each chosen because orbital imagery suggested liquid water might once have shaped the ground there.<sup class="cite">[6]</sup></p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2" class="section" data-phase="COLUMBIA MEMORIAL STATION" data-alt="GUSEV CRATER" data-vel="JAN 4 2004">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="COLUMBIA MEMORIAL STATION" data-ru="МЕМОРИАЛЬНАЯ СТАНЦИЯ «КОЛУМБИЯ»">COLUMBIA MEMORIAL STATION</span></div>
+    <h2 class="h-lg" data-en="Twenty-eight bounces, named for seven astronauts" data-ru="Двадцать восемь отскоков, названа в честь семи астронавтов">Twenty-eight bounces, named for seven astronauts</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Spirit struck the Martian surface inside Gusev Crater at 04:35 UTC on January 4, 2004, hitting at roughly 14 metres per second before bouncing 28 times across the ground, cushioned by airbags, and rolling to a stop 250 to 300 metres from its first impact.<sup class='cite'>[6]</sup>" data-ru="Spirit коснулся поверхности Марса внутри кратера Гусева в 04:35 UTC 4 января 2004 года, ударившись о грунт со скоростью около 14 метров в секунду, после чего отскочил 28 раз, смягчаемый подушками безопасности, и остановился в 250–300 метрах от точки первого удара.<sup class='cite'>[6]</sup>">Spirit struck the Martian surface inside Gusev Crater at 04:35 UTC on January 4, 2004, hitting at roughly 14 metres per second before bouncing 28 times across the ground, cushioned by airbags, and rolling to a stop 250 to 300 metres from its first impact.<sup class="cite">[6]</sup></p>
+      <p class="body-col" data-en="The landing site was named Columbia Memorial Station, honouring the seven astronauts killed when Space Shuttle Columbia broke apart during re-entry on February 1, 2003 — less than a year before Spirit touched down.<sup class='cite'>[6]</sup>" data-ru="Место посадки назвали мемориальной станцией «Колумбия» в честь семи астронавтов, погибших при разрушении шаттла «Колумбия» во время входа в атмосферу 1 февраля 2003 года — менее чем за год до посадки Spirit.<sup class='cite'>[6]</sup>">The landing site was named Columbia Memorial Station, honouring the seven astronauts killed when Space Shuttle Columbia broke apart during re-entry on February 1, 2003 — less than a year before Spirit touched down.<sup class="cite">[6]</sup></p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3" class="section" data-phase="ROVER ANATOMY" data-alt="GUSEV CRATER" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="ANATOMY OF SPIRIT" data-ru="УСТРОЙСТВО SPIRIT">ANATOMY OF SPIRIT</span></div>
+    <h2 class="h-lg" data-en="The size of a golf cart, seven times heavier than Sojourner" data-ru="Размером с гольф-кар, в семь раз тяжелее «Соджорнера»">The size of a golf cart, seven times heavier than Sojourner</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="At 185 kg, Spirit dwarfed Pathfinder's tiny Sojourner rover from 1997.<sup class='cite'>[6]</sup> Select a component." data-ru="При массе 185 кг Spirit значительно превосходил крошечный ровер «Соджорнер» миссии «Патфайндер» 1997 года.<sup class='cite'>[6]</sup> Выберите компонент.">At 185 kg, Spirit dwarfed Pathfinder's tiny Sojourner rover from 1997.<sup class="cite">[6]</sup> Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="spiritSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="spiritPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4" class="section" data-phase="NINETY DAYS SIX YEARS" data-alt="GUSEV PLAINS" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="NINETY DAYS, SIX YEARS" data-ru="ДЕВЯНОСТО ДНЕЙ, ШЕСТЬ ЛЕТ">NINETY DAYS, SIX YEARS</span></div>
+    <h2 class="h-lg" data-en="Basalt plains where a lake was expected" data-ru="Базальтовые равнины там, где ожидали найти озеро">Basalt plains where a lake was expected</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Gusev Crater was chosen because its flat floor, fed by an 800-km outflow channel called Ma'adim Vallis, made a former lake bed seem near-certain.<sup class='cite'>[3]</sup> Instead, Spirit's first months found the plains covered in volcanic basalt — any lake sediments long since buried under later eruptions.<sup class='cite'>[3]</sup>" data-ru="Кратер Гусева выбрали потому, что его плоское дно, питаемое 800-километровым руслом Ма'адим Валлис, делало существование там древнего озера почти несомненным.<sup class='cite'>[3]</sup> Однако первые месяцы работы Spirit показали, что равнины покрыты вулканическим базальтом — любые озёрные отложения давно погребены под более поздними извержениями.<sup class='cite'>[3]</sup>">Gusev Crater was chosen because its flat floor, fed by an 800-km outflow channel called Ma'adim Vallis, made a former lake bed seem near-certain.<sup class="cite">[3]</sup> Instead, Spirit's first months found the plains covered in volcanic basalt — any lake sediments long since buried under later eruptions.<sup class="cite">[3]</sup></p>
+      <p class="body-col" data-en="Designed for a 90-sol mission, Spirit was still driving nearly six years later — a mission that eventually stretched to 2,208 sols of contact, more than twenty times its original warranty.<sup class='cite'>[10]</sup>" data-ru="Рассчитанный на 90-сольную миссию, Spirit продолжал ездить спустя почти шесть лет, — миссия, в итоге растянувшаяся до 2208 солов связи, более чем в двадцать раз дольше исходного гарантийного срока.<sup class='cite'>[10]</sup>">Designed for a 90-sol mission, Spirit was still driving nearly six years later — a mission that eventually stretched to 2,208 sols of contact, more than twenty times its original warranty.<sup class="cite">[10]</sup></p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5" class="section" data-phase="COLUMBIA HILLS" data-alt="COLUMBIA HILLS" data-vel="2004–06">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="CLIMBING THE COLUMBIA HILLS" data-ru="ВОСХОЖДЕНИЕ НА ХОЛМЫ «КОЛУМБИЯ»">CLIMBING THE COLUMBIA HILLS</span></div>
+    <h2 class="h-lg" data-en="Chasing older rock, uphill" data-ru="В погоне за более древними породами — в гору">Chasing older rock, uphill</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="With the plains disappointing, mission scientists sent Spirit toward the Columbia Hills, about 3 km from the landing site, hoping for rock old enough to have escaped the basalt flows.<sup class='cite'>[3]</sup> The gamble paid off: among the hills, Spirit found minerals like goethite that form only in the presence of water, along with rocks visibly altered by past moisture — the clearest sign yet that Gusev's history involved more than lava.<sup class='cite'>[9]</sup>" data-ru="Поскольку равнины разочаровали, учёные миссии направили Spirit к холмам «Колумбия» примерно в 3 км от места посадки, надеясь найти породы, достаточно древние, чтобы избежать базальтовых потоков.<sup class='cite'>[3]</sup> Риск оправдался: среди холмов Spirit обнаружил минералы вроде гётита, образующиеся только в присутствии воды, а также породы с явными следами прошлого воздействия влаги — самое ясное на тот момент свидетельство того, что история Гусева включала не только лаву.<sup class='cite'>[9]</sup>">With the plains disappointing, mission scientists sent Spirit toward the Columbia Hills, about 3 km from the landing site, hoping for rock old enough to have escaped the basalt flows.<sup class="cite">[3]</sup> The gamble paid off: among the hills, Spirit found minerals like goethite that form only in the presence of water, along with rocks visibly altered by past moisture — the clearest sign yet that Gusev's history involved more than lava.<sup class="cite">[9]</sup></p>
+  </div>
+</section>
+
+<!-- CH6 -->
+<section id="ch6" class="section" data-phase="THE DRAGGING WHEEL" data-alt="HOME PLATE" data-vel="2006">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="A LUCKY BREAK: THE DRAGGING WHEEL" data-ru="УДАЧНАЯ ПОЛОМКА: ВОЛОЧАЩЕЕСЯ КОЛЕСО">A LUCKY BREAK: THE DRAGGING WHEEL</span></div>
+    <h2 class="h-lg" data-en="A broken wheel accidentally became an instrument" data-ru="Сломанное колесо случайно стало прибором">A broken wheel accidentally became an instrument</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="In 2006, Spirit's right front wheel stopped turning entirely. Engineers had the rover drive backward, dragging the dead wheel like a plough — and that dragging motion scraped up bright, almost pure silica deposits from just beneath the surface near a feature called Home Plate.<sup class='cite'>[3]</sup> Nearly pure silica on Earth typically forms around hot springs or steam vents, making the accidental discovery one of the strongest pieces of evidence for a past hydrothermal environment anywhere the rovers explored.<sup class='cite'>[9]</sup>" data-ru="В 2006 году правое переднее колесо Spirit полностью перестало вращаться. Инженеры заставили ровер ехать назад, волоча мёртвое колесо, словно плуг, — и это волочение процарапало грунт, вскрыв яркие, почти чистые отложения кремнезёма прямо под поверхностью вблизи участка под названием Home Plate.<sup class='cite'>[3]</sup> Почти чистый кремнезём на Земле обычно образуется вокруг горячих источников или паровых жерл, что сделало это случайное открытие одним из самых веских доказательств существования древней гидротермальной среды на всём маршруте роверов.<sup class='cite'>[9]</sup>">In 2006, Spirit's right front wheel stopped turning entirely. Engineers had the rover drive backward, dragging the dead wheel like a plough — and that dragging motion scraped up bright, almost pure silica deposits from just beneath the surface near a feature called Home Plate.<sup class="cite">[3]</sup> Nearly pure silica on Earth typically forms around hot springs or steam vents, making the accidental discovery one of the strongest pieces of evidence for a past hydrothermal environment anywhere the rovers explored.<sup class="cite">[9]</sup></p>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7" class="section" data-phase="STUCK IN TROY" data-alt="TROY" data-vel="2009">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="STUCK IN TROY" data-ru="ЗАСТРЯЛ В «ТРОЕ»">STUCK IN TROY</span></div>
+    <h2 class="h-lg" data-en="A sand trap that months of effort couldn't escape" data-ru="Песчаная ловушка, из которой не вытащили и за месяцы">A sand trap that months of effort couldn't escape</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="In April 2009, Spirit's wheels broke through a crusted surface into soft, hidden sand at a site engineers named Troy — a nod to a siege nobody wins. For months, controllers tried a careful sequence of small movements to work the rover free, but by January 2010, NASA concluded Spirit was permanently embedded and reclassified it as a stationary science platform.<sup class='cite'>[4]</sup>" data-ru="В апреле 2009 года колёса Spirit пробили покрытую коркой поверхность и провалились в скрытый мягкий песок на участке, который инженеры назвали Троей, — отсылка к осаде, которую невозможно выиграть. Месяцами операторы пробовали осторожную последовательность мелких движений, чтобы высвободить ровер, но к январю 2010 года NASA заключило, что Spirit застрял навсегда, и переклассифицировало его в стационарную научную платформу.<sup class='cite'>[4]</sup>">In April 2009, Spirit's wheels broke through a crusted surface into soft, hidden sand at a site engineers named Troy — a nod to a siege nobody wins. For months, controllers tried a careful sequence of small movements to work the rover free, but by January 2010, NASA concluded Spirit was permanently embedded and reclassified it as a stationary science platform.<sup class="cite">[4]</sup></p>
+  </div>
+</section>
+
+<!-- CH8 -->
+<section id="ch8" class="section" data-phase="THE FOURTH WINTER" data-alt="GUSEV CRATER" data-vel="MAR 2010">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="THE FOURTH WINTER" data-ru="ЧЕТВЁРТАЯ ЗИМА">THE FOURTH WINTER</span></div>
+    <h2 class="h-lg" data-en="Unable to tilt toward the Sun, unable to survive the cold" data-ru="Не смог развернуться к Солнцу — не пережил холод">Unable to tilt toward the Sun, unable to survive the cold</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Stuck at a fixed, unfavourable tilt in Troy, Spirit could no longer angle its solar panels toward the low winter Sun the way a mobile rover could. With power dropping, its last communication reached Earth on March 22, 2010 — Sol 2210. NASA's own end-of-mission report concluded Spirit most likely succumbed to the extreme cold of its fourth Martian winter.<sup class='cite'>[5]</sup>" data-ru="Застряв в Трое под фиксированным, невыгодным углом, Spirit больше не мог наклонять солнечные панели к низкому зимнему Солнцу, как это мог бы сделать подвижный ровер. С падением уровня энергии последний сеанс связи с Землёй состоялся 22 марта 2010 года — на сол 2210. Собственный итоговый отчёт NASA о завершении миссии заключил, что Spirit, вероятнее всего, не пережил экстремальный холод своей четвёртой марсианской зимы.<sup class='cite'>[5]</sup>">Stuck at a fixed, unfavourable tilt in Troy, Spirit could no longer angle its solar panels toward the low winter Sun the way a mobile rover could. With power dropping, its last communication reached Earth on March 22, 2010 — Sol 2210. NASA's own end-of-mission report concluded Spirit most likely succumbed to the extreme cold of its fourth Martian winter.<sup class="cite">[5]</sup></p>
+  </div>
+</section>
+
+<!-- CH9 -->
+<section id="ch9" class="section" data-phase="WHAT SPIRIT PROVED" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="WHAT SPIRIT PROVED" data-ru="ЧТО ДОКАЗАЛ SPIRIT">WHAT SPIRIT PROVED</span></div>
+    <h2 class="h-lg" data-en="More than a hundred commands sent after it fell silent" data-ru="Более тысячи команд, отправленных уже после того, как он замолчал">More than a hundred commands sent after it fell silent</h2>
+    <div id="provenList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH10 -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="A search that continued for over a year after the silence" data-ru="Поиск, продолжавшийся больше года после молчания">A search that continued for over a year after the silence</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="NASA radiated over 1,400 commands toward Spirit after its last contact, hoping for a response, before search and recovery efforts formally concluded on July 13, 2011 — NASA had already declared the mission over on May 25, 2011.<sup class='cite'>[5]</sup> Its twin, Opportunity, kept driving for eight more years after Spirit fell silent." data-ru="После последнего сеанса связи NASA направило в сторону Spirit свыше 1400 команд в надежде получить ответ, прежде чем поисково-спасательные усилия официально завершились 13 июля 2011 года — само же завершение миссии NASA объявило ещё 25 мая 2011 года.<sup class='cite'>[5]</sup> Его близнец, Opportunity, продолжал ездить ещё восемь лет после того, как Spirit замолчал.">NASA radiated over 1,400 commands toward Spirit after its last contact, hoping for a response, before search and recovery efforts formally concluded on July 13, 2011 — NASA had already declared the mission over on May 25, 2011.<sup class="cite">[5]</sup> Its twin, Opportunity, kept driving for eight more years after Spirit fell silent.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+<!-- CH11 — REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="TROY — A FIELD GUIDE TO THE SPIRIT ROVER" data-ru="TROY — ПОЛЕВОЙ СПРАВОЧНИК ПО МАРСОХОДУ SPIRIT">TROY — A FIELD GUIDE TO THE SPIRIT ROVER</span>
+  <span data-en="EDUCATIONAL / REFERENCED — FIGURES CITED WHERE POSSIBLE" data-ru="УЧЕБНЫЙ МАТЕРИАЛ СО ССЫЛКАМИ — ЗНАЧЕНИЯ ПО ВОЗМОЖНОСТИ ПОДТВЕРЖДЕНЫ ИСТОЧНИКАМИ">EDUCATIONAL / REFERENCED — FIGURES CITED WHERE POSSIBLE</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH3 — SPIRIT SCHEMATIC ============ */
+var SPIRIT_PARTS = [
+  {id:'pancam', en:'Pancam', ru:'Панорамная камера', cEn:'Stereo colour camera, mast-mounted', cRu:'Стереоскопическая цветная камера на мачте', x:60, y:150, w:150, h:34,
+   dEn:'Sat atop the rover\'s mast, capturing the panoramic colour images that let the public follow Spirit\'s journey almost in real time.', dRu:'Располагалась на верхушке мачты ровера, делая панорамные цветные снимки, позволявшие публике следить за путешествием Spirit почти в реальном времени.'},
+  {id:'mossbauer', en:'Mössbauer Spectrometer', ru:'Мёссбауэровский спектрометр', cEn:'Identifies iron-bearing minerals', cRu:'Определяет железосодержащие минералы', x:280, y:110, w:150, h:34,
+   dEn:'Identified iron-bearing minerals like goethite in the Columbia Hills — a direct chemical signature of past water.', dRu:'Выявил железосодержащие минералы, такие как гётит, в холмах «Колумбия» — прямой химический след воды в прошлом.'},
+  {id:'apxs', en:'Alpha Particle X-ray Spectrometer', ru:'Альфа-протонный рентгеновский спектрометр', cEn:'Measures elemental composition', cRu:'Измеряет элементный состав', x:280, y:210, w:150, h:34,
+   dEn:'Pressed against rocks and soil to determine their elemental makeup, essential for characterising both the plains basalt and the hills\' altered rock.', dRu:'Прижимался к камням и грунту для определения их элементного состава — необходимо для характеристики и базальта равнин, и изменённых пород холмов.'},
+  {id:'rat', en:'Rock Abrasion Tool', ru:'Инструмент абразивной обработки камней', cEn:'Grinds through weathered rock surfaces', cRu:'Стачивает выветренную поверхность камней', x:460, y:150, w:150, h:34,
+   dEn:'Ground away the weathered outer surface of rocks to expose fresh material underneath for the other instruments to analyse.', dRu:'Стачивал выветренную внешнюю поверхность камней, обнажая свежий материал внутри для анализа другими приборами.'},
+  {id:'wheels2', en:'Six-Wheel Rocker-Bogie', ru:'Шестиколёсная подвеска «качалка-тележка»', cEn:'Right front wheel failed, 2006', cRu:'Правое переднее колесо отказало в 2006', x:460, y:210, w:150, h:34,
+   dEn:'A suspension system descended from Sojourner\'s design; the right front wheel\'s 2006 failure, dragged rather than replaced, accidentally exposed the Home Plate silica deposits.', dRu:'Система подвески, унаследованная от конструкции «Соджорнера»; отказ правого переднего колеса в 2006 году, которое волочилось, а не было заменено, случайно обнажил отложения кремнезёма у Home Plate.'}
+];
+function renderSpirit(){
+  var svg = document.getElementById('spiritSvg');
+  var panel = document.getElementById('spiritPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  SPIRIT_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, SPIRIT_PARTS, m.id); });
+  });
+  selectPart(svg, panel, SPIRIT_PARTS, SPIRIT_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH9 — WHAT SPIRIT PROVED ============ */
+var PROVEN = [
+  {en:'Extended missions are the rule, not the exception', ru:'Продлённые миссии — это правило, а не исключение',
+   bEn:'Designed for 90 sols, Spirit operated for 2,208 — a pattern of dramatic overperformance that shaped how NASA now budgets and plans robotic Mars missions.', bRu:'Рассчитанный на 90 солов, Spirit проработал 2208 — образец резкого перевыполнения плана, повлиявший на то, как NASA теперь бюджетирует и планирует автоматические марсианские миссии.'},
+  {en:'Accidental damage can become an instrument', ru:'Случайное повреждение может стать инструментом',
+   bEn:'The dragging dead wheel that exposed Home Plate\'s silica turned a mechanical failure into one of the mission\'s most important discoveries — a reminder that field science adapts to whatever tools remain.', bRu:'Волочащееся мёртвое колесо, обнажившее кремнезём у Home Plate, превратило механическую поломку в одно из важнейших открытий миссии, — напоминание о том, что полевая наука приспосабливается к любым оставшимся инструментам.'},
+  {en:'Two rovers hedge against one another\'s failure', ru:'Два ровера страхуют друг друга от неудачи',
+   bEn:'Flying Spirit and Opportunity together meant Spirit\'s 2010 loss didn\'t end the mission\'s science return — Opportunity kept working until 2018.', bRu:'Одновременный полёт Spirit и Opportunity означал, что потеря Spirit в 2010 году не прекратила научную отдачу миссии — Opportunity продолжал работать до 2018 года.'},
+  {en:'Immobility, not electronics, ended the mission', ru:'Миссию завершила неподвижность, а не электроника',
+   bEn:'Spirit\'s hardware was still broadly functional in 2010; it was the inability to tilt its solar panels toward a low winter Sun, a purely mechanical constraint, that proved fatal.', bRu:'Аппаратура Spirit в 2010 году в целом ещё работала; фатальной оказалась именно невозможность наклонить солнечные панели к низкому зимнему Солнцу — чисто механическое ограничение.'}
+];
+function renderProven(){
+  var wrap = document.getElementById('provenList');
+  wrap.innerHTML='';
+  PROVEN.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1997', en:'Sojourner', ru:'«Соджорнер»', noteEn:'10.6 kg, first Mars rover', noteRu:'10,6 кг, первый марсоход', h:18},
+  {y:'2004', en:'Spirit &amp; Opportunity', ru:'Spirit и Opportunity', noteEn:'185 kg, twin geologists', noteRu:'185 кг, роверы-близнецы-геологи', h:34},
+  {y:'2012', en:'Curiosity', ru:'Curiosity', noteEn:'899 kg, nuclear-powered', noteRu:'899 кг, на ядерной энергии', h:46},
+  {y:'2021', en:'Perseverance', ru:'Perseverance', noteEn:'1,025 kg, caching samples', noteRu:'1025 кг, кэширует образцы', h:52},
+  {y:'Future', en:'Sample Return', ru:'Возврат образцов', noteEn:'Bringing Perseverance\'s samples home', noteRu:'Доставка образцов Perseverance на Землю', h:30}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><rect x="'+(50-l.h/3)+'" y="10" width="'+(l.h/1.5)+'" height="'+l.h+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ CH11 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'Spirit (MER-A) — Mission Overview', url:'https://science.nasa.gov/mission/mer-spirit/', note:{en:'NASA Science. Landing details, Columbia Memorial Station, mission timeline.', ru:'NASA Science. Детали посадки, станция «Колумбия», хронология миссии.'}},
+  {title:'Mars Exploration Rovers: Spirit and Opportunity', url:'https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/', note:{en:'NASA Science. Mission overview, landing site rationale, end-of-mission summary.', ru:'NASA Science. Обзор миссии, обоснование выбора мест посадки, итоги завершения миссии.'}},
+  {title:'Mars Exploration Rovers', url:'https://www.planetary.org/space-missions/mars-exploration-rovers', note:{en:'The Planetary Society. Naming contest, Gusev Crater geology, Columbia Hills decision.', ru:'The Planetary Society. Конкурс на имя, геология кратера Гусева, решение о холмах «Колумбия».'}},
+  {title:'Spirit (rover)', url:'https://en.wikipedia.org/wiki/Spirit_(rover)', note:{en:'Wikipedia. Technical specifications, mission duration, cause of mission end.', ru:'Википедия. Технические характеристики, длительность миссии, причина завершения.'}},
+  {title:'Mars Exploration Rover Spirit End of Mission Report', url:'https://ntrs.nasa.gov/citations/20160001767', note:{en:'NASA Technical Reports Server. Official cause of mission end and search timeline.', ru:'NASA Technical Reports Server. Официальная причина завершения миссии и хронология поисков.'}},
+  {title:'Mars Exploration Rover', url:'https://www.britannica.com/topic/Mars-Exploration-Rover', note:{en:'Encyclopaedia Britannica. Rover specifications and mission comparison with Opportunity.', ru:'Encyclopaedia Britannica. Характеристики роверов и сравнение миссии с Opportunity.'}},
+  {title:'Spirit Rover — Everything You Need to Know', url:'https://www.space.com/18766-spirit-rover.html', note:{en:'Space.com. Launch date, landing site selection, early discoveries.', ru:'Space.com. Дата запуска, выбор места посадки, ранние открытия.'}}
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
+function renderAll(){
+  renderSpirit();
+  renderProven();
+  renderLegacy();
+  renderRefs();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
