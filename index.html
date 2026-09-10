@@ -1,216 +1,200 @@
-<html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="yandex-verification" content="6aceeb02b2fcb918" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="yandex-verification" content="6aceeb02b2fcb918" />
 <title>Aerospace Knowledge Hub</title>
-
+<meta name="description" content="An independent, bilingual collection of interactive technical field guides on spaceflight history and engineering — space stations, deep-space probes, Moon and Mars exploration, space telescopes, and human spaceflight.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Aerospace Knowledge Hub">
+<meta property="og:description" content="Interactive, bilingual technical field guides on spaceflight history and engineering.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        line-height: 1.5;
-        background: #fafafa;
-    }
-
-    h1 {
-        text-align: center;
-    }
-
-    .row {
-        margin: 30px 0;
-        padding: 20px;
-        border: 1px solid #ddd;
-        background: #fff;
-    }
-
-    .row h2 {
-        margin-top: 0;
-    }
-
-    ul {
-        margin: 0;
-        padding-left: 20px;
-    }
-
-    li {
-        margin: 8px 0;
-    }
-
-    a {
-        color: #0066cc;
-        text-decoration: none;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
+#hub-hero{min-height:58svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:120px;}
+.hub-cats{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:40px 48px;}
+.hub-cat h2{font-size:1rem; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;}
+.hub-cat ul{list-style:none; margin:10px 0 0; padding:0;}
+.hub-cat li{border-top:1px solid var(--line);}
+.hub-cat li:last-child{border-bottom:1px solid var(--line);}
+.hub-cat a,.hub-cat .np{display:flex; gap:12px; align-items:baseline; padding:10px 0; text-decoration:none;}
+.hub-cat a:hover .cl{text-decoration:underline;}
+.hub-cat .cn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.06em; color:var(--mid); flex:0 0 auto; min-width:82px;}
+.hub-cat .cl{font-size:14.5px;}
+.hub-cat .np .cl{color:var(--mid);}
+.hub-cat li.soon .cn{color:var(--mid);}
+.hub-cat li.ext .cn{color:var(--ink);}
 </style>
+<script src="/aerospace/assets/site.js" defer></script>
 </head>
 
 <body>
 
-<h1>Aerospace Knowledge Hub</h1>
+<a class="skip-link" href="#index">Skip to content</a>
 
-<div class="row">
-    <h2>&#128194; — Space Stations</h2>
-    <ul>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/ISSandMir">International Space Station (ISS) & Mir</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/workshop-skylab">Skylab</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/salute-salyut-program.html">Salyut Program</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/palace-tiangong-station">Tiangong Space Station</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/almaz-program-ussr">Almaz Program</a>
-        </li>
-    </ul>
-</div>
+<header id="chrome">
+  <div class="brand">AEROSPACE — KNOWLEDGE HUB</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</header>
 
-<div class="row">
-    <h2>&#128194; — Deep Space Probes</h2>
-    <ul>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/voyager-and-pioner">Voyager vs Pioneer</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/frontier-new-horizons">New Horizons</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/umbrella-galileo-jupiter">Galileo</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/finale-cassini-huygens">Cassini-Huygens</a>
-        </li>
-    </ul>
-</div>
+<main>
 
-<div class="row">
-    <h2>&#128194; — Moon Exploration</h2>
-    <ul>
-      <li>
-        <a href="https://followorbounce.github.io/aerospace/luna-programs">Luna Program</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/tranquility-apollo-program">Apollo Program</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/prospect-clementine-mission">Clementine</a>
-        </li>
-        <li>
-           <a href="https://followorbounce.github.io/aerospace/scout-lunar-reconnaissance-orbiter">Lunar Reconnaissance Orbiter</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/valor-the-chandrayaan-mission">Chandrayaan Missions</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/campaign-artemis-program">Artemis Program</a>
-        </li>
-    </ul>
-</div>
+<section class="section" id="hub-hero">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">INDEX</span> — <span data-en="A FIELD LIBRARY OF SPACEFLIGHT" data-ru="ПОЛЕВАЯ БИБЛИОТЕКА КОСМОНАВТИКИ">A FIELD LIBRARY OF SPACEFLIGHT</span></div>
+    <h1 class="h-lg" data-en="Aerospace Knowledge Hub" data-ru="Аэрокосмический справочник">Aerospace Knowledge Hub</h1>
+    <p class="lede" data-en="An independent, bilingual collection of interactive technical field guides — one long-form page per mission or idea, hand-built with inline diagrams and no third-party code. Choose a thread below. Entries marked SOON are planned but not yet written." data-ru="Независимая двуязычная коллекция интерактивных технических путеводителей — одна большая страница на миссию или идею, собранная вручную со встроенными схемами и без стороннего кода. Выберите тему ниже. Пункты с пометкой СКОРО запланированы, но ещё не написаны.">An independent, bilingual collection of interactive technical field guides — one long-form page per mission or idea, hand-built with inline diagrams and no third-party code. Choose a thread below. Entries marked SOON are planned but not yet written.</p>
+  </div>
+</section>
 
-<div class="row">
-    <h2>&#128194; — Mars Exploration</h2>
-    <ul>
-        <li>
-          <a href="https://followorbounce.github.io/aerospace/viking">Viking Program</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/bounce-mars-pathfinder">Mars Pathfinder</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/troy-spirit-rover">Spirit Rover</a>
-        </li>
-         <li>
-            <a href="https://followorbounce.github.io/aerospace/skycrane-curiosity-rover">Curiosity Rover</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/marathon-opportunity-rover">Opportunity Rover</a>
-        </li>
-        <li>Perseverance Rover</li>
-    </ul>
-</div>
+<section class="section" id="index">
+  <div class="section-inner hub-cats">
 
-<div class="row">
-    <h2>&#128194; — Space Telescopes</h2>
-    <ul>
-        <li>
-         <a href="https://followorbounce.github.io/aerospace/aperture-hubble-telescopes">Hubble Space Telescope</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/james-webb-space-telescope">James Webb Space Telescope</a>
-        </li>
-        <li>Chandra X-ray Observatory</li>
-        <li>Spitzer Space Telescope</li>
-        <li>Kepler Space Telescope</li>
-        <li>Gaia Mission</li>
-    </ul>
-</div>
+    <div class="hub-cat" data-cat="stations">
+      <h2 data-en="Space Stations" data-ru="Космические станции">Space Stations</h2>
+      <ul>
+        <li><a href="/aerospace/iss-and-mir"><span class="cn">ORBIT</span><span class="cl" data-en="ISS &amp; Mir" data-ru="МКС и Мир">ISS &amp; Mir</span></a></li>
+        <li><a href="/aerospace/workshop-skylab"><span class="cn">WORKSHOP</span><span class="cl" data-en="Skylab &amp; the First Stations" data-ru="«Скайлэб» и первые станции">Skylab &amp; the First Stations</span></a></li>
+        <li><a href="/aerospace/salute-salyut-program"><span class="cn">SALUTE</span><span class="cl" data-en="The Salyut Program" data-ru="Программа «Салют»">The Salyut Program</span></a></li>
+        <li><a href="/aerospace/palace-tiangong-station"><span class="cn">PALACE</span><span class="cl" data-en="Tiangong Space Station" data-ru="Станция «Тяньгун»">Tiangong Space Station</span></a></li>
+        <li><a href="/aerospace/almaz-program-ussr"><span class="cn">DIAMOND</span><span class="cl" data-en="The Almaz Program" data-ru="Программа «Алмаз»">The Almaz Program</span></a></li>
+      </ul>
+    </div>
 
-<div class="row">
-    <h2>&#128194; — Human Spaceflight</h2>
-    <ul>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/ascent-mercury-program">Mercury Program</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/rendezvous-gemini-program">Gemini Program</a>
-        </li>
-        <li>Apollo Program</li>
-        <li>Space Shuttle Program</li>
-        <li>Soyuz Program</li>
-        <li>Commercial Crew Program</li>
-    </ul>
-</div>
+    <div class="hub-cat" data-cat="probes">
+      <h2 data-en="Deep Space Probes" data-ru="Межпланетные зонды">Deep Space Probes</h2>
+      <ul>
+        <li><a href="/aerospace/voyager-and-pioner"><span class="cn">DEPARTURE</span><span class="cl" data-en="Voyager &amp; Pioneer" data-ru="«Вояджер» и «Пионер»">Voyager &amp; Pioneer</span></a></li>
+        <li><a href="/aerospace/frontier-new-horizons"><span class="cn">FRONTIER</span><span class="cl" data-en="New Horizons &amp; the Kuiper Belt" data-ru="«Новые горизонты» и пояс Койпера">New Horizons &amp; the Kuiper Belt</span></a></li>
+        <li><a href="/aerospace/umbrella-galileo-jupiter"><span class="cn">UMBRELLA</span><span class="cl" data-en="Galileo at Jupiter" data-ru="«Галилео» у Юпитера">Galileo at Jupiter</span></a></li>
+        <li><a href="/aerospace/finale-cassini-huygens"><span class="cn">FINALE</span><span class="cl" data-en="Cassini-Huygens at Saturn" data-ru="«Кассини-Гюйгенс» у Сатурна">Cassini-Huygens at Saturn</span></a></li>
+      </ul>
+    </div>
 
-<div class="row">
-    <h2>&#128194; — Future Exploration</h2>
-    <ul>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/horizon-artemis-base-camp">Artemis Base Camp</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/the-lunar-gateway">Lunar Gateway</a>
-        </li>
-        <li>Mars Sample Return</li>
-        <li>Europa Clipper</li>
-        <li>Dragonfly Mission</li>
-        <li>Interstellar Probe Concept</li>
-    </ul>
-</div>
+    <div class="hub-cat" data-cat="moon">
+      <h2 data-en="Moon Exploration" data-ru="Исследование Луны">Moon Exploration</h2>
+      <ul>
+        <li><a href="/aerospace/luna-programs"><span class="cn">DESCENT</span><span class="cl" data-en="Luna &amp; the Moon Race" data-ru="«Луна» и лунная гонка">Luna &amp; the Moon Race</span></a></li>
+        <li><a href="/aerospace/tranquility-apollo-program"><span class="cn">TRANQUILITY</span><span class="cl" data-en="The Apollo Program" data-ru="Программа «Аполлон»">The Apollo Program</span></a></li>
+        <li><a href="/aerospace/prospect-clementine-mission"><span class="cn">PROSPECT</span><span class="cl" data-en="The Clementine Mission" data-ru="Миссия «Клементина»">The Clementine Mission</span></a></li>
+        <li><a href="/aerospace/scout-lunar-reconnaissance-orbiter"><span class="cn">SCOUT</span><span class="cl" data-en="Lunar Reconnaissance Orbiter" data-ru="Орбитальный разведчик Луны">Lunar Reconnaissance Orbiter</span></a></li>
+        <li><a href="/aerospace/valor-the-chandrayaan-mission"><span class="cn">VALOR</span><span class="cl" data-en="The Chandrayaan Missions" data-ru="Миссии «Чандраян»">The Chandrayaan Missions</span></a></li>
+        <li><a href="/aerospace/campaign-artemis-program"><span class="cn">CAMPAIGN</span><span class="cl" data-en="The Artemis Program" data-ru="Программа Artemis">The Artemis Program</span></a></li>
+      </ul>
+    </div>
 
-<div class="row">
-    <h2>&#128194;the .space .etc</h2>
-    <ul>
-        <li>Common ground & Basic logic</li>
-       <li>
-            <a href="https://followorbounce.github.io/aerospace/build-your-own-cubsat">Build Your Own Cubesat</a>
-        </li>
-        <li>Arduino, ESP32, Raspberry Pi</li>
-        <li>Texas Instruments</li>
-        <li>Analog Devices</li>
-        <li></li>
-        <li>NASA</li>
-        <li>SpaceX</li>
-         <li>
-            <a href="https://arxiv.org/search/?query=aerospace&searchtype=all&source=header">arXiv</a>
-        </li>
-        <li>
-            <a href="https://followorbounce.github.io/aerospace/lagrange-points">Lagrange Points</a>
-        </li>
-    </ul>
-</div>
+    <div class="hub-cat" data-cat="mars">
+      <h2 data-en="Mars Exploration" data-ru="Исследование Марса">Mars Exploration</h2>
+      <ul>
+        <li><a href="/aerospace/viking"><span class="cn">ARRIVAL</span><span class="cl" data-en="Viking &amp; Mars" data-ru="«Викинг» и Марс">Viking &amp; Mars</span></a></li>
+        <li><a href="/aerospace/bounce-mars-pathfinder"><span class="cn">BOUNCE</span><span class="cl" data-en="Mars Pathfinder &amp; Sojourner" data-ru="«Патфайндер» и «Соджорнер»">Mars Pathfinder &amp; Sojourner</span></a></li>
+        <li><a href="/aerospace/troy-spirit-rover"><span class="cn">TROY</span><span class="cl" data-en="The Spirit Rover" data-ru="Марсоход Spirit">The Spirit Rover</span></a></li>
+        <li><a href="/aerospace/marathon-opportunity-rover"><span class="cn">MARATHON</span><span class="cl" data-en="The Opportunity Rover" data-ru="Марсоход Opportunity">The Opportunity Rover</span></a></li>
+        <li><a href="/aerospace/skycrane-curiosity-rover"><span class="cn">SKYCRANE</span><span class="cl" data-en="The Curiosity Rover" data-ru="Марсоход Curiosity">The Curiosity Rover</span></a></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Perseverance Rover" data-ru="Марсоход Perseverance">Perseverance Rover</span></span></li>
+      </ul>
+    </div>
 
+    <div class="hub-cat" data-cat="telescopes">
+      <h2 data-en="Space Telescopes" data-ru="Космические телескопы">Space Telescopes</h2>
+      <ul>
+        <li><a href="/aerospace/aperture-hubble-telescopes"><span class="cn">APERTURE</span><span class="cl" data-en="Hubble &amp; Space Telescopes" data-ru="«Хаббл» и космические телескопы">Hubble &amp; Space Telescopes</span></a></li>
+        <li><a href="/aerospace/james-webb-space-telescope"><span class="cn">UNFOLD</span><span class="cl" data-en="James Webb Space Telescope" data-ru="«Джеймс Уэбб»">James Webb Space Telescope</span></a></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Chandra X-ray Observatory" data-ru="Рентгеновская обсерватория «Чандра»">Chandra X-ray Observatory</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Spitzer Space Telescope" data-ru="Телескоп «Спитцер»">Spitzer Space Telescope</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Kepler Space Telescope" data-ru="Телескоп «Кеплер»">Kepler Space Telescope</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Gaia Mission" data-ru="Миссия «Гайя»">Gaia Mission</span></span></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="human">
+      <h2 data-en="Human Spaceflight" data-ru="Пилотируемые полёты">Human Spaceflight</h2>
+      <ul>
+        <li><a href="/aerospace/ascent-mercury-program"><span class="cn">ASCENT</span><span class="cl" data-en="Mercury &amp; the First Astronauts" data-ru="«Меркурий» и первые астронавты">Mercury &amp; the First Astronauts</span></a></li>
+        <li><a href="/aerospace/rendezvous-gemini-program"><span class="cn">RENDEZVOUS</span><span class="cl" data-en="The Gemini Program" data-ru="Программа «Джемини»">The Gemini Program</span></a></li>
+        <li><a href="/aerospace/tranquility-apollo-program"><span class="cn">TRANQUILITY</span><span class="cl" data-en="The Apollo Program" data-ru="Программа «Аполлон»">The Apollo Program</span></a></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Space Shuttle Program" data-ru="Программа «Спейс шаттл»">Space Shuttle Program</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Soyuz Program" data-ru="Программа «Союз»">Soyuz Program</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Commercial Crew Program" data-ru="Программа Commercial Crew">Commercial Crew Program</span></span></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="future">
+      <h2 data-en="Future Exploration" data-ru="Будущее освоение космоса">Future Exploration</h2>
+      <ul>
+        <li><a href="/aerospace/horizon-artemis-base-camp"><span class="cn">HORIZON</span><span class="cl" data-en="Artemis Base Camp" data-ru="Базовый лагерь «Артемида»">Artemis Base Camp</span></a></li>
+        <li><a href="/aerospace/the-lunar-gateway"><span class="cn">HALO</span><span class="cl" data-en="The Lunar Gateway" data-ru="Окололунная станция Gateway">The Lunar Gateway</span></a></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Mars Sample Return" data-ru="Доставка образцов с Марса">Mars Sample Return</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Europa Clipper" data-ru="«Европа Клипер»">Europa Clipper</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Dragonfly Mission" data-ru="Миссия Dragonfly">Dragonfly Mission</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Interstellar Probe Concept" data-ru="Концепция межзвёздного зонда">Interstellar Probe Concept</span></span></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="foundations">
+      <h2 data-en="Foundations &amp; Tools" data-ru="Основы и инструменты">Foundations &amp; Tools</h2>
+      <ul>
+        <li><a href="/aerospace/build-your-own-cubesat"><span class="cn">ASSEMBLY</span><span class="cl" data-en="Build Your Own CubeSat" data-ru="Собери свой кубсат">Build Your Own CubeSat</span></a></li>
+        <li><a href="/aerospace/lagrange-points"><span class="cn">EQUILIBRIUM</span><span class="cl" data-en="Lagrange Points" data-ru="Точки Лагранжа">Lagrange Points</span></a></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Common Ground &amp; Basic Logic" data-ru="Общая основа и базовая логика">Common Ground &amp; Basic Logic</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Arduino, ESP32, Raspberry Pi" data-ru="Arduino, ESP32, Raspberry Pi">Arduino, ESP32, Raspberry Pi</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Texas Instruments" data-ru="Texas Instruments">Texas Instruments</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">SOON</span><span class="cl" data-en="Analog Devices" data-ru="Analog Devices">Analog Devices</span></span></li>
+        <li class="ext"><a href="https://www.nasa.gov/" rel="external noopener" target="_blank"><span class="cn">EXT&#8599;</span><span class="cl">NASA</span></a></li>
+        <li class="ext"><a href="https://www.spacex.com/" rel="external noopener" target="_blank"><span class="cn">EXT&#8599;</span><span class="cl">SpaceX</span></a></li>
+        <li class="ext"><a href="https://arxiv.org/search/?query=aerospace&amp;searchtype=all&amp;source=header" rel="external noopener" target="_blank"><span class="cn">EXT&#8599;</span><span class="cl">arXiv · astro-ph</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="time">
+      <h2 data-en="Space &amp; Time" data-ru="Пространство и время">Space &amp; Time</h2>
+      <ul>
+        <li><a href="/aerospace/time-philosophy/"><span class="cn">01</span><span class="cl" data-en="Voyager / Heliosphere / Time" data-ru="Вояджер / Гелиосфера / Время">Voyager / Heliosphere / Time</span></a></li>
+        <li><a href="/aerospace/time-philosophy/time-as-space"><span class="cn">02</span><span class="cl" data-en="Time as Space" data-ru="Время как пространство">Time as Space</span></a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="AEROSPACE — AN INDEPENDENT KNOWLEDGE HUB" data-ru="AEROSPACE — НЕЗАВИСИМЫЙ СПРАВОЧНИК">AEROSPACE — AN INDEPENDENT KNOWLEDGE HUB</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED</span>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  function apply(l) {
+    document.documentElement.lang = l;
+    document.querySelectorAll('[data-en]').forEach(function (el) {
+      var v = el.getAttribute('data-' + l);
+      if (v != null) el.textContent = v;
+    });
+    document.querySelectorAll('#langtoggle button').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-lang') === l);
+    });
+  }
+  document.querySelectorAll('#langtoggle button').forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.getAttribute('data-lang')); });
+  });
+})();
+</script>
 </body>
 </html>
-```

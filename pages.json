@@ -1,0 +1,124 @@
+{
+  "site": {
+    "base": "/aerospace/",
+    "url": "https://followorbounce.github.io/aerospace/",
+    "title": { "en": "Aerospace Knowledge Hub", "ru": "Аэрокосмический справочник" }
+  },
+  "external": [
+    { "label": "NASA", "url": "https://www.nasa.gov/" },
+    { "label": "SpaceX", "url": "https://www.spacex.com/" },
+    { "label": "arXiv · astro-ph", "url": "https://arxiv.org/search/?query=aerospace&searchtype=all&source=header" }
+  ],
+  "categories": [
+    {
+      "id": "stations",
+      "title": { "en": "Space Stations", "ru": "Космические станции" },
+      "pages": [
+        { "slug": "iss-and-mir", "codename": "ORBIT", "label": { "en": "ISS & Mir", "ru": "МКС и Мир" } },
+        { "slug": "workshop-skylab", "codename": "WORKSHOP", "label": { "en": "Skylab & the First Stations", "ru": "«Скайлэб» и первые станции" } },
+        { "slug": "salute-salyut-program", "codename": "SALUTE", "label": { "en": "The Salyut Program", "ru": "Программа «Салют»" } },
+        { "slug": "palace-tiangong-station", "codename": "PALACE", "label": { "en": "Tiangong Space Station", "ru": "Станция «Тяньгун»" } },
+        { "slug": "almaz-program-ussr", "codename": "DIAMOND", "label": { "en": "The Almaz Program", "ru": "Программа «Алмаз»" } }
+      ]
+    },
+    {
+      "id": "probes",
+      "title": { "en": "Deep Space Probes", "ru": "Межпланетные зонды" },
+      "pages": [
+        { "slug": "voyager-and-pioner", "codename": "DEPARTURE", "label": { "en": "Voyager & Pioneer", "ru": "«Вояджер» и «Пионер»" } },
+        { "slug": "frontier-new-horizons", "codename": "FRONTIER", "label": { "en": "New Horizons & the Kuiper Belt", "ru": "«Новые горизонты» и пояс Койпера" } },
+        { "slug": "umbrella-galileo-jupiter", "codename": "UMBRELLA", "label": { "en": "Galileo at Jupiter", "ru": "«Галилео» у Юпитера" } },
+        { "slug": "finale-cassini-huygens", "codename": "FINALE", "label": { "en": "Cassini-Huygens at Saturn", "ru": "«Кассини-Гюйгенс» у Сатурна" } }
+      ]
+    },
+    {
+      "id": "moon",
+      "title": { "en": "Moon Exploration", "ru": "Исследование Луны" },
+      "pages": [
+        { "slug": "luna-programs", "codename": "DESCENT", "label": { "en": "Luna & the Moon Race", "ru": "«Луна» и лунная гонка" } },
+        { "slug": "tranquility-apollo-program", "codename": "TRANQUILITY", "label": { "en": "The Apollo Program", "ru": "Программа «Аполлон»" } },
+        { "slug": "prospect-clementine-mission", "codename": "PROSPECT", "label": { "en": "The Clementine Mission", "ru": "Миссия «Клементина»" } },
+        { "slug": "scout-lunar-reconnaissance-orbiter", "codename": "SCOUT", "label": { "en": "Lunar Reconnaissance Orbiter", "ru": "Орбитальный разведчик Луны" } },
+        { "slug": "valor-the-chandrayaan-mission", "codename": "VALOR", "label": { "en": "The Chandrayaan Missions", "ru": "Миссии «Чандраян»" } },
+        { "slug": "campaign-artemis-program", "codename": "CAMPAIGN", "label": { "en": "The Artemis Program", "ru": "Программа Artemis" } }
+      ]
+    },
+    {
+      "id": "mars",
+      "title": { "en": "Mars Exploration", "ru": "Исследование Марса" },
+      "pages": [
+        { "slug": "viking", "codename": "ARRIVAL", "label": { "en": "Viking & Mars", "ru": "«Викинг» и Марс" } },
+        { "slug": "bounce-mars-pathfinder", "codename": "BOUNCE", "label": { "en": "Mars Pathfinder & Sojourner", "ru": "«Патфайндер» и «Соджорнер»" } },
+        { "slug": "troy-spirit-rover", "codename": "TROY", "label": { "en": "The Spirit Rover", "ru": "Марсоход Spirit" } },
+        { "slug": "marathon-opportunity-rover", "codename": "MARATHON", "label": { "en": "The Opportunity Rover", "ru": "Марсоход Opportunity" } },
+        { "slug": "skycrane-curiosity-rover", "codename": "SKYCRANE", "label": { "en": "The Curiosity Rover", "ru": "Марсоход Curiosity" } }
+      ],
+      "planned": [
+        { "label": { "en": "Perseverance Rover", "ru": "Марсоход Perseverance" } }
+      ]
+    },
+    {
+      "id": "telescopes",
+      "title": { "en": "Space Telescopes", "ru": "Космические телескопы" },
+      "pages": [
+        { "slug": "aperture-hubble-telescopes", "codename": "APERTURE", "label": { "en": "Hubble & Space Telescopes", "ru": "«Хаббл» и космические телескопы" } },
+        { "slug": "james-webb-space-telescope", "codename": "UNFOLD", "label": { "en": "James Webb Space Telescope", "ru": "«Джеймс Уэбб»" } }
+      ],
+      "planned": [
+        { "label": { "en": "Chandra X-ray Observatory", "ru": "Рентгеновская обсерватория «Чандра»" } },
+        { "label": { "en": "Spitzer Space Telescope", "ru": "Телескоп «Спитцер»" } },
+        { "label": { "en": "Kepler Space Telescope", "ru": "Телескоп «Кеплер»" } },
+        { "label": { "en": "Gaia Mission", "ru": "Миссия «Гайя»" } }
+      ]
+    },
+    {
+      "id": "human",
+      "title": { "en": "Human Spaceflight", "ru": "Пилотируемые полёты" },
+      "pages": [
+        { "slug": "ascent-mercury-program", "codename": "ASCENT", "label": { "en": "Mercury & the First Astronauts", "ru": "«Меркурий» и первые астронавты" } },
+        { "slug": "rendezvous-gemini-program", "codename": "RENDEZVOUS", "label": { "en": "The Gemini Program", "ru": "Программа «Джемини»" } }
+      ],
+      "planned": [
+        { "label": { "en": "Space Shuttle Program", "ru": "Программа «Спейс шаттл»" } },
+        { "label": { "en": "Soyuz Program", "ru": "Программа «Союз»" } },
+        { "label": { "en": "Commercial Crew Program", "ru": "Программа Commercial Crew" } }
+      ]
+    },
+    {
+      "id": "future",
+      "title": { "en": "Future Exploration", "ru": "Будущее освоение космоса" },
+      "pages": [
+        { "slug": "horizon-artemis-base-camp", "codename": "HORIZON", "label": { "en": "Artemis Base Camp", "ru": "Базовый лагерь «Артемида»" } },
+        { "slug": "the-lunar-gateway", "codename": "HALO", "label": { "en": "The Lunar Gateway", "ru": "Окололунная станция Gateway" } }
+      ],
+      "planned": [
+        { "label": { "en": "Mars Sample Return", "ru": "Доставка образцов с Марса" } },
+        { "label": { "en": "Europa Clipper", "ru": "«Европа Клипер»" } },
+        { "label": { "en": "Dragonfly Mission", "ru": "Миссия Dragonfly" } },
+        { "label": { "en": "Interstellar Probe Concept", "ru": "Концепция межзвёздного зонда" } }
+      ]
+    },
+    {
+      "id": "foundations",
+      "title": { "en": "Foundations & Tools", "ru": "Основы и инструменты" },
+      "pages": [
+        { "slug": "build-your-own-cubesat", "codename": "ASSEMBLY", "label": { "en": "Build Your Own CubeSat", "ru": "Собери свой кубсат" } },
+        { "slug": "lagrange-points", "codename": "EQUILIBRIUM", "label": { "en": "Lagrange Points", "ru": "Точки Лагранжа" } }
+      ],
+      "planned": [
+        { "label": { "en": "Common Ground & Basic Logic", "ru": "Общая основа и базовая логика" } },
+        { "label": { "en": "Arduino, ESP32, Raspberry Pi", "ru": "Arduino, ESP32, Raspberry Pi" } },
+        { "label": { "en": "Texas Instruments", "ru": "Texas Instruments" } },
+        { "label": { "en": "Analog Devices", "ru": "Analog Devices" } }
+      ]
+    },
+    {
+      "id": "time",
+      "title": { "en": "Space & Time", "ru": "Пространство и время" },
+      "pages": [
+        { "slug": "time-philosophy/", "codename": "01", "label": { "en": "Voyager / Heliosphere / Time", "ru": "Вояджер / Гелиосфера / Время" } },
+        { "slug": "time-philosophy/time-as-space", "codename": "02", "label": { "en": "Time as Space", "ru": "Время как пространство" } }
+      ]
+    }
+  ]
+}

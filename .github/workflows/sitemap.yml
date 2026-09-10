@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'pages.json'
+      - '.github/workflows/sitemap.yml'
   workflow_dispatch:
 
 permissions:
@@ -17,35 +20,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Generate sitemap
+      - name: Generate sitemap from pages.json
         run: |
-          echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
-          echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
-
-          find . -type f -name "*.html" \
-            ! -path "./.git/*" \
-            ! -path "./_site/*" | sort | while read file
-          do
-            path="${file#./}"
-
-            if [ "$path" = "index.html" ]; then
-              url="https://followorbounce.github.io/aerospace/"
-            else
-              url="https://followorbounce.github.io/aerospace/${path%.html}"
-            fi
-
-            echo "  <url><loc>$url</loc></url>" >> sitemap.xml
-          done
-
-          echo '</urlset>' >> sitemap.xml
+          BASE="https://followorbounce.github.io/aerospace"
+          {
+            echo '<?xml version="1.0" encoding="UTF-8"?>'
+            echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+            echo "  <url><loc>${BASE}/</loc></url>"
+            jq -r '.categories[].pages[].slug' pages.json | while read -r slug; do
+              echo "  <url><loc>${BASE}/${slug}</loc></url>"
+            done
+            echo '</urlset>'
+          } > sitemap.xml
+          cat sitemap.xml
 
       - name: Commit sitemap
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add sitemap.xml
-
           git diff --cached --quiet || git commit -m "Update sitemap"
-
           git push

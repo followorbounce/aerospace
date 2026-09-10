@@ -1,14 +1,67 @@
-# Space & Time
+# Aerospace Knowledge Hub
 
-> An independent research and creative project exploring space,
-> time, trajectories, perception, and the relationship between
-> physical and conceptual models of reality.
+> An independent, bilingual (EN/RU) collection of interactive "technical field
+> guide" pages on spaceflight history and engineering — space stations, deep-space
+> probes, Moon and Mars exploration, space telescopes, human spaceflight, and the
+> physics behind it all. Every page is a single hand-authored HTML document with
+> inline SVG diagrams; there is no build system and no third-party JavaScript.
 
-## Main topics
+Home: https://followorbounce.github.io/aerospace/
+Machine-readable index of every page: https://followorbounce.github.io/aerospace/pages.json
 
-- 
+## Space Stations
 
-## About
+- [ISS & Mir](https://followorbounce.github.io/aerospace/iss-and-mir): orbital mechanics, the ISS, and Mir.
+- [Skylab & the First Stations](https://followorbounce.github.io/aerospace/workshop-skylab): the first generation of space stations.
+- [The Salyut Program](https://followorbounce.github.io/aerospace/salute-salyut-program): the Soviet Salyut stations.
+- [Tiangong Space Station](https://followorbounce.github.io/aerospace/palace-tiangong-station): China's Tiangong station.
+- [The Almaz Program](https://followorbounce.github.io/aerospace/almaz-program-ussr): the Soviet Almaz military station program.
 
-This website contains essays and interactive experiments
-concerning space, time, perception, and scientific visualization.
+## Deep Space Probes
+
+- [Voyager & Pioneer](https://followorbounce.github.io/aerospace/voyager-and-pioner): the Pioneer and Voyager interstellar missions.
+- [New Horizons & the Kuiper Belt](https://followorbounce.github.io/aerospace/frontier-new-horizons): New Horizons, Pluto, and the Kuiper Belt.
+- [Galileo at Jupiter](https://followorbounce.github.io/aerospace/umbrella-galileo-jupiter): NASA's Galileo mission to Jupiter.
+- [Cassini-Huygens at Saturn](https://followorbounce.github.io/aerospace/finale-cassini-huygens): the Cassini-Huygens mission to Saturn and Titan.
+
+## Moon Exploration
+
+- [Luna & the Moon Race](https://followorbounce.github.io/aerospace/luna-programs): the Luna program, Apollo, and the exploration of the Moon.
+- [The Apollo Program](https://followorbounce.github.io/aerospace/tranquility-apollo-program): the Apollo Program and the first crewed Moon landings.
+- [The Clementine Mission](https://followorbounce.github.io/aerospace/prospect-clementine-mission): the Clementine lunar mission.
+- [Lunar Reconnaissance Orbiter](https://followorbounce.github.io/aerospace/scout-lunar-reconnaissance-orbiter): NASA's Lunar Reconnaissance Orbiter.
+- [The Chandrayaan Missions](https://followorbounce.github.io/aerospace/valor-the-chandrayaan-mission): India's Chandrayaan lunar missions.
+- [The Artemis Program](https://followorbounce.github.io/aerospace/campaign-artemis-program): SLS, Orion, the Artemis Accords, and every mission from Artemis I onward.
+
+## Mars Exploration
+
+- [Viking & Mars](https://followorbounce.github.io/aerospace/viking): the Viking program and the search for life on Mars.
+- [Mars Pathfinder & Sojourner](https://followorbounce.github.io/aerospace/bounce-mars-pathfinder): Mars Pathfinder, Sojourner, and the birth of the modern Mars rover.
+- [The Spirit Rover](https://followorbounce.github.io/aerospace/troy-spirit-rover): NASA's Spirit rover and the Mars Exploration Rover mission.
+- [The Opportunity Rover](https://followorbounce.github.io/aerospace/marathon-opportunity-rover): NASA's Opportunity rover and the Mars Exploration Rover mission.
+- [The Curiosity Rover](https://followorbounce.github.io/aerospace/skycrane-curiosity-rover): NASA's Curiosity rover and the Mars Science Laboratory mission.
+
+## Space Telescopes
+
+- [Hubble & Space Telescopes](https://followorbounce.github.io/aerospace/aperture-hubble-telescopes): the Hubble Space Telescope and the age of space observatories.
+- [James Webb Space Telescope](https://followorbounce.github.io/aerospace/james-webb-space-telescope): the James Webb Space Telescope, its deployment, and its discoveries.
+
+## Human Spaceflight
+
+- [Mercury & the First Astronauts](https://followorbounce.github.io/aerospace/ascent-mercury-program): Project Mercury and the beginning of human spaceflight.
+- [The Gemini Program](https://followorbounce.github.io/aerospace/rendezvous-gemini-program): Project Gemini, the bridge between Mercury and Apollo.
+
+## Future Exploration
+
+- [Artemis Base Camp](https://followorbounce.github.io/aerospace/horizon-artemis-base-camp): NASA's Artemis Base Camp and the next era of lunar exploration.
+- [The Lunar Gateway](https://followorbounce.github.io/aerospace/the-lunar-gateway): NASA's Lunar Gateway station and its 2026 pause.
+
+## Foundations & Tools
+
+- [Build Your Own CubeSat](https://followorbounce.github.io/aerospace/build-your-own-cubesat): from Arduino basics and circuit fundamentals to the anatomy of a real CubeSat.
+- [Lagrange Points](https://followorbounce.github.io/aerospace/lagrange-points): the physics of Lagrange points and where they occur across the Solar System.
+
+## Space & Time
+
+- [Voyager / Heliosphere / Time](https://followorbounce.github.io/aerospace/time-philosophy/): the Voyager trajectories, the heliosphere, and time as a structure rather than a line.
+- [Time as Space](https://followorbounce.github.io/aerospace/time-philosophy/time-as-space): a companion essay on modelling time spatially.
