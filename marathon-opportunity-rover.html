@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MARATHON — THE OPPORTUNITY ROVER / МАРСОХОД OPPORTUNITY</title>
+<meta name="description" content="An interactive, referenced field guide to NASA's Opportunity rover and the Mars Exploration Rover mission.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1280px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:inherit;}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+sup{font-size:0.65em; vertical-align:super;}
+
+.section{position:relative; padding:96px var(--edge) 96px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.h-lg{font-size:clamp(1.9rem, 4vw, 3.2rem); line-height:1.02; margin-bottom:28px;}
+.lede{font-size:clamp(1.05rem, 1.4vw, 1.25rem); max-width:640px; color:#28282a;}
+.body-col{max-width:620px;}
+.mono{font-family:var(--font-mono);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line);}
+.grid-4{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line);}
+@media (max-width:860px){
+  .grid-2{grid-template-columns:1fr; gap:36px;}
+  .grid-3{grid-template-columns:1fr;}
+  .grid-4{grid-template-columns:1fr 1fr;}
+}
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--ink); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#langtoggle{display:flex; border:1px solid var(--ink); background:var(--paper); overflow:hidden;}
+#langtoggle button{background:none; border:none; font-family:var(--font-mono); font-size:12px; letter-spacing:0.08em; padding:7px 12px; color:var(--ink);}
+#langtoggle button.active{background:var(--ink); color:var(--white);}
+
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:10px 12px; min-width:198px; display:grid; row-gap:4px;}
+@media (max-width:640px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--ink); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.15;}}
+
+#hero{min-height:100svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:140px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(24px,5vw,64px); position:relative;}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.18em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.6rem, 9vw, 7.2rem); line-height:0.92; margin-bottom:28px;}
+#hero h1 em{font-style:normal; color:var(--mid);}
+#hero .sub{max-width:660px; margin-bottom:40px;}
+#hero .cta{display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; border:1px solid var(--ink); padding:12px 18px; background:var(--ink); color:var(--white); text-decoration:none;}
+#hero .cta:hover{background:var(--paper); color:var(--ink);}
+
+.schematic-wrap{display:grid; grid-template-columns:1.5fr 1fr; gap:32px; align-items:start;}
+@media (max-width:860px){.schematic-wrap{grid-template-columns:1fr;}}
+.schematic-svg{border:1px solid var(--ink); background:var(--white); width:100%;}
+.hotspot{cursor:pointer;}
+.hotspot rect,.hotspot circle,.hotspot path,.hotspot ellipse{transition:fill 0.15s ease;}
+.hotspot:hover rect, .hotspot.active rect,
+.hotspot:hover circle, .hotspot.active circle,
+.hotspot:hover ellipse, .hotspot.active ellipse{fill:var(--ink);}
+.hotspot text{font-family:var(--font-mono); font-size:9px; fill:var(--ink); pointer-events:none;}
+.hotspot:hover text, .hotspot.active text{fill:var(--white);}
+.module-panel{border:1px solid var(--ink); background:var(--white); padding:24px; min-height:220px;}
+.module-panel .mp-name{font-family:var(--font-display); font-size:1.5rem; margin-bottom:6px;}
+.module-panel .mp-meta{font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-bottom:14px; text-transform:uppercase; letter-spacing:0.06em;}
+.module-panel .mp-desc{font-size:14.5px;}
+.module-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.module-chip{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:6px 10px; background:var(--paper);}
+.module-chip.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+.mir-timeline{position:relative; padding-top:20px;}
+.mt-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.mt-events{display:flex; justify-content:space-between; position:relative; top:-1px;}
+.mt-dot{width:11px; height:11px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer; position:relative;}
+.mt-dot.crisis{background:var(--ink);}
+.mt-dot.active{transform:scale(1.5);}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:9.5px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail{margin-top:56px; border:1px solid var(--ink); background:var(--white); padding:24px; min-height:150px;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.5rem; margin-bottom:8px;}
+.mt-detail .mt-t{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;}
+
+.exp-card{border-bottom:1px solid var(--line); padding:20px 0; cursor:pointer;}
+.exp-card:first-child{border-top:1px solid var(--ink);}
+.exp-head{display:flex; justify-content:space-between; align-items:center; gap:16px;}
+.exp-head h4{font-size:1.05rem; font-weight:600; text-transform:none; letter-spacing:0;}
+.exp-toggle{font-family:var(--font-mono); font-size:18px; width:22px; text-align:center; flex-shrink:0;}
+.exp-body{max-height:0; overflow:hidden; transition:max-height 0.35s ease;}
+.exp-card.open .exp-body{max-height:400px;}
+.exp-body-inner{padding-top:14px; font-size:14px; max-width:640px;}
+
+.legacy-row{display:flex; align-items:flex-end; gap:0; border-top:1px solid var(--ink); padding-top:28px; overflow-x:auto;}
+.legacy-item{flex:1 0 150px; text-align:center; padding:0 10px; border-right:1px solid var(--line);}
+.legacy-item:last-child{border-right:none;}
+.legacy-item .ly-year{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;}
+.legacy-item svg{height:60px; margin:0 auto 12px;}
+.legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
+.legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
+
+.dash-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); margin-top:32px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{background:var(--white); padding:22px; text-align:center;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.5rem;}
+
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-note{font-size:12.5px; color:var(--mid); margin-top:6px; line-height:1.5;}
+.cite{font-family:var(--font-mono); font-size:11px; color:var(--mid); vertical-align:super; margin-left:1px;}
+
+footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
+.skip-link{position:absolute; left:-9999px;}
+.skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">MARATHON — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">SITE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — NINETY DAYS PLANNED, FOURTEEN YEARS DELIVERED" data-ru="РИС. 00 — ЗАПЛАНИРОВАНО НА 90 ДНЕЙ, ПРОРАБОТАЛ ЧЕТЫРНАДЦАТЬ ЛЕТ">FIG. 00 — NINETY DAYS PLANNED, FOURTEEN YEARS DELIVERED</span>
+        <span data-en="2004 → 2018" data-ru="2004 → 2018">2004 → 2018</span>
+      </div>
+      <h1><span data-en="MARATHON" data-ru="МАРАФОН">MARATHON</span><br><em data-en="A FIELD GUIDE TO THE OPPORTUNITY ROVER" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО МАРСОХОДУ OPPORTUNITY">A FIELD GUIDE TO THE OPPORTUNITY ROVER</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the rover that landed inside a crater by pure chance, found evidence of ancient water in its very first week, drove far enough to complete an actual marathon on another planet, and was finally silenced not by breaking down but by a storm that darkened an entire world. Scroll to begin the mission." data-ru="Десять глав о ровере, случайно приземлившемся прямо внутри кратера, нашедшем следы древней воды уже в первую неделю, проехавшем достаточно далеко, чтобы пробежать настоящий марафон на другой планете, и в итоге умолкшем не из-за поломки, а из-за бури, затмившей целый мир. Пролистайте вниз, чтобы начать миссию.">Ten chapters on the rover that landed inside a crater by pure chance, found evidence of ancient water in its very first week, drove far enough to complete an actual marathon on another planet, and was finally silenced not by breaking down but by a storm that darkened an entire world. Scroll to begin the mission.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="ch1" class="section" data-phase="A HOLE-IN-ONE LANDING" data-alt="EAGLE CRATER" data-vel="JAN 25 2004">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="A HOLE-IN-ONE LANDING" data-ru="ПОПАДАНИЕ С ПЕРВОГО РАЗА">A HOLE-IN-ONE LANDING</span></div>
+    <h2 class="h-lg" data-en="Bouncing straight into the one crater worth landing in" data-ru="Прямое попадание в единственный кратер, где стоило приземлиться">Bouncing straight into the one crater worth landing in</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Opportunity landed in Meridiani Planum on January 25, 2004, at 05:05 UTC, three weeks after its twin Spirit touched down on the opposite side of Mars.<sup class='cite'>[2]</sup> Cushioned by airbags, it bounced and rolled to a stop inside a small crater only about 22 metres across — a landing so improbable that mission scientists nicknamed it a &quot;hole-in-one.&quot;<sup class='cite'>[5]</sup>" data-ru="Opportunity сел в Меридиани Планум 25 января 2004 года в 05:05 UTC, спустя три недели после того, как его близнец Spirit коснулся поверхности на противоположной стороне Марса.<sup class='cite'>[2]</sup> Смягчённый подушками безопасности, он отскочил и остановился внутри небольшого кратера диаметром всего около 22 метров — посадка настолько маловероятная, что учёные миссии прозвали её «попаданием с первого удара».<sup class='cite'>[5]</sup>">Opportunity landed in Meridiani Planum on January 25, 2004, at 05:05 UTC, three weeks after its twin Spirit touched down on the opposite side of Mars.<sup class="cite">[2]</sup> Cushioned by airbags, it bounced and rolled to a stop inside a small crater only about 22 metres across — a landing so improbable that mission scientists nicknamed it a "hole-in-one."<sup class="cite">[5]</sup></p>
+      <p class="body-col" data-en="That crater, later named Eagle, happened to expose bedrock right at the surface — features Opportunity would otherwise have had to drive for weeks to find, delivered instead by the very bounce that could have ended the mission on landing day.<sup class='cite'>[5]</sup>" data-ru="Этот кратер, позже названный Игл, случайно обнажил коренную породу прямо на поверхности — то, до чего Opportunity иначе пришлось бы добираться неделями, а тут это доставил тот самый отскок, что мог бы и завершить миссию в день посадки.<sup class='cite'>[5]</sup>">That crater, later named Eagle, happened to expose bedrock right at the surface — features Opportunity would otherwise have had to drive for weeks to find, delivered instead by the very bounce that could have ended the mission on landing day.<sup class="cite">[5]</sup></p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2" class="section" data-phase="BLUEBERRIES" data-alt="EAGLE CRATER" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="BLUEBERRIES IN EAGLE CRATER" data-ru="«ЧЕРНИКА» В КРАТЕРЕ ИГЛ">BLUEBERRIES IN EAGLE CRATER</span></div>
+    <h2 class="h-lg" data-en="Evidence of water, found in the first week" data-ru="Следы воды, найденные в первую же неделю">Evidence of water, found in the first week</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Almost immediately, Opportunity's cameras spotted small, spherical grey pebbles scattered across the crater floor, quickly nicknamed &quot;blueberries.&quot; Later analysis identified them as concretions of hematite, an iron-oxide mineral that on Earth typically forms in the presence of liquid water — placing solid evidence for ancient water in Opportunity's hands before its mission was even a month old.<sup class='cite'>[4]</sup>" data-ru="Почти сразу камеры Opportunity заметили небольшие сферические серые камешки, рассыпанные по дну кратера, быстро прозванные «черникой». Последующий анализ определил их как конкреции гематита — минерала оксида железа, который на Земле обычно образуется в присутствии жидкой воды, — предоставив твёрдые доказательства древней воды в распоряжение Opportunity ещё до того, как миссии исполнился месяц.<sup class='cite'>[4]</sup>">Almost immediately, Opportunity's cameras spotted small, spherical grey pebbles scattered across the crater floor, quickly nicknamed "blueberries." Later analysis identified them as concretions of hematite, an iron-oxide mineral that on Earth typically forms in the presence of liquid water — placing solid evidence for ancient water in Opportunity's hands before its mission was even a month old.<sup class="cite">[4]</sup></p>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3" class="section" data-phase="ROVER ANATOMY" data-alt="MERIDIANI PLANUM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="ANATOMY OF OPPORTUNITY" data-ru="УСТРОЙСТВО OPPORTUNITY">ANATOMY OF OPPORTUNITY</span></div>
+    <h2 class="h-lg" data-en="An identical twin, built from the same blueprint" data-ru="Однояйцевый близнец, построенный по тому же чертежу">An identical twin, built from the same blueprint</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Opportunity shared Spirit's exact 185 kg design, six-wheeled rocker-bogie suspension, and full instrument suite.<sup class='cite'>[4]</sup> Select a component." data-ru="Opportunity разделял точно такую же конструкцию Spirit массой 185 кг, шестиколёсную подвеску «качалка-тележка» и полный набор приборов.<sup class='cite'>[4]</sup> Выберите компонент.">Opportunity shared Spirit's exact 185 kg design, six-wheeled rocker-bogie suspension, and full instrument suite.<sup class="cite">[4]</sup> Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="oppySvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="oppyPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4" class="section" data-phase="ENDURANCE &amp; THE METEORITE" data-alt="ENDURANCE CRATER" data-vel="2004–05">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="ENDURANCE AND THE METEORITE" data-ru="«ИНДЬЮРАНС» И МЕТЕОРИТ">ENDURANCE AND THE METEORITE</span></div>
+    <h2 class="h-lg" data-en="A find nobody was even looking for" data-ru="Находка, которую никто даже не искал">A find nobody was even looking for</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="After months studying Eagle Crater and its surroundings, Opportunity moved on to the larger Endurance Crater, spending the second half of 2004 studying its deeper, older rock layers. Along the way it happened upon an iron-nickel rock later named Heat Shield Rock — the first meteorite ever identified on the surface of another planet.<sup class='cite'>[7]</sup>" data-ru="После нескольких месяцев изучения кратера Игл и его окрестностей Opportunity перебрался к более крупному кратеру «Индьюранс», проведя вторую половину 2004 года за изучением его более глубоких, древних слоёв породы. По пути он случайно наткнулся на железоникелевый камень, позже названный Heat Shield Rock, — первый метеорит, когда-либо обнаруженный на поверхности другой планеты.<sup class='cite'>[7]</sup>">After months studying Eagle Crater and its surroundings, Opportunity moved on to the larger Endurance Crater, spending the second half of 2004 studying its deeper, older rock layers. Along the way it happened upon an iron-nickel rock later named Heat Shield Rock — the first meteorite ever identified on the surface of another planet.<sup class="cite">[7]</sup></p>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5" class="section" data-phase="VICTORIA CRATER" data-alt="VICTORIA CRATER" data-vel="2006–08">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="TWO YEARS AT VICTORIA CRATER" data-ru="ДВА ГОДА У КРАТЕРА «ВИКТОРИЯ»">TWO YEARS AT VICTORIA CRATER</span></div>
+    <h2 class="h-lg" data-en="Reading a cliff face like the pages of a book" data-ru="Читая обрыв, словно страницы книги">Reading a cliff face like the pages of a book</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Opportunity reached the much larger Victoria Crater in 2006 and spent roughly two years studying its scalloped rim and layered walls, which preserved a longer record of wind, dust, and possible water activity than any site studied so far — all while surviving a planet-wide dust storm in 2007 that briefly threatened both rovers." data-ru="Opportunity добрался до значительно более крупного кратера «Виктория» в 2006 году и провёл около двух лет за изучением его волнистого края и слоистых стенок, хранивших более длинную летопись ветровой, пылевой и возможной водной активности, чем любой изученный к тому моменту участок, — и всё это пережив в 2007 году общепланетную пылевую бурю, ненадолго угрожавшую обоим роверам.">Opportunity reached the much larger Victoria Crater in 2006 and spent roughly two years studying its scalloped rim and layered walls, which preserved a longer record of wind, dust, and possible water activity than any site studied so far — all while surviving a planet-wide dust storm in 2007 that briefly threatened both rovers.</p>
+  </div>
+</section>
+
+<!-- CH6 -->
+<section id="ch6" class="section" data-phase="THE LONG DRIVE" data-alt="EN ROUTE TO ENDEAVOUR" data-vel="2008–11">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="THE LONG DRIVE TO ENDEAVOUR" data-ru="ДОЛГИЙ ПУТЬ К «ИНДЕВОРУ»">THE LONG DRIVE TO ENDEAVOUR</span></div>
+    <h2 class="h-lg" data-en="Three years driving toward a crater twenty-two kilometres wide" data-ru="Три года пути к кратеру диаметром двадцать два километра">Three years driving toward a crater twenty-two kilometres wide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="In 2008, mission scientists set Opportunity on a years-long trek toward Endeavour Crater, roughly 22 km across — far larger and geologically older than anything explored before. The rover finally arrived in August 2011, a journey long enough that the team began calling Endeavour a genuine &quot;second landing site.&quot;" data-ru="В 2008 году учёные миссии направили Opportunity в многолетний путь к кратеру «Индевор» диаметром примерно 22 км — значительно крупнее и геологически древнее всего, что исследовалось прежде. Ровер наконец прибыл в августе 2011 года — путешествие оказалось достаточно долгим, чтобы команда начала называть «Индевор» настоящим «вторым местом посадки».">In 2008, mission scientists set Opportunity on a years-long trek toward Endeavour Crater, roughly 22 km across — far larger and geologically older than anything explored before. The rover finally arrived in August 2011, a journey long enough that the team began calling Endeavour a genuine "second landing site."</p>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7" class="section" data-phase="CLAY MINERALS" data-alt="ENDEAVOUR CRATER" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="CLAY MINERALS AND GENTLER WATER" data-ru="ГЛИНИСТЫЕ МИНЕРАЛЫ И БОЛЕЕ МЯГКАЯ ВОДА">CLAY MINERALS AND GENTLER WATER</span></div>
+    <h2 class="h-lg" data-en="Rewriting how habitable ancient Mars really was" data-ru="Переосмысляя, насколько пригодным для жизни был древний Марс">Rewriting how habitable ancient Mars really was</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="At Endeavour, in an area later named Marathon Valley, Opportunity found clay minerals that form only in water with a much closer-to-neutral pH than the highly acidic conditions suggested by the earlier hematite &quot;blueberries.&quot; Together, the two findings sketched a Martian past that shifted over time from milder, more Earth-like water chemistry toward harsher, more acidic conditions." data-ru="У «Индевора», в районе, позже названном Марафонской долиной, Opportunity обнаружил глинистые минералы, образующиеся только в воде с гораздо более нейтральным pH, чем сильно кислые условия, на которые указывала более ранняя гематитовая «черника». Вместе эти находки обрисовали марсианское прошлое, со временем сместившееся от более мягкой, землеподобной химии воды к более суровым, кислым условиям.">At Endeavour, in an area later named Marathon Valley, Opportunity found clay minerals that form only in water with a much closer-to-neutral pH than the highly acidic conditions suggested by the earlier hematite "blueberries." Together, the two findings sketched a Martian past that shifted over time from milder, more Earth-like water chemistry toward harsher, more acidic conditions.</p>
+  </div>
+</section>
+
+<!-- CH8 -->
+<section id="ch8" class="section" data-phase="RUNNING A MARATHON" data-alt="MARATHON VALLEY" data-vel="MAR 2015">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="RUNNING A MARATHON ON MARS" data-ru="МАРАФОН НА МАРСЕ">RUNNING A MARATHON ON MARS</span></div>
+    <h2 class="h-lg" data-en="42.195 kilometres, a rover speed of a few centimetres a second" data-ru="42,195 километра со скоростью в несколько сантиметров в секунду">42.195 kilometres, a rover speed of a few centimetres a second</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="In March 2015, Opportunity's total odometer reading passed 42.195 km — the exact length of an Olympic marathon — a milestone NASA celebrated explicitly, timed only days before the Boston Marathon, as proof of just how far a solar-powered robot could travel one careful drive at a time." data-ru="В марте 2015 года общий пробег Opportunity превысил 42,195 км — точную длину олимпийского марафона, — веху, которую NASA отметило открыто, приурочив её к дням незадолго до Бостонского марафона, как доказательство того, как далеко способен уехать работающий на солнечной энергии робот, если делать это осторожно, шаг за шагом.">In March 2015, Opportunity's total odometer reading passed 42.195 km — the exact length of an Olympic marathon — a milestone NASA celebrated explicitly, timed only days before the Boston Marathon, as proof of just how far a solar-powered robot could travel one careful drive at a time.</p>
+  </div>
+</section>
+
+<!-- CH9 -->
+<section id="ch9" class="section" data-phase="THE DUST STORM" data-alt="PERSEVERANCE VALLEY" data-vel="JUN 2018">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="THE DUST STORM THAT ENDED IT" data-ru="ПЫЛЕВАЯ БУРЯ, ПОСТАВИВШАЯ ТОЧКУ">THE DUST STORM THAT ENDED IT</span></div>
+    <h2 class="h-lg" data-en="Silenced by weather, not by wear" data-ru="Замолчал не от износа, а от погоды">Silenced by weather, not by wear</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On June 10, 2018 — Sol 5111 — a Mars-wide dust storm darkened Opportunity's skies so completely that its solar panels could no longer generate meaningful power, and the rover fell silent from Perseverance Valley, near Endeavour's rim.<sup class='cite'>[3]</sup>" data-ru="10 июня 2018 года — на сол 5111 — общепланетная пылевая буря настолько затемнила небо над Opportunity, что его солнечные панели больше не могли вырабатывать значимую энергию, и ровер замолчал в Долине Стойкости у края «Индевора».<sup class='cite'>[3]</sup>">On June 10, 2018 — Sol 5111 — a Mars-wide dust storm darkened Opportunity's skies so completely that its solar panels could no longer generate meaningful power, and the rover fell silent from Perseverance Valley, near Endeavour's rim.<sup class="cite">[3]</sup></p>
+      <p class="body-col" data-en="After the storm cleared weeks later, the mission team radiated over 1,000 commands toward the rover, hoping dust had simply settled off its panels rather than caused permanent damage.<sup class='cite'>[3]</sup> None were answered. NASA declared the mission complete on February 13, 2019, after search and recovery efforts formally concluded the day before.<sup class='cite'>[1][3]</sup>" data-ru="После того как буря рассеялась несколько недель спустя, команда миссии направила в сторону ровера свыше 1000 команд, надеясь, что пыль просто осела с панелей, а не причинила необратимый ущерб.<sup class='cite'>[3]</sup> Ни на одну не последовало ответа. NASA объявило миссию завершённой 13 февраля 2019 года, после того как поисково-спасательные усилия официально закончились днём ранее.<sup class='cite'>[1][3]</sup>">After the storm cleared weeks later, the mission team radiated over 1,000 commands toward the rover, hoping dust had simply settled off its panels rather than caused permanent damage.<sup class="cite">[3]</sup> None were answered. NASA declared the mission complete on February 13, 2019, after search and recovery efforts formally concluded the day before.<sup class="cite">[1][3]</sup></p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="Fifty-seven times longer than its warranty" data-ru="В пятьдесят семь раз дольше гарантийного срока">Fifty-seven times longer than its warranty</h2>
+    <p class="lede" style="margin-bottom:24px;" data-en="Designed for a 90-sol mission, Opportunity operated for over 5,000 sols — roughly fourteen years and forty-six days on Earth's calendar, covering more than 45 kilometres, farther than any other wheeled vehicle has ever driven off the surface of Earth.<sup class='cite'>[4][9]</sup>" data-ru="Рассчитанный на 90-сольную миссию, Opportunity проработал свыше 5000 солов — примерно четырнадцать лет и сорок шесть дней по земному календарю, преодолев более 45 километров, дальше, чем любое другое колёсное транспортное средство когда-либо проезжало за пределами Земли.<sup class='cite'>[4][9]</sup>">Designed for a 90-sol mission, Opportunity operated for over 5,000 sols — roughly fourteen years and forty-six days on Earth's calendar, covering more than 45 kilometres, farther than any other wheeled vehicle has ever driven off the surface of Earth.<sup class="cite">[4][9]</sup></p>
+    <div class="dash-grid">
+      <div class="dash-card"><div class="dc-name">45+ km</div><div class="fig-num" data-en="TOTAL DISTANCE DRIVEN" data-ru="ОБЩЕЕ ПРОЙДЕННОЕ РАССТОЯНИЕ">TOTAL DISTANCE DRIVEN</div></div>
+      <div class="dash-card"><div class="dc-name">5,111</div><div class="fig-num" data-en="SOLS OF OPERATION" data-ru="СОЛОВ РАБОТЫ">SOLS OF OPERATION</div></div>
+      <div class="dash-card"><div class="dc-name">57×</div><div class="fig-num" data-en="ITS PLANNED LIFESPAN" data-ru="ПЛАНОВОГО СРОКА СЛУЖБЫ">ITS PLANNED LIFESPAN</div></div>
+    </div>
+    <div class="legacy-row" id="legacyRow" style="margin-top:32px;"></div>
+  </div>
+</section>
+
+<!-- CH11 — REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="MARATHON — A FIELD GUIDE TO THE OPPORTUNITY ROVER" data-ru="MARATHON — ПОЛЕВОЙ СПРАВОЧНИК ПО МАРСОХОДУ OPPORTUNITY">MARATHON — A FIELD GUIDE TO THE OPPORTUNITY ROVER</span>
+  <span data-en="EDUCATIONAL / REFERENCED — FIGURES CITED WHERE POSSIBLE" data-ru="УЧЕБНЫЙ МАТЕРИАЛ СО ССЫЛКАМИ — ЗНАЧЕНИЯ ПО ВОЗМОЖНОСТИ ПОДТВЕРЖДЕНЫ ИСТОЧНИКАМИ">EDUCATIONAL / REFERENCED — FIGURES CITED WHERE POSSIBLE</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH3 — OPPORTUNITY SCHEMATIC ============ */
+var OPPY_PARTS = [
+  {id:'pancam2', en:'Pancam', ru:'Панорамная камера', cEn:'Stereo colour camera, mast-mounted', cRu:'Стереоскопическая цветная камера на мачте', x:60, y:150, w:150, h:34,
+   dEn:'Captured the panoramic colour images of Eagle, Endurance, Victoria, and Endeavour craters that let scientists read each site\'s geological history directly from the surface.', dRu:'Делала панорамные цветные снимки кратеров Игл, «Индьюранс», «Виктория» и «Индевор», позволявшие учёным читать геологическую историю каждого места прямо с поверхности.'},
+  {id:'mossbauer2', en:'Mössbauer Spectrometer', ru:'Мёссбауэровский спектрометр', cEn:'Identified the hematite blueberries', cRu:'Определил гематитовую «чернику»', x:280, y:110, w:150, h:34,
+   dEn:'Confirmed the composition of the small spherical &quot;blueberries&quot; found in Eagle Crater as hematite, the mission\'s first strong chemical evidence of ancient water.', dRu:'Подтвердил состав небольших сферических «черничин», найденных в кратере Игл, как гематит — первое веское химическое доказательство древней воды в миссии.'},
+  {id:'apxs2', en:'Alpha Particle X-ray Spectrometer', ru:'Альфа-протонный рентгеновский спектрометр', cEn:'Measures elemental composition', cRu:'Измеряет элементный состав', x:280, y:210, w:150, h:34,
+   dEn:'Determined the elemental makeup of rock and soil across every site Opportunity visited, from Eagle Crater to Marathon Valley.', dRu:'Определял элементный состав пород и грунта на каждом участке, который посещал Opportunity, — от кратера Игл до Марафонской долины.'},
+  {id:'rat2', en:'Rock Abrasion Tool', ru:'Инструмент абразивной обработки камней', cEn:'Grinds through weathered rock surfaces', cRu:'Стачивает выветренную поверхность камней', x:460, y:150, w:150, h:34,
+   dEn:'Ground away weathered rock surfaces to expose fresh material, letting the spectrometers analyse rock that hadn\'t been altered by exposure to the Martian atmosphere.', dRu:'Стачивал выветренную поверхность пород, обнажая свежий материал, чтобы спектрометры могли анализировать породу, не изменённую воздействием марсианской атмосферы.'},
+  {id:'wheels3', en:'Six-Wheel Rocker-Bogie', ru:'Шестиколёсная подвеска «качалка-тележка»', cEn:'Covered 45+ km without a single wheel failure', cRu:'Проехала свыше 45 км без единого отказа колеса', x:460, y:210, w:150, h:34,
+   dEn:'The same suspension design as Spirit\'s, but Opportunity\'s wheels never suffered the kind of failure that trapped its twin — a large part of why it drove so much farther.', dRu:'Та же конструкция подвески, что и у Spirit, но колёса Opportunity ни разу не пострадали от отказа, застигшего его близнеца, — во многом поэтому он проехал настолько дальше.'}
+];
+function renderOppy(){
+  var svg = document.getElementById('oppySvg');
+  var panel = document.getElementById('oppyPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  OPPY_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, OPPY_PARTS, m.id); });
+  });
+  selectPart(svg, panel, OPPY_PARTS, OPPY_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1997', en:'Sojourner', ru:'«Соджорнер»', noteEn:'10.6 kg, first Mars rover', noteRu:'10,6 кг, первый марсоход', h:18},
+  {y:'2004', en:'Spirit &amp; Opportunity', ru:'Spirit и Opportunity', noteEn:'185 kg, twin geologists', noteRu:'185 кг, роверы-близнецы-геологи', h:34},
+  {y:'2012', en:'Curiosity', ru:'Curiosity', noteEn:'899 kg, nuclear-powered', noteRu:'899 кг, на ядерной энергии', h:46},
+  {y:'2021', en:'Perseverance', ru:'Perseverance', noteEn:'1,025 kg, caching samples', noteRu:'1025 кг, кэширует образцы', h:52},
+  {y:'Future', en:'Sample Return', ru:'Возврат образцов', noteEn:'Bringing Perseverance\'s samples home', noteRu:'Доставка образцов Perseverance на Землю', h:30}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><rect x="'+(50-l.h/3)+'" y="10" width="'+(l.h/1.5)+'" height="'+l.h+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ CH11 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA\'s Opportunity Rover Mission on Mars Comes to End', url:'https://science.nasa.gov/missions/mer/nasas-opportunity-rover-mission-on-mars-comes-to-end/', note:{en:'NASA Science. Official mission-end announcement, dust storm timeline, final commands.', ru:'NASA Science. Официальное объявление о завершении миссии, хронология пылевой бури, последние команды.'}},
+  {title:'Mars Exploration Rovers: Spirit and Opportunity', url:'https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/', note:{en:'NASA Science. Landing dates, site selection rationale for both rovers.', ru:'NASA Science. Даты посадки, обоснование выбора мест посадки для обоих роверов.'}},
+  {title:'Mars Exploration Rover Opportunity End of Mission Report', url:'https://ntrs.nasa.gov/citations/20200000214', note:{en:'NASA Technical Reports Server. Official sol count, last-contact date, command count, search conclusion date.', ru:'NASA Technical Reports Server. Официальное число солов, дата последнего контакта, число отправленных команд, дата завершения поиска.'}},
+  {title:'Mars Exploration Rover', url:'https://www.britannica.com/topic/Mars-Exploration-Rover', note:{en:'Encyclopaedia Britannica. Rover specifications, shared design with Spirit, distance travelled.', ru:'Encyclopaedia Britannica. Характеристики роверов, конструкция, общая со Spirit, пройденное расстояние.'}},
+  {title:'How NASA\'s Opportunity Rover Made Mars Part of Earth', url:'https://www.smithsonianmag.com/science-nature/how-nasas-opportunity-rover-made-mars-part-earth-180971484/', note:{en:'Smithsonian Magazine. Landing site details, the Eagle Crater &quot;hole-in-one,&quot; dust storm narrative.', ru:'Smithsonian Magazine. Детали места посадки, «попадание с первого раза» в кратер Игл, хроника пылевой бури.'}},
+  {title:'Mars Exploration Rover (MER) Mission', url:'https://astrobiology.nasa.gov/missions/mer/', note:{en:'NASA Astrobiology. Launch and landing dates, comparative mission overview for both rovers.', ru:'NASA Astrobiology. Даты запуска и посадки, сравнительный обзор миссии для обоих роверов.'}}
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
+function renderAll(){
+  renderOppy();
+  renderLegacy();
+  renderRefs();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
