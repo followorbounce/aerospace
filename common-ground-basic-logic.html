@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THRESHOLD — COMMON GROUND & BASIC LOGIC / ОБЩАЯ ОСНОВА И БАЗОВАЯ ЛОГИКА</title>
-<meta name="description" content="An interactive, truth-table-driven journey through basic logic — from common ground and two voltages, through AND, OR, NOT and if/then/else, to binary addition, subtraction, and tracing a whole program from its inputs to its consequences.">
+<meta name="description" content="An interactive, truth-table-driven journey through basic logic — from common ground and two voltages, through AND, OR, NOT and if/then/else, to else-if ladders, FizzBuzz, binary search, and tracing a whole program from its inputs to its consequences.">
 <link rel="canonical" href="https://followorbounce.github.io/aerospace/common-ground-basic-logic">
 <meta name="theme-color" content="#f6f6f2">
 <link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="article">
 <meta property="og:title" content="THRESHOLD — COMMON GROUND & BASIC LOGIC / ОБЩАЯ ОСНОВА И БАЗОВАЯ ЛОГИКА">
-<meta property="og:description" content="An interactive, truth-table-driven journey through basic logic — from common ground and two voltages, through AND, OR, NOT and if/then/else, to binary addition, subtraction, and tracing a whole program from its inputs to its consequences.">
+<meta property="og:description" content="An interactive, truth-table-driven journey through basic logic — from common ground and two voltages, through AND, OR, NOT and if/then/else, to else-if ladders, FizzBuzz, binary search, and tracing a whole program from its inputs to its consequences.">
 <meta property="og:url" content="https://followorbounce.github.io/aerospace/common-ground-basic-logic">
 <meta property="og:site_name" content="Aerospace Knowledge Hub">
 <meta property="og:locale" content="en_US">
@@ -91,7 +91,7 @@ sup, sub{font-size:0.68em;}
         <span data-en="BOOLE, 1854" data-ru="БУЛЬ, 1854">BOOLE, 1854</span>
       </div>
       <h1><span data-en="THRESHOLD" data-ru="ПОРОГ">THRESHOLD</span><br><em data-en="COMMON GROUND & BASIC LOGIC, FROM ONE WIRE TO A RUNNING PROGRAM" data-ru="ОБЩАЯ ОСНОВА И БАЗОВАЯ ЛОГИКА: ОТ ОДНОГО ПРОВОДА ДО РАБОТАЮЩЕЙ ПРОГРАММЫ">COMMON GROUND & BASIC LOGIC, FROM ONE WIRE TO A RUNNING PROGRAM</em></h1>
-      <p class="sub lede" data-en="Ten chapters, with the actual truth tables, on why every computer only ever needs two voltages, how AND, OR, and NOT build every decision a program makes, how binary numbers add and subtract with no minus sign in sight, and how to trace a whole program, step by step, from its inputs to its consequences. Scroll to begin." data-ru="Десять глав с настоящими таблицами истинности о том, почему компьютеру нужно всего два уровня напряжения, как И, ИЛИ и НЕ собирают любое решение программы, как двоичные числа складываются и вычитаются без единого знака минус, и как проследить всю программу, шаг за шагом, от входных данных до последствий. Пролистайте вниз, чтобы начать.">Ten chapters, with the actual truth tables, on why every computer only ever needs two voltages, how AND, OR, and NOT build every decision a program makes, how binary numbers add and subtract with no minus sign in sight, and how to trace a whole program, step by step, from its inputs to its consequences. Scroll to begin.</p>
+      <p class="sub lede" data-en="Thirteen chapters, with the actual truth tables and formulas, on why every computer only ever needs two voltages, how AND, OR, and NOT build every decision a program makes, how a chain of else-ifs and a classic FizzBuzz interview question put that logic to work, how binary numbers add and subtract with no minus sign in sight, why one well-placed IF beats a million comparisons, and how to trace a whole program, step by step, from its inputs to its consequences. Scroll to begin." data-ru="Тринадцать глав с настоящими таблицами истинности и формулами о том, почему компьютеру нужно всего два уровня напряжения, как И, ИЛИ и НЕ собирают любое решение программы, как цепочка else-if и классический вопрос с собеседований FizzBuzz применяют эту логику на практике, как двоичные числа складываются и вычитаются без единого знака минус, почему один точно поставленный IF побеждает миллион сравнений, и как проследить всю программу, шаг за шагом, от входных данных до последствий. Пролистайте вниз, чтобы начать.">Thirteen chapters, with the actual truth tables and formulas, on why every computer only ever needs two voltages, how AND, OR, and NOT build every decision a program makes, how a chain of else-ifs and a classic FizzBuzz interview question put that logic to work, how binary numbers add and subtract with no minus sign in sight, why one well-placed IF beats a million comparisons, and how to trace a whole program, step by step, from its inputs to its consequences. Scroll to begin.</p>
       <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
     </div>
   </div>
@@ -100,7 +100,7 @@ sup, sub{font-size:0.68em;}
 <!-- CH1 — COMMON GROUND -->
 <section id="ch1" class="section" data-phase="COMMON GROUND" data-alt="0V REFERENCE" data-vel="THRESHOLD">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="COMMON GROUND" data-ru="ОБЩАЯ ЗЕМЛЯ">COMMON GROUND</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.01 / 13</span> — <span data-en="COMMON GROUND" data-ru="ОБЩАЯ ЗЕМЛЯ">COMMON GROUND</span></div>
     <h2 class="h-lg" data-en="Before there's a 1 or a 0, there has to be a 0V everyone agrees on" data-ru="Прежде чем появятся 1 и 0, нужен общий для всех уровень 0 В">Before there's a 1 or a 0, there has to be a 0V everyone agrees on</h2>
     <div class="grid-2">
       <p class="body-col" data-en="Every voltage measurement is a comparison, not an absolute number. Saying a wire sits at 'five volts' only means something once everything else in the circuit agrees on what counts as zero — a shared reference point called ground. Every wire's voltage, high or low, is really just 'how far above ground.'" data-ru="Любое измерение напряжения — это сравнение, а не абсолютное число. Фраза «на проводе пять вольт» имеет смысл только тогда, когда всё остальное в схеме согласно с тем, что считать нулём, — с общей точкой отсчёта, землёй. Напряжение любого провода, высокое или низкое, — это на самом деле просто «насколько выше земли».">Every voltage measurement is a comparison, not an absolute number. Saying a wire sits at 'five volts' only means something once everything else in the circuit agrees on what counts as zero — a shared reference point called ground. Every wire's voltage, high or low, is really just 'how far above ground.'</p>
@@ -120,10 +120,10 @@ sup, sub{font-size:0.68em;}
   </div>
 </section>
 
-<!-- CH2 — BITS & BYTES -->
+<!-- CH2 — BITS & BYTES (interactive) -->
 <section id="ch2" class="section" data-phase="BITS & BYTES" data-alt="N = 2ⁿ" data-vel="256 PER BYTE">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="ONE WIRE, TWO STATES, INFINITE MEANING" data-ru="ОДИН ПРОВОД, ДВА СОСТОЯНИЯ, БЕСКОНЕЧНЫЙ СМЫСЛ">ONE WIRE, TWO STATES, INFINITE MEANING</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.02 / 13</span> — <span data-en="ONE WIRE, TWO STATES, INFINITE MEANING" data-ru="ОДИН ПРОВОД, ДВА СОСТОЯНИЯ, БЕСКОНЕЧНЫЙ СМЫСЛ">ONE WIRE, TWO STATES, INFINITE MEANING</span></div>
     <h2 class="h-lg" data-en="One wire only ever says yes or no. Enough wires say anything." data-ru="Один провод умеет говорить только «да» или «нет». Проводов достаточно — и можно сказать что угодно.">One wire only ever says yes or no. Enough wires say anything.</h2>
     <div class="grid-2">
       <p class="body-col" data-en="A single wire in Chapter 1's scheme carries exactly one bit — one yes-or-no, HIGH-or-LOW. On its own, that's not very expressive. But line up several wires, and every possible combination of their states becomes a distinct pattern — and everything a computer represents, numbers, letters, colours, sound, is just a name given to one of those patterns." data-ru="Один провод в схеме из главы 1 несёт ровно один бит — одно «да» или «нет», HIGH или LOW. Сам по себе он не очень выразителен. Но выстройте в ряд несколько проводов — и каждая возможная комбинация их состояний становится отдельным узором; а всё, что представляет компьютер — числа, буквы, цвета, звук, — это просто имя, данное одному из этих узоров.">A single wire in Chapter 1's scheme carries exactly one bit — one yes-or-no, HIGH-or-LOW. On its own, that's not very expressive. But line up several wires, and every possible combination of their states becomes a distinct pattern — and everything a computer represents, numbers, letters, colours, sound, is just a name given to one of those patterns.</p>
@@ -134,13 +134,19 @@ sup, sub{font-size:0.68em;}
       <div class="eq-body">N = 2ⁿ</div>
       <div class="eq-note" data-en="8 wires (a byte): 2⁸ = 256 states — enough for every character in this sentence. 4 wires (a nibble): 2⁴ = 16 — exactly one hexadecimal digit." data-ru="8 проводов (байт): 2⁸ = 256 состояний — достаточно для любого символа в этом предложении. 4 провода (тетрада, полубайт): 2⁴ = 16 — ровно одна шестнадцатеричная цифра.">8 wires (a byte): 2⁸ = 256 states — enough for every character in this sentence. 4 wires (a nibble): 2⁴ = 16 — exactly one hexadecimal digit.</div>
     </div>
+    <div class="sim-panel corner-frame">
+      <div class="sim-readout"><span class="mono" data-en="NUMBER OF WIRES (BITS), n" data-ru="ЧИСЛО ПРОВОДОВ (БИТ), n">NUMBER OF WIRES (BITS), n</span><span class="mono" id="bitsNVal">8</span></div>
+      <div class="sim-controls"><input id="bitsNSlider" type="range" min="1" max="32" step="1" value="8"></div>
+      <div class="voltage-readout" id="bitsNStates">256</div>
+      <div class="voltage-sub" id="bitsNMilestone" data-en="MILESTONE: ONE BYTE — ENOUGH FOR ANY CHARACTER IN THIS SENTENCE" data-ru="ВЕХА: ОДИН БАЙТ — ДОСТАТОЧНО ДЛЯ ЛЮБОГО СИМВОЛА В ЭТОМ ПРЕДЛОЖЕНИИ">MILESTONE: ONE BYTE — ENOUGH FOR ANY CHARACTER IN THIS SENTENCE</div>
+    </div>
   </div>
 </section>
 
 <!-- CH3 — LOGIC GATES (interactive) -->
 <section id="ch3" class="section" data-phase="LOGIC GATES" data-alt="AND / OR / NOT" data-vel="LIVE TRUTH TABLE">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="LOGIC GATES: THE THREE YOU NEED" data-ru="ЛОГИЧЕСКИЕ ЭЛЕМЕНТЫ: ТРИ НЕОБХОДИМЫХ">LOGIC GATES: THE THREE YOU NEED</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.03 / 13</span> — <span data-en="LOGIC GATES: THE THREE YOU NEED" data-ru="ЛОГИЧЕСКИЕ ЭЛЕМЕНТЫ: ТРИ НЕОБХОДИМЫХ">LOGIC GATES: THE THREE YOU NEED</span></div>
     <h2 class="h-lg" data-en="Every decision a computer makes reduces to three little circuits" data-ru="Любое решение компьютера сводится к трём небольшим схемам">Every decision a computer makes reduces to three little circuits</h2>
     <div class="grid-2">
       <p class="body-col" data-en="A logic gate is a circuit with one job: look at its input voltages, and output HIGH or LOW according to a fixed rule. There are only a handful of these rules worth knowing, and just three of them — AND, OR, and NOT — are enough to build every other one, including every branch a program ever takes." data-ru="Логический элемент — это схема с одной задачей: посмотреть на входные напряжения и выдать HIGH или LOW по фиксированному правилу. Таких правил, которые стоит знать, немного, и всего трёх из них — И, ИЛИ и НЕ — достаточно, чтобы построить любое другое, включая каждое ветвление, которое когда-либо делает программа.">A logic gate is a circuit with one job: look at its input voltages, and output HIGH or LOW according to a fixed rule. There are only a handful of these rules worth knowing, and just three of them — AND, OR, and NOT — are enough to build every other one, including every branch a program ever takes.</p>
@@ -161,10 +167,10 @@ sup, sub{font-size:0.68em;}
 <!-- CH4 — COMPOUND LOGIC -->
 <section id="ch4" class="section" data-phase="COMPOUND LOGIC" data-alt="XOR" data-vel="DE MORGAN">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="COMBINING GATES: XOR & DE MORGAN'S LAWS" data-ru="КОМБИНИРУЯ ЭЛЕМЕНТЫ: XOR И ЗАКОНЫ ДЕ МОРГАНА">COMBINING GATES: XOR & DE MORGAN'S LAWS</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.04 / 13</span> — <span data-en="COMBINING GATES: XOR & DE MORGAN'S LAWS" data-ru="КОМБИНИРУЯ ЭЛЕМЕНТЫ: XOR И ЗАКОНЫ ДЕ МОРГАНА">COMBINING GATES: XOR & DE MORGAN'S LAWS</span></div>
     <h2 class="h-lg" data-en="Two useful shortcuts fall out of combining AND, OR, and NOT" data-ru="Из комбинирования И, ИЛИ и НЕ рождаются два полезных сокращения">Two useful shortcuts fall out of combining AND, OR, and NOT</h2>
     <div class="grid-2">
-      <p class="body-col" data-en="XOR ('exclusive or') outputs HIGH when its inputs disagree — exactly one HIGH, not both. It isn't a fourth fundamental gate; wire together an OR, an AND, and two NOTs and you get exactly the same truth table. XOR earns its own symbol only because it turns out to be exactly the circuit that adds two bits together, in Chapter 7." data-ru="XOR («исключающее ИЛИ») выдаёт HIGH, когда входы не совпадают — ровно один из них HIGH, но не оба. Это не четвёртый фундаментальный элемент: соедините ИЛИ, И и два НЕ — и получите ровно ту же таблицу истинности. XOR заслуживает собственного обозначения лишь потому, что это именно та схема, которая складывает два бита, — см. главу 7.">XOR ('exclusive or') outputs HIGH when its inputs disagree — exactly one HIGH, not both. It isn't a fourth fundamental gate; wire together an OR, an AND, and two NOTs and you get exactly the same truth table. XOR earns its own symbol only because it turns out to be exactly the circuit that adds two bits together, in Chapter 7.</p>
+      <p class="body-col" data-en="XOR ('exclusive or') outputs HIGH when its inputs disagree — exactly one HIGH, not both. It isn't a fourth fundamental gate; wire together an OR, an AND, and two NOTs and you get exactly the same truth table. XOR earns its own symbol only because it turns out to be exactly the circuit that adds two bits together, in Chapter 8." data-ru="XOR («исключающее ИЛИ») выдаёт HIGH, когда входы не совпадают — ровно один из них HIGH, но не оба. Это не четвёртый фундаментальный элемент: соедините ИЛИ, И и два НЕ — и получите ровно ту же таблицу истинности. XOR заслуживает собственного обозначения лишь потому, что это именно та схема, которая складывает два бита, — см. главу 8.">XOR ('exclusive or') outputs HIGH when its inputs disagree — exactly one HIGH, not both. It isn't a fourth fundamental gate; wire together an OR, an AND, and two NOTs and you get exactly the same truth table. XOR earns its own symbol only because it turns out to be exactly the circuit that adds two bits together, in Chapter 8.</p>
       <p class="body-col" data-en="De Morgan's laws are the other shortcut: negating an AND is the same as OR-ing the negations, and negating an OR is the same as AND-ing the negations. It's why 'not (raining and cold)' means exactly the same thing as 'not raining, or not cold' — in English or in silicon." data-ru="Законы де Моргана — другое полезное сокращение: отрицание И равносильно ИЛИ от отрицаний, а отрицание ИЛИ равносильно И от отрицаний. Именно поэтому «не (идёт дождь и холодно)» означает ровно то же самое, что «не идёт дождь, или не холодно», — что на русском, что в кремнии.">De Morgan's laws are the other shortcut: negating an AND is the same as OR-ing the negations, and negating an OR is the same as AND-ing the negations. It's why 'not (raining and cold)' means exactly the same thing as 'not raining, or not cold' — in English or in silicon.</p>
     </div>
     <div class="eq-box corner-frame">
@@ -178,7 +184,7 @@ sup, sub{font-size:0.68em;}
 <!-- CH5 — IF / THEN / ELSE -->
 <section id="ch5" class="section" data-phase="IF / THEN / ELSE" data-alt="BRANCHING" data-vel="GATE → DECISION">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="IF, THEN, ELSE: LOGIC BECOMES A DECISION" data-ru="IF, THEN, ELSE: ЛОГИКА СТАНОВИТСЯ РЕШЕНИЕМ">IF, THEN, ELSE: LOGIC BECOMES A DECISION</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.05 / 13</span> — <span data-en="IF, THEN, ELSE: LOGIC BECOMES A DECISION" data-ru="IF, THEN, ELSE: ЛОГИКА СТАНОВИТСЯ РЕШЕНИЕМ">IF, THEN, ELSE: LOGIC BECOMES A DECISION</span></div>
     <h2 class="h-lg" data-en="The word “if” is a logic gate wearing different clothes" data-ru="Слово «если» — это логический элемент в другой одежде">The word “if” is a logic gate wearing different clothes</h2>
     <div class="grid-2">
       <p class="body-col" data-en="Every plain-language connective maps onto one of Chapter 3's gates: “and” / “also” / “both” is AND; “or” / “either” is OR; “not” / “isn't” is NOT. Write “if raining or night, turn on the headlights” and you've already written an OR gate — you just haven't drawn it yet." data-ru="Любой обычный языковой союз соответствует одному из элементов главы 3: «и» / «также» / «оба» — это И; «или» / «либо» — это ИЛИ; «не» — это НЕ. Скажите «если идёт дождь или наступила ночь, включи фары» — и вы уже написали элемент ИЛИ, просто ещё не нарисовали его.">Every plain-language connective maps onto one of Chapter 3's gates: “and” / “also” / “both” is AND; “or” / “either” is OR; “not” / “isn't” is NOT. Write “if raining or night, turn on the headlights” and you've already written an OR gate — you just haven't drawn it yet.</p>
@@ -193,10 +199,29 @@ sup, sub{font-size:0.68em;}
   </div>
 </section>
 
-<!-- CH6 — BINARY NUMBERS (interactive) -->
-<section id="ch6" class="section" data-phase="BINARY NUMBERS" data-alt="BASE 2" data-vel="PLACE VALUE">
+<!-- CH6 — ELSE-IF LADDERS (interactive) -->
+<section id="ch6" class="section" data-phase="ELSE-IF LADDERS" data-alt="CHAINED CONDITIONS" data-vel="FIRST MATCH WINS">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="COUNTING WITHOUT TEN FINGERS" data-ru="СЧЁТ БЕЗ ДЕСЯТИ ПАЛЬЦЕВ">COUNTING WITHOUT TEN FINGERS</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.06 / 13</span> — <span data-en="ELSE-IF LADDERS: WHERE ALGORITHMS APPLY IF" data-ru="ЛЕСТНИЦЫ ELSE-IF: ГДЕ АЛГОРИТМЫ ПРИМЕНЯЮТ IF">ELSE-IF LADDERS: WHERE ALGORITHMS APPLY IF</span></div>
+    <h2 class="h-lg" data-en="Real code rarely stops at one fork — it chains them" data-ru="Настоящий код редко останавливается на одной развилке — их выстраивают в цепочку">Real code rarely stops at one fork — it chains them</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="An if/else from Chapter 5 only picks between two paths. Most real decisions need more than two, so code chains conditions into a ladder: IF, then a series of ELSE IF, then a final ELSE as the catch-all. The computer checks each rung top to bottom and stops at the first one that reads HIGH — every rung below it is skipped entirely, even if it would also have been true." data-ru="Условие if/else из главы 5 выбирает лишь между двумя путями. Большинству реальных решений нужно больше двух вариантов, поэтому код выстраивает условия в лестницу: IF, затем серия ELSE IF, а в конце — ELSE как вариант по умолчанию. Компьютер проверяет каждую ступень сверху вниз и останавливается на первой, которая оказалась HIGH, — все ступени ниже полностью пропускаются, даже если они тоже были бы истинны.">An if/else from Chapter 5 only picks between two paths. Most real decisions need more than two, so code chains conditions into a ladder: IF, then a series of ELSE IF, then a final ELSE as the catch-all. The computer checks each rung top to bottom and stops at the first one that reads HIGH — every rung below it is skipped entirely, even if it would also have been true.</p>
+      <p class="body-col" data-en="A grading scale is the classic example: a score of 85 is technically also 'at least 70' and 'at least 60,' but only the first matching rung — 'at least 80' — assigns the grade. Order matters: swap the ladder's rungs and a 95 could accidentally be graded an F. Drag the score below and watch which rung wins." data-ru="Классический пример — шкала оценок: балл 85 технически также «не меньше 70» и «не меньше 60», но оценку присваивает только первая сработавшая ступень — «не меньше 80». Порядок важен: переставьте ступени лестницы местами — и балл 95 может случайно получить оценку F. Подвиньте ползунок балла ниже и посмотрите, какая ступень сработает.">A grading scale is the classic example: a score of 85 is technically also 'at least 70' and 'at least 60,' but only the first matching rung — 'at least 80' — assigns the grade. Order matters: swap the ladder's rungs and a 95 could accidentally be graded an F. Drag the score below and watch which rung wins.</p>
+    </div>
+    <div class="code-block"><span class="cl">IF score &gt;= 90:</span><span class="cl">    grade = "A"</span><span class="cl">ELSE IF score &gt;= 80:</span><span class="cl">    grade = "B"</span><span class="cl">ELSE IF score &gt;= 70:</span><span class="cl">    grade = "C"</span><span class="cl">ELSE IF score &gt;= 60:</span><span class="cl">    grade = "D"</span><span class="cl">ELSE:</span><span class="cl">    grade = "F"</span></div>
+    <div class="sim-panel corner-frame">
+      <div class="sim-readout"><span class="mono" data-en="SCORE" data-ru="БАЛЛ">SCORE</span><span class="mono" id="gradeVal">72</span></div>
+      <div class="sim-controls"><input id="gradeSlider" type="range" min="0" max="100" step="1" value="72"></div>
+      <div class="voltage-readout" id="gradeOutput">C</div>
+      <div class="readout-grid" id="gradeLadder"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — BINARY NUMBERS (interactive) -->
+<section id="ch7" class="section" data-phase="BINARY NUMBERS" data-alt="BASE 2" data-vel="PLACE VALUE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 13</span> — <span data-en="COUNTING WITHOUT TEN FINGERS" data-ru="СЧЁТ БЕЗ ДЕСЯТИ ПАЛЬЦЕВ">COUNTING WITHOUT TEN FINGERS</span></div>
     <h2 class="h-lg" data-en="Decimal counts by tens because we have ten fingers. Binary counts by twos because a wire has two states." data-ru="Десятичная система считает десятками, потому что у нас десять пальцев. Двоичная считает двойками, потому что у провода два состояния.">Decimal counts by tens because we have ten fingers. Binary counts by twos because a wire has two states.</h2>
     <div class="grid-2">
       <p class="body-col" data-en="Decimal place value is powers of ten: the digit '3' in '300' means 3×10². Binary place value works identically, just with powers of two — each bit is worth twice its neighbour, so a HIGH bit contributes its position's power of two to the total, and a LOW bit contributes nothing." data-ru="Десятичный разряд — это степени десяти: цифра «3» в «300» означает 3×10². Двоичный разряд работает так же, только со степенями двойки — каждый бит вдвое «весомее» соседнего справа: бит HIGH добавляет к сумме степень двойки своей позиции, а бит LOW не добавляет ничего.">Decimal place value is powers of ten: the digit '3' in '300' means 3×10². Binary place value works identically, just with powers of two — each bit is worth twice its neighbour, so a HIGH bit contributes its position's power of two to the total, and a LOW bit contributes nothing.</p>
@@ -215,10 +240,10 @@ sup, sub{font-size:0.68em;}
   </div>
 </section>
 
-<!-- CH7 — BINARY ADDITION (interactive) -->
-<section id="ch7" class="section" data-phase="BINARY ADDITION" data-alt="HALF/FULL ADDER" data-vel="XOR + AND">
+<!-- CH8 — BINARY ADDITION (interactive) -->
+<section id="ch8" class="section" data-phase="BINARY ADDITION" data-alt="HALF/FULL ADDER" data-vel="XOR + AND">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="ADDING IN BINARY: THE ADDER" data-ru="СЛОЖЕНИЕ В ДВОИЧНОЙ СИСТЕМЕ: СУММАТОР">ADDING IN BINARY: THE ADDER</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.08 / 13</span> — <span data-en="ADDING IN BINARY: THE ADDER" data-ru="СЛОЖЕНИЕ В ДВОИЧНОЙ СИСТЕМЕ: СУММАТОР">ADDING IN BINARY: THE ADDER</span></div>
     <h2 class="h-lg" data-en="Addition is XOR with a memory for what just overflowed" data-ru="Сложение — это XOR с памятью о только что случившемся переполнении">Addition is XOR with a memory for what just overflowed</h2>
     <div class="grid-2">
       <p class="body-col" data-en="Adding two single bits needs two answers: the sum itself, and whether the result overflowed into the next column — a carry. XOR alone computes the sum (HIGH exactly when the two bits disagree, which is exactly binary addition without carrying), and AND alone computes the carry (only 1+1 overflows). That pairing is called a half adder." data-ru="Сложение двух отдельных битов требует двух ответов: собственно суммы и того, произошло ли переполнение в следующий разряд, — переноса. Один только XOR вычисляет сумму (HIGH ровно тогда, когда биты не совпадают, — это и есть сложение без переноса), а один только И вычисляет перенос (переполнение даёт только 1+1). Эта пара называется полусумматором.">Adding two single bits needs two answers: the sum itself, and whether the result overflowed into the next column — a carry. XOR alone computes the sum (HIGH exactly when the two bits disagree, which is exactly binary addition without carrying), and AND alone computes the carry (only 1+1 overflows). That pairing is called a half adder.</p>
@@ -238,13 +263,35 @@ sup, sub{font-size:0.68em;}
   </div>
 </section>
 
-<!-- CH8 — NEGATIVE NUMBERS -->
-<section id="ch8" class="section" data-phase="NEGATIVE NUMBERS" data-alt="TWO'S COMPLEMENT" data-vel="INVERT + 1">
+<!-- CH9 — FIZZBUZZ (interactive) -->
+<section id="ch9" class="section" data-phase="FIZZBUZZ" data-alt="MODULO %" data-vel="CHAINED IFS AT SCALE">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="SUBTRACTING WITHOUT A MINUS SIGN" data-ru="ВЫЧИТАНИЕ БЕЗ ЗНАКА МИНУС">SUBTRACTING WITHOUT A MINUS SIGN</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.09 / 13</span> — <span data-en="FIZZBUZZ: ONE NEW OPERATOR MEETS THE LADDER" data-ru="FIZZBUZZ: НОВЫЙ ОПЕРАТОР ВСТРЕЧАЕТ ЛЕСТНИЦУ">FIZZBUZZ: ONE NEW OPERATOR MEETS THE LADDER</span></div>
+    <h2 class="h-lg" data-en="Chapter 6's ladder, run once per number, is a famous interview question" data-ru="Лестница из главы 6, прогнанная для каждого числа, — знаменитый вопрос на собеседовании">Chapter 6's ladder, run once per number, is a famous interview question</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Modulo — the % operator — is the remainder left over after division: 10 % 3 is 1, because 3 goes into 10 three times with 1 left over. 'n is divisible by 3' is just shorthand for 'n % 3 equals 0.'" data-ru="Остаток от деления — оператор % — это то, что остаётся после деления: 10 % 3 равно 1, потому что 3 умещается в 10 три раза, а 1 остаётся. «n делится на 3» — это просто короткая запись «n % 3 равно 0».">Modulo — the % operator — is the remainder left over after division: 10 % 3 is 1, because 3 goes into 10 three times with 1 left over. 'n is divisible by 3' is just shorthand for 'n % 3 equals 0.'</p>
+      <p class="body-col" data-en="FizzBuzz, a famous programming-interview warm-up, is nothing more than Chapter 6's ladder run once per number: print 'FizzBuzz' if divisible by both 3 and 5, 'Fizz' if just 3, 'Buzz' if just 5, otherwise the number itself — and that double-check has to sit at the top of the ladder, or it never gets a turn. Drag N and watch the whole sequence recompute." data-ru="FizzBuzz — знаменитая разминка для собеседований по программированию — это просто лестница из главы 6, прогоняемая для каждого числа: вывести «FizzBuzz», если число делится и на 3, и на 5, «Fizz» — если только на 3, «Buzz» — если только на 5, иначе — само число; и эта двойная проверка обязана стоять на верхней ступени лестницы, иначе до неё просто не дойдёт очередь. Подвиньте N и посмотрите, как пересчитывается вся последовательность.">FizzBuzz, a famous programming-interview warm-up, is nothing more than Chapter 6's ladder run once per number: print 'FizzBuzz' if divisible by both 3 and 5, 'Fizz' if just 3, 'Buzz' if just 5, otherwise the number itself — and that double-check has to sit at the top of the ladder, or it never gets a turn. Drag N and watch the whole sequence recompute.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="MODULO (REMAINDER)" data-ru="ОСТАТОК ОТ ДЕЛЕНИЯ (MODULO)">MODULO (REMAINDER)</div>
+      <div class="eq-body">a % b = remainder of a ÷ b</div>
+    </div>
+    <div class="code-block"><span class="cl">FOR n FROM 1 TO N:</span><span class="cl">    IF n % 3 == 0 AND n % 5 == 0:</span><span class="cl">        PRINT "FizzBuzz"</span><span class="cl">    ELSE IF n % 3 == 0:</span><span class="cl">        PRINT "Fizz"</span><span class="cl">    ELSE IF n % 5 == 0:</span><span class="cl">        PRINT "Buzz"</span><span class="cl">    ELSE:</span><span class="cl">        PRINT n</span></div>
+    <div class="sim-panel corner-frame">
+      <div class="sim-readout"><span class="mono" data-en="COUNT UP TO N" data-ru="СЧИТАТЬ ДО N">COUNT UP TO N</span><span class="mono" id="fbNVal">30</span></div>
+      <div class="sim-controls"><input id="fbNSlider" type="range" min="5" max="75" step="1" value="30"></div>
+      <div class="preset-row" id="fbSequence"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — NEGATIVE NUMBERS -->
+<section id="ch10" class="section" data-phase="NEGATIVE NUMBERS" data-alt="TWO'S COMPLEMENT" data-vel="INVERT + 1">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 13</span> — <span data-en="SUBTRACTING WITHOUT A MINUS SIGN" data-ru="ВЫЧИТАНИЕ БЕЗ ЗНАКА МИНУС">SUBTRACTING WITHOUT A MINUS SIGN</span></div>
     <h2 class="h-lg" data-en="There's no separate subtractor circuit. There didn't need to be one." data-ru="Отдельной схемы вычитания не существует. Она и не была нужна.">There's no separate subtractor circuit. There didn't need to be one.</h2>
     <div class="grid-2">
-      <p class="body-col" data-en="Building a whole second circuit just for subtraction would be wasteful when Chapter 7 already built an adder. Two's complement solves this: flip every bit of a number and add 1, and the result behaves exactly like its negative in every calculation. Subtracting B from A becomes adding A to (−B) — the same adder, no new hardware." data-ru="Строить отдельную вторую схему только ради вычитания было бы расточительно — сумматор из главы 7 уже есть. Дополнительный код решает эту задачу: инвертируйте каждый бит числа и прибавьте 1 — и результат в любых вычислениях будет вести себя точно как его отрицательное значение. Вычитание B из A превращается в сложение A с (−B) — тот же сумматор, без нового «железа».">Building a whole second circuit just for subtraction would be wasteful when Chapter 7 already built an adder. Two's complement solves this: flip every bit of a number and add 1, and the result behaves exactly like its negative in every calculation. Subtracting B from A becomes adding A to (−B) — the same adder, no new hardware.</p>
+      <p class="body-col" data-en="Building a whole second circuit just for subtraction would be wasteful when Chapter 8 already built an adder. Two's complement solves this: flip every bit of a number and add 1, and the result behaves exactly like its negative in every calculation. Subtracting B from A becomes adding A to (−B) — the same adder, no new hardware." data-ru="Строить отдельную вторую схему только ради вычитания было бы расточительно — сумматор из главы 8 уже есть. Дополнительный код решает эту задачу: инвертируйте каждый бит числа и прибавьте 1 — и результат в любых вычислениях будет вести себя точно как его отрицательное значение. Вычитание B из A превращается в сложение A с (−B) — тот же сумматор, без нового «железа».">Building a whole second circuit just for subtraction would be wasteful when Chapter 8 already built an adder. Two's complement solves this: flip every bit of a number and add 1, and the result behaves exactly like its negative in every calculation. Subtracting B from A becomes adding A to (−B) — the same adder, no new hardware.</p>
       <p class="body-col" data-en="The trick also gives negative numbers a home inside ordinary bits: with 4 bits, 0111 is +7 and 1000 is −8, with everything in between falling neatly into place, and the leftmost bit doubling as a sign flag — 0 for non-negative, 1 for negative — for free." data-ru="Этот приём также даёт отрицательным числам место среди обычных битов: при 4 битах 0111 — это +7, а 1000 — это −8, и всё промежуточное аккуратно встаёт на свои места, а старший бит бесплатно становится флагом знака: 0 — для неотрицательных, 1 — для отрицательных.">The trick also gives negative numbers a home inside ordinary bits: with 4 bits, 0111 is +7 and 1000 is −8, with everything in between falling neatly into place, and the leftmost bit doubling as a sign flag — 0 for non-negative, 1 for negative — for free.</p>
     </div>
     <div class="eq-box corner-frame">
@@ -255,10 +302,32 @@ sup, sub{font-size:0.68em;}
   </div>
 </section>
 
-<!-- CH9 — GATES TO CPU -->
-<section id="ch9" class="section" data-phase="GATES → CPU" data-alt="REGISTER + CLOCK" data-vel="MUX = BRANCH">
+<!-- CH11 — BINARY SEARCH (interactive) -->
+<section id="ch11" class="section" data-phase="BINARY SEARCH" data-alt="log₂ N" data-vel="IF AT SCALE">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="FROM GATES TO A PROCESSOR" data-ru="ОТ ЛОГИЧЕСКИХ ЭЛЕМЕНТОВ К ПРОЦЕССОРУ">FROM GATES TO A PROCESSOR</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.11 / 13</span> — <span data-en="BINARY SEARCH: IF APPLIED AT SCALE" data-ru="БИНАРНЫЙ ПОИСК: IF В МАСШТАБЕ">BINARY SEARCH: IF APPLIED AT SCALE</span></div>
+    <h2 class="h-lg" data-en="Guess smarter, not harder — one well-placed IF beats a million" data-ru="Угадывайте умнее, а не усерднее — один точно поставленный IF побеждает миллион">Guess smarter, not harder — one well-placed IF beats a million</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Searching a sorted list the naive way checks every entry until one matches — worst case, N comparisons for a list of N items. Binary search does something smarter: check the middle entry with a single IF, and depending on whether it's too high or too low, throw away half the remaining list without even looking at it." data-ru="Наивный поиск по отсортированному списку проверяет каждую запись, пока не найдёт совпадение, — в худшем случае N сравнений для списка из N элементов. Бинарный поиск действует умнее: проверяет средний элемент одним IF и, в зависимости от того, оказался он больше или меньше искомого, отбрасывает половину оставшегося списка, даже не заглядывая в неё.">Searching a sorted list the naive way checks every entry until one matches — worst case, N comparisons for a list of N items. Binary search does something smarter: check the middle entry with a single IF, and depending on whether it's too high or too low, throw away half the remaining list without even looking at it.</p>
+      <p class="body-col" data-en="Each comparison halves what's left, which is Chapter 2's doubling formula run in reverse — so the worst case is just how many times you can halve N before reaching 1: log₂ N, rounded up. Drag the list size below and watch the gap between 'check everything' and 'check smartly' turn enormous." data-ru="Каждое сравнение уменьшает вдвое то, что осталось, — это формула удвоения из главы 2, только в обратную сторону, так что худший случай — это просто сколько раз можно поделить N пополам, прежде чем дойти до 1: log₂ N, округлённый вверх. Подвиньте размер списка ниже и посмотрите, как разрыв между «проверить всё» и «проверить с умом» становится огромным.">Each comparison halves what's left, which is Chapter 2's doubling formula run in reverse — so the worst case is just how many times you can halve N before reaching 1: log₂ N, rounded up. Drag the list size below and watch the gap between 'check everything' and 'check smartly' turn enormous.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="BINARY SEARCH, WORST CASE" data-ru="БИНАРНЫЙ ПОИСК, ХУДШИЙ СЛУЧАЙ">BINARY SEARCH, WORST CASE</div>
+      <div class="eq-body">comparisons = ⌈log₂ N⌉</div>
+      <div class="eq-note" data-en="Chapter 2 asked how many states n bits can reach (2ⁿ). This is that question turned around: how many halvings does it take to get from N down to 1." data-ru="Глава 2 спрашивала, сколько состояний дают n бит (2ⁿ). Это тот же вопрос, но наоборот: сколько делений пополам нужно, чтобы дойти от N до 1.">Chapter 2 asked how many states n bits can reach (2ⁿ). This is that question turned around: how many halvings does it take to get from N down to 1.</div>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="sim-readout"><span class="mono" data-en="LIST SIZE N" data-ru="РАЗМЕР СПИСКА N">LIST SIZE N</span><span class="mono" id="bsNVal">1,000</span></div>
+      <div class="sim-controls"><input id="bsNSlider" type="range" min="1" max="7" step="0.02" value="3"></div>
+      <div class="readout-grid" id="bsReadout"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH12 — GATES TO CPU (interactive) -->
+<section id="ch12" class="section" data-phase="GATES → CPU" data-alt="REGISTER + CLOCK" data-vel="MUX = BRANCH">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.12 / 13</span> — <span data-en="FROM GATES TO A PROCESSOR" data-ru="ОТ ЛОГИЧЕСКИХ ЭЛЕМЕНТОВ К ПРОЦЕССОРУ">FROM GATES TO A PROCESSOR</span></div>
     <h2 class="h-lg" data-en="Everything above is already a computer. It just needs a clock and a memory." data-ru="Всё, что было выше, — уже компьютер. Ему просто нужны тактовый генератор и память.">Everything above is already a computer. It just needs a clock and a memory.</h2>
     <div class="grid-2">
       <p class="body-col" data-en="A register is a small row of circuits that can hold a pattern of bits steady — the computer's short-term memory. A clock is a signal that ticks at a steady rate, telling every register in the machine exactly when to accept a new value, so millions of gates change in lockstep instead of racing each other into nonsense." data-ru="Регистр — это небольшой ряд схем, способных удерживать неизменным набор битов, — кратковременная память компьютера. Тактовый генератор — это сигнал, тикающий с постоянной частотой и говорящий каждому регистру машины, когда именно принять новое значение, чтобы миллионы элементов менялись синхронно, а не наперегонки, порождая бессмыслицу.">A register is a small row of circuits that can hold a pattern of bits steady — the computer's short-term memory. A clock is a signal that ticks at a steady rate, telling every register in the machine exactly when to accept a new value, so millions of gates change in lockstep instead of racing each other into nonsense.</p>
@@ -269,13 +338,19 @@ sup, sub{font-size:0.68em;}
       <div class="eq-body">f = 1 / T</div>
       <div class="eq-note" data-en="A 1 GHz clock ticks a billion times a second — a billion chances per second for every register to update." data-ru="Генератор на 1 ГГц тикает миллиард раз в секунду — миллиард шансов в секунду для обновления каждого регистра.">A 1 GHz clock ticks a billion times a second — a billion chances per second for every register to update.</div>
     </div>
+    <div class="sim-panel corner-frame">
+      <div class="sim-readout"><span class="mono" data-en="CLOCK FREQUENCY, f" data-ru="ТАКТОВАЯ ЧАСТОТА, f">CLOCK FREQUENCY, f</span><span class="mono" id="clockFreqVal">1.00 GHz</span></div>
+      <div class="sim-controls"><input id="clockFreqSlider" type="range" min="0" max="10" step="0.1" value="9"></div>
+      <div class="voltage-readout" id="clockPeriod">1.00 ns</div>
+      <div class="voltage-sub" data-en="PERIOD BETWEEN TICKS (T = 1 / f)" data-ru="ПЕРИОД МЕЖДУ ТАКТАМИ (T = 1 / f)">PERIOD BETWEEN TICKS (T = 1 / f)</div>
+    </div>
   </div>
 </section>
 
-<!-- CH10 — TRACING EXECUTION (interactive) -->
-<section id="ch10" class="section" data-phase="TRACING EXECUTION" data-alt="STEP BY STEP" data-vel="INPUT → OUTPUT" style="border-bottom:none;">
+<!-- CH13 — TRACING EXECUTION (interactive) -->
+<section id="ch13" class="section" data-phase="TRACING EXECUTION" data-alt="STEP BY STEP" data-vel="INPUT → OUTPUT" style="border-bottom:none;">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="TRACING A PROGRAM: INPUT TO CONSEQUENCE" data-ru="ТРАССИРОВКА ПРОГРАММЫ: ОТ ВХОДА ДО ПОСЛЕДСТВИЯ">TRACING A PROGRAM: INPUT TO CONSEQUENCE</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.13 / 13</span> — <span data-en="TRACING A PROGRAM: INPUT TO CONSEQUENCE" data-ru="ТРАССИРОВКА ПРОГРАММЫ: ОТ ВХОДА ДО ПОСЛЕДСТВИЯ">TRACING A PROGRAM: INPUT TO CONSEQUENCE</span></div>
     <h2 class="h-lg" data-en="Read a program the way a computer does: one line, one consequence, at a time" data-ru="Читайте программу так, как это делает компьютер: одна строка — одно следствие, шаг за шагом">Read a program the way a computer does: one line, one consequence, at a time</h2>
     <div class="grid-2">
       <p class="body-col" data-en="Every chapter on this page is now sitting inside one small program — inputs, an AND, a branch, subtraction, a running total. Set the two inputs below, then press STEP to walk through it one line at a time and watch every variable change in real time." data-ru="Все главы этой страницы теперь уместились в одной небольшой программе — входные данные, И, ветвление, вычитание, накопительная сумма. Задайте два входных значения ниже, затем нажимайте STEP, чтобы проходить программу по одной строке и видеть, как в реальном времени меняется каждая переменная.">Every chapter on this page is now sitting inside one small program — inputs, an AND, a branch, subtraction, a running total. Set the two inputs below, then press STEP to walk through it one line at a time and watch every variable change in real time.</p>
@@ -361,6 +436,33 @@ function renderVoltage(){
   draw();
 }
 
+/* ============ CH2 — n-BIT STATE SLIDER ============ */
+var BITS_MILESTONES = {
+  1: ['ONE BIT: JUST ENOUGH FOR TRUE OR FALSE', 'ОДИН БИТ: РОВНО ДОСТАТОЧНО ДЛЯ ИСТИНЫ ИЛИ ЛЖИ'],
+  4: ['ONE NIBBLE — EXACTLY ONE HEXADECIMAL DIGIT', 'ОДНА ТЕТРАДА — РОВНО ОДНА ШЕСТНАДЦАТЕРИЧНАЯ ЦИФРА'],
+  8: ['ONE BYTE — ENOUGH FOR ANY CHARACTER IN THIS SENTENCE', 'ОДИН БАЙТ — ДОСТАТОЧНО ДЛЯ ЛЮБОГО СИМВОЛА В ЭТОМ ПРЕДЛОЖЕНИИ'],
+  10: ["JUST OVER ONE 'KILO' OF STATES (1,024)", 'ЧУТЬ БОЛЬШЕ ОДНОЙ «КИЛО»-ЕДИНИЦЫ СОСТОЯНИЙ (1024)'],
+  16: ["ONE 16-BIT WORD — ENOUGH FOR UNICODE'S ORIGINAL BASIC PLANE", '16-БИТНОЕ СЛОВО — ХВАТИТ НА БАЗОВУЮ ПЛОСКОСТЬ UNICODE'],
+  24: ['24-BIT COLOUR — 16.7 MILLION SHADES, ONE PER PIXEL', '24-БИТНЫЙ ЦВЕТ — 16,7 МИЛЛИОНА ОТТЕНКОВ, ПО ОДНОМУ НА ПИКСЕЛЬ'],
+  32: ['ONE 32-BIT WORD — OVER 4 BILLION STATES', '32-БИТНОЕ СЛОВО — БОЛЕЕ 4 МИЛЛИАРДОВ СОСТОЯНИЙ']
+};
+function renderBitsSlider(){
+  var slider = document.getElementById('bitsNSlider');
+  var nVal = document.getElementById('bitsNVal');
+  var states = document.getElementById('bitsNStates');
+  var milestone = document.getElementById('bitsNMilestone');
+  function draw(){
+    var n = parseInt(slider.value, 10);
+    nVal.textContent = n;
+    var N = Math.pow(2, n);
+    states.textContent = N.toLocaleString('en-US');
+    var m = BITS_MILESTONES[n];
+    milestone.textContent = (lang==='en'?'MILESTONE: ':'ВЕХА: ')+(m ? (lang==='en'?m[0]:m[1]) : (lang==='en'?'KEEP GOING — STILL DOUBLING EVERY STEP':'ПРОДОЛЖАЙТЕ — УДВОЕНИЕ НА КАЖДОМ ШАГЕ'));
+  }
+  slider.addEventListener('input', draw);
+  draw();
+}
+
 /* ============ CH3 — GATE SIMULATOR ============ */
 var GATES = {
   AND:  {arity:2, fn:function(a,b){ return a && b ? 1:0; }},
@@ -425,7 +527,30 @@ function renderGateSim(){
   }).join('');
 }
 
-/* ============ CH6 — BINARY CONVERTER ============ */
+/* ============ CH6 — ELSE-IF GRADING LADDER ============ */
+var GRADE_RUNGS = [[90,'A'],[80,'B'],[70,'C'],[60,'D'],[0,'F']];
+function renderGradeLadder(){
+  var slider = document.getElementById('gradeSlider');
+  var val = document.getElementById('gradeVal');
+  var out = document.getElementById('gradeOutput');
+  var grid = document.getElementById('gradeLadder');
+  function draw(){
+    var score = parseInt(slider.value, 10);
+    val.textContent = score;
+    var winner = GRADE_RUNGS[GRADE_RUNGS.length-1];
+    for(var i=0;i<GRADE_RUNGS.length;i++){ if(score >= GRADE_RUNGS[i][0]){ winner = GRADE_RUNGS[i]; break; } }
+    out.textContent = winner[1];
+    grid.innerHTML = GRADE_RUNGS.map(function(r){
+      var hit = r===winner;
+      var label = r[0]===0 ? (lang==='en'?'ELSE (ANYTHING LOWER)':'ELSE (ВСЁ ОСТАЛЬНОЕ)') : 'score ≥ '+r[0];
+      return '<div class="readout-cell'+(hit?' hit':'')+'"><span class="rl">'+label+'</span>'+(lang==='en'?'GRADE = ':'ОЦЕНКА = ')+r[1]+'</div>';
+    }).join('');
+  }
+  slider.addEventListener('input', draw);
+  draw();
+}
+
+/* ============ CH7 — BINARY CONVERTER ============ */
 var BIN_PLACES = [128,64,32,16,8,4,2,1];
 var binaryOn = BIN_PLACES.map(function(p){ return (42 & p) ? 1 : 0; });
 function renderBinary(){
@@ -447,7 +572,7 @@ function renderBinary(){
   document.getElementById('binaryDecimal').textContent = total;
 }
 
-/* ============ CH7 — ADDER ============ */
+/* ============ CH8 — ADDER ============ */
 var ADD_PLACES = [8,4,2,1];
 var addA = ADD_PLACES.map(function(p){ return (5 & p) ? 1:0; });
 var addB = ADD_PLACES.map(function(p){ return (3 & p) ? 1:0; });
@@ -484,7 +609,84 @@ function renderAdder(){
   grid.innerHTML = cells.map(function(c){ return '<div class="readout-cell"><span class="rl">'+c[0]+'</span>'+c[1]+'</div>'; }).join('');
 }
 
-/* ============ CH10 — PROGRAM TRACER ============ */
+/* ============ CH9 — FIZZBUZZ ============ */
+function fizzbuzz(n){
+  if(n%15===0) return 'FizzBuzz';
+  if(n%3===0) return 'Fizz';
+  if(n%5===0) return 'Buzz';
+  return String(n);
+}
+function renderFizzBuzz(){
+  var slider = document.getElementById('fbNSlider');
+  var val = document.getElementById('fbNVal');
+  var seq = document.getElementById('fbSequence');
+  function draw(){
+    var N = parseInt(slider.value, 10);
+    val.textContent = N;
+    var chips = [];
+    for(var n=1;n<=N;n++){
+      var v = fizzbuzz(n);
+      var special = (v==='Fizz'||v==='Buzz'||v==='FizzBuzz');
+      chips.push('<span class="preset-btn'+(special?' active':'')+'" style="margin:0;">'+v+'</span>');
+    }
+    seq.innerHTML = chips.join('');
+  }
+  slider.addEventListener('input', draw);
+  draw();
+}
+
+/* ============ CH11 — BINARY SEARCH ============ */
+function renderBinarySearch(){
+  var slider = document.getElementById('bsNSlider');
+  var nVal = document.getElementById('bsNVal');
+  var grid = document.getElementById('bsReadout');
+  function draw(){
+    var logN = parseFloat(slider.value);
+    var N = Math.max(1, Math.round(Math.pow(10, logN)));
+    nVal.textContent = N.toLocaleString('en-US');
+    var linear = N;
+    var binary = Math.max(1, Math.ceil(Math.log2(N)));
+    var factor = Math.round(linear/binary);
+    var cells = [
+      [lang==='en'?'LINEAR SEARCH, WORST CASE':'ЛИНЕЙНЫЙ ПОИСК, ХУДШИЙ СЛУЧАЙ', linear.toLocaleString('en-US')+(lang==='en'?' comparisons':' сравнений')],
+      [lang==='en'?'BINARY SEARCH, WORST CASE':'БИНАРНЫЙ ПОИСК, ХУДШИЙ СЛУЧАЙ', binary+(lang==='en'?' comparisons':' сравнений')],
+      [lang==='en'?'BINARY SEARCH WINS BY':'БИНАРНЫЙ ПОИСК БЫСТРЕЕ В', factor.toLocaleString('en-US')+'×']
+    ];
+    grid.innerHTML = cells.map(function(c){ return '<div class="readout-cell"><span class="rl">'+c[0]+'</span>'+c[1]+'</div>'; }).join('');
+  }
+  slider.addEventListener('input', draw);
+  draw();
+}
+
+/* ============ CH12 — CLOCK FREQUENCY ============ */
+function formatFreq(hz){
+  if(hz>=1e9) return (hz/1e9).toFixed(2)+' GHz';
+  if(hz>=1e6) return (hz/1e6).toFixed(2)+' MHz';
+  if(hz>=1e3) return (hz/1e3).toFixed(2)+' kHz';
+  return hz.toFixed(2)+' Hz';
+}
+function formatPeriod(s){
+  if(s<1e-9) return (s*1e12).toFixed(2)+' ps';
+  if(s<1e-6) return (s*1e9).toFixed(2)+' ns';
+  if(s<1e-3) return (s*1e6).toFixed(2)+' µs';
+  if(s<1) return (s*1e3).toFixed(2)+' ms';
+  return s.toFixed(2)+' s';
+}
+function renderClock(){
+  var slider = document.getElementById('clockFreqSlider');
+  var freqVal = document.getElementById('clockFreqVal');
+  var periodVal = document.getElementById('clockPeriod');
+  function draw(){
+    var exp = parseFloat(slider.value);
+    var f = Math.pow(10, exp);
+    freqVal.textContent = formatFreq(f);
+    periodVal.textContent = formatPeriod(1/f);
+  }
+  slider.addEventListener('input', draw);
+  draw();
+}
+
+/* ============ CH13 — PROGRAM TRACER ============ */
 var CODE_LINES = [
   'INPUT fuel_ok, weather_ok',
   'count = 3',
@@ -582,9 +784,14 @@ document.getElementById('traceResetBtn').addEventListener('click', function(){
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderVoltage();
+  renderBitsSlider();
   renderGateSim();
+  renderGradeLadder();
   renderBinary();
   renderAdder();
+  renderFizzBuzz();
+  renderBinarySearch();
+  renderClock();
   if(traceSteps.length===0) traceSteps = genTraceSteps(traceFuel, traceWeather);
   renderTracer();
 }

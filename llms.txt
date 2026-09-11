@@ -70,7 +70,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 
 ## Foundations & Tools
 
-- [Common Ground & Basic Logic](https://followorbounce.github.io/aerospace/common-ground-basic-logic): binary, logic gates, if/then/else, binary addition and subtraction, and tracing a program from its inputs to its consequences.
+- [Common Ground & Basic Logic](https://followorbounce.github.io/aerospace/common-ground-basic-logic): binary, logic gates, if/then/else and else-if ladders, FizzBuzz, binary addition and subtraction, binary search, and tracing a program from its inputs to its consequences.
 - [Build Your Own CubeSat](https://followorbounce.github.io/aerospace/build-your-own-cubesat): from Arduino basics and circuit fundamentals to the anatomy of a real CubeSat.
 - [Lagrange Points](https://followorbounce.github.io/aerospace/lagrange-points): the physics of Lagrange points and where they occur across the Solar System.
 - [The Physics of Spaceflight](https://followorbounce.github.io/aerospace/physics-of-spaceflight): the rocket equation, orbital mechanics, and a Δv map of the Solar System, ending with the engines from chemical rockets to fusion drives.
