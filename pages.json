@@ -51,10 +51,8 @@
         { "slug": "bounce-mars-pathfinder", "codename": "BOUNCE", "label": { "en": "Mars Pathfinder & Sojourner", "ru": "«Патфайндер» и «Соджорнер»" } },
         { "slug": "troy-spirit-rover", "codename": "TROY", "label": { "en": "The Spirit Rover", "ru": "Марсоход Spirit" } },
         { "slug": "marathon-opportunity-rover", "codename": "MARATHON", "label": { "en": "The Opportunity Rover", "ru": "Марсоход Opportunity" } },
-        { "slug": "skycrane-curiosity-rover", "codename": "SKYCRANE", "label": { "en": "The Curiosity Rover", "ru": "Марсоход Curiosity" } }
-      ],
-      "planned": [
-        { "label": { "en": "Perseverance Rover", "ru": "Марсоход Perseverance" } }
+        { "slug": "skycrane-curiosity-rover", "codename": "SKYCRANE", "label": { "en": "The Curiosity Rover", "ru": "Марсоход Curiosity" } },
+        { "slug": "jezero-perseverance-rover", "codename": "JEZERO", "label": { "en": "The Perseverance Rover", "ru": "Марсоход Perseverance" } }
       ]
     },
     {
@@ -62,13 +60,11 @@
       "title": { "en": "Space Telescopes", "ru": "Космические телескопы" },
       "pages": [
         { "slug": "aperture-hubble-telescopes", "codename": "APERTURE", "label": { "en": "Hubble & Space Telescopes", "ru": "«Хаббл» и космические телескопы" } },
-        { "slug": "james-webb-space-telescope", "codename": "UNFOLD", "label": { "en": "James Webb Space Telescope", "ru": "«Джеймс Уэбб»" } }
-      ],
-      "planned": [
-        { "label": { "en": "Chandra X-ray Observatory", "ru": "Рентгеновская обсерватория «Чандра»" } },
-        { "label": { "en": "Spitzer Space Telescope", "ru": "Телескоп «Спитцер»" } },
-        { "label": { "en": "Kepler Space Telescope", "ru": "Телескоп «Кеплер»" } },
-        { "label": { "en": "Gaia Mission", "ru": "Миссия «Гайя»" } }
+        { "slug": "james-webb-space-telescope", "codename": "UNFOLD", "label": { "en": "James Webb Space Telescope", "ru": "«Джеймс Уэбб»" } },
+        { "slug": "xray-chandra-observatory", "codename": "XRAY", "label": { "en": "Chandra X-ray Observatory", "ru": "Рентгеновская обсерватория «Чандра»" } },
+        { "slug": "infrared-spitzer-telescope", "codename": "INFRARED", "label": { "en": "Spitzer Space Telescope", "ru": "Телескоп «Спитцер»" } },
+        { "slug": "transit-kepler-telescope", "codename": "TRANSIT", "label": { "en": "Kepler Space Telescope", "ru": "Телескоп «Кеплер»" } },
+        { "slug": "parallax-gaia-mission", "codename": "PARALLAX", "label": { "en": "Gaia Mission", "ru": "Миссия «Гайя»" } }
       ]
     },
     {
@@ -76,12 +72,10 @@
       "title": { "en": "Human Spaceflight", "ru": "Пилотируемые полёты" },
       "pages": [
         { "slug": "ascent-mercury-program", "codename": "ASCENT", "label": { "en": "Mercury & the First Astronauts", "ru": "«Меркурий» и первые астронавты" } },
-        { "slug": "rendezvous-gemini-program", "codename": "RENDEZVOUS", "label": { "en": "The Gemini Program", "ru": "Программа «Джемини»" } }
-      ],
-      "planned": [
-        { "label": { "en": "Space Shuttle Program", "ru": "Программа «Спейс шаттл»" } },
-        { "label": { "en": "Soyuz Program", "ru": "Программа «Союз»" } },
-        { "label": { "en": "Commercial Crew Program", "ru": "Программа Commercial Crew" } }
+        { "slug": "rendezvous-gemini-program", "codename": "RENDEZVOUS", "label": { "en": "The Gemini Program", "ru": "Программа «Джемини»" } },
+        { "slug": "orbiter-space-shuttle-program", "codename": "ORBITER", "label": { "en": "Space Shuttle Program", "ru": "Программа «Спейс шаттл»" } },
+        { "slug": "union-soyuz-program", "codename": "UNION", "label": { "en": "Soyuz Program", "ru": "Программа «Союз»" } },
+        { "slug": "handoff-commercial-crew-program", "codename": "HANDOFF", "label": { "en": "Commercial Crew Program", "ru": "Программа Commercial Crew" } }
       ]
     },
     {
@@ -89,13 +83,11 @@
       "title": { "en": "Future Exploration", "ru": "Будущее освоение космоса" },
       "pages": [
         { "slug": "horizon-artemis-base-camp", "codename": "HORIZON", "label": { "en": "Artemis Base Camp", "ru": "Базовый лагерь «Артемида»" } },
-        { "slug": "the-lunar-gateway", "codename": "HALO", "label": { "en": "The Lunar Gateway", "ru": "Окололунная станция Gateway" } }
-      ],
-      "planned": [
-        { "label": { "en": "Mars Sample Return", "ru": "Доставка образцов с Марса" } },
-        { "label": { "en": "Europa Clipper", "ru": "«Европа Клипер»" } },
-        { "label": { "en": "Dragonfly Mission", "ru": "Миссия Dragonfly" } },
-        { "label": { "en": "Interstellar Probe Concept", "ru": "Концепция межзвёздного зонда" } }
+        { "slug": "the-lunar-gateway", "codename": "HALO", "label": { "en": "The Lunar Gateway", "ru": "Окололунная станция Gateway" } },
+        { "slug": "retrieve-mars-sample-return", "codename": "RETRIEVE", "label": { "en": "Mars Sample Return", "ru": "Доставка образцов с Марса" } },
+        { "slug": "flyby-europa-clipper", "codename": "FLYBY", "label": { "en": "Europa Clipper", "ru": "«Европа Клипер»" } },
+        { "slug": "rotor-dragonfly-titan", "codename": "ROTOR", "label": { "en": "Dragonfly Mission", "ru": "Миссия Dragonfly" } },
+        { "slug": "beyond-interstellar-probe", "codename": "BEYOND", "label": { "en": "Interstellar Probe Concept", "ru": "Концепция межзвёздного зонда" } }
       ]
     },
     {

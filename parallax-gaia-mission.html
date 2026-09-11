@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PARALLAX — GAIA MISSION / МИССИЯ «ГАЙЯ»</title>
+<meta name="description" content="An interactive, referenced field guide to ESA's Gaia mission: astrometry from the L2 Lagrange point, a billion-star map of the Milky Way, and the ancient galaxy merger it uncovered.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/parallax-gaia-mission">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PARALLAX — GAIA MISSION / МИССИЯ «ГАЙЯ»">
+<meta property="og:description" content="An interactive, referenced field guide to ESA's Gaia mission: astrometry from the L2 Lagrange point, a billion-star map of the Milky Way, and the ancient galaxy merger it uncovered.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/parallax-gaia-mission">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+sup{font-size:0.65em; vertical-align:super;}
+#hero .sub{max-width:660px; margin-bottom:40px;}
+.dash-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); margin-top:32px;}
+.dash-card{background:var(--white); padding:22px; text-align:center;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.5rem;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-note{font-size:12.5px; color:var(--mid); margin-top:6px; line-height:1.5;}
+.cite{font-family:var(--font-mono); font-size:11px; color:var(--mid); vertical-align:super; margin-left:1px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">PARALLAX — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">STARS MAPPED</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — MEASURING A GALAXY BY WATCHING IT WOBBLE" data-ru="РИС. 00 — ИЗМЕРЕНИЕ ГАЛАКТИКИ ПО ЕЁ ЛЁГКОМУ КОЛЕБАНИЮ">FIG. 00 — MEASURING A GALAXY BY WATCHING IT WOBBLE</span>
+        <span data-en="2013 → 2025" data-ru="2013 → 2025">2013 → 2025</span>
+      </div>
+      <h1><span data-en="PARALLAX" data-ru="ПАРАЛЛАКС">PARALLAX</span><br><em data-en="A FIELD GUIDE TO THE GAIA MISSION" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО МИССИИ «ГАЙЯ»">A FIELD GUIDE TO THE GAIA MISSION</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the European Space Agency mission that set out to do something almost absurd in its ambition: measure the precise position, distance, and motion of two billion stars, one percent of the entire Milky Way, and use it to reconstruct the galaxy's shape, its history, and the ancient collision that built part of it. Scroll to begin." data-ru="Десять глав о миссии Европейского космического агентства, поставившей себе задачу, почти абсурдную по амбициям: измерить точное положение, расстояние и движение двух миллиардов звёзд, одного процента всего Млечного Пути, — и с их помощью восстановить форму Галактики, её историю и древнее столкновение, отчасти её построившее. Пролистайте вниз, чтобы начать.">Ten chapters on the European Space Agency mission that set out to do something almost absurd in its ambition: measure the precise position, distance, and motion of two billion stars, one percent of the entire Milky Way, and use it to reconstruct the galaxy's shape, its history, and the ancient collision that built part of it. Scroll to begin.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="ch1" class="section" data-phase="ASTROMETRY" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="MEASURING THE SKY, NOT JUST PHOTOGRAPHING IT" data-ru="ИЗМЕРЕНИЕ НЕБА, А НЕ ПРОСТО ЕГО СЪЁМКА">MEASURING THE SKY, NOT JUST PHOTOGRAPHING IT</span></div>
+    <h2 class="h-lg" data-en="A star's tiny yearly wobble reveals its distance" data-ru="Крошечное годовое колебание звезды выдаёт её расстояние">A star's tiny yearly wobble reveals its distance</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="As Gaia orbits the Sun, nearby stars appear to shift very slightly against the distant background — the same effect that makes a nearby lamppost seem to move against the skyline as you walk past it. That shift, parallax, gives a direct geometric distance with no assumptions about the star itself.<sup class='cite'>[1]</sup>" data-ru="Пока «Гайя» обращается вокруг Солнца, близкие звёзды кажутся слегка смещающимися на фоне далёких, — тот же эффект, из-за которого близкий фонарный столб как будто движется на фоне горизонта, когда вы проходите мимо. Это смещение, параллакс, даёт прямое геометрическое расстояние без каких-либо предположений о самой звезде.<sup class='cite'>[1]</sup>">As Gaia orbits the Sun, nearby stars appear to shift very slightly against the distant background — the same effect that makes a nearby lamppost seem to move against the skyline as you walk past it. That shift, parallax, gives a direct geometric distance with no assumptions about the star itself.<sup class='cite'>[1]</sup></p>
+      <p class="body-col" data-en="Combine distance with how a star creeps across the sky year to year, and Gaia's job becomes clear: not to take pretty pictures, but to measure position and motion with a precision once thought impossible from any distance at all." data-ru="Добавьте к расстоянию то, как звезда год за годом ползёт по небу, — и задача «Гайи» становится ясной: не делать красивые снимки, а измерять положение и движение с точностью, некогда казавшейся невозможной на любом расстоянии.">Combine distance with how a star creeps across the sky year to year, and Gaia's job becomes clear: not to take pretty pictures, but to measure position and motion with a precision once thought impossible from any distance at all.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2" class="section" data-phase="SOYUZ — KOUROU" data-alt="TRANSIT TO L2" data-vel="DEC 19 2013">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="LAUNCH: A EUROPEAN MISSION FROM A EUROPEAN SPACEPORT" data-ru="ЗАПУСК: ЕВРОПЕЙСКАЯ МИССИЯ С ЕВРОПЕЙСКОГО КОСМОДРОМА">LAUNCH: A EUROPEAN MISSION FROM A EUROPEAN SPACEPORT</span></div>
+    <h2 class="h-lg" data-en="Lifted by a Russian rocket flying from French Guiana" data-ru="Поднята российской ракетой, стартовавшей из Французской Гвианы">Lifted by a Russian rocket flying from French Guiana</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Gaia, built by the European Space Agency, launched on a Soyuz-STB/Fregat rocket from Europe's spaceport in Kourou, French Guiana, on December 19, 2013.<sup class='cite'>[1]</sup> It spent about a month cruising outward before settling into its working orbit, a small loop around a point in space rather than around any planet." data-ru="«Гайя», построенная Европейским космическим агентством, стартовала на ракете «Союз-СТБ»/«Фрегат» с европейского космодрома в Куру, Французская Гвиана, 19 декабря 2013 года.<sup class='cite'>[1]</sup> Около месяца она летела к цели, прежде чем занять рабочую орбиту — небольшую петлю вокруг точки в пространстве, а не вокруг какой-либо планеты.">Gaia, built by the European Space Agency, launched on a Soyuz-STB/Fregat rocket from Europe's spaceport in Kourou, French Guiana, on December 19, 2013.<sup class='cite'>[1]</sup> It spent about a month cruising outward before settling into its working orbit, a small loop around a point in space rather than around any planet.</p>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3" class="section" data-phase="L2 LAGRANGE POINT" data-alt="1.5 MILLION KM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="A QUIET, STABLE PERCH BEHIND THE EARTH" data-ru="ТИХОЕ УСТОЙЧИВОЕ МЕСТО ЗА ЗЕМЛЁЙ">A QUIET, STABLE PERCH BEHIND THE EARTH</span></div>
+    <h2 class="h-lg" data-en="Cold, dark, and always facing away from the Sun" data-ru="Холод, темнота — и всегда спиной к Солнцу">Cold, dark, and always facing away from the Sun</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Gaia orbits the Sun-Earth L2 point, about 1.5 million km from Earth on the side away from the Sun — the same neighbourhood used later by the James Webb Space Telescope.<sup class='cite'>[2]</sup> There, the Sun, Earth and Moon stay roughly behind it, letting a sunshield keep the instruments at a stable, cold temperature without them ever swinging into view." data-ru="«Гайя» обращается вокруг точки L2 системы Солнце — Земля, примерно в 1,5 миллиона км от Земли, с обратной от Солнца стороны, — той же окрестности, что позже использовал космический телескоп «Джеймс Уэбб».<sup class='cite'>[2]</sup> Там Солнце, Земля и Луна остаются примерно позади, позволяя солнцезащитному экрану держать приборы при стабильной низкой температуре, не попадая при этом в поле зрения.">Gaia orbits the Sun-Earth L2 point, about 1.5 million km from Earth on the side away from the Sun — the same neighbourhood used later by the James Webb Space Telescope.<sup class='cite'>[2]</sup> There, the Sun, Earth and Moon stay roughly behind it, letting a sunshield keep the instruments at a stable, cold temperature without them ever swinging into view.</p>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4" class="section" data-phase="SPACECRAFT ANATOMY" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="ANATOMY OF GAIA" data-ru="УСТРОЙСТВО «ГАЙИ»">ANATOMY OF GAIA</span></div>
+    <h2 class="h-lg" data-en="Two telescopes sharing one billion-pixel eye" data-ru="Два телескопа, делящие один миллиардопиксельный глаз">Two telescopes sharing one billion-pixel eye</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Gaia carries no single camera pointed at one target. Instead it fuses two telescopes, aimed in different directions, onto a single vast focal plane. Select a component." data-ru="«Гайя» не несёт единственной камеры, направленной на одну цель. Вместо этого она сводит два телескопа, направленных в разные стороны, на единую огромную фокальную плоскость. Выберите компонент.">Gaia carries no single camera pointed at one target. Instead it fuses two telescopes, aimed in different directions, onto a single vast focal plane. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="gaiaSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="gaiaPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5" class="section" data-phase="SCANNING THE WHOLE SKY" data-alt="6-HOUR SPIN" data-vel="REPEAT SCANS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="NEVER POINTING TWICE, COVERING EVERYTHING ANYWAY" data-ru="НИ РАЗУ НЕ НАВЕЛАСЬ ДВАЖДЫ — И ВСЁ ЖЕ ОХВАТИЛА ВСЁ">NEVER POINTING TWICE, COVERING EVERYTHING ANYWAY</span></div>
+    <h2 class="h-lg" data-en="A billion stars, measured roughly seventy times each" data-ru="Миллиард звёзд — измеренных примерно по семьдесят раз каждая">A billion stars, measured roughly seventy times each</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Rather than aim at chosen targets, Gaia spins steadily and lets the whole sky pass across its detectors, then slowly re-orients over months so the scan pattern eventually covers every direction many times over.<sup class='cite'>[1]</sup> Across the mission it built up position, distance and motion for roughly two billion stars — about 1% of the Milky Way — plus radial velocities for a large subset, giving full three-dimensional motion for millions of them." data-ru="Вместо наведения на выбранные цели «Гайя» стабильно вращается, позволяя всему небу проходить через её детекторы, а затем медленно переориентируется в течение месяцев, так что схема сканирования в итоге многократно охватывает каждое направление.<sup class='cite'>[1]</sup> За миссию она накопила положения, расстояния и движения примерно для двух миллиардов звёзд — около 1% Млечного Пути, — а также лучевые скорости для большой их части, дав полное трёхмерное движение для миллионов из них.">Rather than aim at chosen targets, Gaia spins steadily and lets the whole sky pass across its detectors, then slowly re-orients over months so the scan pattern eventually covers every direction many times over.<sup class='cite'>[1]</sup> Across the mission it built up position, distance and motion for roughly two billion stars — about 1% of the Milky Way — plus radial velocities for a large subset, giving full three-dimensional motion for millions of them.</p>
+  </div>
+</section>
+
+<!-- CH6 -->
+<section id="ch6" class="section" data-phase="THE GAIA SAUSAGE" data-alt="8–10 BYA" data-vel="DR2 / 2018">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="READING A GALACTIC COLLISION IN THE DATA" data-ru="ЧТЕНИЕ ГАЛАКТИЧЕСКОГО СТОЛКНОВЕНИЯ В ДАННЫХ">READING A GALACTIC COLLISION IN THE DATA</span></div>
+    <h2 class="h-lg" data-en="An ancient merger, still visible in how nearby stars move" data-ru="Древнее слияние, всё ещё видное в движении близких звёзд">An ancient merger, still visible in how nearby stars move</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Gaia's second data release, in 2018, let astronomers plot the velocities of huge numbers of nearby stars at once — and a large group stood out, moving on stretched, sausage-shaped orbits unlike the rest of the disk. It is the debris of a dwarf galaxy, since named the Gaia Sausage or Gaia-Enceladus, that collided with the young Milky Way eight to ten billion years ago and helped puff up its inner halo.<sup class='cite'>[3]</sup>" data-ru="Второй выпуск данных «Гайи» в 2018 году позволил астрономам одновременно построить скорости огромного числа близких звёзд — и одна большая группа выделилась, двигаясь по вытянутым, «колбасовидным» орбитам, непохожим на остальной диск. Это обломки карликовой галактики, позже названной Gaia Sausage, или Gaia-Enceladus, столкнувшейся с молодым Млечным Путём восемь-десять миллиардов лет назад и раздувшей его внутреннее гало.<sup class='cite'>[3]</sup>">Gaia's second data release, in 2018, let astronomers plot the velocities of huge numbers of nearby stars at once — and a large group stood out, moving on stretched, sausage-shaped orbits unlike the rest of the disk. It is the debris of a dwarf galaxy, since named the Gaia Sausage or Gaia-Enceladus, that collided with the young Milky Way eight to ten billion years ago and helped puff up its inner halo.<sup class='cite'>[3]</sup></p>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7" class="section" data-phase="DORMANT BLACK HOLES" data-alt="GAIA BH1–3" data-vel="2022–2023">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="FINDING BLACK HOLES BY THE WOBBLE THEY CAUSE" data-ru="ПОИСК ЧЁРНЫХ ДЫР ПО ВЫЗЫВАЕМОМУ ИМИ КОЛЕБАНИЮ">FINDING BLACK HOLES BY THE WOBBLE THEY CAUSE</span></div>
+    <h2 class="h-lg" data-en="No X-rays, no light — just a star being tugged by something unseen" data-ru="Ни рентгена, ни света — только звезда, которую тянет что-то невидимое">No X-rays, no light — just a star being tugged by something unseen</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Most known black holes are found because they are actively feeding and glowing in X-rays. Gaia can find the quiet ones: it measures a visible star wobbling in a tiny orbit around an unseen companion, and if the companion is massive enough to be a black hole yet gives off no light, that is the discovery. Astronomers using Gaia's astrometry identified three such dormant stellar-mass black holes, Gaia BH1, BH2 and BH3, in 2022 and 2023 — the closest known to Earth.<sup class='cite'>[2]</sup>" data-ru="Большинство известных чёрных дыр находят потому, что они активно питаются и светятся в рентгене. «Гайя» способна найти тихие: она измеряет, как видимая звезда покачивается на крошечной орбите вокруг невидимого спутника, и если этот спутник достаточно массивен, чтобы быть чёрной дырой, но не даёт света, — это и есть открытие. Используя астрометрию «Гайи», астрономы выявили три такие «спящие» чёрные дыры звёздной массы — Gaia BH1, BH2 и BH3 — в 2022 и 2023 годах, ближайшие из известных к Земле.<sup class='cite'>[2]</sup>">Most known black holes are found because they are actively feeding and glowing in X-rays. Gaia can find the quiet ones: it measures a visible star wobbling in a tiny orbit around an unseen companion, and if the companion is massive enough to be a black hole yet gives off no light, that is the discovery. Astronomers using Gaia's astrometry identified three such dormant stellar-mass black holes, Gaia BH1, BH2 and BH3, in 2022 and 2023 — the closest known to Earth.<sup class='cite'>[2]</sup></p>
+  </div>
+</section>
+
+<!-- CH8 -->
+<section id="ch8" class="section" data-phase="TESTING GRAVITY" data-alt="SOLAR SYSTEM" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="A BY-PRODUCT: THE MOST PRECISE STAR CATALOGUE EVER MADE" data-ru="ПОБОЧНЫЙ ПРОДУКТ: САМЫЙ ТОЧНЫЙ ЗВЁЗДНЫЙ КАТАЛОГ ИЗ КОГДА-ЛИБО СОЗДАННЫХ">A BY-PRODUCT: THE MOST PRECISE STAR CATALOGUE EVER MADE</span></div>
+    <h2 class="h-lg" data-en="The same precision that maps stars also weighs asteroids and bends light" data-ru="Та же точность, что картирует звёзды, взвешивает астероиды и искривляет свет">The same precision that maps stars also weighs asteroids and bends light</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Star positions near the Sun's edge are subtly bent by its gravity, exactly as general relativity predicts — Gaia measures that bending routinely as a calibration step, making it, almost incidentally, a continuous precision test of Einstein's theory. The same catalogue tracks hundreds of thousands of asteroids and refines the orbits and masses of Solar System bodies as a side effect of watching the fixed stars behind them.<sup class='cite'>[1]</sup>" data-ru="Положения звёзд у края Солнца тонко искривляются его гравитацией — в точности как предсказывает общая теория относительности, — и «Гайя» рутинно измеряет это искривление как этап калибровки, превращаясь, почти между делом, в непрерывную прецизионную проверку теории Эйнштейна. Тот же каталог отслеживает сотни тысяч астероидов и уточняет орбиты и массы тел Солнечной системы как побочный эффект наблюдения за неподвижными звёздами позади них.<sup class='cite'>[1]</sup>">Star positions near the Sun's edge are subtly bent by its gravity, exactly as general relativity predicts — Gaia measures that bending routinely as a calibration step, making it, almost incidentally, a continuous precision test of Einstein's theory. The same catalogue tracks hundreds of thousands of asteroids and refines the orbits and masses of Solar System bodies as a side effect of watching the fixed stars behind them.<sup class='cite'>[1]</sup></p>
+  </div>
+</section>
+
+<!-- CH9 -->
+<section id="ch9" class="section" data-phase="MISSION END" data-alt="GRAVEYARD ORBIT" data-vel="JAN 2025">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="OBSERVATIONS ENDED, THE CATALOGUE IS STILL GROWING" data-ru="НАБЛЮДЕНИЯ ЗАВЕРШЕНЫ, КАТАЛОГ ВСЁ ЕЩЁ РАСТЁТ">OBSERVATIONS ENDED, THE CATALOGUE IS STILL GROWING</span></div>
+    <h2 class="h-lg" data-en="Gaia stopped scanning; the data it already took has not stopped paying off" data-ru="«Гайя» перестала сканировать, но данные, которые она уже собрала, не перестали приносить пользу">Gaia stopped scanning; the data it already took has not stopped paying off</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Gaia's micro-propulsion gas, needed for the fine spin control the astrometry depends on, ran low after more than a decade of continuous operation, and ESA ended science observations on January 15, 2025, before moving the spacecraft to a safe heliocentric graveyard orbit and deactivating it that March.<sup class='cite'>[1]</sup> Two full data releases, DR1 and DR2, had already reshaped galactic astronomy; a further full release, drawing on the entire mission archive, is still being prepared for the years ahead." data-ru="Газ для микродвигателей «Гайи», необходимых для тонкого управления вращением, от которого зависит астрометрия, подошёл к концу после более чем десятилетия непрерывной работы, и ESA завершило научные наблюдения 15 января 2025 года, после чего перевело аппарат на безопасную гелиоцентрическую орбиту захоронения и отключило его в марте того же года.<sup class='cite'>[1]</sup> Два полных выпуска данных, DR1 и DR2, уже изменили галактическую астрономию; ещё один полный выпуск, опирающийся на весь архив миссии, готовится на ближайшие годы.">Gaia's micro-propulsion gas, needed for the fine spin control the astrometry depends on, ran low after more than a decade of continuous operation, and ESA ended science observations on January 15, 2025, before moving the spacecraft to a safe heliocentric graveyard orbit and deactivating it that March.<sup class='cite'>[1]</sup> Two full data releases, DR1 and DR2, had already reshaped galactic astronomy; a further full release, drawing on the entire mission archive, is still being prepared for the years ahead.</p>
+    <div class="dash-grid">
+      <div class="dash-card"><div class="dc-name">~2 bn</div><div class="fig-num" data-en="STARS MEASURED" data-ru="ЗВЁЗД ИЗМЕРЕНО">STARS MEASURED</div></div>
+      <div class="dash-card"><div class="dc-name">106</div><div class="fig-num" data-en="CCD DETECTORS" data-ru="ПЗС-ДЕТЕКТОРОВ">CCD DETECTORS</div></div>
+      <div class="dash-card"><div class="dc-name">11 yr</div><div class="fig-num" data-en="TOTAL MISSION" data-ru="ОБЩИЙ СРОК МИССИИ">TOTAL MISSION</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="From one bright star's shift to a billion" data-ru="От смещения одной яркой звезды — к миллиарду">From one bright star's shift to a billion</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Astrometry moved from a single laborious measurement to a full galactic census in under two centuries. Gaia is the mission that made the whole Milky Way the unit of measurement." data-ru="Астрометрия прошла путь от одного трудоёмкого измерения до полной галактической переписи менее чем за два столетия. «Гайя» — миссия, сделавшая единицей измерения весь Млечный Путь.">Astrometry moved from a single laborious measurement to a full galactic census in under two centuries. Gaia is the mission that made the whole Milky Way the unit of measurement.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+<!-- CH11 — REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="PARALLAX — A FIELD GUIDE TO THE GAIA MISSION" data-ru="PARALLAX — ПОЛЕВОЙ СПРАВОЧНИК ПО МИССИИ «ГАЙЯ»">PARALLAX — A FIELD GUIDE TO THE GAIA MISSION</span>
+  <span data-en="EDUCATIONAL / REFERENCED — FIGURES CITED WHERE POSSIBLE" data-ru="УЧЕБНЫЙ МАТЕРИАЛ СО ССЫЛКАМИ — ЗНАЧЕНИЯ ПО ВОЗМОЖНОСТИ ПОДТВЕРЖДЕНЫ ИСТОЧНИКАМИ">PARALLAX — EDUCATIONAL / REFERENCED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ SCHEMATIC ============ */
+var GAIA_PARTS = [
+  {
+    "id": "mirrors",
+    "en": "Twin Telescopes",
+    "ru": "Парные телескопы",
+    "cEn": "Two viewing directions, one focal plane",
+    "cRu": "Два направления обзора, одна фокальная плоскость",
+    "dEn": "Two sets of mirrors, pointed about 106.5 degrees apart, feed light onto the same detector — letting Gaia compare two parts of the sky at once and build a rigid, self-checking map.",
+    "dRu": "Два комплекта зеркал, направленных под углом около 106,5 градуса друг к другу, направляют свет на один детектор, позволяя «Гайе» одновременно сравнивать две части неба и строить жёсткую, самопроверяющуюся карту.",
+    "x": 60,
+    "y": 150,
+    "w": 150,
+    "h": 34
+  },
+  {
+    "id": "focalplane",
+    "en": "Focal Plane",
+    "ru": "Фокальная плоскость",
+    "cEn": "106 CCDs, ~1 billion pixels",
+    "cRu": "106 ПЗС, ~1 млрд пикселей",
+    "dEn": "The largest camera ever flown in space at launch, built to catch each star as it drifts across the detector during the spacecraft's slow spin.",
+    "dRu": "Крупнейшая камера, когда-либо запущенная в космос на момент старта, построенная, чтобы улавливать каждую звезду по мере её дрейфа через детектор при медленном вращении аппарата.",
+    "x": 280,
+    "y": 110,
+    "w": 150,
+    "h": 34
+  },
+  {
+    "id": "bam",
+    "en": "Basic Angle Monitor",
+    "ru": "Монитор базового угла",
+    "cEn": "Watches the angle between the telescopes",
+    "cRu": "Следит за углом между телескопами",
+    "dEn": "A laser system that continuously checks the tiny angle between the two telescopes, because even a flex of a few billionths of a degree would corrupt the astrometry.",
+    "dRu": "Лазерная система, непрерывно проверяющая крошечный угол между двумя телескопами, поскольку даже изгиб на несколько миллиардных долей градуса исказил бы астрометрию.",
+    "x": 280,
+    "y": 210,
+    "w": 150,
+    "h": 34
+  },
+  {
+    "id": "rvs",
+    "en": "Radial Velocity Spectrometer",
+    "ru": "Спектрометр лучевых скоростей",
+    "cEn": "Motion toward or away from Gaia",
+    "cRu": "Движение к «Гайе» или от неё",
+    "dEn": "A spectrograph that measures how a star's light is Doppler-shifted, adding the third dimension of motion — along the line of sight — to the two Gaia already tracks across the sky.",
+    "dRu": "Спектрограф, измеряющий доплеровский сдвиг звёздного света, добавляющий третье измерение движения — вдоль луча зрения — к двум, которые «Гайя» уже отслеживает по небу.",
+    "x": 460,
+    "y": 150,
+    "w": 150,
+    "h": 34
+  },
+  {
+    "id": "spin",
+    "en": "Spin & Attitude Control",
+    "ru": "Вращение и управление ориентацией",
+    "cEn": "Slow rotation, once every 6 hours",
+    "cRu": "Медленное вращение — один оборот за 6 часов",
+    "dEn": "Gaia rotates slowly and precesses over months, sweeping its two fields across the entire sky again and again, so every star is measured from many angles over the mission.",
+    "dRu": "«Гайя» медленно вращается и прецессирует в течение месяцев, снова и снова проводя два поля зрения по всему небу, так что за миссию каждая звезда измеряется под многими углами.",
+    "x": 460,
+    "y": 210,
+    "w": 150,
+    "h": 34
+  }
+];
+function renderGAIA(){
+  var svg = document.getElementById('gaiaSvg');
+  var panel = document.getElementById('gaiaPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  GAIA_PARTS.forEach(function(m){
+    var g = ns('g',{'class':'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, GAIA_PARTS, m.id); });
+  });
+  selectPart(svg, panel, GAIA_PARTS, GAIA_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ LEGACY ============ */
+var LEGACY = [
+  {
+    "y": "1838",
+    "en": "Bessel",
+    "ru": "Бессель",
+    "noteEn": "First stellar parallax ever measured",
+    "noteRu": "Первый измеренный звёздный параллакс",
+    "h": 20
+  },
+  {
+    "y": "1989",
+    "en": "Hipparcos",
+    "ru": "«Гиппаркос»",
+    "noteEn": "ESA's first astrometry satellite, ~118,000 stars",
+    "noteRu": "Первый спутник-астрометр ESA, ~118 000 звёзд",
+    "h": 26
+  },
+  {
+    "y": "2013",
+    "en": "Gaia",
+    "ru": "«Гайя»",
+    "noteEn": "~2 billion stars, full 3D motion",
+    "noteRu": "~2 млрд звёзд, полное 3D-движение",
+    "h": 46
+  },
+  {
+    "y": "2018",
+    "en": "The Sausage",
+    "ru": "«Колбаса»",
+    "noteEn": "An ancient merger found in the data",
+    "noteRu": "Древнее слияние, найденное в данных",
+    "h": 34
+  },
+  {
+    "y": "2025",
+    "en": "DR4 (in prep.)",
+    "ru": "DR4 (готовится)",
+    "noteEn": "The full-mission catalogue, still coming",
+    "noteRu": "Полный каталог миссии, ещё впереди",
+    "h": 30
+  }
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Gaia overview",
+    "url": "https://www.esa.int/Science_Exploration/Space_Science/Gaia_overview",
+    "note": {
+      "en": "ESA. Mission goals, astrometry method, launch (19 December 2013), and the L2 orbit.",
+      "ru": "ESA. Цели миссии, метод астрометрии, запуск (19 декабря 2013 года) и орбита в точке L2."
+    }
+  },
+  {
+    "title": "Gaia's billion-star map",
+    "url": "https://sci.esa.int/web/gaia/",
+    "note": {
+      "en": "ESA Science. Spacecraft design, the twin telescopes and Basic Angle Monitor, data releases, and dormant black hole discoveries.",
+      "ru": "ESA Science. Конструкция аппарата, парные телескопы и монитор базового угла, выпуски данных и открытия «спящих» чёрных дыр."
+    }
+  },
+  {
+    "title": "Gaia's Galactic Map Reveals a Bygone Collision",
+    "url": "https://www.esa.int/Science_Exploration/Space_Science/Gaia",
+    "note": {
+      "en": "ESA / research summaries on the Gaia Sausage (Gaia-Enceladus) merger identified from Gaia DR2 kinematics.",
+      "ru": "ESA и обзоры исследований по слиянию Gaia Sausage (Gaia-Enceladus), выявленному по кинематике из Gaia DR2."
+    }
+  },
+  {
+    "title": "Gaia (spacecraft)",
+    "url": "https://en.wikipedia.org/wiki/Gaia_(spacecraft)",
+    "note": {
+      "en": "Wikipedia. Consolidated technical specifications, data-release timeline, and the January/March 2025 end of mission.",
+      "ru": "Википедия. Сводные технические характеристики, хронология выпусков данных и завершение миссии в январе/марте 2025 года."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
+function renderAll(){
+  renderGAIA();
+  renderLegacy();
+  renderRefs();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>

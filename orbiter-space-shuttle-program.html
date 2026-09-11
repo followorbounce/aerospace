@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORBITER — SPACE SHUTTLE PROGRAM / ПРОГРАММА «СПЕЙС ШАТТЛ»</title>
+<meta name="description" content="An interactive, referenced field guide to NASA's Space Shuttle Program: the first reusable crewed spacecraft, thirty years of flight, two disasters, and the construction of the ISS.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/orbiter-space-shuttle-program">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ORBITER — SPACE SHUTTLE PROGRAM / ПРОГРАММА «СПЕЙС ШАТТЛ»">
+<meta property="og:description" content="An interactive, referenced field guide to NASA's Space Shuttle Program: the first reusable crewed spacecraft, thirty years of flight, two disasters, and the construction of the ISS.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/orbiter-space-shuttle-program">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+sup{font-size:0.65em; vertical-align:super;}
+#hero .sub{max-width:660px; margin-bottom:40px;}
+.dash-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); margin-top:32px;}
+.dash-card{background:var(--white); padding:22px; text-align:center;}
+.dash-card .dc-name{font-family:var(--font-display); font-size:1.5rem;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-note{font-size:12.5px; color:var(--mid); margin-top:6px; line-height:1.5;}
+.cite{font-family:var(--font-mono); font-size:11px; color:var(--mid); vertical-align:super; margin-left:1px;}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">ORBITER — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">ORBITER</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — A SPACECRAFT BUILT TO LAND ON A RUNWAY AND FLY AGAIN" data-ru="РИС. 00 — КОСМИЧЕСКИЙ КОРАБЛЬ, ПОСТРОЕННЫЙ, ЧТОБЫ САДИТЬСЯ НА ВПП И ЛЕТАТЬ СНОВА">FIG. 00 — A SPACECRAFT BUILT TO LAND ON A RUNWAY AND FLY AGAIN</span>
+        <span data-en="1981 → 2011" data-ru="1981 → 2011">1981 → 2011</span>
+      </div>
+      <h1><span data-en="ORBITER" data-ru="ОРБИТЕР">ORBITER</span><br><em data-en="A FIELD GUIDE TO THE SPACE SHUTTLE PROGRAM" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «СПЕЙС ШАТТЛ»">A FIELD GUIDE TO THE SPACE SHUTTLE PROGRAM</em></h1>
+      <p class="sub lede" data-en="Nine chapters on the vehicle that flew like a spacecraft going up and a glider coming down, carried the pieces of the International Space Station into orbit one payload bay at a time, serviced the Hubble Space Telescope five times by hand, and flew 135 missions across thirty years — a run defined as much by two catastrophic losses as by its triumphs. Scroll to begin." data-ru="Девять глав о корабле, который взлетал как космический аппарат, а садился как планёр, доставил на орбиту части Международной космической станции по частям в своём грузовом отсеке, вручную обслужил телескоп «Хаббл» пять раз и выполнил 135 полётов за тридцать лет — путь, определённый двумя катастрофическими потерями не меньше, чем триумфами. Пролистайте вниз, чтобы начать.">Nine chapters on the vehicle that flew like a spacecraft going up and a glider coming down, carried the pieces of the International Space Station into orbit one payload bay at a time, serviced the Hubble Space Telescope five times by hand, and flew 135 missions across thirty years — a run defined as much by two catastrophic losses as by its triumphs. Scroll to begin.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 -->
+<section id="ch1" class="section" data-phase="A REUSABLE SPACECRAFT" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 09</span> — <span data-en="SOMETHING NEW: FLY IT, LAND IT, FLY IT AGAIN" data-ru="НОВОЕ: СЛЕТАТЬ, ПРИЗЕМЛИТЬСЯ, СЛЕТАТЬ СНОВА">SOMETHING NEW: FLY IT, LAND IT, FLY IT AGAIN</span></div>
+    <h2 class="h-lg" data-en="Every crewed spacecraft before it flew once and was thrown away" data-ru="Каждый пилотируемый корабль до него летал один раз и выбрасывался">Every crewed spacecraft before it flew once and was thrown away</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Mercury, Gemini, Apollo, and Soyuz capsules were all single-use: a splashdown or landing ended their flying life. The Space Shuttle's orbiter was designed to return to a runway landing and fly dozens of times, refurbished between missions rather than replaced.<sup class='cite'>[1]</sup>" data-ru="Капсулы «Меркурий», «Джемини», «Аполлон» и «Союз» были одноразовыми: приводнение или посадка завершали их лётную жизнь. Орбитальная ступень шаттла проектировалась, чтобы возвращаться на посадку на взлётно-посадочную полосу и летать десятки раз, восстанавливаясь между полётами, а не заменяясь новой.<sup class='cite'>[1]</sup>">Mercury, Gemini, Apollo, and Soyuz capsules were all single-use: a splashdown or landing ended their flying life. The Space Shuttle's orbiter was designed to return to a runway landing and fly dozens of times, refurbished between missions rather than replaced.<sup class='cite'>[1]</sup></p>
+      <p class="body-col" data-en="That single idea shaped everything about the vehicle: wings for a runway landing, a cargo bay big enough to carry satellites and space station modules, and a fleet of orbiters rather than one spacecraft built once." data-ru="Именно эта идея определила всё в конструкции аппарата: крылья для посадки на полосу, грузовой отсек, достаточно большой для спутников и модулей космической станции, и целый флот орбитальных ступеней вместо одного построенного один раз корабля.">That single idea shaped everything about the vehicle: wings for a runway landing, a cargo bay big enough to carry satellites and space station modules, and a fleet of orbiters rather than one spacecraft built once.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 -->
+<section id="ch2" class="section" data-phase="STS-1 — COLUMBIA" data-alt="LEO" data-vel="APR 12 1981">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 09</span> — <span data-en="LAUNCH: THE FIRST TEST FLIGHT WAS ALREADY CREWED" data-ru="ЗАПУСК: УЖЕ ПЕРВЫЙ ИСПЫТАТЕЛЬНЫЙ ПОЛЁТ БЫЛ ПИЛОТИРУЕМЫМ">LAUNCH: THE FIRST TEST FLIGHT WAS ALREADY CREWED</span></div>
+    <h2 class="h-lg" data-en="No uncrewed test flight — just two astronauts and a new kind of machine" data-ru="Без беспилотного испытания — только два астронавта и машина нового типа">No uncrewed test flight — just two astronauts and a new kind of machine</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="STS-1 launched on April 12, 1981 — twenty years to the day after Yuri Gagarin's flight — with John Young and Robert Crippen aboard Columbia. Unusually for a new spacecraft, its first flight was crewed from the start, since the shuttle could not be adequately tested any other way.<sup class='cite'>[1]</sup>" data-ru="STS-1 стартовал 12 апреля 1981 года — ровно через двадцать лет после полёта Юрия Гагарина — с Джоном Янгом и Робертом Криппеном на борту «Колумбии». Необычно для нового космического корабля: его первый полёт с самого начала был пилотируемым, поскольку иначе шаттл невозможно было адекватно испытать.<sup class='cite'>[1]</sup>">STS-1 launched on April 12, 1981 — twenty years to the day after Yuri Gagarin's flight — with John Young and Robert Crippen aboard Columbia. Unusually for a new spacecraft, its first flight was crewed from the start, since the shuttle could not be adequately tested any other way.<sup class='cite'>[1]</sup></p>
+  </div>
+</section>
+
+<!-- CH3 -->
+<section id="ch3" class="section" data-phase="STACK ANATOMY" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 09</span> — <span data-en="ANATOMY OF THE SHUTTLE STACK" data-ru="УСТРОЙСТВО «СВЯЗКИ» ШАТТЛА">ANATOMY OF THE SHUTTLE STACK</span></div>
+    <h2 class="h-lg" data-en="One reusable orbiter, riding two boosters and a tank it threw away" data-ru="Одна многоразовая орбитальная ступень на двух ускорителях и баке, который выбрасывался">One reusable orbiter, riding two boosters and a tank it threw away</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Only the winged orbiter came home. The tank and boosters either burned up or were fished out of the ocean for reuse. Select a component." data-ru="Домой возвращалась только крылатая орбитальная ступень. Бак и ускорители либо сгорали, либо вылавливались из океана для повторного использования. Выберите компонент.">Only the winged orbiter came home. The tank and boosters either burned up or were fished out of the ocean for reuse. Select a component.</p>
+    <div class="schematic-wrap">
+      <svg id="shuttleSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="shuttlePanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 -->
+<section id="ch4" class="section" data-phase="BUILDER &amp; REPAIRMAN" data-alt="LEO" data-vel="1990–2011">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 09</span> — <span data-en="DEPLOYING HUBBLE, BUILDING THE ISS" data-ru="ВЫВОД «ХАББЛА», СТРОИТЕЛЬСТВО МКС">DEPLOYING HUBBLE, BUILDING THE ISS</span></div>
+    <h2 class="h-lg" data-en="The cargo bay that carried a space station up in pieces" data-ru="Грузовой отсек, доставивший космическую станцию по частям">The cargo bay that carried a space station up in pieces</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="The shuttle deployed the Hubble Space Telescope in 1990 and returned to service it by hand five times, the last in 2009, keeping it working and upgrading its instruments decades past its original design. From 1998 onward, shuttle missions carried up most of the modules and trusses of the International Space Station, assembling in orbit a structure too large to launch in one piece.<sup class='cite'>[1]</sup>" data-ru="Шаттл вывел телескоп «Хаббл» на орбиту в 1990 году и пять раз возвращался, чтобы обслужить его вручную, последний раз в 2009 году, поддерживая его работу и модернизируя приборы десятилетиями сверх изначального расчётного срока. Начиная с 1998 года миссии шаттла доставляли большинство модулей и ферм Международной космической станции, собирая на орбите конструкцию, слишком крупную для запуска целиком.<sup class='cite'>[1]</sup>">The shuttle deployed the Hubble Space Telescope in 1990 and returned to service it by hand five times, the last in 2009, keeping it working and upgrading its instruments decades past its original design. From 1998 onward, shuttle missions carried up most of the modules and trusses of the International Space Station, assembling in orbit a structure too large to launch in one piece.<sup class='cite'>[1]</sup></p>
+  </div>
+</section>
+
+<!-- CH5 -->
+<section id="ch5" class="section" data-phase="CHALLENGER" data-alt="73 SECONDS" data-vel="JAN 28 1986">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 09</span> — <span data-en="SEVENTY-THREE SECONDS AFTER LAUNCH" data-ru="СЕМЬДЕСЯТ ТРИ СЕКУНДЫ ПОСЛЕ СТАРТА">SEVENTY-THREE SECONDS AFTER LAUNCH</span></div>
+    <h2 class="h-lg" data-en="A rubber seal, stiffened by cold, that was never meant to be tested that way" data-ru="Резиновое уплотнение, затвердевшее на холоде, которое никогда не должно было так испытываться">A rubber seal, stiffened by cold, that was never meant to be tested that way</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="On January 28, 1986, Challenger broke apart 73 seconds after launch when cold-stiffened rubber O-rings in a solid rocket booster failed to seal properly, letting hot gas burn through and trigger a structural failure. All seven crew members, including teacher Christa McAuliffe, were killed.<sup class='cite'>[2]</sup> The disaster grounded the program for nearly three years while the boosters were redesigned and launch decision-making overhauled." data-ru="28 января 1986 года «Челленджер» разрушился спустя 73 секунды после старта, когда затвердевшие на холоде резиновые уплотнительные кольца твердотопливного ускорителя не смогли герметично сомкнуться, пропустив горячие газы, вызвавшие разрушение конструкции. Погибли все семь членов экипажа, включая учительницу Кристу Маколифф.<sup class='cite'>[2]</sup> Катастрофа остановила программу почти на три года, пока перепроектировались ускорители и пересматривался порядок принятия решений о пуске.">On January 28, 1986, Challenger broke apart 73 seconds after launch when cold-stiffened rubber O-rings in a solid rocket booster failed to seal properly, letting hot gas burn through and trigger a structural failure. All seven crew members, including teacher Christa McAuliffe, were killed.<sup class='cite'>[2]</sup> The disaster grounded the program for nearly three years while the boosters were redesigned and launch decision-making overhauled.</p>
+  </div>
+</section>
+
+<!-- CH6 -->
+<section id="ch6" class="section" data-phase="COLUMBIA" data-alt="RE-ENTRY" data-vel="FEB 1 2003">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 09</span> — <span data-en="A PIECE OF FOAM, AND A WOUND NO ONE COULD SEE" data-ru="КУСОК ПЕНЫ И РАНА, КОТОРУЮ НИКТО НЕ ВИДЕЛ">A PIECE OF FOAM, AND A WOUND NO ONE COULD SEE</span></div>
+    <h2 class="h-lg" data-en="Damage from launch went unnoticed until the ship tried to come home" data-ru="Повреждение при старте оставалось незамеченным, пока корабль не попытался вернуться домой">Damage from launch went unnoticed until the ship tried to come home</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="On February 1, 2003, Columbia broke apart during re-entry. A piece of insulating foam had struck and cracked the wing's thermal protection during launch sixteen days earlier; over the intense heat of re-entry, superheated gas breached the wing and destroyed the vehicle. All seven crew members died.<sup class='cite'>[2]</sup> The program was again grounded for over two years, this time with new procedures for inspecting the orbiter for damage while still in orbit." data-ru="1 февраля 2003 года «Колумбия» разрушилась при входе в атмосферу. Кусок теплоизоляционной пены ударил и повредил теплозащиту крыла при старте шестнадцатью днями ранее; в условиях сильного нагрева при входе перегретый газ прорвался в крыло и разрушил аппарат. Погибли все семь членов экипажа.<sup class='cite'>[2]</sup> Программа вновь была остановлена более чем на два года — на этот раз с новыми процедурами осмотра орбитальной ступени на повреждения ещё на орбите.">On February 1, 2003, Columbia broke apart during re-entry. A piece of insulating foam had struck and cracked the wing's thermal protection during launch sixteen days earlier; over the intense heat of re-entry, superheated gas breached the wing and destroyed the vehicle. All seven crew members died.<sup class='cite'>[2]</sup> The program was again grounded for over two years, this time with new procedures for inspecting the orbiter for damage while still in orbit.</p>
+  </div>
+</section>
+
+<!-- CH7 -->
+<section id="ch7" class="section" data-phase="FLYING AGAIN" data-alt="—" data-vel="2005 / 1988">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 09</span> — <span data-en="RETURN TO FLIGHT, TWICE" data-ru="ВОЗВРАЩЕНИЕ К ПОЛЁТАМ — ДВАЖДЫ">RETURN TO FLIGHT, TWICE</span></div>
+    <h2 class="h-lg" data-en="Redesigned hardware, and a program that chose to keep flying" data-ru="Перепроектированное оборудование — и программа, решившая продолжать полёты">Redesigned hardware, and a program that chose to keep flying</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="After Challenger, the shuttle returned to flight in September 1988 with redesigned booster joints and a new independent safety office. After Columbia, it returned in July 2005 with a redesigned external tank and, for the first time, the ability to inspect and, if needed, repair heat-shield damage in orbit.<sup class='cite'>[2]</sup> Each disaster reshaped how the program judged risk far more than any single engineering fix could." data-ru="После «Челленджера» шаттл вернулся к полётам в сентябре 1988 года с перепроектированными стыками ускорителей и новым независимым управлением по безопасности. После «Колумбии» он вернулся в июле 2005 года с перепроектированным внешним баком и, впервые, возможностью осмотреть и при необходимости отремонтировать повреждения теплозащиты прямо на орбите.<sup class='cite'>[2]</sup> Каждая катастрофа изменила подход программы к оценке риска сильнее, чем мог бы любой отдельный инженерный доработка.">After Challenger, the shuttle returned to flight in September 1988 with redesigned booster joints and a new independent safety office. After Columbia, it returned in July 2005 with a redesigned external tank and, for the first time, the ability to inspect and, if needed, repair heat-shield damage in orbit.<sup class='cite'>[2]</sup> Each disaster reshaped how the program judged risk far more than any single engineering fix could.</p>
+  </div>
+</section>
+
+<!-- CH8 -->
+<section id="ch8" class="section" data-phase="STS-135 — ATLANTIS" data-alt="RETIRED" data-vel="JUL 2011">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 09</span> — <span data-en="THE FINAL FLIGHT, AND A GAP THAT FOLLOWED" data-ru="ПОСЛЕДНИЙ ПОЛЁТ — И ПОСЛЕДОВАВШИЙ ПРОБЕЛ">THE FINAL FLIGHT, AND A GAP THAT FOLLOWED</span></div>
+    <h2 class="h-lg" data-en="Nine years buying seats on Soyuz to reach the station it helped build" data-ru="Девять лет покупки мест на «Союзе», чтобы добраться до станции, которую сам же помогал строить">Nine years buying seats on Soyuz to reach the station it helped build</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Atlantis flew the program's 135th and final mission, STS-135, landing on July 21, 2011. With no domestic replacement ready, NASA relied entirely on Russian Soyuz spacecraft to carry its astronauts to the ISS for nearly nine years, until SpaceX's Crew Dragon flew its first crewed mission in 2020.<sup class='cite'>[1]</sup> The surviving orbiters went to museums across the country." data-ru="«Атлантис» выполнил 135-ю и последнюю миссию программы, STS-135, приземлившись 21 июля 2011 года. Не имея готовой отечественной замены, NASA почти девять лет полностью полагалось на российские корабли «Союз» для доставки астронавтов на МКС, пока в 2020 году первый пилотируемый полёт не выполнил Crew Dragon компании SpaceX.<sup class='cite'>[1]</sup> Уцелевшие орбитальные ступени отправились в музеи по всей стране.">Atlantis flew the program's 135th and final mission, STS-135, landing on July 21, 2011. With no domestic replacement ready, NASA relied entirely on Russian Soyuz spacecraft to carry its astronauts to the ISS for nearly nine years, until SpaceX's Crew Dragon flew its first crewed mission in 2020.<sup class='cite'>[1]</sup> The surviving orbiters went to museums across the country.</p>
+    <div class="dash-grid">
+      <div class="dash-card"><div class="dc-name">135</div><div class="fig-num" data-en="TOTAL MISSIONS" data-ru="ВСЕГО ПОЛЁТОВ">TOTAL MISSIONS</div></div>
+      <div class="dash-card"><div class="dc-name">5</div><div class="fig-num" data-en="ORBITERS FLOWN" data-ru="ОРБИТАЛЬНЫХ СТУПЕНЕЙ">ORBITERS FLOWN</div></div>
+      <div class="dash-card"><div class="dc-name">30 yr</div><div class="fig-num" data-en="PROGRAM LENGTH" data-ru="ДЛИТЕЛЬНОСТЬ ПРОГРАММЫ">PROGRAM LENGTH</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — LEGACY -->
+<section id="ch9" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 09</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="The bridge between capsules and commercial spaceplanes" data-ru="Мост между капсулами и коммерческими космопланами">The bridge between capsules and commercial spaceplanes</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="The shuttle proved a winged, reusable spacecraft could fly for decades — and that reuse alone does not make spaceflight routine or cheap. Both lessons shaped the vehicles that came after it." data-ru="Шаттл доказал, что крылатый многоразовый космический корабль способен летать десятилетиями, — и что одна лишь многоразовость не делает космический полёт рутинным или дешёвым. Оба урока сформировали пришедшие ему на смену аппараты.">The shuttle proved a winged, reusable spacecraft could fly for decades — and that reuse alone does not make spaceflight routine or cheap. Both lessons shaped the vehicles that came after it.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+<!-- CH10 — REFERENCES -->
+<section id="ch10" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="ORBITER — A FIELD GUIDE TO THE SPACE SHUTTLE PROGRAM" data-ru="ORBITER — ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «СПЕЙС ШАТТЛ»">ORBITER — A FIELD GUIDE TO THE SPACE SHUTTLE PROGRAM</span>
+  <span data-en="EDUCATIONAL / REFERENCED — FIGURES CITED WHERE POSSIBLE" data-ru="УЧЕБНЫЙ МАТЕРИАЛ СО ССЫЛКАМИ — ЗНАЧЕНИЯ ПО ВОЗМОЖНОСТИ ПОДТВЕРЖДЕНЫ ИСТОЧНИКАМИ">ORBITER — EDUCATIONAL / REFERENCED</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ SCHEMATIC ============ */
+var SHUTTLE_PARTS = [
+  {
+    "id": "orbiter",
+    "en": "The Orbiter",
+    "ru": "Орбитальная ступень",
+    "cEn": "The reusable spaceplane itself",
+    "cRu": "Сам многоразовый космоплан",
+    "dEn": "About the size of a small airliner, it carried the crew, the cargo bay, and the robotic arm, launching like a rocket and landing unpowered like a glider.",
+    "dRu": "Размером примерно с небольшой авиалайнер, она несла экипаж, грузовой отсек и манипулятор, стартуя как ракета и садясь без двигателей, как планёр.",
+    "x": 60,
+    "y": 150,
+    "w": 150,
+    "h": 34
+  },
+  {
+    "id": "srb",
+    "en": "Solid Rocket Boosters",
+    "ru": "Твердотопливные ускорители",
+    "cEn": "2 boosters, parachuted into the ocean",
+    "cRu": "2 ускорителя, приводнялись на парашютах",
+    "dEn": "A pair of solid-fuel boosters supplying most of the thrust at launch, jettisoned about two minutes in and recovered from the Atlantic for reuse.",
+    "dRu": "Пара твердотопливных ускорителей, дававших основную часть тяги при старте, отделявшихся примерно через две минуты и извлекавшихся из Атлантики для повторного использования.",
+    "x": 280,
+    "y": 110,
+    "w": 150,
+    "h": 34
+  },
+  {
+    "id": "tank",
+    "en": "External Tank",
+    "ru": "Внешний топливный бак",
+    "cEn": "Liquid hydrogen &amp; oxygen; never reused",
+    "cRu": "Жидкие водород и кислород; никогда не использовался повторно",
+    "dEn": "The huge orange tank fed the main engines and was the only major part of the stack not designed for reuse, burning up over the ocean after separation.",
+    "dRu": "Огромный оранжевый бак питал маршевые двигатели и был единственной крупной частью связки, не рассчитанной на повторное использование, — он сгорал над океаном после отделения.",
+    "x": 280,
+    "y": 210,
+    "w": 150,
+    "h": 34
+  },
+  {
+    "id": "ssme",
+    "en": "Main Engines",
+    "ru": "Маршевые двигатели",
+    "cEn": "3 engines, reused across missions",
+    "cRu": "3 двигателя, использовались в разных миссиях",
+    "dEn": "Three engines mounted on the orbiter's tail, fed from the external tank, refurbished and flown again on later missions along with the orbiter itself.",
+    "dRu": "Три двигателя на хвосте орбитальной ступени, питавшиеся от внешнего бака, восстанавливались и вновь летали в следующих миссиях вместе с самой орбитальной ступенью.",
+    "x": 460,
+    "y": 150,
+    "w": 150,
+    "h": 34
+  },
+  {
+    "id": "arm",
+    "en": "Canadarm & Payload Bay",
+    "ru": "Canadarm и грузовой отсек",
+    "cEn": "18-metre cargo bay, robotic arm",
+    "cRu": "18-метровый грузовой отсек, манипулятор",
+    "dEn": "A cargo bay large enough for satellites and space station modules, worked by a Canadian-built robotic arm used to deploy, capture, and repair spacecraft in orbit.",
+    "dRu": "Грузовой отсек, достаточно большой для спутников и модулей космической станции, обслуживаемый манипулятором канадской постройки, использовавшимся для вывода, захвата и ремонта аппаратов на орбите.",
+    "x": 460,
+    "y": 210,
+    "w": 150,
+    "h": 34
+  }
+];
+function renderSHUTTLE(){
+  var svg = document.getElementById('shuttleSvg');
+  var panel = document.getElementById('shuttlePanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  SHUTTLE_PARTS.forEach(function(m){
+    var g = ns('g',{'class':'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, SHUTTLE_PARTS, m.id); });
+  });
+  selectPart(svg, panel, SHUTTLE_PARTS, SHUTTLE_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ LEGACY ============ */
+var LEGACY = [
+  {
+    "y": "1961",
+    "en": "Mercury",
+    "ru": "«Меркурий»",
+    "noteEn": "First American astronauts",
+    "noteRu": "Первые американские астронавты",
+    "h": 20
+  },
+  {
+    "y": "1965",
+    "en": "Gemini",
+    "ru": "«Джемини»",
+    "noteEn": "Rendezvous &amp; spacewalks",
+    "noteRu": "Сближение и выходы в открытый космос",
+    "h": 26
+  },
+  {
+    "y": "1968",
+    "en": "Apollo",
+    "ru": "«Аполлон»",
+    "noteEn": "The Moon landings",
+    "noteRu": "Высадки на Луну",
+    "h": 34
+  },
+  {
+    "y": "1981",
+    "en": "Space Shuttle",
+    "ru": "«Спейс шаттл»",
+    "noteEn": "Reusable, 135 missions",
+    "noteRu": "Многоразовый, 135 миссий",
+    "h": 46
+  },
+  {
+    "y": "2020",
+    "en": "Commercial Crew",
+    "ru": "Commercial Crew",
+    "noteEn": "SpaceX &amp; Boeing capsules",
+    "noteRu": "Капсулы SpaceX и Boeing",
+    "h": 32
+  }
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><rect x="'+(50-l.h/3)+'" y="10" width="'+(l.h/1.5)+'" height="'+l.h+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Space Shuttle Era",
+    "url": "https://www.nasa.gov/reference/space-shuttle-era/",
+    "note": {
+      "en": "NASA. Program overview, STS-1 (12 April 1981), fleet of orbiters, and the 135-mission tally.",
+      "ru": "NASA. Обзор программы, STS-1 (12 апреля 1981 года), флот орбитальных ступеней и итог в 135 миссий."
+    }
+  },
+  {
+    "title": "Report of the Presidential Commission on the Space Shuttle Challenger Accident",
+    "url": "https://sma.nasa.gov/SignificantIncidents/assets/rogers_commission_report.pdf",
+    "note": {
+      "en": "The Rogers Commission. Full findings on the O-ring failure and cause of the 28 January 1986 loss of Challenger.",
+      "ru": "Комиссия Роджерса. Полные выводы об отказе уплотнительного кольца и причине гибели «Челленджера» 28 января 1986 года."
+    }
+  },
+  {
+    "title": "Columbia Accident Investigation Board Report",
+    "url": "https://www.nasa.gov/columbia/caib-report/",
+    "note": {
+      "en": "NASA / CAIB. The foam-strike cause of the 1 February 2003 loss of Columbia, and resulting program changes.",
+      "ru": "NASA / CAIB. Причина гибели «Колумбии» 1 февраля 2003 года из-за удара пены и последовавшие изменения программы."
+    }
+  },
+  {
+    "title": "Space Shuttle program",
+    "url": "https://en.wikipedia.org/wiki/Space_Shuttle_program",
+    "note": {
+      "en": "Wikipedia. Consolidated stack specifications, Hubble servicing missions, ISS assembly flights, and STS-135.",
+      "ru": "Википедия. Сводные характеристики связки, миссии обслуживания «Хаббла», сборочные полёты МКС и STS-135."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
+function renderAll(){
+  renderSHUTTLE();
+  renderLegacy();
+  renderRefs();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
