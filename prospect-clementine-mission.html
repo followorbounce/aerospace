@@ -159,12 +159,23 @@
 </section>
 
 <!-- CH10 -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="A side project that pointed at the reason to go back" data-ru="Побочный проект, указавший причину вернуться">A side project that pointed at the reason to go back</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="A mission built to test missile-defense hardware ended up supplying the single data point that redirected decades of lunar exploration toward the poles — the same ice that today's Artemis and international programs are being built specifically to reach." data-ru="Миссия, построенная для испытания аппаратуры противоракетной обороны, в итоге дала ту единственную деталь, что перенаправила десятилетия лунных исследований к полюсам, — тот самый лёд, ради которого сегодня специально строятся программы Artemis и международные проекты.">A mission built to test missile-defense hardware ended up supplying the single data point that redirected decades of lunar exploration toward the poles — the same ice that today's Artemis and international programs are being built specifically to reach.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -280,9 +291,39 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Clementine",
+    "url": "https://science.nasa.gov/mission/clementine/",
+    "note": {
+      "en": "NASA. Mission overview, the joint NASA / Ballistic Missile Defense Organization sponsorship, and lunar mapping results.",
+      "ru": "NASA. Обзор миссии, совместное финансирование NASA и Организации по противоракетной обороне и результаты картографирования Луны."
+    }
+  },
+  {
+    "title": "Clementine (spacecraft)",
+    "url": "https://en.wikipedia.org/wiki/Clementine_(spacecraft)",
+    "note": {
+      "en": "Wikipedia. 1994 launch, lunar mapping in eleven wavelengths, and the mission-ending spacecraft malfunction before its planned asteroid flyby.",
+      "ru": "Википедия. Запуск в 1994 году, картографирование Луны в одиннадцати диапазонах и отказ аппарата, прервавший миссию перед запланированным пролётом астероида."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 function renderAll(){
   renderClem();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

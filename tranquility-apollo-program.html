@@ -182,12 +182,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="Twelve footprints, still the only ones" data-ru="Двенадцать следов — до сих пор единственные">Twelve footprints, still the only ones</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="More than fifty years later, the twelve men who walked on the Moon between 1969 and 1972 remain the only human beings who ever have." data-ru="Спустя более пятидесяти лет двенадцать человек, ходивших по Луне с 1969 по 1972 год, остаются единственными людьми, которым это когда-либо удавалось.">More than fifty years later, the twelve men who walked on the Moon between 1969 and 1972 remain the only human beings who ever have.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -461,6 +472,44 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Apollo",
+    "url": "https://www.nasa.gov/missions/apollo/",
+    "note": {
+      "en": "NASA. Program overview and mission-by-mission summaries from Apollo 1 through Apollo 17.",
+      "ru": "NASA. Обзор программы и сводки по каждой миссии от «Аполлона-1» до «Аполлона-17»."
+    }
+  },
+  {
+    "title": "Apollo 11",
+    "url": "https://www.nasa.gov/history/apollo-11/",
+    "note": {
+      "en": "NASA History Office. The 20 July 1969 landing and the Apollo 11 mission timeline.",
+      "ru": "Историческое управление NASA. Посадка 20 июля 1969 года и хронология миссии «Аполлон-11»."
+    }
+  },
+  {
+    "title": "Apollo program",
+    "url": "https://en.wikipedia.org/wiki/Apollo_program",
+    "note": {
+      "en": "Wikipedia. Program funding, hardware development, and the six crewed lunar landings.",
+      "ru": "Википедия. Финансирование программы, разработка техники и шесть пилотируемых посадок на Луну."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderApollo();
@@ -469,7 +518,7 @@ function renderAll(){
   renderLandings();
   renderScience();
   renderN1();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

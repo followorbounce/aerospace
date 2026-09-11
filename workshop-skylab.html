@@ -181,12 +181,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="From a workshop to a permanent home" data-ru="От мастерской — до постоянного дома">From a workshop to a permanent home</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Skylab flew for less than a year of crewed time, across just three missions — but it proved the case for everything that came after it." data-ru="«Скайлэб» летала с экипажем меньше года суммарно, всего за три миссии, — но она доказала оправданность всего, что последовало за ней.">Skylab flew for less than a year of crewed time, across just three missions — but it proved the case for everything that came after it.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -507,6 +518,44 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Skylab",
+    "url": "https://www.nasa.gov/mission/skylab/",
+    "note": {
+      "en": "NASA. Mission overview, the three crewed missions (1973-1974), and the in-orbit parasol and twin-pole sunshade repairs.",
+      "ru": "NASA. Обзор миссии, три пилотируемых экспедиции (1973-1974) и орбитальный ремонт теплозащиты — «зонт-парасоль» и двухштанговый экран."
+    }
+  },
+  {
+    "title": "Skylab",
+    "url": "https://www.nasa.gov/history/skylab/",
+    "note": {
+      "en": "NASA History Office. Program background and Skylab's uncontrolled 1979 reentry over Australia.",
+      "ru": "Историческое управление NASA. Предыстория программы и неуправляемый вход «Скайлэб» в атмосферу над Австралией в 1979 году."
+    }
+  },
+  {
+    "title": "Skylab",
+    "url": "https://en.wikipedia.org/wiki/Skylab",
+    "note": {
+      "en": "Wikipedia. Consolidated technical specifications, crew rosters, and the Skylab Rescue contingency plan.",
+      "ru": "Википедия. Сводные технические характеристики, составы экипажей и резервный план спасения Skylab Rescue."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderFixTabs();
@@ -516,7 +565,7 @@ function renderAll(){
   renderSalyut();
   renderFall();
   renderProven();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

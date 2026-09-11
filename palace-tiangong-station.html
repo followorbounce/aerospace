@@ -162,12 +162,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="Fifteen years from a single test module to a national station" data-ru="Пятнадцать лет от одного испытательного модуля до национальной станции">Fifteen years from a single test module to a national station</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="With the ISS approaching the end of its own service life, Tiangong is positioned to become one of very few — possibly the only — continuously crewed station in orbit within the next decade." data-ru="По мере приближения конца срока службы МКС «Тяньгун» готова стать одной из очень немногих — возможно, единственной — непрерывно обитаемой станцией на орбите в следующем десятилетии.">With the ISS approaching the end of its own service life, Tiangong is positioned to become one of very few — possibly the only — continuously crewed station in orbit within the next decade.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -329,12 +340,42 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Tiangong space station",
+    "url": "https://en.wikipedia.org/wiki/Tiangong_space_station",
+    "note": {
+      "en": "Wikipedia. Three-module T-shape configuration, 2021-2022 assembly launches, and planned expansion.",
+      "ru": "Википедия. Трёхмодульная Т-образная конфигурация, запуски сборки в 2021-2022 годах и планы расширения."
+    }
+  },
+  {
+    "title": "China Manned Space Agency",
+    "url": "http://en.cmse.gov.cn/",
+    "note": {
+      "en": "CMSA. Official mission updates and crew rotation announcements for the Tiangong station.",
+      "ru": "CMSA. Официальные новости миссий и объявления о ротации экипажей станции «Тяньгун»."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderTiangong();
   renderScience();
   renderCompare();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

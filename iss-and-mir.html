@@ -338,12 +338,23 @@ select{
 </section>
 
 <!-- ============================================================ CHAPTER 10 — LEGACY ============================================================ -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="From Salyut to whatever comes next" data-ru="От «Салюта» — к тому, что дальше">From Salyut to whatever comes next</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Every station is an argument for the next one. Fifty-five years of continuous, overlapping design lineage sit between the first crewed station and the ones now being planned for the Moon and beyond." data-ru="Каждая станция — довод в пользу следующей. Пятьдесят пять лет непрерывной, перетекающей друг в друга инженерной традиции отделяют первую пилотируемую станцию от тех, что сейчас проектируют для окололунного пространства и дальше.">Every station is an argument for the next one. Fifty-five years of continuous, overlapping design lineage sit between the first crewed station and the ones now being planned for the Moon and beyond.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -372,7 +383,7 @@ function applyLang(l){
   document.querySelectorAll('#langtoggle button').forEach(function(b){
     b.classList.toggle('active', b.dataset.lang===l);
   });
-  renderLifeTabs(); renderExperiments(); renderMirTimeline(); renderDeorbit(); renderLegacy();
+  renderLifeTabs(); renderExperiments(); renderMirTimeline(); renderDeorbit(); renderLegacy(); renderRefs();
   renderISS(); renderMir(); populateCities();
 }
 document.querySelectorAll('#langtoggle button').forEach(function(b){
@@ -881,6 +892,44 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "International Space Station",
+    "url": "https://www.nasa.gov/international-space-station/",
+    "note": {
+      "en": "NASA. Station overview, partner agencies, and current crew and vehicle operations.",
+      "ru": "NASA. Обзор станции, агентства-партнёры и текущие операции с экипажами и кораблями."
+    }
+  },
+  {
+    "title": "International Space Station",
+    "url": "https://en.wikipedia.org/wiki/International_Space_Station",
+    "note": {
+      "en": "Wikipedia. Assembly history since 1998, module list, and continuous-occupation record since November 2000.",
+      "ru": "Википедия. История сборки с 1998 года, список модулей и рекорд непрерывного пребывания экипажа с ноября 2000 года."
+    }
+  },
+  {
+    "title": "Mir",
+    "url": "https://en.wikipedia.org/wiki/Mir",
+    "note": {
+      "en": "Wikipedia. Mir's 1986-2001 operational history, modular assembly, and 2001 controlled deorbit into the Pacific.",
+      "ru": "Википедия. История эксплуатации «Мира» в 1986-2001 годах, модульная сборка и управляемый сход с орбиты в Тихий океан в 2001 году."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============================================================
    INITIAL RENDER
    ============================================================ */
@@ -888,7 +937,7 @@ renderLifeTabs();
 renderExperiments();
 renderMirTimeline();
 renderDeorbit();
-renderLegacy();
+renderLegacy(); renderRefs();
 renderISS();
 renderMir();
 populateCities();

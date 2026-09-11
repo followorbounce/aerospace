@@ -154,12 +154,23 @@
 </section>
 
 <!-- CH10 -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="From flybys to a standing invitation to look closer" data-ru="От пролётов — до постоянного приглашения приглядеться внимательнее">From flybys to a standing invitation to look closer</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Pioneer and Voyager had glimpsed Jupiter's moons in passing. Galileo stayed long enough to turn Europa from a strange, cracked surface into a genuine target for the search for life — a case it made so convincingly that entire missions now exist just to follow up on it." data-ru="«Пионер» и «Вояджер» лишь мельком видели спутники Юпитера. «Галилео» задержался достаточно долго, чтобы превратить Европу из странной, покрытой трещинами поверхности в настоящую цель для поиска жизни, — доказав это настолько убедительно, что теперь существуют целые миссии, посвящённые продолжению этой работы.">Pioneer and Voyager had glimpsed Jupiter's moons in passing. Galileo stayed long enough to turn Europa from a strange, cracked surface into a genuine target for the search for life — a case it made so convincingly that entire missions now exist just to follow up on it.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -331,11 +342,41 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Galileo",
+    "url": "https://science.nasa.gov/mission/galileo/",
+    "note": {
+      "en": "NASA. Mission overview, the 1995 atmospheric probe entry, and the 2003 controlled impact into Jupiter.",
+      "ru": "NASA. Обзор миссии, вход атмосферного зонда в 1995 году и управляемое падение на Юпитер в 2003 году."
+    }
+  },
+  {
+    "title": "Galileo (spacecraft)",
+    "url": "https://en.wikipedia.org/wiki/Galileo_(spacecraft)",
+    "note": {
+      "en": "Wikipedia. Development history, the stuck high-gain antenna, and moon-by-moon flyby findings at Io, Europa, Ganymede, and Callisto.",
+      "ru": "Википедия. История разработки, заклинившая остронаправленная антенна и результаты пролётов Ио, Европы, Ганимеда и Каллисто."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 function renderAll(){
   renderGalileo();
   renderProbeTabs();
   renderMoons();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

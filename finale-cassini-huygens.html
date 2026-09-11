@@ -158,12 +158,23 @@
 </section>
 
 <!-- CH10 -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="From a single flyby to two new targets for life" data-ru="От единственного пролёта — до двух новых целей в поисках жизни">From a single flyby to two new targets for life</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Pioneer 11 and Voyager 1 and 2 had only glimpsed Saturn in passing. Cassini-Huygens turned that glimpse into thirteen years of residence, leaving behind two genuinely new places to search for life — Enceladus's ocean and Titan's strange, hydrocarbon-soaked chemistry — that later missions are now being built to follow up on directly." data-ru="«Пионер-11» и «Вояджеры-1 и 2» лишь мельком видели Сатурн, пролетая мимо. «Кассини-Гюйгенс» превратил этот беглый взгляд в тринадцать лет постоянного присутствия, оставив после себя два по-настоящему новых места для поиска жизни — океан Энцелада и странную, пропитанную углеводородами химию Титана, — к которым уже сейчас готовятся миссии-продолжения.">Pioneer 11 and Voyager 1 and 2 had only glimpsed Saturn in passing. Cassini-Huygens turned that glimpse into thirteen years of residence, leaving behind two genuinely new places to search for life — Enceladus's ocean and Titan's strange, hydrocarbon-soaked chemistry — that later missions are now being built to follow up on directly.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -307,10 +318,48 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Cassini",
+    "url": "https://science.nasa.gov/mission/cassini/",
+    "note": {
+      "en": "NASA. Mission overview, thirteen years orbiting Saturn, and the 2017 Grand Finale plunge into the planet.",
+      "ru": "NASA. Обзор миссии, тринадцать лет на орбите Сатурна и финальное падение на планету в 2017 году («Grand Finale»)."
+    }
+  },
+  {
+    "title": "Cassini-Huygens",
+    "url": "https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens",
+    "note": {
+      "en": "ESA. The Huygens probe's 2005 landing on Titan, the first landing achieved in the outer solar system.",
+      "ru": "ESA. Посадка зонда «Гюйгенс» на Титан в 2005 году — первая посадка, осуществлённая во внешней Солнечной системе."
+    }
+  },
+  {
+    "title": "Cassini-Huygens",
+    "url": "https://en.wikipedia.org/wiki/Cassini%E2%80%93Huygens",
+    "note": {
+      "en": "Wikipedia. Joint NASA/ESA/ASI mission design, the Enceladus plume discovery, and full mission timeline.",
+      "ru": "Википедия. Совместная разработка миссии NASA/ESA/ASI, открытие гейзеров Энцелада и полная хронология миссии."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 function renderAll(){
   renderCassini();
   renderRings();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

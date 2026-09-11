@@ -203,12 +203,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="From two landers to a return trip" data-ru="От двух посадочных модулей — до обратного рейса">From two landers to a return trip</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Fifty years after Viking scooped the first Martian soil into a lab it couldn't leave, the next step is bringing that soil to labs on Earth." data-ru="Спустя пятьдесят лет после того, как «Викинг» впервые засыпал марсианский грунт в лабораторию, которую не мог покинуть, следующий шаг — доставить этот грунт в лаборатории на Земле.">Fifty years after Viking scooped the first Martian soil into a lab it couldn't leave, the next step is bringing that soil to labs on Earth.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -576,6 +587,44 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Viking 1",
+    "url": "https://science.nasa.gov/mission/viking-1/",
+    "note": {
+      "en": "NASA. Viking 1 mission overview and its 1976 landing on Chryse Planitia.",
+      "ru": "NASA. Обзор миссии «Викинг-1» и его посадка на равнине Хриса в 1976 году."
+    }
+  },
+  {
+    "title": "Viking 2",
+    "url": "https://science.nasa.gov/mission/viking-2/",
+    "note": {
+      "en": "NASA. Viking 2 mission overview and its landing on Utopia Planitia.",
+      "ru": "NASA. Обзор миссии «Викинг-2» и его посадка на равнине Утопия."
+    }
+  },
+  {
+    "title": "Viking program",
+    "url": "https://en.wikipedia.org/wiki/Viking_program",
+    "note": {
+      "en": "Wikipedia. Twin orbiter/lander design, the onboard biology experiments, and the ambiguous 1976 life-detection results.",
+      "ru": "Википедия. Конструкция парных орбитальных и посадочных аппаратов, биологические эксперименты на борту и неоднозначные результаты поиска жизни в 1976 году."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderVikingTimeline();
@@ -586,7 +635,7 @@ function renderAll(){
   renderLanderCompare();
   renderDuration();
   renderToday();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

@@ -173,12 +173,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="Twenty months that made the Moon possible" data-ru="Двадцать месяцев, сделавших Луну возможной">Twenty months that made the Moon possible</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="By the time Gemini 12 splashed down in November 1966, every technique Apollo would need to reach the Moon had been flown, tested, and proven — with fourteen months left to spare before Kennedy's deadline." data-ru="К моменту приводнения «Джемини-12» в ноябре 1966 года каждая методика, необходимая «Аполлону» для достижения Луны, уже была опробована в полёте и доказана — с запасом в четырнадцать месяцев до срока, поставленного Кеннеди.">By the time Gemini 12 splashed down in November 1966, every technique Apollo would need to reach the Moon had been flown, tested, and proven — with fourteen months left to spare before Kennedy's deadline.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -359,12 +370,42 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Project Gemini",
+    "url": "https://www.nasa.gov/gemini/",
+    "note": {
+      "en": "NASA. Program overview and the ten crewed Gemini missions (1965-1966).",
+      "ru": "NASA. Обзор программы и десять пилотируемых миссий «Джемини» (1965-1966)."
+    }
+  },
+  {
+    "title": "Project Gemini",
+    "url": "https://en.wikipedia.org/wiki/Project_Gemini",
+    "note": {
+      "en": "Wikipedia. Rendezvous and docking objectives, spacewalk milestones, and the program's role bridging Mercury and Apollo.",
+      "ru": "Википедия. Задачи по сближению и стыковке, вехи выходов в открытый космос и роль программы как моста между «Меркурием» и «Аполлоном»."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderGemini();
   renderFlights();
   renderProven();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

@@ -156,12 +156,23 @@
 </section>
 
 <!-- CH10 -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="A crash report that became a landing" data-ru="Отчёт об аварии, ставший посадкой">A crash report that became a landing</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Few space programs turn a public, well-documented failure into a successful mission just four years later. Chandrayaan-3's landing was less a single triumph than the visible payoff of treating Chandrayaan-2's crash as data rather than an ending." data-ru="Немногие космические программы превращают публичную, хорошо задокументированную неудачу в успешную миссию всего четыре года спустя. Посадка «Чандраяна-3» была не столько отдельным триумфом, сколько видимым итогом того, что аварию «Чандраяна-2» восприняли как данные, а не как конец пути.">Few space programs turn a public, well-documented failure into a successful mission just four years later. Chandrayaan-3's landing was less a single triumph than the visible payoff of treating Chandrayaan-2's crash as data rather than an ending.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -302,10 +313,48 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Chandrayaan-3",
+    "url": "https://www.isro.gov.in/Chandrayaan3.html",
+    "note": {
+      "en": "ISRO. Chandrayaan-3 mission overview and the 23 August 2023 landing near the lunar south pole.",
+      "ru": "ISRO. Обзор миссии «Чандраян-3» и посадка вблизи южного полюса Луны 23 августа 2023 года."
+    }
+  },
+  {
+    "title": "Chandrayaan-3",
+    "url": "https://science.nasa.gov/mission/chandrayaan-3/",
+    "note": {
+      "en": "NASA. Overview of ISRO's Chandrayaan-3 landing and its significance for lunar south-pole exploration.",
+      "ru": "NASA. Обзор посадки индийской миссии «Чандраян-3» и её значение для исследования южного полюса Луны."
+    }
+  },
+  {
+    "title": "Chandrayaan programme",
+    "url": "https://en.wikipedia.org/wiki/Chandrayaan_programme",
+    "note": {
+      "en": "Wikipedia. The Chandrayaan-1, -2, and -3 missions, including Chandrayaan-1's water-ice detection and Chandrayaan-2's 2019 lander crash.",
+      "ru": "Википедия. Миссии «Чандраян-1, -2 и -3», включая обнаружение водяного льда «Чандраяном-1» и крушение посадочного модуля «Чандраяна-2» в 2019 году."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 function renderAll(){
   renderCandra();
   renderFindings();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

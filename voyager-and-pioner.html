@@ -230,12 +230,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="MESSAGES WITH NO RETURN ADDRESS" data-ru="ПОСЛАНИЯ БЕЗ ОБРАТНОГО АДРЕСА">MESSAGES WITH NO RETURN ADDRESS</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="MESSAGES WITH NO RETURN ADDRESS" data-ru="ПОСЛАНИЯ БЕЗ ОБРАТНОГО АДРЕСА">MESSAGES WITH NO RETURN ADDRESS</span></div>
     <h2 class="h-lg" data-en="What we chose to say about ourselves" data-ru="Что мы решили рассказать о себе">What we chose to say about ourselves</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="At its current speed, Voyager 1 will not have a close encounter with another star system for roughly 40,000 years. Whatever it carries will still be legible long after everyone who built it is gone." data-ru="При нынешней скорости «Вояджеру-1» предстоит примерно 40 000 лет пути до сближения со следующей звёздной системой. Всё, что он несёт, останется читаемым ещё долго после того, как не станет никого, кто его построил.">At its current speed, Voyager 1 will not have a close encounter with another star system for roughly 40,000 years. Whatever it carries will still be legible long after everyone who built it is gone.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -651,6 +662,52 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Voyager",
+    "url": "https://science.nasa.gov/mission/voyager/",
+    "note": {
+      "en": "NASA. Extended Mission status, ongoing power-conservation measures, and the Voyager Golden Record.",
+      "ru": "NASA. Статус продлённой миссии, текущие меры по экономии энергии и «Золотая пластинка» «Вояджера»."
+    }
+  },
+  {
+    "title": "Pioneer 10",
+    "url": "https://science.nasa.gov/mission/pioneer-10/",
+    "note": {
+      "en": "NASA. Pioneer 10's 1972 launch, first Jupiter flyby, and last signal received in 2003.",
+      "ru": "NASA. Запуск «Пионера-10» в 1972 году, первый пролёт Юпитера и последний сигнал, полученный в 2003 году."
+    }
+  },
+  {
+    "title": "Pioneer 11",
+    "url": "https://science.nasa.gov/mission/pioneer-11/",
+    "note": {
+      "en": "NASA. Pioneer 11's 1973 launch and its Jupiter and Saturn flybys.",
+      "ru": "NASA. Запуск «Пионера-11» в 1973 году и его пролёты Юпитера и Сатурна."
+    }
+  },
+  {
+    "title": "Voyager program",
+    "url": "https://en.wikipedia.org/wiki/Voyager_program",
+    "note": {
+      "en": "Wikipedia. Grand Tour trajectory design, the twin spacecraft's instrument suites, and current interstellar-space status.",
+      "ru": "Википедия. Проектирование траектории «Большого тура», приборные комплексы двух аппаратов и их текущий статус в межзвёздном пространстве."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL (called on lang change too) ============ */
 function renderAll(){
   renderVelCompare();
@@ -661,7 +718,7 @@ function renderAll(){
   renderMessages();
   renderHelio();
   renderDash();
-  renderLegacy();
+  renderLegacy(); renderRefs();
   if(window._assistRedraw) window._assistRedraw();
   if(window._zoomRedraw) window._zoomRedraw();
 }

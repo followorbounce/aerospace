@@ -202,12 +202,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="One observatory, a whole fleet after it" data-ru="Одна обсерватория — и целый флот после неё">One observatory, a whole fleet after it</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Hubble proved a space telescope was worth the cost and the risk. Everything after it has been an argument about what to build next." data-ru="«Хаббл» доказал, что космический телескоп стоит своих затрат и рисков. Всё, что появилось после, — это спор о том, что строить дальше.">Hubble proved a space telescope was worth the cost and the risk. Everything after it has been an argument about what to build next.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -526,6 +537,44 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Hubble Space Telescope",
+    "url": "https://science.nasa.gov/mission/hubble/",
+    "note": {
+      "en": "NASA. Mission overview, the five servicing missions, and continuing science operations.",
+      "ru": "NASA. Обзор миссии, пять сервисных экспедиций и продолжающиеся научные наблюдения."
+    }
+  },
+  {
+    "title": "ESA/Hubble",
+    "url": "https://esahubble.org/",
+    "note": {
+      "en": "ESA/Hubble. European partnership role and the joint image and science release archive.",
+      "ru": "ESA/Hubble. Роль европейского партнёрства и совместный архив изображений и научных публикаций."
+    }
+  },
+  {
+    "title": "Hubble Space Telescope",
+    "url": "https://en.wikipedia.org/wiki/Hubble_Space_Telescope",
+    "note": {
+      "en": "Wikipedia. 1990 launch, the 1993 optics-correction servicing mission, and major discoveries.",
+      "ru": "Википедия. Запуск в 1990 году, сервисная миссия 1993 года по исправлению оптики и главные открытия."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderFlawTabs();
@@ -535,7 +584,7 @@ function renderAll(){
   renderSpectrum();
   renderCompare();
   renderToday();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

@@ -165,12 +165,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="Twenty years, seven stations, one straight line to the ISS" data-ru="Двадцать лет, семь станций, прямая линия к МКС">Twenty years, seven stations, one straight line to the ISS</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Mir's core module was internally designated DOS-7 — a direct descendant of the Salyut line. The ISS's Zvezda module, still flying today, was built from a hull originally intended as DOS-8." data-ru="Базовый блок «Мира» внутри назывался ДОС-7 — прямой потомок линии «Салют». Модуль «Звезда» МКС, летающий и сегодня, был построен на корпусе, изначально предназначавшемся для ДОС-8.">Mir's core module was internally designated DOS-7 — a direct descendant of the Salyut line. The ISS's Zvezda module, still flying today, was built from a hull originally intended as DOS-8.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -315,11 +326,41 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Salyut programme",
+    "url": "https://en.wikipedia.org/wiki/Salyut_programme",
+    "note": {
+      "en": "Wikipedia. The seven Salyut stations (1971-1986), the Salyut 1 / Soyuz 11 depressurization tragedy, and the military Almaz stations flown under the Salyut name.",
+      "ru": "Википедия. Семь станций «Салют» (1971-1986), трагедия разгерметизации «Салют-1» / «Союз-11» и военные станции «Алмаз», летавшие под именем «Салют»."
+    }
+  },
+  {
+    "title": "Salyut stations",
+    "url": "https://www.russianspaceweb.com/salyut.html",
+    "note": {
+      "en": "RussianSpaceWeb. Development history and technical detail on the DOS and Almaz station lines flown as Salyut.",
+      "ru": "RussianSpaceWeb. История разработки и технические подробности линеек станций ДОС и «Алмаз», летавших под именем «Салют»."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderSalyut();
   renderProven();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

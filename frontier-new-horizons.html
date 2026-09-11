@@ -181,12 +181,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="Completing what Voyager started" data-ru="Завершая то, что начал «Вояджер»">Completing what Voyager started</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Voyager passed through the outer planets on its way out of the Solar System. New Horizons was built to stop and look — the first mission with the whole Kuiper Belt as its actual destination, not just something to fly through on the way to somewhere else." data-ru="«Вояджер» проходил мимо внешних планет на пути прочь из Солнечной системы. «Новые горизонты» же были построены, чтобы остановиться и присмотреться, — первая миссия, для которой весь пояс Койпера стал настоящей целью, а не просто пространством, которое нужно пролететь по дороге куда-то ещё.">Voyager passed through the outer planets on its way out of the Solar System. New Horizons was built to stop and look — the first mission with the whole Kuiper Belt as its actual destination, not just something to fly through on the way to somewhere else.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -407,6 +418,44 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "New Horizons",
+    "url": "https://science.nasa.gov/mission/new-horizons/",
+    "note": {
+      "en": "NASA. Mission overview, the 2015 Pluto flyby, and the 2019 Arrokoth encounter in the Kuiper Belt.",
+      "ru": "NASA. Обзор миссии, пролёт Плутона в 2015 году и сближение с Аррокотом в поясе Койпера в 2019 году."
+    }
+  },
+  {
+    "title": "New Horizons",
+    "url": "https://pluto.jhuapl.edu/",
+    "note": {
+      "en": "Johns Hopkins APL. Mission operations, spacecraft status, and Kuiper Belt extended-mission planning.",
+      "ru": "Лаборатория прикладной физики Джонса Хопкинса. Управление полётом, состояние аппарата и планирование продлённой миссии в поясе Койпера."
+    }
+  },
+  {
+    "title": "New Horizons",
+    "url": "https://en.wikipedia.org/wiki/New_Horizons",
+    "note": {
+      "en": "Wikipedia. Launch (2006), the nine-instrument payload, and trajectory details for the Pluto and Arrokoth flybys.",
+      "ru": "Википедия. Запуск (2006), состав из девяти приборов и детали траекторий пролётов Плутона и Аррокота."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderProbe();
@@ -414,7 +463,7 @@ function renderAll(){
   renderPluto();
   renderStatus();
   renderNext();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

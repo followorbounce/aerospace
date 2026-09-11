@@ -181,12 +181,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="Built for decades, not years" data-ru="Построен на десятилетия, а не на годы">Built for decades, not years</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Webb launched with enough propellant for a mission well beyond its planned ten years — and it is already shaping what the next generation of observatories will need to answer next." data-ru="«Уэбб» стартовал с запасом топлива на миссию, значительно превышающую запланированные десять лет, — и он уже формирует то, на какие вопросы предстоит ответить следующему поколению обсерваторий.">Webb launched with enough propellant for a mission well beyond its planned ten years — and it is already shaping what the next generation of observatories will need to answer next.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -430,6 +441,44 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "James Webb Space Telescope",
+    "url": "https://science.nasa.gov/mission/webb/",
+    "note": {
+      "en": "NASA. Mission overview, the L2 halo orbit, and the 6.5-metre segmented primary mirror.",
+      "ru": "NASA. Обзор миссии, гало-орбита вокруг точки L2 и составное главное зеркало диаметром 6,5 метра."
+    }
+  },
+  {
+    "title": "Webb Space Telescope",
+    "url": "https://webb.nasa.gov/",
+    "note": {
+      "en": "NASA / ESA / CSA. Official mission site, deployment sequence, and science operations updates.",
+      "ru": "NASA / ESA / CSA. Официальный сайт миссии, последовательность раскрытия конструкции и новости научных наблюдений."
+    }
+  },
+  {
+    "title": "James Webb Space Telescope",
+    "url": "https://en.wikipedia.org/wiki/James_Webb_Space_Telescope",
+    "note": {
+      "en": "Wikipedia. Development history, the December 2021 launch, and the 2022 deployment sequence.",
+      "ru": "Википедия. История разработки, запуск в декабре 2021 года и последовательность раскрытия в 2022 году."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderWebb();
@@ -437,7 +486,7 @@ function renderAll(){
   renderFirstLight();
   renderDiscoveries();
   renderHubbleWebb();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 

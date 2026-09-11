@@ -198,12 +198,23 @@
 </section>
 
 <!-- CH10 — LEGACY -->
-<section id="ch10" class="section" data-phase="LEGACY / MARS TESTBED" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="LEGACY / MARS TESTBED" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="A rehearsal for Mars, if it works" data-ru="Репетиция Марса — если всё получится">A rehearsal for Mars, if it works</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Every system a lunar base has to solve — life support that runs for years unattended, power through two-week nights, resource extraction from local ice — is also, deliberately, a rehearsal for a much longer, much less forgiving trip to Mars." data-ru="Каждая система, которую должна решить лунная база, — системы жизнеобеспечения, работающие годами без вмешательства, энергоснабжение на протяжении двухнедельных ночей, добыча ресурсов из местного льда, — одновременно является намеренной репетицией куда более долгого и куда менее прощающего ошибки путешествия на Марс.">Every system a lunar base has to solve — life support that runs for years unattended, power through two-week nights, resource extraction from local ice — is also, deliberately, a rehearsal for a much longer, much less forgiving trip to Mars.</p>
     <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
   </div>
 </section>
 
@@ -475,6 +486,36 @@ function renderLegacy(){
   });
 }
 
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {
+    "title": "Artemis",
+    "url": "https://science.nasa.gov/mission/artemis/",
+    "note": {
+      "en": "NASA. Program overview and the long-term plan for a sustained lunar South Pole presence.",
+      "ru": "NASA. Обзор программы и долгосрочный план постоянного присутствия у южного полюса Луны."
+    }
+  },
+  {
+    "title": "Artemis program",
+    "url": "https://en.wikipedia.org/wiki/Artemis_program",
+    "note": {
+      "en": "Wikipedia. Program structure, international and commercial partners, and planned surface infrastructure.",
+      "ru": "Википедия. Структура программы, международные и коммерческие партнёры и планируемая поверхностная инфраструктура."
+    }
+  }
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderArtemisTimeline();
@@ -483,7 +524,7 @@ function renderAll(){
   renderLanders();
   renderNight();
   renderRisks();
-  renderLegacy();
+  renderLegacy(); renderRefs();
 }
 renderAll();
 
