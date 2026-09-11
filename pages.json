@@ -94,12 +94,12 @@
       "id": "foundations",
       "title": { "en": "Foundations & Tools", "ru": "Основы и инструменты" },
       "pages": [
+        { "slug": "common-ground-basic-logic", "codename": "THRESHOLD", "label": { "en": "Common Ground & Basic Logic", "ru": "Общая основа и базовая логика" } },
         { "slug": "build-your-own-cubesat", "codename": "ASSEMBLY", "label": { "en": "Build Your Own CubeSat", "ru": "Собери свой кубсат" } },
         { "slug": "lagrange-points", "codename": "EQUILIBRIUM", "label": { "en": "Lagrange Points", "ru": "Точки Лагранжа" } },
         { "slug": "physics-of-spaceflight", "codename": "IMPULSE", "label": { "en": "The Physics of Spaceflight", "ru": "Физика космического полёта" } }
       ],
       "planned": [
-        { "label": { "en": "Common Ground & Basic Logic", "ru": "Общая основа и базовая логика" } },
         { "label": { "en": "Arduino, ESP32, Raspberry Pi", "ru": "Arduino, ESP32, Raspberry Pi" } },
         { "label": { "en": "Texas Instruments", "ru": "Texas Instruments" } },
         { "label": { "en": "Analog Devices", "ru": "Analog Devices" } }

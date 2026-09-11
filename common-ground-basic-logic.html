@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THRESHOLD — COMMON GROUND & BASIC LOGIC / ОБЩАЯ ОСНОВА И БАЗОВАЯ ЛОГИКА</title>
+<meta name="description" content="An interactive, truth-table-driven journey through basic logic — from common ground and two voltages, through AND, OR, NOT and if/then/else, to binary addition, subtraction, and tracing a whole program from its inputs to its consequences.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/common-ground-basic-logic">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="THRESHOLD — COMMON GROUND & BASIC LOGIC / ОБЩАЯ ОСНОВА И БАЗОВАЯ ЛОГИКА">
+<meta property="og:description" content="An interactive, truth-table-driven journey through basic logic — from common ground and two voltages, through AND, OR, NOT and if/then/else, to binary addition, subtraction, and tracing a whole program from its inputs to its consequences.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/common-ground-basic-logic">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+sup, sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px); letter-spacing:0.01em;}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-controls{margin-top:4px;}
+.sim-controls input[type=range]{width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:18px 0 8px;}
+.sim-controls input[type=range]::-webkit-slider-thumb{appearance:none; width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-controls input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-readout{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px;}
+.preset-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.preset-btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); padding:7px 11px;}
+.preset-btn:hover{border-color:var(--ink);}
+.preset-btn.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); margin-top:16px;}
+.readout-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+.readout-grid.cols-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:11.5px;}
+.readout-cell.hit{background:#efefe9;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.voltage-readout{font-family:var(--font-display); font-size:2.2rem; text-align:center; margin:18px 0 4px;}
+.voltage-sub{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); text-align:center;}
+.bit-row{display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin:18px 0;}
+.bit-col{display:flex; flex-direction:column; align-items:center; gap:6px;}
+.bit-toggle{font-family:var(--font-mono); font-size:14px; border:1px solid var(--ink); background:var(--paper); width:42px; height:42px; cursor:pointer;}
+.bit-toggle.on{background:var(--ink); color:var(--white);}
+.bit-place{font-family:var(--font-mono); font-size:9px; color:var(--mid);}
+.code-block{background:var(--ink); color:#e8e8e2; font-family:var(--font-mono); font-size:12.5px; padding:18px 20px; overflow-x:auto; line-height:1.85; margin:20px 0;}
+.code-block .cl{display:block; padding:2px 8px; margin:0 -8px; border-radius:2px; white-space:pre;}
+.code-block .cl.active{background:#3d3d38; color:#fff;}
+.console-box{border:1px solid var(--ink); background:var(--white); padding:14px 16px; font-family:var(--font-mono); font-size:13px; min-height:22px; margin-top:14px;}
+.console-box .cb-label{color:var(--mid); font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; display:block; margin-bottom:6px;}
+.step-controls{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.15rem,2.2vw,1.6rem); font-style:italic; max-width:760px; line-height:1.35;}
+.quote-block .fig-num{display:block; margin-top:16px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">THRESHOLD — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">COMMON GROUND</span></div>
+  <div class="hud-row"><span class="hud-label">REGIME</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="COMMON GROUND" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — EVERYTHING A COMPUTER KNOWS IS TWO VOLTAGES" data-ru="РИС. 00 — ВСЁ, ЧТО ЗНАЕТ КОМПЬЮТЕР, — ЭТО ДВА УРОВНЯ НАПРЯЖЕНИЯ">FIG. 00 — EVERYTHING A COMPUTER KNOWS IS TWO VOLTAGES</span></span>
+        <span data-en="BOOLE, 1854" data-ru="БУЛЬ, 1854">BOOLE, 1854</span>
+      </div>
+      <h1><span data-en="THRESHOLD" data-ru="ПОРОГ">THRESHOLD</span><br><em data-en="COMMON GROUND & BASIC LOGIC, FROM ONE WIRE TO A RUNNING PROGRAM" data-ru="ОБЩАЯ ОСНОВА И БАЗОВАЯ ЛОГИКА: ОТ ОДНОГО ПРОВОДА ДО РАБОТАЮЩЕЙ ПРОГРАММЫ">COMMON GROUND & BASIC LOGIC, FROM ONE WIRE TO A RUNNING PROGRAM</em></h1>
+      <p class="sub lede" data-en="Ten chapters, with the actual truth tables, on why every computer only ever needs two voltages, how AND, OR, and NOT build every decision a program makes, how binary numbers add and subtract with no minus sign in sight, and how to trace a whole program, step by step, from its inputs to its consequences. Scroll to begin." data-ru="Десять глав с настоящими таблицами истинности о том, почему компьютеру нужно всего два уровня напряжения, как И, ИЛИ и НЕ собирают любое решение программы, как двоичные числа складываются и вычитаются без единого знака минус, и как проследить всю программу, шаг за шагом, от входных данных до последствий. Пролистайте вниз, чтобы начать.">Ten chapters, with the actual truth tables, on why every computer only ever needs two voltages, how AND, OR, and NOT build every decision a program makes, how binary numbers add and subtract with no minus sign in sight, and how to trace a whole program, step by step, from its inputs to its consequences. Scroll to begin.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — COMMON GROUND -->
+<section id="ch1" class="section" data-phase="COMMON GROUND" data-alt="0V REFERENCE" data-vel="THRESHOLD">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="COMMON GROUND" data-ru="ОБЩАЯ ЗЕМЛЯ">COMMON GROUND</span></div>
+    <h2 class="h-lg" data-en="Before there's a 1 or a 0, there has to be a 0V everyone agrees on" data-ru="Прежде чем появятся 1 и 0, нужен общий для всех уровень 0 В">Before there's a 1 or a 0, there has to be a 0V everyone agrees on</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every voltage measurement is a comparison, not an absolute number. Saying a wire sits at 'five volts' only means something once everything else in the circuit agrees on what counts as zero — a shared reference point called ground. Every wire's voltage, high or low, is really just 'how far above ground.'" data-ru="Любое измерение напряжения — это сравнение, а не абсолютное число. Фраза «на проводе пять вольт» имеет смысл только тогда, когда всё остальное в схеме согласно с тем, что считать нулём, — с общей точкой отсчёта, землёй. Напряжение любого провода, высокое или низкое, — это на самом деле просто «насколько выше земли».">Every voltage measurement is a comparison, not an absolute number. Saying a wire sits at 'five volts' only means something once everything else in the circuit agrees on what counts as zero — a shared reference point called ground. Every wire's voltage, high or low, is really just 'how far above ground.'</p>
+      <p class="body-col" data-en="Digital logic uses that shared ground to draw a line. Anything close to ground reads as LOW — the digit 0. Anything close to the supply voltage reads as HIGH — the digit 1. A gap in between is deliberately left undefined, so a little electrical noise never flips a solid 0 into an accidental 1." data-ru="Цифровая логика использует эту общую землю, чтобы провести черту. Всё, что близко к земле, читается как LOW — цифра 0. Всё, что близко к напряжению питания, читается как HIGH — цифра 1. Промежуток между ними намеренно оставлен неопределённым, чтобы небольшая электрическая помеха никогда не превратила уверенный 0 в случайную 1.">Digital logic uses that shared ground to draw a line. Anything close to ground reads as LOW — the digit 0. Anything close to the supply voltage reads as HIGH — the digit 1. A gap in between is deliberately left undefined, so a little electrical noise never flips a solid 0 into an accidental 1.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="CLASSIC 5V TTL LOGIC LEVELS" data-ru="КЛАССИЧЕСКИЕ УРОВНИ 5V TTL-ЛОГИКИ">CLASSIC 5V TTL LOGIC LEVELS</div>
+      <div class="eq-body">LOW: 0 – 0.8V &nbsp; UNDEFINED: 0.8 – 2.0V &nbsp; HIGH: 2.0 – 5.0V</div>
+      <div class="eq-note" data-en="The undefined gap is the noise margin — the buffer that keeps a slightly noisy wire from being misread." data-ru="Неопределённый промежуток — это запас помехоустойчивости: буфер, не позволяющий немного зашумлённому проводу быть прочитанным неверно.">The undefined gap is the noise margin — the buffer that keeps a slightly noisy wire from being misread.</div>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="sim-readout"><span class="mono" data-en="WIRE VOLTAGE" data-ru="НАПРЯЖЕНИЕ НА ПРОВОДЕ">WIRE VOLTAGE</span><span class="mono" id="voltVal">1.40V</span></div>
+      <div class="sim-controls"><input id="voltSlider" type="range" min="0" max="5" step="0.05" value="1.4"></div>
+      <div class="voltage-readout" id="voltState">UNDEFINED</div>
+      <div class="voltage-sub" id="voltBit" data-en="BIT VALUE: —" data-ru="ЗНАЧЕНИЕ БИТА: —">BIT VALUE: —</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — BITS & BYTES -->
+<section id="ch2" class="section" data-phase="BITS & BYTES" data-alt="N = 2ⁿ" data-vel="256 PER BYTE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="ONE WIRE, TWO STATES, INFINITE MEANING" data-ru="ОДИН ПРОВОД, ДВА СОСТОЯНИЯ, БЕСКОНЕЧНЫЙ СМЫСЛ">ONE WIRE, TWO STATES, INFINITE MEANING</span></div>
+    <h2 class="h-lg" data-en="One wire only ever says yes or no. Enough wires say anything." data-ru="Один провод умеет говорить только «да» или «нет». Проводов достаточно — и можно сказать что угодно.">One wire only ever says yes or no. Enough wires say anything.</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A single wire in Chapter 1's scheme carries exactly one bit — one yes-or-no, HIGH-or-LOW. On its own, that's not very expressive. But line up several wires, and every possible combination of their states becomes a distinct pattern — and everything a computer represents, numbers, letters, colours, sound, is just a name given to one of those patterns." data-ru="Один провод в схеме из главы 1 несёт ровно один бит — одно «да» или «нет», HIGH или LOW. Сам по себе он не очень выразителен. Но выстройте в ряд несколько проводов — и каждая возможная комбинация их состояний становится отдельным узором; а всё, что представляет компьютер — числа, буквы, цвета, звук, — это просто имя, данное одному из этих узоров.">A single wire in Chapter 1's scheme carries exactly one bit — one yes-or-no, HIGH-or-LOW. On its own, that's not very expressive. But line up several wires, and every possible combination of their states becomes a distinct pattern — and everything a computer represents, numbers, letters, colours, sound, is just a name given to one of those patterns.</p>
+      <p class="body-col" data-en="Add one more wire and the number of possible patterns doubles, because every pattern the old wires could make now happens twice — once with the new wire LOW, once HIGH. That doubling is the entire reason binary matters to anyone who isn't a mathematician: it's exactly what a real wire count buys you." data-ru="Добавьте ещё один провод — и число возможных узоров удваивается, потому что каждый узор, который могли составить прежние провода, теперь встречается дважды: один раз с новым проводом LOW, один раз — HIGH. Именно это удвоение объясняет, почему двоичная система вообще важна не только математикам: это ровно то, что даёт реальное количество проводов.">Add one more wire and the number of possible patterns doubles, because every pattern the old wires could make now happens twice — once with the new wire LOW, once HIGH. That doubling is the entire reason binary matters to anyone who isn't a mathematician: it's exactly what a real wire count buys you.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="STATES AVAILABLE FROM n WIRES (BITS)" data-ru="ЧИСЛО СОСТОЯНИЙ ПРИ n ПРОВОДАХ (БИТАХ)">STATES AVAILABLE FROM n WIRES (BITS)</div>
+      <div class="eq-body">N = 2ⁿ</div>
+      <div class="eq-note" data-en="8 wires (a byte): 2⁸ = 256 states — enough for every character in this sentence. 4 wires (a nibble): 2⁴ = 16 — exactly one hexadecimal digit." data-ru="8 проводов (байт): 2⁸ = 256 состояний — достаточно для любого символа в этом предложении. 4 провода (тетрада, полубайт): 2⁴ = 16 — ровно одна шестнадцатеричная цифра.">8 wires (a byte): 2⁸ = 256 states — enough for every character in this sentence. 4 wires (a nibble): 2⁴ = 16 — exactly one hexadecimal digit.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — LOGIC GATES (interactive) -->
+<section id="ch3" class="section" data-phase="LOGIC GATES" data-alt="AND / OR / NOT" data-vel="LIVE TRUTH TABLE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="LOGIC GATES: THE THREE YOU NEED" data-ru="ЛОГИЧЕСКИЕ ЭЛЕМЕНТЫ: ТРИ НЕОБХОДИМЫХ">LOGIC GATES: THE THREE YOU NEED</span></div>
+    <h2 class="h-lg" data-en="Every decision a computer makes reduces to three little circuits" data-ru="Любое решение компьютера сводится к трём небольшим схемам">Every decision a computer makes reduces to three little circuits</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A logic gate is a circuit with one job: look at its input voltages, and output HIGH or LOW according to a fixed rule. There are only a handful of these rules worth knowing, and just three of them — AND, OR, and NOT — are enough to build every other one, including every branch a program ever takes." data-ru="Логический элемент — это схема с одной задачей: посмотреть на входные напряжения и выдать HIGH или LOW по фиксированному правилу. Таких правил, которые стоит знать, немного, и всего трёх из них — И, ИЛИ и НЕ — достаточно, чтобы построить любое другое, включая каждое ветвление, которое когда-либо делает программа.">A logic gate is a circuit with one job: look at its input voltages, and output HIGH or LOW according to a fixed rule. There are only a handful of these rules worth knowing, and just three of them — AND, OR, and NOT — are enough to build every other one, including every branch a program ever takes.</p>
+      <p class="body-col" data-en="AND outputs HIGH only when both inputs are HIGH. OR outputs HIGH when at least one is. NOT simply flips whatever it's given. Pick a gate below, toggle the inputs, and watch it decide." data-ru="И выдаёт HIGH, только если оба входа HIGH. ИЛИ выдаёт HIGH, если хотя бы один вход HIGH. НЕ просто переворачивает то, что получает. Выберите элемент ниже, переключите входы — и посмотрите на его решение.">AND outputs HIGH only when both inputs are HIGH. OR outputs HIGH when at least one is. NOT simply flips whatever it's given. Pick a gate below, toggle the inputs, and watch it decide.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="gateSelect"></div>
+      <div class="bit-row" id="gateInputs" style="margin-top:24px;"></div>
+      <div class="eq-box" style="margin-top:20px;">
+        <div class="eq-label" data-en="OUTPUT" data-ru="ВЫХОД">OUTPUT</div>
+        <div class="eq-body" id="gateOutput">0</div>
+      </div>
+      <div class="readout-grid cols-3" id="gateTruthTable"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — COMPOUND LOGIC -->
+<section id="ch4" class="section" data-phase="COMPOUND LOGIC" data-alt="XOR" data-vel="DE MORGAN">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="COMBINING GATES: XOR & DE MORGAN'S LAWS" data-ru="КОМБИНИРУЯ ЭЛЕМЕНТЫ: XOR И ЗАКОНЫ ДЕ МОРГАНА">COMBINING GATES: XOR & DE MORGAN'S LAWS</span></div>
+    <h2 class="h-lg" data-en="Two useful shortcuts fall out of combining AND, OR, and NOT" data-ru="Из комбинирования И, ИЛИ и НЕ рождаются два полезных сокращения">Two useful shortcuts fall out of combining AND, OR, and NOT</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="XOR ('exclusive or') outputs HIGH when its inputs disagree — exactly one HIGH, not both. It isn't a fourth fundamental gate; wire together an OR, an AND, and two NOTs and you get exactly the same truth table. XOR earns its own symbol only because it turns out to be exactly the circuit that adds two bits together, in Chapter 7." data-ru="XOR («исключающее ИЛИ») выдаёт HIGH, когда входы не совпадают — ровно один из них HIGH, но не оба. Это не четвёртый фундаментальный элемент: соедините ИЛИ, И и два НЕ — и получите ровно ту же таблицу истинности. XOR заслуживает собственного обозначения лишь потому, что это именно та схема, которая складывает два бита, — см. главу 7.">XOR ('exclusive or') outputs HIGH when its inputs disagree — exactly one HIGH, not both. It isn't a fourth fundamental gate; wire together an OR, an AND, and two NOTs and you get exactly the same truth table. XOR earns its own symbol only because it turns out to be exactly the circuit that adds two bits together, in Chapter 7.</p>
+      <p class="body-col" data-en="De Morgan's laws are the other shortcut: negating an AND is the same as OR-ing the negations, and negating an OR is the same as AND-ing the negations. It's why 'not (raining and cold)' means exactly the same thing as 'not raining, or not cold' — in English or in silicon." data-ru="Законы де Моргана — другое полезное сокращение: отрицание И равносильно ИЛИ от отрицаний, а отрицание ИЛИ равносильно И от отрицаний. Именно поэтому «не (идёт дождь и холодно)» означает ровно то же самое, что «не идёт дождь, или не холодно», — что на русском, что в кремнии.">De Morgan's laws are the other shortcut: negating an AND is the same as OR-ing the negations, and negating an OR is the same as AND-ing the negations. It's why 'not (raining and cold)' means exactly the same thing as 'not raining, or not cold' — in English or in silicon.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="DE MORGAN'S LAWS" data-ru="ЗАКОНЫ ДЕ МОРГАНА">DE MORGAN'S LAWS</div>
+      <div class="eq-body">¬(A ∧ B) = ¬A ∨ ¬B &nbsp;&nbsp;&nbsp; ¬(A ∨ B) = ¬A ∧ ¬B</div>
+      <div class="eq-note" data-en="∧ = AND, ∨ = OR, ¬ = NOT — the same three gates from Chapter 3, written as symbols." data-ru="∧ = И, ∨ = ИЛИ, ¬ = НЕ — те же три элемента из главы 3, записанные символами.">∧ = AND, ∨ = OR, ¬ = NOT — the same three gates from Chapter 3, written as symbols.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — IF / THEN / ELSE -->
+<section id="ch5" class="section" data-phase="IF / THEN / ELSE" data-alt="BRANCHING" data-vel="GATE → DECISION">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="IF, THEN, ELSE: LOGIC BECOMES A DECISION" data-ru="IF, THEN, ELSE: ЛОГИКА СТАНОВИТСЯ РЕШЕНИЕМ">IF, THEN, ELSE: LOGIC BECOMES A DECISION</span></div>
+    <h2 class="h-lg" data-en="The word “if” is a logic gate wearing different clothes" data-ru="Слово «если» — это логический элемент в другой одежде">The word “if” is a logic gate wearing different clothes</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every plain-language connective maps onto one of Chapter 3's gates: “and” / “also” / “both” is AND; “or” / “either” is OR; “not” / “isn't” is NOT. Write “if raining or night, turn on the headlights” and you've already written an OR gate — you just haven't drawn it yet." data-ru="Любой обычный языковой союз соответствует одному из элементов главы 3: «и» / «также» / «оба» — это И; «или» / «либо» — это ИЛИ; «не» — это НЕ. Скажите «если идёт дождь или наступила ночь, включи фары» — и вы уже написали элемент ИЛИ, просто ещё не нарисовали его.">Every plain-language connective maps onto one of Chapter 3's gates: “and” / “also” / “both” is AND; “or” / “either” is OR; “not” / “isn't” is NOT. Write “if raining or night, turn on the headlights” and you've already written an OR gate — you just haven't drawn it yet.</p>
+      <p class="body-col" data-en="An if/then/else statement runs that gate's output through a fork in the road: take the THEN path when the condition reads HIGH, the ELSE path when it reads LOW. Nothing new is happening electrically — it's the same gate from Chapter 3, now deciding which of two instructions actually executes." data-ru="Конструкция if/then/else пропускает выход элемента через развилку: путь THEN — когда условие HIGH, путь ELSE — когда LOW. Электрически ничего нового не происходит: это тот же элемент из главы 3, только теперь он решает, какая из двух инструкций реально выполнится.">An if/then/else statement runs that gate's output through a fork in the road: take the THEN path when the condition reads HIGH, the ELSE path when it reads LOW. Nothing new is happening electrically — it's the same gate from Chapter 3, now deciding which of two instructions actually executes.</p>
+    </div>
+    <div class="grid-3" style="margin:24px 0 8px;">
+      <div class="dash-card"><div class="dc-name">AND</div><div class="fig-num" data-en="ALSO, BOTH, ADDITIONALLY" data-ru="ТАКЖЕ, ОБА, И ТО И ДРУГОЕ">ALSO, BOTH, ADDITIONALLY</div></div>
+      <div class="dash-card"><div class="dc-name">OR</div><div class="fig-num" data-en="EITHER, OR, ALTERNATIVELY" data-ru="ЛИБО, ИЛИ, В ИНОМ СЛУЧАЕ">EITHER, OR, ALTERNATIVELY</div></div>
+      <div class="dash-card"><div class="dc-name">NOT</div><div class="fig-num" data-en="ISN'T, DON'T, THE OPPOSITE" data-ru="НЕ, НЕТ, ПРОТИВОПОЛОЖНОЕ">ISN'T, DON'T, THE OPPOSITE</div></div>
+    </div>
+    <div class="code-block"><span class="cl">IF raining OR night:</span><span class="cl">    headlights = ON</span><span class="cl">ELSE:</span><span class="cl">    headlights = OFF</span></div>
+  </div>
+</section>
+
+<!-- CH6 — BINARY NUMBERS (interactive) -->
+<section id="ch6" class="section" data-phase="BINARY NUMBERS" data-alt="BASE 2" data-vel="PLACE VALUE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="COUNTING WITHOUT TEN FINGERS" data-ru="СЧЁТ БЕЗ ДЕСЯТИ ПАЛЬЦЕВ">COUNTING WITHOUT TEN FINGERS</span></div>
+    <h2 class="h-lg" data-en="Decimal counts by tens because we have ten fingers. Binary counts by twos because a wire has two states." data-ru="Десятичная система считает десятками, потому что у нас десять пальцев. Двоичная считает двойками, потому что у провода два состояния.">Decimal counts by tens because we have ten fingers. Binary counts by twos because a wire has two states.</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Decimal place value is powers of ten: the digit '3' in '300' means 3×10². Binary place value works identically, just with powers of two — each bit is worth twice its neighbour, so a HIGH bit contributes its position's power of two to the total, and a LOW bit contributes nothing." data-ru="Десятичный разряд — это степени десяти: цифра «3» в «300» означает 3×10². Двоичный разряд работает так же, только со степенями двойки — каждый бит вдвое «весомее» соседнего справа: бит HIGH добавляет к сумме степень двойки своей позиции, а бит LOW не добавляет ничего.">Decimal place value is powers of ten: the digit '3' in '300' means 3×10². Binary place value works identically, just with powers of two — each bit is worth twice its neighbour, so a HIGH bit contributes its position's power of two to the total, and a LOW bit contributes nothing.</p>
+      <p class="body-col" data-en="That's the entire algorithm computers use to turn a row of wires into a number humans recognise: add up the powers of two for every bit reading HIGH. Toggle the bits below — they're already set to a famous number — and watch the decimal value update live." data-ru="Это и есть весь алгоритм, которым компьютер превращает ряд проводов в понятное человеку число: сложить степени двойки для всех битов со значением HIGH. Переключайте биты ниже — они уже выставлены на одно известное число — и наблюдайте, как десятичное значение меняется в реальном времени.">That's the entire algorithm computers use to turn a row of wires into a number humans recognise: add up the powers of two for every bit reading HIGH. Toggle the bits below — they're already set to a famous number — and watch the decimal value update live.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="PLACE VALUE OF BIT POSITION i" data-ru="ВЕС РАЗРЯДА В ПОЗИЦИИ i">PLACE VALUE OF BIT POSITION i</div>
+      <div class="eq-body">value = 2<sup>i</sup></div>
+      <div class="eq-note" data-en="Bit 0 (rightmost) is worth 1, bit 1 worth 2, bit 2 worth 4, bit 3 worth 8, and so on — doubling with every step left." data-ru="Бит 0 (крайний справа) стоит 1, бит 1 — 2, бит 2 — 4, бит 3 — 8 и так далее — удвоение с каждым шагом влево.">Bit 0 (rightmost) is worth 1, bit 1 worth 2, bit 2 worth 4, bit 3 worth 8, and so on — doubling with every step left.</div>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="bit-row" id="binaryBits"></div>
+      <div class="voltage-readout" id="binaryDecimal">42</div>
+      <div class="voltage-sub" data-en="DECIMAL VALUE" data-ru="ДЕСЯТИЧНОЕ ЗНАЧЕНИЕ">DECIMAL VALUE</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — BINARY ADDITION (interactive) -->
+<section id="ch7" class="section" data-phase="BINARY ADDITION" data-alt="HALF/FULL ADDER" data-vel="XOR + AND">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="ADDING IN BINARY: THE ADDER" data-ru="СЛОЖЕНИЕ В ДВОИЧНОЙ СИСТЕМЕ: СУММАТОР">ADDING IN BINARY: THE ADDER</span></div>
+    <h2 class="h-lg" data-en="Addition is XOR with a memory for what just overflowed" data-ru="Сложение — это XOR с памятью о только что случившемся переполнении">Addition is XOR with a memory for what just overflowed</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Adding two single bits needs two answers: the sum itself, and whether the result overflowed into the next column — a carry. XOR alone computes the sum (HIGH exactly when the two bits disagree, which is exactly binary addition without carrying), and AND alone computes the carry (only 1+1 overflows). That pairing is called a half adder." data-ru="Сложение двух отдельных битов требует двух ответов: собственно суммы и того, произошло ли переполнение в следующий разряд, — переноса. Один только XOR вычисляет сумму (HIGH ровно тогда, когда биты не совпадают, — это и есть сложение без переноса), а один только И вычисляет перенос (переполнение даёт только 1+1). Эта пара называется полусумматором.">Adding two single bits needs two answers: the sum itself, and whether the result overflowed into the next column — a carry. XOR alone computes the sum (HIGH exactly when the two bits disagree, which is exactly binary addition without carrying), and AND alone computes the carry (only 1+1 overflows). That pairing is called a half adder.</p>
+      <p class="body-col" data-en="A full adder just adds a third input — the carry arriving from the column before it. Chain enough full adders together, one per bit position, and you've built a circuit that adds numbers of any size, the same way every processor still does it today. Toggle two numbers below and watch it happen." data-ru="Полный сумматор просто добавляет третий вход — перенос, пришедший из предыдущего разряда. Соедините достаточно полных сумматоров, по одному на разряд, — и получится схема, складывающая числа любой длины, точно так же, как это до сих пор делает любой процессор. Переключите два числа ниже и посмотрите на процесс.">A full adder just adds a third input — the carry arriving from the column before it. Chain enough full adders together, one per bit position, and you've built a circuit that adds numbers of any size, the same way every processor still does it today. Toggle two numbers below and watch it happen.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="HALF ADDER" data-ru="ПОЛУСУММАТОР">HALF ADDER</div>
+      <div class="eq-body">Sum = A ⊕ B &nbsp;&nbsp;&nbsp; Carry = A ∧ B</div>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="voltage-sub" data-en="NUMBER A" data-ru="ЧИСЛО A">NUMBER A</div>
+      <div class="bit-row" id="adderBitsA"></div>
+      <div class="voltage-sub" data-en="NUMBER B" data-ru="ЧИСЛО B">NUMBER B</div>
+      <div class="bit-row" id="adderBitsB"></div>
+      <div class="readout-grid" id="adderReadout" style="margin-top:20px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — NEGATIVE NUMBERS -->
+<section id="ch8" class="section" data-phase="NEGATIVE NUMBERS" data-alt="TWO'S COMPLEMENT" data-vel="INVERT + 1">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="SUBTRACTING WITHOUT A MINUS SIGN" data-ru="ВЫЧИТАНИЕ БЕЗ ЗНАКА МИНУС">SUBTRACTING WITHOUT A MINUS SIGN</span></div>
+    <h2 class="h-lg" data-en="There's no separate subtractor circuit. There didn't need to be one." data-ru="Отдельной схемы вычитания не существует. Она и не была нужна.">There's no separate subtractor circuit. There didn't need to be one.</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Building a whole second circuit just for subtraction would be wasteful when Chapter 7 already built an adder. Two's complement solves this: flip every bit of a number and add 1, and the result behaves exactly like its negative in every calculation. Subtracting B from A becomes adding A to (−B) — the same adder, no new hardware." data-ru="Строить отдельную вторую схему только ради вычитания было бы расточительно — сумматор из главы 7 уже есть. Дополнительный код решает эту задачу: инвертируйте каждый бит числа и прибавьте 1 — и результат в любых вычислениях будет вести себя точно как его отрицательное значение. Вычитание B из A превращается в сложение A с (−B) — тот же сумматор, без нового «железа».">Building a whole second circuit just for subtraction would be wasteful when Chapter 7 already built an adder. Two's complement solves this: flip every bit of a number and add 1, and the result behaves exactly like its negative in every calculation. Subtracting B from A becomes adding A to (−B) — the same adder, no new hardware.</p>
+      <p class="body-col" data-en="The trick also gives negative numbers a home inside ordinary bits: with 4 bits, 0111 is +7 and 1000 is −8, with everything in between falling neatly into place, and the leftmost bit doubling as a sign flag — 0 for non-negative, 1 for negative — for free." data-ru="Этот приём также даёт отрицательным числам место среди обычных битов: при 4 битах 0111 — это +7, а 1000 — это −8, и всё промежуточное аккуратно встаёт на свои места, а старший бит бесплатно становится флагом знака: 0 — для неотрицательных, 1 — для отрицательных.">The trick also gives negative numbers a home inside ordinary bits: with 4 bits, 0111 is +7 and 1000 is −8, with everything in between falling neatly into place, and the leftmost bit doubling as a sign flag — 0 for non-negative, 1 for negative — for free.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="TWO'S COMPLEMENT (NEGATE AN n-BIT NUMBER)" data-ru="ДОПОЛНИТЕЛЬНЫЙ КОД (ОТРИЦАНИЕ n-БИТНОГО ЧИСЛА)">TWO'S COMPLEMENT (NEGATE AN n-BIT NUMBER)</div>
+      <div class="eq-body">−x = (¬x) + 1</div>
+      <div class="eq-note" data-en="Example, 4 bits: +3 = 0011 → invert = 1100 → +1 = 1101 = −3." data-ru="Пример, 4 бита: +3 = 0011 → инверсия = 1100 → +1 = 1101 = −3.">Example, 4 bits: +3 = 0011 → invert = 1100 → +1 = 1101 = −3.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — GATES TO CPU -->
+<section id="ch9" class="section" data-phase="GATES → CPU" data-alt="REGISTER + CLOCK" data-vel="MUX = BRANCH">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="FROM GATES TO A PROCESSOR" data-ru="ОТ ЛОГИЧЕСКИХ ЭЛЕМЕНТОВ К ПРОЦЕССОРУ">FROM GATES TO A PROCESSOR</span></div>
+    <h2 class="h-lg" data-en="Everything above is already a computer. It just needs a clock and a memory." data-ru="Всё, что было выше, — уже компьютер. Ему просто нужны тактовый генератор и память.">Everything above is already a computer. It just needs a clock and a memory.</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A register is a small row of circuits that can hold a pattern of bits steady — the computer's short-term memory. A clock is a signal that ticks at a steady rate, telling every register in the machine exactly when to accept a new value, so millions of gates change in lockstep instead of racing each other into nonsense." data-ru="Регистр — это небольшой ряд схем, способных удерживать неизменным набор битов, — кратковременная память компьютера. Тактовый генератор — это сигнал, тикающий с постоянной частотой и говорящий каждому регистру машины, когда именно принять новое значение, чтобы миллионы элементов менялись синхронно, а не наперегонки, порождая бессмыслицу.">A register is a small row of circuits that can hold a pattern of bits steady — the computer's short-term memory. A clock is a signal that ticks at a steady rate, telling every register in the machine exactly when to accept a new value, so millions of gates change in lockstep instead of racing each other into nonsense.</p>
+      <p class="body-col" data-en="And the branch from Chapter 5 becomes, in hardware, a multiplexer: a gate that looks at a condition and switches which of two wires actually reaches the next register. Every if-statement any program has ever run compiles down, eventually, to one of these, ticking on somebody's clock." data-ru="А ветвление из главы 5 в «железе» превращается в мультиплексор: элемент, который смотрит на условие и переключает, какой из двух проводов реально дойдёт до следующего регистра. Каждая инструкция if, когда-либо выполненная любой программой, в конце концов компилируется именно в это — тикающее на чьём-то тактовом генераторе.">And the branch from Chapter 5 becomes, in hardware, a multiplexer: a gate that looks at a condition and switches which of two wires actually reaches the next register. Every if-statement any program has ever run compiles down, eventually, to one of these, ticking on somebody's clock.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="CLOCK FREQUENCY" data-ru="ТАКТОВАЯ ЧАСТОТА">CLOCK FREQUENCY</div>
+      <div class="eq-body">f = 1 / T</div>
+      <div class="eq-note" data-en="A 1 GHz clock ticks a billion times a second — a billion chances per second for every register to update." data-ru="Генератор на 1 ГГц тикает миллиард раз в секунду — миллиард шансов в секунду для обновления каждого регистра.">A 1 GHz clock ticks a billion times a second — a billion chances per second for every register to update.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — TRACING EXECUTION (interactive) -->
+<section id="ch10" class="section" data-phase="TRACING EXECUTION" data-alt="STEP BY STEP" data-vel="INPUT → OUTPUT" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="TRACING A PROGRAM: INPUT TO CONSEQUENCE" data-ru="ТРАССИРОВКА ПРОГРАММЫ: ОТ ВХОДА ДО ПОСЛЕДСТВИЯ">TRACING A PROGRAM: INPUT TO CONSEQUENCE</span></div>
+    <h2 class="h-lg" data-en="Read a program the way a computer does: one line, one consequence, at a time" data-ru="Читайте программу так, как это делает компьютер: одна строка — одно следствие, шаг за шагом">Read a program the way a computer does: one line, one consequence, at a time</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every chapter on this page is now sitting inside one small program — inputs, an AND, a branch, subtraction, a running total. Set the two inputs below, then press STEP to walk through it one line at a time and watch every variable change in real time." data-ru="Все главы этой страницы теперь уместились в одной небольшой программе — входные данные, И, ветвление, вычитание, накопительная сумма. Задайте два входных значения ниже, затем нажимайте STEP, чтобы проходить программу по одной строке и видеть, как в реальном времени меняется каждая переменная.">Every chapter on this page is now sitting inside one small program — inputs, an AND, a branch, subtraction, a running total. Set the two inputs below, then press STEP to walk through it one line at a time and watch every variable change in real time.</p>
+      <p class="body-col" data-en="This is the whole point of learning to read logic instead of just trusting it: given any starting condition, you can now predict — line by line, without running anything — exactly what comes out the other end." data-ru="В этом и есть весь смысл умения читать логику, а не просто ей доверять: при любых начальных условиях вы теперь можете предсказать, строка за строкой, ничего не запуская, что именно окажется на выходе.">This is the whole point of learning to read logic instead of just trusting it: given any starting condition, you can now predict — line by line, without running anything — exactly what comes out the other end.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="traceInputs"></div>
+      <div class="code-block" id="traceCode"></div>
+      <div class="step-controls">
+        <button class="preset-btn" id="traceStepBtn" data-en="STEP →" data-ru="ШАГ →">STEP →</button>
+        <button class="preset-btn" id="traceResetBtn" data-en="RESET" data-ru="СБРОС">RESET</button>
+      </div>
+      <div class="readout-grid" id="traceVars"></div>
+      <div class="console-box"><span class="cb-label" data-en="CONSOLE OUTPUT" data-ru="ВЫВОД ПРОГРАММЫ">CONSOLE OUTPUT</span><span id="traceConsole">—</span></div>
+    </div>
+    <div class="quote-block">
+      <p data-en="“The design of this treatise is to investigate the fundamental laws of those operations of the mind by which reasoning is performed.”" data-ru="«Цель настоящего трактата — исследовать фундаментальные законы тех операций разума, посредством которых совершается рассуждение».">“The design of this treatise is to investigate the fundamental laws of those operations of the mind by which reasoning is performed.”</p>
+      <span class="fig-num" data-en="GEORGE BOOLE, AN INVESTIGATION OF THE LAWS OF THOUGHT, 1854" data-ru="ДЖОРДЖ БУЛЬ, «ИССЛЕДОВАНИЕ ЗАКОНОВ МЫШЛЕНИЯ», 1854">GEORGE BOOLE, AN INVESTIGATION OF THE LAWS OF THOUGHT, 1854</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="THRESHOLD — COMMON GROUND & BASIC LOGIC" data-ru="THRESHOLD — ОБЩАЯ ОСНОВА И БАЗОВАЯ ЛОГИКА">THRESHOLD — COMMON GROUND & BASIC LOGIC</span>
+  <span data-en="EDUCATIONAL — SIMPLIFIED FOR CLARITY; REAL LOGIC FAMILIES VARY IN VOLTAGE AND TIMING" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — УПРОЩЁН ДЛЯ ЯСНОСТИ; РЕАЛЬНЫЕ ЛОГИЧЕСКИЕ СЕМЕЙСТВА ОТЛИЧАЮТСЯ ПО НАПРЯЖЕНИЮ И БЫСТРОДЕЙСТВИЮ">EDUCATIONAL — SIMPLIFIED FOR CLARITY; REAL LOGIC FAMILIES VARY IN VOLTAGE AND TIMING</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH1 — VOLTAGE THRESHOLD ============ */
+function renderVoltage(){
+  var slider = document.getElementById('voltSlider');
+  var val = document.getElementById('voltVal');
+  var state = document.getElementById('voltState');
+  var bit = document.getElementById('voltBit');
+  function draw(){
+    var v = parseFloat(slider.value);
+    val.textContent = v.toFixed(2)+'V';
+    var label, bitVal;
+    if(v <= 0.8){ label = 'LOW'; bitVal = '0'; }
+    else if(v >= 2.0){ label = 'HIGH'; bitVal = '1'; }
+    else { label = (lang==='en'?'UNDEFINED':'НЕОПРЕДЕЛЕНО'); bitVal = '—'; }
+    state.textContent = label;
+    bit.textContent = (lang==='en'?'BIT VALUE: ':'ЗНАЧЕНИЕ БИТА: ')+bitVal;
+  }
+  slider.addEventListener('input', draw);
+  draw();
+}
+
+/* ============ CH3 — GATE SIMULATOR ============ */
+var GATES = {
+  AND:  {arity:2, fn:function(a,b){ return a && b ? 1:0; }},
+  OR:   {arity:2, fn:function(a,b){ return (a || b) ? 1:0; }},
+  NOT:  {arity:1, fn:function(a){ return a ? 0:1; }},
+  XOR:  {arity:2, fn:function(a,b){ return (a!==b) ? 1:0; }},
+  NAND: {arity:2, fn:function(a,b){ return (a && b) ? 0:1; }},
+  NOR:  {arity:2, fn:function(a,b){ return (a || b) ? 0:1; }}
+};
+var GATE_ORDER = ['AND','OR','NOT','XOR','NAND','NOR'];
+var activeGate = 'AND';
+var gateInputVals = [0,0];
+function renderGateSim(){
+  var selRow = document.getElementById('gateSelect');
+  selRow.innerHTML='';
+  GATE_ORDER.forEach(function(g){
+    var b = document.createElement('button');
+    b.className = 'preset-btn'+(g===activeGate?' active':'');
+    b.textContent = g;
+    b.addEventListener('click', function(){ activeGate = g; renderGateSim(); });
+    selRow.appendChild(b);
+  });
+
+  var arity = GATES[activeGate].arity;
+  var inputsRow = document.getElementById('gateInputs');
+  inputsRow.innerHTML='';
+  for(var i=0;i<arity;i++){
+    (function(i){
+      var col = document.createElement('div');
+      col.className = 'bit-col';
+      var btn = document.createElement('button');
+      btn.className = 'bit-toggle'+(gateInputVals[i]?' on':'');
+      btn.textContent = gateInputVals[i];
+      btn.addEventListener('click', function(){
+        gateInputVals[i] = gateInputVals[i] ? 0 : 1;
+        renderGateSim();
+      });
+      var lab = document.createElement('div');
+      lab.className = 'bit-place';
+      lab.textContent = String.fromCharCode(65+i);
+      col.appendChild(btn); col.appendChild(lab);
+      inputsRow.appendChild(col);
+    })(i);
+  }
+
+  var out = GATES[activeGate].fn.apply(null, gateInputVals.slice(0, arity));
+  document.getElementById('gateOutput').textContent = out;
+
+  var table = document.getElementById('gateTruthTable');
+  var rows = [];
+  var n = Math.pow(2, arity);
+  for(var r=0;r<n;r++){
+    var bits = [];
+    for(var c=arity-1;c>=0;c--) bits.push((r>>c)&1);
+    var o = GATES[activeGate].fn.apply(null, bits);
+    var isCurrent = bits.slice(0,arity).join(',') === gateInputVals.slice(0,arity).join(',');
+    rows.push({bits:bits, out:o, hit:isCurrent});
+  }
+  table.innerHTML = rows.map(function(row){
+    var label = row.bits.map(function(b,i){ return String.fromCharCode(65+i)+'='+b; }).join('  ');
+    return '<div class="readout-cell'+(row.hit?' hit':'')+'"><span class="rl">'+label+'</span>'+(lang==='en'?'OUT':'ВЫХ')+' = '+row.out+'</div>';
+  }).join('');
+}
+
+/* ============ CH6 — BINARY CONVERTER ============ */
+var BIN_PLACES = [128,64,32,16,8,4,2,1];
+var binaryOn = BIN_PLACES.map(function(p){ return (42 & p) ? 1 : 0; });
+function renderBinary(){
+  var row = document.getElementById('binaryBits');
+  row.innerHTML='';
+  BIN_PLACES.forEach(function(p,i){
+    var col = document.createElement('div');
+    col.className='bit-col';
+    var btn = document.createElement('button');
+    btn.className='bit-toggle'+(binaryOn[i]?' on':'');
+    btn.textContent = binaryOn[i];
+    btn.addEventListener('click', function(){ binaryOn[i] = binaryOn[i]?0:1; renderBinary(); });
+    var lab = document.createElement('div');
+    lab.className='bit-place'; lab.textContent = p;
+    col.appendChild(btn); col.appendChild(lab);
+    row.appendChild(col);
+  });
+  var total = BIN_PLACES.reduce(function(sum,p,i){ return sum + (binaryOn[i]?p:0); }, 0);
+  document.getElementById('binaryDecimal').textContent = total;
+}
+
+/* ============ CH7 — ADDER ============ */
+var ADD_PLACES = [8,4,2,1];
+var addA = ADD_PLACES.map(function(p){ return (5 & p) ? 1:0; });
+var addB = ADD_PLACES.map(function(p){ return (3 & p) ? 1:0; });
+function renderBitPicker(containerId, places, state, onChange){
+  var row = document.getElementById(containerId);
+  row.innerHTML='';
+  places.forEach(function(p,i){
+    var col = document.createElement('div');
+    col.className='bit-col';
+    var btn = document.createElement('button');
+    btn.className='bit-toggle'+(state[i]?' on':'');
+    btn.textContent = state[i];
+    btn.addEventListener('click', function(){ state[i] = state[i]?0:1; onChange(); });
+    var lab = document.createElement('div');
+    lab.className='bit-place'; lab.textContent = p;
+    col.appendChild(btn); col.appendChild(lab);
+    row.appendChild(col);
+  });
+}
+function renderAdder(){
+  renderBitPicker('adderBitsA', ADD_PLACES, addA, renderAdder);
+  renderBitPicker('adderBitsB', ADD_PLACES, addB, renderAdder);
+  var valA = ADD_PLACES.reduce(function(s,p,i){ return s+(addA[i]?p:0); },0);
+  var valB = ADD_PLACES.reduce(function(s,p,i){ return s+(addB[i]?p:0); },0);
+  var sum = valA+valB;
+  var sumBits = sum.toString(2).padStart(5,'0');
+  var grid = document.getElementById('adderReadout');
+  var cells = [
+    ['A', valA+' = '+addA.join('')],
+    ['B', valB+' = '+addB.join('')],
+    [lang==='en'?'BINARY SUM (5 BITS)':'ДВОИЧНАЯ СУММА (5 БИТ)', sumBits],
+    [lang==='en'?'DECIMAL SUM':'ДЕСЯТИЧНАЯ СУММА', sum]
+  ];
+  grid.innerHTML = cells.map(function(c){ return '<div class="readout-cell"><span class="rl">'+c[0]+'</span>'+c[1]+'</div>'; }).join('');
+}
+
+/* ============ CH10 — PROGRAM TRACER ============ */
+var CODE_LINES = [
+  'INPUT fuel_ok, weather_ok',
+  'count = 3',
+  'IF fuel_ok AND weather_ok:',
+  '    WHILE count > 0:',
+  '        PRINT count',
+  '        count = count - 1',
+  '    PRINT "LIFTOFF"',
+  'ELSE:',
+  '    PRINT "SCRUB"'
+];
+var traceFuel = true, traceWeather = true;
+var traceSteps = [], traceIdx = -1;
+
+function genTraceSteps(fuel, weather){
+  var steps = [];
+  var vars = {fuel_ok: fuel, weather_ok: weather};
+  steps.push({line:0, note:(lang==='en'?'Read the two inputs.':'Считываем два входных значения.'), vars:Object.assign({},vars)});
+  vars.count = 3;
+  steps.push({line:1, note:(lang==='en'?'count is set to 3.':'count получает значение 3.'), vars:Object.assign({},vars)});
+  var cond = fuel && weather;
+  steps.push({line:2, note:(lang==='en'?'IF evaluated: fuel_ok AND weather_ok = ':'Проверка IF: fuel_ok AND weather_ok = ')+(cond?'1':'0'), vars:Object.assign({},vars)});
+  if(cond){
+    while(vars.count > 0){
+      steps.push({line:3, note:(lang==='en'?'WHILE check: count > 0 → 1':'Проверка WHILE: count > 0 → 1'), vars:Object.assign({},vars)});
+      steps.push({line:4, note:(lang==='en'?'PRINT count':'PRINT count'), vars:Object.assign({},vars), output:String(vars.count)});
+      vars.count -= 1;
+      steps.push({line:5, note:(lang==='en'?'count = count - 1 → '+vars.count:'count = count - 1 → '+vars.count), vars:Object.assign({},vars)});
+    }
+    steps.push({line:3, note:(lang==='en'?'WHILE check: count > 0 → 0, loop ends':'Проверка WHILE: count > 0 → 0, цикл завершён'), vars:Object.assign({},vars)});
+    steps.push({line:6, note:(lang==='en'?'PRINT "LIFTOFF"':'PRINT "LIFTOFF"'), vars:Object.assign({},vars), output:'LIFTOFF'});
+  } else {
+    steps.push({line:7, note:(lang==='en'?'ELSE branch taken.':'Выбрана ветка ELSE.'), vars:Object.assign({},vars)});
+    steps.push({line:8, note:(lang==='en'?'PRINT "SCRUB"':'PRINT "SCRUB"'), vars:Object.assign({},vars), output:'SCRUB'});
+  }
+  return steps;
+}
+
+function renderTraceCode(){
+  var box = document.getElementById('traceCode');
+  var curLine = (traceIdx>=0 && traceSteps[traceIdx]) ? traceSteps[traceIdx].line : -1;
+  box.innerHTML = CODE_LINES.map(function(l,i){
+    return '<span class="cl'+(i===curLine?' active':'')+'">'+l.replace(/</g,'&lt;')+'</span>';
+  }).join('');
+}
+
+function renderTraceVars(){
+  var grid = document.getElementById('traceVars');
+  if(traceIdx < 0){
+    grid.innerHTML = '<div class="readout-cell"><span class="rl">'+(lang==='en'?'STATUS':'СТАТУС')+'</span>'+(lang==='en'?'READY — PRESS STEP':'ГОТОВО — НАЖМИТЕ STEP')+'</div>';
+    document.getElementById('traceConsole').textContent = '—';
+    return;
+  }
+  var step = traceSteps[traceIdx];
+  var cells = [];
+  Object.keys(step.vars).forEach(function(k){
+    cells.push([k, String(step.vars[k]===true?1:step.vars[k]===false?0:step.vars[k])]);
+  });
+  cells.push([(lang==='en'?'NOTE':'ПРИМЕЧАНИЕ'), step.note]);
+  grid.innerHTML = cells.map(function(c){ return '<div class="readout-cell"><span class="rl">'+c[0]+'</span>'+c[1]+'</div>'; }).join('');
+
+  var out = [];
+  for(var i=0;i<=traceIdx;i++){ if(traceSteps[i].output!==undefined) out.push(traceSteps[i].output); }
+  document.getElementById('traceConsole').textContent = out.length ? out.join('  ') : '—';
+}
+
+function renderTracer(){
+  var row = document.getElementById('traceInputs');
+  row.innerHTML='';
+  var fuelBtn = document.createElement('button');
+  fuelBtn.className = 'preset-btn'+(traceFuel?' active':'');
+  fuelBtn.textContent = (lang==='en'?'FUEL: ':'ТОПЛИВО: ')+(traceFuel?'OK':(lang==='en'?'NOT OK':'НЕ ГОТОВО'));
+  fuelBtn.addEventListener('click', function(){ traceFuel = !traceFuel; resetTrace(); });
+  var weatherBtn = document.createElement('button');
+  weatherBtn.className = 'preset-btn'+(traceWeather?' active':'');
+  weatherBtn.textContent = (lang==='en'?'WEATHER: ':'ПОГОДА: ')+(traceWeather?'OK':(lang==='en'?'NOT OK':'НЕ ГОТОВА'));
+  weatherBtn.addEventListener('click', function(){ traceWeather = !traceWeather; resetTrace(); });
+  row.appendChild(fuelBtn); row.appendChild(weatherBtn);
+
+  renderTraceCode();
+  renderTraceVars();
+}
+function resetTrace(){
+  traceSteps = genTraceSteps(traceFuel, traceWeather);
+  traceIdx = -1;
+  renderTracer();
+}
+document.getElementById('traceStepBtn').addEventListener('click', function(){
+  if(traceIdx < traceSteps.length-1){ traceIdx++; renderTraceCode(); renderTraceVars(); }
+});
+document.getElementById('traceResetBtn').addEventListener('click', function(){
+  traceIdx = -1; renderTraceCode(); renderTraceVars();
+});
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderVoltage();
+  renderGateSim();
+  renderBinary();
+  renderAdder();
+  if(traceSteps.length===0) traceSteps = genTraceSteps(traceFuel, traceWeather);
+  renderTracer();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
