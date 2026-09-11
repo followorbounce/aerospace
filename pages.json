@@ -95,7 +95,8 @@
       "title": { "en": "Foundations & Tools", "ru": "Основы и инструменты" },
       "pages": [
         { "slug": "build-your-own-cubesat", "codename": "ASSEMBLY", "label": { "en": "Build Your Own CubeSat", "ru": "Собери свой кубсат" } },
-        { "slug": "lagrange-points", "codename": "EQUILIBRIUM", "label": { "en": "Lagrange Points", "ru": "Точки Лагранжа" } }
+        { "slug": "lagrange-points", "codename": "EQUILIBRIUM", "label": { "en": "Lagrange Points", "ru": "Точки Лагранжа" } },
+        { "slug": "physics-of-spaceflight", "codename": "IMPULSE", "label": { "en": "The Physics of Spaceflight", "ru": "Физика космического полёта" } }
       ],
       "planned": [
         { "label": { "en": "Common Ground & Basic Logic", "ru": "Общая основа и базовая логика" } },

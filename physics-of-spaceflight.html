@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMPULSE — THE PHYSICS OF SPACEFLIGHT / ФИЗИКА КОСМИЧЕСКОГО ПОЛЁТА</title>
+<meta name="description" content="An interactive, formula-driven journey through the physics of spaceflight — from Newton's third law to the rocket equation, orbital mechanics, and the engines taking humanity from chemical rockets toward fusion drives.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/physics-of-spaceflight">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IMPULSE — THE PHYSICS OF SPACEFLIGHT / ФИЗИКА КОСМИЧЕСКОГО ПОЛЁТА">
+<meta property="og:description" content="An interactive, formula-driven journey through the physics of spaceflight — from Newton's third law to the rocket equation, orbital mechanics, and the engines taking humanity from chemical rockets toward fusion drives.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/physics-of-spaceflight">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+sup, sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px); letter-spacing:0.01em;}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-controls{margin-top:4px;}
+.sim-controls input[type=range]{width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:18px 0 8px;}
+.sim-controls input[type=range]::-webkit-slider-thumb{appearance:none; width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-controls input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-readout{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px;}
+.preset-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.preset-btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); padding:7px 11px;}
+.preset-btn:hover{border-color:var(--ink);}
+.preset-btn.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:11.5px;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.dv-bar-track{height:10px; background:var(--line); margin-top:20px; position:relative;}
+.dv-bar-fill{height:100%; background:var(--ink); width:0%; transition:width 0.15s ease;}
+.dv-bar-label{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:10px; color:var(--mid); margin-top:6px;}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:10px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.6rem; margin-bottom:8px;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.quote-block .fig-num{display:block; margin-top:16px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">IMPULSE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE ROCKET PROBLEM</span></div>
+  <div class="hud-row"><span class="hud-label">REGIME</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE ROCKET PROBLEM" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — FROM F = MA TO THE EDGE OF PHYSICS" data-ru="РИС. 00 — ОТ F = MA ДО ГРАНИЦ ФИЗИКИ">FIG. 00 — FROM F = MA TO THE EDGE OF PHYSICS</span>
+        <span data-en="TSIOLKOVSKY, 1903" data-ru="ЦИОЛКОВСКИЙ, 1903">TSIOLKOVSKY, 1903</span>
+      </div>
+      <h1><span data-en="IMPULSE" data-ru="ИМПУЛЬС">IMPULSE</span><br><em data-en="THE PHYSICS OF SPACEFLIGHT, FROM FIRST PRINCIPLES TO FUTURE ENGINES" data-ru="ФИЗИКА КОСМИЧЕСКОГО ПОЛЁТА: ОТ ПЕРВЫХ ПРИНЦИПОВ ДО ДВИГАТЕЛЕЙ БУДУЩЕГО">THE PHYSICS OF SPACEFLIGHT, FROM FIRST PRINCIPLES TO FUTURE ENGINES</em></h1>
+      <p class="sub lede" data-en="Ten chapters, with the actual equations, on why rockets work at all, what the rocket equation makes brutally expensive, how an orbit is just falling and missing, and what has to replace chemistry once chemistry runs out of energy to give. Scroll to begin." data-ru="Десять глав с настоящими формулами о том, почему ракеты вообще работают, что именно уравнение Циолковского делает беспощадно дорогим, почему орбита — это просто падение мимо цели, и чем придётся заменить химию, когда её энергии перестанет хватать. Пролистайте вниз, чтобы начать.">Ten chapters, with the actual equations, on why rockets work at all, what the rocket equation makes brutally expensive, how an orbit is just falling and missing, and what has to replace chemistry once chemistry runs out of energy to give. Scroll to begin.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE ROCKET PROBLEM -->
+<section id="ch1" class="section" data-phase="THE ROCKET PROBLEM" data-alt="NEWTON III" data-vel="MOMENTUM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="THE ROCKET PROBLEM" data-ru="РАКЕТНАЯ ЗАДАЧА">THE ROCKET PROBLEM</span></div>
+    <h2 class="h-lg" data-en="You don't push against the air. You push against your own exhaust." data-ru="Вы отталкиваетесь не от воздуха. Вы отталкиваетесь от собственного выхлопа.">You don't push against the air. You push against your own exhaust.</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A propeller pushes against air. A car's tyres push against the road. A rocket has nothing to push against once it leaves the atmosphere — and yet it accelerates faster in vacuum than it does at sea level. The answer is Newton's third law, applied to the simplest possible system: a machine and the mass it throws away." data-ru="Винт отталкивается от воздуха. Шины автомобиля — от дороги. У ракеты, покинувшей атмосферу, нет ничего, от чего можно оттолкнуться, — и тем не менее в вакууме она разгоняется быстрее, чем на уровне моря. Ответ — третий закон Ньютона, применённый к простейшей возможной системе: машина и масса, которую она отбрасывает.">A propeller pushes against air. A car's tyres push against the road. A rocket has nothing to push against once it leaves the atmosphere — and yet it accelerates faster in vacuum than it does at sea level. The answer is Newton's third law, applied to the simplest possible system: a machine and the mass it throws away.</p>
+      <p class="body-col" data-en="Conservation of momentum doesn't care what's outside the machine. Throw propellant out the back at high speed, and the vehicle gains velocity in the opposite direction — in a vacuum, in an atmosphere, in orbit, anywhere. A rocket is, physically, nothing more than a very fast, very controlled way of throwing mass." data-ru="Закону сохранения импульса всё равно, что находится снаружи машины. Выбрасывайте топливо назад на высокой скорости — и аппарат наберёт скорость в противоположном направлении: в вакууме, в атмосфере, на орбите, где угодно. Физически ракета — это не более чем очень быстрый и очень управляемый способ отбрасывания массы.">Conservation of momentum doesn't care what's outside the machine. Throw propellant out the back at high speed, and the vehicle gains velocity in the opposite direction — in a vacuum, in an atmosphere, in orbit, anywhere. A rocket is, physically, nothing more than a very fast, very controlled way of throwing mass.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="CONSERVATION OF MOMENTUM, ROCKET FRAME" data-ru="СОХРАНЕНИЕ ИМПУЛЬСА В СИСТЕМЕ ОТСЧЁТА РАКЕТЫ">CONSERVATION OF MOMENTUM, ROCKET FRAME</div>
+      <div class="eq-body">m dv = −v<sub>e</sub> dm</div>
+      <div class="eq-note" data-en="dm is the (negative) mass of propellant expelled; v_e is its exhaust velocity relative to the rocket. Integrate this over the whole burn and the rocket equation falls out." data-ru="dm — (отрицательная) масса выброшенного топлива; v_e — скорость его истечения относительно ракеты. Проинтегрируйте это по всему времени работы двигателя — и получите уравнение Циолковского.">dm is the (negative) mass of propellant expelled; v_e is its exhaust velocity relative to the rocket. Integrate this over the whole burn and the rocket equation falls out.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — THE ROCKET EQUATION -->
+<section id="ch2" class="section" data-phase="THE ROCKET EQUATION" data-alt="TSIOLKOVSKY, 1903" data-vel="Δv = ve·ln(m0/mf)">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE TYRANNY OF THE ROCKET EQUATION" data-ru="ТИРАНИЯ УРАВНЕНИЯ ЦИОЛКОВСКОГО">THE TYRANNY OF THE ROCKET EQUATION</span></div>
+    <h2 class="h-lg" data-en="Integrate Chapter 1, and velocity becomes a logarithm of mass" data-ru="Проинтегрируйте главу 1 — и скорость станет логарифмом массы">Integrate Chapter 1, and velocity becomes a logarithm of mass</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Integrating the momentum balance from Chapter 1 gives the single most important equation in spaceflight, derived by Konstantin Tsiolkovsky in 1903 — decades before anyone had flown anything. It says the velocity a rocket can gain depends only on how fast it throws propellant, and what fraction of its own mass that propellant is." data-ru="Интегрирование баланса импульса из главы 1 даёт главное уравнение всей космонавтики, выведенное Константином Циолковским в 1903 году — за десятилетия до первого полёта. Оно утверждает: набираемая ракетой скорость зависит только от того, с какой скоростью она выбрасывает топливо и какую долю её собственной массы это топливо составляет.">Integrating the momentum balance from Chapter 1 gives the single most important equation in spaceflight, derived by Konstantin Tsiolkovsky in 1903 — decades before anyone had flown anything. It says the velocity a rocket can gain depends only on how fast it throws propellant, and what fraction of its own mass that propellant is.</p>
+      <p class="body-col" data-en="The brutal part is the logarithm. Doubling your mass ratio doesn't double your Δv — it only adds a fixed amount. To go faster, you either need a much higher exhaust velocity, or a mass ratio that grows exponentially, mostly as propellant carried just to accelerate more propellant." data-ru="Жестокость — в логарифме. Удвоение отношения масс не удваивает Δv, а лишь добавляет к нему фиксированную величину. Чтобы лететь быстрее, нужна либо гораздо большая скорость истечения, либо экспоненциально растущее отношение масс — по большей части ради топлива, нужного лишь для разгона другого топлива.">The brutal part is the logarithm. Doubling your mass ratio doesn't double your Δv — it only adds a fixed amount. To go faster, you either need a much higher exhaust velocity, or a mass ratio that grows exponentially, mostly as propellant carried just to accelerate more propellant.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE TSIOLKOVSKY ROCKET EQUATION" data-ru="УРАВНЕНИЕ ЦИОЛКОВСКОГО">THE TSIOLKOVSKY ROCKET EQUATION</div>
+      <div class="eq-body">Δv = v<sub>e</sub> · ln(m<sub>0</sub> / m<sub>f</sub>) = I<sub>sp</sub> · g<sub>0</sub> · ln(m<sub>0</sub> / m<sub>f</sub>)</div>
+      <div class="eq-note" data-en="m₀ = starting mass (with propellant), m_f = final mass (propellant burned), I_sp = specific impulse in seconds, g₀ = 9.80665 m/s² — a unit-conversion constant, not a real gravity reading." data-ru="m₀ — начальная масса (с топливом), m_f — конечная масса (после выработки топлива), I_sp — удельный импульс в секундах, g₀ = 9,80665 м/с² — переводной коэффициент, а не реальное значение силы тяжести.">m₀ = starting mass (with propellant), m_f = final mass (propellant burned), I_sp = specific impulse in seconds, g₀ = 9.80665 m/s² — a unit-conversion constant, not a real gravity reading.</div>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="sim-readout"><span class="mono" data-en="MASS RATIO m₀ / m_f" data-ru="ОТНОШЕНИЕ МАСС m₀ / m_f">MASS RATIO m₀ / m_f</span><span class="mono" id="mrVal">4.00</span></div>
+      <div class="sim-controls"><input id="mrSlider" type="range" min="1.1" max="20" step="0.1" value="4"></div>
+      <div class="preset-row" id="enginePresets"></div>
+      <div class="readout-grid" id="rocketReadout"></div>
+      <div class="dv-bar-track"><div class="dv-bar-fill" id="dvBarFill"></div></div>
+      <div class="dv-bar-label"><span>0 km/s</span><span data-en="Δv, SCALED TO 20 km/s" data-ru="Δv, ШКАЛА ДО 20 км/с">Δv, SCALED TO 20 km/s</span><span>20 km/s</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — THRUST & SPECIFIC IMPULSE -->
+<section id="ch3" class="section" data-phase="THRUST & Isp" data-alt="F = ṁve" data-vel="EFFICIENCY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="THRUST & SPECIFIC IMPULSE" data-ru="ТЯГА И УДЕЛЬНЫЙ ИМПУЛЬС">THRUST & SPECIFIC IMPULSE</span></div>
+    <h2 class="h-lg" data-en="Two numbers describe every engine ever built" data-ru="Два числа описывают любой когда-либо построенный двигатель">Two numbers describe every engine ever built</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Thrust is just the rate you throw mass, multiplied by how fast you throw it. A fire hose and a rocket engine obey the identical relationship — mass flow times exhaust velocity — the only real difference is how fast the exhaust actually leaves." data-ru="Тяга — это просто скорость выброса массы, умноженная на скорость, с которой она выбрасывается. Пожарный шланг и ракетный двигатель подчиняются одному и тому же соотношению — расход массы, умноженный на скорость истечения; разница лишь в том, насколько быстро на самом деле улетает выхлоп.">Thrust is just the rate you throw mass, multiplied by how fast you throw it. A fire hose and a rocket engine obey the identical relationship — mass flow times exhaust velocity — the only real difference is how fast the exhaust actually leaves.</p>
+      <p class="body-col" data-en="Specific impulse, I_sp, restates exhaust velocity in seconds — how long one kilogram of propellant can produce one kilogram-force of thrust. It's the fuel-economy number of rocketry: a low-Isp engine is a muscle car, huge thrust for a short time; a high-Isp engine sips propellant through a very long, gentle burn." data-ru="Удельный импульс I_sp выражает скорость истечения в секундах — сколько времени один килограмм топлива способен создавать тягу в один килограмм-силу. Это показатель топливной экономичности ракетной техники: двигатель с низким I_sp — как мощный, но прожорливый автомобиль, огромная тяга на короткое время; двигатель с высоким I_sp экономно расходует топливо на очень долгом, мягком включении.">Specific impulse, I_sp, restates exhaust velocity in seconds — how long one kilogram of propellant can produce one kilogram-force of thrust. It's the fuel-economy number of rocketry: a low-Isp engine is a muscle car, huge thrust for a short time; a high-Isp engine sips propellant through a very long, gentle burn.</p>
+    </div>
+    <div class="grid-2">
+      <div class="eq-box corner-frame">
+        <div class="eq-label" data-en="THRUST" data-ru="ТЯГА">THRUST</div>
+        <div class="eq-body">F = ṁ · v<sub>e</sub></div>
+        <div class="eq-note" data-en="ṁ = mass flow rate of propellant (kg/s)." data-ru="ṁ — массовый расход топлива (кг/с).">ṁ = mass flow rate of propellant (kg/s).</div>
+      </div>
+      <div class="eq-box corner-frame">
+        <div class="eq-label" data-en="SPECIFIC IMPULSE" data-ru="УДЕЛЬНЫЙ ИМПУЛЬС">SPECIFIC IMPULSE</div>
+        <div class="eq-body">I<sub>sp</sub> = v<sub>e</sub> / g<sub>0</sub></div>
+        <div class="eq-note" data-en="Same v_e as Chapter 2 — Isp is just exhaust velocity in more familiar units." data-ru="То же v_e, что и в главе 2, — I_sp — это просто скорость истечения в более привычных единицах.">Same v_e as Chapter 2 — Isp is just exhaust velocity in more familiar units.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — GRAVITY LOSSES & STAGING -->
+<section id="ch4" class="section" data-phase="GRAVITY & STAGING" data-alt="LOSSES" data-vel="9.4 km/s TO LEO">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="GRAVITY LOSSES & WHY ROCKETS STAGE" data-ru="ГРАВИТАЦИОННЫЕ ПОТЕРИ И ПРИЧИНА СТУПЕНЧАТОСТИ">GRAVITY LOSSES & WHY ROCKETS STAGE</span></div>
+    <h2 class="h-lg" data-en="Orbit needs less speed than getting there actually costs" data-ru="Орбита требует меньше скорости, чем реально стоит до неё добраться">Orbit needs less speed than getting there actually costs</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Low Earth orbit only requires around 7.7 km/s of horizontal velocity — plug Earth's parameters into the circular-orbit formula below and that's what falls out. Real rockets need closer to 9.4 km/s of Δv to get there, because climbing out of the atmosphere costs velocity you don't get to keep: gravity losses from flying mostly upward before you're moving fast, and drag losses from pushing through air." data-ru="Низкой околоземной орбите требуется всего около 7,7 км/с горизонтальной скорости — подставьте параметры Земли в формулу круговой орбиты ниже, и получите именно это число. Реальным ракетам нужно ближе к 9,4 км/с Δv, потому что подъём сквозь атмосферу обходится в скорость, которая не идёт впрок: гравитационные потери от полёта преимущественно вверх, пока скорость ещё мала, и потери на сопротивление воздуха.">Low Earth orbit only requires around 7.7 km/s of horizontal velocity — plug Earth's parameters into the circular-orbit formula below and that's what falls out. Real rockets need closer to 9.4 km/s of Δv to get there, because climbing out of the atmosphere costs velocity you don't get to keep: gravity losses from flying mostly upward before you're moving fast, and drag losses from pushing through air.</p>
+      <p class="body-col" data-en="Staging exists because of Chapter 2's logarithm. A single-stage rocket has to carry the dead weight of its own empty fuel tanks all the way to orbit. Drop that structure the moment it's empty, light a fresh, lighter rocket on top, and its mass ratio starts over — with a huge head start in velocity already banked." data-ru="Ступенчатость существует из-за логарифма из главы 2. Одноступенчатая ракета вынуждена нести мёртвый вес собственных опустевших топливных баков вплоть до орбиты. Отбросьте эту конструкцию в момент опустошения, включите новую, более лёгкую ступень сверху — и её отношение масс начинает отсчёт заново, уже с солидным запасом набранной скорости.">Staging exists because of Chapter 2's logarithm. A single-stage rocket has to carry the dead weight of its own empty fuel tanks all the way to orbit. Drop that structure the moment it's empty, light a fresh, lighter rocket on top, and its mass ratio starts over — with a huge head start in velocity already banked.</p>
+    </div>
+    <div class="grid-2">
+      <div class="eq-box corner-frame">
+        <div class="eq-label" data-en="CIRCULAR ORBITAL VELOCITY" data-ru="СКОРОСТЬ КРУГОВОЙ ОРБИТЫ">CIRCULAR ORBITAL VELOCITY</div>
+        <div class="eq-body">v<sub>circ</sub> = √(GM / r)</div>
+        <div class="eq-note" data-en="Earth, 400 km altitude: √(3.986×10⁵ km³/s² / 6771 km) ≈ 7.67 km/s — the ISS's actual speed." data-ru="Земля, высота 400 км: √(3,986×10⁵ км³/с² / 6771 км) ≈ 7,67 км/с — реальная скорость МКС.">Earth, 400 km altitude: √(3.986×10⁵ km³/s² / 6771 km) ≈ 7.67 km/s — the ISS's actual speed.</div>
+      </div>
+      <div class="eq-box corner-frame">
+        <div class="eq-label" data-en="MULTI-STAGE Δv (STAGES ADD, MASS RATIOS DON'T)" data-ru="Δv МНОГОСТУПЕНЧАТОЙ РАКЕТЫ (СКЛАДЫВАЮТСЯ Δv, НЕ ОТНОШЕНИЯ МАСС)">MULTI-STAGE Δv (STAGES ADD, MASS RATIOS DON'T)</div>
+        <div class="eq-body">Δv<sub>total</sub> = Σᵢ v<sub>e,i</sub> · ln(m<sub>0,i</sub> / m<sub>f,i</sub>)</div>
+        <div class="eq-note" data-en="Each stage runs Chapter 2's equation on its own, much smaller, mass ratio." data-ru="Каждая ступень использует уравнение из главы 2 самостоятельно, при своём, гораздо меньшем отношении масс.">Each stage runs Chapter 2's equation on its own, much smaller, mass ratio.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — ORBITAL MECHANICS -->
+<section id="ch5" class="section" data-phase="ORBITAL MECHANICS" data-alt="VIS-VIVA" data-vel="ELLIPSES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="ORBITS ARE JUST FALLING AND MISSING" data-ru="ОРБИТА — ЭТО ПРОСТО ПАДЕНИЕ МИМО ЦЕЛИ">ORBITS ARE JUST FALLING AND MISSING</span></div>
+    <h2 class="h-lg" data-en="A projectile with enough sideways speed never lands" data-ru="Снаряду с достаточной боковой скоростью некуда упасть">A projectile with enough sideways speed never lands</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Newton's own thought experiment still holds: fire a cannonball fast enough horizontally, and by the time gravity has pulled it down, the curved Earth has fallen away beneath it by the same amount. It never lands — it's still falling, forever missing the ground. Kepler had already found the resulting paths are ellipses, a law ahead of Newton explaining why." data-ru="Мысленный эксперимент самого Ньютона остаётся верным: выстрелите пушечным ядром достаточно быстро по горизонтали, и к тому моменту, когда гравитация притянет его вниз, изогнутая поверхность Земли уйдёт из-под него ровно на ту же величину. Ядро никогда не упадёт — оно продолжает падать, вечно промахиваясь мимо земли. Кеплер ещё до Ньютона установил, что получающиеся траектории — эллипсы, объяснение же пришло позже.">Newton's own thought experiment still holds: fire a cannonball fast enough horizontally, and by the time gravity has pulled it down, the curved Earth has fallen away beneath it by the same amount. It never lands — it's still falling, forever missing the ground. Kepler had already found the resulting paths are ellipses, a law ahead of Newton explaining why.</p>
+      <p class="body-col" data-en="One formula, vis-viva, gives the speed anywhere on any orbit — circular or wildly elliptical — using nothing but the current distance and the orbit's overall size. It's the equation behind every transfer-orbit calculation ever made, including the ladder of costs in the next chapter." data-ru="Одна формула — vis-viva («живая сила») — даёт скорость в любой точке любой орбиты, круговой или сильно вытянутой, используя лишь текущее расстояние и общий размер орбиты. Это уравнение стоит за расчётом любой переходной орбиты, включая «лестницу» затрат из следующей главы.">One formula, vis-viva, gives the speed anywhere on any orbit — circular or wildly elliptical — using nothing but the current distance and the orbit's overall size. It's the equation behind every transfer-orbit calculation ever made, including the ladder of costs in the next chapter.</p>
+    </div>
+    <div class="grid-2">
+      <div class="eq-box corner-frame">
+        <div class="eq-label" data-en="VIS-VIVA EQUATION" data-ru="ФОРМУЛА VIS-VIVA">VIS-VIVA EQUATION</div>
+        <div class="eq-body">v² = GM (2/r − 1/a)</div>
+        <div class="eq-note" data-en="r = current distance from the body being orbited, a = semi-major axis. For an escape trajectory a→∞ and the 1/a term vanishes." data-ru="r — текущее расстояние до тела, вокруг которого происходит движение; a — большая полуось орбиты. Для траектории убегания a→∞, и член 1/a обращается в ноль.">r = current distance from the body being orbited, a = semi-major axis. For an escape trajectory a→∞ and the 1/a term vanishes.</div>
+      </div>
+      <div class="eq-box corner-frame">
+        <div class="eq-label" data-en="KEPLER'S THIRD LAW" data-ru="ТРЕТИЙ ЗАКОН КЕПЛЕРА">KEPLER'S THIRD LAW</div>
+        <div class="eq-body">T² = 4π² a³ / GM</div>
+        <div class="eq-note" data-en="Period depends only on orbit size, never on shape — a hugely elongated ellipse takes exactly as long as a circle with the same semi-major axis." data-ru="Период зависит только от размера орбиты, но не от её формы: сильно вытянутый эллипс займёт ровно столько же времени, сколько круговая орбита с той же большой полуосью.">Period depends only on orbit size, never on shape — a hugely elongated ellipse takes exactly as long as a circle with the same semi-major axis.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — Δv MAP OF THE SOLAR SYSTEM -->
+<section id="ch6" class="section" data-phase="Δv BUDGETING" data-alt="SOLAR SYSTEM" data-vel="km/s">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="THE Δv MAP OF THE SOLAR SYSTEM" data-ru="КАРТА Δv СОЛНЕЧНОЙ СИСТЕМЫ">THE Δv MAP OF THE SOLAR SYSTEM</span></div>
+    <h2 class="h-lg" data-en="Every destination has a price tag, paid in km/s" data-ru="У каждого пункта назначения есть цена, и платят её в км/с">Every destination has a price tag, paid in km/s</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Because Δv adds linearly across manoeuvres (Chapter 4) while its cost grows exponentially (Chapter 2), mission planners keep a running total for every leg of a trip before a single tank is filled. Click a stop for the reasoning behind its number." data-ru="Поскольку Δv складывается линейно на каждом манёвре (глава 4), а его стоимость растёт экспоненциально (глава 2), проектировщики миссий ведут нарастающий итог по каждому участку полёта ещё до заправки первого бака. Нажмите на остановку, чтобы увидеть обоснование её числа.">Because Δv adds linearly across manoeuvres (Chapter 4) while its cost grows exponentially (Chapter 2), mission planners keep a running total for every leg of a trip before a single tank is filled. Click a stop for the reasoning behind its number.</p>
+    <div class="mir-timeline">
+      <div class="mt-track"></div>
+      <div class="mt-events" id="legEvents"></div>
+      <div class="mt-detail corner-frame" id="legDetail"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — CHEMICAL ENGINES -->
+<section id="ch7" class="section" data-phase="CHEMICAL ENGINES" data-alt="COMBUSTION" data-vel="ve ≤ 4.5 km/s">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="CHEMICAL ENGINES: EIGHTY YEARS AT THE CEILING" data-ru="ХИМИЧЕСКИЕ ДВИГАТЕЛИ: ВОСЕМЬДЕСЯТ ЛЕТ У ПОТОЛКА">CHEMICAL ENGINES: EIGHTY YEARS AT THE CEILING</span></div>
+    <h2 class="h-lg" data-en="Burning fuel has a hard ceiling, reached decades ago" data-ru="У сжигания топлива есть жёсткий потолок, достигнутый десятилетия назад">Burning fuel has a hard ceiling, reached decades ago</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every chemical engine, from the V-2 in 1944 to the engines flying today, is limited by the same thing: how much energy is released when a fuel and oxidiser react, and how much of that energy converts into exhaust speed. There is a ceiling near 4.5 km/s of exhaust velocity for anything that burns — set by chemistry itself, not by engineering." data-ru="Любой химический двигатель — от Фау-2 в 1944 году до двигателей, летающих сегодня, — ограничен одним и тем же: сколько энергии выделяется при реакции топлива с окислителем и какая доля этой энергии переходит в скорость истечения. Для всего, что горит, существует потолок около 4,5 км/с скорости истечения — его задаёт сама химия, а не инженерия.">Every chemical engine, from the V-2 in 1944 to the engines flying today, is limited by the same thing: how much energy is released when a fuel and oxidiser react, and how much of that energy converts into exhaust speed. There is a ceiling near 4.5 km/s of exhaust velocity for anything that burns — set by chemistry itself, not by engineering.</p>
+      <p class="body-col" data-en="The propellant pair closest to that ceiling is hydrogen and oxygen, burned in engines like the Space Shuttle's SSME. Everything flown since — Merlin, Raptor, RD-180 — has mostly optimised cost, reusability, and thrust-to-weight instead, because the exhaust-velocity ceiling itself hasn't moved since the 1960s." data-ru="Ближе всего к этому потолку — пара водород и кислород, сжигаемая в двигателях вроде SSME космического челнока. Всё, что летало после, — Merlin, Raptor, РД-180, — в основном оптимизировало стоимость, многоразовость и тяговооружённость, поскольку сам потолок скорости истечения не сдвигался с 1960-х годов.">The propellant pair closest to that ceiling is hydrogen and oxygen, burned in engines like the Space Shuttle's SSME. Everything flown since — Merlin, Raptor, RD-180 — has mostly optimised cost, reusability, and thrust-to-weight instead, because the exhaust-velocity ceiling itself hasn't moved since the 1960s.</p>
+    </div>
+    <div class="grid-3" style="margin-top:8px;">
+      <div class="dash-card"><div class="dc-name">239s</div><div class="fig-num" data-en="V-2, 1944 — ETHANOL / LOX" data-ru="ФАУ-2, 1944 — ЭТАНОЛ / ЖИДКИЙ КИСЛОРОД">V-2, 1944 — ETHANOL / LOX</div></div>
+      <div class="dash-card"><div class="dc-name">263s</div><div class="fig-num" data-en="SATURN V F-1, 1967 — KEROLOX" data-ru="F-1 «САТУРН-5», 1967 — КЕРОСИН / КИСЛОРОД">SATURN V F-1, 1967 — KEROLOX</div></div>
+      <div class="dash-card"><div class="dc-name">452s</div><div class="fig-num" data-en="SHUTTLE SSME — HYDROLOX, NEAR THE CEILING" data-ru="SSME ЧЕЛНОКА — ВОДОРОД / КИСЛОРОД, У ПОТОЛКА">SHUTTLE SSME — HYDROLOX, NEAR THE CEILING</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — ELECTRIC PROPULSION -->
+<section id="ch8" class="section" data-phase="ELECTRIC PROPULSION" data-alt="ION / HALL" data-vel="Isp 1500–4000s">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="ELECTRIC PROPULSION: TRADING THRUST FOR PATIENCE" data-ru="ЭЛЕКТРИЧЕСКИЕ ДВИГАТЕЛИ: ТЯГА В ОБМЕН НА ТЕРПЕНИЕ">ELECTRIC PROPULSION: TRADING THRUST FOR PATIENCE</span></div>
+    <h2 class="h-lg" data-en="Give up thrust, and the exhaust-velocity ceiling disappears" data-ru="Откажитесь от тяги — и потолок скорости истечения исчезает">Give up thrust, and the exhaust-velocity ceiling disappears</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Ion and Hall-effect thrusters don't burn anything — they use electric fields to accelerate charged propellant, usually xenon, to exhaust velocities chemistry can't touch, ten times higher than the best hydrolox engine. The price is thrust: an ion engine pushes with roughly the force of a sheet of paper resting in your hand." data-ru="Ионные и холловские двигатели ничего не сжигают — они разгоняют заряженное топливо, обычно ксенон, электрическим полем до скоростей истечения, недоступных химии, — в десять раз выше, чем у лучшего водородно-кислородного двигателя. Цена — тяга: ионный двигатель толкает примерно с силой листа бумаги, лежащего на ладони.">Ion and Hall-effect thrusters don't burn anything — they use electric fields to accelerate charged propellant, usually xenon, to exhaust velocities chemistry can't touch, ten times higher than the best hydrolox engine. The price is thrust: an ion engine pushes with roughly the force of a sheet of paper resting in your hand.</p>
+      <p class="body-col" data-en="That trade only makes sense away from a planet's gravity well, where there's no rush — NASA's Dawn spacecraft spent years slowly spiralling outward on ion thrust alone, gaining more total Δv over its mission than most chemical rockets ever will, one whisper of thrust at a time." data-ru="Такой обмен имеет смысл лишь вдали от гравитационного колодца планеты, где спешить некуда: аппарат Dawn NASA годами медленно раскручивал спираль только на ионной тяге, накопив за миссию больше суммарного Δv, чем большинство химических ракет когда-либо наберут, — едва заметными толчками, один за другим.">That trade only makes sense away from a planet's gravity well, where there's no rush — NASA's Dawn spacecraft spent years slowly spiralling outward on ion thrust alone, gaining more total Δv over its mission than most chemical rockets ever will, one whisper of thrust at a time.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="JET POWER — WHY HIGH Isp NEEDS A LOT OF ELECTRICITY" data-ru="МОЩНОСТЬ РЕАКТИВНОЙ СТРУИ — ПОЧЕМУ ВЫСОКИЙ Isp ТРЕБУЕТ МНОГО ЭЛЕКТРИЧЕСТВА">JET POWER — WHY HIGH Isp NEEDS A LOT OF ELECTRICITY</div>
+      <div class="eq-body">P = ½ ṁ v<sub>e</sub>²</div>
+      <div class="eq-note" data-en="Power needed grows with the square of exhaust velocity — the real reason electric engines stay low-thrust: only so much electrical power fits on a spacecraft." data-ru="Требуемая мощность растёт пропорционально квадрату скорости истечения — вот истинная причина, по которой электрические двигатели остаются малотяговыми: на борту помещается лишь ограниченное количество электрической мощности.">Power needed grows with the square of exhaust velocity — the real reason electric engines stay low-thrust: only so much electrical power fits on a spacecraft.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — NUCLEAR PROPULSION -->
+<section id="ch9" class="section" data-phase="NUCLEAR PROPULSION" data-alt="NTP / NEP" data-vel="Isp ~900s+">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="NUCLEAR PROPULSION: SPLITTING THE DIFFERENCE" data-ru="ЯДЕРНЫЕ ДВИГАТЕЛИ: ПРОМЕЖУТОЧНОЕ РЕШЕНИЕ">NUCLEAR PROPULSION: SPLITTING THE DIFFERENCE</span></div>
+    <h2 class="h-lg" data-en="Heat the propellant with a reactor instead of a flame" data-ru="Нагревайте топливо реактором, а не пламенем">Heat the propellant with a reactor instead of a flame</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Nuclear thermal propulsion swaps the combustion chamber for a fission reactor: pump liquid hydrogen through the reactor core, let it flash to superheated gas, and expel it through a conventional nozzle. No chemical reaction is doing the work, so there's no chemical ceiling — NASA and DARPA's DRACO programme targets roughly double the exhaust velocity of the best hydrolox engines." data-ru="Ядерная тепловая двигательная установка заменяет камеру сгорания реактором деления: жидкий водород прокачивается через активную зону, мгновенно превращается в перегретый газ и выбрасывается через обычное сопло. Работу здесь совершает не химическая реакция, поэтому химического потолка нет — программа DRACO NASA и DARPA нацелена примерно на удвоение скорости истечения лучших водородно-кислородных двигателей.">Nuclear thermal propulsion swaps the combustion chamber for a fission reactor: pump liquid hydrogen through the reactor core, let it flash to superheated gas, and expel it through a conventional nozzle. No chemical reaction is doing the work, so there's no chemical ceiling — NASA and DARPA's DRACO programme targets roughly double the exhaust velocity of the best hydrolox engines.</p>
+      <p class="body-col" data-en="Nuclear electric propulsion goes further: a reactor generates electricity instead of heat, feeding ion or Hall thrusters with far more continuous power than any solar array could manage past the orbit of Mars — the only realistic way to run high-power electric propulsion in the outer solar system, where sunlight is too weak to matter." data-ru="Ядерная электрическая двигательная установка идёт дальше: реактор вырабатывает не тепло, а электричество, питая ионные или холловские двигатели гораздо более постоянной мощностью, чем способна дать любая солнечная батарея за орбитой Марса, — единственный реалистичный способ работы мощной электрической тяги во внешней Солнечной системе, где солнечного света уже слишком мало.">Nuclear electric propulsion goes further: a reactor generates electricity instead of heat, feeding ion or Hall thrusters with far more continuous power than any solar array could manage past the orbit of Mars — the only realistic way to run high-power electric propulsion in the outer solar system, where sunlight is too weak to matter.</p>
+    </div>
+    <div class="grid-2" style="margin-top:8px;">
+      <div class="dash-card" style="text-align:center; background:var(--white); padding:16px;"><div class="dc-name" style="font-size:1.2rem;">~900s</div><div class="fig-num" data-en="NUCLEAR THERMAL (DRACO / NERVA-CLASS)" data-ru="ЯДЕРНЫЙ ТЕПЛОВОЙ (DRACO, УРОВЕНЬ NERVA)">NUCLEAR THERMAL (DRACO / NERVA-CLASS)</div></div>
+      <div class="dash-card" style="text-align:center; background:var(--white); padding:16px;"><div class="dc-name" style="font-size:1.2rem;">2,000–6,000s</div><div class="fig-num" data-en="NUCLEAR ELECTRIC (CONCEPT, CONTINUOUS)" data-ru="ЯДЕРНЫЙ ЭЛЕКТРИЧЕСКИЙ (КОНЦЕПЦИЯ, НЕПРЕРЫВНО)">NUCLEAR ELECTRIC (CONCEPT, CONTINUOUS)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — FAR-FUTURE ENGINES -->
+<section id="ch10" class="section" data-phase="FAR-FUTURE ENGINES" data-alt="FUSION / SAILS" data-vel="Isp 10⁴–10⁶s" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="BEYOND CHEMISTRY: WHAT HAS TO COME NEXT" data-ru="ЗА ГРАНИЦАМИ ХИМИИ: ЧТО ДОЛЖНО ПРИЙТИ ДАЛЬШЕ">BEYOND CHEMISTRY: WHAT HAS TO COME NEXT</span></div>
+    <h2 class="h-lg" data-en="Every serious interstellar concept abandons a comfortable assumption" data-ru="Каждая серьёзная межзвёздная концепция отказывается от какого-то удобного допущения">Every serious interstellar concept abandons a comfortable assumption</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Reaching even the nearest star within a human lifetime needs Δv budgets and exhaust velocities nothing on this page's chart can supply. Fusion engines, like the conceptual Direct Fusion Drive, aim to push thrust and exhaust velocity up together rather than trading one for the other — Isp in the tens of thousands of seconds, without the dead-weight reactor shielding nuclear thermal propulsion still carries." data-ru="Чтобы долететь хотя бы до ближайшей звезды за время человеческой жизни, нужны бюджеты Δv и скорости истечения, которых не даёт ни один двигатель на графике этой страницы. Термоядерные двигатели, вроде концептуального Direct Fusion Drive, стремятся поднять одновременно и тягу, и скорость истечения, а не менять одно на другое, — I_sp в десятки тысяч секунд, без мёртвого веса реакторной защиты, которую всё ещё несёт ядерный тепловой двигатель.">Reaching even the nearest star within a human lifetime needs Δv budgets and exhaust velocities nothing on this page's chart can supply. Fusion engines, like the conceptual Direct Fusion Drive, aim to push thrust and exhaust velocity up together rather than trading one for the other — Isp in the tens of thousands of seconds, without the dead-weight reactor shielding nuclear thermal propulsion still carries.</p>
+      <p class="body-col" data-en="The most radical concepts skip propellant altogether. Breakthrough Starshot proposes pushing a gram-scale sail to roughly a fifth of the speed of light with a ground-based laser array — a rocket equation with an exhaust velocity of light itself, and a mass ratio of one, because nothing has to be carried at all." data-ru="Самые радикальные концепции вовсе отказываются от топлива. Проект Breakthrough Starshot предлагает разогнать парус массой в доли грамма примерно до пятой части скорости света наземной лазерной установкой — уравнение Циолковского со скоростью истечения, равной скорости самого света, и отношением масс, равным единице, потому что нести с собой вообще ничего не нужно.">The most radical concepts skip propellant altogether. Breakthrough Starshot proposes pushing a gram-scale sail to roughly a fifth of the speed of light with a ground-based laser array — a rocket equation with an exhaust velocity of light itself, and a mass ratio of one, because nothing has to be carried at all.</p>
+    </div>
+    <p class="lede" style="margin:32px 0 8px;" data-en="Every engine discussed in this guide, placed on the same two axes. Click a point for its story." data-ru="Все двигатели из этого справочника — на одних и тех же двух осях. Нажмите на точку, чтобы увидеть её историю.">Every engine discussed in this guide, placed on the same two axes. Click a point for its story.</p>
+    <div class="schematic-wrap">
+      <svg id="engineSvg" class="schematic-svg" viewBox="0 0 480 340"></svg>
+      <div class="module-panel" id="enginePanel"></div>
+    </div>
+    <div class="quote-block">
+      <p data-en="“Earth is the cradle of humanity, but one cannot live in the cradle forever.”" data-ru="«Земля — колыбель разума, но нельзя вечно жить в колыбели.»">“Earth is the cradle of humanity, but one cannot live in the cradle forever.”</p>
+      <span class="fig-num" data-en="KONSTANTIN TSIOLKOVSKY, 1911" data-ru="КОНСТАНТИН ЦИОЛКОВСКИЙ, 1911">KONSTANTIN TSIOLKOVSKY, 1911</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="IMPULSE — THE PHYSICS OF SPACEFLIGHT" data-ru="IMPULSE — ФИЗИКА КОСМИЧЕСКОГО ПОЛЁТА">IMPULSE — THE PHYSICS OF SPACEFLIGHT</span>
+  <span data-en="EDUCATIONAL — FORMULAS ARE LEADING-ORDER; REAL ENGINEERING ADDS LOSSES AND MARGINS" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ФОРМУЛЫ ПЕРВОГО ПОРЯДКА; РЕАЛЬНАЯ ИНЖЕНЕРИЯ ДОБАВЛЯЕТ ПОТЕРИ И ЗАПАСЫ">EDUCATIONAL — FORMULAS ARE LEADING-ORDER; REAL ENGINEERING ADDS LOSSES AND MARGINS</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH2 — ROCKET EQUATION CALCULATOR ============ */
+var ENGINES = [
+  {en:'Solid Booster', ru:'Твердотопливный ускоритель', isp:250},
+  {en:'Methalox (Raptor)', ru:'Метан/кислород (Raptor)', isp:350},
+  {en:'Hydrolox (RS-25)', ru:'Водород/кислород (RS-25)', isp:452},
+  {en:'Ion Engine', ru:'Ионный двигатель', isp:3000}
+];
+var mrSlider, mrVal, activeEngineIdx = 1;
+function renderRocketCalc(){
+  mrSlider = document.getElementById('mrSlider');
+  mrVal = document.getElementById('mrVal');
+  var presetRow = document.getElementById('enginePresets');
+  presetRow.innerHTML='';
+  ENGINES.forEach(function(en, i){
+    var b = document.createElement('button');
+    b.className='preset-btn'+(i===activeEngineIdx?' active':'');
+    b.textContent = (lang==='en'?en.en:en.ru)+' — Isp '+en.isp+'s';
+    b.addEventListener('click', function(){
+      activeEngineIdx = i;
+      renderRocketCalc();
+    });
+    presetRow.appendChild(b);
+  });
+  function draw(){
+    var mr = parseFloat(mrSlider.value);
+    mrVal.textContent = mr.toFixed(2);
+    var isp = ENGINES[activeEngineIdx].isp;
+    var ve = isp * 9.80665;
+    var dv = ve * Math.log(mr) / 1000;
+    var propFrac = 1 - 1/mr;
+    var grid = document.getElementById('rocketReadout');
+    var cells = [
+      [lang==='en'?'EXHAUST VELOCITY v_e':'СКОРОСТЬ ИСТЕЧЕНИЯ v_e', (ve/1000).toFixed(2)+' km/s'],
+      [lang==='en'?'PROPELLANT MASS FRACTION':'МАССОВАЯ ДОЛЯ ТОПЛИВА', (propFrac*100).toFixed(1)+'%'],
+      [lang==='en'?'Δv GAINED':'НАБРАННОЕ Δv', dv.toFixed(2)+' km/s'],
+      [lang==='en'?'ENGINE':'ДВИГАТЕЛЬ', lang==='en'?ENGINES[activeEngineIdx].en:ENGINES[activeEngineIdx].ru]
+    ];
+    grid.innerHTML = cells.map(function(c){return '<div class="readout-cell"><span class="rl">'+c[0]+'</span>'+c[1]+'</div>';}).join('');
+    document.getElementById('dvBarFill').style.width = Math.min(100, dv/20*100)+'%';
+  }
+  mrSlider.addEventListener('input', draw);
+  draw();
+}
+
+/* ============ CH6 — Δv LADDER ============ */
+var LEGS = [
+  {dv:9.4, tEn:'To Low Earth Orbit', tRu:'До низкой околоземной орбиты', dEn:'About 7.7 km/s of that is genuine orbital speed (Chapter 4); the rest is gravity and drag losses fighting the climb.', dRu:'Около 7,7 км/с из этого — настоящая орбитальная скорость (глава 4); остальное — гравитационные потери и сопротивление воздуха на подъёме.'},
+  {dv:12.2, tEn:'To Geostationary Orbit', tRu:'До геостационарной орбиты', dEn:'LEO plus a transfer-orbit burn and a circularisation burn 35,786 km up, where the orbital period matches a day.', dRu:'НОО плюс манёвр выхода на переходную орбиту и манёвр циркуляризации на высоте 35 786 км, где период обращения совпадает с сутками.'},
+  {dv:12.9, tEn:'To the Moon (Lunar Orbit)', tRu:'До Луны (лунная орбита)', dEn:'Trans-lunar injection from LEO costs less extra Δv than reaching LEO did in the first place.', dRu:'Переход на траекторию к Луне из НОО обходится дешевле по Δv, чем сам выход на НОО.'},
+  {dv:15.5, tEn:'To the Lunar Surface', tRu:'До поверхности Луны', dEn:'No atmosphere to brake with on the Moon — every metre per second of descent is paid for in propellant.', dRu:'У Луны нет атмосферы для торможения — каждый метр в секунду снижения оплачивается топливом.'},
+  {dv:13.2, tEn:'To Mars Orbit', tRu:'До орбиты Марса', dEn:'About 150 times farther than the Moon, yet cheaper in Δv: a slow Hohmann transfer trades travel time for propellant.', dRu:'Примерно в 150 раз дальше Луны, но дешевле по Δv: медленный гомановский перелёт обменивает время полёта на топливо.'},
+  {dv:13.4, tEn:'To the Mars Surface', tRu:'До поверхности Марса', dEn:"Mars's thin atmosphere still does most of the braking work for free, unlike the airless Moon.", dRu:'Разреженная атмосфера Марса всё же выполняет большую часть торможения бесплатно — в отличие от безвоздушной Луны.'},
+  {dv:16.8, tEn:'To Solar System Escape', tRu:'До ухода из Солнечной системы', dEn:'New-Horizons-class trajectories. Beyond this, gravity assists — velocity borrowed from a planet — do the job propellant alone can no longer afford.', dRu:'Траектории уровня «Новых горизонтов». Дальше в дело вступают гравитационные манёвры — скорость, «занятая» у планеты, — там, где одного топлива уже не хватает.'}
+];
+function renderLegs(){
+  var events = document.getElementById('legEvents');
+  var detail = document.getElementById('legDetail');
+  events.innerHTML='';
+  LEGS.forEach(function(leg,i){
+    var wrap = document.createElement('div');
+    wrap.style.position='relative'; wrap.style.flex='1'; wrap.style.display='flex'; wrap.style.justifyContent='center';
+    var dot = document.createElement('div');
+    dot.className='mt-dot'+(i===0?' active':'');
+    var yr = document.createElement('div');
+    yr.className='mt-year'; yr.textContent=leg.dv.toFixed(1)+' km/s';
+    wrap.appendChild(dot); wrap.appendChild(yr);
+    dot.addEventListener('click', function(){ selectLeg(i); });
+    events.appendChild(wrap);
+  });
+  function selectLeg(i){
+    events.querySelectorAll('.mt-dot').forEach(function(d,j){ d.classList.toggle('active', j===i); });
+    var leg = LEGS[i];
+    detail.innerHTML = '<div class="mt-y">'+(lang==='en'?leg.tEn:leg.tRu)+'</div><div class="mt-t">Δv ≈ '+leg.dv.toFixed(1)+' km/s</div><p style="font-size:14.5px;">'+(lang==='en'?leg.dEn:leg.dRu)+'</p>';
+  }
+  selectLeg(0);
+}
+
+/* ============ CH10 — ENGINE THRUST vs Isp SCATTER ============ */
+var ENGINE_POINTS = [
+  {id:'solid', en:'Solid Booster', ru:'Твердотопливный ускоритель', cEn:'CHEMICAL — SOLID', cRu:'ХИМИЧЕСКИЙ — ТВЁРДОЕ ТОПЛИВО', thrust:1.2e7, isp:260, dEn:'Shuttle-class solid rocket boosters — enormous thrust, modest efficiency, no throttle control once lit.', dRu:'Твердотопливные ускорители уровня «Шаттла» — огромная тяга, скромная эффективность, без возможности регулировки тяги после запуска.'},
+  {id:'kerolox', en:'Kerolox (Merlin)', ru:'Керосин/кислород (Merlin)', cEn:'CHEMICAL — LIQUID', cRu:'ХИМИЧЕСКИЙ — ЖИДКОЕ ТОПЛИВО', thrust:9.8e5, isp:348, dEn:'Falcon 9’s engine — kerosene and liquid oxygen, dense and storable, workhorse of modern launch.', dRu:'Двигатель Falcon 9 — керосин и жидкий кислород: плотное, удобное для хранения топливо, рабочая лошадка современных запусков.'},
+  {id:'hydrolox', en:'Hydrolox (RS-25)', ru:'Водород/кислород (RS-25)', cEn:'CHEMICAL — LIQUID', cRu:'ХИМИЧЕСКИЙ — ЖИДКОЕ ТОПЛИВО', thrust:2.28e6, isp:452, dEn:'Space Shuttle main engine — near the practical ceiling for chemical exhaust velocity.', dRu:'Маршевый двигатель космического челнока — у практического потолка скорости истечения химических двигателей.'},
+  {id:'ntp', en:'Nuclear Thermal (DRACO)', ru:'Ядерный тепловой (DRACO)', cEn:'NUCLEAR THERMAL', cRu:'ЯДЕРНЫЙ ТЕПЛОВОЙ', thrust:1.1e5, isp:900, dEn:'A fission reactor heats hydrogen instead of burning fuel — roughly double chemical exhaust velocity, no chemical ceiling.', dRu:'Реактор деления нагревает водород вместо сжигания топлива — примерно вдвое выше скорость истечения, чем у химических двигателей, и без химического потолка.'},
+  {id:'hall', en:'Hall Thruster', ru:'Двигатель на эффекте Холла', cEn:'ELECTRIC', cRu:'ЭЛЕКТРИЧЕСКИЙ', thrust:0.3, isp:1800, dEn:'Electric field accelerates xenon ions — thrust measured in tenths of a newton, run for months at a time.', dRu:'Электрическое поле разгоняет ионы ксенона — тяга измеряется в десятых долях ньютона, работает месяцами без остановки.'},
+  {id:'ion', en:'Ion Engine (Dawn)', ru:'Ионный двигатель (Dawn)', cEn:'ELECTRIC', cRu:'ЭЛЕКТРИЧЕСКИЙ', thrust:0.09, isp:3100, dEn:'NASA’s Dawn spacecraft spiralled out on thrust roughly equal to the weight of a sheet of paper.', dRu:'Аппарат Dawn NASA раскручивал спираль на тяге, примерно равной весу листа бумаги.'},
+  {id:'nep', en:'Nuclear Electric (concept)', ru:'Ядерный электрический (концепция)', cEn:'NUCLEAR ELECTRIC', cRu:'ЯДЕРНЫЙ ЭЛЕКТРИЧЕСКИЙ', thrust:5, isp:4000, dEn:'A reactor powers electric thrusters directly, giving far more continuous power than solar arrays past Mars.', dRu:'Реактор напрямую питает электрические двигатели, обеспечивая гораздо больше непрерывной мощности, чем солнечные батареи за орбитой Марса.'},
+  {id:'fusion', en:'Fusion Direct Drive (concept)', ru:'Прямой термоядерный двигатель (концепция)', cEn:'FUSION — CONCEPT', cRu:'ТЕРМОЯДЕРНЫЙ — КОНЦЕПЦИЯ', thrust:2.5, isp:10000, dEn:'Aims to raise thrust and exhaust velocity together instead of trading one for the other — still unbuilt.', dRu:'Стремится повысить одновременно и тягу, и скорость истечения, не жертвуя одним ради другого, — пока не построен.'}
+];
+var THRUST_LOG_MIN=-1.2, THRUST_LOG_MAX=7.3, ISP_LOG_MIN=2.3, ISP_LOG_MAX=4.15;
+var PLOT_X0=56, PLOT_X1=452, PLOT_Y0=300, PLOT_Y1=32;
+function xFor(thrust){
+  var l = Math.log(thrust)/Math.LN10;
+  return PLOT_X0 + (l-THRUST_LOG_MIN)/(THRUST_LOG_MAX-THRUST_LOG_MIN)*(PLOT_X1-PLOT_X0);
+}
+function yFor(isp){
+  var l = Math.log(isp)/Math.LN10;
+  return PLOT_Y0 + (l-ISP_LOG_MIN)/(ISP_LOG_MAX-ISP_LOG_MIN)*(PLOT_Y1-PLOT_Y0);
+}
+var activeEngineId = 'hydrolox';
+function renderEngineChart(){
+  var svg = document.getElementById('engineSvg');
+  var panel = document.getElementById('enginePanel');
+  svg.innerHTML='';
+  ns('line',{x1:PLOT_X0,y1:PLOT_Y0,x2:PLOT_X1,y2:PLOT_Y0,stroke:'#0b0b0c','stroke-width':1},svg);
+  ns('line',{x1:PLOT_X0,y1:PLOT_Y0,x2:PLOT_X0,y2:PLOT_Y1,stroke:'#0b0b0c','stroke-width':1},svg);
+  var xt = ns('text',{x:(PLOT_X0+PLOT_X1)/2,y:322,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'10',fill:'#5a5a56'},svg);
+  xt.textContent = lang==='en' ? 'THRUST (N, LOG SCALE) →' : 'ТЯГА (Н, ЛОГ. ШКАЛА) →';
+  var yt = ns('text',{x:14,y:(PLOT_Y0+PLOT_Y1)/2,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'10',fill:'#5a5a56',transform:'rotate(-90 14 '+((PLOT_Y0+PLOT_Y1)/2)+')'},svg);
+  yt.textContent = lang==='en' ? '↑ SPECIFIC IMPULSE (s, LOG SCALE)' : '↑ УДЕЛЬНЫЙ ИМПУЛЬС (с, ЛОГ. ШКАЛА)';
+  ENGINE_POINTS.forEach(function(pt){
+    var g = ns('g',{'class':'hotspot'+(pt.id===activeEngineId?' active':''),'data-id':pt.id},svg);
+    ns('circle',{cx:xFor(pt.thrust),cy:yFor(pt.isp),r:8,fill:pt.id===activeEngineId?'#0b0b0c':'none',stroke:'#0b0b0c','stroke-width':1.6},g);
+    var lbl = ns('text',{x:xFor(pt.thrust),y:yFor(pt.isp)-13,'text-anchor':'middle'},g);
+    lbl.textContent = lang==='en'?pt.en:pt.ru;
+    g.addEventListener('click', function(){ selectEngine(pt.id); });
+  });
+  function selectEngine(id){
+    activeEngineId = id;
+    svg.querySelectorAll('.hotspot').forEach(function(h){
+      var isActive = h.dataset.id===id;
+      h.classList.toggle('active', isActive);
+      h.querySelector('circle').setAttribute('fill', isActive?'#0b0b0c':'none');
+    });
+    var m = ENGINE_POINTS.filter(function(x){return x.id===id;})[0];
+    panel.innerHTML =
+      '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'ENGINE SELECTED':'ВЫБРАННЫЙ ДВИГАТЕЛЬ')+'</div>'+
+      '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+      '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+      '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+      '<div class="module-list">'+ENGINE_POINTS.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+    panel.querySelectorAll('.module-chip').forEach(function(chip){
+      chip.addEventListener('click', function(){ selectEngine(chip.dataset.jump); });
+    });
+  }
+  selectEngine(activeEngineId);
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderRocketCalc();
+  renderLegs();
+  renderEngineChart();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
