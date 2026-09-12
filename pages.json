@@ -98,7 +98,8 @@
         { "slug": "build-your-own-cubesat", "codename": "ASSEMBLY", "label": { "en": "Build Your Own CubeSat", "ru": "Собери свой кубсат" } },
         { "slug": "lagrange-points", "codename": "EQUILIBRIUM", "label": { "en": "Lagrange Points", "ru": "Точки Лагранжа" } },
         { "slug": "physics-of-spaceflight", "codename": "IMPULSE", "label": { "en": "The Physics of Spaceflight", "ru": "Физика космического полёта" } },
-        { "slug": "cascade-physical-computing", "codename": "CASCADE", "label": { "en": "Physical Computing", "ru": "Физика вычислений" } }
+        { "slug": "cascade-physical-computing", "codename": "CASCADE", "label": { "en": "Physical Computing", "ru": "Физика вычислений" } },
+        { "slug": "mathematics-of-music", "codename": "RESONANCE", "label": { "en": "The Mathematics of Music", "ru": "Математика музыки" } }
       ],
       "planned": [
         { "label": { "en": "Texas Instruments", "ru": "Texas Instruments" } },

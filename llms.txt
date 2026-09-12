@@ -75,6 +75,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [Lagrange Points](https://followorbounce.github.io/aerospace/lagrange-points): the physics of Lagrange points and where they occur across the Solar System.
 - [The Physics of Spaceflight](https://followorbounce.github.io/aerospace/physics-of-spaceflight): the rocket equation, orbital mechanics, and a Δv map of the Solar System, ending with the engines from chemical rockets to fusion drives.
 - [Physical Computing](https://followorbounce.github.io/aerospace/cascade-physical-computing): from a voltage crossing a threshold to a switching transistor, logic, memory, clocks, and CPU instructions, up through Arduino, ESP32, Raspberry Pi, FPGAs, and ASICs.
+- [The Mathematics of Music](https://followorbounce.github.io/aerospace/mathematics-of-music): pressure waves, frequency, string harmonics, equal temperament, and Fourier analysis, connected to radio modulation, the Deep Space Network, pulsars, and orbital resonance — with a playable keyboard, string and harmonic simulators, and a frequency-to-note calculator.
 
 ## Space & Time
 

@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RESONANCE — THE MATHEMATICS OF MUSIC / МАТЕМАТИКА МУЗЫКИ</title>
+<meta name="description" content="An interactive field guide to the physics and mathematics behind music — pressure waves, string harmonics, equal temperament, and Fourier analysis — and how the same wave equation carries a musical note, a radio broadcast, a spacecraft downlink, and an orbital resonance between moons.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/mathematics-of-music">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RESONANCE — THE MATHEMATICS OF MUSIC / МАТЕМАТИКА МУЗЫКИ">
+<meta property="og:description" content="An interactive field guide to the physics and mathematics behind music — pressure waves, string harmonics, equal temperament, and Fourier analysis — and how the same wave equation reaches radio, spacecraft, and orbiting moons.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/mathematics-of-music">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+sup, sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px); letter-spacing:0.01em;}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-controls{margin-top:4px;}
+.sim-controls input[type=range]{width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:18px 0 8px;}
+.sim-controls input[type=range]::-webkit-slider-thumb{appearance:none; width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-controls input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-readout{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; flex-wrap:wrap; gap:6px;}
+.preset-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.preset-btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); padding:7px 11px; cursor:pointer;}
+.preset-btn:hover{border-color:var(--ink);}
+.preset-btn.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); margin-top:16px;}
+.readout-grid.cols-4{grid-template-columns:repeat(4,1fr);}
+.readout-grid.cols-3{grid-template-columns:repeat(3,1fr);}
+@media (max-width:640px){ .readout-grid.cols-4{grid-template-columns:repeat(2,1fr);} }
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:11.5px;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.voltage-readout{font-family:var(--font-display); font-size:2.1rem; text-align:center; margin:18px 0 4px;}
+.voltage-sub{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); text-align:center;}
+.diagram-svg{width:100%; height:auto; display:block; margin:20px 0;}
+.diagram-svg text{font-family:var(--font-mono);}
+.dash-grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); margin-top:8px;}
+@media (max-width:760px){.dash-grid3{grid-template-columns:1fr;}}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.15rem,2.2vw,1.6rem); font-style:italic; max-width:760px; line-height:1.35;}
+.quote-block .fig-num{display:block; margin-top:16px;}
+.ref-list{margin-top:8px;}
+.ref-item{display:grid; grid-template-columns:32px 1fr; gap:12px; padding:12px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:first-child{border-top:1px solid var(--ink);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-weight:600;}
+.ref-url{display:block; font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all;}
+.ref-note{font-size:13.5px; color:var(--mid); margin-top:4px;}
+.see-also{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+.see-also a.module-chip{font-family:var(--font-mono); font-size:11.5px; border:1px solid var(--line); padding:8px 12px; background:var(--paper); text-decoration:none; display:inline-block;}
+.see-also a.module-chip:hover{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+/* --- pressure-wave dot animation (CH.01) --- */
+.pw-row{display:flex; gap:5px; align-items:center; padding:28px 4px 8px; overflow:hidden;}
+.pw-dot{width:7px; height:7px; border-radius:50%; background:var(--ink); flex:0 0 auto; animation:pw-osc 1.6s ease-in-out infinite;}
+@keyframes pw-osc{0%,100%{transform:translateX(0);}50%{transform:translateX(7px);}}
+.pw-caption{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:10px; color:var(--mid); text-transform:uppercase; letter-spacing:0.05em;}
+
+/* --- log-frequency comparison track (CH.02 hearing range, CH.10 radio) --- */
+.freq-track{position:relative; height:2px; background:var(--line); margin:56px 6px 0;}
+.freq-dot{position:absolute; top:0; width:13px; height:13px; margin-top:-6px; margin-left:-6.5px; border-radius:50%; background:var(--paper); border:2px solid var(--ink); cursor:pointer;}
+.freq-dot.active{background:var(--ink);}
+.freq-label{position:absolute; top:14px; transform:translateX(-50%); font-family:var(--font-mono); font-size:9px; color:var(--mid); max-width:112px; white-space:normal; text-align:center; line-height:1.35; letter-spacing:0.01em; cursor:pointer;}
+.freq-detail{margin-top:84px; border:1px solid var(--ink); background:var(--white); padding:20px 22px; min-height:110px;}
+.freq-detail .fd-name{font-family:var(--font-display); font-size:1.25rem; margin-bottom:6px;}
+.freq-detail .fd-freq{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em;}
+
+/* --- piano keyboard (CH.03) --- */
+#pianoSvg .hotspot rect{fill:var(--white); stroke:var(--ink); stroke-width:1;}
+#pianoSvg .hotspot.pk-black rect{fill:var(--ink);}
+#pianoSvg .hotspot:hover rect, #pianoSvg .hotspot.active rect{fill:var(--mid) !important;}
+#pianoSvg .hotspot text{fill:var(--ink); font-size:9.5px; text-anchor:middle;}
+#pianoSvg .hotspot.pk-black text{fill:var(--paper);}
+
+/* --- harmonic-amplitude sliders (CH.07) --- */
+.slider-row{display:grid; grid-template-columns:88px 1fr 52px; align-items:center; gap:14px; margin:12px 0;}
+.slider-row label{font-family:var(--font-mono); font-size:11px; color:var(--mid);}
+.slider-row input[type=range]{width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:0;}
+.slider-row input[type=range]::-webkit-slider-thumb{appearance:none; width:14px; height:14px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.slider-row input[type=range]::-moz-range-thumb{width:14px; height:14px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.slider-row .sv{font-family:var(--font-mono); font-size:12px; text-align:right;}
+
+/* --- orbital resonance (CH.12) --- */
+.orbit-wrap{display:flex; justify-content:center; padding:12px 0 4px;}
+.orbit-ring{fill:none; stroke:var(--line); stroke-width:1;}
+.orbit-dot{fill:var(--ink);}
+@keyframes orbit-spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+.orbit-spin-1{transform-box:view-box; transform-origin:200px 200px; animation:orbit-spin 3s linear infinite;}
+.orbit-spin-2{transform-box:view-box; transform-origin:200px 200px; animation:orbit-spin 6s linear infinite;}
+.orbit-spin-3{transform-box:view-box; transform-origin:200px 200px; animation:orbit-spin 12s linear infinite;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">RESONANCE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE PRESSURE WAVE</span></div>
+  <div class="hud-row"><span class="hud-label">DETAIL</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">RANGE</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE PRESSURE WAVE" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — FROM A VIBRATING STRING TO A RADIO SIGNAL" data-ru="РИС. 00 — ОТ КОЛЕБЛЮЩЕЙСЯ СТРУНЫ ДО РАДИОСИГНАЛА">FIG. 00 — FROM A VIBRATING STRING TO A RADIO SIGNAL</span></span>
+        <span data-en="A4 = 440 Hz" data-ru="Ля₄ = 440 Гц">A4 = 440 Hz</span>
+      </div>
+      <h1><span data-en="RESONANCE" data-ru="РЕЗОНАНС">RESONANCE</span><br><em data-en="THE MATHEMATICS OF MUSIC, FROM A VIBRATING STRING TO A RADIO SIGNAL" data-ru="МАТЕМАТИКА МУЗЫКИ: ОТ КОЛЕБЛЮЩЕЙСЯ СТРУНЫ ДО РАДИОСИГНАЛА">THE MATHEMATICS OF MUSIC, FROM A VIBRATING STRING TO A RADIO SIGNAL</em></h1>
+      <p class="sub lede" data-en="Fourteen chapters, with the actual equations, on why a note is just a frequency with a name — a playable keyboard, a string simulator, a harmonic-series builder, a square/sawtooth/noise generator, and a frequency-to-note calculator along the way. The same wave equation that describes a plucked guitar string also describes a radio carrier, a spacecraft's downlink, and the locked orbits of Jupiter's moons — this guide follows it from a vibrating string all the way out to the edge of the Solar System. Scroll to begin." data-ru="Четырнадцать глав с настоящими формулами о том, почему нота — это просто частота с именем: по пути — играющая клавиатура, симулятор струны, конструктор гармонического ряда, генератор прямоугольных, пилообразных волн и шума, и калькулятор «частота → нота». Одно и то же волновое уравнение описывает и щипок гитарной струны, и несущую радиоволну, и канал связи со спутником, и устойчивые орбитальные резонансы лун Юпитера — этот справочник проследит его от колеблющейся струны до самого края Солнечной системы. Пролистайте вниз, чтобы начать.">Fourteen chapters, with the actual equations, on why a note is just a frequency with a name — a playable keyboard, a string simulator, a harmonic-series builder, a square/sawtooth/noise generator, and a frequency-to-note calculator along the way. The same wave equation that describes a plucked guitar string also describes a radio carrier, a spacecraft's downlink, and the locked orbits of Jupiter's moons — this guide follows it from a vibrating string all the way out to the edge of the Solar System. Scroll to begin.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHAT IS SOUND -->
+<section id="ch1" class="section" data-phase="THE PRESSURE WAVE" data-alt="LONGITUDINAL WAVE" data-vel="20 Hz – 20 kHz AUDIBLE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 14</span> — <span data-en="WHAT IS SOUND, PHYSICALLY" data-ru="ЧТО ТАКОЕ ЗВУК ФИЗИЧЕСКИ">WHAT IS SOUND, PHYSICALLY</span></div>
+    <h2 class="h-lg" data-en="Music starts as nothing more than air bumping into itself" data-ru="Музыка начинается всего лишь со столкновений воздуха самого с собой">Music starts as nothing more than air bumping into itself</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Sound is a longitudinal pressure wave: a vibrating object — a string, a speaker cone, a vocal fold — pushes on the air next to it, compressing it, and that compressed air pushes the air next to it, and so on outward in every direction. No single air molecule travels far from where it started; what actually moves outward is the disturbance itself, the same way a wave crossing a stadium crowd is people momentarily standing and sitting, not people running around the building." data-ru="Звук — это продольная волна давления: колеблющийся объект — струна, диффузор динамика, голосовая связка — толкает соседний воздух, сжимая его, а этот сжатый воздух толкает следующий слой, и так далее во все стороны. Ни одна молекула воздуха далеко не улетает от исходной точки — наружу распространяется само возмущение, точно так же как волна на трибунах стадиона — это люди, на мгновение вставшие и севшие, а вовсе не бегущие вокруг стадиона зрители.">Sound is a longitudinal pressure wave: a vibrating object — a string, a speaker cone, a vocal fold — pushes on the air next to it, compressing it, and that compressed air pushes the air next to it, and so on outward in every direction. No single air molecule travels far from where it started; what actually moves outward is the disturbance itself, the same way a wave crossing a stadium crowd is people momentarily standing and sitting, not people running around the building.</p>
+      <p class="body-col" data-en="A microphone, an eardrum, and an oscilloscope all do the same job: they sit still and record how the local air pressure rises and falls over time as that disturbance passes through. Every sound this guide discusses — a plucked guitar string, a human voice, a spacecraft's radio beacon — reduces to that one measurement: pressure, or its electrical stand-in, voltage, changing shape over time. Chapter 2 gives that changing shape a precise vocabulary." data-ru="Микрофон, барабанная перепонка и осциллограф делают одно и то же: неподвижно фиксируют, как локальное давление воздуха растёт и падает во времени по мере прохождения возмущения. Любой звук, о котором пойдёт речь в этом справочнике — щипок гитарной струны, человеческий голос, радиомаяк космического аппарата, — сводится к одному и тому же измерению: давлению или его электрическому аналогу, напряжению, меняющему форму во времени. Глава 2 даёт этой меняющейся форме точный словарь.">A microphone, an eardrum, and an oscilloscope all do the same job: they sit still and record how the local air pressure rises and falls over time as that disturbance passes through. Every sound this guide discusses — a plucked guitar string, a human voice, a spacecraft's radio beacon — reduces to that one measurement: pressure, or its electrical stand-in, voltage, changing shape over time. Chapter 2 gives that changing shape a precise vocabulary.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE WAVE EQUATION — TRUE FOR SOUND, LIGHT, AND RADIO ALIKE" data-ru="ВОЛНОВОЕ УРАВНЕНИЕ — ОДНО И ТО ЖЕ ДЛЯ ЗВУКА, СВЕТА И РАДИО">THE WAVE EQUATION — TRUE FOR SOUND, LIGHT, AND RADIO ALIKE</div>
+      <div class="eq-body">v = f · λ</div>
+      <div class="eq-note" data-en="v = wave speed (≈343 m/s for sound in air at 20°C), f = frequency, λ = wavelength. Chapter 11 runs this exact same equation at radio frequencies, where v becomes the speed of light." data-ru="v — скорость волны (≈343 м/с для звука в воздухе при 20°C), f — частота, λ — длина волны. В главе 11 это же самое уравнение работает на радиочастотах, где v становится скоростью света.">v = wave speed (≈343 m/s for sound in air at 20°C), f = frequency, λ = wavelength. Chapter 11 runs this exact same equation at radio frequencies, where v becomes the speed of light.</div>
+    </div>
+    <p class="lede" style="margin-bottom:4px;" data-en="Two views of the same disturbance: air molecules bunching and spreading (top), and that same pressure change plotted against time (bottom) — the oscilloscope view Chapter 2 builds on." data-ru="Два представления одного и того же возмущения: молекулы воздуха то сгущаются, то расходятся (сверху), и то же самое изменение давления, отложенное во времени (снизу) — вид «осциллографа», на котором строится глава 2.">Two views of the same disturbance: air molecules bunching and spreading (top), and that same pressure change plotted against time (bottom) — the oscilloscope view Chapter 2 builds on.</p>
+    <div class="sim-panel corner-frame">
+      <div class="pw-row" id="pwRow" aria-hidden="true"></div>
+      <div class="pw-caption"><span data-en="COMPRESSION" data-ru="СЖАТИЕ">COMPRESSION</span><span data-en="PARTICLE VIEW — A LONGITUDINAL WAVE" data-ru="ВИД ЧАСТИЦ — ПРОДОЛЬНАЯ ВОЛНА">PARTICLE VIEW — A LONGITUDINAL WAVE</span><span data-en="RAREFACTION" data-ru="РАЗРЕЖЕНИЕ">RAREFACTION</span></div>
+      <svg id="ch1WaveSvg" class="diagram-svg" viewBox="0 0 600 90" role="img" aria-label="The same disturbance redrawn as pressure plotted against time"></svg>
+    </div>
+    <div class="dash-grid3">
+      <div class="dash-card"><div class="dc-name" style="font-size:1.05rem;" data-en="Guitar string" data-ru="Гитарная струна">Guitar string</div><div class="fig-num" data-en="MECHANICAL VIBRATION PUSHES THE AIR DIRECTLY" data-ru="МЕХАНИЧЕСКОЕ КОЛЕБАНИЕ НАПРЯМУЮ ТОЛКАЕТ ВОЗДУХ">MECHANICAL VIBRATION PUSHES THE AIR DIRECTLY</div></div>
+      <div class="dash-card"><div class="dc-name" style="font-size:1.05rem;" data-en="Human voice" data-ru="Человеческий голос">Human voice</div><div class="fig-num" data-en="VOCAL FOLDS CHOP AIRFLOW AT ~85–255 Hz" data-ru="ГОЛОСОВЫЕ СВЯЗКИ ДРОБЯТ ПОТОК ВОЗДУХА НА ~85–255 Гц">VOCAL FOLDS CHOP AIRFLOW AT ~85–255 Hz</div></div>
+      <div class="dash-card"><div class="dc-name" style="font-size:1.05rem;" data-en="Thunder" data-ru="Гром">Thunder</div><div class="fig-num" data-en="ARRIVES LATE — SOUND IS ~880,000× SLOWER THAN LIGHT" data-ru="ПРИХОДИТ ПОЗЖЕ — ЗВУК ПРИМЕРНО В 880 000 РАЗ МЕДЛЕННЕЕ СВЕТА">ARRIVES LATE — SOUND IS ~880,000× SLOWER THAN LIGHT</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — FREQUENCY, AMPLITUDE, WAVELENGTH, PHASE + HEARING RANGE -->
+<section id="ch2" class="section" data-phase="WAVEFORM ANATOMY" data-alt="AMPLITUDE · PHASE" data-vel="343 m/s IN AIR">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 14</span> — <span data-en="THE FOUR NUMBERS THAT DESCRIBE ANY WAVE" data-ru="ЧЕТЫРЕ ЧИСЛА, ОПИСЫВАЮЩИЕ ЛЮБУЮ ВОЛНУ">THE FOUR NUMBERS THAT DESCRIBE ANY WAVE</span></div>
+    <h2 class="h-lg" data-en="Frequency, amplitude, wavelength, and phase — and you've described any sound wave that exists" data-ru="Частота, амплитуда, длина волны и фаза — и любая звуковая волна полностью описана">Frequency, amplitude, wavelength, and phase — and you've described any sound wave that exists</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Frequency is how many pressure cycles pass a point each second, measured in hertz (Hz) — it's the physical quantity the ear perceives as pitch. Amplitude is how large the pressure swing is, perceived as loudness. Wavelength is the physical distance one full cycle occupies in space, λ = v/f — a low note's wavelength in air can be several metres long, while a high note's is a few centimetres." data-ru="Частота — сколько циклов давления проходит через точку за секунду, измеряется в герцах (Гц); это та физическая величина, которую ухо воспринимает как высоту тона. Амплитуда — насколько велик размах давления, воспринимается как громкость. Длина волны — физическое расстояние, которое занимает один полный цикл в пространстве, λ = v/f: длина волны низкой ноты в воздухе может составлять несколько метров, а высокой — всего несколько сантиметров.">Frequency is how many pressure cycles pass a point each second, measured in hertz (Hz) — it's the physical quantity the ear perceives as pitch. Amplitude is how large the pressure swing is, perceived as loudness. Wavelength is the physical distance one full cycle occupies in space, λ = v/f — a low note's wavelength in air can be several metres long, while a high note's is a few centimetres.</p>
+      <p class="body-col" data-en="Phase is where a wave sits within its own cycle at a given instant, usually measured in degrees (0–360°) or radians. It seems like the least important of the four right up until Chapter 7, where adding waves of the same frequency but different phase is exactly how instruments build their characteristic sound — and Chapter 11, where it's the third thing, besides amplitude and frequency, that a radio signal can be modulated to carry information." data-ru="Фаза — это положение волны внутри собственного цикла в данный момент, обычно измеряется в градусах (0–360°) или радианах. Она кажется наименее важной из четырёх величин — вплоть до главы 7, где сложение волн одной частоты, но разной фазы, — это именно то, как инструменты формируют свой характерный звук, и до главы 11, где это третья, помимо амплитуды и частоты, величина, модулируя которую радиосигнал может нести информацию.">Phase is where a wave sits within its own cycle at a given instant, usually measured in degrees (0–360°) or radians. It seems like the least important of the four right up until Chapter 7, where adding waves of the same frequency but different phase is exactly how instruments build their characteristic sound — and Chapter 11, where it's the third thing, besides amplitude and frequency, that a radio signal can be modulated to carry information.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <svg id="waveSvg" class="diagram-svg" viewBox="0 0 600 200" role="img" aria-label="An adjustable sine wave, with a second wave overlaid to show a phase shift"></svg>
+      <div class="eq-note" style="margin-top:-8px; text-align:center;" id="waveEqReadout">y(t) = A · sin(2π f t)</div>
+      <div class="sim-controls">
+        <div class="sim-readout"><span class="mono" data-en="FREQUENCY (ILLUSTRATIVE)" data-ru="ЧАСТОТА (УСЛОВНАЯ ШКАЛА)">FREQUENCY (ILLUSTRATIVE)</span><span class="mono" id="waveFreqVal">3 cycles</span></div>
+        <input id="waveFreqSlider" type="range" min="1" max="8" step="1" value="3">
+        <div class="sim-readout"><span class="mono" data-en="AMPLITUDE" data-ru="АМПЛИТУДА">AMPLITUDE</span><span class="mono" id="waveAmpVal">70%</span></div>
+        <input id="waveAmpSlider" type="range" min="10" max="100" step="5" value="70">
+        <div class="sim-readout"><span class="mono" data-en="PHASE SHIFT OF SECOND WAVE (DASHED)" data-ru="СДВИГ ФАЗЫ ВТОРОЙ ВОЛНЫ (ПУНКТИР)">PHASE SHIFT OF SECOND WAVE (DASHED)</span><span class="mono" id="wavePhaseVal">0°</span></div>
+        <input id="wavePhaseSlider" type="range" min="0" max="360" step="15" value="0">
+      </div>
+    </div>
+    <p class="lede" style="margin:36px 0 4px;" data-en="Human hearing spans roughly three decades of frequency, 20 Hz to 20 kHz. Click a point on the scale below." data-ru="Человеческий слух охватывает примерно три порядка по частоте — от 20 Гц до 20 кГц. Нажмите на точку на шкале ниже.">Human hearing spans roughly three decades of frequency, 20 Hz to 20 kHz. Click a point on the scale below.</p>
+    <div class="freq-track" id="hearTrack"></div>
+    <div class="freq-detail corner-frame" id="hearDetail"></div>
+  </div>
+</section>
+
+<!-- CH3 — FREQUENCY AND MUSICAL NOTES -->
+<section id="ch3" class="section" data-phase="NOTES & PITCH" data-alt="SCIENTIFIC PITCH NOTATION" data-vel="A4 = 440 Hz">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 14</span> — <span data-en="WHY A NOTE IS JUST A FREQUENCY WITH A NAME" data-ru="ПОЧЕМУ НОТА — ЭТО ПРОСТО ЧАСТОТА С ИМЕНЕМ">WHY A NOTE IS JUST A FREQUENCY WITH A NAME</span></div>
+    <h2 class="h-lg" data-en="The world agreed, in writing, that this exact pitch is called “A”" data-ru="Мир письменно договорился, что именно эта высота тона называется «Ля»">The world agreed, in writing, that this exact pitch is called “A”</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Pitch is what the ear perceives when it hears a frequency; music assigns twelve letter-named pitch classes (A, A#, B, C, C#…) that repeat every octave, so a note's full identity needs both a letter and an octave number. That system is scientific pitch notation: C4 is “middle C,” A4 is the A above it, and A4 is fixed, by international agreement, at exactly 440 Hz — the reference every other note on this page is computed from." data-ru="Высота тона — это то, что слышит ухо при восприятии частоты; музыка присваивает двенадцать именованных буквами тональных классов (Ля, Ля#, Си, До, До#…), повторяющихся в каждой октаве, поэтому полное «имя» ноты требует и буквы, и номера октавы. Эта система называется научной нотацией высоты тона: До₄ («до первой октавы», C4) — это «средняя до», Ля₄ (A4) — ля над ней, и Ля₄ по международной договорённости зафиксирована ровно на 440 Гц — эталон, от которого в этой статье вычисляется любая другая нота.">Pitch is what the ear perceives when it hears a frequency; music assigns twelve letter-named pitch classes (A, A#, B, C, C#…) that repeat every octave, so a note's full identity needs both a letter and an octave number. That system is scientific pitch notation: C4 is “middle C,” A4 is the A above it, and A4 is fixed, by international agreement, at exactly 440 Hz — the reference every other note on this page is computed from.</p>
+      <p class="body-col" data-en="440 Hz wasn't always the standard — concert pitch drifted anywhere from about 415 Hz to over 450 Hz across different eras and countries before it was formally standardized at 440 Hz by ISO in 1975 (Reference 1), and some orchestras today still tune slightly sharp of it, around 442–443 Hz. The letter names themselves also aren't universal: Russian musical training generally uses solfège syllables — До, Ре, Ми, Фа, Соль, Ля, Си — for the same seven pitch classes as C, D, E, F, G, A, B." data-ru="440 Гц не всегда было стандартом — «концертный строй» в разных эпохах и странах гулял примерно от 415 Гц до более чем 450 Гц, пока в 1975 году не был формально закреплён на 440 Гц стандартом ISO (источник 1); некоторые оркестры и сегодня настраиваются чуть выше — около 442–443 Гц. Сами буквенные имена тоже не универсальны: в русскоязычной музыкальной традиции для тех же семи тональных классов, что C, D, E, F, G, A, B, обычно используют слоговые названия — До, Ре, Ми, Фа, Соль, Ля, Си.">440 Hz wasn't always the standard — concert pitch drifted anywhere from about 415 Hz to over 450 Hz across different eras and countries before it was formally standardized at 440 Hz by ISO in 1975 (Reference 1), and some orchestras today still tune slightly sharp of it, around 442–443 Hz. The letter names themselves also aren't universal: Russian musical training generally uses solfège syllables — До, Ре, Ми, Фа, Соль, Ля, Си — for the same seven pitch classes as C, D, E, F, G, A, B.</p>
+    </div>
+    <p class="lede" style="margin-bottom:4px;" data-en="Play the keyboard below — each key is generated from the same formula Chapter 10 makes explicit." data-ru="Нажмите на клавиши ниже — каждая построена по той же формуле, которую глава 10 сформулирует явно.">Play the keyboard below — each key is generated from the same formula Chapter 10 makes explicit.</p>
+    <div class="sim-panel corner-frame">
+      <svg id="pianoSvg" class="diagram-svg" viewBox="0 0 480 200" role="img" aria-label="A one-octave playable piano keyboard from C4 to C5"></svg>
+      <div class="voltage-readout" id="pianoNote">A4</div>
+      <div class="voltage-sub" id="pianoFreq" data-en="440.00 Hz — CLICK OR PRESS ENTER ON A KEY" data-ru="440,00 Гц — НАЖМИТЕ КЛАВИШУ ИЛИ ENTER НА ВЫБРАННОЙ">440.00 Hz — CLICK OR PRESS ENTER ON A KEY</div>
+    </div>
+    <div class="readout-grid cols-4" id="noteTable"></div>
+  </div>
+</section>
+
+<!-- CH4 — OCTAVES -->
+<section id="ch4" class="section" data-phase="OCTAVES" data-alt="f → 2f" data-vel="440 · 2ⁿ Hz">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 14</span> — <span data-en="DOUBLING THE FREQUENCY, DOUBLING THE OCTAVE" data-ru="УДВОЕНИЕ ЧАСТОТЫ — УДВОЕНИЕ ОКТАВЫ">DOUBLING THE FREQUENCY, DOUBLING THE OCTAVE</span></div>
+    <h2 class="h-lg" data-en="Every octave up is the same note, played by a wave twice as fast" data-ru="Каждая октава вверх — та же самая нота, только волна вдвое быстрее">Every octave up is the same note, played by a wave twice as fast</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="An octave is defined as a 2:1 frequency ratio — nothing more exotic than that. Starting from A4 = 440 Hz, one octave up is 880 Hz, another octave up is 1760 Hz; going down, 440 Hz becomes 220 Hz, then 110 Hz, then 55 Hz. Every tuning system in history, however much it disagrees about the notes in between (Chapters 9–10 cover that disagreement), has always treated the octave as the one interval nobody disputes." data-ru="Октава по определению — это отношение частот 2:1, и ничего экзотичнее. От Ля₄ = 440 Гц одна октава вверх — это 880 Гц, ещё одна — 1760 Гц; вниз 440 Гц становится 220 Гц, затем 110 Гц, затем 55 Гц. Любая система строя в истории музыки, как бы она ни спорила о нотах между октавами (главы 9–10 расскажут об этом споре), всегда считала октаву единственным интервалом, в котором никто не сомневается.">An octave is defined as a 2:1 frequency ratio — nothing more exotic than that. Starting from A4 = 440 Hz, one octave up is 880 Hz, another octave up is 1760 Hz; going down, 440 Hz becomes 220 Hz, then 110 Hz, then 55 Hz. Every tuning system in history, however much it disagrees about the notes in between (Chapters 9–10 cover that disagreement), has always treated the octave as the one interval nobody disputes.</p>
+      <p class="body-col" data-en="Why does doubled frequency sound like “the same note, higher” rather than a different note entirely? Because a 2:1 ratio is the tightest possible lock two different frequencies can have: every single peak of the higher wave lines up with a peak of the lower wave, cycle after cycle, with no exceptions. Chapter 9 shows that as the ratio gets less perfectly aligned — 3:2, 4:3, 5:4 — the ear hears two increasingly distinct notes instead of one doubled note." data-ru="Почему удвоенная частота звучит как «та же нота, только выше», а не как совершенно другая нота? Потому что отношение 2:1 — это самая тесная возможная привязка двух разных частот друг к другу: каждый без исключения пик более высокой волны совпадает с пиком более низкой, цикл за циклом. Глава 9 покажет, что по мере того как совпадение становится менее идеальным — 3:2, 4:3, 5:4, — ухо всё отчётливее слышит две разные ноты, а не одну удвоенную.">Why does doubled frequency sound like “the same note, higher” rather than a different note entirely? Because a 2:1 ratio is the tightest possible lock two different frequencies can have: every single peak of the higher wave lines up with a peak of the lower wave, cycle after cycle, with no exceptions. Chapter 9 shows that as the ratio gets less perfectly aligned — 3:2, 4:3, 5:4 — the ear hears two increasingly distinct notes instead of one doubled note.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE OCTAVE LADDER" data-ru="ЛЕСТНИЦА ОКТАВ">THE OCTAVE LADDER</div>
+      <div class="eq-body">f_octave = 2 × f &nbsp;&nbsp;·&nbsp;&nbsp; f_(n octaves) = f × 2ⁿ</div>
+      <div class="eq-note" data-en="440 → 880 → 1760 Hz going up; 440 → 220 → 110 → 55 Hz going down." data-ru="440 → 880 → 1760 Гц при движении вверх; 440 → 220 → 110 → 55 Гц при движении вниз.">440 → 880 → 1760 Hz going up; 440 → 220 → 110 → 55 Hz going down.</div>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="octaveRow"></div>
+      <svg id="octaveSvg" class="diagram-svg" viewBox="0 0 600 140" role="img" aria-label="The base note and the selected octave overlaid, showing how every peak of the higher wave lines up with the lower wave"></svg>
+      <div class="voltage-readout" id="octaveVal">440.00 Hz</div>
+      <div class="voltage-sub" id="octaveNote" data-en="A4 — REFERENCE PITCH" data-ru="A4 — ЭТАЛОННЫЙ ТОН">A4 — REFERENCE PITCH</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — STRING VIBRATION MATHEMATICS -->
+<section id="ch5" class="section" data-phase="STANDING WAVES" data-alt="f = v / 2L" data-vel="STRING PHYSICS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 14</span> — <span data-en="WHY A SHORTER STRING SINGS HIGHER" data-ru="ПОЧЕМУ КОРОЧЕ СТРУНА — ВЫШЕ ЗВУК">WHY A SHORTER STRING SINGS HIGHER</span></div>
+    <h2 class="h-lg" data-en="A string fixed at both ends can only vibrate in a few exact shapes" data-ru="Струна, закреплённая с обоих концов, может колебаться лишь в нескольких точных формах">A string fixed at both ends can only vibrate in a few exact shapes</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Pluck a string clamped at both ends and it reflects waves back and forth off each fixed point. Only wavelengths that fit exactly between the two ends — with a stationary “node” at each end — survive; everything else cancels itself out through interference within a few reflections. The simplest surviving shape, the fundamental, is a single hump whose wavelength is exactly twice the string's length: λ₁ = 2L." data-ru="Дёрните струну, закреплённую с обоих концов, — и волны начнут отражаться туда-сюда от каждой закреплённой точки. Выживают только те длины волн, что точно укладываются между двумя концами, с неподвижным «узлом» на каждом конце; всё остальное гасит само себя через интерференцию уже за несколько отражений. Простейшая из выживших форм, основной тон, — это один «горб», длина волны которого ровно вдвое больше длины струны: λ₁ = 2L.">Pluck a string clamped at both ends and it reflects waves back and forth off each fixed point. Only wavelengths that fit exactly between the two ends — with a stationary “node” at each end — survive; everything else cancels itself out through interference within a few reflections. The simplest surviving shape, the fundamental, is a single hump whose wavelength is exactly twice the string's length: λ₁ = 2L.</p>
+      <p class="body-col" data-en="Combine that with Chapter 1's v = f·λ and the string's fundamental frequency falls straight out: f₁ = v/2L. Everything a guitarist or pianist does to change pitch is manipulating one of these two variables — fretting a string shortens L and raises pitch; tightening a tuning peg raises the tension T and therefore the wave speed v, which also raises pitch. Try both below." data-ru="Соедините это с уравнением v = f·λ из главы 1 — и основная частота струны выводится напрямую: f₁ = v/2L. Всё, что гитарист или пианист делает для изменения высоты звука, — это управление одной из этих двух переменных: прижатие струны на ладу укорачивает L и повышает высоту тона; подтягивание колка повышает натяжение T и, следовательно, скорость волны v, что тоже повышает высоту. Попробуйте оба способа ниже.">Combine that with Chapter 1's v = f·λ and the string's fundamental frequency falls straight out: f₁ = v/2L. Everything a guitarist or pianist does to change pitch is manipulating one of these two variables — fretting a string shortens L and raises pitch; tightening a tuning peg raises the tension T and therefore the wave speed v, which also raises pitch. Try both below.</p>
+    </div>
+    <div class="grid-2">
+      <div class="eq-box corner-frame">
+        <div class="eq-label" data-en="FUNDAMENTAL FREQUENCY OF A STRING" data-ru="ОСНОВНАЯ ЧАСТОТА СТРУНЫ">FUNDAMENTAL FREQUENCY OF A STRING</div>
+        <div class="eq-body">f₁ = v / (2L)</div>
+        <div class="eq-note" data-en="L = speaking length between the two fixed ends; v = wave speed along the string itself, not the speed of sound in air." data-ru="L — рабочая («звучащая») длина между двумя закреплёнными концами; v — скорость волны вдоль самой струны, а не скорость звука в воздухе.">L = speaking length between the two fixed ends; v = wave speed along the string itself, not the speed of sound in air.</div>
+      </div>
+      <div class="eq-box corner-frame">
+        <div class="eq-label" data-en="WAVE SPEED ALONG THE STRING" data-ru="СКОРОСТЬ ВОЛНЫ ВДОЛЬ СТРУНЫ">WAVE SPEED ALONG THE STRING</div>
+        <div class="eq-body">v = √(T / μ)</div>
+        <div class="eq-note" data-en="T = tension, μ = mass per unit length. A thicker or wound string raises μ, lowering v and pitch without needing extra length — why a piano's bass strings are wound rather than simply long." data-ru="T — натяжение, μ — масса на единицу длины. Более толстая или обмотанная струна повышает μ, понижая v и высоту звука без необходимости в дополнительной длине — вот почему басовые струны рояля обмотаны, а не просто длиннее.">T = tension, μ = mass per unit length. A thicker or wound string raises μ, lowering v and pitch without needing extra length — why a piano's bass strings are wound rather than simply long.</div>
+      </div>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="stringPresetRow"></div>
+      <svg id="stringSvg" class="diagram-svg" viewBox="0 0 600 140" role="img" aria-label="A vibrating string's fundamental standing-wave shape, scaled to the selected length"></svg>
+      <div class="sim-readout"><span class="mono" id="stringLenLabel" data-en="FRETTED LENGTH L" data-ru="ПРИЖАТАЯ ДЛИНА L">FRETTED LENGTH L</span><span class="mono" id="stringLenVal">0.648 m</span></div>
+      <input id="stringLenSlider" type="range" min="15" max="70" step="1" value="65" style="width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 8px;">
+      <div class="readout-grid cols-3" id="stringReadout"></div>
+      <div class="preset-row"><button class="preset-btn" id="stringPlayBtn" data-en="▶ PLAY THIS STRING" data-ru="▶ ЗВУЧАНИЕ СТРУНЫ">▶ PLAY THIS STRING</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — HARMONICS AND OVERTONES -->
+<section id="ch6" class="section" data-phase="HARMONIC SERIES" data-alt="f, 2f, 3f, 4f…" data-vel="STANDING-WAVE MODES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 14</span> — <span data-en="ONE STRING, MANY FREQUENCIES AT ONCE" data-ru="ОДНА СТРУНА — МНОГО ЧАСТОТ ОДНОВРЕМЕННО">ONE STRING, MANY FREQUENCIES AT ONCE</span></div>
+    <h2 class="h-lg" data-en="A plucked string never vibrates in just one shape" data-ru="Дёрнутая струна никогда не колеблется только в одной форме">A plucked string never vibrates in just one shape</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Chapter 5 covered only the simplest standing-wave shape. A real plucked, bowed, or struck string vibrates in its fundamental and, simultaneously, every integer multiple of it — a second mode with two humps and an extra node, a third with three, and on upward — all present together, at different strengths, added on top of each other. Each of these modes is called a harmonic, and their frequencies are exact integer multiples of the fundamental: fₙ = n · f₁." data-ru="Глава 5 разобрала лишь простейшую форму стоячей волны. Реальная струна — дёрнутая, взятая смычком или ударенная — колеблется одновременно и в основном тоне, и во всех его целых кратных: во второй моде с двумя «горбами» и лишним узлом, в третьей — с тремя, и так далее, — все они присутствуют вместе, с разной силой, складываясь друг с другом. Каждая такая мода называется гармоникой, и их частоты — точные целые кратные основной частоты: fₙ = n · f₁.">Chapter 5 covered only the simplest standing-wave shape. A real plucked, bowed, or struck string vibrates in its fundamental and, simultaneously, every integer multiple of it — a second mode with two humps and an extra node, a third with three, and on upward — all present together, at different strengths, added on top of each other. Each of these modes is called a harmonic, and their frequencies are exact integer multiples of the fundamental: fₙ = n · f₁.</p>
+      <p class="body-col" data-en="This series quietly contains Chapter 9's entire table of consonant intervals: the 2nd harmonic sits an octave above the fundamental (2:1), the interval between the 2nd and 3rd harmonics is a perfect fifth (3:2), between the 3rd and 4th a perfect fourth (4:3), and between the 4th and 5th a major third (5:4). The “simple ratios” Chapter 9 treats as a historical discovery are, physically, just the gaps between adjacent rungs of this one ladder." data-ru="Этот ряд незаметно содержит в себе всю таблицу консонансных интервалов из главы 9: 2-я гармоника лежит на октаву выше основного тона (2:1), интервал между 2-й и 3-й гармониками — чистая квинта (3:2), между 3-й и 4-й — чистая кварта (4:3), а между 4-й и 5-й — большая терция (5:4). «Простые отношения», которые глава 9 представит как историческое открытие, физически — это просто промежутки между соседними ступенями одной и той же лестницы.">This series quietly contains Chapter 9's entire table of consonant intervals: the 2nd harmonic sits an octave above the fundamental (2:1), the interval between the 2nd and 3rd harmonics is a perfect fifth (3:2), between the 3rd and 4th a perfect fourth (4:3), and between the 4th and 5th a major third (5:4). The “simple ratios” Chapter 9 treats as a historical discovery are, physically, just the gaps between adjacent rungs of this one ladder.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE HARMONIC SERIES" data-ru="ГАРМОНИЧЕСКИЙ РЯД">THE HARMONIC SERIES</div>
+      <div class="eq-body">fₙ = n · f₁ &nbsp; (n = 1, 2, 3, 4, 5…)</div>
+      <div class="eq-note" data-en="A valveless bugle or hunting horn can only play notes from this one series — it has no way to change L or v, so n is the only thing a player controls." data-ru="Горн или охотничий рожок без вентилей может сыграть только ноты из этого одного ряда — у него нет способа изменить L или v, поэтому единственное, чем управляет исполнитель, — это n.">A valveless bugle or hunting horn can only play notes from this one series — it has no way to change L or v, so n is the only thing a player controls.</div>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="harmonicRow"></div>
+      <svg id="harmonicSvg" class="diagram-svg" viewBox="0 0 600 140" role="img" aria-label="A string vibrating in a higher harmonic mode, with extra nodes and antinodes"></svg>
+      <div class="voltage-readout" id="harmonicVal">110.00 Hz</div>
+      <div class="voltage-sub" id="harmonicNote" data-en="HARMONIC 1 (FUNDAMENTAL) — A2" data-ru="ГАРМОНИКА 1 (ОСНОВНОЙ ТОН) — A2">HARMONIC 1 (FUNDAMENTAL) — A2</div>
+      <div class="preset-row"><button class="preset-btn" id="harmonicPlayBtn" data-en="▶ PLAY THIS HARMONIC" data-ru="▶ ЗВУЧАНИЕ ГАРМОНИКИ">▶ PLAY THIS HARMONIC</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — TIMBRE, FOURIER, AND THE SPECTRUM -->
+<section id="ch7" class="section" data-phase="FOURIER / TIMBRE" data-alt="SUPERPOSITION" data-vel="ANY WAVE = Σ SINES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 14</span> — <span data-en="WHY A FLUTE AND A VIOLIN PLAYING THE SAME NOTE SOUND NOTHING ALIKE" data-ru="ПОЧЕМУ ФЛЕЙТА И СКРИПКА НА ОДНОЙ НОТЕ ЗВУЧАТ СОВЕРШЕННО ПО-РАЗНОМУ">WHY A FLUTE AND A VIOLIN PLAYING THE SAME NOTE SOUND NOTHING ALIKE</span></div>
+    <h2 class="h-lg" data-en="Two instruments can share every frequency and still sound completely different" data-ru="Два инструмента могут разделять одну и ту же частоту — и звучать совершенно по-разному">Two instruments can share every frequency and still sound completely different</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Pitch depends only on the fundamental, f₁ — but Chapter 6 showed every real note also carries a whole stack of harmonics on top of it, and it's the relative loudness of each harmonic, its “recipe,” that gives an instrument its timbre. Two notes can share an identical f₁ and be instantly distinguishable, because a flute's recipe is almost pure fundamental while a violin's is loud all the way up its harmonic series." data-ru="Высота тона зависит только от основной частоты f₁ — но глава 6 уже показала, что любая настоящая нота несёт на себе целый набор гармоник, и именно относительная громкость каждой гармоники, её «рецепт», придаёт инструменту его тембр. Две ноты могут иметь совершенно одинаковую f₁ и мгновенно различаться на слух, потому что «рецепт» флейты — почти чистый основной тон, а у скрипки громкие гармоники тянутся далеко вверх по ряду.">Pitch depends only on the fundamental, f₁ — but Chapter 6 showed every real note also carries a whole stack of harmonics on top of it, and it's the relative loudness of each harmonic, its “recipe,” that gives an instrument its timbre. Two notes can share an identical f₁ and be instantly distinguishable, because a flute's recipe is almost pure fundamental while a violin's is loud all the way up its harmonic series.</p>
+      <p class="body-col" data-en="This is Fourier's insight, generalized beyond strings: any periodic wave whatsoever, no matter how jagged it looks, can be built by adding up pure sine waves at the right frequencies, amplitudes, and phases (Chapter 2's fourth number, finally put to work). Fourier analysis is the math that finds those amplitudes from a recorded sound; a spectrogram plots them continuously over time — and Chapter 11's radio engineers read a signal's spectrum with exactly the same tool." data-ru="Это и есть открытие Фурье, обобщённое за пределы струн: абсолютно любую периодическую волну, сколь угодно «рваную» на вид, можно построить, складывая чистые синусоиды нужных частот, амплитуд и фаз (та самая четвёртая величина из главы 2, наконец пущенная в дело). Анализ Фурье — это математика, находящая эти амплитуды по записанному звуку; спектрограмма откладывает их непрерывно во времени — и радиоинженеры в главе 11 читают спектр сигнала тем же самым инструментом.">This is Fourier's insight, generalized beyond strings: any periodic wave whatsoever, no matter how jagged it looks, can be built by adding up pure sine waves at the right frequencies, amplitudes, and phases (Chapter 2's fourth number, finally put to work). Fourier analysis is the math that finds those amplitudes from a recorded sound; a spectrogram plots them continuously over time — and Chapter 11's radio engineers read a signal's spectrum with exactly the same tool.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="FOURIER SYNTHESIS, INFORMALLY" data-ru="СИНТЕЗ ФУРЬЕ, НЕФОРМАЛЬНО">FOURIER SYNTHESIS, INFORMALLY</div>
+      <div class="eq-body">s(t) = Σₙ Aₙ · sin(2π n f₁ t + φₙ)</div>
+      <div class="eq-note" data-en="An instrument's characteristic sound is, mathematically, nothing more than its own particular list of Aₙ values. Build one below." data-ru="Характерное звучание инструмента — математически не более чем его собственный набор значений Aₙ. Постройте такой набор ниже.">An instrument's characteristic sound is, mathematically, nothing more than its own particular list of Aₙ values. Build one below.</div>
+    </div>
+    <p class="lede" style="margin-bottom:4px;" data-en="Set each harmonic's amplitude and watch both views update together: the time-domain waveform (an oscilloscope) and the frequency-domain spectrum (what a spectrum analyzer shows)." data-ru="Задайте амплитуду каждой гармоники и следите, как одновременно меняются оба представления: волна во временной области (осциллограф) и спектр в частотной области (то, что показывает анализатор спектра).">Set each harmonic's amplitude and watch both views update together: the time-domain waveform (an oscilloscope) and the frequency-domain spectrum (what a spectrum analyzer shows).</p>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="timbrePresetRow"></div>
+      <div id="timbreSliders"></div>
+      <div class="grid-2" style="margin-top:12px;">
+        <div>
+          <div class="eq-note" style="text-align:center; margin-bottom:4px;" data-en="TIME DOMAIN — OSCILLOSCOPE" data-ru="ВРЕМЕННА́Я ОБЛАСТЬ — ОСЦИЛЛОГРАФ">TIME DOMAIN — OSCILLOSCOPE</div>
+          <svg id="timbreScopeSvg" class="diagram-svg" viewBox="0 0 280 140" role="img" aria-label="The resulting waveform in the time domain"></svg>
+        </div>
+        <div>
+          <div class="eq-note" style="text-align:center; margin-bottom:4px;" data-en="FREQUENCY DOMAIN — SPECTRUM" data-ru="ЧАСТОТНАЯ ОБЛАСТЬ — СПЕКТР">FREQUENCY DOMAIN — SPECTRUM</div>
+          <svg id="timbreSpecSvg" class="diagram-svg" viewBox="0 0 280 140" role="img" aria-label="The amplitude of each harmonic in the frequency domain"></svg>
+        </div>
+      </div>
+      <div class="preset-row"><button class="preset-btn" id="timbrePlayBtn" data-en="▶ PLAY THIS TIMBRE" data-ru="▶ ВОСПРОИЗВЕСТИ ЭТОТ ТЕМБР">▶ PLAY THIS TIMBRE</button></div>
+      <div class="eq-note" style="margin-top:14px;" data-en="Instrument presets are illustrative harmonic profiles for teaching the shape of the effect, not measured spectra of specific recordings." data-ru="Пресеты инструментов — иллюстративные гармонические профили для наглядной демонстрации эффекта, а не измеренные спектры конкретных записей.">Instrument presets are illustrative harmonic profiles for teaching the shape of the effect, not measured spectra of specific recordings.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — WAVEFORM SHAPES AND NOISE -->
+<section id="ch8" class="section" data-phase="WAVEFORM SHAPES" data-alt="SQUARE · SAW · TRIANGLE · NOISE" data-vel="THE FOURIER ZOO">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 14</span> — <span data-en="THE FAMILIAR SHAPES A SPECTRUM CAN BUILD" data-ru="ЗНАКОМЫЕ ФОРМЫ, КОТОРЫЕ СТРОИТ СПЕКТР">THE FAMILIAR SHAPES A SPECTRUM CAN BUILD</span></div>
+    <h2 class="h-lg" data-en="Sine, square, sawtooth, triangle, and noise are just five different recipes" data-ru="Синус, прямоугольная, пилообразная, треугольная волны и шум — это просто пять разных рецептов">Sine, square, sawtooth, triangle, and noise are just five different recipes</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Chapter 7's “recipe” idea has a few extremely common, named results worth knowing by sight and by ear. A sine wave — or a cosine, the exact same shape, just starting a quarter-cycle (90°) earlier — is the purest possible tone: one frequency, one amplitude, nothing else in its spectrum. A plain amplitude spectrum can't show phase at all, which is why a sine and a cosine look identical in the spectrum view below despite looking different on the oscilloscope — Chapter 2 already called phase the one number that only matters once waves are combined." data-ru="«Рецепт» из главы 7 даёт несколько чрезвычайно распространённых, именованных результатов, которые стоит узнавать и на глаз, и на слух. Синусоида — или косинусоида, та же самая форма, только начинающаяся на четверть цикла (90°) раньше, — это самый чистый из возможных тонов: одна частота, одна амплитуда, больше ничего в спектре. Обычный спектр амплитуд вообще не показывает фазу, поэтому синус и косинус выглядят одинаково в представлении спектра ниже, несмотря на то что на осциллографе они различаются, — глава 2 уже назвала фазу единственной величиной, которая начинает иметь значение лишь при сложении волн.">Chapter 7's “recipe” idea has a few extremely common, named results worth knowing by sight and by ear. A sine wave — or a cosine, the exact same shape, just starting a quarter-cycle (90°) earlier — is the purest possible tone: one frequency, one amplitude, nothing else in its spectrum. A plain amplitude spectrum can't show phase at all, which is why a sine and a cosine look identical in the spectrum view below despite looking different on the oscilloscope — Chapter 2 already called phase the one number that only matters once waves are combined.</p>
+      <p class="body-col" data-en="A square wave switches instantly between two levels and contains only odd harmonics (f, 3f, 5f…), each falling off as 1/n — the buzzy, hollow core of classic synthesizer basses (Chapter 2 already showed a real digital signal isn't perfectly square either). A sawtooth, or ramp, wave rises steadily and drops instantly, containing every harmonic, odd and even alike, also falling as 1/n — the brightest, buzziest classic analog-synth lead, and literally the shape of an oscilloscope's own timebase sweep. A triangle wave has only odd harmonics too, like a square wave, but they fall off much faster, as 1/n², sounding noticeably softer and closer to a pure tone." data-ru="Прямоугольная волна мгновенно переключается между двумя уровнями и содержит только нечётные гармоники (f, 3f, 5f…), каждая из которых спадает как 1/n, — дребезжащая, «пустая» основа классических синтезаторных басов (глава 2 уже показывала, что и реальный цифровой сигнал не бывает идеально прямоугольным). Пилообразная волна, или рампа, плавно нарастает и мгновенно падает, содержит все гармоники, и нечётные, и чётные, тоже спадающие как 1/n, — самый яркий и «дребезжащий» классический звук аналогового синтезатора-лида, и в буквальном смысле форма развёртки самого осциллографа. Треугольная волна тоже содержит только нечётные гармоники, как и прямоугольная, но они спадают гораздо быстрее — как 1/n², — и звучит заметно мягче, ближе к чистому тону.">A square wave switches instantly between two levels and contains only odd harmonics (f, 3f, 5f…), each falling off as 1/n — the buzzy, hollow core of classic synthesizer basses (Chapter 2 already showed a real digital signal isn't perfectly square either). A sawtooth, or ramp, wave rises steadily and drops instantly, containing every harmonic, odd and even alike, also falling as 1/n — the brightest, buzziest classic analog-synth lead, and literally the shape of an oscilloscope's own timebase sweep. A triangle wave has only odd harmonics too, like a square wave, but they fall off much faster, as 1/n², sounding noticeably softer and closer to a pure tone.</p>
+    </div>
+    <div class="grid-2">
+      <p class="body-col" data-en="Noise is the opposite extreme: instead of a few clean harmonics, it has energy at every frequency at once, with no periodicity at all — there's no f₁ to even measure. White noise carries equal energy at every frequency (a flat spectrum, literally every pitch at once, equally loud) and sounds like a hiss, or an untuned radio between stations. Pink noise tilts that spectrum down, losing power as 1/f so that each octave carries equal energy instead of each frequency — closer to how the ear actually weighs loudness across its range — and sounds smoother, like steady rainfall." data-ru="Шум — противоположная крайность: вместо нескольких чистых гармоник у него есть энергия одновременно на всех частотах, вообще без периодичности — нет даже единой f₁, которую можно было бы измерить. Белый шум несёт равную энергию на каждой частоте (плоский спектр — буквально все высоты тона одновременно, одинаково громко) и звучит как шипение или ненастроенное радио между станциями. Розовый шум наклоняет этот спектр вниз, теряя мощность как 1/f, так что каждая октава несёт равную энергию вместо каждой частоты — ближе к тому, как ухо на самом деле взвешивает громкость по всему диапазону, — и звучит более ровно, как устойчивый дождь.">Noise is the opposite extreme: instead of a few clean harmonics, it has energy at every frequency at once, with no periodicity at all — there's no f₁ to even measure. White noise carries equal energy at every frequency (a flat spectrum, literally every pitch at once, equally loud) and sounds like a hiss, or an untuned radio between stations. Pink noise tilts that spectrum down, losing power as 1/f so that each octave carries equal energy instead of each frequency — closer to how the ear actually weighs loudness across its range — and sounds smoother, like steady rainfall.</p>
+      <p class="body-col" data-en="Brown (or “red”) noise tilts further still, losing power as 1/f² and shedding high frequencies fastest of all — a deep rumble, like a distant waterfall. Every shape on this page reappears verbatim in electronics: a sawtooth is a radar chirp's building block, a square wave is the idealized digital signal CASCADE's own second chapter complicates with real rise times, and noise is the fundamental floor every radio receiver in Chapter 11 has to work above. Pick a shape below." data-ru="Коричневый (или «красный») шум наклоняется ещё сильнее, теряя мощность как 1/f² и быстрее всего лишаясь высоких частот, — глубокий гул, как далёкий водопад. Каждая форма на этой странице дословно повторяется в электронике: пилообразная волна — строительный блок радиолокационного чирп-сигнала, прямоугольная волна — тот самый идеализированный цифровой сигнал, который собственная вторая глава CASCADE усложняет реальным временем нарастания, а шум — тот самый фундаментальный предел, выше которого приходится работать любому радиоприёмнику из главы 11. Выберите форму ниже.">Brown (or “red”) noise tilts further still, losing power as 1/f² and shedding high frequencies fastest of all — a deep rumble, like a distant waterfall. Every shape on this page reappears verbatim in electronics: a sawtooth is a radar chirp's building block, a square wave is the idealized digital signal CASCADE's own second chapter complicates with real rise times, and noise is the fundamental floor every radio receiver in Chapter 11 has to work above. Pick a shape below.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="zooPresetRow"></div>
+      <div class="grid-2" style="margin-top:12px;">
+        <div>
+          <div class="eq-note" style="text-align:center; margin-bottom:4px;" data-en="TIME DOMAIN — OSCILLOSCOPE" data-ru="ВРЕМЕННА́Я ОБЛАСТЬ — ОСЦИЛЛОГРАФ">TIME DOMAIN — OSCILLOSCOPE</div>
+          <svg id="zooScopeSvg" class="diagram-svg" viewBox="0 0 280 140" role="img" aria-label="The selected waveform in the time domain"></svg>
+        </div>
+        <div>
+          <div class="eq-note" style="text-align:center; margin-bottom:4px;" data-en="FREQUENCY DOMAIN — SPECTRUM" data-ru="ЧАСТОТНАЯ ОБЛАСТЬ — СПЕКТР">FREQUENCY DOMAIN — SPECTRUM</div>
+          <svg id="zooSpecSvg" class="diagram-svg" viewBox="0 0 280 140" role="img" aria-label="The harmonic or noise spectrum of the selected waveform"></svg>
+        </div>
+      </div>
+      <div class="voltage-sub" id="zooDesc" style="margin-top:14px; text-align:left;"></div>
+      <div class="preset-row"><button class="preset-btn" id="zooPlayBtn" data-en="▶ PLAY THIS WAVEFORM" data-ru="▶ ВОСПРОИЗВЕСТИ ЭТУ ВОЛНУ">▶ PLAY THIS WAVEFORM</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — RATIOS AND MUSICAL INTERVALS -->
+<section id="ch9" class="section" data-phase="INTERVALS" data-alt="SIMPLE RATIOS" data-vel="3:2 · 4:3 · 5:4">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 14</span> — <span data-en="CONSONANCE IS A SIMPLE FRACTION" data-ru="КОНСОНАНС — ЭТО ПРОСТАЯ ДРОБЬ">CONSONANCE IS A SIMPLE FRACTION</span></div>
+    <h2 class="h-lg" data-en="The most pleasant-sounding intervals are also the simplest fractions" data-ru="Самые благозвучные интервалы — ещё и самые простые дроби">The most pleasant-sounding intervals are also the simplest fractions</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="An interval is just the ratio between two frequencies. Chapter 6 already derived where the simplest ones come from: the octave (2:1), perfect fifth (3:2), perfect fourth (4:3), and major third (5:4) are literally the gaps between neighboring harmonics. Tradition credits the Pythagorean school in ancient Greece with first formalizing this — using a monochord, a single string with a movable bridge, to show that simple string-length ratios produce the intervals musicians already recognized by ear." data-ru="Интервал — это просто отношение двух частот. Глава 6 уже вывела, откуда берутся самые простые из них: октава (2:1), чистая квинта (3:2), чистая кварта (4:3) и большая терция (5:4) — это буквально промежутки между соседними гармониками. Традиция приписывает пифагорейской школе в Древней Греции первую формализацию этого факта — при помощи монохорда, единственной струны с подвижной подставкой, демонстрирующей, что простые отношения длин струны дают именно те интервалы, которые музыканты уже узнавали на слух.">An interval is just the ratio between two frequencies. Chapter 6 already derived where the simplest ones come from: the octave (2:1), perfect fifth (3:2), perfect fourth (4:3), and major third (5:4) are literally the gaps between neighboring harmonics. Tradition credits the Pythagorean school in ancient Greece with first formalizing this — using a monochord, a single string with a movable bridge, to show that simple string-length ratios produce the intervals musicians already recognized by ear.</p>
+      <p class="body-col" data-en="(The popular story of Pythagoras discovering this by listening to blacksmiths' hammering is a much later legend, and not physically sound — differently-massed hammers don't ring at clean harmonic ratios; the monochord tradition is the well-attested part.) Interval size is usually measured in cents, a logarithmic unit with exactly 1200 per octave and 100 per equal-tempered semitone, defined as cents = 1200 · log₂(f₂/f₁) — Chapter 10 needs that unit to measure just how far equal temperament drifts from these pure ratios." data-ru="(Популярная история о том, что Пифагор открыл это, слушая удары кузнечных молотов, — гораздо более поздняя легенда, физически несостоятельная: молоты разной массы не звучат в чистых гармонических отношениях; хорошо подтверждена именно традиция монохорда.) Размер интервала принято измерять в центах — логарифмической единице, ровно 1200 на октаву и 100 на равномерно темперированный полутон, определяемой как cents = 1200 · log₂(f₂/f₁); эта единица понадобится главе 10, чтобы измерить, насколько равномерная темперация отклоняется от этих чистых отношений.">(The popular story of Pythagoras discovering this by listening to blacksmiths' hammering is a much later legend, and not physically sound — differently-massed hammers don't ring at clean harmonic ratios; the monochord tradition is the well-attested part.) Interval size is usually measured in cents, a logarithmic unit with exactly 1200 per octave and 100 per equal-tempered semitone, defined as cents = 1200 · log₂(f₂/f₁) — Chapter 10 needs that unit to measure just how far equal temperament drifts from these pure ratios.</p>
+    </div>
+    <p class="lede" style="margin-bottom:4px;" data-en="Pick an interval — both tones play together, and the overlay below shows how quickly their combined pattern repeats." data-ru="Выберите интервал — оба тона прозвучат одновременно, а график ниже покажет, как быстро повторяется их совместный узор.">Pick an interval — both tones play together, and the overlay below shows how quickly their combined pattern repeats.</p>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="intervalRow"></div>
+      <svg id="intervalSvg" class="diagram-svg" viewBox="0 0 600 140" role="img" aria-label="Two overlaid waveforms showing how the combined pattern repeats for the selected interval"></svg>
+      <div class="readout-grid cols-4" id="intervalReadout"></div>
+    </div>
+    <div class="readout-grid cols-4" style="margin-top:24px;" id="intervalTable"></div>
+  </div>
+</section>
+
+<!-- CH10 — EQUAL TEMPERAMENT -->
+<section id="ch10" class="section" data-phase="EQUAL TEMPERAMENT" data-alt="12-TET" data-vel="f = f₀ · 2ⁿ/¹²">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 14</span> — <span data-en="THE COMPROMISE THAT LET MUSIC MODULATE FREELY" data-ru="КОМПРОМИСС, ПОЗВОЛИВШИЙ МУЗЫКЕ СВОБОДНО МОДУЛИРОВАТЬ">THE COMPROMISE THAT LET MUSIC MODULATE FREELY</span></div>
+    <h2 class="h-lg" data-en="Every semitone is now the same ratio — and no pure interval survives perfectly" data-ru="Теперь каждый полутон — одно и то же отношение, и ни один чистый интервал не сохраняется идеально">Every semitone is now the same ratio — and no pure interval survives perfectly</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Try to build a full keyboard from Chapter 9's pure ratios and it breaks: stack twelve pure perfect fifths (3:2) and you should land back on the note you started from, seven octaves higher — but (3/2)¹² ÷ 2⁷ ≈ 1.0136, a mismatch of about 23.5 cents known as the Pythagorean comma. An instrument tuned this way plays in tune in some keys and audibly sour, a “wolf interval,” in others." data-ru="Попробуйте построить полную клавиатуру из чистых отношений главы 9 — и всё ломается: сложите двенадцать чистых квинт (3:2) подряд, и вы должны вернуться к исходной ноте, но семью октавами выше, — однако (3/2)¹² ÷ 2⁷ ≈ 1,0136, расхождение примерно в 23,5 цента, известное как пифагорова комма. Инструмент, настроенный так, звучит чисто в одних тональностях и заметно фальшиво — «волчьим интервалом» — в других.">Try to build a full keyboard from Chapter 9's pure ratios and it breaks: stack twelve pure perfect fifths (3:2) and you should land back on the note you started from, seven octaves higher — but (3/2)¹² ÷ 2⁷ ≈ 1.0136, a mismatch of about 23.5 cents known as the Pythagorean comma. An instrument tuned this way plays in tune in some keys and audibly sour, a “wolf interval,” in others.</p>
+      <p class="body-col" data-en="Twelve-tone equal temperament's fix is to stop chasing pure ratios altogether: divide the octave into 12 mathematically identical steps, so every key is equally, slightly imperfect rather than some keys being perfect and others unusable. A tempered fifth (700¢) ends up only ≈2¢ flat of a pure one (702¢) — nearly inaudible — but a tempered major third (400¢) sits ≈13.7¢ sharp of a pure one (386.3¢), which is exactly why fifths still sound clean on a modern piano while thirds sound faintly buzzy to a trained ear." data-ru="Решение двенадцатиступенной равномерной темперации — вовсе перестать гнаться за чистыми отношениями: разделить октаву на 12 математически одинаковых шагов, чтобы каждая тональность была одинаково немного несовершенной, а не так, что одни идеальны, а другие непригодны. Темперированная квинта (700¢) оказывается лишь примерно на 2¢ ниже чистой (702¢) — почти неразличимо на слух, — но темперированная большая терция (400¢) примерно на 13,7¢ выше чистой (386,3¢), и именно поэтому квинты на современном рояле по-прежнему звучат чисто, а терции слегка «дребезжат» для тренированного слуха.">Twelve-tone equal temperament's fix is to stop chasing pure ratios altogether: divide the octave into 12 mathematically identical steps, so every key is equally, slightly imperfect rather than some keys being perfect and others unusable. A tempered fifth (700¢) ends up only ≈2¢ flat of a pure one (702¢) — nearly inaudible — but a tempered major third (400¢) sits ≈13.7¢ sharp of a pure one (386.3¢), which is exactly why fifths still sound clean on a modern piano while thirds sound faintly buzzy to a trained ear.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="12-TONE EQUAL TEMPERAMENT" data-ru="12-СТУПЕННАЯ РАВНОМЕРНАЯ ТЕМПЕРАЦИЯ">12-TONE EQUAL TEMPERAMENT</div>
+      <div class="eq-body">f = f₀ · 2^(n/12)</div>
+      <div class="eq-note" data-en="f₀ = reference pitch (A4 = 440 Hz throughout this page), n = signed number of semitones away. The 12 semitones of one octave form the chromatic scale: C, C#, D, D#, E, F, F#, G, G#, A, A#, B." data-ru="f₀ — эталонная высота (на этой странице всегда A4 = 440 Гц), n — число полутонов со знаком. 12 полутонов одной октавы образуют хроматическую гамму: C, C#, D, D#, E, F, F#, G, G#, A, A#, B.">f₀ = reference pitch (A4 = 440 Hz throughout this page), n = signed number of semitones away. The 12 semitones of one octave form the chromatic scale: C, C#, D, D#, E, F, F#, G, G#, A, A#, B.</div>
+    </div>
+    <p class="lede" style="margin-bottom:4px;" data-en="A bidirectional calculator: move the slider for a semitone → frequency, or type a frequency to find its nearest note and how many cents it's off." data-ru="Двунаправленный калькулятор: двигайте ползунок для перехода «полутон → частота», либо введите частоту, чтобы найти ближайшую ноту и отклонение в центах.">A bidirectional calculator: move the slider for a semitone → frequency, or type a frequency to find its nearest note and how many cents it's off.</p>
+    <div class="sim-panel corner-frame">
+      <div class="sim-readout"><span class="mono" data-en="SEMITONES FROM A4" data-ru="ПОЛУТОНОВ ОТ A4">SEMITONES FROM A4</span><span class="mono" id="etSemVal">0</span></div>
+      <input id="etSemSlider" type="range" min="-24" max="24" step="1" value="0" style="width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 8px;">
+      <div class="readout-grid cols-4" id="etReadout"></div>
+      <div class="preset-row" style="align-items:center;">
+        <button class="preset-btn" id="etPlayBtn" data-en="▶ PLAY" data-ru="▶ ЗВУК">▶ PLAY</button>
+        <span class="mono" style="font-size:11px; color:var(--mid);" data-en="OR — WHAT NOTE IS THIS FREQUENCY?" data-ru="ИЛИ — КАКАЯ ЭТО НОТА?">OR — WHAT NOTE IS THIS FREQUENCY?</span>
+        <input id="etFreqInput" type="number" min="20" max="8000" step="0.01" value="440" style="font-family:var(--font-mono); font-size:12.5px; border:1px solid var(--ink); background:var(--paper); padding:6px 8px; width:110px;">
+        <span class="mono" style="font-size:11px;">Hz</span>
+      </div>
+      <div class="eq-note" id="etNearest" style="margin-top:10px;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH11 — MUSIC AND RADIO COMMUNICATIONS -->
+<section id="ch11" class="section" data-phase="RADIO SPECTRUM" data-alt="AM / FM MODULATION" data-vel="20 Hz → 10 GHz">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 14</span> — <span data-en="A CARRIER WAVE IS JUST A VERY FAST, INAUDIBLE NOTE" data-ru="НЕСУЩАЯ ВОЛНА — ЭТО ПРОСТО ОЧЕНЬ БЫСТРАЯ, НЕСЛЫШИМАЯ НОТА">A CARRIER WAVE IS JUST A VERY FAST, INAUDIBLE NOTE</span></div>
+    <h2 class="h-lg" data-en="Radio and music are the same physics, several octaves apart" data-ru="Радио и музыка — одна и та же физика, лишь на несколько октав дальше">Radio and music are the same physics, several octaves apart</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every idea since Chapter 1 — v = f·λ, amplitude, phase, superposition — applies unchanged to electromagnetic waves; only what's oscillating (an electric and magnetic field, not air pressure) and the frequencies involved change. A radio “carrier wave” is a pure sine wave exactly like Chapter 2's oscilloscope trace, just oscillating millions of times faster than anything the ear can hear, at the speed of light rather than the speed of sound." data-ru="Каждая идея начиная с главы 1 — v = f·λ, амплитуда, фаза, суперпозиция — без изменений применима к электромагнитным волнам; меняется лишь то, что колеблется (электрическое и магнитное поле, а не давление воздуха), и сами частоты. Радио «несущая волна» — это чистая синусоида, в точности как след на осциллографе из главы 2, только колеблющаяся в миллионы раз быстрее того, что способно услышать ухо, — со скоростью света, а не звука.">Every idea since Chapter 1 — v = f·λ, amplitude, phase, superposition — applies unchanged to electromagnetic waves; only what's oscillating (an electric and magnetic field, not air pressure) and the frequencies involved change. A radio “carrier wave” is a pure sine wave exactly like Chapter 2's oscilloscope trace, just oscillating millions of times faster than anything the ear can hear, at the speed of light rather than the speed of sound.</p>
+      <p class="body-col" data-en="Modulation borrows music's own vocabulary: amplitude modulation (AM) varies the carrier's amplitude in step with an audio signal, exactly like Chapter 2's amplitude slider; frequency modulation (FM) varies the carrier's frequency in step with the signal — mechanically identical to a singer's vibrato, just happening millions of times a second instead of five or six. The range of frequencies a signal occupies is its bandwidth — radio engineering's name for exactly the “how many harmonics does this contain” question Chapter 7 asked about a musical note." data-ru="Модуляция заимствует собственный словарь музыки: амплитудная модуляция (AM) изменяет амплитуду несущей в такт звуковому сигналу — точно как ползунок амплитуды из главы 2; частотная модуляция (FM) изменяет частоту несущей в такт сигналу — механически то же самое, что вибрато певца, только происходящее миллионы раз в секунду вместо пяти-шести. Диапазон частот, занимаемый сигналом, — это его полоса пропускания: радиоинженерное название того же самого вопроса «сколько тут гармоник», который глава 7 задавала о музыкальной ноте.">Modulation borrows music's own vocabulary: amplitude modulation (AM) varies the carrier's amplitude in step with an audio signal, exactly like Chapter 2's amplitude slider; frequency modulation (FM) varies the carrier's frequency in step with the signal — mechanically identical to a singer's vibrato, just happening millions of times a second instead of five or six. The range of frequencies a signal occupies is its bandwidth — radio engineering's name for exactly the “how many harmonics does this contain” question Chapter 7 asked about a musical note.</p>
+    </div>
+    <p class="lede" style="margin-bottom:4px;" data-en="The same axis, stretched nine decades past A4. Click a marker." data-ru="Та же самая ось, растянутая на девять порядков дальше Ля₄. Нажмите на метку.">The same axis, stretched nine decades past A4. Click a marker.</p>
+    <div class="freq-track" id="radioTrack"></div>
+    <div class="freq-detail corner-frame" id="radioDetail"></div>
+  </div>
+</section>
+
+<!-- CH12 — MUSIC AND SPACE -->
+<section id="ch12" class="section" data-phase="DEEP SPACE" data-alt="DSN · PULSARS" data-vel="~8.4 GHz DOWNLINK">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.12 / 14</span> — <span data-en="THE UNIVERSE'S OWN RADIO STATIONS" data-ru="СОБСТВЕННЫЕ РАДИОСТАНЦИИ ВСЕЛЕННОЙ">THE UNIVERSE'S OWN RADIO STATIONS</span></div>
+    <h2 class="h-lg" data-en="Some of the most precise clocks and loudest transmitters that exist were never built by anyone" data-ru="Одни из самых точных часов и мощных передатчиков во Вселенной никем не построены">Some of the most precise clocks and loudest transmitters that exist were never built by anyone</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="NASA's Deep Space Network relays every spacecraft's telemetry as a modulated radio carrier (Chapter 11) across hundreds of millions of kilometres, mainly on the X-band frequencies near 8.4 GHz marked on the axis above (Reference 5). Some missions have also carried the idea back down into the audible range on purpose: Mars Pathfinder's 1997 landing used a set of short, distinct audio tones, composed specifically so mission controllers could follow the landing sequence by ear as each one played." data-ru="Сеть дальней космической связи NASA (DSN) ретранслирует телеметрию любого космического аппарата в виде модулированной радионесущей (глава 11) через сотни миллионов километров, в основном на частотах X-диапазона около 8,4 ГГц, отмеченных на шкале выше (источник 5). Некоторые миссии также намеренно возвращали эту идею обратно в слышимый диапазон: при посадке Mars Pathfinder в 1997 году использовался набор коротких, различимых звуковых тонов, специально составленных так, чтобы специалисты управления полётом могли на слух отслеживать ход посадки по мере их звучания.">NASA's Deep Space Network relays every spacecraft's telemetry as a modulated radio carrier (Chapter 11) across hundreds of millions of kilometres, mainly on the X-band frequencies near 8.4 GHz marked on the axis above (Reference 5). Some missions have also carried the idea back down into the audible range on purpose: Mars Pathfinder's 1997 landing used a set of short, distinct audio tones, composed specifically so mission controllers could follow the landing sequence by ear as each one played.</p>
+      <p class="body-col" data-en="The universe also broadcasts on its own. Jupiter's magnetic field, swept past its volcanic moon Io, accelerates electrons that generate powerful natural “decametric” radio bursts — early radio astronomers fed receivers like this straight to a loudspeaker and genuinely listened (Reference 7). Millisecond pulsars — neutron stars spinning hundreds of times a second, sweeping a radio beam past Earth on every rotation — are, per NASA, nature's most precise natural clocks, with timing stability that rivals engineered atomic clocks (Reference 4)." data-ru="Вселенная также вещает и сама по себе. Магнитное поле Юпитера, «прочёсывая» его вулканическую луну Ио, разгоняет электроны, порождающие мощные природные «декаметровые» радиовсплески — ранние радиоастрономы подключали такие приёмники прямо к громкоговорителю и в буквальном смысле слушали их (источник 7). Миллисекундные пульсары — нейтронные звёзды, вращающиеся сотни раз в секунду и «прочёсывающие» Землю радиолучом при каждом обороте, — по данным NASA, самые точные природные часы во Вселенной, по стабильности хода не уступающие инженерным атомным часам (источник 4).">The universe also broadcasts on its own. Jupiter's magnetic field, swept past its volcanic moon Io, accelerates electrons that generate powerful natural “decametric” radio bursts — early radio astronomers fed receivers like this straight to a loudspeaker and genuinely listened (Reference 7). Millisecond pulsars — neutron stars spinning hundreds of times a second, sweeping a radio beam past Earth on every rotation — are, per NASA, nature's most precise natural clocks, with timing stability that rivals engineered atomic clocks (Reference 4).</p>
+    </div>
+    <div class="exp-card"><div class="exp-head"><h4 data-en="Deep Space Network — three dishes, always one facing the sky" data-ru="Сеть дальней космической связи — три антенны, и хотя бы одна всегда смотрит в небо">Deep Space Network — three dishes, always one facing the sky</h4><span class="exp-toggle">+</span></div><div class="exp-body"><div class="exp-body-inner" data-en="Three antenna complexes — Goldstone (California), Madrid (Spain), and Canberra (Australia) — sit roughly 120° apart in longitude, so as Earth rotates a spacecraft out of view of one, another is already rising to take over (Reference 5). Chapter 11's X-band marker (~8.4 GHz) is the DSN's main deep-space downlink band today; newer missions are moving to Ka-band (~32 GHz) for more bandwidth." data-ru="Три антенных комплекса — Голдстоун (Калифорния), Мадрид (Испания) и Канберра (Австралия) — расположены примерно через 120° по долготе, так что пока Земля выводит аппарат из поля зрения одной антенны, другая уже «встаёт», принимая эстафету (источник 5). Метка X-диапазона (~8,4 ГГц) на шкале главы 11 — сегодня основной диапазон нисходящей связи DSN с дальним космосом; более новые миссии переходят на Ka-диапазон (~32 ГГц) ради большей полосы пропускания.">Three antenna complexes — Goldstone (California), Madrid (Spain), and Canberra (Australia) — sit roughly 120° apart in longitude, so as Earth rotates a spacecraft out of view of one, another is already rising to take over (Reference 5). Chapter 11's X-band marker (~8.4 GHz) is the DSN's main deep-space downlink band today; newer missions are moving to Ka-band (~32 GHz) for more bandwidth.</div></div></div>
+    <div class="exp-card"><div class="exp-head"><h4 data-en="The Voyager Golden Record — 90 minutes of music, aimed at 40,000 years from now" data-ru="Золотая пластинка «Вояджера» — 90 минут музыки, адресованные на 40 000 лет вперёд">The Voyager Golden Record — 90 minutes of music, aimed at 40,000 years from now</h4><span class="exp-toggle">+</span></div><div class="exp-body"><div class="exp-body-inner" data-en="Each Voyager spacecraft carries a gold-plated phonograph record encoding greetings in 55 languages, sounds of Earth, 115 images, and an eclectic 90-minute selection of music spanning Eastern and Western traditions (Reference 3) — an attempt to encode Chapter 7's timbre and Chapter 9's intervals for a listener who may never exist. NASA notes it will be roughly 40,000 years before either spacecraft makes a close approach to another planetary system." data-ru="Каждый «Вояджер» несёт позолоченную грампластинку с приветствиями на 55 языках, звуками Земли, 115 изображениями и эклектичной 90-минутной подборкой музыки, охватывающей и восточные, и западные традиции (источник 3) — попытка закодировать тембр из главы 7 и интервалы из главы 9 для слушателя, которого, возможно, никогда не будет. По данным NASA, пройдёт около 40 000 лет, прежде чем любой из «Вояджеров» приблизится к другой планетной системе.">Each Voyager spacecraft carries a gold-plated phonograph record encoding greetings in 55 languages, sounds of Earth, 115 images, and an eclectic 90-minute selection of music spanning Eastern and Western traditions (Reference 3) — an attempt to encode Chapter 7's timbre and Chapter 9's intervals for a listener who may never exist. NASA notes it will be roughly 40,000 years before either spacecraft makes a close approach to another planetary system.</div></div></div>
+  </div>
+</section>
+
+<!-- CH13 — MUSIC, MATHEMATICS, AND THE UNIVERSE -->
+<section id="ch13" class="section" data-phase="HARMONY OF THE SPHERES" data-alt="ORBITAL RESONANCE" data-vel="Io : Europa : Ganymede ≈ 1 : 2 : 4">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.13 / 14</span> — <span data-en="THE SAME RATIOS, WRITTEN IN ORBITS" data-ru="ТЕ ЖЕ ОТНОШЕНИЯ, ЗАПИСАННЫЕ ОРБИТАМИ">THE SAME RATIOS, WRITTEN IN ORBITS</span></div>
+    <h2 class="h-lg" data-en="Pythagoras's ratios turn out to describe orbits as readily as strings" data-ru="Отношения Пифагора одинаково хорошо описывают и орбиты, и струны">Pythagoras's ratios turn out to describe orbits as readily as strings</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Johannes Kepler took the Pythagorean tradition from Chapter 9 further than anyone: his 1619 Harmonices Mundi (“Harmony of the World”) searched for, and believed he had found, musical-interval-like ratios in the relative orbital speeds of the planets. It was a mathematically serious but explicitly mystical framework — and it's worth being precise that this was never a literal claim about audible sound: space is a vacuum, and Chapter 1's pressure waves have no medium to travel through between planets." data-ru="Иоганн Кеплер развил пифагорейскую традицию из главы 9 дальше кого бы то ни было: в его «Harmonices Mundi» («Гармония мира», 1619) он искал — и полагал, что нашёл, — отношения, подобные музыкальным интервалам, в относительных орбитальных скоростях планет. Это была математически серьёзная, но явно мистическая концепция, — и стоит подчеркнуть, что речь никогда не шла буквально о слышимом звуке: космос — вакуум, и волнам давления из главы 1 попросту не в чем распространяться между планетами.">Johannes Kepler took the Pythagorean tradition from Chapter 9 further than anyone: his 1619 Harmonices Mundi (“Harmony of the World”) searched for, and believed he had found, musical-interval-like ratios in the relative orbital speeds of the planets. It was a mathematically serious but explicitly mystical framework — and it's worth being precise that this was never a literal claim about audible sound: space is a vacuum, and Chapter 1's pressure waves have no medium to travel through between planets.</p>
+      <p class="body-col" data-en="What's real, and thoroughly documented, is orbital resonance: Jupiter's moons Io, Europa, and Ganymede lock into almost exactly a 1:2:4 ratio of orbital periods — for every single orbit Ganymede completes, Europa completes two and Io completes four, enforced continuously by gravity rather than by a vibrating string. It's the identical integer-ratio logic as Chapter 6's harmonic series and Chapter 9's intervals, just running on orbital mechanics instead of acoustics; the TRAPPIST-1 system, discovered decades later, shows a comparable chain of near-resonant planets. The kinship is genuinely mathematical — periodic systems locking into small integer ratios — not a claim that either system makes a sound." data-ru="Что реально и подробно задокументировано — это орбитальный резонанс: луны Юпитера Ио, Европа и Ганимед фиксируются почти точно в отношении периодов обращения 1:2:4 — на каждый оборот Ганимеда Европа совершает два, а Ио — четыре, и это постоянно поддерживается гравитацией, а не колеблющейся струной. Это в точности та же логика целочисленных отношений, что и гармонический ряд из главы 6 и интервалы из главы 9, только работающая на орбитальной механике, а не на акустике; система TRAPPIST-1, открытая десятилетиями позже, демонстрирует сопоставимую цепочку близких к резонансу планет. Родство здесь подлинно математическое — периодические системы, запирающиеся в простых целочисленных отношениях, — а не утверждение, что та или другая система издаёт звук.">What's real, and thoroughly documented, is orbital resonance: Jupiter's moons Io, Europa, and Ganymede lock into almost exactly a 1:2:4 ratio of orbital periods — for every single orbit Ganymede completes, Europa completes two and Io completes four, enforced continuously by gravity rather than by a vibrating string. It's the identical integer-ratio logic as Chapter 6's harmonic series and Chapter 9's intervals, just running on orbital mechanics instead of acoustics; the TRAPPIST-1 system, discovered decades later, shows a comparable chain of near-resonant planets. The kinship is genuinely mathematical — periodic systems locking into small integer ratios — not a claim that either system makes a sound.</p>
+    </div>
+    <div class="orbit-wrap">
+      <svg viewBox="0 0 400 400" width="320" height="320" role="img" aria-label="Io, Europa, and Ganymede orbiting in a 1:2:4 period resonance, animated at proportional relative speeds">
+        <circle class="orbit-ring" cx="200" cy="200" r="70"></circle>
+        <circle class="orbit-ring" cx="200" cy="200" r="120"></circle>
+        <circle class="orbit-ring" cx="200" cy="200" r="170"></circle>
+        <g class="orbit-spin-1"><circle class="orbit-dot" cx="270" cy="200" r="6"></circle></g>
+        <g class="orbit-spin-2"><circle class="orbit-dot" cx="320" cy="200" r="7"></circle></g>
+        <g class="orbit-spin-3"><circle class="orbit-dot" cx="370" cy="200" r="8"></circle></g>
+        <circle cx="200" cy="200" r="14" fill="var(--ink)"></circle>
+      </svg>
+    </div>
+    <div class="pw-caption"><span data-en="IO — 1 ORBIT" data-ru="ИО — 1 ОБОРОТ">IO — 1 ORBIT</span><span data-en="EUROPA — 2 ORBITS" data-ru="ЕВРОПА — 2 ОБОРОТА">EUROPA — 2 ORBITS</span><span data-en="GANYMEDE — 4 ORBITS" data-ru="ГАНИМЕД — 4 ОБОРОТА">GANYMEDE — 4 ORBITS</span></div>
+  </div>
+</section>
+
+<!-- CH14 — THE FULL MAP -->
+<section id="ch14" class="section" data-phase="ONE WAVE EQUATION" data-alt="MUSIC ⇄ SIGNAL ⇄ SPACE" data-vel="v = f · λ, EVERYWHERE" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.14 / 14</span> — <span data-en="ONE EQUATION, READ IN EVERY DIRECTION" data-ru="ОДНО УРАВНЕНИЕ, ЧИТАЕМОЕ В ЛЮБУЮ СТОРОНУ">ONE EQUATION, READ IN EVERY DIRECTION</span></div>
+    <h2 class="h-lg" data-en="Music was never a separate subject from physics — it was the first one anyone measured" data-ru="Музыка никогда не была отдельной от физики темой — она была первой, что вообще измерили">Music was never a separate subject from physics — it was the first one anyone measured</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Read this guide forward: a vibration (Ch.1) becomes a pressure wave with a definite frequency (Ch.2); frequency gets a name as a note (Ch.3) that repeats every doubling (Ch.4); a string's fixed length forces that frequency into existence (Ch.5) as a whole stack of harmonics (Ch.6) whose relative strengths are a Fourier “recipe” called timbre (Ch.7) — a recipe that also produces a handful of named, recognizable shapes, and, run in reverse, describes noise, which has no single frequency at all (Ch.8). The ratios between harmonics are the simple fractions that define consonance (Ch.9), which equal temperament trades for one modulation-friendly compromise (Ch.10)." data-ru="Прочтите этот справочник вперёд: колебание (гл.1) становится волной давления с определённой частотой (гл.2); частота получает имя — ноту (гл.3), — повторяющееся при каждом удвоении (гл.4); фиксированная длина струны вынуждает эту частоту существовать (гл.5) в виде целого набора гармоник (гл.6), чьи относительные силы — это фурье-«рецепт» под названием тембр (гл.7) — рецепт, который порождает и горстку узнаваемых именованных форм, и, если прочитать его в обратную сторону, шум, у которого вовсе нет одной частоты (гл.8). Отношения между гармониками — те самые простые дроби, что определяют консонанс (гл.9), которые равномерная темперация меняет на один удобный для модуляции компромисс (гл.10).">Read this guide forward: a vibration (Ch.1) becomes a pressure wave with a definite frequency (Ch.2); frequency gets a name as a note (Ch.3) that repeats every doubling (Ch.4); a string's fixed length forces that frequency into existence (Ch.5) as a whole stack of harmonics (Ch.6) whose relative strengths are a Fourier “recipe” called timbre (Ch.7) — a recipe that also produces a handful of named, recognizable shapes, and, run in reverse, describes noise, which has no single frequency at all (Ch.8). The ratios between harmonics are the simple fractions that define consonance (Ch.9), which equal temperament trades for one modulation-friendly compromise (Ch.10).</p>
+      <p class="body-col" data-en="Read it wider: the exact same wave equation, run at frequencies millions of times higher, is a radio carrier (Ch.11) linking Earth to spacecraft across the Solar System (Ch.12) — and, Kepler's mysticism aside, shows up again as literal integer-ratio locks between orbiting moons (Ch.13). There is no point on this map where “music stops and physics starts.” A struck piano string and a modulated microwave downlink are the same equation, evaluated at wildly different frequencies, for wildly different audiences." data-ru="Прочтите его шире: то же самое волновое уравнение, работающее на частотах в миллионы раз выше, — это радионесущая (гл.11), связывающая Землю с аппаратами по всей Солнечной системе (гл.12), — и, если отбросить мистику Кеплера, снова проявляется как буквальные целочисленные привязки между орбитами лун (гл.13). На этой карте нет точки, где «музыка заканчивается и начинается физика». Ударенная струна рояля и модулированный микроволновый канал связи — одно и то же уравнение, вычисленное на совершенно разных частотах для совершенно разных «слушателей».">Read it wider: the exact same wave equation, run at frequencies millions of times higher, is a radio carrier (Ch.11) linking Earth to spacecraft across the Solar System (Ch.12) — and, Kepler's mysticism aside, shows up again as literal integer-ratio locks between orbiting moons (Ch.13). There is no point on this map where “music stops and physics starts.” A struck piano string and a modulated microwave downlink are the same equation, evaluated at wildly different frequencies, for wildly different audiences.</p>
+    </div>
+    <svg id="mapSvg" class="diagram-svg" viewBox="0 0 700 380" role="img" aria-label="A hierarchy diagram from vibration through frequency, note, and timbre on one branch, and electromagnetic wave, modulation, and radio signal on the other, both rooted in the same wave equation"></svg>
+    <div class="quote-block">
+      <p data-en="“The heavenly motions are nothing but a continuous song for several voices, to be perceived by the intellect, not by the ear.”" data-ru="«Небесные движения — не что иное, как непрерывная песнь для нескольких голосов, воспринимаемая разумом, а не слухом»." >“The heavenly motions are nothing but a continuous song for several voices, to be perceived by the intellect, not by the ear.”</p>
+      <span class="fig-num" data-en="JOHANNES KEPLER, HARMONICES MUNDI, 1619" data-ru="ИОГАНН КЕПЛЕР, «ГАРМОНИЯ МИРА», 1619">JOHANNES KEPLER, HARMONICES MUNDI, 1619</span>
+    </div>
+    <div class="eyebrow" style="margin-top:40px;"><span class="fig-num" data-en="SEE ALSO" data-ru="СМ. ТАКЖЕ">SEE ALSO</span></div>
+    <div class="see-also">
+      <a class="module-chip" href="/aerospace/physics-of-spaceflight" data-en="IMPULSE — The Physics of Spaceflight" data-ru="IMPULSE — Физика космического полёта">IMPULSE — The Physics of Spaceflight</a>
+      <a class="module-chip" href="/aerospace/cascade-physical-computing" data-en="CASCADE — Physical Computing" data-ru="CASCADE — Физика вычислений">CASCADE — Physical Computing</a>
+      <a class="module-chip" href="/aerospace/iss-and-mir" data-en="ORBIT — ISS &amp; Mir" data-ru="ORBIT — МКС и Мир">ORBIT — ISS &amp; Mir</a>
+      <a class="module-chip" href="/aerospace/voyager-and-pioner" data-en="DEPARTURE — Voyager &amp; Pioneer" data-ru="DEPARTURE — «Вояджер» и «Пионер»">DEPARTURE — Voyager &amp; Pioneer</a>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="refs" class="section" data-phase="REFERENCES" data-alt="SOURCES" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num" data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources" data-ru="Источники">Sources</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; max-width:var(--maxw); margin:0 auto; width:100%;">
+    <span data-en="AEROSPACE KNOWLEDGE HUB — RESONANCE / THE MATHEMATICS OF MUSIC" data-ru="АЭРОКОСМИЧЕСКИЙ СПРАВОЧНИК — RESONANCE / МАТЕМАТИКА МУЗЫКИ">AEROSPACE KNOWLEDGE HUB — RESONANCE / THE MATHEMATICS OF MUSIC</span>
+    <span data-en="EDUCATIONAL — RATIOS AND CENTS ARE EXACT; INSTRUMENT-TIMBRE PROFILES ARE ILLUSTRATIVE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ОТНОШЕНИЯ И ЦЕНТЫ ТОЧНЫ; ПРОФИЛИ ТЕМБРА ИНСТРУМЕНТОВ ИЛЛЮСТРАТИВНЫ, ЕСЛИ НЕ УКАЗАН ИСТОЧНИК">EDUCATIONAL — RATIOS AND CENTS ARE EXACT; INSTRUMENT-TIMBRE PROFILES ARE ILLUSTRATIVE UNLESS CITED</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang='en';
+var NS='http://www.w3.org/2000/svg';
+function ns(tag,attrs,parent){
+  var el=document.createElementNS(NS,tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function T(en,ru){ return lang==='en'?en:ru; }
+
+/* ============================================================
+   PITCH MATH — shared by every chapter
+   ============================================================ */
+var A4=440;
+function midiFreq(m){ return A4*Math.pow(2,(m-69)/12); }
+function freqToMidi(f){ return 69+12*(Math.log(f/A4)/Math.LN2); }
+var NOTE_LETTERS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+function noteName(m){
+  var m2=Math.round(m);
+  var letter=NOTE_LETTERS[((m2%12)+12)%12];
+  var oct=Math.floor(m2/12)-1;
+  return letter+oct;
+}
+
+/* ============================================================
+   WEB AUDIO — a shared, minimal tone engine
+   ============================================================ */
+var audioCtx=null;
+function actx(){
+  if(!audioCtx){ try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ audioCtx=null; } }
+  return audioCtx;
+}
+function playTone(freq,dur,delay){
+  var c=actx(); if(!c) return;
+  dur=dur||0.9; delay=delay||0;
+  var t0=c.currentTime+delay;
+  var osc=c.createOscillator(); osc.type='sine'; osc.frequency.value=freq;
+  var g=c.createGain(); g.gain.setValueAtTime(0,t0);
+  g.gain.linearRampToValueAtTime(0.2,t0+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  osc.connect(g); g.connect(c.destination);
+  osc.start(t0); osc.stop(t0+dur+0.05);
+}
+function playChord(freqs,dur){ (freqs||[]).forEach(function(f){ playTone(f,dur||1.1); }); }
+function playHarmonicMix(freq,amps,dur){
+  var c=actx(); if(!c) return;
+  dur=dur||1.3;
+  var t0=c.currentTime;
+  var master=c.createGain(); master.gain.value=0.22; master.connect(c.destination);
+  amps.forEach(function(a,i){
+    if(a<=0.01) return;
+    var osc=c.createOscillator(); osc.type='sine'; osc.frequency.value=freq*(i+1);
+    var g=c.createGain(); g.gain.setValueAtTime(0,t0);
+    g.gain.linearRampToValueAtTime(Math.min(1,a),t0+0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    osc.connect(g); g.connect(master); osc.start(t0); osc.stop(t0+dur+0.05);
+  });
+}
+
+/* ============================================================
+   LANGUAGE + PAGE CHROME
+   ============================================================ */
+function applyLang(l){
+  lang=l;
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v=el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML=v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-lang')===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.getAttribute('data-lang')); });
+});
+
+var progressEl=document.getElementById('progress');
+var sections=Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase=document.getElementById('hud-phase'), hudAlt=document.getElementById('hud-alt'), hudVel=document.getElementById('hud-vel');
+function onScroll(){
+  var doc=document.documentElement;
+  var pct=(doc.scrollTop)/(doc.scrollHeight-doc.clientHeight)*100;
+  progressEl.style.width=pct+'%';
+  var mid=window.scrollY+window.innerHeight*0.4;
+  var current=sections[0];
+  sections.forEach(function(s){ if(s.offsetTop<=mid) current=s; });
+  hudPhase.textContent=current.dataset.phase;
+  hudAlt.textContent=current.dataset.alt||'—';
+  hudVel.textContent=current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============================================================
+   CH.01 — PRESSURE WAVE
+   ============================================================ */
+function renderCh1(){
+  var row=document.getElementById('pwRow');
+  if(row && !row.dataset.built){
+    var html='';
+    for(var i=0;i<44;i++){ html+='<div class="pw-dot" style="animation-delay:'+(i*0.035).toFixed(3)+'s"></div>'; }
+    row.innerHTML=html; row.dataset.built='1';
+  }
+  var svg=document.getElementById('ch1WaveSvg');
+  if(svg && !svg.dataset.built){
+    svg.dataset.built='1';
+    ns('line',{x1:10,y1:45,x2:590,y2:45,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'3,4'},svg);
+    var d='M 10 45';
+    for(var x=10;x<=590;x+=3){
+      var t=(x-10)/580;
+      var y=45-32*Math.sin(t*3*2*Math.PI);
+      d+=' L '+x+' '+y.toFixed(1);
+    }
+    ns('path',{d:d,fill:'none',stroke:'#0b0b0c','stroke-width':2.2},svg);
+  }
+}
+
+/* ============================================================
+   CH.02 — WAVE ANATOMY + HEARING RANGE
+   ============================================================ */
+function renderWave(){
+  var fS=document.getElementById('waveFreqSlider'), aS=document.getElementById('waveAmpSlider'), pS=document.getElementById('wavePhaseSlider');
+  if(!fS) return;
+  var cycles=parseInt(fS.value,10), amp=parseInt(aS.value,10)/100, phaseDeg=parseInt(pS.value,10);
+  document.getElementById('waveFreqVal').textContent=cycles+T(' cycles',' циклов');
+  document.getElementById('waveAmpVal').textContent=Math.round(amp*100)+'%';
+  document.getElementById('wavePhaseVal').textContent=phaseDeg+'°';
+  var svg=document.getElementById('waveSvg'); svg.innerHTML='';
+  var W=580,H=80,cx=10,cy=100;
+  ns('line',{x1:cx,y1:cy,x2:cx+W,y2:cy,stroke:'#c9c9c1','stroke-width':1},svg);
+  function pathFor(phaseRad){
+    var d='M '+cx+' '+cy;
+    for(var x=0;x<=W;x+=3){
+      var t=x/W;
+      var y=cy-amp*H*Math.sin(t*cycles*2*Math.PI+phaseRad);
+      d+=' L '+(cx+x).toFixed(1)+' '+y.toFixed(1);
+    }
+    return d;
+  }
+  ns('path',{d:pathFor(0),fill:'none',stroke:'#0b0b0c','stroke-width':2.5},svg);
+  if(phaseDeg!==0) ns('path',{d:pathFor(phaseDeg*Math.PI/180),fill:'none',stroke:'#7a7a74','stroke-width':2,'stroke-dasharray':'5,4'},svg);
+  var eq=document.getElementById('waveEqReadout');
+  eq.textContent = phaseDeg===0
+    ? 'y(t) = '+amp.toFixed(2)+' · sin(2π f t)'
+    : 'y(t) = '+amp.toFixed(2)+' · sin(2π f t)   vs.   '+amp.toFixed(2)+' · sin(2π f t + '+phaseDeg+'°)';
+}
+
+function freqPos(f,minLog,maxLog){ return (Math.log(f)/Math.LN10-minLog)/(maxLog-minLog)*100; }
+function renderFreqTrack(trackId,detailId,markers,minLog,maxLog){
+  var track=document.getElementById(trackId), detail=document.getElementById(detailId);
+  if(!track) return;
+  if(markers._active==null) markers._active=0;
+  track.innerHTML='';
+  function show(i){
+    markers._active=i;
+    track.querySelectorAll('.freq-dot').forEach(function(d){ d.classList.toggle('active', +d.getAttribute('data-i')===i); });
+    var m=markers[i];
+    detail.innerHTML='<div class="fd-name">'+(lang==='en'?m.nameEN:m.nameRU)+'</div><div class="fd-freq">'+m.label+'</div><p style="font-size:14px; margin:0;">'+(lang==='en'?m.descEN:m.descRU)+'</p>';
+  }
+  markers.forEach(function(m,i){
+    var pct=freqPos(m.f,minLog,maxLog);
+    var dot=document.createElement('div'); dot.className='mt-dot freq-dot'; dot.style.left=pct+'%';
+    dot.setAttribute('data-i',i); dot.setAttribute('tabindex','0'); dot.setAttribute('role','button');
+    dot.addEventListener('click',function(){ show(i); });
+    track.appendChild(dot);
+    var lbl=document.createElement('div'); lbl.className='freq-label'; lbl.style.left=pct+'%';
+    lbl.style.top=(14+(i%3)*20)+'px';
+    if(pct<12){ lbl.style.transform='translateX(0)'; lbl.style.textAlign='left'; }
+    else if(pct>88){ lbl.style.transform='translateX(-100%)'; lbl.style.textAlign='right'; }
+    lbl.textContent=lang==='en'?m.nameEN:m.nameRU;
+    lbl.addEventListener('click',function(){ show(i); });
+    track.appendChild(lbl);
+  });
+  show(markers._active);
+}
+var HEAR_MARKERS=[
+  {f:20, label:'20 Hz', nameEN:'Threshold of hearing', nameRU:'Порог слышимости', descEN:'The lowest frequency generally perceived as a pitch — below it, sound is felt as vibration more than heard as a note.', descRU:'Самая низкая частота, обычно воспринимаемая как высота тона, — ниже неё звук скорее ощущается как вибрация, чем слышится как нота.'},
+  {f:41, label:'41 Hz', nameEN:"Bass guitar's lowest string (E1)", nameRU:'Самая низкая струна бас-гитары (E1)', descEN:"The fundamental of a standard 4-string bass guitar's open low E.", descRU:'Основной тон открытой самой низкой струны Ми стандартной 4-струнной бас-гитары.'},
+  {f:100, label:'~100 Hz', nameEN:'Kick drum thump', nameRU:'Удар бас-барабана', descEN:"Roughly where a kick drum's fundamental sits — felt in the chest as much as heard.", descRU:'Примерно здесь лежит основной тон бас-барабана — ощущается грудью не меньше, чем слышится.'},
+  {f:440, label:'440 Hz', nameEN:'A4 — concert pitch', nameRU:'A4 — камертонный строй', descEN:'The reference pitch this entire guide is built from (Chapter 3).', descRU:'Эталонная высота, на которой построен весь этот справочник (глава 3).'},
+  {f:1000, label:'1 kHz', nameEN:'1 kHz reference tone', nameRU:'Эталонный тон 1 кГц', descEN:'The standard calibration and test tone used throughout audio engineering.', descRU:'Стандартный тон для калибровки и тестирования, повсеместно используемый в звукоинженерии.'},
+  {f:4000, label:'~4 kHz', nameEN:'Peak of speech intelligibility', nameRU:'Пик разборчивости речи', descEN:"Consonant sounds that carry most of speech's intelligibility cluster in this range.", descRU:'Согласные звуки, несущие большую часть разборчивости речи, сосредоточены в этом диапазоне.'},
+  {f:12000, label:'~12 kHz', nameEN:'Cymbal shimmer', nameRU:'Шелест тарелок', descEN:'High harmonics of cymbals and brushed percussion live up here.', descRU:'Здесь живут высокие гармоники тарелок и щёточной перкуссии.'},
+  {f:20000, label:'20 kHz', nameEN:'Upper limit of hearing', nameRU:'Верхний предел слуха', descEN:'The nominal ceiling for a healthy young ear — most adults lose sensitivity well below this long before old age.', descRU:'Номинальный верхний предел для здорового молодого уха — у большинства взрослых чувствительность заметно падает ниже этого предела задолго до старости.'}
+];
+
+/* ============================================================
+   CH.03 — PIANO KEYBOARD
+   ============================================================ */
+var pianoActiveMidi=69;
+function selectKey(m,play){
+  pianoActiveMidi=m;
+  var svg=document.getElementById('pianoSvg');
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', +h.getAttribute('data-midi')===m); });
+  var f=midiFreq(m);
+  document.getElementById('pianoNote').textContent=noteName(m);
+  document.getElementById('pianoFreq').textContent=f.toFixed(2)+' Hz';
+  if(play) playTone(f,0.9);
+}
+function renderPianoAll(){
+  var svg=document.getElementById('pianoSvg'); if(!svg) return;
+  svg.innerHTML='';
+  var whiteMidi=[60,62,64,65,67,69,71,72];
+  var blackInfo=[{midi:61,after:0},{midi:63,after:1},{midi:66,after:3},{midi:68,after:4},{midi:70,after:5}];
+  var wW=54,wH=170,bW=34,bH=104;
+  whiteMidi.forEach(function(m,i){
+    var x=i*wW;
+    var g=ns('g',{'class':'hotspot','data-midi':m},svg);
+    ns('rect',{x:x,y:10,width:wW-2,height:wH,stroke:'#0b0b0c'},g);
+    var t=ns('text',{x:x+(wW-2)/2,y:10+wH-12},g); t.textContent=noteName(m);
+    g.addEventListener('click',function(){ selectKey(m,true); });
+  });
+  blackInfo.forEach(function(b){
+    var x=(b.after+1)*wW - bW/2;
+    var g=ns('g',{'class':'hotspot pk-black','data-midi':b.midi},svg);
+    ns('rect',{x:x,y:10,width:bW,height:bH,stroke:'#0b0b0c'},g);
+    g.addEventListener('click',function(){ selectKey(b.midi,true); });
+  });
+  svg.setAttribute('viewBox','0 0 '+(whiteMidi.length*wW)+' 200');
+  selectKey(pianoActiveMidi,false);
+}
+function renderNoteTable(){
+  var grid=document.getElementById('noteTable'); if(!grid) return;
+  var midis=[60,62,64,65,67,69,71,72];
+  grid.innerHTML=midis.map(function(m){
+    return '<div class="readout-cell"><span class="rl">'+noteName(m)+'</span>'+midiFreq(m).toFixed(2)+' Hz</div>';
+  }).join('');
+}
+
+/* ============================================================
+   CH.04 — OCTAVES
+   ============================================================ */
+var OCTAVE_STEPS=[-2,-1,0,1,2];
+var octaveActive=0;
+function drawOverlaySine(svg,relFreq,color,dashed){
+  var W=580,H=50,cx=10,cy=70;
+  var d='M '+cx+' '+cy;
+  for(var x=0;x<=W;x+=3){ var t=x/W; var y=cy-H*Math.sin(t*2*2*Math.PI*relFreq); d+=' L '+(cx+x).toFixed(1)+' '+y.toFixed(1); }
+  var attrs={d:d,fill:'none',stroke:color,'stroke-width':2};
+  if(dashed) attrs['stroke-dasharray']='5,4';
+  ns('path',attrs,svg);
+}
+function renderOctave(){
+  var row=document.getElementById('octaveRow'); if(!row) return;
+  row.innerHTML='';
+  OCTAVE_STEPS.forEach(function(s){
+    var b=document.createElement('button'); b.className='preset-btn'+(s===octaveActive?' active':'');
+    var f=440*Math.pow(2,s);
+    b.textContent=(s>0?'+':'')+s+' '+T('oct','окт')+'  ('+f.toFixed(0)+' Hz)';
+    b.addEventListener('click',function(){ octaveActive=s; renderOctave(); playTone(440*Math.pow(2,s),1.0); });
+    row.appendChild(b);
+  });
+  var f=440*Math.pow(2,octaveActive);
+  document.getElementById('octaveVal').textContent=f.toFixed(2)+' Hz';
+  var tag = octaveActive===0
+    ? T('REFERENCE PITCH','ЭТАЛОННЫЙ ТОН')
+    : T(Math.abs(octaveActive)+' OCTAVE(S) '+(octaveActive>0?'UP':'DOWN'), Math.abs(octaveActive)+' ОКТАВ(Ы) '+(octaveActive>0?'ВВЕРХ':'ВНИЗ'));
+  document.getElementById('octaveNote').textContent=noteName(freqToMidi(f))+' — '+tag;
+  var svg=document.getElementById('octaveSvg'); svg.innerHTML='';
+  ns('line',{x1:10,y1:70,x2:590,y2:70,stroke:'#c9c9c1','stroke-width':1},svg);
+  drawOverlaySine(svg,1,'#7a7a74',true);
+  drawOverlaySine(svg,Math.pow(2,octaveActive),'#0b0b0c',false);
+}
+
+/* ============================================================
+   CH.05 / CH.06 — STRING VIBRATION + HARMONICS (shared drawing)
+   ============================================================ */
+function drawStringMode(svg,n){
+  var x0=20,x1=580,y=70,amp=50;
+  ns('line',{x1:x0,y1:y,x2:x1,y2:y,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'3,4'},svg);
+  ns('line',{x1:x0,y1:20,x2:x0,y2:120,stroke:'#0b0b0c','stroke-width':3},svg);
+  ns('line',{x1:x1,y1:20,x2:x1,y2:120,stroke:'#0b0b0c','stroke-width':3},svg);
+  var d='M '+x0+' '+y;
+  var steps=220;
+  for(var i=0;i<=steps;i++){
+    var t=i/steps;
+    var yy=y-amp*Math.sin(n*Math.PI*t);
+    var xx=x0+(x1-x0)*t;
+    d+=' L '+xx.toFixed(1)+' '+yy.toFixed(1);
+  }
+  ns('path',{d:d,fill:'none',stroke:'#0b0b0c','stroke-width':2.5},svg);
+}
+var STRING_PRESETS=[
+  {L:0.648, v:427.0, nameEN:'Guitar — high E (E4)', nameRU:'Гитара — верхнее Ми (E4)'},
+  {L:0.648, v:106.8, nameEN:'Guitar — low E (E2)', nameRU:'Гитара — нижнее Ми (E2)'},
+  {L:0.328, v:288.6, nameEN:'Violin — A string (A4)', nameRU:'Скрипка — струна Ля (A4)'},
+  {L:2.00,  v:110.0, nameEN:'Piano — lowest bass string (A0)', nameRU:'Рояль — самая низкая басовая струна (A0)'}
+];
+var stringActive=0;
+function renderStringPresets(){
+  var row=document.getElementById('stringPresetRow'); if(!row) return;
+  row.innerHTML='';
+  STRING_PRESETS.forEach(function(p,i){
+    var b=document.createElement('button'); b.className='preset-btn'+(i===stringActive?' active':'');
+    b.textContent=lang==='en'?p.nameEN:p.nameRU;
+    b.addEventListener('click',function(){
+      stringActive=i;
+      var slider=document.getElementById('stringLenSlider'); slider.value=Math.round(p.L*100);
+      renderStringPresets(); renderString();
+    });
+    row.appendChild(b);
+  });
+}
+function renderString(){
+  var p=STRING_PRESETS[stringActive];
+  var slider=document.getElementById('stringLenSlider');
+  slider.max=Math.round(Math.max(p.L*100,200));
+  slider.min=15;
+  var L=parseInt(slider.value,10)/100;
+  document.getElementById('stringLenLabel').textContent = stringActive===0 ? T('FRETTED LENGTH L','ПРИЖАТАЯ ДЛИНА L') : T('VIBRATING LENGTH L','ЗВУЧАЩАЯ ДЛИНА L');
+  document.getElementById('stringLenVal').textContent=L.toFixed(3)+' m';
+  var f=p.v/(2*L);
+  var grid=document.getElementById('stringReadout');
+  grid.innerHTML=[
+    [T('WAVE SPEED v','СКОРОСТЬ ВОЛНЫ v'), p.v.toFixed(1)+' m/s'],
+    [T('LENGTH L','ДЛИНА L'), L.toFixed(3)+' m'],
+    [T('FREQUENCY f₁ = v/2L','ЧАСТОТА f₁ = v/2L'), f.toFixed(2)+' Hz']
+  ].map(function(c){return '<div class="readout-cell"><span class="rl">'+c[0]+'</span>'+c[1]+'</div>';}).join('');
+  var svg=document.getElementById('stringSvg'); svg.innerHTML='';
+  drawStringMode(svg,1);
+  document.getElementById('stringPlayBtn').onclick=function(){ playTone(f,1.1); };
+}
+
+var harmonicActive=1;
+function renderHarmonicRow(){
+  var row=document.getElementById('harmonicRow'); if(!row) return;
+  row.innerHTML='';
+  for(var n=1;n<=8;n++){
+    (function(n){
+      var b=document.createElement('button'); b.className='preset-btn'+(n===harmonicActive?' active':'');
+      b.textContent='n = '+n;
+      b.addEventListener('click',function(){ harmonicActive=n; renderHarmonics(); });
+      row.appendChild(b);
+    })(n);
+  }
+}
+function renderHarmonics(){
+  renderHarmonicRow();
+  var f1=110, f=f1*harmonicActive;
+  var svg=document.getElementById('harmonicSvg'); svg.innerHTML=''; drawStringMode(svg,harmonicActive);
+  document.getElementById('harmonicVal').textContent=f.toFixed(2)+' Hz';
+  var extra;
+  if(harmonicActive===1) extra=T('FUNDAMENTAL — ','ОСНОВНОЙ ТОН — ');
+  else if(harmonicActive===2) extra=T('OCTAVE ABOVE FUNDAMENTAL — ','ОКТАВА НАД ОСНОВНЫМ ТОНОМ — ');
+  else if(harmonicActive===3) extra=T('OCTAVE + PERFECT FIFTH — ','ОКТАВА + ЧИСТАЯ КВИНТА — ');
+  else if(harmonicActive===4) extra=T('TWO OCTAVES ABOVE FUNDAMENTAL — ','ДВЕ ОКТАВЫ НАД ОСНОВНЫМ ТОНОМ — ');
+  else extra=T('HARMONIC '+harmonicActive+' — ','ГАРМОНИКА '+harmonicActive+' — ');
+  document.getElementById('harmonicNote').textContent=extra+noteName(freqToMidi(f));
+  document.getElementById('harmonicPlayBtn').onclick=function(){ playTone(f,1.0); };
+}
+
+/* ============================================================
+   CH.07 — TIMBRE, FOURIER, SPECTRUM
+   ============================================================ */
+var TIMBRE_PRESETS=[
+  {nameEN:'Flute-like', nameRU:'Флейтоподобный', amps:[1,0.15,0.08,0.05,0.03]},
+  {nameEN:'Piano-like', nameRU:'Роялеподобный', amps:[1,0.55,0.30,0.15,0.08]},
+  {nameEN:'Violin-like', nameRU:'Скрипкоподобный', amps:[1,0.75,0.55,0.42,0.30]},
+  {nameEN:'Guitar-like', nameRU:'Гитароподобный', amps:[1,0.45,0.55,0.20,0.25]}
+];
+var timbreAmps=[1,0.55,0.30,0.15,0.08];
+function buildTimbreSliders(force){
+  var wrap=document.getElementById('timbreSliders'); if(!wrap) return;
+  if(wrap.dataset.built && !force) return;
+  wrap.dataset.built='1';
+  var html='';
+  for(var i=0;i<5;i++){
+    html+='<div class="slider-row"><label>'+T('HARMONIC ','ГАРМОНИКА ')+(i+1)+'</label><input type="range" min="0" max="100" step="1" value="'+Math.round(timbreAmps[i]*100)+'" data-i="'+i+'" class="timbre-slider"><span class="sv" id="timbreSv'+i+'">'+Math.round(timbreAmps[i]*100)+'%</span></div>';
+  }
+  wrap.innerHTML=html;
+  wrap.querySelectorAll('.timbre-slider').forEach(function(inp){
+    inp.addEventListener('input',function(){
+      var i=+inp.getAttribute('data-i');
+      timbreAmps[i]=+inp.value/100;
+      document.getElementById('timbreSv'+i).textContent=inp.value+'%';
+      drawTimbre();
+    });
+  });
+}
+function renderTimbrePresets(){
+  var row=document.getElementById('timbrePresetRow'); if(!row) return;
+  row.innerHTML='';
+  TIMBRE_PRESETS.forEach(function(p){
+    var b=document.createElement('button'); b.className='preset-btn';
+    b.textContent=lang==='en'?p.nameEN:p.nameRU;
+    b.addEventListener('click',function(){
+      timbreAmps=p.amps.slice();
+      buildTimbreSliders(true);
+      drawTimbre();
+    });
+    row.appendChild(b);
+  });
+}
+function drawTimbre(){
+  var scope=document.getElementById('timbreScopeSvg'), spec=document.getElementById('timbreSpecSvg');
+  if(!scope||!spec) return;
+  scope.innerHTML=''; spec.innerHTML='';
+  var W=260,H=110,cx=10,cy=70;
+  ns('line',{x1:cx,y1:cy,x2:cx+W,y2:cy,stroke:'#c9c9c1','stroke-width':1},scope);
+  var maxSum=timbreAmps.reduce(function(a,b){return a+b;},0)||1;
+  var d='M '+cx+' '+cy;
+  var steps=200;
+  for(var i=0;i<=steps;i++){
+    var t=i/steps, y=0;
+    for(var h=0;h<5;h++){ y+=timbreAmps[h]*Math.sin((h+1)*t*2*2*Math.PI); }
+    y=cy-(y/maxSum)*45;
+    d+=' L '+(cx+W*t).toFixed(1)+' '+y.toFixed(1);
+  }
+  ns('path',{d:d,fill:'none',stroke:'#0b0b0c','stroke-width':2},scope);
+  var bw=36,gap=(280-5*bw)/6;
+  for(var h2=0;h2<5;h2++){
+    var bx=gap+h2*(bw+gap), bh=timbreAmps[h2]*90;
+    ns('rect',{x:bx,y:110-bh,width:bw,height:Math.max(1,bh),fill:'#0b0b0c'},spec);
+    var lbl=ns('text',{x:bx+bw/2,y:126,'text-anchor':'middle','font-size':9,fill:'#7a7a74'},spec); lbl.textContent=(h2+1)+'f';
+  }
+  ns('line',{x1:0,y1:110,x2:280,y2:110,stroke:'#0b0b0c','stroke-width':1},spec);
+  var pb=document.getElementById('timbrePlayBtn');
+  if(pb) pb.onclick=function(){ playHarmonicMix(220, timbreAmps, 1.3); };
+}
+
+/* ============================================================
+   CH.08 — WAVEFORM SHAPES AND NOISE
+   ============================================================ */
+function genWhite(n){ var a=new Float32Array(n); for(var i=0;i<n;i++) a[i]=Math.random()*2-1; return a; }
+function genPink(n){
+  var white=genWhite(n), out=new Float32Array(n);
+  var b0=0,b1=0,b2=0;
+  for(var i=0;i<n;i++){
+    var w=white[i];
+    b0=0.99765*b0+w*0.0990460;
+    b1=0.96300*b1+w*0.2965164;
+    b2=0.57000*b2+w*1.0526913;
+    var v=(b0+b1+b2+w*0.1848)*0.11;
+    out[i]=v>1?1:(v<-1?-1:v);
+  }
+  return out;
+}
+function genBrown(n){
+  var white=genWhite(n), out=new Float32Array(n);
+  var last=0;
+  for(var i=0;i<n;i++){
+    last=last+0.02*white[i];
+    last=last>1?1:(last<-1?-1:last);
+    out[i]=last*3.5>1?1:(last*3.5<-1?-1:last*3.5);
+  }
+  return out;
+}
+var ZOO_PRESETS=[
+  {id:'sine', shape:'sine', phaseDeg:0, nameEN:'Sine', nameRU:'Синус', descEN:'The purest possible tone — one frequency, one amplitude, nothing else in the spectrum.', descRU:'Самый чистый из возможных тонов — одна частота, одна амплитуда, больше ничего в спектре.'},
+  {id:'cosine', shape:'sine', phaseDeg:90, nameEN:'Cosine', nameRU:'Косинус', descEN:"Identical to a sine wave, only starting a quarter-cycle (90°) earlier — the spectrum looks the same, because a plain amplitude spectrum can't show phase at all.", descRU:'То же самое, что синус, только начинается на четверть цикла (90°) раньше — спектр выглядит так же, поскольку обычный спектр амплитуд вообще не показывает фазу.'},
+  {id:'square', shape:'square', nameEN:'Square', nameRU:'Прямоугольная', descEN:'Switches instantly between two levels; contains only odd harmonics (f, 3f, 5f…), each 1/n as loud as the fundamental.', descRU:'Мгновенно переключается между двумя уровнями; содержит только нечётные гармоники (f, 3f, 5f…), каждая в 1/n раз тише основного тона.'},
+  {id:'saw', shape:'sawtooth', nameEN:'Sawtooth (Ramp)', nameRU:'Пилообразная (рампа)', descEN:'Rises steadily, then drops instantly; contains every harmonic, odd and even alike, also falling off as 1/n.', descRU:'Плавно нарастает, затем мгновенно падает; содержит все гармоники, и нечётные, и чётные, тоже спадающие как 1/n.'},
+  {id:'tri', shape:'triangle', nameEN:'Triangle', nameRU:'Треугольная', descEN:'Only odd harmonics, like a square wave, but they fall off much faster, as 1/n² — noticeably softer.', descRU:'Только нечётные гармоники, как у прямоугольной волны, но спадают гораздо быстрее — как 1/n², — заметно мягче.'},
+  {id:'white', kind:'noise', gen:'white', nameEN:'White Noise', nameRU:'Белый шум', descEN:'Equal energy at every frequency at once — no periodicity, no single f₁ to even measure.', descRU:'Равная энергия одновременно на всех частотах — никакой периодичности, никакой единой f₁, которую вообще можно измерить.'},
+  {id:'pink', kind:'noise', gen:'pink', nameEN:'Pink Noise', nameRU:'Розовый шум', descEN:'Power falls off as 1/f, giving equal energy per octave rather than per frequency. Sounds smoother, like steady rainfall.', descRU:'Мощность спадает как 1/f, давая равную энергию на каждую октаву, а не на каждую частоту. Звучит более ровно, как устойчивый дождь.'},
+  {id:'brown', kind:'noise', gen:'brown', nameEN:'Brown Noise', nameRU:'Коричневый шум', descEN:'Power falls off even faster, as 1/f², losing high frequencies fastest of all. Sounds like a deep rumble.', descRU:'Мощность спадает ещё быстрее — как 1/f², — теряя высокие частоты быстрее всего. Звучит как глубокий гул.'}
+];
+var zooActive=0;
+function zooSample(preset,t){
+  if(preset.kind==='noise'){
+    var buf=preset.buf; if(!buf) return 0;
+    var idx=Math.min(buf.length-1, Math.floor(t*buf.length));
+    return buf[idx];
+  }
+  var ph=(preset.phaseDeg||0)*Math.PI/180;
+  if(preset.shape==='square') return Math.sin(2*Math.PI*t+ph)>=0?1:-1;
+  if(preset.shape==='sawtooth'){ var x=t+ph/(2*Math.PI); x=x-Math.floor(x); return 2*(x-Math.floor(x+0.5)); }
+  if(preset.shape==='triangle'){ var x2=t+ph/(2*Math.PI); x2=x2-Math.floor(x2); var s=2*(x2-Math.floor(x2+0.5)); return 2*Math.abs(s)-1; }
+  return Math.sin(2*Math.PI*t+ph);
+}
+function zooSpectrum(preset){
+  if(preset.kind==='noise'){
+    if(preset.gen==='white') return [1,1,1,1,1,1];
+    if(preset.gen==='pink') return [1,0.71,0.58,0.5,0.45,0.41];
+    return [1,0.5,0.33,0.25,0.2,0.17];
+  }
+  var arr=[0,0,0,0,0,0];
+  for(var n=1;n<=6;n++){
+    if(preset.shape==='square'){ if(n%2===1) arr[n-1]=1/n; }
+    else if(preset.shape==='sawtooth'){ arr[n-1]=1/n; }
+    else if(preset.shape==='triangle'){ if(n%2===1) arr[n-1]=1/(n*n); }
+    else { if(n===1) arr[n-1]=1; }
+  }
+  return arr;
+}
+function renderZooScope(preset){
+  var svg=document.getElementById('zooScopeSvg'); if(!svg) return;
+  svg.innerHTML='';
+  var W=260,H=45,cx=10,cy=70;
+  ns('line',{x1:cx,y1:cy,x2:cx+W,y2:cy,stroke:'#c9c9c1','stroke-width':1},svg);
+  var cycles=preset.kind==='noise'?1:3;
+  var d='M '+cx+' '+cy, steps=300;
+  for(var i=0;i<=steps;i++){
+    var t=i/steps;
+    var y=cy-zooSample(preset,t*cycles)*H;
+    d+=' L '+(cx+W*t).toFixed(1)+' '+y.toFixed(1);
+  }
+  ns('path',{d:d,fill:'none',stroke:'#0b0b0c','stroke-width':2},svg);
+}
+function renderZooSpec(preset){
+  var svg=document.getElementById('zooSpecSvg'); if(!svg) return;
+  svg.innerHTML='';
+  var amps=zooSpectrum(preset);
+  var bw=32,gap=(280-6*bw)/7;
+  for(var i=0;i<6;i++){
+    var bx=gap+i*(bw+gap), bh=amps[i]*100;
+    ns('rect',{x:bx,y:120-bh,width:bw,height:Math.max(1,bh),fill:'#0b0b0c'},svg);
+    var lbl=ns('text',{x:bx+bw/2,y:134,'text-anchor':'middle','font-size':9,fill:'#7a7a74'},svg);
+    lbl.textContent=preset.kind==='noise'?String(i+1):(i+1)+'f';
+  }
+  ns('line',{x1:0,y1:120,x2:280,y2:120,stroke:'#0b0b0c','stroke-width':1},svg);
+}
+function renderZooRow(){
+  var row=document.getElementById('zooPresetRow'); if(!row) return;
+  row.innerHTML='';
+  ZOO_PRESETS.forEach(function(p,i){
+    var b=document.createElement('button'); b.className='preset-btn'+(i===zooActive?' active':'');
+    b.textContent=lang==='en'?p.nameEN:p.nameRU;
+    b.addEventListener('click',function(i){ return function(){ zooActive=i; renderZoo(); }; }(i));
+    row.appendChild(b);
+  });
+}
+function playZoo(preset){
+  var c=actx(); if(!c) return;
+  if(preset.kind==='noise'){
+    var dur=1.4, n=Math.floor(c.sampleRate*dur);
+    var buffer=c.createBuffer(1,n,c.sampleRate);
+    var data=buffer.getChannelData(0);
+    var gen=preset.gen==='white'?genWhite:(preset.gen==='pink'?genPink:genBrown);
+    var samples=gen(n);
+    for(var i=0;i<n;i++) data[i]=samples[i];
+    var src=c.createBufferSource(); src.buffer=buffer;
+    var g=c.createGain(); var t0=c.currentTime;
+    g.gain.setValueAtTime(0,t0);
+    g.gain.linearRampToValueAtTime(0.18,t0+0.02);
+    g.gain.setValueAtTime(0.18,t0+dur-0.05);
+    g.gain.linearRampToValueAtTime(0.0001,t0+dur);
+    src.connect(g); g.connect(c.destination);
+    src.start(t0); src.stop(t0+dur+0.05);
+    return;
+  }
+  var freq=220, t1=c.currentTime, dur=1.0;
+  var osc=c.createOscillator();
+  osc.type=preset.shape;
+  osc.frequency.value=freq;
+  var g2=c.createGain(); g2.gain.setValueAtTime(0,t1);
+  g2.gain.linearRampToValueAtTime(0.18,t1+0.012);
+  g2.gain.exponentialRampToValueAtTime(0.0001,t1+dur);
+  osc.connect(g2); g2.connect(c.destination);
+  osc.start(t1); osc.stop(t1+dur+0.05);
+}
+function renderZoo(){
+  renderZooRow();
+  var p=ZOO_PRESETS[zooActive];
+  if(p.kind==='noise' && !p.buf){
+    var n=4000;
+    p.buf=p.gen==='white'?genWhite(n):(p.gen==='pink'?genPink(n):genBrown(n));
+  }
+  renderZooScope(p);
+  renderZooSpec(p);
+  document.getElementById('zooDesc').textContent=lang==='en'?p.descEN:p.descRU;
+  document.getElementById('zooPlayBtn').onclick=function(){ playZoo(p); };
+}
+
+/* ============================================================
+   CH.09 — RATIOS AND INTERVALS
+   ============================================================ */
+var INTERVAL_LIST=[
+  {ratio:[1,1], cents:0.0, nameEN:'Unison', nameRU:'Прима'},
+  {ratio:[6,5], cents:315.6, nameEN:'Minor Third', nameRU:'Малая терция'},
+  {ratio:[5,4], cents:386.3, nameEN:'Major Third', nameRU:'Большая терция'},
+  {ratio:[4,3], cents:498.0, nameEN:'Perfect Fourth', nameRU:'Чистая кварта'},
+  {ratio:[3,2], cents:702.0, nameEN:'Perfect Fifth', nameRU:'Чистая квинта'},
+  {ratio:[5,3], cents:884.4, nameEN:'Major Sixth', nameRU:'Большая секста'},
+  {ratio:[2,1], cents:1200.0, nameEN:'Octave', nameRU:'Октава'}
+];
+var intervalActive=4;
+var intervalBase=220;
+function renderIntervalRow(){
+  var row=document.getElementById('intervalRow'); if(!row) return;
+  row.innerHTML='';
+  INTERVAL_LIST.forEach(function(iv,i){
+    var b=document.createElement('button'); b.className='preset-btn'+(i===intervalActive?' active':'');
+    b.textContent=lang==='en'?iv.nameEN:iv.nameRU;
+    b.addEventListener('click',function(i){ return function(){
+      intervalActive=i; renderInterval();
+      var iv2=INTERVAL_LIST[i];
+      playChord([intervalBase, intervalBase*iv2.ratio[0]/iv2.ratio[1]],1.2);
+    };}(i));
+    row.appendChild(b);
+  });
+}
+function renderInterval(){
+  renderIntervalRow();
+  var iv=INTERVAL_LIST[intervalActive];
+  var f2=intervalBase*iv.ratio[0]/iv.ratio[1];
+  var svg=document.getElementById('intervalSvg'); svg.innerHTML='';
+  var W=580,H=45,cx=10,cy1=45,cy2=105;
+  ns('line',{x1:cx,y1:cy1,x2:cx+W,y2:cy1,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('line',{x1:cx,y1:cy2,x2:cx+W,y2:cy2,stroke:'#c9c9c1','stroke-width':1},svg);
+  var d1='M '+cx+' '+cy1, d2='M '+cx+' '+cy2;
+  var cyclesF1=4, steps=320;
+  for(var i=0;i<=steps;i++){
+    var t=i/steps;
+    var y1=cy1-H*Math.sin(t*cyclesF1*2*Math.PI);
+    var y2=cy2-H*Math.sin(t*cyclesF1*(iv.ratio[0]/iv.ratio[1])*2*Math.PI);
+    var x=(cx+W*t).toFixed(1);
+    d1+=' L '+x+' '+y1.toFixed(1);
+    d2+=' L '+x+' '+y2.toFixed(1);
+  }
+  ns('path',{d:d1,fill:'none',stroke:'#0b0b0c','stroke-width':2},svg);
+  ns('path',{d:d2,fill:'none',stroke:'#7a7a74','stroke-width':2},svg);
+  var grid=document.getElementById('intervalReadout');
+  grid.innerHTML=[
+    [T('RATIO','ОТНОШЕНИЕ'), iv.ratio[0]+':'+iv.ratio[1]],
+    [T('LOWER TONE','НИЖНИЙ ТОН'), intervalBase.toFixed(2)+' Hz'],
+    [T('UPPER TONE','ВЕРХНИЙ ТОН'), f2.toFixed(2)+' Hz'],
+    [T('CENTS','ЦЕНТОВ'), iv.cents.toFixed(1)+'¢']
+  ].map(function(c){return '<div class="readout-cell"><span class="rl">'+c[0]+'</span>'+c[1]+'</div>';}).join('');
+}
+function renderIntervalTable(){
+  var grid=document.getElementById('intervalTable'); if(!grid) return;
+  grid.innerHTML=INTERVAL_LIST.map(function(iv){
+    return '<div class="readout-cell"><span class="rl">'+(lang==='en'?iv.nameEN:iv.nameRU)+'</span>'+iv.ratio[0]+':'+iv.ratio[1]+' — '+iv.cents.toFixed(1)+'¢</div>';
+  }).join('');
+}
+
+/* ============================================================
+   CH.09 — EQUAL TEMPERAMENT
+   ============================================================ */
+function renderET(){
+  var slider=document.getElementById('etSemSlider'); if(!slider) return;
+  var n=parseInt(slider.value,10);
+  document.getElementById('etSemVal').textContent=(n>0?'+':'')+n;
+  var f=midiFreq(69+n);
+  var grid=document.getElementById('etReadout');
+  grid.innerHTML=[
+    [T('SEMITONES n','ПОЛУТОНОВ n'), (n>0?'+':'')+n],
+    [T('NOTE','НОТА'), noteName(69+n)],
+    [T('FREQUENCY','ЧАСТОТА'), f.toFixed(2)+' Hz'],
+    [T('CENTS FROM A4','ЦЕНТОВ ОТ A4'), (n*100>0?'+':'')+(n*100)+'¢']
+  ].map(function(c){return '<div class="readout-cell"><span class="rl">'+c[0]+'</span>'+c[1]+'</div>';}).join('');
+  document.getElementById('etPlayBtn').onclick=function(){ playTone(f,1.0); };
+}
+function renderETFreqInput(){
+  var inp=document.getElementById('etFreqInput'); if(!inp) return;
+  var f=parseFloat(inp.value);
+  var out=document.getElementById('etNearest');
+  if(!f||f<=0){ out.textContent=''; return; }
+  var midiRound=Math.round(freqToMidi(f));
+  var fNearest=midiFreq(midiRound);
+  var cents=1200*(Math.log(f/fNearest)/Math.LN2);
+  out.textContent=T('NEAREST NOTE: ','БЛИЖАЙШАЯ НОТА: ')+noteName(midiRound)+'  ('+fNearest.toFixed(2)+' Hz)  —  '+(cents>=0?'+':'')+cents.toFixed(1)+' '+T('cents','центов');
+}
+
+/* ============================================================
+   CH.10 — RADIO SPECTRUM
+   ============================================================ */
+var RADIO_MARKERS=[
+  {f:440, label:'440 Hz', nameEN:'A4 — concert pitch', nameRU:'A4 — камертонный строй', descEN:'The same A4 as Chapter 3, included here purely for scale.', descRU:'Тот же A4, что и в главе 3, — включён здесь исключительно для масштаба.'},
+  {f:20000, label:'20 kHz', nameEN:'Top of human hearing', nameRU:'Верхняя граница слуха', descEN:"Chapter 2's ceiling — everything to the right of this is silent to a human ear.", descRU:'Потолок из главы 2 — всё правее этой точки беззвучно для человеческого уха.'},
+  {f:1000000, label:'~1 MHz', nameEN:'AM broadcast band', nameRU:'Диапазон АМ-радиовещания', descEN:'AM radio occupies roughly 530–1700 kHz — amplitude modulation, Chapter 11\'s first example.', descRU:'АМ-радио занимает примерно 530–1700 кГц — амплитудная модуляция, первый пример главы 11.'},
+  {f:14200000, label:'14.2 MHz', nameEN:'20-metre amateur (HAM) band', nameRU:'Любительский диапазон 20 метров', descEN:'A classic shortwave amateur radio band used for long-distance contacts.', descRU:'Классический КВ-диапазон для дальней любительской радиосвязи.'},
+  {f:100000000, label:'100 MHz', nameEN:'FM broadcast band', nameRU:'Диапазон ЧМ-радиовещания', descEN:'FM radio occupies 88–108 MHz — frequency modulation, Chapter 11\'s second example.', descRU:'ЧМ-радио занимает 88–108 МГц — частотная модуляция, второй пример главы 11.'},
+  {f:145800000, label:'145.800 MHz', nameEN:'ISS / amateur satellite downlink', nameRU:'Нисходящий канал МКС / любительских спутников', descEN:"Inside the amateur 2-metre band's satellite (OSCAR) sub-band — where operators listen for the ISS and other satellites (Reference 6).", descRU:'Внутри спутникового (OSCAR) поддиапазона любительского 2-метрового диапазона — здесь радиолюбители слушают МКС и другие спутники (источник 6).'},
+  {f:1575420000, label:'1575.42 MHz', nameEN:'GPS L1 civilian signal', nameRU:'Гражданский сигнал GPS L1', descEN:'The frequency every consumer GPS receiver listens on.', descRU:'Частота, на которой работает любой бытовой приёмник GPS.'},
+  {f:2400000000, label:'2.4 GHz', nameEN:'Wi-Fi / Bluetooth', nameRU:'Wi-Fi / Bluetooth', descEN:'The crowded ISM band shared by household wireless devices.', descRU:'Загруженный ISM-диапазон, который делят между собой бытовые беспроводные устройства.'},
+  {f:8400000000, label:'8.4 GHz', nameEN:'Deep Space Network X-band downlink', nameRU:'Нисходящий X-диапазон сети DSN', descEN:'Where spacecraft telemetry comes down to Earth (Chapter 12, Reference 5).', descRU:'Здесь телеметрия космических аппаратов приходит на Землю (глава 12, источник 5).'}
+];
+
+/* ============================================================
+   CH.13 — THE FULL MAP
+   ============================================================ */
+function renderMap(){
+  var svg=document.getElementById('mapSvg'); if(!svg||svg.dataset.built) return;
+  svg.dataset.built='1';
+  function box(x,y,w,h,label){
+    ns('rect',{x:x,y:y,width:w,height:h,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+    var t=ns('text',{x:x+w/2,y:y+h/2+4,'text-anchor':'middle','font-size':11},svg); t.textContent=label;
+  }
+  function arrow(x1,y1,x2,y2){ ns('line',{x1:x1,y1:y1,x2:x2,y2:y2,stroke:'#7a7a74','stroke-width':1.4,'stroke-dasharray':'4,3'},svg); }
+  box(30,20,280,42,T('VIBRATION (Ch.1)','КОЛЕБАНИЕ (гл.1)'));
+  arrow(170,62,170,88);
+  box(30,88,280,42,T('PRESSURE WAVE, FREQUENCY (Ch.2)','ВОЛНА ДАВЛЕНИЯ, ЧАСТОТА (гл.2)'));
+  arrow(170,130,170,156);
+  box(30,156,280,42,T('NOTE — RATIOS & TIMBRE (Ch.3–10)','НОТА — ОТНОШЕНИЯ И ТЕМБР (гл.3–10)'));
+  box(390,20,280,42,T('ELECTROMAGNETIC WAVE','ЭЛЕКТРОМАГНИТНАЯ ВОЛНА'));
+  arrow(530,62,530,88);
+  box(390,88,280,42,T('MODULATED CARRIER (Ch.11)','МОДУЛИРОВАННАЯ НЕСУЩАЯ (гл.11)'));
+  arrow(530,130,530,156);
+  box(390,156,280,42,T('RADIO / SPACECRAFT / ORBITS (Ch.12–13)','РАДИО / АППАРАТЫ / ОРБИТЫ (гл.12–13)'));
+  arrow(170,198,320,270);
+  arrow(530,198,380,270);
+  box(210,270,280,60,'v = f · λ');
+  var cap=ns('text',{x:350,y:350,'text-anchor':'middle','font-size':10.5,fill:'#7a7a74'},svg);
+  cap.textContent=T('ONE WAVE EQUATION, TWO SCALES','ОДНО ВОЛНОВОЕ УРАВНЕНИЕ, ДВА МАСШТАБА');
+}
+
+/* ============================================================
+   REFERENCES
+   ============================================================ */
+var REFERENCES=[
+  {title:"ISO 16:1975 — Acoustics: Standard Tuning Frequency (Standard Musical Pitch)", url:"https://www.iso.org/standard/3601.html", note:{en:"The international standard fixing A4 at 440 Hz, cited in Chapter 3.", ru:"Международный стандарт, закрепляющий A4 на 440 Гц, упомянутый в главе 3."}},
+  {title:"HyperPhysics — Fundamental and Harmonic Resonances", url:"http://hyperphysics.phy-astr.gsu.edu/hbase/Waves/funhar.html", note:{en:"Georgia State University physics reference for the standing-wave and harmonic-series relationships in Chapters 5–6.", ru:"Физический справочник Университета штата Джорджия по стоячим волнам и гармоническому ряду, на которые опираются главы 5–6."}},
+  {title:"NASA Science — Voyager Golden Record", url:"https://science.nasa.gov/resource/voyager-golden-record/", note:{en:"NASA/JPL overview of the Golden Record carried aboard both Voyager spacecraft, referenced in Chapter 12.", ru:"Обзор NASA/JPL золотой пластинки, установленной на обоих «Вояджерах», упомянутой в главе 12."}},
+  {title:"NASA — Nature's Most Precise Clocks May Make \"Galactic GPS\" Possible", url:"https://www.nasa.gov/universe/natures-most-precise-clocks-may-make-galactic-gps-possible/", note:{en:"NASA article on millisecond pulsar timing precision, cited in Chapter 12.", ru:"Статья NASA о точности хода миллисекундных пульсаров, упомянутая в главе 12."}},
+  {title:"NASA JPL — Deep Space Network", url:"https://www.jpl.nasa.gov/missions/dsn/", note:{en:"Official overview of the DSN's three antenna complexes and their role relaying spacecraft telemetry, cited in Chapters 11–12.", ru:"Официальный обзор трёх антенных комплексов DSN и их роли в ретрансляции телеметрии космических аппаратов, упомянутый в главах 11–12."}},
+  {title:"ARRL Band Plan", url:"https://www.arrl.org/band-plan", note:{en:"The amateur radio band plan confirming the 2-metre satellite (OSCAR) sub-band used in Chapter 11's frequency comparison.", ru:"План любительских радиодиапазонов, подтверждающий спутниковый (OSCAR) поддиапазон в 2-метровом диапазоне, использованный в сравнении частот главы 11."}},
+  {title:"NASA JPL — Juno Tunes Into Jovian Radio Triggered by Jupiter's Volcanic Moon Io", url:"https://www.jpl.nasa.gov/news/nasas-juno-tunes-into-jovian-radio-triggered-by-jupiters-volcanic-moon-io/", note:{en:"NASA/JPL reporting on the Io-triggered decametric radio bursts described in Chapter 12.", ru:"Материал NASA/JPL о декаметровых радиовсплесках, вызванных Ио, описанных в главе 12."}}
+];
+function renderRefs(){
+  var list=document.getElementById('refList'); if(!list) return;
+  list.innerHTML=REFERENCES.map(function(r,i){
+    return '<div class="ref-item"><span class="ref-num">['+(i+1)+']</span><div><span class="ref-title">'+r.title+'</span><span class="ref-url">'+r.url+'</span><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div></div>';
+  }).join('');
+}
+
+/* ============================================================
+   RENDER ALL + INPUT WIRING
+   ============================================================ */
+function renderAll(){
+  renderCh1();
+  renderWave();
+  renderFreqTrack('hearTrack','hearDetail', HEAR_MARKERS, Math.log(20)/Math.LN10, Math.log(20000)/Math.LN10);
+  renderPianoAll();
+  renderNoteTable();
+  renderOctave();
+  renderStringPresets(); renderString();
+  renderHarmonics();
+  renderTimbrePresets(); buildTimbreSliders(); drawTimbre();
+  renderZoo();
+  renderIntervalRow(); renderInterval(); renderIntervalTable();
+  renderET(); renderETFreqInput();
+  renderFreqTrack('radioTrack','radioDetail', RADIO_MARKERS, 1, 10);
+  renderMap();
+  renderRefs();
+}
+document.getElementById('waveFreqSlider').addEventListener('input', renderWave);
+document.getElementById('waveAmpSlider').addEventListener('input', renderWave);
+document.getElementById('wavePhaseSlider').addEventListener('input', renderWave);
+document.getElementById('stringLenSlider').addEventListener('input', renderString);
+document.getElementById('etSemSlider').addEventListener('input', renderET);
+document.getElementById('etFreqInput').addEventListener('input', renderETFreqInput);
+document.querySelectorAll('.exp-card .exp-head').forEach(function(head){
+  head.addEventListener('click', function(){ head.closest('.exp-card').classList.toggle('open'); });
+});
+
+renderAll();
+
+})();
+</script>
+</body>
+</html>
+
