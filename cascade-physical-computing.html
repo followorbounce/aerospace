@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASCADE — PHYSICAL COMPUTING / ФИЗИКА ВЫЧИСЛЕНИЙ</title>
+<meta name="description" content="From a single electrical threshold to Arduino, ESP32, Raspberry Pi, FPGAs, and ASICs — an interactive engineering journey through how physical states become computation.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/cascade-physical-computing">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CASCADE — PHYSICAL COMPUTING / ФИЗИКА ВЫЧИСЛЕНИЙ">
+<meta property="og:description" content="From a single electrical threshold to Arduino, ESP32, Raspberry Pi, FPGAs, and ASICs — an interactive engineering journey through how physical states become computation.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/cascade-physical-computing">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+sup, sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px); letter-spacing:0.01em;}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-controls{margin-top:4px;}
+.sim-controls input[type=range]{width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:18px 0 8px;}
+.sim-controls input[type=range]::-webkit-slider-thumb{appearance:none; width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-controls input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.sim-readout{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px;}
+.preset-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.preset-btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); padding:7px 11px; cursor:pointer;}
+.preset-btn:hover{border-color:var(--ink);}
+.preset-btn.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); margin-top:16px;}
+.readout-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+.readout-grid.cols-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:11.5px;}
+.readout-cell.hit{background:#efefe9;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.voltage-readout{font-family:var(--font-display); font-size:2.2rem; text-align:center; margin:18px 0 4px;}
+.voltage-sub{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); text-align:center;}
+.code-block{background:var(--ink); color:#e8e8e2; font-family:var(--font-mono); font-size:12.5px; padding:18px 20px; overflow-x:auto; line-height:1.85; margin:20px 0;}
+.code-block .cl{display:block; padding:2px 8px; margin:0 -8px; border-radius:2px; white-space:pre;}
+.code-block .cl.active{background:#3d3d38; color:#fff;}
+.diagram-svg{width:100%; height:auto; display:block; margin:20px 0;}
+.diagram-svg text{font-family:var(--font-mono);}
+.chain-row{display:flex; flex-wrap:wrap; gap:1px; background:var(--line); margin-top:20px;}
+.chain-step{flex:1 1 140px; background:var(--white); padding:14px 12px; cursor:pointer; text-align:center; font-family:var(--font-mono); font-size:11px; letter-spacing:0.02em; border:none;}
+.chain-step.active{background:var(--ink); color:var(--white);}
+.chain-step .cs-n{display:block; font-size:9px; color:var(--mid); margin-bottom:6px;}
+.chain-step.active .cs-n{color:#bdbdb6;}
+.chain-panel{border:1px dashed var(--ink); padding:16px 18px; margin-top:1px; font-size:14px; min-height:60px;}
+.spectrum-bar{position:relative; height:8px; background:var(--line); margin:36px 0 44px;}
+.spectrum-dot{position:absolute; top:50%; width:14px; height:14px; background:var(--ink); border-radius:50%; transform:translate(-50%,-50%); transition:left 0.3s ease;}
+.spectrum-labels{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:9.5px; color:var(--mid); text-transform:uppercase; margin-top:-28px;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.15rem,2.2vw,1.6rem); font-style:italic; max-width:760px; line-height:1.35;}
+.quote-block .fig-num{display:block; margin-top:16px;}
+.ref-list{margin-top:8px;}
+.ref-item{display:grid; grid-template-columns:32px 1fr; gap:12px; padding:12px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:first-child{border-top:1px solid var(--ink);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-weight:600;}
+.ref-url{display:block; font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all;}
+.ref-note{font-size:13.5px; color:var(--mid); margin-top:4px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">CASCADE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PHYSICS</span></div>
+  <div class="hud-row"><span class="hud-label">LAYER</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PHYSICS" data-alt="ELECTRON" data-vel="—" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — HOW A PHYSICAL PHENOMENON BECOMES A COMPUTATION" data-ru="РИС. 00 — КАК ФИЗИЧЕСКОЕ ЯВЛЕНИЕ СТАНОВИТСЯ ВЫЧИСЛЕНИЕМ">FIG. 00 — HOW A PHYSICAL PHENOMENON BECOMES A COMPUTATION</span></span>
+        <span data-en="17 CHAPTERS" data-ru="17 ГЛАВ">17 CHAPTERS</span>
+      </div>
+      <h1><span data-en="CASCADE" data-ru="КАСКАД">CASCADE</span><br><em data-en="FROM A VOLTAGE TO A COMPUTER — ARDUINO, ESP32, RASPBERRY PI, FPGA, ASIC" data-ru="ОТ НАПРЯЖЕНИЯ ДО КОМПЬЮТЕРА: ARDUINO, ESP32, RASPBERRY PI, ПЛИС, СБИС">FROM A VOLTAGE TO A COMPUTER — ARDUINO, ESP32, RASPBERRY PI, FPGA, ASIC</em></h1>
+      <p class="sub lede" data-en="Seventeen chapters tracing one continuous physical chain: a voltage crossing a threshold, a transistor switching, a gate deciding, a flip-flop remembering, a clock synchronizing, a processor executing — up through what actually happens when an Arduino sketch calls digitalWrite(), why an ESP32 is not just 'an Arduino with Wi-Fi,' why a Raspberry Pi can boot Linux and a microcontroller cannot, and why an FPGA or an ASIC sometimes beats a CPU outright. This picks up where THRESHOLD (Common Ground &amp; Basic Logic) left off — that chapter already covers voltage thresholds, the three basic gates, binary numbers, and the adder in depth, so this one starts at the transistor and heads toward real hardware. Scroll to begin." data-ru="Семнадцать глав прослеживают одну непрерывную физическую цепочку: напряжение пересекает порог, транзистор переключается, элемент принимает решение, триггер запоминает, тактовый генератор синхронизирует, процессор выполняет — и так далее, вплоть до того, что на самом деле происходит при вызове digitalWrite() в скетче Arduino, почему ESP32 — не просто «Arduino с Wi-Fi», почему Raspberry Pi может загрузить Linux, а микроконтроллер — нет, и почему ПЛИС или СБИС иногда обгоняют процессор в лоб. Эта статья продолжает с того места, где остановился ПОРОГ (Общая основа и базовая логика) — та глава уже подробно разбирает пороги напряжения, три базовых элемента, двоичные числа и сумматор, так что здесь мы начинаем с транзистора и движемся к настоящему «железу». Пролистайте вниз, чтобы начать.">Seventeen chapters tracing one continuous physical chain: a voltage crossing a threshold, a transistor switching, a gate deciding, a flip-flop remembering, a clock synchronizing, a processor executing — up through what actually happens when an Arduino sketch calls digitalWrite(), why an ESP32 is not just 'an Arduino with Wi-Fi,' why a Raspberry Pi can boot Linux and a microcontroller cannot, and why an FPGA or an ASIC sometimes beats a CPU outright. This picks up where THRESHOLD (Common Ground &amp; Basic Logic) left off — that chapter already covers voltage thresholds, the three basic gates, binary numbers, and the adder in depth, so this one starts at the transistor and heads toward real hardware. Scroll to begin.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — PHYSICAL ORIGIN OF A BIT -->
+<section id="ch1" class="section" data-phase="THE BIT" data-alt="VOLTAGE" data-vel="DISCRETE STATE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 17</span> — <span data-en="THE PHYSICAL ORIGIN OF A BIT" data-ru="ФИЗИЧЕСКОЕ ПРОИСХОЖДЕНИЕ БИТА">THE PHYSICAL ORIGIN OF A BIT</span></div>
+    <h2 class="h-lg" data-en="A “0” and a “1” are not abstract objects living inside a chip" data-ru="«0» и «1» — не абстрактные объекты, живущие внутри микросхемы">A “0” and a “1” are not abstract objects living inside a chip</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every bit a computer handles is, physically, a range of some continuous quantity — almost always a voltage, sometimes a current, a charge, a magnetic domain's orientation, or a light pulse's presence — that engineers have agreed to interpret as one of exactly two logical states. Nothing about electricity itself is binary; a wire's voltage can sit at any value a circuit allows. The '0' and '1' are an interpretation laid on top of that continuum, not a property the physics hands you for free." data-ru="Каждый бит, с которым работает компьютер, физически представляет собой диапазон некоторой непрерывной величины — почти всегда напряжения, иногда тока, заряда, ориентации магнитного домена или наличия светового импульса, — который инженеры договорились трактовать как одно из ровно двух логических состояний. Само по себе электричество не двоично: напряжение на проводе может принимать любое значение, допускаемое схемой. «0» и «1» — это интерпретация, наложенная поверх этого континуума, а не свойство, которое физика выдаёт бесплатно.">Every bit a computer handles is, physically, a range of some continuous quantity — almost always a voltage, sometimes a current, a charge, a magnetic domain's orientation, or a light pulse's presence — that engineers have agreed to interpret as one of exactly two logical states. Nothing about electricity itself is binary; a wire's voltage can sit at any value a circuit allows. The '0' and '1' are an interpretation laid on top of that continuum, not a property the physics hands you for free.</p>
+      <p class="body-col" data-en="THRESHOLD's own first chapter already covers why: a shared ground reference, a LOW band near 0V, a HIGH band near the supply rail, and a deliberately undefined gap between them — the noise margin. This chapter takes that agreement as given and asks the next question: given that a wire only ever carries a continuous voltage, what physical machinery actually forces it to snap toward one of two clean states, cascade after cascade, without drifting into nonsense after the first few stages? That machinery is the rest of this article." data-ru="Первая глава ПОРОГА уже объясняет почему: общая точка отсчёта — земля, полоса LOW у 0 В, полоса HIGH у напряжения питания и намеренно неопределённый промежуток между ними — запас по помехоустойчивости. Эта глава принимает такую договорённость как данность и задаёт следующий вопрос: если провод физически несёт лишь непрерывное напряжение, какой физический механизм заставляет его чётко «прилипать» к одному из двух чистых состояний, каскад за каскадом, не съезжая в бессмыслицу уже через несколько ступеней? Этому механизму и посвящена оставшаяся часть статьи.">THRESHOLD's own first chapter already covers why: a shared ground reference, a LOW band near 0V, a HIGH band near the supply rail, and a deliberately undefined gap between them — the noise margin. This chapter takes that agreement as given and asks the next question: given that a wire only ever carries a continuous voltage, what physical machinery actually forces it to snap toward one of two clean states, cascade after cascade, without drifting into nonsense after the first few stages? That machinery is the rest of this article.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="WHAT A “BIT” IS, PHYSICALLY, DEPENDING ON THE TECHNOLOGY" data-ru="ЧЕМ «БИТ» ЯВЛЯЕТСЯ ФИЗИЧЕСКИ, В ЗАВИСИМОСТИ ОТ ТЕХНОЛОГИИ">WHAT A “BIT” IS, PHYSICALLY, DEPENDING ON THE TECHNOLOGY</div>
+      <div class="eq-body" data-en="LOGIC GATE: voltage band &nbsp;·&nbsp; SRAM CELL: cross-coupled inverter state &nbsp;·&nbsp; DRAM CELL: capacitor charge &nbsp;·&nbsp; FLASH CELL: trapped charge on a floating gate &nbsp;·&nbsp; HARD DISK: magnetic domain direction &nbsp;·&nbsp; FIBER OPTIC LINK: light present / absent" data-ru="ЛОГИЧЕСКИЙ ЭЛЕМЕНТ: полоса напряжения &nbsp;·&nbsp; ЯЧЕЙКА SRAM: состояние перекрёстно соединённых инверторов &nbsp;·&nbsp; ЯЧЕЙКА DRAM: заряд конденсатора &nbsp;·&nbsp; ЯЧЕЙКА FLASH: заряд, «запертый» на плавающем затворе &nbsp;·&nbsp; ЖЁСТКИЙ ДИСК: направление намагниченности домена &nbsp;·&nbsp; ОПТОВОЛОКНО: свет есть / света нет">LOGIC GATE: voltage band · SRAM CELL: cross-coupled inverter state · DRAM CELL: capacitor charge · FLASH CELL: trapped charge on a floating gate · HARD DISK: magnetic domain direction · FIBER OPTIC LINK: light present / absent</div>
+      <div class="eq-note" data-en="Six different physical mechanisms, one logical abstraction. This is the engineer's real trick: pick a physical quantity, define two ranges of it, and every layer built on top never has to think about the physics again." data-ru="Шесть разных физических механизмов — одна логическая абстракция. В этом и состоит настоящий приём инженера: выбрать физическую величину, определить на ней два диапазона — и все слои, построенные поверх, больше никогда не задумываются о физике.">Six different physical mechanisms, one logical abstraction. This is the engineer's real trick: pick a physical quantity, define two ranges of it, and every layer built on top never has to think about the physics again.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — SIGNALS ARE WAVES (interactive) -->
+<section id="ch2" class="section" data-phase="WAVEFORMS" data-alt="RISE TIME" data-vel="NOT A PERFECT SQUARE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 17</span> — <span data-en="A DIGITAL SIGNAL IS STILL AN ANALOG WAVEFORM" data-ru="ЦИФРОВОЙ СИГНАЛ — ВСЁ ЕЩЁ АНАЛОГОВАЯ ВОЛНА">A DIGITAL SIGNAL IS STILL AN ANALOG WAVEFORM</div>
+    <h2 class="h-lg" data-en="A square wave is not, physically, a square" data-ru="Прямоугольный сигнал физически не является прямоугольным">A square wave is not, physically, a square</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Draw a '1' followed by a '0' on paper and you get a perfect vertical drop. On a real wire, that transition takes a finite time to happen, because the wire and every gate along it have capacitance that must be charged or discharged first. The result has a measurable rise time and fall time, can overshoot past the target voltage and ring before settling, and only starts moving after a propagation delay from whatever triggered it — all of it governed by ordinary electromagnetic behavior, not by anything specific to computing." data-ru="Нарисуйте на бумаге «1», а затем «0» — получится идеальный вертикальный обрыв. На реальном проводе такой переход занимает конечное время, потому что провод и каждый элемент на его пути обладают ёмкостью, которую сначала нужно зарядить или разрядить. В результате появляются измеримые время нарастания и время спада, возможен выброс за целевое напряжение с последующим «звоном» перед установлением, а само движение начинается лишь спустя задержку распространения после того, что его вызвало, — и всё это подчиняется обычному электромагнитному поведению, а не чему-то специфичному именно для вычислений.">Draw a '1' followed by a '0' on paper and you get a perfect vertical drop. On a real wire, that transition takes a finite time to happen, because the wire and every gate along it have capacitance that must be charged or discharged first. The result has a measurable rise time and fall time, can overshoot past the target voltage and ring before settling, and only starts moving after a propagation delay from whatever triggered it — all of it governed by ordinary electromagnetic behavior, not by anything specific to computing.</p>
+      <p class="body-col" data-en="A repeating digital signal is a periodic waveform like any other: it has a frequency, a phase, and — for signals that spend unequal time HIGH and LOW — a duty cycle, exactly the quantity a PWM-driven LED's brightness depends on. Digital design's real achievement is not eliminating this analog mess; it's defining logic thresholds generous enough that the mess never matters, as long as every rise, fall, and settle finishes before the next clock edge asks the wire a question." data-ru="Повторяющийся цифровой сигнал — такая же периодическая волна, как и любая другая: у неё есть частота, фаза и — для сигналов, проводящих неравное время в HIGH и LOW, — коэффициент заполнения, та самая величина, от которой зависит яркость светодиода, управляемого ШИМ. Настоящее достижение цифровой схемотехники — не в устранении этого аналогового «беспорядка», а в том, чтобы задать пороги логики достаточно щедрыми, чтобы этот беспорядок никогда не имел значения, пока каждый подъём, спад и установление успевают завершиться до того, как следующий фронт тактового сигнала «спросит» провод о его состоянии.">A repeating digital signal is a periodic waveform like any other: it has a frequency, a phase, and — for signals that spend unequal time HIGH and LOW — a duty cycle, exactly the quantity a PWM-driven LED's brightness depends on. Digital design's real achievement is not eliminating this analog mess; it's defining logic thresholds generous enough that the mess never matters, as long as every rise, fall, and settle finishes before the next clock edge asks the wire a question.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <svg id="waveSvg" class="diagram-svg" viewBox="0 0 600 220" role="img" aria-label="A digital pulse redrawn as a real waveform with finite rise time, overshoot, and ringing"></svg>
+      <div class="sim-readout"><span class="mono" data-en="RISE TIME (RELATIVE TO BIT PERIOD)" data-ru="ВРЕМЯ НАРАСТАНИЯ (ОТ ДЛИТЕЛЬНОСТИ БИТА)">RISE TIME (RELATIVE TO BIT PERIOD)</span><span class="mono" id="riseVal">8%</span></div>
+      <div class="sim-controls"><input id="riseSlider" type="range" min="1" max="60" step="1" value="8"></div>
+      <div class="voltage-sub" id="riseNote" data-en="A slow, clean transition — comfortably inside a wide logic margin." data-ru="Медленный, чистый переход — с большим запасом внутри широкого логического диапазона.">A slow, clean transition — comfortably inside a wide logic margin.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — THRESHOLDS, NOISE, AND REGENERATION (interactive) -->
+<section id="ch3" class="section" data-phase="REGENERATION" data-alt="SIGNAL CLEANUP" data-vel="THE CENTRAL TRICK">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 17</span> — <span data-en="THE ONE TRICK THAT MAKES DIGITAL LOGIC POSSIBLE AT SCALE" data-ru="ЕДИНСТВЕННЫЙ ПРИЁМ, ДЕЛАЮЩИЙ ЦИФРОВУЮ ЛОГИКУ ВОЗМОЖНОЙ В БОЛЬШИХ МАСШТАБАХ">THE ONE TRICK THAT MAKES DIGITAL LOGIC POSSIBLE AT SCALE</span></div>
+    <h2 class="h-lg" data-en="Every gate throws away the noise and rebuilds a clean signal" data-ru="Каждый элемент отбрасывает шум и восстанавливает чистый сигнал">Every gate throws away the noise and rebuilds a clean signal</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="An analog amplifier chain degrades: pass a noisy signal through enough analog stages and the noise accumulates until the original information is gone. A digital chain does not, because every gate performs the same operation on its input: read a fuzzy, slightly-noisy voltage, decide which side of the threshold it falls on, and output a fresh, full-strength HIGH or LOW of its own — regardless of exactly how clean or dirty the input voltage actually was, as long as it landed on the correct side of the threshold." data-ru="Аналоговая усилительная цепочка деградирует: пропустите зашумлённый сигнал через достаточное число аналоговых каскадов — и шум накапливается, пока исходная информация не потеряется. Цифровая цепочка так не работает, потому что каждый элемент выполняет над входом одну и ту же операцию: считывает нечёткое, слегка зашумлённое напряжение, определяет, по какую сторону от порога оно оказалось, и выдаёт свежий, полноценный HIGH или LOW собственного производства — независимо от того, насколько именно чистым или грязным было входное напряжение, лишь бы оно попало на правильную сторону порога.">An analog amplifier chain degrades: pass a noisy signal through enough analog stages and the noise accumulates until the original information is gone. A digital chain does not, because every gate performs the same operation on its input: read a fuzzy, slightly-noisy voltage, decide which side of the threshold it falls on, and output a fresh, full-strength HIGH or LOW of its own — regardless of exactly how clean or dirty the input voltage actually was, as long as it landed on the correct side of the threshold.</p>
+      <p class="body-col" data-en="That regeneration is what lets a modern chip cascade billions of gates without the signal ever visibly decaying — a property no chain of analog stages could match at anywhere near that length. It's also exactly why the noise margin from Chapter 1 has to exist: it's the safety buffer that keeps ordinary electrical noise — a neighboring wire's crosstalk, a power-supply ripple, thermal noise — from occasionally landing on the wrong side of the threshold and regenerating the wrong bit instead of the right one." data-ru="Именно эта регенерация позволяет современному чипу каскадировать миллиарды элементов так, что сигнал заметно не деградирует, — свойство, которого не может достичь ни одна цепочка аналоговых каскадов сопоставимой длины. Именно поэтому обязан существовать запас по помехоустойчивости из главы 1: это защитный буфер, не позволяющий обычным электрическим помехам — наводке от соседнего провода, пульсациям питания, тепловому шуму — время от времени оказываться не на той стороне порога и регенерировать не тот бит.">That regeneration is what lets a modern chip cascade billions of gates without the signal ever visibly decaying — a property no chain of analog stages could match at anywhere near that length. It's also exactly why the noise margin from Chapter 1 has to exist: it's the safety buffer that keeps ordinary electrical noise — a neighboring wire's crosstalk, a power-supply ripple, thermal noise — from occasionally landing on the wrong side of the threshold and regenerating the wrong bit instead of the right one.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="regenModeRow"></div>
+      <svg id="regenSvg" class="diagram-svg" viewBox="0 0 600 160" role="img" aria-label="A signal passing through six cascaded gates, with and without threshold regeneration"></svg>
+      <div class="voltage-sub" id="regenNote" data-en="Without regeneration, a little noise at gate 1 becomes unreadable garbage by gate 6." data-ru="Без регенерации небольшой шум на элементе 1 к элементу 6 превращается в нечитаемый хаос.">Without regeneration, a little noise at gate 1 becomes unreadable garbage by gate 6.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — THE TRANSISTOR AS A SWITCH (interactive) -->
+<section id="ch4" class="section" data-phase="THE TRANSISTOR" data-alt="MOSFET" data-vel="FIELD-CONTROLLED SWITCH">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 17</span> — <span data-en="THE TRANSISTOR IS A SWITCH, NOT A TINY COMPUTER" data-ru="ТРАНЗИСТОР — ЭТО ПЕРЕКЛЮЧАТЕЛЬ, А НЕ МАЛЕНЬКИЙ КОМПЬЮТЕР">THE TRANSISTOR IS A SWITCH, NOT A TINY COMPUTER</span></div>
+    <h2 class="h-lg" data-en="One field, one channel, one switch — repeated billions of times" data-ru="Одно поле, один канал, один переключатель — повторённый миллиарды раз">One field, one channel, one switch — repeated billions of times</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A MOSFET (metal-oxide-semiconductor field-effect transistor) has three terminals that matter here: gate, source, and drain. The gate sits above the channel, separated from it by a thin insulator, and never draws meaningful current — it works purely by electric field. Raise the gate's voltage far enough above the source, and that field pulls charge carriers into the channel underneath it, opening a conductive path between source and drain. Drop the gate voltage back down, and the channel disappears, and the path is broken." data-ru="У МОП-транзистора (полевого транзистора со структурой металл-оксид-полупроводник) есть три важных здесь вывода: затвор, исток и сток. Затвор расположен над каналом, отделён от него тонким слоем изолятора и практически не потребляет тока — он работает исключительно за счёт электрического поля. Поднимите напряжение на затворе достаточно высоко относительно истока — и это поле притягивает носители заряда в канал под затвором, открывая проводящий путь между истоком и стоком. Опустите напряжение затвора обратно — канал исчезает, и путь размыкается.">A MOSFET (metal-oxide-semiconductor field-effect transistor) has three terminals that matter here: gate, source, and drain. The gate sits above the channel, separated from it by a thin insulator, and never draws meaningful current — it works purely by electric field. Raise the gate's voltage far enough above the source, and that field pulls charge carriers into the channel underneath it, opening a conductive path between source and drain. Drop the gate voltage back down, and the channel disappears, and the path is broken.</p>
+      <p class="body-col" data-en="That is the entire mechanism: a control voltage decides whether current can flow between two other terminals. Wire the drain of one transistor to the gate of the next, and a switching event in the first becomes a control signal for the second — one switch's decision physically propagates into the next switch's decision. Every logic gate, every register, every processor on this page is that same three-terminal switch, wired into patterns, repeated somewhere between a few thousand and tens of billions of times on a single chip." data-ru="В этом и заключается весь механизм: управляющее напряжение решает, может ли протекать ток между двумя другими выводами. Соедините сток одного транзистора с затвором следующего — и переключение первого физически становится управляющим сигналом для второго: решение одного переключателя физически передаётся в решение следующего. Каждый логический элемент, каждый регистр, каждый процессор на этой странице — это тот же трёхвыводной переключатель, соединённый в узоры и повторённый на одном кристалле от нескольких тысяч до десятков миллиардов раз.">That is the entire mechanism: a control voltage decides whether current can flow between two other terminals. Wire the drain of one transistor to the gate of the next, and a switching event in the first becomes a control signal for the second — one switch's decision physically propagates into the next switch's decision. Every logic gate, every register, every processor on this page is that same three-terminal switch, wired into patterns, repeated somewhere between a few thousand and tens of billions of times on a single chip.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <svg id="mosfetSvg" class="diagram-svg" viewBox="0 0 500 240" role="img" aria-label="A MOSFET cross-section: the channel forms or disappears as gate voltage changes"></svg>
+      <div class="sim-readout"><span class="mono" data-en="GATE VOLTAGE" data-ru="НАПРЯЖЕНИЕ НА ЗАТВОРЕ">GATE VOLTAGE</span><span class="mono" id="mosfetVal">0.0V</span></div>
+      <div class="sim-controls"><input id="mosfetSlider" type="range" min="0" max="33" step="1" value="0"></div>
+      <div class="voltage-readout" id="mosfetState">OFF</div>
+      <div class="voltage-sub" id="mosfetNote" data-en="Below the threshold voltage, no channel forms — source and drain are disconnected." data-ru="Ниже порогового напряжения канал не образуется — исток и сток разъединены.">Below the threshold voltage, no channel forms — source and drain are disconnected.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — FROM SWITCHES TO LOGIC -->
+<section id="ch5" class="section" data-phase="CMOS LOGIC" data-alt="NAND / NOR" data-vel="FUNCTIONALLY COMPLETE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 17</span> — <span data-en="TWO TRANSISTORS BECOME AN INVERTER; A FEW MORE, ANY GATE" data-ru="ДВА ТРАНЗИСТОРА СТАНОВЯТСЯ ИНВЕРТОРОМ; ЕЩЁ НЕСКОЛЬКО — ЛЮБЫМ ЭЛЕМЕНТОМ">TWO TRANSISTORS BECOME AN INVERTER; A FEW MORE, ANY GATE</span></div>
+    <h2 class="h-lg" data-en="NAND and NOR are the two gates that can build everything else" data-ru="И-НЕ и ИЛИ-НЕ — два элемента, из которых можно построить всё остальное">NAND and NOR are the two gates that can build everything else</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Modern chips build logic from CMOS (complementary MOS) pairs: for every job, one network of transistors that conducts only when the output should be pulled HIGH (a 'pull-up' network), and a complementary network that conducts only when it should be pulled LOW (a 'pull-down' network) — never both at once, which is exactly what keeps CMOS gates drawing almost no static current. Wire a single transistor of each type gate-to-gate and you get the simplest possible logic: an inverter, output the opposite of the input." data-ru="Современные чипы строят логику из пар КМОП (комплементарный МОП): для каждой задачи — одна сеть транзисторов, проводящая только тогда, когда выход должен быть подтянут к HIGH («сеть подтяжки к питанию»), и комплементарная сеть, проводящая только тогда, когда выход должен быть подтянут к LOW («сеть подтяжки к земле»), — никогда обе одновременно, что и позволяет элементам КМОП потреблять почти нулевой статический ток. Соедините затвор к затвору по одному транзистору каждого типа — и получите простейшую возможную логику: инвертор, выдающий значение, противоположное входному.">Modern chips build logic from CMOS (complementary MOS) pairs: for every job, one network of transistors that conducts only when the output should be pulled HIGH (a 'pull-up' network), and a complementary network that conducts only when it should be pulled LOW (a 'pull-down' network) — never both at once, which is exactly what keeps CMOS gates drawing almost no static current. Wire a single transistor of each type gate-to-gate and you get the simplest possible logic: an inverter, output the opposite of the input.</p>
+      <p class="body-col" data-en="Add one more transistor of each type in the right arrangement and the inverter becomes a NAND or a NOR gate — and it turns out either one, alone, is enough to build every other gate that exists, AND, OR, XOR included, simply by wiring several of them together and feeding some of their own outputs back as inputs. That's what 'functionally complete' means: an entire processor could, in principle, be built from nothing but NAND gates. Real chips use the fuller AND/OR/NOT/XOR family from THRESHOLD purely because it's more convenient to design with, not because anything more is strictly required." data-ru="Добавьте ещё по одному транзистору каждого типа в правильной конфигурации — и инвертор превращается в элемент И-НЕ (NAND) или ИЛИ-НЕ (NOR); и оказывается, что любого из них одного достаточно, чтобы построить любой другой существующий элемент — включая И, ИЛИ, XOR, — просто соединив несколько таких элементов между собой и подав часть их собственных выходов обратно на входы. Именно это означает «функциональная полнота»: целый процессор в принципе можно построить из одних только элементов И-НЕ. Реальные чипы используют более полное семейство И/ИЛИ/НЕ/XOR из ПОРОГА просто потому, что так удобнее проектировать, а не потому, что это строго необходимо.">Add one more transistor of each type in the right arrangement and the inverter becomes a NAND or a NOR gate — and it turns out either one, alone, is enough to build every other gate that exists, AND, OR, XOR included, simply by wiring several of them together and feeding some of their own outputs back as inputs. That's what 'functionally complete' means: an entire processor could, in principle, be built from nothing but NAND gates. Real chips use the fuller AND/OR/NOT/XOR family from THRESHOLD purely because it's more convenient to design with, not because anything more is strictly required.</p>
+    </div>
+    <svg id="cmosSvg" class="diagram-svg" viewBox="0 0 560 200" role="img" aria-label="A CMOS inverter and a two-input NAND gate, drawn as pull-up and pull-down transistor networks"></svg>
+    <div class="eq-note" style="margin-top:-8px;" data-en="Left: a CMOS inverter — one PMOS pull-up, one NMOS pull-down. Right: a two-input NAND — two PMOS in parallel (pull-up), two NMOS in series (pull-down); the output only pulls LOW when both series transistors conduct, i.e. both inputs are HIGH." data-ru="Слева: инвертор КМОП — один PMOS на подтяжке к питанию, один NMOS на подтяжке к земле. Справа: двухвходовой И-НЕ — два PMOS параллельно (подтяжка к питанию), два NMOS последовательно (подтяжка к земле); выход подтягивается к LOW только тогда, когда оба последовательных транзистора проводят, то есть оба входа — HIGH.">Left: a CMOS inverter — one PMOS pull-up, one NMOS pull-down. Right: a two-input NAND — two PMOS in parallel (pull-up), two NMOS in series (pull-down); the output only pulls LOW when both series transistors conduct, i.e. both inputs are HIGH.</div>
+  </div>
+</section>
+
+<!-- CH6 — FROM LOGIC TO MEMORY (interactive) -->
+<section id="ch6" class="section" data-phase="MEMORY" data-alt="LATCH" data-vel="FEEDBACK = STATE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 17</span> — <span data-en="HOW A CIRCUIT REMEMBERS A SINGLE BIT" data-ru="КАК СХЕМА ЗАПОМИНАЕТ ОДИН БИТ">HOW A CIRCUIT REMEMBERS A SINGLE BIT</span></div>
+    <h2 class="h-lg" data-en="Feed a gate's output back into its own input, and it stops forgetting" data-ru="Подайте выход элемента обратно на его вход — и он перестаёт забывать">Feed a gate's output back into its own input, and it stops forgetting</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every gate so far is combinational logic: its output depends only on its current inputs, with no memory of what came before. Cross-couple two NOR gates — feed the first gate's output into the second gate's input, and the second gate's output back into the first gate's input — and the circuit becomes sequential logic: it now has two inputs, SET and RESET, and an output, Q, that holds whichever state it was last pushed into even after both inputs return to LOW. That circuit is an SR latch, and it is, physically, the simplest possible memory cell." data-ru="Все рассмотренные до сих пор элементы — это комбинационная логика: их выход зависит только от текущих входов, без памяти о прошлом. Перекрёстно соедините два элемента ИЛИ-НЕ — подайте выход первого на вход второго, а выход второго обратно на вход первого — и схема станет последовательностной логикой: теперь у неё есть два входа, SET и RESET, и выход Q, который удерживает то состояние, в которое его последний раз перевели, даже после того как оба входа вернулись в LOW. Эта схема — SR-триггер (защёлка), и физически это простейшая из возможных ячеек памяти.">Every gate so far is combinational logic: its output depends only on its current inputs, with no memory of what came before. Cross-couple two NOR gates — feed the first gate's output into the second gate's input, and the second gate's output back into the first gate's input — and the circuit becomes sequential logic: it now has two inputs, SET and RESET, and an output, Q, that holds whichever state it was last pushed into even after both inputs return to LOW. That circuit is an SR latch, and it is, physically, the simplest possible memory cell.</p>
+      <p class="body-col" data-en="A D flip-flop refines the same idea: instead of separate SET/RESET lines, it takes one data input and copies it to its output only at a clock edge, then holds that value steady until the next edge — the building block every register in Chapter 8 is made from. Stack flip-flops side by side and you get a register holding a whole word; feed a register's own output back through an adder into its own input and you get a counter; add more feedback and comparison logic and you get a state machine. Memory, at this level, is never anything more exotic than a loop." data-ru="D-триггер уточняет ту же идею: вместо отдельных линий SET/RESET он берёт один информационный вход и копирует его на выход только по фронту тактового сигнала, затем удерживает это значение неизменным до следующего фронта, — из этого строительного блока сделан каждый регистр из главы 8. Расположите триггеры рядом друг с другом — получите регистр, хранящий целое слово; подайте выход регистра через сумматор обратно на его же вход — получите счётчик; добавьте ещё обратных связей и логику сравнения — получите конечный автомат. Память на этом уровне — никогда не что-то более экзотическое, чем обратная связь.">A D flip-flop refines the same idea: instead of separate SET/RESET lines, it takes one data input and copies it to its output only at a clock edge, then holds that value steady until the next edge — the building block every register in Chapter 8 is made from. Stack flip-flops side by side and you get a register holding a whole word; feed a register's own output back through an adder into its own input and you get a counter; add more feedback and comparison logic and you get a state machine. Memory, at this level, is never anything more exotic than a loop.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <svg id="latchSvg" class="diagram-svg" viewBox="0 0 500 200" role="img" aria-label="Two cross-coupled NOR gates forming an SR latch"></svg>
+      <div class="preset-row">
+        <button class="preset-btn" id="latchSetBtn" data-en="SET" data-ru="SET">SET</button>
+        <button class="preset-btn" id="latchResetBtn" data-en="RESET" data-ru="RESET">RESET</button>
+      </div>
+      <div class="voltage-readout" id="latchState">Q = 0</div>
+      <div class="voltage-sub" id="latchNote" data-en="With both inputs LOW, the latch holds whatever Q was last set to — this is memory." data-ru="Когда оба входа LOW, защёлка удерживает то значение Q, в которое её последний раз перевели, — это и есть память.">With both inputs LOW, the latch holds whatever Q was last set to — this is memory.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — CLOCKS, TIMING, AND METASTABILITY (interactive) -->
+<section id="ch7" class="section" data-phase="TIMING" data-alt="SETUP / HOLD" data-vel="SYNCHRONIZATION, NOT THOUGHT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 17</span> — <span data-en="THE CLOCK COORDINATES; IT DOES NOT THINK" data-ru="ТАКТОВЫЙ ГЕНЕРАТОР КООРДИНИРУЕТ, А НЕ «ДУМАЕТ»">THE CLOCK COORDINATES; IT DOES NOT THINK</span></div>
+    <h2 class="h-lg" data-en="A clock is a synchronization signal, not the source of a computer's thought" data-ru="Тактовый сигнал — это сигнал синхронизации, а не источник «мысли» компьютера">A clock is a synchronization signal, not the source of a computer's thought</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="THRESHOLD already gives the clock's basic formula, f = 1/T. What matters more than the number is the job the clock actually does: millions of flip-flops across a chip are updated by combinational logic that takes a little time to settle after every change, and if each flip-flop captured its new value whenever it happened to be ready, different parts of the chip would drift out of step with each other within microseconds. The clock edge is a single shared instant, distributed everywhere, at which every flip-flop agrees to capture its input simultaneously — nothing 'happens' between edges except combinational logic quietly settling toward its next answer." data-ru="ПОРОГ уже даёт базовую формулу тактовой частоты, f = 1/T. Важнее самого числа — та работа, которую тактовый сигнал реально выполняет: миллионы триггеров по всему чипу обновляются комбинационной логикой, которой после каждого изменения нужно некоторое время на установление, и если бы каждый триггер фиксировал новое значение тогда, когда ему заблагорассудится, разные части чипа рассогласовались бы друг с другом за микросекунды. Фронт тактового сигнала — это единый общий момент, распределённый повсюду, в который каждый триггер одновременно фиксирует свой вход; между фронтами «ничего не происходит», кроме того, что комбинационная логика тихо устанавливается к своему следующему ответу.">THRESHOLD already gives the clock's basic formula, f = 1/T. What matters more than the number is the job the clock actually does: millions of flip-flops across a chip are updated by combinational logic that takes a little time to settle after every change, and if each flip-flop captured its new value whenever it happened to be ready, different parts of the chip would drift out of step with each other within microseconds. The clock edge is a single shared instant, distributed everywhere, at which every flip-flop agrees to capture its input simultaneously — nothing 'happens' between edges except combinational logic quietly settling toward its next answer.</p>
+      <p class="body-col" data-en="That agreement has real fine print: a flip-flop's data input has to arrive and stay stable for a setup time before the clock edge and a hold time after it, or the flip-flop can enter metastability — briefly settling at neither a clean HIGH nor a clean LOW, like a coin balanced on its edge, before resolving unpredictably a little later. Designers don't eliminate this risk; they bound it, by keeping every signal's arrival time safely inside the setup/hold window and by adding extra synchronizing flip-flops on any signal that genuinely crosses from one clock's timing domain into another's." data-ru="У этой договорённости есть настоящие «мелкие буквы»: информационный вход триггера обязан прийти и оставаться стабильным время установки до фронта тактового сигнала и время удержания после него, иначе триггер может войти в метастабильность — на мгновение застыть ни в чистом HIGH, ни в чистом LOW, как монета, балансирующая на ребре, прежде чем чуть позже непредсказуемо «упасть» в одно из состояний. Разработчики не устраняют этот риск, а ограничивают его: удерживают время прихода каждого сигнала надёжно внутри окна установки/удержания и добавляют дополнительные синхронизирующие триггеры на любом сигнале, который действительно переходит из одного тактового домена в другой.">That agreement has real fine print: a flip-flop's data input has to arrive and stay stable for a setup time before the clock edge and a hold time after it, or the flip-flop can enter metastability — briefly settling at neither a clean HIGH nor a clean LOW, like a coin balanced on its edge, before resolving unpredictably a little later. Designers don't eliminate this risk; they bound it, by keeping every signal's arrival time safely inside the setup/hold window and by adding extra synchronizing flip-flops on any signal that genuinely crosses from one clock's timing domain into another's.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <svg id="timingSvg" class="diagram-svg" viewBox="0 0 600 180" role="img" aria-label="A clock waveform and a data signal, with a setup/hold window around the clock edge"></svg>
+      <div class="sim-readout"><span class="mono" data-en="DATA ARRIVAL, RELATIVE TO CLOCK EDGE" data-ru="ПРИХОД ДАННЫХ ОТНОСИТЕЛЬНО ФРОНТА ТАКТА">DATA ARRIVAL, RELATIVE TO CLOCK EDGE</span><span class="mono" id="timingVal">−40%</span></div>
+      <div class="sim-controls"><input id="timingSlider" type="range" min="-100" max="100" step="2" value="-40"></div>
+      <div class="voltage-readout" id="timingState">SAFE CAPTURE</div>
+      <div class="voltage-sub" id="timingNote" data-en="Data settles well before the setup window opens — the flip-flop captures it cleanly." data-ru="Данные устанавливаются задолго до открытия окна установки — триггер фиксирует их чисто.">Data settles well before the setup window opens — the flip-flop captures it cleanly.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — FROM NUMBERS TO INSTRUCTIONS (interactive) -->
+<section id="ch8" class="section" data-phase="INSTRUCTIONS" data-alt="FETCH → WRITE-BACK" data-vel="OPCODE + OPERANDS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 17</span> — <span data-en="WHAT A CPU ACTUALLY DOES WITH A NUMBER" data-ru="ЧТО ПРОЦЕССОР НА САМОМ ДЕЛЕ ДЕЛАЕТ С ЧИСЛОМ">WHAT A CPU ACTUALLY DOES WITH A NUMBER</span></div>
+    <h2 class="h-lg" data-en="A CPU has no idea what “move this object” means. It only knows encoded states." data-ru="Процессор понятия не имеет, что значит «переместить этот объект». Он знает только кодированные состояния.">A CPU has no idea what “move this object” means. It only knows encoded states.</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="THRESHOLD already covers how a row of bits becomes an unsigned integer and how two's complement gives it a sign; the same fixed-width pattern, split differently, gives fixed-point fractions, and — via a sign bit, an exponent field, and a fraction field defined by IEEE 754 — floating point, trading some precision for an enormous range. None of these representations mean anything to the hardware beyond 'a pattern of HIGH and LOW wires'; meaning is something software and the programmer supply." data-ru="ПОРОГ уже объясняет, как ряд битов становится целым числом без знака и как дополнительный код придаёт ему знак; тот же фиксированный формат, разбитый иначе, даёт дробные числа с фиксированной точкой, а через бит знака, поле порядка и поле мантиссы, определённые стандартом IEEE 754, — числа с плавающей точкой, обменивающие часть точности на огромный диапазон. Ни одно из этих представлений не значит для «железа» ничего, кроме «узора проводов HIGH и LOW»; смысл поставляют программное обеспечение и программист.">THRESHOLD already covers how a row of bits becomes an unsigned integer and how two's complement gives it a sign; the same fixed-width pattern, split differently, gives fixed-point fractions, and — via a sign bit, an exponent field, and a fraction field defined by IEEE 754 — floating point, trading some precision for an enormous range. None of these representations mean anything to the hardware beyond 'a pattern of HIGH and LOW wires'; meaning is something software and the programmer supply.</p>
+      <p class="body-col" data-en="An instruction is itself just such a pattern: an opcode field telling the control logic which operation to perform, and operand fields naming which registers or memory addresses it applies to. A CPU runs each one through the same five-stage cycle — fetch the instruction from memory, decode which opcode and operands it names, execute the operation in the ALU, access memory if the instruction needs to, and write the result back to a register — over and over, at clock speed. Accumulator machines keep one implicit working register; RISC designs (ARM, RISC-V) favor many explicit registers and simple, uniform instructions; CISC designs (x86) allow denser, more varied instructions that do more per fetch. All three run the same fetch–decode–execute cycle underneath." data-ru="Сама инструкция — точно такой же узор: поле опкода сообщает управляющей логике, какую операцию выполнить, а поля операндов называют, к каким регистрам или адресам памяти она применяется. Процессор пропускает каждую инструкцию через один и тот же пятиступенчатый цикл — выборка инструкции из памяти, декодирование, какой опкод и операнды она называет, выполнение операции в АЛУ, обращение к памяти, если инструкция этого требует, и запись результата обратно в регистр, — снова и снова, на тактовой скорости. Аккумуляторные машины хранят один неявный рабочий регистр; архитектуры RISC (ARM, RISC-V) предпочитают много явных регистров и простые, единообразные инструкции; архитектуры CISC (x86) допускают более плотные, разнообразные инструкции, делающие больше за одну выборку. Все три работают на одном и том же цикле выборка-декодирование-выполнение внутри.">An instruction is itself just such a pattern: an opcode field telling the control logic which operation to perform, and operand fields naming which registers or memory addresses it applies to. A CPU runs each one through the same five-stage cycle — fetch the instruction from memory, decode which opcode and operands it names, execute the operation in the ALU, access memory if the instruction needs to, and write the result back to a register — over and over, at clock speed. Accumulator machines keep one implicit working register; RISC designs (ARM, RISC-V) favor many explicit registers and simple, uniform instructions; CISC designs (x86) allow denser, more varied instructions that do more per fetch. All three run the same fetch–decode–execute cycle underneath.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row"><button class="preset-btn" id="cycleStepBtn" data-en="STEP →" data-ru="ШАГ →">STEP →</button><button class="preset-btn" id="cycleResetBtn" data-en="RESET" data-ru="СБРОС">RESET</button></div>
+      <svg id="cycleSvg" class="diagram-svg" viewBox="0 0 600 140" role="img" aria-label="The fetch, decode, execute, memory, write-back instruction cycle"></svg>
+      <div class="voltage-sub" id="cycleNote" data-en="Press STEP to walk through one instruction, one stage at a time." data-ru="Нажмите ШАГ, чтобы пройти одну инструкцию, ступень за ступенью.">Press STEP to walk through one instruction, one stage at a time.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — MICROCONTROLLER VS MICROPROCESSOR -->
+<section id="ch9" class="section" data-phase="MCU VS SBC" data-alt="ONE CHIP VS MANY" data-vel="INTEGRATION LEVEL">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 17</span> — <span data-en="MICROCONTROLLER VS MICROPROCESSOR" data-ru="МИКРОКОНТРОЛЛЕР ПРОТИВ МИКРОПРОЦЕССОРА">MICROCONTROLLER VS MICROPROCESSOR</span></div>
+    <h2 class="h-lg" data-en="The difference is how much of the computer lives on one piece of silicon" data-ru="Разница в том, сколько компьютера умещается на одном кристалле кремния">The difference is how much of the computer lives on one piece of silicon</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A microcontroller (MCU) packs a CPU, its own flash memory for program storage, its own RAM for working data, GPIO pins, timers, an ADC, PWM outputs, and communication peripherals (UART/SPI/I²C) onto a single chip, built to run one program, forever, the moment power is applied. A microprocessor (MPU), as used in a single-board computer (SBC), is usually just the CPU and a small set of high-speed interfaces — it depends on external RAM, external storage, and a full operating system loaded from that storage to do anything at all." data-ru="Микроконтроллер (МК) объединяет на одном кристалле процессор, собственную флеш-память для хранения программы, собственную ОЗУ для рабочих данных, выводы GPIO, таймеры, АЦП, выходы ШИМ и периферию для связи (UART/SPI/I²C) — и построен, чтобы бесконечно выполнять одну программу с момента подачи питания. Микропроцессор (МП), как в одноплатном компьютере (ОПК), — это обычно только сам процессор и небольшой набор высокоскоростных интерфейсов; он зависит от внешней ОЗУ, внешнего накопителя и полноценной операционной системы, загружаемой с этого накопителя, чтобы вообще что-то делать.">A microcontroller (MCU) packs a CPU, its own flash memory for program storage, its own RAM for working data, GPIO pins, timers, an ADC, PWM outputs, and communication peripherals (UART/SPI/I²C) onto a single chip, built to run one program, forever, the moment power is applied. A microprocessor (MPU), as used in a single-board computer (SBC), is usually just the CPU and a small set of high-speed interfaces — it depends on external RAM, external storage, and a full operating system loaded from that storage to do anything at all.</p>
+      <p class="body-col" data-en="That's the entire reason an Arduino feels fundamentally different from a Raspberry Pi within seconds of touching either one: power an Arduino and its one program is running within milliseconds, deterministically, with every pin's behavior traceable straight back to that program; power a Raspberry Pi and a bootloader has to find, load, and hand control to an entire Linux kernel before anything resembling 'your program' can even start. Chapters 10–12 walk both paths in detail." data-ru="Именно поэтому Arduino ощущается принципиально иначе, чем Raspberry Pi, уже через несколько секунд работы с любым из них: подайте питание на Arduino — и его единственная программа запускается за миллисекунды, детерминированно, а поведение каждого вывода можно напрямую проследить до этой программы; подайте питание на Raspberry Pi — и загрузчику сначала нужно найти, загрузить и передать управление целому ядру Linux, прежде чем хоть что-то похожее на «вашу программу» вообще сможет начаться. Главы 10–12 подробно проходят оба пути.">That's the entire reason an Arduino feels fundamentally different from a Raspberry Pi within seconds of touching either one: power an Arduino and its one program is running within milliseconds, deterministically, with every pin's behavior traceable straight back to that program; power a Raspberry Pi and a bootloader has to find, load, and hand control to an entire Linux kernel before anything resembling 'your program' can even start. Chapters 10–12 walk both paths in detail.</p>
+    </div>
+    <svg id="mcuSbcSvg" class="diagram-svg" viewBox="0 0 600 260" role="img" aria-label="Block diagram comparing a microcontroller (one chip) with a microprocessor-based single-board computer (many chips)"></svg>
+  </div>
+</section>
+
+<!-- CH10 — ARDUINO: TRACING digitalWrite() (flagship, interactive) -->
+<section id="ch10" class="section" data-phase="ARDUINO" data-alt="digitalWrite()" data-vel="SOFTWARE → VOLTAGE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 17</span> — <span data-en="ARDUINO: WHAT digitalWrite(pin, HIGH) ACTUALLY DOES" data-ru="ARDUINO: ЧТО НА САМОМ ДЕЛЕ ДЕЛАЕТ digitalWrite(pin, HIGH)">ARDUINO: WHAT digitalWrite(pin, HIGH) ACTUALLY DOES</span></div>
+    <h2 class="h-lg" data-en="One line of C++ becomes a real voltage on a real pin — click through every step" data-ru="Одна строка на C++ становится настоящим напряжением на настоящем выводе — пройдите каждый шаг">One line of C++ becomes a real voltage on a real pin — click through every step</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="digitalWrite(pin, HIGH) reads like a single instruction, but it is a whole chain of physical events, each one built entirely from the previous chapters. This is the single most important demonstration on this page — every layer discussed so far, from transistor to instruction cycle, actually happens, in order, every time this one line runs." data-ru="digitalWrite(pin, HIGH) выглядит как одна инструкция, но на самом деле это целая цепочка физических событий, каждое из которых полностью строится на предыдущих главах. Это самая важная демонстрация на этой странице — все рассмотренные до сих пор уровни, от транзистора до цикла инструкций, реально происходят, по порядку, каждый раз, когда выполняется эта одна строка.">digitalWrite(pin, HIGH) reads like a single instruction, but it is a whole chain of physical events, each one built entirely from the previous chapters. This is the single most important demonstration on this page — every layer discussed so far, from transistor to instruction cycle, actually happens, in order, every time this one line runs.</p>
+      <p class="body-col" data-en="Click through the chain below. The same underlying mechanism, read backward, is exactly how digitalRead() and analogRead() work (a comparator or an analog-to-digital converter, instead of an output driver, reporting the pin's voltage back into a register); PWM is this same GPIO toggling on a hardware timer's schedule instead of software's; an interrupt is a peripheral flagging the CPU the instant a pin's voltage crosses a threshold, instead of the program having to keep asking; and UART, SPI, and I²C are all just agreed-upon timing patterns for toggling and reading pins like this one, fast enough and structured enough that another chip can decode them as data." data-ru="Пройдите по цепочке ниже, нажимая на каждый шаг. Тот же самый механизм, прочитанный в обратную сторону, — это ровно то, как работают digitalRead() и analogRead() (компаратор или аналого-цифровой преобразователь вместо выходного драйвера сообщает напряжение на выводе обратно в регистр); ШИМ — это то же переключение GPIO, но по расписанию аппаратного таймера, а не программы; прерывание — это периферия, сигнализирующая процессору в момент, когда напряжение на выводе пересекает порог, вместо того чтобы программа сама постоянно об этом спрашивала; а UART, SPI и I²C — это просто согласованные временные шаблоны переключения и считывания таких же выводов, достаточно быстрые и структурированные, чтобы другой чип мог декодировать их как данные.">Click through the chain below. The same underlying mechanism, read backward, is exactly how digitalRead() and analogRead() work (a comparator or an analog-to-digital converter, instead of an output driver, reporting the pin's voltage back into a register); PWM is this same GPIO toggling on a hardware timer's schedule instead of software's; an interrupt is a peripheral flagging the CPU the instant a pin's voltage crosses a threshold, instead of the program having to keep asking; and UART, SPI, and I²C are all just agreed-upon timing patterns for toggling and reading pins like this one, fast enough and structured enough that another chip can decode them as data.</p>
+    </div>
+    <div class="code-block"><span class="cl">void setup() {</span><span class="cl">  pinMode(13, OUTPUT);</span><span class="cl">}</span><span class="cl">void loop() {</span><span class="cl">  digitalWrite(13, HIGH);  // ← this line</span><span class="cl">}</span></div>
+    <div class="sim-panel corner-frame">
+      <div class="chain-row" id="gpioChainRow"></div>
+      <div class="chain-panel" id="gpioChainPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH11 — ESP32 -->
+<section id="ch11" class="section" data-phase="ESP32" data-alt="SYSTEM-ON-CHIP" data-vel="WI-FI + BLUETOOTH">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 17</span> — <span data-en="ESP32: A SYSTEM-ON-CHIP, NOT “AN ARDUINO WITH WI-FI”" data-ru="ESP32: СИСТЕМА НА КРИСТАЛЛЕ, А НЕ «ARDUINO С WI-FI»">ESP32: A SYSTEM-ON-CHIP, NOT “AN ARDUINO WITH WI-FI”</span></div>
+    <h2 class="h-lg" data-en="Arduino is a programming model. ESP32 is a family of chips." data-ru="Arduino — это модель программирования. ESP32 — это семейство микросхем.">Arduino is a programming model. ESP32 is a family of chips.</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="'Arduino' names an ecosystem — a board layout, a simplified C++ library, an IDE — that can sit on top of very different microcontrollers. 'ESP32' names an actual family of system-on-chip devices from Espressif, most commonly built around one or two Xtensa LX6 CPU cores, that can run the Arduino programming model as one option among several, alongside Espressif's own ESP-IDF framework or a full real-time operating system." data-ru="«Arduino» — это название экосистемы: разводка платы, упрощённая библиотека на C++, среда разработки, — которая может работать поверх очень разных микроконтроллеров. «ESP32» — это название реального семейства систем на кристалле от Espressif, чаще всего построенных вокруг одного или двух ядер процессора Xtensa LX6, которое может выполнять модель программирования Arduino как один из вариантов наряду с собственным фреймворком Espressif ESP-IDF или полноценной операционной системой реального времени.">'Arduino' names an ecosystem — a board layout, a simplified C++ library, an IDE — that can sit on top of very different microcontrollers. 'ESP32' names an actual family of system-on-chip devices from Espressif, most commonly built around one or two Xtensa LX6 CPU cores, that can run the Arduino programming model as one option among several, alongside Espressif's own ESP-IDF framework or a full real-time operating system.</p>
+      <p class="body-col" data-en="What actually sets an ESP32 apart from a classic 8-bit Arduino board is integration: on-chip SRAM measured in hundreds of kilobytes rather than a few kilobytes, external SPI flash for program and file storage, a full 802.11 Wi-Fi radio and Bluetooth Classic/BLE radio on the same die, hardware DMA so peripherals can move data without stopping the CPU cores to babysit every byte, plus the same GPIO, ADC, PWM, timer, interrupt, UART, SPI, and I²C peripherals a smaller MCU has, just more of them and often more flexible. It's genuinely a small, self-contained computer with radios built in — not merely a bigger Arduino." data-ru="То, что реально отличает ESP32 от классической 8-битной платы Arduino, — это интеграция: встроенная SRAM объёмом в сотни килобайт, а не несколько килобайт, внешняя флеш-память SPI для программы и файлов, полноценный радиомодуль Wi-Fi 802.11 и радиомодуль Bluetooth Classic/BLE на том же кристалле, аппаратный DMA, позволяющий периферии передавать данные без остановки процессорных ядер для «нянченья» с каждым байтом, а также те же GPIO, АЦП, ШИМ, таймеры, прерывания, UART, SPI и I²C, что и у младшего МК, — только их больше и часто они гибче. Это по-настоящему небольшой самодостаточный компьютер со встроенными радиомодулями, а не просто «Arduino покрупнее».">What actually sets an ESP32 apart from a classic 8-bit Arduino board is integration: on-chip SRAM measured in hundreds of kilobytes rather than a few kilobytes, external SPI flash for program and file storage, a full 802.11 Wi-Fi radio and Bluetooth Classic/BLE radio on the same die, hardware DMA so peripherals can move data without stopping the CPU cores to babysit every byte, plus the same GPIO, ADC, PWM, timer, interrupt, UART, SPI, and I²C peripherals a smaller MCU has, just more of them and often more flexible. It's genuinely a small, self-contained computer with radios built in — not merely a bigger Arduino.</p>
+    </div>
+    <div class="readout-grid cols-4">
+      <div class="readout-cell"><span class="rl" data-en="CPU" data-ru="ПРОЦЕССОР">CPU</span><span data-en="1–2× Xtensa LX6 cores" data-ru="1–2 ядра Xtensa LX6">1–2× Xtensa LX6 cores</span></div>
+      <div class="readout-cell"><span class="rl" data-en="ON-CHIP SRAM" data-ru="ВСТРОЕННАЯ SRAM">ON-CHIP SRAM</span><span>520 KB</span></div>
+      <div class="readout-cell"><span class="rl" data-en="RADIOS" data-ru="РАДИОМОДУЛИ">RADIOS</span><span data-en="Wi-Fi + Bluetooth" data-ru="Wi-Fi + Bluetooth">Wi-Fi + Bluetooth</span></div>
+      <div class="readout-cell"><span class="rl" data-en="PROGRAM STORAGE" data-ru="ПАМЯТЬ ПРОГРАММ">PROGRAM STORAGE</span><span data-en="External SPI flash" data-ru="Внешняя SPI флеш-память">External SPI flash</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH12 — RASPBERRY PI -->
+<section id="ch12" class="section" data-phase="RASPBERRY PI" data-alt="BOOT → KERNEL" data-vel="LINUX, NOT FIRMWARE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.12 / 17</span> — <span data-en="RASPBERRY PI: A DIFFERENT LAYER OF ABSTRACTION ENTIRELY" data-ru="RASPBERRY PI: СОВЕРШЕННО ИНОЙ УРОВЕНЬ АБСТРАКЦИИ">RASPBERRY PI: A DIFFERENT LAYER OF ABSTRACTION ENTIRELY</span></div>
+    <h2 class="h-lg" data-en="Before a Raspberry Pi runs “your program,” it has to become a Linux computer" data-ru="Прежде чем Raspberry Pi запустит «вашу программу», ему нужно стать компьютером с Linux">Before a Raspberry Pi runs “your program,” it has to become a Linux computer</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A Raspberry Pi is a single-board computer, not a microcontroller board: on power-up, an on-chip boot ROM runs first and looks for a bootloader (on a Pi 4 and later, code held in a small SPI EEPROM, replacing the SD-card bootcode.bin older models used); that bootloader reads the device tree and firmware, and finally hands control to the Linux kernel, which mounts a filesystem, starts a scheduler, and only then launches whatever process the user actually wanted — a full stack that has to complete, in order, before anything the user wrote runs at all." data-ru="Raspberry Pi — это одноплатный компьютер, а не плата с микроконтроллером: при включении питания первым запускается встроенный загрузочный ПЗУ, который ищет загрузчик (на Pi 4 и новее — код, хранящийся в небольшой SPI EEPROM, заменившей файл bootcode.bin на SD-карте у старых моделей); этот загрузчик считывает дерево устройств и прошивку и, наконец, передаёт управление ядру Linux, которое монтирует файловую систему, запускает планировщик и только затем запускает тот процесс, который на самом деле хотел пользователь, — целый стек, который должен полностью завершиться, по порядку, прежде чем вообще запустится что-то написанное пользователем.">A Raspberry Pi is a single-board computer, not a microcontroller board: on power-up, an on-chip boot ROM runs first and looks for a bootloader (on a Pi 4 and later, code held in a small SPI EEPROM, replacing the SD-card bootcode.bin older models used); that bootloader reads the device tree and firmware, and finally hands control to the Linux kernel, which mounts a filesystem, starts a scheduler, and only then launches whatever process the user actually wanted — a full stack that has to complete, in order, before anything the user wrote runs at all.</p>
+      <p class="body-col" data-en="A microcontroller skips essentially all of that: reset runs a few lines of startup code that set up the stack and clear memory, then jumps straight into the program's main loop (or a small real-time operating system's scheduler, at most), often in well under a millisecond. That's the real tradeoff — an MCU trades away an operating system, a filesystem, networking stacks, and a vast software ecosystem in exchange for deterministic timing, genuinely low power, near-instant startup, and direct, unmediated control over its own hardware; an SBC trades startup time and determinism for a real CPU, real memory, and everything Linux brings with it." data-ru="Микроконтроллер пропускает практически всё это: сброс запускает несколько строк стартового кода, настраивающих стек и очищающих память, а затем переходит прямо в главный цикл программы (или, самое большее, в планировщик небольшой операционной системы реального времени) — часто заметно быстрее, чем за миллисекунду. В этом и состоит настоящий компромисс: МК отказывается от операционной системы, файловой системы, сетевых стеков и огромной программной экосистемы в обмен на детерминированные тайминги, действительно низкое энергопотребление, почти мгновенный запуск и прямой, ничем не опосредованный контроль над собственным «железом»; ОПК жертвует временем запуска и детерминированностью ради настоящего процессора, настоящей памяти и всего, что приносит с собой Linux.">A microcontroller skips essentially all of that: reset runs a few lines of startup code that set up the stack and clear memory, then jumps straight into the program's main loop (or a small real-time operating system's scheduler, at most), often in well under a millisecond. That's the real tradeoff — an MCU trades away an operating system, a filesystem, networking stacks, and a vast software ecosystem in exchange for deterministic timing, genuinely low power, near-instant startup, and direct, unmediated control over its own hardware; an SBC trades startup time and determinism for a real CPU, real memory, and everything Linux brings with it.</p>
+    </div>
+    <div class="readout-grid cols-3">
+      <div class="readout-cell"><span class="rl" data-en="MCU: STARTUP" data-ru="МК: ЗАПУСК">MCU: STARTUP</span><span data-en="Microseconds, deterministic" data-ru="Микросекунды, детерминированно">Microseconds, deterministic</span></div>
+      <div class="readout-cell"><span class="rl" data-en="MCU: STRENGTH" data-ru="МК: СИЛЬНАЯ СТОРОНА">MCU: STRENGTH</span><span data-en="Timing, power, cost" data-ru="Тайминги, энергопотребление, цена">Timing, power, cost</span></div>
+      <div class="readout-cell"><span class="rl" data-en="MCU: LIMIT" data-ru="МК: ОГРАНИЧЕНИЕ">MCU: LIMIT</span><span data-en="Small memory, no OS" data-ru="Мало памяти, нет ОС">Small memory, no OS</span></div>
+      <div class="readout-cell"><span class="rl" data-en="SBC: STARTUP" data-ru="ОПК: ЗАПУСК">SBC: STARTUP</span><span data-en="Seconds, boot chain" data-ru="Секунды, цепочка загрузки">Seconds, boot chain</span></div>
+      <div class="readout-cell"><span class="rl" data-en="SBC: STRENGTH" data-ru="ОПК: СИЛЬНАЯ СТОРОНА">SBC: STRENGTH</span><span data-en="OS, memory, networking" data-ru="ОС, память, сеть">OS, memory, networking</span></div>
+      <div class="readout-cell"><span class="rl" data-en="SBC: LIMIT" data-ru="ОПК: ОГРАНИЧЕНИЕ">SBC: LIMIT</span><span data-en="Non-deterministic timing" data-ru="Недетерминированные тайминги">Non-deterministic timing</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH13 — THE ENGINEERING VIEW: PHYSICS ⇄ APPLICATION (interactive) -->
+<section id="ch13" class="section" data-phase="BOTH DIRECTIONS" data-alt="PHYSICS ⇄ APP" data-vel="STOP THINKING BLACK BOX">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.13 / 17</span> — <span data-en="THE ENGINEERING VIEW: PHYSICS ⇄ APPLICATION" data-ru="ВЗГЛЯД ИНЖЕНЕРА: ФИЗИКА ⇄ ПРИЛОЖЕНИЕ">THE ENGINEERING VIEW: PHYSICS ⇄ APPLICATION</span></div>
+    <h2 class="h-lg" data-en="Stop treating the microcontroller as a magic black box" data-ru="Перестаньте считать микроконтроллер волшебным чёрным ящиком">Stop treating the microcontroller as a magic black box</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The engineering culture behind semiconductor datasheets and application notes — from Texas Instruments, Microchip, STMicroelectronics, and every other silicon vendor — treats every chip as a stack of layers an engineer can move through in either direction: physics, device, circuit, logic, architecture, register, instruction, firmware, application. Reading downward from software explains why a line of code works; reading upward from physics explains why the chip can exist at all. Neither direction is 'more real' than the other." data-ru="Инженерная культура, стоящая за datasheet-ами и application note-ами производителей полупроводников — от Texas Instruments, Microchip, STMicroelectronics и любого другого вендора кремния, — рассматривает каждый чип как стек слоёв, по которому инженер может двигаться в любом направлении: физика, устройство, схема, логика, архитектура, регистр, инструкция, прошивка, приложение. Чтение сверху вниз, от программы, объясняет, почему работает строка кода; чтение снизу вверх, от физики, объясняет, почему чип вообще может существовать. Ни одно из направлений не «реальнее» другого.">The engineering culture behind semiconductor datasheets and application notes — from Texas Instruments, Microchip, STMicroelectronics, and every other silicon vendor — treats every chip as a stack of layers an engineer can move through in either direction: physics, device, circuit, logic, architecture, register, instruction, firmware, application. Reading downward from software explains why a line of code works; reading upward from physics explains why the chip can exist at all. Neither direction is 'more real' than the other.</p>
+      <p class="body-col" data-en="This is why a real engineer can debug a stuck LED from either end: downward, from 'the application calls a driver, which writes a register, which drives a peripheral, which toggles a transistor, which is just physics'; or upward, from 'this electron behavior enables a switch, which composes into a gate, which composes into a state machine, which composes into a processor, which runs firmware, which runs the application.' Vendors from AVR and PIC to STM32, RP2040, MSP430, and RISC-V-based microcontrollers all sit somewhere on this same stack — different tradeoffs at every layer, never a different set of layers." data-ru="Именно поэтому настоящий инженер может отладить не горящий светодиод с любого конца: сверху вниз — «приложение вызывает драйвер, тот пишет в регистр, тот управляет периферией, та переключает транзистор, а это уже просто физика»; или снизу вверх — «вот это поведение электронов позволяет получить переключатель, который складывается в элемент, который складывается в конечный автомат, который складывается в процессор, который выполняет прошивку, которая выполняет приложение». Производители от AVR и PIC до STM32, RP2040, MSP430 и микроконтроллеров на архитектуре RISC-V — все они находятся где-то на этом же стеке: на каждом слое разные компромиссы, но никогда не другой набор слоёв.">This is why a real engineer can debug a stuck LED from either end: downward, from 'the application calls a driver, which writes a register, which drives a peripheral, which toggles a transistor, which is just physics'; or upward, from 'this electron behavior enables a switch, which composes into a gate, which composes into a state machine, which composes into a processor, which runs firmware, which runs the application.' Vendors from AVR and PIC to STM32, RP2040, MSP430, and RISC-V-based microcontrollers all sit somewhere on this same stack — different tradeoffs at every layer, never a different set of layers.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="layerRow"></div>
+      <div class="chain-panel" id="layerPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH14 — BEYOND THE CPU: DSP, GPU, FPGA, ASIC -->
+<section id="ch14" class="section" data-phase="SPECIALIZATION" data-alt="FPGA / ASIC" data-vel="HARDWARE, NOT INSTRUCTIONS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.14 / 17</span> — <span data-en="WHEN A GENERAL-PURPOSE CPU ISN'T THE RIGHT ANSWER" data-ru="КОГДА УНИВЕРСАЛЬНЫЙ ПРОЦЕССОР — НЕ ЛУЧШИЙ ОТВЕТ">WHEN A GENERAL-PURPOSE CPU ISN'T THE RIGHT ANSWER</span></div>
+    <h2 class="h-lg" data-en="An FPGA configures hardware for the problem instead of running instructions" data-ru="ПЛИС конфигурирует «железо» под задачу вместо выполнения инструкций">An FPGA configures hardware for the problem instead of running instructions</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every CPU so far, from an 8-bit MCU to a desktop chip, computes the same way: a fixed hardware datapath repeatedly fetches and executes a stream of instructions. A field-programmable gate array (FPGA) inverts that relationship — it's an array of configurable logic blocks, programmable routing between them, flip-flops, small memory blocks, and dedicated DSP blocks, and instead of running instructions on a fixed circuit, it configures an actual, fixed circuit shaped around one specific problem, with no fetch-decode-execute overhead at all. Signal processing, software-defined radio, robotics control loops, high-speed interfaces, and scientific instruments reach for FPGAs precisely because a purpose-built hardware datapath can do their one job every clock cycle, deterministically, with nothing else competing for the CPU's attention." data-ru="Каждый рассмотренный до сих пор процессор, от 8-битного МК до настольного чипа, вычисляет одинаково: фиксированный аппаратный тракт данных снова и снова выбирает и выполняет поток инструкций. Программируемая пользователем вентильная матрица (ПЛИС, FPGA) переворачивает это отношение: это массив настраиваемых логических блоков, программируемой коммутации между ними, триггеров, небольших блоков памяти и выделенных DSP-блоков, — и вместо выполнения инструкций на фиксированной схеме она настраивает настоящую, фиксированную схему, «заточенную» под одну конкретную задачу, вообще без накладных расходов на выборку-декодирование-выполнение. Обработка сигналов, программно-определяемое радио, контуры управления в робототехнике, высокоскоростные интерфейсы и научные приборы обращаются к ПЛИС именно потому, что специально построенный аппаратный тракт данных может выполнять свою единственную задачу каждый такт, детерминированно, и ничто больше не конкурирует за внимание процессора.">Every CPU so far, from an 8-bit MCU to a desktop chip, computes the same way: a fixed hardware datapath repeatedly fetches and executes a stream of instructions. A field-programmable gate array (FPGA) inverts that relationship — it's an array of configurable logic blocks, programmable routing between them, flip-flops, small memory blocks, and dedicated DSP blocks, and instead of running instructions on a fixed circuit, it configures an actual, fixed circuit shaped around one specific problem, with no fetch-decode-execute overhead at all. Signal processing, software-defined radio, robotics control loops, high-speed interfaces, and scientific instruments reach for FPGAs precisely because a purpose-built hardware datapath can do their one job every clock cycle, deterministically, with nothing else competing for the CPU's attention.</p>
+      <p class="body-col" data-en="An application-specific integrated circuit (ASIC) takes the same idea one step further and freezes it permanently into silicon: instead of sensor → CPU → software algorithm → result, an ASIC can implement sensor → dedicated hardware pipeline → result directly, often at a fraction of the power and latency. The price is real — design, verification, and mask/fabrication costs that only make sense at high manufacturing volume, a long time-to-market, and the fact that a bug found after fabrication is a bug baked into physical silicon, not a patch. Between a CPU and an ASIC sit DSPs (instruction sets tuned specifically for signal-processing math) and GPUs (thousands of simple cores tuned for the same operation repeated over massive, parallel data) — each one trading generality for exactly the kind of efficiency its target workload needs." data-ru="Специализированная интегральная схема (СБИС, ASIC) доводит ту же идею на шаг дальше и замораживает её навсегда в кремнии: вместо датчик → процессор → программный алгоритм → результат ASIC может реализовать датчик → выделенный аппаратный конвейер → результат напрямую, часто при малой доле энергопотребления и задержки. Цена реальна: затраты на проектирование, верификацию и изготовление масок/фабрикацию, оправданные лишь при большом объёме производства, долгий путь до рынка и тот факт, что ошибка, найденная после изготовления, — это ошибка, впечённая в физический кремний, а не патч. Между процессором и ASIC располагаются DSP (наборы инструкций, заточенные именно под математику обработки сигналов) и GPU (тысячи простых ядер, заточенных под одну и ту же операцию, повторяемую над огромными параллельными данными) — каждый меняет универсальность именно на ту эффективность, которая нужна его целевой нагрузке.">An application-specific integrated circuit (ASIC) takes the same idea one step further and freezes it permanently into silicon: instead of sensor → CPU → software algorithm → result, an ASIC can implement sensor → dedicated hardware pipeline → result directly, often at a fraction of the power and latency. The price is real — design, verification, and mask/fabrication costs that only make sense at high manufacturing volume, a long time-to-market, and the fact that a bug found after fabrication is a bug baked into physical silicon, not a patch. Between a CPU and an ASIC sit DSPs (instruction sets tuned specifically for signal-processing math) and GPUs (thousands of simple cores tuned for the same operation repeated over massive, parallel data) — each one trading generality for exactly the kind of efficiency its target workload needs.</p>
+    </div>
+    <svg id="fpgaSvg" class="diagram-svg" viewBox="0 0 600 200" role="img" aria-label="CPU executing an instruction stream on a fixed datapath, versus an FPGA's datapath configured for the problem"></svg>
+  </div>
+</section>
+
+<!-- CH15 — THE ENERGY OF COMPUTATION -->
+<section id="ch15" class="section" data-phase="ENERGY" data-alt="MOVE < COMPUTE?" data-vel="DATA MOVEMENT COSTS MORE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.15 / 17</span> — <span data-en="WHAT A COMPUTATION ACTUALLY COSTS, PHYSICALLY" data-ru="ЧТО ВЫЧИСЛЕНИЕ РЕАЛЬНО СТОИТ ФИЗИЧЕСКИ">WHAT A COMPUTATION ACTUALLY COSTS, PHYSICALLY</span></div>
+    <h2 class="h-lg" data-en="Moving a bit can cost more energy than computing with it" data-ru="Переместить бит может стоить дороже энергии, чем вычислить с ним">Moving a bit can cost more energy than computing with it</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every switching event in this whole article costs real energy: charging and discharging a gate's capacitance, driving current through a channel, and — at the memory cells from Chapter 6 — reading and writing state. None of that is free, and on a modern chip, the energy to move a piece of data from off-chip DRAM to the CPU core routinely costs far more than the energy of the arithmetic the core then performs on it — a gap that only widens the farther the data has to travel." data-ru="Каждое событие переключения во всей этой статье стоит реальной энергии: заряд и разряд ёмкости затвора, проведение тока через канал и — в ячейках памяти из главы 6 — чтение и запись состояния. Ничто из этого не бесплатно, и на современном чипе энергия, затрачиваемая на перемещение данных из внешней DRAM в ядро процессора, регулярно оказывается намного больше энергии на арифметику, которую ядро затем с этими данными выполняет, — и разрыв только растёт с увеличением расстояния, которое данным приходится преодолеть.">Every switching event in this whole article costs real energy: charging and discharging a gate's capacitance, driving current through a channel, and — at the memory cells from Chapter 6 — reading and writing state. None of that is free, and on a modern chip, the energy to move a piece of data from off-chip DRAM to the CPU core routinely costs far more than the energy of the arithmetic the core then performs on it — a gap that only widens the farther the data has to travel.</p>
+      <p class="body-col" data-en="That single fact explains an entire layer of computer design most programmers never see directly: a small, fast cache sitting physically close to the CPU core specifically to avoid the expensive trip to DRAM; DMA hardware that moves data between memory and peripherals without waking the CPU core for every byte; dedicated accelerators placed right next to the data they process instead of shipping that data across the chip; and edge computing, which processes sensor data physically near the sensor instead of paying the much larger energy cost of sending it somewhere else first." data-ru="Один этот факт объясняет целый слой устройства компьютеров, который большинство программистов никогда не видят напрямую: небольшой быстрый кэш, физически расположенный рядом с ядром процессора именно для того, чтобы избежать дорогого «похода» в DRAM; аппаратный DMA, перемещающий данные между памятью и периферией, не будя процессорное ядро на каждый байт; выделенные ускорители, размещённые прямо рядом с данными, которые они обрабатывают, вместо пересылки этих данных через весь чип; и периферийные (edge) вычисления, обрабатывающие данные датчика физически рядом с самим датчиком вместо того, чтобы платить намного большую энергетическую цену за их пересылку куда-то ещё.">That single fact explains an entire layer of computer design most programmers never see directly: a small, fast cache sitting physically close to the CPU core specifically to avoid the expensive trip to DRAM; DMA hardware that moves data between memory and peripherals without waking the CPU core for every byte; dedicated accelerators placed right next to the data they process instead of shipping that data across the chip; and edge computing, which processes sensor data physically near the sensor instead of paying the much larger energy cost of sending it somewhere else first.</p>
+    </div>
+    <div class="readout-grid cols-3">
+      <div class="readout-cell"><span class="rl" data-en="REGISTER / CACHE ACCESS" data-ru="ДОСТУП К РЕГИСТРУ / КЭШУ">REGISTER / CACHE ACCESS</span><span data-en="Cheapest — physically nearest" data-ru="Дешевле всего — физически ближе всего">Cheapest — physically nearest</span></div>
+      <div class="readout-cell"><span class="rl" data-en="ON-CHIP SRAM" data-ru="SRAM НА КРИСТАЛЛЕ">ON-CHIP SRAM</span><span data-en="Low cost, limited size" data-ru="Низкая стоимость, ограниченный объём">Low cost, limited size</span></div>
+      <div class="readout-cell"><span class="rl" data-en="OFF-CHIP DRAM / FLASH" data-ru="ВНЕШНЯЯ DRAM / FLASH">OFF-CHIP DRAM / FLASH</span><span data-en="Highest — real physical distance" data-ru="Дороже всего — реальное физическое расстояние">Highest — real physical distance</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH16 — CHOOSING THE RIGHT MACHINE (interactive) -->
+<section id="ch16" class="section" data-phase="THE SPECTRUM" data-alt="TASK → ARCHITECTURE" data-vel="NO SINGLE “BEST”">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.16 / 17</span> — <span data-en="MORE POWERFUL IS NOT THE SAME AS BETTER" data-ru="МОЩНЕЕ — ЕЩЁ НЕ ЗНАЧИТ ЛУЧШЕ">MORE POWERFUL IS NOT THE SAME AS BETTER</span></div>
+    <h2 class="h-lg" data-en="An ESP32, a Raspberry Pi, an FPGA, and an ASIC can all be “correct” — for different jobs" data-ru="ESP32, Raspberry Pi, ПЛИС и ASIC могут быть одинаково «правильным выбором» — для разных задач">An ESP32, a Raspberry Pi, an FPGA, and an ASIC can all be “correct” — for different jobs</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every chapter so far adds up to one practical question: given a task's required computation, latency, power budget, memory, connectivity, and determinism, which architecture actually fits? A tiny MCU blinking an LED needs none of an SBC's power draw or boot time; a battery-powered Wi-Fi sensor node needs an ESP32's radios more than raw compute; a web server needs an SBC's operating system and networking stack far more than deterministic timing." data-ru="Все предыдущие главы сводятся к одному практическому вопросу: если известны требуемые для задачи вычисления, задержка, энергобюджет, память, связность и детерминированность, — какая архитектура реально подходит? Крошечному МК, мигающему светодиодом, не нужны ни энергопотребление, ни время загрузки ОПК; автономному Wi-Fi-датчику на батарейке нужны радиомодули ESP32 больше, чем «сырая» вычислительная мощность; веб-серверу куда важнее операционная система и сетевой стек ОПК, чем детерминированные тайминги.">Every chapter so far adds up to one practical question: given a task's required computation, latency, power budget, memory, connectivity, and determinism, which architecture actually fits? A tiny MCU blinking an LED needs none of an SBC's power draw or boot time; a battery-powered Wi-Fi sensor node needs an ESP32's radios more than raw compute; a web server needs an SBC's operating system and networking stack far more than deterministic timing.</p>
+      <p class="body-col" data-en="Machine vision leans on a GPU or a dedicated neural accelerator for its parallel arithmetic, usually riding on an SBC's OS for everything else; high-speed deterministic signal processing leans on an FPGA or a DSP specifically because a general CPU's instruction overhead is the one thing that workload can't tolerate; and a mass-produced, ultra-low-power, single-purpose device is exactly when an ASIC's high non-recurring cost finally pays for itself, amortized across millions of units. Click a task below." data-ru="Машинное зрение опирается на GPU или выделенный нейроускоритель ради параллельной арифметики, обычно работая поверх ОС ОПК для всего остального; высокоскоростная детерминированная обработка сигналов опирается на ПЛИС или DSP именно потому, что накладные расходы на инструкции универсального процессора — единственное, чего эта нагрузка не может себе позволить; а массово производимое, сверхэкономичное однозадачное устройство — это именно тот случай, когда высокая невозвратная стоимость ASIC наконец окупается, распределившись на миллионы экземпляров. Нажмите на задачу ниже.">Machine vision leans on a GPU or a dedicated neural accelerator for its parallel arithmetic, usually riding on an SBC's OS for everything else; high-speed deterministic signal processing leans on an FPGA or a DSP specifically because a general CPU's instruction overhead is the one thing that workload can't tolerate; and a mass-produced, ultra-low-power, single-purpose device is exactly when an ASIC's high non-recurring cost finally pays for itself, amortized across millions of units. Click a task below.</p>
+    </div>
+    <div class="sim-panel corner-frame">
+      <div class="preset-row" id="taskRow"></div>
+      <div class="spectrum-bar"><div class="spectrum-dot" id="taskDot"></div></div>
+      <div class="spectrum-labels"><span>MCU</span><span>ESP32</span><span>SBC</span><span>GPU</span><span>FPGA</span><span>ASIC</span></div>
+      <div class="chain-panel" id="taskPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH17 — THE FULL MAP -->
+<section id="ch17" class="section" data-phase="THE FULL MAP" data-alt="PHYSICS ⇄ ACTION" data-vel="NOT SEPARATE FROM PHYSICS" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.17 / 17</span> — <span data-en="THE FULL MAP, BOTH DIRECTIONS" data-ru="ПОЛНАЯ КАРТА, В ОБОИХ НАПРАВЛЕНИЯХ">THE FULL MAP, BOTH DIRECTIONS</span></div>
+    <h2 class="h-lg" data-en="A computer is not separate from physics" data-ru="Компьютер не отделён от физики">A computer is not separate from physics</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Every chapter of this article has been one continuous hierarchy, read forward: physical phenomena become electrical signals, signals become voltage and current, voltage crosses a threshold, a threshold becomes a 0 or a 1, a 0 or a 1 switches a transistor, transistors become logic, logic gains memory, a clock synchronizes it all, a processor — microcontroller, CPU, FPGA, or ASIC — runs a program, and a program makes a decision that finally becomes a physical action in the world again: a motor turning, a display lighting, a radio transmitting." data-ru="Каждая глава этой статьи была частью одной непрерывной иерархии, если читать её вперёд: физические явления становятся электрическими сигналами, сигналы становятся напряжением и током, напряжение пересекает порог, порог становится 0 или 1, 0 или 1 переключает транзистор, транзисторы становятся логикой, логика обретает память, тактовый генератор синхронизирует всё это, процессор — микроконтроллер, CPU, ПЛИС или ASIC — выполняет программу, а программа принимает решение, которое в итоге снова становится физическим действием в мире: вращается мотор, загорается дисплей, передаёт радиомодуль.">Every chapter of this article has been one continuous hierarchy, read forward: physical phenomena become electrical signals, signals become voltage and current, voltage crosses a threshold, a threshold becomes a 0 or a 1, a 0 or a 1 switches a transistor, transistors become logic, logic gains memory, a clock synchronizes it all, a processor — microcontroller, CPU, FPGA, or ASIC — runs a program, and a program makes a decision that finally becomes a physical action in the world again: a motor turning, a display lighting, a radio transmitting.</p>
+      <p class="body-col" data-en="Read backward, from any application, the same map explains why the application works at all: firmware runs on instructions, instructions execute as register transfers, register transfers are logic, logic is transistors switching, and transistors switching is nothing more than electric fields controlling where charge is allowed to go. There is no point on this map where 'the physics stops and the computer starts.' A computer is an engineered hierarchy of physical state transformations that we have learned, carefully, layer by layer, to interpret as information and computation." data-ru="Если читать в обратную сторону, от любого приложения, та же карта объясняет, почему приложение вообще работает: прошивка выполняется как инструкции, инструкции исполняются как передачи между регистрами, передачи между регистрами — это логика, логика — это переключающиеся транзисторы, а переключающиеся транзисторы — это не более чем электрические поля, управляющие тем, куда разрешено двигаться заряду. На этой карте нет точки, где «физика заканчивается и начинается компьютер». Компьютер — это инженерная иерархия физических преобразований состояния, которую мы научились, аккуратно, слой за слоем, интерпретировать как информацию и вычисление.">Read backward, from any application, the same map explains why the application works at all: firmware runs on instructions, instructions execute as register transfers, register transfers are logic, logic is transistors switching, and transistors switching is nothing more than electric fields controlling where charge is allowed to go. There is no point on this map where 'the physics stops and the computer starts.' A computer is an engineered hierarchy of physical state transformations that we have learned, carefully, layer by layer, to interpret as information and computation.</p>
+    </div>
+    <svg id="mapSvg" class="diagram-svg" viewBox="0 0 700 460" role="img" aria-label="The full hierarchy, from physical world down to physical action, and the reverse path from application back to physics"></svg>
+    <div class="quote-block">
+      <p data-en="“A computer is not separate from physics. It is an engineered hierarchy of physical state transformations that we have learned to interpret as information and computation.”" data-ru="«Компьютер не отделён от физики. Это инженерная иерархия физических преобразований состояния, которую мы научились интерпретировать как информацию и вычисление»." >“A computer is not separate from physics. It is an engineered hierarchy of physical state transformations that we have learned to interpret as information and computation.”</p>
+      <span class="fig-num" data-en="CASCADE — CLOSING STATEMENT" data-ru="CASCADE — ЗАКЛЮЧИТЕЛЬНОЕ УТВЕРЖДЕНИЕ">CASCADE — CLOSING STATEMENT</span>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="refs" class="section" data-phase="REFERENCES" data-alt="SOURCES" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num" data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources" data-ru="Источники">Sources</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; max-width:var(--maxw); margin:0 auto; width:100%;">
+    <span data-en="AEROSPACE KNOWLEDGE HUB — CASCADE / PHYSICAL COMPUTING" data-ru="АЭРОКОСМИЧЕСКИЙ СПРАВОЧНИК — CASCADE / ФИЗИКА ВЫЧИСЛЕНИЙ">AEROSPACE KNOWLEDGE HUB — CASCADE / PHYSICAL COMPUTING</span>
+    <span data-en="EDUCATIONAL — TECHNICAL DETAILS VERIFIED AGAINST MANUFACTURER DOCUMENTATION" data-ru="ОБРАЗОВАТЕЛЬНЫЙ МАТЕРИАЛ — ТЕХНИЧЕСКИЕ ДЕТАЛИ СВЕРЕНЫ С ДОКУМЕНТАЦИЕЙ ПРОИЗВОДИТЕЛЕЙ">EDUCATIONAL — TECHNICAL DETAILS VERIFIED AGAINST MANUFACTURER DOCUMENTATION</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+var NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs){ var n = document.createElementNS(NS, tag); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
+function t(en, ru){ return lang === 'en' ? en : ru; }
+
+/* ============================================================
+   CH2 — WAVEFORM
+   ============================================================ */
+function renderWave(){
+  var slider = document.getElementById('riseSlider'), val = document.getElementById('riseVal'), note = document.getElementById('riseNote');
+  var svg = document.getElementById('waveSvg');
+  if(!slider) return;
+  var pct = parseInt(slider.value, 10);
+  val.textContent = pct + '%';
+  svg.innerHTML = '';
+  svg.appendChild(el('line', {x1:20, y1:190, x2:580, y2:190, stroke:'#c9c9c1', 'stroke-width':1}));
+  var riseW = 4 + (pct/100) * 150;
+  var overshoot = pct < 15 ? (15 - pct) * 1.6 : 0;
+  var lowY = 160, highY = 40, x0 = 60, midX = 300;
+  var d = 'M ' + x0 + ' ' + lowY + ' L ' + (midX - riseW/2) + ' ' + lowY;
+  d += ' C ' + (midX - riseW/4) + ' ' + lowY + ' ' + (midX - riseW/6) + ' ' + (highY - overshoot) + ' ' + midX + ' ' + (highY - overshoot);
+  if(overshoot > 0){
+    d += ' C ' + (midX + 20) + ' ' + (highY - overshoot*0.4) + ' ' + (midX + 30) + ' ' + (highY + overshoot*0.5) + ' ' + (midX + 45) + ' ' + highY;
+  } else {
+    d += ' L ' + (midX + riseW/2) + ' ' + highY;
+  }
+  d += ' L 560 ' + highY;
+  var path = el('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2.5});
+  svg.appendChild(path);
+  svg.appendChild(el('line', {x1:20, y1:highY, x2:580, y2:highY, stroke:'#c9c9c1', 'stroke-width':1, 'stroke-dasharray':'3,4'}));
+  svg.appendChild(el('line', {x1:20, y1:lowY, x2:580, y2:lowY, stroke:'#c9c9c1', 'stroke-width':1, 'stroke-dasharray':'3,4'}));
+  var hiLbl = el('text', {x:26, y:highY-8, 'font-size':10, fill:'#7a7a74'}); hiLbl.textContent = 'HIGH'; svg.appendChild(hiLbl);
+  var loLbl = el('text', {x:26, y:lowY+16, 'font-size':10, fill:'#7a7a74'}); loLbl.textContent = 'LOW'; svg.appendChild(loLbl);
+  if(pct < 15){
+    note.textContent = t('A fast edge — real overshoot and ringing before the signal settles.', 'Быстрый фронт — реальный выброс и «звон» перед установлением сигнала.');
+  } else if(pct < 30){
+    note.textContent = t('A clean, moderately fast transition.', 'Чистый, умеренно быстрый переход.');
+  } else {
+    note.textContent = t('A slow, clean transition — comfortably inside a wide logic margin.', 'Медленный, чистый переход — с большим запасом внутри широкого логического диапазона.');
+  }
+}
+
+/* ============================================================
+   CH3 — REGENERATION
+   ============================================================ */
+var regenMode = 'without';
+function renderRegen(){
+  var row = document.getElementById('regenModeRow');
+  row.innerHTML = '';
+  ['without','with'].forEach(function(m){
+    var b = document.createElement('button');
+    b.className = 'preset-btn' + (regenMode===m ? ' active' : '');
+    b.textContent = m==='without' ? t('WITHOUT REGENERATION','БЕЗ РЕГЕНЕРАЦИИ') : t('WITH REGENERATION (REAL GATES)','С РЕГЕНЕРАЦИЕЙ (РЕАЛЬНЫЕ ЭЛЕМЕНТЫ)');
+    b.addEventListener('click', function(){ regenMode = m; renderRegen(); });
+    row.appendChild(b);
+  });
+  var svg = document.getElementById('regenSvg');
+  svg.innerHTML = '';
+  var n = 6, x0 = 40, gap = 90, amp0 = 45;
+  for(var i=0;i<n;i++){
+    var cx = x0 + i*gap;
+    var amp = regenMode === 'with' ? amp0 : Math.max(4, amp0 * Math.pow(0.62, i));
+    var noise = regenMode === 'with' ? 2 : 2 + i*3;
+    var y = 80;
+    var d = 'M ' + (cx) + ' ' + (y+amp);
+    for(var s=0;s<=20;s++){
+      var xx = cx + s*3;
+      var yy = y + amp*Math.sin(s*0.9) * (regenMode==='with' ? 1 : Math.max(0.15,1-i*0.15)) + (Math.random()-0.5)*noise;
+      d += ' L ' + xx + ' ' + yy;
+    }
+    var color = regenMode==='with' ? '#0b0b0c' : (i<2 ? '#0b0b0c' : (i<4 ? '#7a7a74' : '#c9c9c1'));
+    svg.appendChild(el('path', {d:d, fill:'none', stroke:color, 'stroke-width':1.8}));
+    var lbl = el('text', {x:cx+28, y:150, 'font-size':10, fill:'#7a7a74', 'text-anchor':'middle'}); lbl.textContent = 'G'+(i+1); svg.appendChild(lbl);
+  }
+  document.getElementById('regenNote').textContent = regenMode === 'with'
+    ? t('Every gate reads the threshold and outputs a fresh, full-strength signal — no degradation after 6 stages, or 6,000.', 'Каждый элемент считывает порог и выдаёт свежий, полноценный сигнал — деградации нет ни после 6 ступеней, ни после 6000.')
+    : t('Without a threshold decision at each stage, noise compounds until gate 6 is unreadable.', 'Без решения по порогу на каждой ступени шум накапливается, пока элемент 6 не становится нечитаемым.');
+}
+
+/* ============================================================
+   CH4 — MOSFET
+   ============================================================ */
+function renderMosfet(){
+  var slider = document.getElementById('mosfetSlider'), val = document.getElementById('mosfetVal');
+  var state = document.getElementById('mosfetState'), note = document.getElementById('mosfetNote');
+  var svg = document.getElementById('mosfetSvg');
+  var v = parseInt(slider.value,10)/10;
+  val.textContent = v.toFixed(1) + 'V';
+  var threshold = 1.2;
+  var on = v >= threshold;
+  svg.innerHTML = '';
+  svg.appendChild(el('rect', {x:60, y:160, width:380, height:40, fill:'#efefe9', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  svg.appendChild(el('rect', {x:60, y:60, width:110, height:100, fill:'#0b0b0c'}));
+  svg.appendChild(el('rect', {x:330, y:60, width:110, height:100, fill:'#0b0b0c'}));
+  var srcLbl = el('text', {x:115, y:50, 'font-size':13, 'text-anchor':'middle'}); srcLbl.textContent='SOURCE'; svg.appendChild(srcLbl);
+  var drnLbl = el('text', {x:385, y:50, 'font-size':13, 'text-anchor':'middle'}); drnLbl.textContent='DRAIN'; svg.appendChild(drnLbl);
+  var chW = on ? 210 - (v>3?0:0) : 0;
+  if(on){
+    var chOpacity = Math.min(1, (v-threshold)/1.8);
+    svg.appendChild(el('rect', {x:170+((210-chW)/2), y:170, width:chW, height:20, fill:'#2454c7'.replace('#2454c7','#0b0b0c'), opacity:(0.25+0.6*chOpacity).toFixed(2)}));
+  }
+  svg.appendChild(el('rect', {x:170, y:20, width:210, height:14, fill:'#7a7a74'}));
+  svg.appendChild(el('rect', {x:170, y:34, width:210, height:8, fill:'#efefe9', stroke:'#0b0b0c', 'stroke-width':1}));
+  var gateLbl = el('text', {x:275, y:14, 'font-size':13, 'text-anchor':'middle'}); gateLbl.textContent='GATE'; svg.appendChild(gateLbl);
+  var arrow = el('line', {x1:275, y1:0, x2:275, y2:20, stroke:'#0b0b0c', 'stroke-width':on?3:1.5});
+  svg.appendChild(arrow);
+  state.textContent = on ? 'ON — CONDUCTING' : 'OFF';
+  if(on){
+    note.textContent = t('The gate field has pulled charge carriers into the channel — current can now flow source→drain.', 'Поле затвора притянуло носители заряда в канал — теперь ток может течь от истока к стоку.');
+  } else {
+    note.textContent = t('Below the threshold voltage, no channel forms — source and drain are disconnected.', 'Ниже порогового напряжения канал не образуется — исток и сток разъединены.');
+  }
+}
+
+/* ============================================================
+   CH5 — CMOS DIAGRAM (static per-language labels only)
+   ============================================================ */
+function renderCmos(){
+  var svg = document.getElementById('cmosSvg');
+  svg.innerHTML = '';
+  function inverter(x, labelIn, labelOut){
+    svg.appendChild(el('line', {x1:x+30, y1:20, x2:x+30, y2:170, stroke:'#c9c9c1', 'stroke-width':1}));
+    svg.appendChild(el('rect', {x:x, y:30, width:60, height:30, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5}));
+    var p = el('text', {x:x+30, y:50, 'font-size':11, 'text-anchor':'middle'}); p.textContent='PMOS'; svg.appendChild(p);
+    svg.appendChild(el('rect', {x:x, y:120, width:60, height:30, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5}));
+    var nn = el('text', {x:x+30, y:140, 'font-size':11, 'text-anchor':'middle'}); nn.textContent='NMOS'; svg.appendChild(nn);
+    svg.appendChild(el('line', {x1:x-30, y1:75, x2:x, y2:75, stroke:'#0b0b0c', 'stroke-width':1.5}));
+    var inLbl = el('text', {x:x-34, y:79, 'font-size':10, 'text-anchor':'end'}); inLbl.textContent=labelIn; svg.appendChild(inLbl);
+    svg.appendChild(el('line', {x1:x+90, y1:75, x2:x+120, y2:75, stroke:'#0b0b0c', 'stroke-width':1.5}));
+    var outLbl = el('text', {x:x+124, y:79, 'font-size':10}); outLbl.textContent=labelOut; svg.appendChild(outLbl);
+  }
+  inverter(70, 'IN', 'OUT');
+  svg.appendChild(el('rect', {x:320, y:20, width:210, height:160, fill:'none', stroke:'#c9c9c1', 'stroke-width':1, 'stroke-dasharray':'4,3'}));
+  var nandLbl = el('text', {x:425, y:15, 'font-size':11, 'text-anchor':'middle'}); nandLbl.textContent = t('2-INPUT NAND','2-ВХОДОВОЙ И-НЕ'); svg.appendChild(nandLbl);
+  svg.appendChild(el('rect', {x:350, y:35, width:50, height:22, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  svg.appendChild(el('rect', {x:420, y:35, width:50, height:22, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  svg.appendChild(el('rect', {x:380, y:110, width:50, height:22, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  svg.appendChild(el('rect', {x:380, y:145, width:50, height:22, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  var puLbl = el('text', {x:425, y:70, 'font-size':10, 'text-anchor':'middle', fill:'#7a7a74'}); puLbl.textContent = t('PULL-UP (PARALLEL)','ПОДТЯЖКА К ПИТАНИЮ (ПАРАЛЛЕЛЬ)'); svg.appendChild(puLbl);
+  var pdLbl = el('text', {x:405, y:185, 'font-size':10, 'text-anchor':'middle', fill:'#7a7a74'}); pdLbl.textContent = t('PULL-DOWN (SERIES)','ПОДТЯЖКА К ЗЕМЛЕ (ПОСЛЕДОВАТ.)'); svg.appendChild(pdLbl);
+}
+
+/* ============================================================
+   CH6 — SR LATCH
+   ============================================================ */
+var latchQ = 0;
+function renderLatch(){
+  var svg = document.getElementById('latchSvg');
+  svg.innerHTML = '';
+  svg.appendChild(el('rect', {x:120, y:40, width:100, height:50, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  svg.appendChild(el('rect', {x:120, y:110, width:100, height:50, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  var g1 = el('text', {x:170, y:70, 'font-size':12, 'text-anchor':'middle'}); g1.textContent='NOR'; svg.appendChild(g1);
+  var g2 = el('text', {x:170, y:140, 'font-size':12, 'text-anchor':'middle'}); g2.textContent='NOR'; svg.appendChild(g2);
+  svg.appendChild(el('line', {x1:60, y1:55, x2:120, y2:55, stroke:'#0b0b0c', 'stroke-width':1.5}));
+  svg.appendChild(el('line', {x1:60, y1:145, x2:120, y2:145, stroke:'#0b0b0c', 'stroke-width':1.5}));
+  var setLbl = el('text', {x:55, y:59, 'font-size':11, 'text-anchor':'end'}); setLbl.textContent='SET'; svg.appendChild(setLbl);
+  var resLbl = el('text', {x:55, y:149, 'font-size':11, 'text-anchor':'end'}); resLbl.textContent='RESET'; svg.appendChild(resLbl);
+  svg.appendChild(el('path', {d:'M 220 65 L 260 65 L 260 130 L 120 130', fill:'none', stroke:'#c9c9c1', 'stroke-width':1.3}));
+  svg.appendChild(el('path', {d:'M 220 135 L 280 135 L 280 60 L 120 60', fill:'none', stroke:'#c9c9c1', 'stroke-width':1.3}));
+  svg.appendChild(el('line', {x1:220, y1:65, x2:340, y2:65, stroke:'#0b0b0c', 'stroke-width':2}));
+  var qLbl = el('text', {x:346, y:69, 'font-size':13, fill: latchQ ? '#0b0b0c':'#7a7a74'}); qLbl.textContent = 'Q = '+latchQ; svg.appendChild(qLbl);
+  document.getElementById('latchState').textContent = 'Q = ' + latchQ;
+}
+document.getElementById('latchSetBtn').addEventListener('click', function(){ latchQ = 1; renderLatch(); document.getElementById('latchNote').textContent = t('SET pushed Q to 1. Release SET (back to LOW) and Q keeps holding 1 — that is memory.', 'SET перевёл Q в 1. Отпустите SET (обратно в LOW) — Q продолжает удерживать 1: это и есть память.'); });
+document.getElementById('latchResetBtn').addEventListener('click', function(){ latchQ = 0; renderLatch(); document.getElementById('latchNote').textContent = t('RESET pushed Q to 0. It will stay 0 until SET is pushed again.', 'RESET перевёл Q в 0. Он останется 0, пока снова не будет нажат SET.'); });
+
+/* ============================================================
+   CH7 — TIMING DIAGRAM
+   ============================================================ */
+function renderTiming(){
+  var slider = document.getElementById('timingSlider'), val = document.getElementById('timingVal');
+  var state = document.getElementById('timingState'), note = document.getElementById('timingNote');
+  var svg = document.getElementById('timingSvg');
+  var pct = parseInt(slider.value,10);
+  val.textContent = (pct>0?'+':'') + pct + '%';
+  svg.innerHTML = '';
+  var edgeX = 300;
+  svg.appendChild(el('line', {x1:20, y1:50, x2:280, y2:50, stroke:'#0b0b0c', 'stroke-width':2}));
+  svg.appendChild(el('line', {x1:280, y1:50, x2:280, y2:20, stroke:'#0b0b0c', 'stroke-width':2}));
+  svg.appendChild(el('line', {x1:280, y1:20, x2:580, y2:20, stroke:'#0b0b0c', 'stroke-width':2}));
+  var clkLbl = el('text', {x:20, y:40, 'font-size':10, fill:'#7a7a74'}); clkLbl.textContent='CLK'; svg.appendChild(clkLbl);
+  svg.appendChild(el('rect', {x:edgeX-40, y:90, width:80, height:60, fill:'#efefe9'}));
+  var winLbl = el('text', {x:edgeX, y:85, 'font-size':9, 'text-anchor':'middle', fill:'#7a7a74'}); winLbl.textContent = t('SETUP | HOLD WINDOW','ОКНО УСТАНОВКИ | УДЕРЖАНИЯ'); svg.appendChild(winLbl);
+  var dataX = edgeX + (pct/100)*140;
+  svg.appendChild(el('line', {x1:20, y1:120, x2:dataX, y2:120, stroke:'#0b0b0c', 'stroke-width':2}));
+  svg.appendChild(el('line', {x1:dataX, y1:120, x2:dataX, y2:150, stroke:'#0b0b0c', 'stroke-width':2}));
+  svg.appendChild(el('line', {x1:dataX, y1:150, x2:580, y2:150, stroke:'#0b0b0c', 'stroke-width':2}));
+  var dLbl = el('text', {x:20, y:110, 'font-size':10, fill:'#7a7a74'}); dLbl.textContent='DATA'; svg.appendChild(dLbl);
+  var violation = (dataX > edgeX-40 && dataX < edgeX+40);
+  if(violation){
+    svg.appendChild(el('rect', {x:edgeX-40, y:90, width:80, height:60, fill:'none', stroke:'#0b0b0c', 'stroke-width':2, 'stroke-dasharray':'4,3'}));
+  }
+  state.textContent = violation ? t('TIMING VIOLATION — RISK OF METASTABILITY','НАРУШЕНИЕ ТАЙМИНГА — РИСК МЕТАСТАБИЛЬНОСТИ') : t('SAFE CAPTURE','БЕЗОПАСНАЯ ФИКСАЦИЯ');
+  note.textContent = violation
+    ? t('Data changes inside the setup/hold window — the flip-flop may briefly go metastable before resolving unpredictably.', 'Данные меняются внутри окна установки/удержания — триггер может ненадолго войти в метастабильность, прежде чем непредсказуемо «разрешиться».')
+    : (pct < 0 ? t('Data settles well before the setup window opens — the flip-flop captures it cleanly.', 'Данные устанавливаются задолго до открытия окна установки — триггер фиксирует их чисто.') : t('Data changes safely after the hold window closes.', 'Данные меняются безопасно, уже после закрытия окна удержания.'));
+}
+
+/* ============================================================
+   CH8 — INSTRUCTION CYCLE STEPPER
+   ============================================================ */
+var CYCLE_STAGES = [
+  {en:'FETCH', ru:'ВЫБОРКА', noteEn:'The next instruction address is read from memory into the instruction register.', noteRu:'Адрес следующей инструкции считывается из памяти в регистр инструкций.'},
+  {en:'DECODE', ru:'ДЕКОДИРОВАНИЕ', noteEn:'Control logic identifies the opcode and which registers/operands it names.', noteRu:'Управляющая логика определяет опкод и то, какие регистры/операнды он называет.'},
+  {en:'EXECUTE', ru:'ВЫПОЛНЕНИЕ', noteEn:'The ALU performs the operation — an add, a comparison, a shift.', noteRu:'АЛУ выполняет операцию — сложение, сравнение, сдвиг.'},
+  {en:'MEMORY', ru:'ПАМЯТЬ', noteEn:'If the instruction reads or writes memory, that access happens here.', noteRu:'Если инструкция читает или пишет память, это происходит здесь.'},
+  {en:'WRITE-BACK', ru:'ЗАПИСЬ РЕЗУЛЬТАТА', noteEn:'The result is written back into a register, ready for the next instruction.', noteRu:'Результат записывается обратно в регистр, готовый для следующей инструкции.'}
+];
+var cycleIdx = -1;
+function renderCycle(){
+  var svg = document.getElementById('cycleSvg');
+  svg.innerHTML = '';
+  var w = 600/CYCLE_STAGES.length;
+  CYCLE_STAGES.forEach(function(s, i){
+    var x = i*w;
+    var active = i === cycleIdx;
+    svg.appendChild(el('rect', {x:x+6, y:30, width:w-12, height:60, fill: active ? '#0b0b0c' : 'none', stroke:'#0b0b0c', 'stroke-width':1.5}));
+    var lbl = el('text', {x:x+w/2, y:65, 'font-size':11, 'text-anchor':'middle', fill: active ? '#f6f6f2' : '#0b0b0c'});
+    lbl.textContent = lang==='en' ? s.en : s.ru;
+    svg.appendChild(lbl);
+    if(i < CYCLE_STAGES.length-1){
+      svg.appendChild(el('line', {x1:x+w-4, y1:60, x2:x+w+8, y2:60, stroke:'#7a7a74', 'stroke-width':1.5}));
+    }
+  });
+  var note = document.getElementById('cycleNote');
+  if(cycleIdx < 0){
+    note.textContent = t('Press STEP to walk through one instruction, one stage at a time.', 'Нажмите ШАГ, чтобы пройти одну инструкцию, ступень за ступенью.');
+  } else {
+    var s = CYCLE_STAGES[cycleIdx];
+    note.textContent = lang==='en' ? s.noteEn : s.noteRu;
+  }
+}
+document.getElementById('cycleStepBtn').addEventListener('click', function(){ cycleIdx = (cycleIdx+1) % CYCLE_STAGES.length; renderCycle(); });
+document.getElementById('cycleResetBtn').addEventListener('click', function(){ cycleIdx = -1; renderCycle(); });
+
+/* ============================================================
+   CH9 — MCU VS SBC BLOCK DIAGRAM
+   ============================================================ */
+function renderMcuSbc(){
+  var svg = document.getElementById('mcuSbcSvg');
+  svg.innerHTML = '';
+  svg.appendChild(el('rect', {x:20, y:20, width:270, height:220, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}));
+  var t1 = el('text', {x:155, y:15, 'font-size':12, 'text-anchor':'middle'}); t1.textContent = t('MICROCONTROLLER — ONE CHIP','МИКРОКОНТРОЛЛЕР — ОДИН ЧИП'); svg.appendChild(t1);
+  var mcuBlocks = [['CPU'],['FLASH'],['RAM'],['GPIO'],['TIMERS'],['ADC'],['PWM'],['UART / SPI / I²C']];
+  mcuBlocks.forEach(function(b,i){
+    var row = Math.floor(i/2), col = i%2;
+    svg.appendChild(el('rect', {x:40+col*130, y:40+row*45, width:115, height:35, fill:'#efefe9', stroke:'#0b0b0c', 'stroke-width':1}));
+    var lb = el('text', {x:40+col*130+57, y:40+row*45+22, 'font-size':10, 'text-anchor':'middle'}); lb.textContent=b[0]; svg.appendChild(lb);
+  });
+  svg.appendChild(el('rect', {x:340, y:20, width:130, height:60, fill:'#efefe9', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  var t2 = el('text', {x:405, y:55, 'font-size':11, 'text-anchor':'middle'}); t2.textContent='CPU'; svg.appendChild(t2);
+  svg.appendChild(el('rect', {x:500, y:20, width:130, height:60, fill:'none', stroke:'#7a7a74', 'stroke-width':1.5, 'stroke-dasharray':'4,3'}));
+  var t3 = el('text', {x:565, y:55, 'font-size':10, 'text-anchor':'middle'}); t3.textContent = t('EXTERNAL RAM','ВНЕШНЯЯ ОЗУ'); svg.appendChild(t3);
+  svg.appendChild(el('rect', {x:340, y:100, width:130, height:60, fill:'none', stroke:'#7a7a74', 'stroke-width':1.5, 'stroke-dasharray':'4,3'}));
+  var t4 = el('text', {x:405, y:135, 'font-size':10, 'text-anchor':'middle'}); t4.textContent = t('STORAGE (SD/eMMC)','НАКОПИТЕЛЬ (SD/eMMC)'); svg.appendChild(t4);
+  svg.appendChild(el('rect', {x:500, y:100, width:130, height:60, fill:'none', stroke:'#7a7a74', 'stroke-width':1.5, 'stroke-dasharray':'4,3'}));
+  var t5 = el('text', {x:565, y:135, 'font-size':10, 'text-anchor':'middle'}); t5.textContent = t('OPERATING SYSTEM','ОПЕРАЦИОННАЯ СИСТЕМА'); svg.appendChild(t5);
+  svg.appendChild(el('rect', {x:340, y:180, width:290, height:60, fill:'none', stroke:'#7a7a74', 'stroke-width':1.5, 'stroke-dasharray':'4,3'}));
+  var t6 = el('text', {x:485, y:215, 'font-size':10, 'text-anchor':'middle'}); t6.textContent = t('PERIPHERALS + DRIVERS + APPLICATIONS','ПЕРИФЕРИЯ + ДРАЙВЕРЫ + ПРИЛОЖЕНИЯ'); svg.appendChild(t6);
+  var t7 = el('text', {x:485, y:15, 'font-size':12, 'text-anchor':'middle'}); t7.textContent = t('MICROPROCESSOR / SBC — MANY PARTS','МИКРОПРОЦЕССОР / ОПК — МНОГО ЧАСТЕЙ'); svg.appendChild(t7);
+}
+
+/* ============================================================
+   CH10 — GPIO CHAIN (flagship)
+   ============================================================ */
+var GPIO_STAGES = [
+  {n:'01', en:'C/C++ SOURCE', ru:'ИСХОДНЫЙ КОД C/C++', bodyEn:'digitalWrite(13, HIGH) is a library function call — plain text, not yet anything electrical.', bodyRu:'digitalWrite(13, HIGH) — это вызов библиотечной функции: обычный текст, ещё ничего электрического.'},
+  {n:'02', en:'COMPILER', ru:'КОМПИЛЯТОР', bodyEn:'The compiler turns that call into a handful of machine instructions that write a specific bit to a specific hardware register address.', bodyRu:'Компилятор превращает этот вызов в несколько машинных инструкций, записывающих определённый бит по определённому адресу аппаратного регистра.'},
+  {n:'03', en:'CPU EXECUTES', ru:'ПРОЦЕССОР ВЫПОЛНЯЕТ', bodyEn:'The CPU runs those instructions through fetch–decode–execute (Chapter 8), ending in a write to the GPIO port register.', bodyRu:'Процессор пропускает эти инструкции через цикл выборка-декодирование-выполнение (глава 8), заканчивающийся записью в регистр порта GPIO.'},
+  {n:'04', en:'PERIPHERAL REGISTER', ru:'РЕГИСТР ПЕРИФЕРИИ', bodyEn:'That write sets a flip-flop (Chapter 6) inside the GPIO peripheral, holding pin 13\'s intended state.', bodyRu:'Эта запись устанавливает триггер (глава 6) внутри периферии GPIO, удерживающий заданное состояние вывода 13.'},
+  {n:'05', en:'GPIO HARDWARE', ru:'АППАРАТУРА GPIO', bodyEn:'The peripheral\'s output logic drives that register value onto the actual output-driver transistors for pin 13.', bodyRu:'Выходная логика периферии подаёт значение этого регистра на реальные транзисторы выходного драйвера вывода 13.'},
+  {n:'06', en:'TRANSISTOR NETWORK', ru:'ТРАНЗИСТОРНАЯ СЕТЬ', bodyEn:'A pull-up transistor (Chapter 4/5) switches on, connecting the pin to the supply rail.', bodyRu:'Транзистор подтяжки к питанию (главы 4/5) открывается, соединяя вывод с шиной питания.'},
+  {n:'07', en:'PIN VOLTAGE', ru:'НАПРЯЖЕНИЕ НА ВЫВОДЕ', bodyEn:'Pin 13\'s voltage physically rises from LOW toward HIGH, following the real rise time from Chapter 2.', bodyRu:'Напряжение на выводе 13 физически поднимается от LOW к HIGH, следуя реальному времени нарастания из главы 2.'},
+  {n:'08', en:'LED RESPONDS', ru:'СВЕТОДИОД ОТВЕЧАЕТ', bodyEn:'Enough current now flows through the LED and its resistor for it to visibly light — the entire chain, physics to light, in well under a microsecond.', bodyRu:'Через светодиод и его резистор теперь течёт достаточный ток, чтобы он видимо загорелся, — вся цепочка, от физики до света, укладывается в намного меньше микросекунды.'}
+];
+var gpioIdx = 0;
+function renderGpioChain(){
+  var row = document.getElementById('gpioChainRow');
+  row.innerHTML = '';
+  GPIO_STAGES.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.className = 'chain-step' + (i===gpioIdx?' active':'');
+    b.innerHTML = '<span class="cs-n">'+s.n+'</span>' + (lang==='en'?s.en:s.ru);
+    b.addEventListener('click', function(){ gpioIdx = i; renderGpioChain(); });
+    row.appendChild(b);
+  });
+  var panel = document.getElementById('gpioChainPanel');
+  var s = GPIO_STAGES[gpioIdx];
+  panel.textContent = lang==='en' ? s.bodyEn : s.bodyRu;
+}
+
+/* ============================================================
+   CH13 — PHYSICS ⇄ APPLICATION LAYERS
+   ============================================================ */
+var LAYERS = [
+  {en:'PHYSICS', ru:'ФИЗИКА', downEn:'Where every explanation eventually bottoms out: electric fields and charge carriers.', downRu:'Где в итоге заканчивается любое объяснение: электрические поля и носители заряда.', upEn:'Nothing below this — this is the ground floor everything else is built from.', upRu:'Ниже ничего нет — это фундамент, на котором построено всё остальное.'},
+  {en:'DEVICE', ru:'УСТРОЙСТВО', downEn:'A transistor: physics packaged into a controllable three-terminal switch.', downRu:'Транзистор: физика, упакованная в управляемый трёхвыводной переключатель.', upEn:'Built from physics; itself becomes the raw material for circuits.', upRu:'Построено на физике; само становится сырьём для схем.'},
+  {en:'CIRCUIT', ru:'СХЕМА', downEn:'Transistors wired into a working structure — an inverter, a NAND gate.', downRu:'Транзисторы, соединённые в рабочую структуру — инвертор, элемент И-НЕ.', upEn:'Built from devices; becomes the raw material for logic.', upRu:'Построено из устройств; становится сырьём для логики.'},
+  {en:'LOGIC', ru:'ЛОГИКА', downEn:'A gate\'s truth-table behavior — AND, OR, NAND — abstracted away from its transistors.', downRu:'Табличное поведение элемента — И, ИЛИ, И-НЕ — абстрагированное от его транзисторов.', upEn:'Built from circuits; combines into architecture.', upRu:'Построено из схем; складывается в архитектуру.'},
+  {en:'ARCHITECTURE', ru:'АРХИТЕКТУРА', downEn:'How registers, an ALU, and control logic are organized into a processor.', downRu:'Как регистры, АЛУ и управляющая логика организованы в процессор.', upEn:'Built from logic; exposes registers to software.', upRu:'Построено из логики; предоставляет регистры программному обеспечению.'},
+  {en:'REGISTER', ru:'РЕГИСТР', downEn:'A named, addressable piece of state a program can read or write.', downRu:'Именованный, адресуемый фрагмент состояния, который программа может читать или писать.', upEn:'Exposed by architecture; targeted by instructions.', upRu:'Предоставлен архитектурой; является целью инструкций.'},
+  {en:'INSTRUCTION', ru:'ИНСТРУКЦИЯ', downEn:'An opcode and operands naming exactly which registers change and how.', downRu:'Опкод и операнды, называющие, какие именно регистры меняются и как.', upEn:'Targets registers; is what firmware is compiled into.', upRu:'Нацелена на регистры; это то, во что компилируется прошивка.'},
+  {en:'FIRMWARE', ru:'ПРОШИВКА', downEn:'The compiled program actually running on the processor.', downRu:'Скомпилированная программа, реально выполняющаяся на процессоре.', upEn:'Compiled into instructions; is what the application calls into.', upRu:'Компилируется в инструкции; это то, что вызывает приложение.'},
+  {en:'APPLICATION', ru:'ПРИЛОЖЕНИЕ', downEn:'digitalWrite(13, HIGH) — the top of the stack, where intent is expressed.', downRu:'digitalWrite(13, HIGH) — вершина стека, где выражается намерение.', upEn:'The top of the stack; everything below exists to make this line mean something.', upRu:'Вершина стека; всё, что ниже, существует, чтобы эта строка имела смысл.'}
+];
+var layerIdx = 0;
+function renderLayers(){
+  var row = document.getElementById('layerRow');
+  row.innerHTML = '';
+  LAYERS.forEach(function(l, i){
+    var b = document.createElement('button');
+    b.className = 'preset-btn' + (i===layerIdx?' active':'');
+    b.textContent = lang==='en' ? l.en : l.ru;
+    b.addEventListener('click', function(){ layerIdx = i; renderLayers(); });
+    row.appendChild(b);
+  });
+  var l = LAYERS[layerIdx];
+  var panel = document.getElementById('layerPanel');
+  var downTxt = lang==='en' ? l.downEn : l.downRu, upTxt = lang==='en' ? l.upEn : l.upRu;
+  panel.innerHTML = '<strong>' + t('READING DOWNWARD (SOFTWARE → PHYSICS): ','ЧТЕНИЕ ВНИЗ (ПО НАПРАВЛЕНИЮ К ФИЗИКЕ): ') + '</strong>' + downTxt + '<br><br><strong>' + t('READING UPWARD (PHYSICS → SOFTWARE): ','ЧТЕНИЕ ВВЕРХ (ПО НАПРАВЛЕНИЮ К ПРИЛОЖЕНИЮ): ') + '</strong>' + upTxt;
+}
+
+/* ============================================================
+   CH14 — CPU VS FPGA DIAGRAM
+   ============================================================ */
+function renderFpga(){
+  var svg = document.getElementById('fpgaSvg');
+  svg.innerHTML = '';
+  var t1 = el('text', {x:150, y:20, 'font-size':12, 'text-anchor':'middle'}); t1.textContent='CPU'; svg.appendChild(t1);
+  svg.appendChild(el('rect', {x:60, y:40, width:180, height:50, fill:'#efefe9', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  var l1 = el('text', {x:150, y:70, 'font-size':10, 'text-anchor':'middle'}); l1.textContent = t('FIXED DATAPATH','ФИКСИРОВАННЫЙ ТРАКТ ДАННЫХ'); svg.appendChild(l1);
+  svg.appendChild(el('path', {d:'M150 90 L150 110', stroke:'#0b0b0c', 'stroke-width':1.5}));
+  svg.appendChild(el('rect', {x:60, y:110, width:180, height:50, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5, 'stroke-dasharray':'4,3'}));
+  var l2 = el('text', {x:150, y:140, 'font-size':10, 'text-anchor':'middle'}); l2.textContent = t('INSTRUCTION STREAM (CHANGES EVERY CYCLE)','ПОТОК ИНСТРУКЦИЙ (МЕНЯЕТСЯ КАЖДЫЙ ТАКТ)'); svg.appendChild(l2);
+  var t2 = el('text', {x:470, y:20, 'font-size':12, 'text-anchor':'middle'}); t2.textContent='FPGA'; svg.appendChild(t2);
+  for(var i=0;i<3;i++){
+    for(var j=0;j<3;j++){
+      svg.appendChild(el('rect', {x:380+i*50, y:40+j*35, width:40, height:25, fill:'#efefe9', stroke:'#0b0b0c', 'stroke-width':1}));
+    }
+  }
+  var l3 = el('text', {x:470, y:155, 'font-size':10, 'text-anchor':'middle'}); l3.textContent = t('CONFIGURABLE LOGIC BLOCKS + ROUTING','НАСТРАИВАЕМЫЕ ЛОГИЧЕСКИЕ БЛОКИ + КОММУТАЦИЯ'); svg.appendChild(l3);
+  var l4 = el('text', {x:470, y:172, 'font-size':10, 'text-anchor':'middle', fill:'#7a7a74'}); l4.textContent = t('CONFIGURED ONCE PER PROBLEM','НАСТРАИВАЕТСЯ ОДИН РАЗ ПОД ЗАДАЧУ'); svg.appendChild(l4);
+}
+
+/* ============================================================
+   CH16 — TASK → ARCHITECTURE SPECTRUM
+   ============================================================ */
+var TASKS = [
+  {en:'BLINK AN LED', ru:'МИГАТЬ СВЕТОДИОДОМ', pos:4, expEn:'Trivial compute, no OS needed — a tiny MCU wins on cost and power.', expRu:'Тривиальные вычисления, ОС не нужна — крошечный МК побеждает по цене и энергопотреблению.'},
+  {en:'READ SENSORS', ru:'ЧИТАТЬ ДАТЧИКИ', pos:12, expEn:'Simple, deterministic, low power — squarely an MCU job.', expRu:'Просто, детерминированно, низкое энергопотребление — прямая задача для МК.'},
+  {en:'WI-FI SENSOR NODE', ru:'WI-FI-ДАТЧИК', pos:28, expEn:'Needs radios more than raw compute — an ESP32-class chip.', expRu:'Нужны радиомодули больше, чем «сырая» мощность, — чип уровня ESP32.'},
+  {en:'WEB SERVER', ru:'ВЕБ-СЕРВЕР', pos:50, expEn:'Needs an OS, a filesystem, and a network stack — an SBC.', expRu:'Нужны ОС, файловая система и сетевой стек — ОПК.'},
+  {en:'MACHINE VISION', ru:'МАШИННОЕ ЗРЕНИЕ', pos:68, expEn:'Massively parallel arithmetic — a GPU or NPU, usually riding on an SBC.', expRu:'Массово-параллельная арифметика — GPU или NPU, обычно поверх ОПК.'},
+  {en:'DETERMINISTIC SIGNAL PROCESSING', ru:'ДЕТЕРМИНИРОВАННАЯ ОБРАБОТКА СИГНАЛОВ', pos:84, expEn:'Can\'t tolerate instruction overhead — an FPGA or DSP.', expRu:'Не терпит накладных расходов на инструкции — ПЛИС или DSP.'},
+  {en:'MASS-PRODUCED ULTRA-LOW-POWER DEVICE', ru:'МАССОВОЕ СВЕРХЭКОНОМИЧНОЕ УСТРОЙСТВО', pos:98, expEn:'High volume finally justifies an ASIC\'s fixed, non-recurring cost.', expRu:'Большой объём наконец оправдывает невозвратные затраты на ASIC.'}
+];
+var taskIdx = 0;
+function renderTasks(){
+  var row = document.getElementById('taskRow');
+  row.innerHTML = '';
+  TASKS.forEach(function(task, i){
+    var b = document.createElement('button');
+    b.className = 'preset-btn' + (i===taskIdx?' active':'');
+    b.textContent = lang==='en' ? task.en : task.ru;
+    b.addEventListener('click', function(){ taskIdx = i; renderTasks(); });
+    row.appendChild(b);
+  });
+  var task = TASKS[taskIdx];
+  document.getElementById('taskDot').style.left = task.pos + '%';
+  document.getElementById('taskPanel').textContent = lang==='en' ? task.expEn : task.expRu;
+}
+
+/* ============================================================
+   CH17 — FULL MAP
+   ============================================================ */
+var MAP_FORWARD = [
+  ['PHYSICAL WORLD','ФИЗИЧЕСКИЙ МИР'],['SIGNALS','СИГНАЛЫ'],['VOLTAGE / CURRENT','НАПРЯЖЕНИЕ / ТОК'],['THRESHOLD','ПОРОГ'],['0 / 1','0 / 1'],
+  ['TRANSISTORS','ТРАНЗИСТОРЫ'],['LOGIC','ЛОГИКА'],['MEMORY','ПАМЯТЬ'],['CLOCK','ТАКТОВЫЙ ГЕНЕРАТОР'],
+  ['MCU / CPU / FPGA / ASIC','МК / CPU / ПЛИС / ASIC'],['PROGRAM','ПРОГРАММА'],['DECISION','РЕШЕНИЕ'],['PHYSICAL ACTION','ФИЗИЧЕСКОЕ ДЕЙСТВИЕ']
+];
+function renderMap(){
+  var svg = document.getElementById('mapSvg');
+  svg.innerHTML = '';
+  var n = MAP_FORWARD.length, boxH = 26, gap = 6, x0 = 40, w = 300;
+  MAP_FORWARD.forEach(function(pair, i){
+    var y = 10 + i*(boxH+gap);
+    svg.appendChild(el('rect', {x:x0, y:y, width:w, height:boxH, fill:'#efefe9', stroke:'#0b0b0c', 'stroke-width':1}));
+    var lbl = el('text', {x:x0+w/2, y:y+17, 'font-size':11, 'text-anchor':'middle'});
+    lbl.textContent = lang==='en' ? pair[0] : pair[1];
+    svg.appendChild(lbl);
+    if(i < n-1){
+      svg.appendChild(el('line', {x1:x0+w/2, y1:y+boxH, x2:x0+w/2, y2:y+boxH+gap, stroke:'#0b0b0c', 'stroke-width':1.5}));
+    }
+  });
+  var rx = x0 + w + 60;
+  var arrowLbl = el('text', {x:rx, y:20, 'font-size':10, fill:'#7a7a74'});
+  arrowLbl.textContent = t('◄ REVERSE PATH: APPLICATION → FIRMWARE → INSTRUCTIONS → REGISTERS → LOGIC → TRANSISTORS → PHYSICS','◄ ОБРАТНЫЙ ПУТЬ: ПРИЛОЖЕНИЕ → ПРОШИВКА → ИНСТРУКЦИИ → РЕГИСТРЫ → ЛОГИКА → ТРАНЗИСТОРЫ → ФИЗИКА');
+  svg.appendChild(arrowLbl);
+  svg.appendChild(el('line', {x1:rx, y1:30, x2:rx, y2:n*(boxH+gap), stroke:'#7a7a74', 'stroke-width':1, 'stroke-dasharray':'4,3'}));
+}
+
+/* ============================================================
+   REFERENCES
+   ============================================================ */
+var REFERENCES = [
+  {title:'ESP32 Technical Reference Manual', url:'https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf', note:{en:'Official Espressif hardware reference for GPIO, ADC/DAC, PWM (LEDC), timers, and radio peripherals cited in Chapter 11.', ru:'Официальный аппаратный справочник Espressif по GPIO, АЦП/ЦАП, ШИМ (LEDC), таймерам и радиопериферии, упомянутым в главе 11.'}},
+  {title:'Raspberry Pi Documentation — Boot EEPROM & Boot Flow', url:'https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#raspberry-pi-boot-eeprom', note:{en:'Official Raspberry Pi Foundation documentation of the boot ROM → EEPROM/bootloader → kernel chain described in Chapter 12.', ru:'Официальная документация Raspberry Pi Foundation о цепочке загрузочный ПЗУ → EEPROM/загрузчик → ядро, описанной в главе 12.'}},
+  {title:'The RISC-V Instruction Set Manual (Ratified Specifications)', url:'https://riscv.org/specifications/ratified/', note:{en:'Official RISC-V International specification, referenced for the RISC architecture principles in Chapter 8.', ru:'Официальная спецификация RISC-V International, на которую опираются принципы архитектуры RISC в главе 8.'}},
+  {title:'Arm Cortex-M4 Processor Technical Reference Manual', url:'https://developer.arm.com/documentation/100166/0001/', note:{en:'Official Arm documentation for a widely used Cortex-M microcontroller core, referenced in Chapters 8–9.', ru:'Официальная документация Arm по широко используемому ядру микроконтроллера Cortex-M, на которую есть ссылки в главах 8–9.'}},
+  {title:'IEEE 754-2019 — IEEE Standard for Floating-Point Arithmetic', url:'https://standards.ieee.org/standard/754-2019.html', note:{en:'The standard defining sign/exponent/fraction floating-point representation referenced in Chapter 8.', ru:'Стандарт, определяющий представление с плавающей точкой (знак/порядок/мантисса), упомянутое в главе 8.'}},
+  {title:'Texas Instruments — Understanding and Interpreting Standard-Logic Data Sheets (SZZA036)', url:'https://www.ti.com/lit/an/szza036c/szza036c.pdf', note:{en:'Application note on logic-level thresholds and noise margins underlying Chapters 1 and 3.', ru:'Application note о порогах логических уровней и запасе по помехоустойчивости, лежащих в основе глав 1 и 3.'}}
+];
+function renderRefs(){
+  var list = document.getElementById('refList');
+  list.innerHTML = REFERENCES.map(function(r, i){
+    return '<div class="ref-item"><span class="ref-num">['+(i+1)+']</span><div><span class="ref-title">'+r.title+'</span><span class="ref-url">'+r.url+'</span><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div></div>';
+  }).join('');
+}
+
+/* ============================================================
+   RENDER ALL + LANGUAGE
+   ============================================================ */
+function renderAll(){
+  renderWave(); renderRegen(); renderMosfet(); renderCmos(); renderLatch(); renderTiming();
+  renderCycle(); renderMcuSbc(); renderGpioChain(); renderLayers(); renderFpga(); renderTasks(); renderMap(); renderRefs();
+}
+document.getElementById('riseSlider').addEventListener('input', renderWave);
+document.getElementById('mosfetSlider').addEventListener('input', renderMosfet);
+document.getElementById('timingSlider').addEventListener('input', renderTiming);
+
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){
+    b.classList.toggle('active', b.dataset.lang===l);
+  });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+renderAll();
+})();
+</script>
+</body>
+</html>
