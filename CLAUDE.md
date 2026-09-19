@@ -18,3 +18,6 @@ Bilingual (EN/RU) aerospace & space-science field-guide site: a large set of sin
 
 ## Deploy
 GitHub Pages from `main`, remote `github.com/followorbounce/aerospace`.
+
+## Analytics
+Cloudflare Web Analytics beacon added 2026-09-19 across all pages, shares the `followorbounce.github.io` Web Analytics site (see `[[cloudflare-analytics-setup]]` in memory). Note: the repo has both `time philosophy/` (space) and `time-philosophy/` (hyphen) directories — pre-existing, not something this change touched or explains.

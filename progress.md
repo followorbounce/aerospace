@@ -15,6 +15,8 @@
 - Added REFERENCES sections to 22 pages, fixed 11 dead agency links.
 - Added the 12 remaining field-guide articles; introduced shared site system + nav + SEO/a11y baseline.
 
+- 2026-09-19 — Added a Cloudflare Web Analytics beacon (cross-repo rollout across every deployed followorbounce/client site). See [[cloudflare-analytics-setup]] in the assistant's memory for the account/token map.
+
 ## Next steps
 - `git push` the pending local commit (RESONANCE page).
 - Resolve the stray/duplicate-looking files at repo root (`build-your-own-cubsat.html`, `ISSandMir.html`, `lagrange-points.html`, `unfold-james-webb.html`, `time philosophy/` vs `time-philosophy/`) — confirm which are dead and remove them, or document why both exist.
