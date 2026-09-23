@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TRANSFER — EARTH TO MARS / ПЕРЕЛЁТ ЗЕМЛЯ — МАРС</title>
+<meta name="description" content="An interactive field guide to getting from Earth to Mars: a live orbit model with today's distance and light delay, launch windows, the Hohmann transfer, fast-versus-cheap trajectories, the Δv budget, radiation dose on the way, nuclear power aboard, and what arriving means.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/transfer-earth-to-mars">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TRANSFER — EARTH TO MARS / ПЕРЕЛЁТ ЗЕМЛЯ — МАРС">
+<meta property="og:description" content="Live distance, launch windows, transfer orbits, Δv, radiation dose and light delay — the physics of getting to Mars, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/transfer-earth-to-mars">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+:root{--mars:#b5452a;}
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; touch-action:none;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.bar-track{height:14px; background:var(--line); position:relative; margin-top:8px;}
+.bar-fill{position:absolute; top:0; left:0; height:100%; background:var(--ink);}
+.bar-fill.mars{background:var(--mars);}
+.bar-mark{position:absolute; top:-5px; bottom:-5px; width:2px; background:var(--mars);}
+.bar-label{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:10px; color:var(--mid); margin-top:6px; gap:8px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; margin-top:20px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink);}
+.field{display:flex; align-items:center; gap:10px; margin-top:14px; font-family:var(--font-mono); font-size:12px; flex-wrap:wrap;}
+.field input[type=number]{width:96px; font-family:var(--font-mono); font-size:14px; padding:7px 8px; border:1px solid var(--ink); background:var(--paper); color:var(--ink);}
+.pulse-track{position:relative; height:64px; border:1px solid var(--ink); background:var(--white); margin-top:16px;}
+.pulse-track .pe,.pulse-track .pm{position:absolute; top:50%; transform:translate(-50%,-50%); font-family:var(--font-mono); font-size:11px;}
+.pulse-track .pe{left:28px;} .pulse-track .pm{right:0; transform:translate(-8px,-50%); color:var(--mars);}
+.pulse-track .dot{position:absolute; top:50%; left:48px; width:10px; height:10px; border-radius:50%; background:var(--ink); transform:translate(-50%,-50%); opacity:0;}
+.pulse-track .line{position:absolute; top:50%; left:48px; right:48px; height:1px; background:var(--line);}
+.mission-bars{margin-top:20px; border-top:1px solid var(--ink);}
+.mb{display:grid; grid-template-columns:minmax(0,10.5em) minmax(0,1fr) 5.5em; gap:12px; align-items:center; padding:9px 0; border-bottom:1px solid var(--line); cursor:pointer; background:none; border-left:0; border-right:0; border-top:0; width:100%; text-align:left; color:var(--ink); font:inherit;}
+.mb:hover .mb-bar i,.mb.active .mb-bar i{background:var(--mars);}
+.mb-name{font-size:14px; font-weight:600;}
+.mb-name small{display:block; font-family:var(--font-mono); font-weight:400; font-size:10.5px; color:var(--mid);}
+.mb-bar{height:10px; background:var(--paper); position:relative;}
+.mb-bar i{position:absolute; left:0; top:0; bottom:0; background:var(--ink);}
+.mb-days{font-family:var(--font-mono); font-size:12px; text-align:right;}
+@media (max-width:560px){.mb{grid-template-columns:minmax(0,1fr) 4.5em;} .mb-bar{grid-column:1/-1; grid-row:2;}}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.quote-block .fig-num{display:block; margin-top:16px;}
+.dash-grid{grid-template-columns:repeat(3,1fr);}
+@media (max-width:760px){.dash-grid{grid-template-columns:1fr;}}
+.dash-card{text-align:center;}
+.dash-card .dc-name{font-size:1.6rem;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">TRANSFER — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">DEPARTURE</span></div>
+  <div class="hud-row"><span class="hud-label">EARTH–MARS</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">LIGHT TIME</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="DEPARTURE">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — HOW TO GET FROM ONE PLANET TO ANOTHER" data-ru="РИС. 00 — КАК ДОБРАТЬСЯ С ОДНОЙ ПЛАНЕТЫ НА ДРУГУЮ">FIG. 00 — HOW TO GET FROM ONE PLANET TO ANOTHER</span></span>
+        <span data-en="HOHMANN, 1925" data-ru="ГОМАН, 1925">HOHMANN, 1925</span>
+      </div>
+      <h1><span data-en="TRANSFER" data-ru="ПЕРЕЛЁТ">TRANSFER</span><br><em data-en="EARTH TO MARS: DISTANCE, TIMING, FUEL AND RADIATION" data-ru="ЗЕМЛЯ — МАРС: РАССТОЯНИЕ, ВРЕМЯ, ТОПЛИВО И РАДИАЦИЯ">EARTH TO MARS: DISTANCE, TIMING, FUEL AND RADIATION</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the trip every Mars mission has to make. You can't point a rocket at Mars and fire: you launch toward where Mars <b>will be</b>, in a window that opens once every 26 months, and you ride half an orbit around the Sun to get there. Every number on this page is computed live in your browser from published orbital elements and measured data. Right now Mars is <b id='heroDist'>…</b>." data-ru="Десять глав о пути, который проходит каждая миссия к Марсу. Нельзя просто направить ракету на Марс и выстрелить: запускают туда, где Марс <b>будет</b>, в окно, которое открывается раз в 26 месяцев, и полпути вокруг Солнца проходят по дуге. Все числа на этой странице вычисляются прямо в вашем браузере по опубликованным элементам орбит и измеренным данным. Прямо сейчас до Марса <b id='heroDist'>…</b>.">Ten chapters on the trip every Mars mission has to make.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHERE MARS IS -->
+<section id="ch1" class="section" data-phase="WHERE MARS IS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 11</span> — <span data-en="WHERE MARS IS, TODAY AND ANY DAY" data-ru="ГДЕ МАРС — СЕГОДНЯ И В ЛЮБОЙ ДЕНЬ">WHERE MARS IS, TODAY AND ANY DAY</span></div>
+    <h2 class="h-lg" data-en="The distance to Mars changes by a factor of seven" data-ru="Расстояние до Марса меняется в семь раз">The distance to Mars changes by a factor of seven</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Earth circles the Sun in one year at about 150 million km. Mars circles in 687 days at about 228 million km, on a noticeably more oval path. Because the two planets move at different speeds, the gap between them swings from about 55 million km, when they line up on the same side of the Sun, to about 400 million km, when the Sun sits between them [2]." data-ru="Земля обходит Солнце за год на расстоянии около 150 млн км. Марс — за 687 суток на расстоянии около 228 млн км, по заметно более вытянутой орбите. Поскольку планеты движутся с разной скоростью, расстояние между ними колеблется от примерно 55 млн км, когда они выстраиваются по одну сторону от Солнца, до примерно 400 млн км, когда Солнце оказывается между ними [2].">Earth circles the Sun in one year at about 150 million km.</p>
+      <p class="body-col" data-en="The model below solves Kepler's equation for both planets using NASA JPL's published orbital elements [1]. It reproduces the record approach of 27 August 2003 (55.8 million km) and the 2020 approach (62.1 million km) to within about 0.1 million km. Drag the date, press play, or jump to an event." data-ru="Модель ниже решает уравнение Кеплера для обеих планет по опубликованным элементам орбит NASA JPL [1]. Она воспроизводит рекордное сближение 27 августа 2003 года (55,8 млн км) и сближение 2020 года (62,1 млн км) с точностью около 0,1 млн км. Двигайте дату, включите анимацию или перейдите к событию.">The model below solves Kepler's equation for both planets.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="orbitSvg" class="sim-svg" viewBox="0 0 480 480" role="img" aria-label="Top-down view of the orbits of Earth and Mars around the Sun"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl-row"><span data-en="DATE (UTC)" data-ru="ДАТА (UTC)">DATE (UTC)</span><span class="v" id="dateVal">—</span></div>
+        <input id="dateSlider" type="range" min="0" max="16800" step="1" value="0" aria-label="Date">
+        <div class="btn-row">
+          <button class="btn primary" id="playBtn" data-en="▶ PLAY" data-ru="▶ ПУСК">▶ PLAY</button>
+          <button class="btn" id="todayBtn" data-en="TODAY" data-ru="СЕГОДНЯ">TODAY</button>
+          <button class="btn" id="oppBtn" data-en="NEXT CLOSEST" data-ru="БЛИЖАЙШЕЕ СБЛИЖЕНИЕ">NEXT CLOSEST</button>
+          <button class="btn" id="conjBtn" data-en="NEXT CONJUNCTION" data-ru="СЛЕДУЮЩЕЕ СОЕДИНЕНИЕ">NEXT CONJUNCTION</button>
+          <button class="btn" id="recBtn" data-en="2003 RECORD" data-ru="РЕКОРД 2003">2003 RECORD</button>
+        </div>
+        <div class="readout-grid" id="orbitReadout"></div>
+        <div class="status" id="orbitStatus"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Distance over 2000–2045 (click the chart to jump). The dips come every ~26 months; their depth changes because Mars's orbit is oval, so some close approaches are much closer than others." data-ru="Расстояние в 2000–2045 годах (нажмите на график, чтобы перейти к дате). Провалы повторяются примерно каждые 26 месяцев; их глубина меняется, потому что орбита Марса вытянута и одни сближения гораздо теснее других.">Distance over 2000–2045.</p>
+    <svg id="distChart" class="sim-svg" viewBox="0 0 800 170" role="img" aria-label="Earth–Mars distance from 2000 to 2045" style="margin-top:8px; cursor:crosshair;"></svg>
+  </div>
+</section>
+
+<!-- CH2 — LAUNCH WINDOWS -->
+<section id="ch2" class="section" data-phase="LAUNCH WINDOWS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 11</span> — <span data-en="WHY YOU CAN'T LAUNCH WHENEVER YOU WANT" data-ru="ПОЧЕМУ НЕЛЬЗЯ СТАРТОВАТЬ КОГДА УГОДНО">WHY YOU CAN'T LAUNCH WHENEVER YOU WANT</span></div>
+    <h2 class="h-lg" data-en="The door to Mars opens once every 26 months" data-ru="Дверь на Марс открывается раз в 26 месяцев">The door to Mars opens once every 26 months</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A spacecraft leaving Earth is already moving with Earth at about 30 km/s around the Sun. The cheapest path to Mars uses that speed rather than fighting it: add a little, and the craft swings outward on a long ellipse that touches Mars's orbit half a revolution later. The catch is that Mars has to <b>be there</b> when the craft arrives." data-ru="Аппарат, покидающий Землю, уже движется вместе с ней вокруг Солнца со скоростью около 30 км/с. Самый дешёвый путь к Марсу использует эту скорость, а не борется с ней: добавьте немного — и аппарат уходит наружу по длинному эллипсу, который касается орбиты Марса через пол-оборота. Подвох в том, что Марс должен <b>оказаться там</b> в момент прибытия.">A spacecraft leaving Earth is already moving with Earth.</p>
+      <p class="body-col" data-en="The half-orbit takes about 259 days, and in that time Mars moves 136° along its orbit. So at launch Mars must be about 44° ahead of Earth. That geometry repeats every synodic period, 780 days, or roughly 26 months [2]. Miss it, and you wait two years. That is why launches to Mars come in bursts: in the 2020 window, three missions from three countries left within eleven days." data-ru="Пол-оборота по такому эллипсу занимает около 259 суток, и за это время Марс проходит по орбите 136°. Значит, в момент старта Марс должен опережать Землю примерно на 44°. Такая геометрия повторяется раз в синодический период — 780 суток, или примерно 26 месяцев [2]. Пропустите окно — ждите два года. Поэтому запуски к Марсу идут волнами: в окно 2020 года три миссии трёх стран стартовали в пределах одиннадцати дней.">The half-orbit takes about 259 days.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="SYNODIC PERIOD — HOW OFTEN THE GEOMETRY REPEATS" data-ru="СИНОДИЧЕСКИЙ ПЕРИОД — КАК ЧАСТО ПОВТОРЯЕТСЯ ГЕОМЕТРИЯ">SYNODIC PERIOD — HOW OFTEN THE GEOMETRY REPEATS</div>
+      <div class="eq-body">1 / S = 1 / T<sub>Earth</sub> − 1 / T<sub>Mars</sub> &nbsp;→&nbsp; S = 1 / (1/365.26 − 1/686.98) ≈ 780 d</div>
+      <div class="eq-note" data-en="Earth laps Mars like a faster runner on an inner track. Each lap brings back the same launch geometry." data-ru="Земля обгоняет Марс, как более быстрый бегун на внутренней дорожке. Каждый круг возвращает ту же стартовую геометрию.">Earth laps Mars like a faster runner on an inner track.</div>
+    </div>
+    <p class="lede" style="margin-top:8px;" data-en="Idealised window dates from this page's model, where Mars leads Earth by 44°. Click one to see it in Chapter 1's viewer." data-ru="Идеализированные даты окон по модели этой страницы, когда Марс опережает Землю на 44°. Нажмите на дату, чтобы увидеть её в модели из главы 1.">Idealised window dates.</p>
+    <div class="chips" id="windowChips"></div>
+    <p class="note" data-en="Real windows are found with “porkchop plots”, which solve thousands of exact trajectories. Because Mars's orbit is oval and tilted, real launch dates land within one or two months of these idealised ones: the model gives June 2020, and Perseverance, Tianwen-1 and Hope launched 19–30 July 2020." data-ru="Настоящие окна находят с помощью «диаграмм-отбивных» (porkchop plots), где рассчитываются тысячи точных траекторий. Поскольку орбита Марса вытянута и наклонена, реальные даты старта отстоят от идеализированных на один-два месяца: модель даёт июнь 2020 года, а Perseverance, «Тяньвэнь-1» и «Хоуп» стартовали 19–30 июля 2020 года.">Real windows are found with porkchop plots.</p>
+  </div>
+</section>
+
+<!-- CH3 — HOHMANN -->
+<section id="ch3" class="section" data-phase="HOHMANN TRANSFER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 11</span> — <span data-en="THE HOHMANN TRANSFER" data-ru="ГОМАНОВСКИЙ ПЕРЕЛЁТ">THE HOHMANN TRANSFER</span></div>
+    <h2 class="h-lg" data-en="Aim at where Mars will be. Try it" data-ru="Цельтесь туда, где Марс будет. Попробуйте">Aim at where Mars will be. Try it</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="In 1925 the German engineer Walter Hohmann showed that the least-fuel path between two circular orbits is an ellipse that just touches both: its closest point to the Sun is at Earth's orbit, its farthest at Mars's. One burn puts you on it, a second burn at the far end matches Mars's speed [9]." data-ru="В 1925 году немецкий инженер Вальтер Гоман показал, что самый экономный по топливу путь между двумя круговыми орбитами — эллипс, касающийся обеих: его ближайшая к Солнцу точка лежит на орбите Земли, самая дальняя — на орбите Марса. Один импульс выводит на этот эллипс, второй на дальнем конце уравнивает скорость с Марсом [9].">In 1925 Walter Hohmann showed the least-fuel path.</p>
+      <p class="body-col" data-en="Set how far ahead of Earth Mars is at launch, then press launch. The craft always takes the same 259-day arc; only Mars's starting position changes. At about 44° the two meet. Anywhere else, the craft reaches Mars's orbit and finds empty space." data-ru="Задайте, насколько Марс опережает Землю в момент старта, и нажмите «Старт». Аппарат всегда летит по одной и той же дуге длиной 259 суток; меняется только начальное положение Марса. Примерно при 44° они встречаются. При любом другом угле аппарат достигает орбиты Марса и находит там пустоту.">Set how far ahead of Earth Mars is at launch.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="hohSvg" class="sim-svg" viewBox="0 0 480 480" role="img" aria-label="Hohmann transfer animation"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl-row"><span data-en="MARS AHEAD OF EARTH AT LAUNCH" data-ru="ОПЕРЕЖЕНИЕ МАРСА В МОМЕНТ СТАРТА">MARS AHEAD OF EARTH AT LAUNCH</span><span class="v" id="phaseVal">20°</span></div>
+        <input id="phaseSlider" type="range" min="0" max="120" step="0.5" value="20" aria-label="Phase angle at launch">
+        <div class="btn-row">
+          <button class="btn primary" id="launchBtn" data-en="🚀 LAUNCH" data-ru="🚀 СТАРТ">🚀 LAUNCH</button>
+          <button class="btn" id="idealBtn" data-en="SET 44.3° (IDEAL)" data-ru="УСТАНОВИТЬ 44,3° (ИДЕАЛ)">SET 44.3° (IDEAL)</button>
+        </div>
+        <div class="readout-grid" id="hohReadout"></div>
+        <div class="status" id="hohStatus"></div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-top:28px;">
+      <div class="eq-box corner-frame" style="margin:0;">
+        <div class="eq-label" data-en="TRANSFER TIME — HALF THE ELLIPSE'S PERIOD" data-ru="ВРЕМЯ ПЕРЕЛЁТА — ПОЛОВИНА ПЕРИОДА ЭЛЛИПСА">TRANSFER TIME — HALF THE ELLIPSE'S PERIOD</div>
+        <div class="eq-body">t = π √(a³ / μ<sub>☉</sub>), &nbsp; a = (r<sub>E</sub> + r<sub>M</sub>) / 2</div>
+        <div class="eq-note" data-en="a = 1.262 AU gives t ≈ 259 days. μ☉ = 1.327 × 10¹¹ km³/s² is the Sun's gravitational parameter." data-ru="a = 1,262 а.е. даёт t ≈ 259 суток. μ☉ = 1,327 × 10¹¹ км³/с² — гравитационный параметр Солнца.">a = 1.262 AU gives t ≈ 259 days.</div>
+      </div>
+      <div class="eq-box corner-frame" style="margin:0;">
+        <div class="eq-label" data-en="SPEED ANYWHERE ON THE ELLIPSE (VIS-VIVA)" data-ru="СКОРОСТЬ В ЛЮБОЙ ТОЧКЕ ЭЛЛИПСА (VIS-VIVA)">SPEED ANYWHERE ON THE ELLIPSE (VIS-VIVA)</div>
+        <div class="eq-body">v² = μ<sub>☉</sub> (2/r − 1/a)</div>
+        <div class="eq-note" data-en="At Earth: 32.73 km/s, which is 2.94 km/s faster than Earth itself. At Mars: 21.48 km/s, which is 2.65 km/s slower than Mars." data-ru="У Земли: 32,73 км/с — на 2,94 км/с быстрее самой Земли. У Марса: 21,48 км/с — на 2,65 км/с медленнее Марса.">At Earth: 32.73 km/s.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — FAST OR CHEAP -->
+<section id="ch4" class="section" data-phase="FAST vs CHEAP">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 11</span> — <span data-en="FASTER COSTS MORE — MUCH MORE" data-ru="БЫСТРЕЕ — ЗНАЧИТ ДОРОЖЕ, НАМНОГО ДОРОЖЕ">FASTER COSTS MORE — MUCH MORE</span></div>
+    <h2 class="h-lg" data-en="Trade days for fuel" data-ru="Меняем дни на топливо">Trade days for fuel</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Push harder at departure and the ellipse reaches beyond Mars, so it crosses Mars's orbit sooner, at an angle instead of gently. The trip gets shorter. But you arrive cutting across Mars's path at high relative speed, and that speed has to be killed, either by a heat shield or by more propellant." data-ru="Толкните сильнее при старте — и эллипс уйдёт дальше Марса, поэтому пересечёт его орбиту раньше, под углом, а не по касательной. Путь сокращается. Но вы прибываете, пересекая путь Марса с большой относительной скоростью, и эту скорость надо погасить — теплозащитным экраном или дополнительным топливом.">Push harder at departure.</p>
+      <p class="body-col" data-en="Move the slider to choose how far past Mars the transfer ellipse reaches. Real robotic missions take roughly 200–260 days (Chapter 10). The fastest options here are what crewed-mission studies look at to cut radiation dose (Chapter 6), and why they need far more capable engines." data-ru="Двигайте ползунок, чтобы выбрать, насколько дальше Марса уходит эллипс перелёта. Реальные автоматические миссии летят примерно 200–260 суток (глава 10). Самые быстрые варианты здесь — то, что рассматривают проекты пилотируемых полётов, чтобы снизить дозу радиации (глава 6), и поэтому им нужны гораздо более мощные двигатели.">Move the slider.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="fastSvg" class="sim-svg" viewBox="0 0 480 480" role="img" aria-label="Transfer orbit shape for the selected trip time"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl-row"><span data-en="FARTHEST POINT OF TRANSFER ORBIT" data-ru="ДАЛЬНЯЯ ТОЧКА ОРБИТЫ ПЕРЕЛЁТА">FARTHEST POINT OF TRANSFER ORBIT</span><span class="v" id="qVal">—</span></div>
+        <input id="qSlider" type="range" min="1.52368" max="3" step="0.001" value="1.5237" aria-label="Aphelion of transfer orbit">
+        <div class="btn-row" id="fastPresets"></div>
+        <div class="readout-grid" id="fastReadout"></div>
+        <div class="ctl-row" style="margin-top:16px;"><span data-en="TRIP TIME" data-ru="ВРЕМЯ В ПУТИ">TRIP TIME</span><span data-en="Δv FROM LOW EARTH ORBIT" data-ru="Δv С НИЗКОЙ ОКОЛОЗЕМНОЙ ОРБИТЫ">Δv FROM LOW EARTH ORBIT</span></div>
+        <div class="bar-track"><div class="bar-fill" id="daysBar"></div></div>
+        <div class="bar-track"><div class="bar-fill mars" id="dvBar"></div></div>
+        <div class="bar-label"><span data-en="black: days (scale 300 d)" data-ru="чёрное: сутки (шкала 300 сут)">black: days</span><span data-en="red: departure Δv (scale 6 km/s)" data-ru="красное: Δv на старте (шкала 6 км/с)">red: departure Δv</span></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: circular, co-planar planetary orbits and a burn tangent to Earth's orbit, the standard textbook family [9]. Real missions use exact planet positions and optimised arcs, so their numbers differ from this family by some tenths of a km/s, but the trend holds: faster always costs more." data-ru="Модель: круговые копланарные орбиты планет и импульс по касательной к орбите Земли — стандартное учебное семейство траекторий [9]. Реальные миссии используют точные положения планет и оптимизированные дуги, поэтому их числа отличаются от этого семейства на несколько десятых км/с, но тенденция сохраняется: быстрее всегда дороже.">Model: circular, co-planar orbits.</p>
+  </div>
+</section>
+
+<!-- CH5 — Δv BUDGET -->
+<section id="ch5" class="section" data-phase="Δv BUDGET">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 11</span> — <span data-en="THE FUEL BILL" data-ru="СЧЁТ ЗА ТОПЛИВО">THE FUEL BILL</span></div>
+    <h2 class="h-lg" data-en="Most of what leaves Earth orbit is propellant" data-ru="Большая часть того, что покидает околоземную орбиту, — топливо">Most of what leaves Earth orbit is propellant</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Reaching low Earth orbit already costs about 9.4 km/s of Δv. From there, the trans-Mars injection burn adds the extra speed from Chapter 4. Near Earth, gravity helps: the burn happens deep in Earth's gravity well, where each km/s of Δv buys more speed far away. That is the Oberth effect: 2.94 km/s of excess speed costs about 3.6 km/s from orbit, instead of the 6.1 km/s you would pay by first escaping Earth and then speeding up." data-ru="Выход на низкую околоземную орбиту уже стоит около 9,4 км/с Δv. Оттуда импульс выхода на траекторию к Марсу добавляет ту самую избыточную скорость из главы 4. Вблизи Земли помогает гравитация: импульс выдаётся глубоко в гравитационном колодце Земли, где каждый км/с Δv даёт больше скорости вдали. Это эффект Оберта: 2,94 км/с избыточной скорости стоят с орбиты около 3,6 км/с, а не 6,1 км/с, которые пришлось бы заплатить, если сначала уйти от Земли, а потом разгоняться.">Reaching low Earth orbit already costs about 9.4 km/s.</p>
+      <p class="body-col" data-en="At Mars you either brake with the atmosphere, as every lander so far has, or fire engines to be captured into orbit. The rocket equation then turns Δv into mass: it tells you how many tonnes must leave Earth orbit for every tonne that arrives." data-ru="У Марса либо тормозят об атмосферу — как делали все посадочные аппараты до сих пор, — либо включают двигатели, чтобы выйти на орбиту. Затем уравнение Циолковского превращает Δv в массу: оно показывает, сколько тонн должно покинуть околоземную орбиту на каждую тонну, которая прибудет.">At Mars you either brake with the atmosphere or fire engines.</p>
+    </div>
+    <div class="grid-2">
+      <div class="eq-box corner-frame" style="margin-bottom:0;">
+        <div class="eq-label" data-en="DEPARTURE BURN FROM A CIRCULAR PARKING ORBIT" data-ru="ИМПУЛЬС СХОДА С КРУГОВОЙ ОРБИТЫ ОЖИДАНИЯ">DEPARTURE BURN FROM A CIRCULAR PARKING ORBIT</div>
+        <div class="eq-body">Δv = √(v<sub>∞</sub>² + 2μ<sub>⊕</sub>/r) − √(μ<sub>⊕</sub>/r)</div>
+        <div class="eq-note" data-en="v∞ = speed left over after escaping Earth; r = parking-orbit radius. The same formula with Mars's μ gives the capture burn." data-ru="v∞ — скорость, остающаяся после ухода от Земли; r — радиус орбиты ожидания. Та же формула с μ Марса даёт импульс торможения.">v∞ = speed left over after escaping Earth.</div>
+      </div>
+      <div class="eq-box corner-frame" style="margin-bottom:0;">
+        <div class="eq-label" data-en="ROCKET EQUATION" data-ru="УРАВНЕНИЕ ЦИОЛКОВСКОГО">ROCKET EQUATION</div>
+        <div class="eq-body">m<sub>0</sub> / m<sub>f</sub> = e<sup>Δv / (I<sub>sp</sub> · g<sub>0</sub>)</sup></div>
+        <div class="eq-note" data-en="See IMPULSE — The Physics of Spaceflight for its derivation." data-ru="Вывод — в справочнике ИМПУЛЬС «Физика космического полёта».">See IMPULSE for its derivation.</div>
+      </div>
+    </div>
+    <div class="sim-panel corner-frame" style="margin-top:28px;">
+      <div class="ctl-row"><span data-en="PARKING ORBIT ALTITUDE" data-ru="ВЫСОТА ОРБИТЫ ОЖИДАНИЯ">PARKING ORBIT ALTITUDE</span><span class="v" id="altVal">300 km</span></div>
+      <input id="altSlider" type="range" min="200" max="2000" step="10" value="300" aria-label="Parking orbit altitude">
+      <div class="ctl-row" style="margin-top:10px;"><span data-en="TRIP (SET IN CHAPTER 4)" data-ru="ПЕРЕЛЁТ (ЗАДАЁТСЯ В ГЛАВЕ 4)">TRIP (SET IN CHAPTER 4)</span><span class="v" id="tripVal">—</span></div>
+      <div class="field"><span data-en="ARRIVAL:" data-ru="ПРИБЫТИЕ:">ARRIVAL:</span></div>
+      <div class="btn-row" id="arrivalBtns" style="margin-top:6px;"></div>
+      <div class="field"><span data-en="ENGINE:" data-ru="ДВИГАТЕЛЬ:">ENGINE:</span></div>
+      <div class="btn-row" id="engineBtns" style="margin-top:6px;"></div>
+      <div class="readout-grid" id="budgetReadout"></div>
+      <div class="ctl-row" style="margin-top:16px;"><span data-en="WHAT LEAVES EARTH ORBIT, PER TONNE ARRIVING" data-ru="ЧТО ПОКИДАЕТ ОКОЛОЗЕМНУЮ ОРБИТУ НА КАЖДУЮ ПРИБЫВШУЮ ТОННУ">WHAT LEAVES EARTH ORBIT, PER TONNE ARRIVING</span><span class="v" id="massVal">—</span></div>
+      <div class="bar-track"><div class="bar-fill" id="payBar"></div><div class="bar-fill mars" id="propBar"></div></div>
+      <div class="legend"><span><i style="background:var(--ink)"></i><span data-en="payload + structure (1 t)" data-ru="полезная нагрузка + конструкция (1 т)">payload + structure (1 t)</span></span><span><i style="background:var(--mars)"></i><span data-en="propellant" data-ru="топливо">propellant</span></span></div>
+    </div>
+    <p class="note" data-en="Engine Isp values are approximate vacuum figures: methane/oxygen (Raptor-Vacuum class) ≈ 380 s, hydrogen/oxygen (RL10 class) ≈ 465 s, nuclear thermal (NERVA/DRACO class) ≈ 900 s. Tank and engine mass are left out, so real ratios are worse." data-ru="Значения удельного импульса — приблизительные вакуумные: метан/кислород (класс Raptor Vacuum) ≈ 380 с, водород/кислород (класс RL10) ≈ 465 с, ядерный тепловой (класс NERVA/DRACO) ≈ 900 с. Масса баков и двигателей не учитывается, поэтому реальные соотношения хуже.">Engine Isp values are approximate.</p>
+  </div>
+</section>
+
+<!-- CH6 — RADIATION -->
+<section id="ch6" class="section" data-phase="RADIATION">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 11</span> — <span data-en="RADIATION ON THE WAY" data-ru="РАДИАЦИЯ В ПУТИ">RADIATION ON THE WAY</span></div>
+    <h2 class="h-lg" data-en="Outside Earth's shield, the dose is measured, not guessed" data-ru="За пределами защиты Земли дозу измерили, а не угадали">Outside Earth's shield, the dose is measured, not guessed</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On Earth, the magnetic field and a thick atmosphere stop almost all space radiation. Between the planets there is neither. Two kinds of particles arrive. <b>Galactic cosmic rays</b> are atomic nuclei accelerated by distant supernovae: a steady drizzle, so energetic that shielding only partly helps. <b>Solar energetic particles</b> are bursts thrown out by solar storms: rare, but intense for hours to days." data-ru="На Земле магнитное поле и плотная атмосфера задерживают почти всё космическое излучение. Между планетами нет ни того ни другого. Приходят частицы двух видов. <b>Галактические космические лучи</b> — ядра атомов, разогнанные далёкими сверхновыми: постоянная «морось», настолько энергичная, что защита помогает лишь частично. <b>Солнечные энергичные частицы</b> — выбросы солнечных бурь: редкие, но интенсивные в течение часов или дней.">On Earth, the magnetic field stops almost all space radiation.</p>
+      <p class="body-col" data-en="Curiosity carried a detector, RAD, inside its spacecraft all the way to Mars. It measured about <b>1.84 mSv per day</b> in cruise [4] and <b>0.64 mSv per day</b> on the surface [5]. The surface is lower because the planet blocks half the sky and the thin air stops some particles. The calculator uses those measured rates." data-ru="Curiosity вёз детектор RAD внутри своего аппарата весь путь до Марса. Он измерил около <b>1,84 мЗв в сутки</b> в полёте [4] и <b>0,64 мЗв в сутки</b> на поверхности [5]. На поверхности меньше, потому что планета закрывает половину неба, а разреженный воздух задерживает часть частиц. Калькулятор использует эти измеренные значения.">Curiosity carried a detector, RAD.</p>
+    </div>
+    <div class="sim-panel corner-frame" style="margin-top:28px;">
+      <div class="btn-row" id="radPresets" style="margin-top:0;"></div>
+      <div class="ctl-row" style="margin-top:14px;"><span data-en="TRIP OUT (DAYS)" data-ru="ПУТЬ ТУДА (СУТКИ)">TRIP OUT (DAYS)</span><span class="v" id="outVal">180</span></div>
+      <input id="outSlider" type="range" min="0" max="400" step="1" value="180" aria-label="Days in cruise to Mars">
+      <div class="ctl-row"><span data-en="DAYS ON MARS" data-ru="СУТОК НА МАРСЕ">DAYS ON MARS</span><span class="v" id="stayVal">500</span></div>
+      <input id="staySlider" type="range" min="0" max="700" step="1" value="500" aria-label="Days on the surface of Mars">
+      <div class="ctl-row"><span data-en="TRIP BACK (DAYS)" data-ru="ПУТЬ ОБРАТНО (СУТКИ)">TRIP BACK (DAYS)</span><span class="v" id="backVal">180</span></div>
+      <input id="backSlider" type="range" min="0" max="400" step="1" value="180" aria-label="Days in cruise back to Earth">
+      <div class="readout-grid" id="radReadout"></div>
+      <div class="ctl-row" style="margin-top:16px;"><span data-en="TOTAL DOSE vs NASA CAREER LIMIT (600 mSv)" data-ru="СУММАРНАЯ ДОЗА И ПРЕДЕЛ NASA ЗА КАРЬЕРУ (600 мЗв)">TOTAL DOSE vs NASA CAREER LIMIT (600 mSv)</span><span class="v" id="radTotal">—</span></div>
+      <div class="bar-track" style="height:20px;"><div class="bar-fill" id="cruiseBar"></div><div class="bar-fill mars" id="surfBar"></div><div class="bar-mark" id="limitMark"></div></div>
+      <div class="legend"><span><i style="background:var(--ink)"></i><span data-en="in cruise (1.84 mSv/day)" data-ru="в полёте (1,84 мЗв/сут)">in cruise</span></span><span><i style="background:var(--mars)"></i><span data-en="on Mars (0.64 mSv/day)" data-ru="на Марсе (0,64 мЗв/сут)">on Mars</span></span><span><i style="background:var(--mars); width:2px;"></i><span data-en="600 mSv career limit" data-ru="предел 600 мЗв за карьеру">600 mSv career limit</span></span></div>
+    </div>
+    <p class="note" data-en="Honest limits: RAD measured behind the spacecraft's own light shielding, during a relatively active Sun (2011–2013). Cosmic-ray dose runs higher at solar minimum, a single large solar storm can add a lot, and a crew ship could carry more shielding and a storm shelter. NASA's 2022 standard limits an astronaut's whole career to 600 mSv [6]. For scale: world-average natural background is about 2.4 mSv per year [8], and 1 mSv is about 10 chest X-rays [7]." data-ru="Честные ограничения: RAD мерил за лёгкой собственной защитой аппарата, при довольно активном Солнце (2011–2013). При минимуме солнечной активности доза космических лучей выше, одна сильная солнечная буря может добавить много, а пилотируемый корабль может нести больше защиты и «штормовое убежище». Стандарт NASA 2022 года ограничивает всю карьеру астронавта 600 мЗв [6]. Для масштаба: среднемировой естественный фон — около 2,4 мЗв в год [8], а 1 мЗв — примерно 10 рентгенограмм грудной клетки [7].">Honest limits.</p>
+  </div>
+</section>
+
+<!-- CH7 — RADIOACTIVITY ABOARD -->
+<section id="ch7" class="section" data-phase="NUCLEAR POWER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 11</span> — <span data-en="RADIOACTIVITY ABOARD: THE NUCLEAR BATTERY" data-ru="РАДИОАКТИВНОСТЬ НА БОРТУ: ЯДЕРНАЯ БАТАРЕЯ">RADIOACTIVITY ABOARD: THE NUCLEAR BATTERY</span></div>
+    <h2 class="h-lg" data-en="Curiosity and Perseverance run on decaying plutonium" data-ru="Curiosity и Perseverance работают на распадающемся плутонии">Curiosity and Perseverance run on decaying plutonium</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Mars dust covers solar panels, and winter nights are long. So NASA's two biggest rovers carry an MMRTG, a radioisotope thermoelectric generator. It holds 4.8 kg of plutonium dioxide in eight heat-source modules, giving about 2,000 W of heat and about 110 W of electricity at launch [10]. There are no moving parts: thermocouples turn the temperature difference between the hot core and the cold Martian air into current." data-ru="Марсианская пыль покрывает солнечные панели, а зимние ночи длинные. Поэтому два крупнейших ровера NASA несут MMRTG — радиоизотопный термоэлектрический генератор. В нём 4,8 кг диоксида плутония в восьми модулях-источниках тепла: около 2000 Вт тепла и около 110 Вт электричества на старте [10]. Движущихся частей нет: термопары превращают разницу температур между горячим сердечником и холодным марсианским воздухом в ток.">NASA's two biggest rovers carry an MMRTG.</p>
+      <p class="body-col" data-en="Plutonium-238 decays by emitting alpha particles, which a sheet of paper stops, so the hazard is inhaling or swallowing it, not standing nearby. The fuel is pressed into ceramic pellets, clad in iridium and wrapped in graphite impact shells, so it survives a launch accident. Its half-life is 87.7 years: the heat fades slowly and predictably. The electricity fades faster, because the thermocouples wear out too." data-ru="Плутоний-238 распадается с испусканием альфа-частиц, которые останавливает лист бумаги, поэтому опасность — вдохнуть или проглотить его, а не стоять рядом. Топливо спрессовано в керамические таблетки, заключено в иридиевую оболочку и графитовые противоударные корпуса, чтобы пережить аварию при запуске. Период полураспада — 87,7 года: тепло угасает медленно и предсказуемо. Электрическая мощность падает быстрее, потому что изнашиваются и сами термопары.">Plutonium-238 decays by emitting alpha particles.</p>
+    </div>
+    <div class="sim-panel corner-frame" style="margin-top:28px;">
+      <div class="ctl-row"><span data-en="YEARS AFTER FUELING" data-ru="ЛЕТ ПОСЛЕ ЗАПРАВКИ">YEARS AFTER FUELING</span><span class="v" id="yrVal">0</span></div>
+      <input id="yrSlider" type="range" min="0" max="100" step="0.5" value="0" aria-label="Years after fueling">
+      <div class="btn-row" id="rtgPresets"></div>
+      <div class="readout-grid" id="rtgReadout"></div>
+      <div class="ctl-row" style="margin-top:16px;"><span data-en="HEAT FROM Pu-238 DECAY" data-ru="ТЕПЛО ОТ РАСПАДА Pu-238">HEAT FROM Pu-238 DECAY</span><span class="v" id="heatPct">100%</span></div>
+      <div class="bar-track"><div class="bar-fill mars" id="heatBar" style="width:100%"></div></div>
+      <div class="bar-label"><span>0%</span><span data-en="HALF-LIFE 87.7 YEARS" data-ru="ПЕРИОД ПОЛУРАСПАДА 87,7 ГОДА">HALF-LIFE 87.7 YEARS</span><span>100%</span></div>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="RADIOACTIVE DECAY" data-ru="РАДИОАКТИВНЫЙ РАСПАД">RADIOACTIVE DECAY</div>
+      <div class="eq-body">P(t) = P<sub>0</sub> · 2<sup>−t / 87.7 y</sup></div>
+      <div class="eq-note" data-en="Heat only. Viking landers used RTGs on Mars back in 1976; the same thermoelectric materials fly in the MMRTG [10]." data-ru="Только тепло. Посадочные аппараты «Викинг» использовали РИТЭГи на Марсе ещё в 1976 году; те же термоэлектрические материалы применяются в MMRTG [10].">Heat only.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — COMMUNICATION -->
+<section id="ch8" class="section" data-phase="LIGHT DELAY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 11</span> — <span data-en="TALKING ACROSS THE GAP" data-ru="РАЗГОВОР ЧЕРЕЗ ПРОПАСТЬ">TALKING ACROSS THE GAP</span></div>
+    <h2 class="h-lg" data-en="Nobody can joystick a Mars rover" data-ru="Марсоходом нельзя управлять джойстиком">Nobody can joystick a Mars rover</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Radio travels at the speed of light, 299,792 km/s. Across the Earth–Mars gap that still takes 3 to 22 minutes one way, depending on the date. A question and its answer take twice that. Rovers are sent a day's plan at once and drive themselves between check-ins, using their own cameras to avoid hazards." data-ru="Радиосигнал идёт со скоростью света — 299 792 км/с. Через пропасть Земля — Марс это всё равно от 3 до 22 минут в одну сторону, в зависимости от даты. Вопрос и ответ — вдвое дольше. Роверам отправляют план на целый день, а между сеансами связи они едут сами, обходя препятствия по собственным камерам.">Radio travels at the speed of light.</p>
+      <p class="body-col" data-en="About every two years the Sun passes between the planets (solar conjunction). Its hot, ionised corona can corrupt signals, so NASA stops sending commands for about two weeks while the spacecraft keep working on stored plans [11]. The button below sends a signal at the real delay for the date set in Chapter 1 (sped up 60×: one second per light-minute)." data-ru="Примерно раз в два года Солнце оказывается между планетами (соединение с Солнцем). Горячая ионизированная корона может искажать сигналы, поэтому NASA примерно на две недели прекращает отправку команд, а аппараты продолжают работать по заложенным планам [11]. Кнопка ниже отправляет сигнал с реальной задержкой для даты из главы 1 (ускорено в 60 раз: секунда на световую минуту).">About every two years the Sun passes between the planets.</p>
+    </div>
+    <div class="sim-panel corner-frame" style="margin-top:28px;">
+      <div class="btn-row" style="margin-top:0;">
+        <button class="btn primary" id="sendBtn" data-en="📡 SEND “HELLO, MARS”" data-ru="📡 ОТПРАВИТЬ «ПРИВЕТ, МАРС»">📡 SEND “HELLO, MARS”</button>
+      </div>
+      <div class="pulse-track" aria-hidden="true"><span class="pe">⊕</span><div class="line"></div><div class="dot" id="pulseDot"></div><span class="pm">♂</span></div>
+      <div class="readout-grid" id="commReadout"></div>
+      <div class="status" id="commStatus" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — ARRIVAL -->
+<section id="ch9" class="section" data-phase="ARRIVAL">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 11</span> — <span data-en="ARRIVING AT A DIFFERENT WORLD" data-ru="ПРИБЫТИЕ В ДРУГОЙ МИР">ARRIVING AT A DIFFERENT WORLD</span></div>
+    <h2 class="h-lg" data-en="Hitting the top of the air at 5–6 km/s" data-ru="Вход в атмосферу на 5–6 км/с">Hitting the top of the air at 5–6 km/s</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Falling into Mars's gravity well adds speed, so a craft arriving on the Hohmann path meets the top of the atmosphere at about 5.6 km/s. Perseverance hit it at about 5.4 km/s, roughly 19,500 km/h. The air presses down with less than 1% of Earth's surface pressure: thick enough to burn you, too thin to slow you all the way. That is why landers need a heat shield, then a parachute, then rockets. <a href='/aerospace/skycrane-curiosity-rover'>SKYCRANE</a> shows the full sequence." data-ru="Падение в гравитационный колодец Марса добавляет скорость, поэтому аппарат, прилетающий по гомановской дуге, встречает верхнюю границу атмосферы на скорости около 5,6 км/с. Perseverance вошёл на скорости около 5,4 км/с — примерно 19 500 км/ч. Давление воздуха там меньше 1% земного: воздух достаточно плотный, чтобы сжечь, но слишком разреженный, чтобы полностью затормозить. Поэтому посадочному аппарату нужны теплозащитный экран, затем парашют, затем ракетные двигатели. Вся последовательность — в справочнике <a href='/aerospace/skycrane-curiosity-rover'>SKYCRANE</a>.">Falling into Mars's gravity well adds speed.</p>
+      <div>
+        <div class="readout-grid" id="entryReadout" style="margin-top:0;"></div>
+        <div class="field"><label for="massIn" data-en="YOUR MASS (kg):" data-ru="ВАША МАССА (кг):">YOUR MASS (kg):</label><input id="massIn" type="number" min="1" max="500" value="70"></div>
+        <div class="readout-grid" id="weightReadout"></div>
+      </div>
+    </div>
+    <div class="table-scroll" style="margin-top:28px;">
+      <table class="cmp-table" id="cmpTable"></table>
+    </div>
+    <p class="note" data-en="Values from NASA's planetary fact sheets [2][3]. Your mass is the same everywhere; what changes is the force the ground pushes back with, and how high you could jump." data-ru="Значения — из планетных справочных таблиц NASA [2][3]. Масса везде одинакова; меняется сила, с которой на вас давит поверхность, и то, как высоко вы могли бы прыгнуть.">Values from NASA's planetary fact sheets.</p>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY: THE TRIPS THAT WERE MADE" data-ru="НАСЛЕДИЕ: ПЕРЕЛЁТЫ, КОТОРЫЕ СОСТОЯЛИСЬ">LEGACY: THE TRIPS THAT WERE MADE</span></div>
+    <h2 class="h-lg" data-en="Sixty years of seven-month journeys" data-ru="Шестьдесят лет семимесячных путешествий">Sixty years of seven-month journeys</h2>
+    <p class="lede" data-en="Cruise times of real missions, from launch to arrival at Mars, computed from their dates. Click a mission for its story. Every one of them launched in one of the 26-month windows from Chapter 2, and almost all took between six and ten months." data-ru="Продолжительность перелёта реальных миссий — от старта до прибытия к Марсу, вычисленная по их датам. Нажмите на миссию, чтобы прочитать её историю. Все они стартовали в одно из 26-месячных окон из главы 2, и почти все летели от шести до десяти месяцев.">Cruise times of real missions.</p>
+    <div class="mission-bars" id="missionBars"></div>
+    <div class="status" id="missionDetail" style="border-style:solid; background:var(--white); min-height:70px;"></div>
+    <div class="quote-block">
+      <p data-en="“Mars is there, waiting to be reached.”" data-ru="«Марс там, он ждёт, чтобы до него добрались.»">“Mars is there, waiting to be reached.”</p>
+      <span class="fig-num" data-en="BUZZ ALDRIN" data-ru="БАЗЗ ОЛДРИН">BUZZ ALDRIN</span>
+    </div>
+  </div>
+</section>
+
+<!-- CH11 — REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Bracketed numbers in the text above correspond to the sources below.</p>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="TRANSFER — EARTH TO MARS" data-ru="TRANSFER — ПЕРЕЛЁТ ЗЕМЛЯ — МАРС">TRANSFER — EARTH TO MARS</span>
+  <span data-en="EDUCATIONAL — POSITIONS FROM JPL MEAN ELEMENTS (VALID 1800–2050); TRANSFERS ARE IDEALISED TWO-BODY ARCS" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ПОЛОЖЕНИЯ ПО СРЕДНИМ ЭЛЕМЕНТАМ JPL (ДЕЙСТВИТЕЛЬНЫ 1800–2050); ПЕРЕЛЁТЫ — ИДЕАЛИЗИРОВАННЫЕ ДУГИ ЗАДАЧИ ДВУХ ТЕЛ">EDUCATIONAL — POSITIONS FROM JPL MEAN ELEMENTS (VALID 1800–2050)</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+
+/* ============ CONSTANTS (sources: [1][2][3][9]) ============ */
+var AU = 149597870.7, C_KMS = 299792.458;
+var MU_SUN = 1.32712440018e11, MU_E = 398600.4418, R_E = 6378.137, MU_M = 42828.37, R_M = 3389.5;
+var G0 = 9.80665, T_E = 365.256, T_M = 686.980, A_M = 1.52368;
+var DAY_MS = 86400000;
+
+/* JPL "Approximate Positions of the Planets", Table 1 (1800–2050):
+   a, a', e, e', I, I', L, L', long.peri, rate, long.node, rate  (per Julian century) */
+var ELEMENTS = {
+  E: [1.00000261, 0.00000562, 0.01671123, -0.00004392, -0.00001531, -0.01294668, 100.46457166, 35999.37244981, 102.93768193, 0.32327364, 0, 0],
+  M: [1.52371034, 0.00001847, 0.09339410, 0.00007882, 1.84969142, -0.00813131, -4.55343205, 19140.30268499, -23.94362959, 0.44441088, 49.55953891, -0.29257343]
+};
+var RAD = Math.PI/180;
+function helio(p, jd){
+  var k = ELEMENTS[p], Tc = (jd - 2451545.0)/36525;
+  var a = k[0]+k[1]*Tc, e = k[2]+k[3]*Tc, I = (k[4]+k[5]*Tc)*RAD, L = k[6]+k[7]*Tc, w = k[8]+k[9]*Tc, O = k[10]+k[11]*Tc;
+  var om = (w - O)*RAD, Mdeg = ((L - w + 180) % 360 + 360) % 360 - 180, M = Mdeg*RAD;
+  var E = M + e*Math.sin(M);
+  for(var i = 0; i < 12; i++) E -= (E - e*Math.sin(E) - M)/(1 - e*Math.cos(E));
+  var xp = a*(Math.cos(E) - e), yp = a*Math.sqrt(1 - e*e)*Math.sin(E), Or = O*RAD;
+  var co = Math.cos(om), so = Math.sin(om), cO = Math.cos(Or), sO = Math.sin(Or), cI = Math.cos(I), sI = Math.sin(I);
+  return {
+    x: (co*cO - so*sO*cI)*xp + (-so*cO - co*sO*cI)*yp,
+    y: (co*sO + so*cO*cI)*xp + (-so*sO + co*cO*cI)*yp,
+    z: (so*sI)*xp + (co*sI)*yp
+  };
+}
+function jdOf(ms){ return ms/DAY_MS + 2440587.5; }
+function geom(ms){
+  var jd = jdOf(ms), e = helio('E', jd), m = helio('M', jd);
+  var dx = m.x-e.x, dy = m.y-e.y, dz = m.z-e.z;
+  var d = Math.sqrt(dx*dx+dy*dy+dz*dz);
+  var phase = ((Math.atan2(m.y, m.x) - Math.atan2(e.y, e.x))/RAD % 360 + 360) % 360;
+  /* elongation: angle Sun–Earth–Mars seen from Earth */
+  var se = Math.sqrt(e.x*e.x+e.y*e.y+e.z*e.z);
+  var cosEl = (-e.x*dx - e.y*dy - e.z*dz)/(se*d);
+  var elong = Math.acos(Math.max(-1, Math.min(1, cosEl)))/RAD;
+  return {e:e, m:m, d:d, phase:phase, elong:elong};
+}
+/* Phase (Mars longitude − Earth longitude) decreases with time; find next date it crosses target. */
+function nextCrossing(startMs, target, maxDays){
+  var prev = geom(startMs).phase;
+  for(var i = 1; i <= (maxDays||900); i++){
+    var ms = startMs + i*DAY_MS, ph = geom(ms).phase;
+    var a = (prev - target + 360) % 360, b = (ph - target + 360) % 360;
+    if(b > a && a < 30) return ms;   /* wrapped past target */
+    prev = ph;
+  }
+  return null;
+}
+function nextClosest(startMs){
+  var best = null, bestD = 9, prevD = geom(startMs).d, falling = false;
+  for(var i = 1; i <= 820; i++){
+    var ms = startMs + i*DAY_MS, d = geom(ms).d;
+    if(d < prevD){ falling = true; if(d < bestD){ bestD = d; best = ms; } }
+    else if(falling && best) return best;
+    prevD = d;
+  }
+  return best;
+}
+function iso(ms){ return new Date(ms).toISOString().slice(0,10); }
+
+/* ============ HUD + PROGRESS + LANG ============ */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/(doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* ============ CH1 — ORBIT VIEWER ============ */
+var START_MS = Date.UTC(2000,0,1), NOW_MS = Date.now();
+var dateSlider = document.getElementById('dateSlider');
+dateSlider.max = Math.round((Date.UTC(2045,11,31) - START_MS)/DAY_MS);
+var viewMs = NOW_MS;
+dateSlider.value = Math.round((viewMs - START_MS)/DAY_MS);
+var orbitSvg = document.getElementById('orbitSvg');
+var SC = 125, CX = 240, CY = 240;   /* 1 AU = 125 px */
+function px(p){ return {x: CX + p.x*SC, y: CY - p.y*SC}; }
+function orbitPath(p, jd){
+  var d = '', per = p === 'E' ? T_E : T_M;
+  for(var i = 0; i <= 120; i++){
+    var q = px(helio(p, jd + per*i/120));
+    d += (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1);
+  }
+  return d + 'Z';
+}
+var ov = {};
+function buildOrbitSvg(){
+  orbitSvg.innerHTML = '';
+  var jd0 = jdOf(Date.UTC(2026,0,1));
+  ns('path', {d: orbitPath('E', jd0), fill:'none', stroke:'#0b0b0c', 'stroke-width':1}, orbitSvg);
+  ns('path', {d: orbitPath('M', jd0), fill:'none', stroke:'#b5452a', 'stroke-width':1, 'stroke-dasharray':'4 3'}, orbitSvg);
+  ns('circle', {cx:CX, cy:CY, r:9, fill:'#0b0b0c'}, orbitSvg);
+  var sl = ns('text', {x:CX, y:CY+24, 'text-anchor':'middle', 'class':'svg-small'}, orbitSvg); sl.textContent = T('SUN','СОЛНЦЕ');
+  ov.line = ns('line', {stroke:'#7a7a74', 'stroke-width':1, 'stroke-dasharray':'2 3'}, orbitSvg);
+  ov.e = ns('circle', {r:7, fill:'#ffffff', stroke:'#0b0b0c', 'stroke-width':2}, orbitSvg);
+  ov.m = ns('circle', {r:6, fill:'#b5452a'}, orbitSvg);
+  ov.el = ns('text', {'class':'svg-label', 'text-anchor':'middle'}, orbitSvg); ov.el.textContent = T('EARTH','ЗЕМЛЯ');
+  ov.ml = ns('text', {'class':'svg-label', 'text-anchor':'middle', fill:'#b5452a'}, orbitSvg); ov.ml.textContent = T('MARS','МАРС');
+  ov.dl = ns('text', {'class':'svg-label', 'text-anchor':'middle'}, orbitSvg);
+  var sc = ns('text', {x:14, y:466, 'class':'svg-small'}, orbitSvg); sc.textContent = T('1 AU = 149.6 million km · top-down view','1 а.е. = 149,6 млн км · вид сверху');
+}
+function drawOrbit(){
+  var g = geom(viewMs), e = px(g.e), m = px(g.m);
+  ov.e.setAttribute('cx', e.x); ov.e.setAttribute('cy', e.y);
+  ov.m.setAttribute('cx', m.x); ov.m.setAttribute('cy', m.y);
+  ov.line.setAttribute('x1', e.x); ov.line.setAttribute('y1', e.y); ov.line.setAttribute('x2', m.x); ov.line.setAttribute('y2', m.y);
+  function lab(t, p){ var dx = p.x - CX, dy = p.y - CY, r = Math.hypot(dx, dy) || 1; t.setAttribute('x', p.x + dx/r*20); t.setAttribute('y', p.y + dy/r*20 + 4); }
+  lab(ov.el, e); lab(ov.ml, m);
+  ov.dl.setAttribute('x', (e.x+m.x)/2); ov.dl.setAttribute('y', (e.y+m.y)/2 - 8);
+  ov.dl.textContent = fmt(g.d*AU/1e6, 1) + T(' M km',' млн км');
+  var km = g.d*AU, lt = km/C_KMS;
+  document.getElementById('dateVal').textContent = iso(viewMs);
+  cells(document.getElementById('orbitReadout'), [
+    [T('DISTANCE','РАССТОЯНИЕ'), fmtInt(km/1e6) + T(' million km',' млн км')],
+    [T('IN AU','В А.Е.'), fmt(g.d, 3) + T(' AU',' а.е.')],
+    [T('LIGHT TIME, ONE WAY','СВЕТ, В ОДНУ СТОРОНУ'), fmt(lt/60, 1) + T(' min',' мин')],
+    [T('ROUND TRIP','ТУДА И ОБРАТНО'), fmt(2*lt/60, 1) + T(' min',' мин')],
+    [T('MARS AHEAD OF EARTH','ОПЕРЕЖЕНИЕ МАРСА'), fmt(g.phase > 180 ? g.phase - 360 : g.phase, 1) + '°'],
+    [T('MARS–SUN ANGLE FROM EARTH','УГОЛ МАРС–СОЛНЦЕ С ЗЕМЛИ'), fmt(g.elong, 1) + '°']
+  ]);
+  var st;
+  if(g.elong < 3) st = T('<b>Solar conjunction.</b> Mars is behind the Sun: commands to Mars are paused.','<b>Соединение с Солнцем.</b> Марс за Солнцем: отправка команд на Марс приостановлена.');
+  else if(g.elong > 160) st = T('<b>Opposition season.</b> Mars is opposite the Sun, closest and brightest in our night sky.','<b>Период противостояния.</b> Марс напротив Солнца — ближе и ярче всего на ночном небе.');
+  else if(Math.abs(g.phase - 44.3) < 6) st = T('<b>Launch window.</b> Mars is about 44° ahead: the Hohmann geometry of Chapter 3.','<b>Стартовое окно.</b> Марс опережает Землю примерно на 44°: геометрия гомановского перелёта из главы 3.');
+  else st = T('Between windows: a direct low-energy launch would miss Mars.','Между окнами: прямой экономичный запуск промахнулся бы мимо Марса.');
+  document.getElementById('orbitStatus').innerHTML = st;
+  hudAlt.textContent = fmt(km/1e6, 0) + T(' M km',' млн км');
+  hudVel.textContent = fmt(lt/60, 1) + T(' min',' мин');
+  var hd = document.getElementById('heroDist');
+  if(hd){ var gn = geom(NOW_MS), kn = gn.d*AU; hd.textContent = fmtInt(kn/1e6) + T(' million km away; its light takes ',' млн км; свет от него идёт ') + fmt(kn/C_KMS/60, 1) + T(' minutes to reach us',' мин'); }
+  drawDistCursor();
+  renderComm();
+}
+function setView(ms){ viewMs = ms; dateSlider.value = Math.round((ms - START_MS)/DAY_MS); drawOrbit(); }
+dateSlider.addEventListener('input', function(){ viewMs = START_MS + dateSlider.value*DAY_MS; drawOrbit(); });
+var playTimer = null;
+document.getElementById('playBtn').addEventListener('click', function(){
+  var b = this;
+  if(playTimer){ clearInterval(playTimer); playTimer = null; b.innerHTML = T('▶ PLAY','▶ ПУСК'); return; }
+  b.innerHTML = T('❚❚ PAUSE','❚❚ ПАУЗА');
+  playTimer = setInterval(function(){
+    var v = +dateSlider.value + 4;
+    if(v > +dateSlider.max) v = 0;
+    dateSlider.value = v; viewMs = START_MS + v*DAY_MS; drawOrbit();
+  }, 40);
+});
+document.getElementById('todayBtn').addEventListener('click', function(){ setView(NOW_MS); });
+document.getElementById('oppBtn').addEventListener('click', function(){ var t = nextClosest(viewMs); if(t) setView(t); });
+document.getElementById('conjBtn').addEventListener('click', function(){ var t = nextCrossing(viewMs + DAY_MS, 180); if(t) setView(t); });
+document.getElementById('recBtn').addEventListener('click', function(){ setView(Date.UTC(2003,7,27)); });
+
+/* distance chart 2000–2045 */
+var distChart = document.getElementById('distChart'), DIST = [], dc = {};
+(function(){ var end = Date.UTC(2045,11,31); for(var ms = START_MS; ms <= end; ms += 5*DAY_MS) DIST.push([ms, geom(ms).d]); })();
+var DX0 = 40, DX1 = 790, DY0 = 140, DY1 = 12, DMAX = 2.8;
+function dxFor(ms){ return DX0 + (ms - START_MS)/(DIST[DIST.length-1][0] - START_MS)*(DX1 - DX0); }
+function dyFor(d){ return DY0 - d/DMAX*(DY0 - DY1); }
+function buildDistChart(){
+  distChart.innerHTML = '';
+  [0,1,2].forEach(function(au){
+    ns('line', {x1:DX0, x2:DX1, y1:dyFor(au), y2:dyFor(au), stroke:'#e2e2dc', 'stroke-width':1}, distChart);
+    var t = ns('text', {x:DX0-6, y:dyFor(au)+3, 'text-anchor':'end', 'class':'svg-small'}, distChart); t.textContent = au + T(' AU',' а.е.');
+  });
+  for(var y = 2000; y <= 2045; y += 5){
+    var x = dxFor(Date.UTC(y,0,1));
+    var t = ns('text', {x:x, y:160, 'text-anchor':'middle', 'class':'svg-small'}, distChart); t.textContent = y;
+  }
+  var d = DIST.map(function(p, i){ return (i ? 'L' : 'M') + dxFor(p[0]).toFixed(1) + ' ' + dyFor(p[1]).toFixed(1); }).join('');
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.2}, distChart);
+  dc.nowLine = ns('line', {y1:DY1, y2:DY0, stroke:'#7a7a74', 'stroke-width':1, 'stroke-dasharray':'2 2'}, distChart);
+  var nt = ns('text', {y:DY1+8, 'class':'svg-small'}, distChart); dc.nowText = nt;
+  dc.cursor = ns('line', {y1:DY1, y2:DY0, stroke:'#b5452a', 'stroke-width':2}, distChart);
+  var nx = dxFor(NOW_MS); dc.nowLine.setAttribute('x1', nx); dc.nowLine.setAttribute('x2', nx); nt.setAttribute('x', nx+4); nt.textContent = T('today','сегодня');
+}
+function drawDistCursor(){ if(!dc.cursor) return; var x = dxFor(viewMs); dc.cursor.setAttribute('x1', x); dc.cursor.setAttribute('x2', x); }
+distChart.addEventListener('click', function(ev){
+  var r = distChart.getBoundingClientRect(), x = (ev.clientX - r.left)/r.width*800;
+  var f = Math.max(0, Math.min(1, (x - DX0)/(DX1 - DX0)));
+  setView(START_MS + Math.round(f*(DIST[DIST.length-1][0] - START_MS)/DAY_MS)*DAY_MS);
+});
+
+/* ============ CH2 — WINDOW CHIPS ============ */
+var WINDOWS = (function(){
+  var out = [], ms = Date.UTC(2018,0,1), end = Date.UTC(2044,0,1);
+  while(ms < end){ var t = nextCrossing(ms, 44.3, 900); if(!t) break; out.push(t); ms = t + 400*DAY_MS; }
+  return out;
+})();
+function renderWindows(){
+  var wrap = document.getElementById('windowChips'); wrap.innerHTML = '';
+  WINDOWS.forEach(function(ms){
+    var b = document.createElement('button');
+    b.className = 'btn' + (ms > NOW_MS && ms - NOW_MS < 800*DAY_MS ? ' active' : '');
+    var dt = new Date(ms);
+    b.textContent = dt.toLocaleDateString(lang === 'en' ? 'en-GB' : 'ru-RU', {month:'short', year:'numeric', timeZone:'UTC'});
+    b.addEventListener('click', function(){ setView(ms); document.getElementById('ch1').scrollIntoView({behavior:'smooth'}); });
+    wrap.appendChild(b);
+  });
+}
+
+/* ============ CH3 — HOHMANN ANIMATION (circular, coplanar) ============ */
+var hohSvg = document.getElementById('hohSvg'), hh = {}, hohAnim = null;
+var HS = 130, HC = 240;
+var A_T = (1 + A_M)/2, E_T = (A_M - 1)/(A_M + 1);
+var T_TRANS = Math.PI*Math.sqrt(Math.pow(A_T*AU, 3)/MU_SUN)/86400;   /* ≈ 258.9 d */
+function hp(r, ang){ return {x: HC + r*HS*Math.cos(ang*RAD), y: HC - r*HS*Math.sin(ang*RAD)}; }
+function craftAt(tDays){
+  /* time since perihelion on transfer ellipse → true anomaly */
+  var n = Math.PI/T_TRANS, M = n*tDays, E = M;
+  for(var i = 0; i < 20; i++) E -= (E - E_T*Math.sin(E) - M)/(1 - E_T*Math.cos(E));
+  var nu = 2*Math.atan2(Math.sqrt(1+E_T)*Math.sin(E/2), Math.sqrt(1-E_T)*Math.cos(E/2));
+  var r = A_T*(1 - E_T*E_T)/(1 + E_T*Math.cos(nu));
+  return {r:r, ang:nu/RAD};
+}
+function buildHoh(){
+  hohSvg.innerHTML = '';
+  ns('circle', {cx:HC, cy:HC, r:HS, fill:'none', stroke:'#0b0b0c', 'stroke-width':1}, hohSvg);
+  ns('circle', {cx:HC, cy:HC, r:HS*A_M, fill:'none', stroke:'#b5452a', 'stroke-width':1, 'stroke-dasharray':'4 3'}, hohSvg);
+  var d = ''; for(var i = 0; i <= 60; i++){ var c = craftAt(T_TRANS*i/60), q = hp(c.r, c.ang); d += (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#7a7a74', 'stroke-width':1, 'stroke-dasharray':'2 3'}, hohSvg);
+  ns('circle', {cx:HC, cy:HC, r:9, fill:'#0b0b0c'}, hohSvg);
+  hh.trail = ns('path', {fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, hohSvg);
+  hh.e = ns('circle', {r:7, fill:'#ffffff', stroke:'#0b0b0c', 'stroke-width':2}, hohSvg);
+  hh.m = ns('circle', {r:6, fill:'#b5452a'}, hohSvg);
+  hh.c = ns('path', {d:'M0 -6 L5 5 L-5 5 Z', fill:'#0b0b0c'}, hohSvg);
+  hh.t = ns('text', {x:14, y:24, 'class':'svg-label'}, hohSvg);
+  hh.x = ns('text', {'class':'svg-label', fill:'#b5452a', 'text-anchor':'middle', 'font-size':'22'}, hohSvg);
+  var sc = ns('text', {x:14, y:466, 'class':'svg-small'}, hohSvg); sc.textContent = T('idealised: circular, co-planar orbits','идеализация: круговые копланарные орбиты');
+}
+var phaseSlider = document.getElementById('phaseSlider');
+function drawHoh(tDays){
+  var ph = +phaseSlider.value, wE = 360/T_E, wM = 360/T_M;
+  var e = hp(1, wE*tDays), m = hp(A_M, ph + wM*tDays), c = craftAt(tDays), cp = hp(c.r, c.ang);
+  hh.e.setAttribute('cx', e.x); hh.e.setAttribute('cy', e.y);
+  hh.m.setAttribute('cx', m.x); hh.m.setAttribute('cy', m.y);
+  hh.c.setAttribute('transform', 'translate('+cp.x.toFixed(1)+' '+cp.y.toFixed(1)+')');
+  var d = ''; var steps = Math.max(1, Math.round(tDays/4));
+  for(var i = 0; i <= steps; i++){ var cc = craftAt(tDays*i/steps), q = hp(cc.r, cc.ang); d += (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1); }
+  hh.trail.setAttribute('d', tDays > 0 ? d : '');
+  hh.t.textContent = T('DAY ','СУТКИ ') + Math.round(tDays) + ' / ' + Math.round(T_TRANS);
+  hh.x.textContent = '';
+}
+function hohResult(){
+  var ph = +phaseSlider.value, marsEnd = ph + 360/T_M*T_TRANS;
+  var dAng = ((marsEnd - 180) % 360 + 540) % 360 - 180;       /* where Mars is vs craft (at 180°) */
+  var miss = 2*A_M*Math.abs(Math.sin(dAng*RAD/2))*AU/1e6;     /* chord, million km */
+  return {miss:miss, dAng:dAng};
+}
+function renderHohReadout(done){
+  document.getElementById('phaseVal').textContent = fmt(+phaseSlider.value, 1) + '°';
+  var r = hohResult();
+  cells(document.getElementById('hohReadout'), [
+    [T('TRANSFER TIME','ВРЕМЯ ПЕРЕЛЁТА'), fmt(T_TRANS, 0) + T(' days',' сут')],
+    [T('MARS MOVES DURING TRIP','МАРС ПРОХОДИТ ЗА ПЕРЕЛЁТ'), fmt(360/T_M*T_TRANS, 1) + '°'],
+    [T('DEPARTURE EXCESS SPEED','ИЗБЫТОЧНАЯ СКОРОСТЬ НА СТАРТЕ'), '2.94 km/s'.replace('.', lang==='ru'?',':'.').replace('km/s', T('km/s','км/с'))],
+    [T('ARRIVAL EXCESS SPEED','ИЗБЫТОЧНАЯ СКОРОСТЬ ПРИ ПРИБЫТИИ'), '2.65 km/s'.replace('.', lang==='ru'?',':'.').replace('km/s', T('km/s','км/с'))]
+  ]);
+  var st = document.getElementById('hohStatus');
+  if(!done){ st.innerHTML = T('Set the angle, then press <b>Launch</b>.','Задайте угол и нажмите <b>Старт</b>.'); return; }
+  if(r.miss < 2) st.innerHTML = T('<b>Arrived.</b> Mars is right there: miss distance under 2 million km, which small course corrections fix.','<b>Прибыли.</b> Марс на месте: промах меньше 2 млн км, это исправляют небольшие коррекции курса.');
+  else st.innerHTML = T('<b>Missed.</b> Mars is ','<b>Промах.</b> Марс в ') + fmtInt(r.miss) + T(' million km away, ',' млн км, ') + (r.dAng > 0 ? T('still ahead of you. Launch with a smaller angle.','всё ещё впереди. Стартуйте при меньшем угле.') : T('already passed. Launch with a larger angle.','уже прошёл. Стартуйте при большем угле.'));
+}
+function launchHoh(){
+  if(hohAnim) cancelAnimationFrame(hohAnim);
+  var t0 = null, dur = 5000;
+  renderHohReadout(false);
+  function step(ts){
+    if(t0 === null) t0 = ts;
+    var f = Math.min(1, (ts - t0)/dur);
+    drawHoh(f*T_TRANS);
+    if(f < 1) hohAnim = requestAnimationFrame(step);
+    else { hohAnim = null; renderHohReadout(true); var r = hohResult(); if(r.miss >= 2){ var q = hp(A_M, 180); hh.x.setAttribute('x', q.x); hh.x.setAttribute('y', q.y+7); hh.x.textContent = '×'; } }
+  }
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ drawHoh(T_TRANS); renderHohReadout(true); return; }
+  hohAnim = requestAnimationFrame(step);
+}
+phaseSlider.addEventListener('input', function(){ if(hohAnim){ cancelAnimationFrame(hohAnim); hohAnim = null; } drawHoh(0); renderHohReadout(false); });
+document.getElementById('launchBtn').addEventListener('click', launchHoh);
+document.getElementById('idealBtn').addEventListener('click', function(){ phaseSlider.value = 44.3; drawHoh(0); renderHohReadout(false); });
+
+/* ============ CH4 — TANGENT-DEPARTURE TRANSFER FAMILY ============ */
+var state = {Q: A_M, alt: 300, arrival: 'aero', engine: 1};
+function transfer(Q){
+  var a = (1 + Q)/2, e = (Q - 1)/(Q + 1), p = a*(1 - e*e);
+  var nu;
+  if(e < 1e-9) nu = Math.PI;
+  else { var cn = (p/A_M - 1)/e; nu = Math.acos(Math.max(-1, Math.min(1, cn))); }
+  var E = 2*Math.atan(Math.sqrt((1 - e)/(1 + e))*Math.tan(nu/2));
+  if(nu >= Math.PI - 1e-9) E = Math.PI;
+  var M = E - e*Math.sin(E);
+  var days = M*Math.sqrt(Math.pow(a*AU, 3)/MU_SUN)/86400;
+  var vE = Math.sqrt(MU_SUN/AU), vPeri = Math.sqrt(MU_SUN*(2/AU - 1/(a*AU)));
+  var h = Math.sqrt(MU_SUN*p*AU), vr = MU_SUN/h*e*Math.sin(nu), vt = MU_SUN/h*(1 + e*Math.cos(nu)), vMars = Math.sqrt(MU_SUN/(A_M*AU));
+  return {a:a, e:e, nu:nu, days:days, vinfD:vPeri - vE, vinfA:Math.hypot(vr, vt - vMars)};
+}
+function burn(vinf, mu, r){ return Math.sqrt(vinf*vinf + 2*mu/r) - Math.sqrt(mu/r); }
+function qForDays(target){
+  var lo = A_M, hi = 6;
+  if(transfer(lo).days <= target) return lo;
+  for(var i = 0; i < 60; i++){ var mid = (lo + hi)/2; if(transfer(mid).days > target) lo = mid; else hi = mid; }
+  return (lo + hi)/2;
+}
+var qSlider = document.getElementById('qSlider'), fastSvg = document.getElementById('fastSvg'), fs = {};
+function buildFast(){
+  fastSvg.innerHTML = '';
+  var s = 70, c = 240;
+  fs.s = s; fs.c = c;
+  ns('circle', {cx:c, cy:c, r:s, fill:'none', stroke:'#0b0b0c', 'stroke-width':1}, fastSvg);
+  ns('circle', {cx:c, cy:c, r:s*A_M, fill:'none', stroke:'#b5452a', 'stroke-width':1, 'stroke-dasharray':'4 3'}, fastSvg);
+  ns('circle', {cx:c, cy:c, r:7, fill:'#0b0b0c'}, fastSvg);
+  fs.full = ns('path', {fill:'none', stroke:'#c9c9c1', 'stroke-width':1, 'stroke-dasharray':'2 3'}, fastSvg);
+  fs.arc = ns('path', {fill:'none', stroke:'#0b0b0c', 'stroke-width':2.2}, fastSvg);
+  fs.e = ns('circle', {cx:c+s, cy:c, r:6, fill:'#ffffff', stroke:'#0b0b0c', 'stroke-width':2}, fastSvg);
+  fs.m = ns('circle', {r:6, fill:'#b5452a'}, fastSvg);
+  fs.lbl = ns('text', {x:14, y:24, 'class':'svg-label'}, fastSvg);
+  var sc = ns('text', {x:14, y:466, 'class':'svg-small'}, fastSvg); sc.textContent = T('scale: 1 AU = 70 px; dashed red = Mars orbit','масштаб: 1 а.е. = 70 пикс; красный пунктир — орбита Марса');
+}
+function renderFast(){
+  state.Q = +qSlider.value;
+  var tr = transfer(state.Q), s = fs.s, c = fs.c;
+  function pt(nu){ var r = tr.a*(1 - tr.e*tr.e)/(1 + tr.e*Math.cos(nu)); return {x: c + r*s*Math.cos(nu), y: c - r*s*Math.sin(nu)}; }
+  var d = '', full = '';
+  for(var i = 0; i <= 60; i++){ var q = pt(tr.nu*i/60); d += (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1); }
+  for(var j = 0; j <= 120; j++){ var q2 = pt(2*Math.PI*j/120); full += (j ? 'L' : 'M') + q2.x.toFixed(1) + ' ' + q2.y.toFixed(1); }
+  fs.arc.setAttribute('d', d); fs.full.setAttribute('d', full);
+  var end = pt(tr.nu); fs.m.setAttribute('cx', end.x); fs.m.setAttribute('cy', end.y);
+  fs.lbl.textContent = fmt(tr.days, 0) + T(' days to Mars',' сут до Марса');
+  var dvDep = burn(tr.vinfD, MU_E, R_E + 300);
+  document.getElementById('qVal').textContent = fmt(state.Q, 2) + T(' AU',' а.е.');
+  cells(document.getElementById('fastReadout'), [
+    [T('TRIP TIME','ВРЕМЯ В ПУТИ'), fmt(tr.days, 0) + T(' days',' сут') + ' (' + fmt(tr.days/30.44, 1) + T(' mo',' мес') + ')'],
+    [T('DEPARTURE Δv FROM 300 km','Δv НА СТАРТЕ С 300 км'), fmt(dvDep, 2) + T(' km/s',' км/с')],
+    [T('EXCESS SPEED LEAVING EARTH','ИЗБЫТОЧНАЯ СКОРОСТЬ ОТ ЗЕМЛИ'), fmt(tr.vinfD, 2) + T(' km/s',' км/с')],
+    [T('SPEED RELATIVE TO MARS','СКОРОСТЬ ОТНОСИТЕЛЬНО МАРСА'), fmt(tr.vinfA, 2) + T(' km/s',' км/с')]
+  ]);
+  document.getElementById('daysBar').style.width = Math.min(100, tr.days/300*100) + '%';
+  document.getElementById('dvBar').style.width = Math.min(100, dvDep/6*100) + '%';
+  document.querySelectorAll('#fastPresets .btn').forEach(function(b){ b.classList.toggle('active', Math.abs(+b.dataset.q - state.Q) < 0.002); });
+  renderBudget(); renderEntry(); syncRadDefaults();
+}
+function renderFastPresets(){
+  var wrap = document.getElementById('fastPresets'); wrap.innerHTML = '';
+  [[259, T('Hohmann ~259 d','Гоман ~259 сут')],[200, T('~200 d (robotic)','~200 сут (автоматы)')],[150, T('~150 d (fast)','~150 сут (быстро)')],[120, T('~120 d (very fast)','~120 сут (очень быстро)')]].forEach(function(p){
+    var q = qForDays(p[0]), b = document.createElement('button');
+    b.className = 'btn'; b.dataset.q = q.toFixed(4); b.textContent = p[1];
+    b.addEventListener('click', function(){ qSlider.value = q; renderFast(); });
+    wrap.appendChild(b);
+  });
+}
+qSlider.addEventListener('input', renderFast);
+
+/* ============ CH5 — Δv BUDGET ============ */
+var ENGINES = [
+  {en:'Methane/oxygen', ru:'Метан/кислород', isp:380},
+  {en:'Hydrogen/oxygen', ru:'Водород/кислород', isp:465},
+  {en:'Nuclear thermal', ru:'Ядерный тепловой', isp:900}
+];
+var altSlider = document.getElementById('altSlider');
+function renderBudgetButtons(){
+  var ab = document.getElementById('arrivalBtns'); ab.innerHTML = '';
+  [['aero', T('Aerobrake / direct entry','Аэроторможение / прямой вход')],['orbit', T('Engine capture into 400 km orbit','Выход на орбиту 400 км двигателем')]].forEach(function(a){
+    var b = document.createElement('button'); b.className = 'btn' + (state.arrival === a[0] ? ' active' : ''); b.textContent = a[1];
+    b.addEventListener('click', function(){ state.arrival = a[0]; renderBudgetButtons(); renderBudget(); });
+    ab.appendChild(b);
+  });
+  var eb = document.getElementById('engineBtns'); eb.innerHTML = '';
+  ENGINES.forEach(function(en, i){
+    var b = document.createElement('button'); b.className = 'btn' + (state.engine === i ? ' active' : '');
+    b.textContent = T(en.en, en.ru) + ' · Isp ' + en.isp + T(' s',' с');
+    b.addEventListener('click', function(){ state.engine = i; renderBudgetButtons(); renderBudget(); });
+    eb.appendChild(b);
+  });
+}
+function renderBudget(){
+  state.alt = +altSlider.value;
+  document.getElementById('altVal').textContent = fmtInt(state.alt) + T(' km',' км');
+  var tr = transfer(state.Q);
+  document.getElementById('tripVal').textContent = fmt(tr.days, 0) + T(' days',' сут');
+  var dep = burn(tr.vinfD, MU_E, R_E + state.alt);
+  var arr = state.arrival === 'orbit' ? burn(tr.vinfA, MU_M, R_M + 400) : 0;
+  var total = dep + arr, isp = ENGINES[state.engine].isp;
+  var ratio = Math.exp(total*1000/(isp*G0)), prop = ratio - 1;
+  cells(document.getElementById('budgetReadout'), [
+    [T('TO REACH LOW EARTH ORBIT FIRST','СНАЧАЛА — ВЫХОД НА НОО'), '≈ ' + fmt(9.4, 1) + T(' km/s',' км/с')],
+    [T('TRANS-MARS INJECTION','ВЫХОД НА ТРАЕКТОРИЮ К МАРСУ'), fmt(dep, 2) + T(' km/s',' км/с')],
+    [T('MARS ARRIVAL (PROPULSIVE)','ПРИБЫТИЕ К МАРСУ (ДВИГАТЕЛЕМ)'), fmt(arr, 2) + T(' km/s',' км/с')],
+    [T('TOTAL FROM LOW EARTH ORBIT','ИТОГО С НОО'), fmt(total, 2) + T(' km/s',' км/с')],
+    [T('MASS RATIO m₀/m_f','ОТНОШЕНИЕ МАСС m₀/m_f'), fmt(ratio, 2)],
+    [T('PROPELLANT SHARE AT DEPARTURE','ДОЛЯ ТОПЛИВА НА СТАРТЕ'), fmt(prop/ratio*100, 0) + '%']
+  ]);
+  document.getElementById('massVal').textContent = fmt(ratio, 1) + T(' t',' т');
+  var maxT = 12;
+  document.getElementById('payBar').style.width = Math.min(100, 1/maxT*100) + '%';
+  var pb = document.getElementById('propBar'); pb.style.left = Math.min(100, 1/maxT*100) + '%'; pb.style.width = Math.max(0, Math.min(100 - 1/maxT*100, prop/maxT*100)) + '%';
+}
+altSlider.addEventListener('input', renderBudget);
+
+/* ============ CH6 — RADIATION ============ */
+var CRUISE = 1.84, SURF = 0.64, LIMIT = 600, BG = 2.4, XRAY = 0.1;
+var outS = document.getElementById('outSlider'), stayS = document.getElementById('staySlider'), backS = document.getElementById('backSlider');
+var radTouched = false;
+function renderRadPresets(){
+  var wrap = document.getElementById('radPresets'); wrap.innerHTML = '';
+  [
+    [T('Your trip from Ch. 4 · 500 days on Mars','Ваш перелёт из гл. 4 · 500 сут на Марсе'), -1, 500, -1],
+    [T('Long-stay crew concept · 180 / 500 / 180','Длительная экспедиция · 180 / 500 / 180'), 180, 500, 180],
+    [T('Curiosity’s cruise only · 253 days','Только перелёт Curiosity · 253 сут'), 253, 0, 0]
+  ].forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn'; b.textContent = p[0];
+    b.addEventListener('click', function(){ var d = Math.round(transfer(state.Q).days); radTouched = true; outS.value = p[1] < 0 ? d : p[1]; stayS.value = p[2]; backS.value = p[3] < 0 ? d : p[3]; renderRad(); });
+    wrap.appendChild(b);
+  });
+}
+function syncRadDefaults(){
+  if(radTouched) return;
+  var d = Math.round(transfer(state.Q).days);
+  outS.value = d; backS.value = d; renderRad();
+}
+function renderRad(){
+  var o = +outS.value, s = +stayS.value, b = +backS.value;
+  document.getElementById('outVal').textContent = o; document.getElementById('stayVal').textContent = s; document.getElementById('backVal').textContent = b;
+  var cruise = (o + b)*CRUISE, surf = s*SURF, tot = cruise + surf;
+  cells(document.getElementById('radReadout'), [
+    [T('DOSE IN CRUISE','ДОЗА В ПОЛЁТЕ'), fmtInt(cruise) + T(' mSv',' мЗв')],
+    [T('DOSE ON MARS','ДОЗА НА МАРСЕ'), fmtInt(surf) + T(' mSv',' мЗв')],
+    [T('SAME AS EARTH BACKGROUND FOR','КАК ЗЕМНОЙ ФОН ЗА'), fmtInt(tot/BG) + T(' years',' лет')],
+    [T('SAME AS CHEST X-RAYS','КАК РЕНТГЕНОГРАММ ГРУДИ'), fmtInt(tot/XRAY)],
+    [T('SHARE OF NASA CAREER LIMIT','ДОЛЯ ОТ ПРЕДЕЛА NASA ЗА КАРЬЕРУ'), fmtInt(tot/LIMIT*100) + '%', true]
+  ]);
+  document.getElementById('radTotal').textContent = fmtInt(tot) + T(' mSv',' мЗв');
+  var scale = Math.max(1200, tot*1.05);
+  document.getElementById('cruiseBar').style.width = (cruise/scale*100) + '%';
+  var sb = document.getElementById('surfBar'); sb.style.left = (cruise/scale*100) + '%'; sb.style.width = (surf/scale*100) + '%';
+  document.getElementById('limitMark').style.left = (LIMIT/scale*100) + '%';
+}
+[outS, stayS, backS].forEach(function(s){ s.addEventListener('input', function(){ radTouched = true; renderRad(); }); });
+
+/* ============ CH7 — RTG DECAY ============ */
+var HALF = 87.7, yrS = document.getElementById('yrSlider');
+function renderRtgPresets(){
+  var wrap = document.getElementById('rtgPresets'); wrap.innerHTML = '';
+  var yNow = new Date(NOW_MS).getUTCFullYear() + new Date(NOW_MS).getUTCMonth()/12;
+  [[T('Curiosity today (launched 2011)','Curiosity сегодня (запуск 2011)'), yNow - 2011.9],[T('Perseverance today (launched 2020)','Perseverance сегодня (запуск 2020)'), yNow - 2020.6],[T('One half-life','Один период полураспада'), 87.7]].forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn'; b.textContent = p[0];
+    b.addEventListener('click', function(){ yrS.value = Math.round(p[1]*2)/2; renderRtg(); });
+    wrap.appendChild(b);
+  });
+}
+function renderRtg(){
+  var t = +yrS.value, f = Math.pow(2, -t/HALF);
+  document.getElementById('yrVal').textContent = fmt(t, 1);
+  document.getElementById('heatPct').textContent = fmt(f*100, 1) + '%';
+  document.getElementById('heatBar').style.width = (f*100) + '%';
+  cells(document.getElementById('rtgReadout'), [
+    [T('HEAT OUTPUT (FROM ~2,000 W)','ТЕПЛОВАЯ МОЩНОСТЬ (ОТ ~2000 Вт)'), fmtInt(2000*f) + T(' W',' Вт')],
+    [T('Pu-238 REMAINING','ОСТАЛОСЬ Pu-238'), fmt(f*100, 1) + '%'],
+    [T('ELECTRICITY AT LAUNCH','ЭЛЕКТРИЧЕСТВО НА СТАРТЕ'), '≈ 110' + T(' W',' Вт')],
+    [T('DESIGN LIFETIME','РАСЧЁТНЫЙ СРОК СЛУЖБЫ'), T('≥ 14 years','≥ 14 лет')]
+  ]);
+}
+yrS.addEventListener('input', renderRtg);
+
+/* ============ CH8 — LIGHT DELAY ============ */
+var pulseAnim = null;
+function renderComm(){
+  var g = geom(viewMs), lt = g.d*AU/C_KMS;
+  cells(document.getElementById('commReadout'), [
+    [T('DATE (FROM CHAPTER 1)','ДАТА (ИЗ ГЛАВЫ 1)'), iso(viewMs)],
+    [T('ONE WAY','В ОДНУ СТОРОНУ'), fmt(lt/60, 1) + T(' min',' мин')],
+    [T('QUESTION + ANSWER','ВОПРОС + ОТВЕТ'), fmt(2*lt/60, 1) + T(' min',' мин')],
+    [T('SUN–MARS ANGLE','УГОЛ СОЛНЦЕ–МАРС'), fmt(g.elong, 1) + '°' + (g.elong < 3 ? T(' · blackout',' · нет связи') : '')]
+  ]);
+}
+document.getElementById('sendBtn').addEventListener('click', function(){
+  var g = geom(viewMs), lt = g.d*AU/C_KMS, dur = lt/60*1000;   /* 60× speed-up */
+  var dot = document.getElementById('pulseDot'), st = document.getElementById('commStatus'), track = dot.parentNode;
+  if(pulseAnim) cancelAnimationFrame(pulseAnim);
+  if(g.elong < 3){ st.innerHTML = T('<b>Blocked.</b> The Sun is between the planets. Try another date in Chapter 1.','<b>Заблокировано.</b> Между планетами Солнце. Выберите другую дату в главе 1.'); return; }
+  var t0 = null, span = track.clientWidth - 96;
+  dot.style.opacity = 1;
+  function step(ts){
+    if(t0 === null) t0 = ts;
+    var el = ts - t0, f = Math.min(1, el/dur);
+    dot.style.left = (48 + span*f) + 'px';
+    st.innerHTML = T('Signal travelling… ','Сигнал в пути… ') + fmt(el/1000, 1) + T(' of ',' из ') + fmt(lt/60, 1) + T(' light-minutes',' световых минут');
+    if(f < 1) pulseAnim = requestAnimationFrame(step);
+    else { pulseAnim = null; st.innerHTML = T('<b>Received on Mars</b> after ','<b>Принято на Марсе</b> через ') + fmt(lt/60, 1) + T(' minutes. The earliest reply reaches Earth ',' мин. Самый ранний ответ дойдёт до Земли через ') + fmt(2*lt/60, 1) + T(' minutes after you pressed the button.',' мин после нажатия кнопки.'); }
+  }
+  pulseAnim = requestAnimationFrame(step);
+});
+
+/* ============ CH9 — ARRIVAL ============ */
+var G_E = 9.80665, G_M = 3.73;
+function renderEntry(){
+  var tr = transfer(state.Q), vEntry = Math.sqrt(tr.vinfA*tr.vinfA + 2*MU_M/(R_M + 125));
+  cells(document.getElementById('entryReadout'), [
+    [T('ARRIVAL SPEED vs MARS (FROM CH. 4)','СКОРОСТЬ ОТНОСИТЕЛЬНО МАРСА (ГЛ. 4)'), fmt(tr.vinfA, 2) + T(' km/s',' км/с'), true],
+    [T('SPEED AT TOP OF ATMOSPHERE (~125 km)','СКОРОСТЬ НА ВХОДЕ В АТМОСФЕРУ (~125 км)'), fmt(vEntry, 2) + T(' km/s',' км/с') + ' · ' + fmtInt(vEntry*3600) + T(' km/h',' км/ч'), true]
+  ]);
+}
+function renderWeight(){
+  var m = Math.max(0, +document.getElementById('massIn').value || 0);
+  cells(document.getElementById('weightReadout'), [
+    [T('FEELS LIKE ON MARS','ОЩУЩАЕТСЯ НА МАРСЕ КАК'), fmt(m*G_M/G_E, 1) + T(' kg on Earth',' кг на Земле')],
+    [T('JUMP HEIGHT vs EARTH','ВЫСОТА ПРЫЖКА'), '× ' + fmt(G_E/G_M, 1)]
+  ]);
+}
+document.getElementById('massIn').addEventListener('input', renderWeight);
+function renderCmp(){
+  var rows = [
+    [T('Mean radius','Средний радиус'), '6,371 km', '3,389.5 km'],
+    [T('Surface gravity','Ускорение свободного падения'), '9.80 m/s²', '3.73 m/s² (0.38 g)'],
+    [T('Escape velocity','Вторая космическая скорость'), '11.19 km/s', '5.03 km/s'],
+    [T('Length of day','Продолжительность суток'), '24 h', T('24 h 39.6 min (a “sol”)','24 ч 39,6 мин («сол»)')],
+    [T('Length of year','Продолжительность года'), '365.26 d', '686.98 d'],
+    [T('Mean distance from Sun','Среднее расстояние до Солнца'), '149.6 M km', '227.96 M km'],
+    [T('Surface pressure','Давление у поверхности'), '1,014 mb', T('~6.4 mb (≈0.6% of Earth)','~6,4 мбар (≈0,6% земного)')],
+    [T('Mean temperature','Средняя температура'), '+15 °C', '≈ −59 °C'],
+    [T('Air','Воздух'), T('78% N₂, 21% O₂','78% N₂, 21% O₂'), T('95% CO₂, 2.6% N₂, 1.9% Ar','95% CO₂, 2,6% N₂, 1,9% Ar')],
+    [T('Global magnetic field','Глобальное магнитное поле'), T('Yes','Есть'), T('No (only local crustal patches)','Нет (только локальные участки коры)')],
+    [T('Moons','Спутники'), '1', T('2 (Phobos, Deimos)','2 (Фобос, Деймос)')]
+  ];
+  var t = document.getElementById('cmpTable');
+  t.innerHTML = '<thead><tr><th>'+T('Quantity','Величина')+'</th><th>'+T('Earth','Земля')+'</th><th>'+T('Mars','Марс')+'</th></tr></thead><tbody>' +
+    rows.map(function(r){ var e = r[1], m = r[2]; if(lang === 'ru'){ e = e.replace(/(\d),(\d{3})/g,'$1 $2').replace(/(\d)\.(\d)/g,'$1,$2').replace(' M km',' млн км').replace('km/s','км/с').replace(' km',' км').replace('m/s²','м/с²').replace(' mb',' мбар').replace(/ d$/,' сут').replace(/ h$/,' ч'); m = m.replace(/(\d),(\d{3})/g,'$1 $2').replace(/(\d)\.(\d)/g,'$1,$2').replace(' M km',' млн км').replace('km/s','км/с').replace(' km',' км').replace('m/s²','м/с²').replace(/ d$/,' сут'); }
+      return '<tr><td>'+r[0]+'</td><td class="n">'+e+'</td><td class="n">'+m+'</td></tr>'; }).join('') + '</tbody>';
+}
+
+/* ============ CH10 — MISSIONS ============ */
+var MISSIONS = [
+  {n:'Mariner 4', c:'USA', l:[1964,10,28], a:[1965,6,15], en:'First successful flyby of Mars. Its 21 grainy photos showed a cratered, Moon-like surface and ended hopes of canals.', ru:'Первый успешный пролёт Марса. Его 21 зернистый снимок показал покрытую кратерами, похожую на Луну поверхность и похоронил надежды на «каналы».'},
+  {n:'Mariner 9', c:'USA', l:[1971,4,30], a:[1971,10,14], en:'First spacecraft to orbit another planet. It waited out a global dust storm, then mapped volcanoes and ancient riverbeds.', ru:'Первый аппарат на орбите другой планеты. Переждал глобальную пылевую бурю, а затем нанёс на карту вулканы и древние русла рек.'},
+  {n:'Viking 1', c:'USA', l:[1975,7,20], a:[1976,5,19], en:'Entered orbit after about ten months and landed in July 1976, powered by RTGs (Chapter 7).', ru:'Вышел на орбиту примерно через десять месяцев и сел в июле 1976 года; питание — от РИТЭГов (глава 7).'},
+  {n:'Mars Pathfinder', c:'USA', l:[1996,11,4], a:[1997,6,4], en:'Went straight into the atmosphere with no orbit first, bounced down on airbags, and delivered the first rover, Sojourner.', ru:'Вошёл прямо в атмосферу без выхода на орбиту, приземлился на надувных подушках и доставил первый ровер — Sojourner.'},
+  {n:'Spirit', c:'USA', l:[2003,5,10], a:[2004,0,4], en:'Launched in the 2003 window, when Mars made its closest approach in about 60,000 years.', ru:'Стартовал в окно 2003 года, когда Марс подошёл ближе всего за примерно 60 000 лет.'},
+  {n:'Curiosity', c:'USA', l:[2011,10,26], a:[2012,7,6], en:'Carried the RAD detector whose cruise measurements feed Chapter 6, and the MMRTG of Chapter 7.', ru:'Нёс детектор RAD, чьи измерения в полёте легли в основу главы 6, и MMRTG из главы 7.'},
+  {n:'InSight', c:'USA', l:[2018,4,5], a:[2018,10,26], en:'The first Mars mission launched from the US West Coast. It measured marsquakes until 2022.', ru:'Первая марсианская миссия, запущенная с западного побережья США. Регистрировала марсотрясения до 2022 года.'},
+  {n:'Hope', c:'UAE', l:[2020,6,19], a:[2021,1,9], en:'The first interplanetary mission of the Arab world, one of three to leave in the July 2020 window.', ru:'Первая межпланетная миссия арабского мира — одна из трёх, стартовавших в окно июля 2020 года.'},
+  {n:'Tianwen-1', c:'China', l:[2020,6,23], a:[2021,1,10], en:'Orbiter, lander and the Zhurong rover in one launch: China’s first Mars mission.', ru:'Орбитальный аппарат, посадочный модуль и ровер «Чжужун» за один запуск: первая марсианская миссия Китая.'},
+  {n:'Perseverance', c:'USA', l:[2020,6,30], a:[2021,1,18], en:'203-day cruise, entry at about 5.4 km/s, and the first sample caching for a future return to Earth.', ru:'Перелёт 203 суток, вход в атмосферу на ~5,4 км/с и первый сбор образцов для будущей доставки на Землю.'}
+];
+var activeMission = 5;
+function renderMissions(){
+  var wrap = document.getElementById('missionBars'); wrap.innerHTML = '';
+  MISSIONS.forEach(function(m, i){
+    var days = Math.round((Date.UTC(m.a[0], m.a[1], m.a[2]) - Date.UTC(m.l[0], m.l[1], m.l[2]))/DAY_MS);
+    m.days = days;
+    var b = document.createElement('button'); b.className = 'mb' + (i === activeMission ? ' active' : ''); b.type = 'button';
+    b.innerHTML = '<span class="mb-name">'+m.n+'<small>'+m.l[0]+' · '+T(m.c, {USA:'США', UAE:'ОАЭ', China:'Китай'}[m.c])+'</small></span><span class="mb-bar"><i style="width:'+(days/320*100)+'%"></i></span><span class="mb-days">'+days+T(' d',' сут')+'</span>';
+    b.addEventListener('click', function(){ activeMission = i; renderMissions(); });
+    wrap.appendChild(b);
+  });
+  var m = MISSIONS[activeMission];
+  function dstr(a){ return new Date(Date.UTC(a[0], a[1], a[2])).toLocaleDateString(lang === 'en' ? 'en-GB' : 'ru-RU', {day:'numeric', month:'short', year:'numeric', timeZone:'UTC'}); }
+  document.getElementById('missionDetail').innerHTML = '<b>'+m.n+'</b> — '+dstr(m.l)+' → '+dstr(m.a)+' ('+m.days+T(' days',' сут')+')<br>'+T(m.en, m.ru);
+}
+
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {title:'Approximate Positions of the Planets (Table 1, 1800–2050)', url:'https://ssd.jpl.nasa.gov/planets/approx_pos.html', note:{en:'NASA JPL Solar System Dynamics. The orbital elements and algorithm behind every position on this page.', ru:'NASA JPL, Solar System Dynamics. Элементы орбит и алгоритм, по которым вычислено каждое положение на этой странице.'}},
+  {title:'Mars Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html', note:{en:'NASA NSSDCA. Radius, gravity, escape velocity, orbit, synodic period (779.94 d), minimum and maximum distance from Earth (54.6 / 401.4 million km), atmosphere.', ru:'NASA NSSDCA. Радиус, ускорение свободного падения, вторая космическая, орбита, синодический период (779,94 сут), минимальное и максимальное расстояние до Земли (54,6 / 401,4 млн км), атмосфера.'}},
+  {title:'Earth Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html', note:{en:'NASA NSSDCA. Earth values in the Chapter 9 comparison.', ru:'NASA NSSDCA. Значения для Земли в сравнении из главы 9.'}},
+  {title:'Zeitlin et al. (2013), “Measurements of Energetic Particle Radiation in Transit to Mars on the Mars Science Laboratory”, Science 340, 1080', url:'https://doi.org/10.1126/science.1235989', note:{en:'The cruise dose-equivalent rate of 1.84 ± 0.33 mSv/day used in Chapter 6. Summary: SwRI press release, swri.org.', ru:'Скорость эквивалентной дозы в полёте 1,84 ± 0,33 мЗв/сут, использованная в главе 6. Краткое изложение — пресс-релиз SwRI, swri.org.'}},
+  {title:'Hassler et al. (2014), “Mars’ Surface Radiation Environment Measured with the Mars Science Laboratory’s Curiosity Rover”, Science 343', url:'https://doi.org/10.1126/science.1244797', note:{en:'The surface rate of 0.64 ± 0.12 mSv/day used in Chapter 6.', ru:'Скорость на поверхности 0,64 ± 0,12 мЗв/сут, использованная в главе 6.'}},
+  {title:'National Academies (2021), Space Radiation and Astronaut Health: Managing and Communicating Cancer Risks', url:'https://nap.nationalacademies.org/catalog/26155', note:{en:'Reviews NASA’s proposed single career limit of 600 mSv for all ages and sexes, adopted in NASA’s 2022 standard.', ru:'Анализ предложенного NASA единого предела 600 мЗв за карьеру для всех возрастов и полов, принятого в стандарте NASA 2022 года.'}},
+  {title:'Why Space Radiation Matters', url:'https://www.nasa.gov/missions/analog-field-testing/why-space-radiation-matters/', note:{en:'NASA. Galactic cosmic rays vs solar particle events; “1 mSv is about 10 chest X-rays”.', ru:'NASA. Галактические космические лучи и солнечные вспышки; «1 мЗв — примерно 10 рентгенограмм грудной клетки».'}},
+  {title:'UNSCEAR 2008 Report, Vol. I: Sources of Ionizing Radiation', url:'https://www.unscear.org/unscear/en/publications/2008_1.html', note:{en:'World-average annual dose from natural background radiation: about 2.4 mSv.', ru:'Среднемировая годовая доза от естественного радиационного фона — около 2,4 мЗв.'}},
+  {title:'Curtis, H. D., Orbital Mechanics for Engineering Students, 4th ed. (Butterworth-Heinemann, 2020), chapters 6 and 8', url:'https://shop.elsevier.com/books/orbital-mechanics-for-engineering-students/curtis/978-0-08-102133-0', note:{en:'Hohmann transfers, vis-viva, patched-conic departure and arrival burns: the formulas in Chapters 3–5 and 9.', ru:'Гомановские перелёты, формула vis-viva, импульсы старта и прибытия методом сопряжённых конических сечений — формулы из глав 3–5 и 9.'}},
+  {title:'Multi-Mission Radioisotope Thermoelectric Generator (MMRTG) — NASA Facts', url:'https://www.nasa.gov/wp-content/uploads/2015/04/mmrtg.pdf', note:{en:'4.8 kg of plutonium dioxide in eight GPHS modules; about 2,000 W thermal and 110 W electric; minimum 14-year lifetime; RTG heritage back to Viking.', ru:'4,8 кг диоксида плутония в восьми модулях GPHS; около 2000 Вт тепла и 110 Вт электричества; срок службы не менее 14 лет; РИТЭГи летали ещё на «Викингах».'}},
+  {title:'What’s Mars Solar Conjunction, and Why Does It Matter?', url:'https://www.nasa.gov/solar-system/whats-mars-solar-conjunction-and-why-does-it-matter/', note:{en:'NASA / JPL. The roughly two-week command moratorium every two years.', ru:'NASA / JPL. Примерно двухнедельный мораторий на команды раз в два года.'}},
+  {title:'Mars 2020 Perseverance Rover — mission page', url:'https://science.nasa.gov/mission/mars-2020-perseverance/', note:{en:'NASA Science. Launch 30 July 2020, landing 18 February 2021.', ru:'NASA Science. Запуск 30 июля 2020 года, посадка 18 февраля 2021 года.'}}
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  REFERENCES.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  buildOrbitSvg(); buildDistChart(); drawOrbit();
+  renderWindows();
+  buildHoh(); drawHoh(0); renderHohReadout(false);
+  buildFast(); renderFastPresets(); renderBudgetButtons(); renderRadPresets(); renderFast();
+  renderRad(); renderRtgPresets(); renderRtg();
+  renderWeight(); renderCmp(); renderMissions(); renderRefs();
+  var pb = document.getElementById('playBtn'); if(!playTimer) pb.innerHTML = T('▶ PLAY','▶ ПУСК'); else pb.innerHTML = T('❚❚ PAUSE','❚❚ ПАУЗА');
+  onScroll();
+}
+applyLang('en');
+
+})();
+</script>
+</body>
+</html>

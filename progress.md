@@ -7,6 +7,7 @@
 - Remote: `github.com/followorbounce/aerospace`.
 
 ## Recent work (most recent first)
+- 2026-09-22 — **Added TRANSFER — Earth to Mars** (`transfer-earth-to-mars.html`, Mars Exploration category). 9 content chapters + LEGACY + REFERENCES, bilingual EN/RU, 8 interactives: live Kepler-equation orbit viewer from JPL mean elements (validated against the 2003/2018/2020 close approaches to ~0.1 M km) + 2000–2045 distance chart; computed launch-window dates; aimable Hohmann animation (hit/miss); tangent-departure transfer family (days vs Δv); Δv/rocket-equation budget; radiation dose calculator on MSL RAD measured rates (1.84 / 0.64 mSv/day) vs NASA 600 mSv limit; Pu-238 RTG decay; light-delay signal sender; Mars-vs-Earth table + weight; real mission cruise-time bars. 12 references, URLs checked. Wired into pages.json/index.html/llms.txt/sitemap.xml. Verified in headless Firefox (desktop EN, mobile RU). Not committed.
 - 2026-09-16 — Added CLAUDE.md and progress.md for ongoing tracking.
 - Added RESONANCE — The Mathematics of Music field guide page (unpushed).
 - Added CASCADE — Physical Computing field guide page.

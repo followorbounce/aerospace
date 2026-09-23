@@ -41,6 +41,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [The Opportunity Rover](https://followorbounce.github.io/aerospace/marathon-opportunity-rover): NASA's Opportunity rover and the Mars Exploration Rover mission.
 - [The Curiosity Rover](https://followorbounce.github.io/aerospace/skycrane-curiosity-rover): NASA's Curiosity rover and the Mars Science Laboratory mission.
 - [The Perseverance Rover](https://followorbounce.github.io/aerospace/jezero-perseverance-rover): NASA's Perseverance rover, the Ingenuity helicopter, and Mars Sample Return caching.
+- [Earth to Mars: The Transfer](https://followorbounce.github.io/aerospace/transfer-earth-to-mars): an interactive guide to the Earth–Mars trip — a live orbit model with today's distance and light delay, 26-month launch windows, a Hohmann transfer you can aim, fast-vs-cheap trajectories, the Δv and propellant bill, measured radiation dose (Curiosity RAD) against NASA's 600 mSv limit, plutonium RTG decay, and real mission cruise times.
 
 ## Space Telescopes
 

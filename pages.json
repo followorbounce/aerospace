@@ -52,7 +52,8 @@
         { "slug": "troy-spirit-rover", "codename": "TROY", "label": { "en": "The Spirit Rover", "ru": "Марсоход Spirit" } },
         { "slug": "marathon-opportunity-rover", "codename": "MARATHON", "label": { "en": "The Opportunity Rover", "ru": "Марсоход Opportunity" } },
         { "slug": "skycrane-curiosity-rover", "codename": "SKYCRANE", "label": { "en": "The Curiosity Rover", "ru": "Марсоход Curiosity" } },
-        { "slug": "jezero-perseverance-rover", "codename": "JEZERO", "label": { "en": "The Perseverance Rover", "ru": "Марсоход Perseverance" } }
+        { "slug": "jezero-perseverance-rover", "codename": "JEZERO", "label": { "en": "The Perseverance Rover", "ru": "Марсоход Perseverance" } },
+        { "slug": "transfer-earth-to-mars", "codename": "TRANSFER", "label": { "en": "Earth to Mars: The Transfer", "ru": "Перелёт Земля — Марс" } }
       ]
     },
     {
