@@ -67,6 +67,7 @@ sup, sub{font-size:0.68em;}
 .ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
 .ref-title{font-weight:600;}
 .ref-url{display:block; font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all;}
+.ref-url a{color:inherit;}
 .ref-note{font-size:13.5px; color:var(--mid); margin-top:4px;}
 </style>
 <script src="/aerospace/assets/site.js" defer></script>
@@ -835,7 +836,7 @@ var REFERENCES = [
 function renderRefs(){
   var list = document.getElementById('refList');
   list.innerHTML = REFERENCES.map(function(r, i){
-    return '<div class="ref-item"><span class="ref-num">['+(i+1)+']</span><div><span class="ref-title">'+r.title+'</span><span class="ref-url">'+r.url+'</span><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div></div>';
+    return '<div class="ref-item"><span class="ref-num">['+(i+1)+']</span><div><span class="ref-title">'+r.title+'</span><span class="ref-url"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.url+'</a></span><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div></div>';
   }).join('');
 }
 

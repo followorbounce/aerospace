@@ -146,6 +146,16 @@ button{font-family:inherit; cursor:pointer;}
 .legacy-item .ly-name{font-family:var(--font-display); font-size:0.9rem;}
 .legacy-item .ly-note{font-size:11.5px; color:var(--mid); margin-top:6px;}
 
+/* --- references ----------------------------------------- */
+.ref-list{margin-top:24px;}
+.ref-item{display:flex; gap:12px; padding:12px 0; border-top:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid); flex-shrink:0; min-width:28px;}
+.ref-title{font-weight:600; font-size:14px; margin-bottom:2px;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit; text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:2px;}
+.ref-url a:hover{text-decoration-color:var(--ink);}
+.ref-note{font-size:13px; color:var(--mid); margin-top:4px;}
+
 footer{padding:56px var(--edge) 80px; font-family:var(--font-mono); font-size:12px; color:var(--mid); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;}
 .skip-link{position:absolute; left:-9999px;}
 .skip-link:focus{left:16px; top:16px; z-index:100; background:var(--ink); color:var(--white); padding:8px 12px;}

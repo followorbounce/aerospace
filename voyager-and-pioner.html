@@ -704,7 +704,7 @@ function renderRefs(){
   REFERENCES.forEach(function(r,i){
     var item = document.createElement('div');
     item.className='ref-item';
-    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url">'+r.url+'</div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
     wrap.appendChild(item);
   });
 }
