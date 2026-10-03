@@ -23,3 +23,20 @@
 - ~~Resolve the stray/duplicate-looking files~~ — checked 2026-10-02: `build-your-own-cubsat.html`, `ISSandMir.html`, `unfold-james-webb.html`, `equilibrium-lagrange-points.html` and `time philosophy/` are all deliberate noindex redirect stubs (meta refresh + `location.replace`) to the canonical pages, kept so old/indexed URLs keep working. `lagrange-points.html` is the canonical Lagrange page. Keep the stubs; nothing to delete.
 - Planned: PARABOLA — optical/RF reflector field guide (workspace roadmap P2.1, `/home/none/git/roadmaps/roadmap-2026-10.html`).
 - No other open TODOs found in-repo; check `AGENTS.md` workflow protocol before larger changes.
+
+- 2026-10-02 — **Added PARABOLA — Mirrors, Dishes & the Focus** (`parabola-mirrors-and-dishes.html`, Space Telescopes category; workspace roadmap step 2.1). The chapters:
+  - CH1: ray tracer (parabola vs sphere, f/D, off-axis coma, equal-path proof).
+  - CH2: sphere-vs-parabola tolerance calculator (λ/8, best focus), plus Hubble's flaw recomputed from the conic constants (ΔK·r⁴/8R³ = 2.2 µm at the edge, matching NASA).
+  - CH3: Airy pattern and two stars merging (Rayleigh dip 73.5%), with instrument presets from the eye to the EHT.
+  - CH4: collecting area to scale and the 8.4 m single-mirror limit.
+  - CH5: Webb's 18-segment pupil with a real 256² FFT image; the commissioning stages go from 18 spots to stacked to coarse to fine phasing.
+  - CH6: Ruze surface-accuracy calculator (ALMA, GBT) and the FAST sphere-to-paraboloid fit (±0.36 m computed).
+  - CH7: conic-constant explorer and a traced Cassegrain.
+  - CH8: focal-plane table.
+  - CH9: timeline. CH10: 16 references, every URL checked.
+
+  Bilingual EN/RU. Wired into pages.json, index.html, llms.txt and sitemap.xml.
+
+  Verified (jsdom + Node, 25 checks): a parabola focuses every ray exactly; J₁ first zero; Rayleigh dip 0.735; Ruze λ/16 = 54%; FFT Strehl agrees with Maréchal (0.996/0.996, 0.682/0.674); every data-en has a data-ru; citations only go up to [16]; no script errors. Headless-Firefox screenshots checked at desktop and 390 px.
+
+  Not verified: real-device touch, or how the slider interactions feel on a GPU.

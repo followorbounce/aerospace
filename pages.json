@@ -65,7 +65,8 @@
         { "slug": "xray-chandra-observatory", "codename": "XRAY", "label": { "en": "Chandra X-ray Observatory", "ru": "Рентгеновская обсерватория «Чандра»" } },
         { "slug": "infrared-spitzer-telescope", "codename": "INFRARED", "label": { "en": "Spitzer Space Telescope", "ru": "Телескоп «Спитцер»" } },
         { "slug": "transit-kepler-telescope", "codename": "TRANSIT", "label": { "en": "Kepler Space Telescope", "ru": "Телескоп «Кеплер»" } },
-        { "slug": "parallax-gaia-mission", "codename": "PARALLAX", "label": { "en": "Gaia Mission", "ru": "Миссия «Гайя»" } }
+        { "slug": "parallax-gaia-mission", "codename": "PARALLAX", "label": { "en": "Gaia Mission", "ru": "Миссия «Гайя»" } },
+        { "slug": "parabola-mirrors-and-dishes", "codename": "PARABOLA", "label": { "en": "Parabola: Mirrors, Dishes & the Focus", "ru": "Парабола: зеркала, антенны и фокус" } }
       ]
     },
     {

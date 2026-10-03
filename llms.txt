@@ -51,6 +51,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [Spitzer Space Telescope](https://followorbounce.github.io/aerospace/infrared-spitzer-telescope): NASA's Spitzer Space Telescope, cryogenic infrared astronomy, and TRAPPIST-1.
 - [Kepler Space Telescope](https://followorbounce.github.io/aerospace/transit-kepler-telescope): NASA's Kepler Space Telescope and the transit method for finding exoplanets.
 - [Gaia Mission](https://followorbounce.github.io/aerospace/parallax-gaia-mission): ESA's Gaia mission and its billion-star map of the Milky Way.
+- [Parabola: Mirrors, Dishes & the Focus](https://followorbounce.github.io/aerospace/parabola-mirrors-and-dishes): an interactive guide to the parabola in telescopes — a live ray tracer (parabola vs sphere, coma), the sphere-vs-parabola tolerance and Hubble's 2 µm flaw recomputed from its conic constants, the Airy pattern and 1.22 λ/D, collecting area and the 8 m single-mirror limit, Webb's 18 segments phased with a real FFT image, radio-dish surface accuracy (Ruze) and FAST's sphere-to-paraboloid trick, the conic family and Cassegrain / Ritchey–Chrétien designs, and what sits at the focus.
 
 ## Human Spaceflight
 

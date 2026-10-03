@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PARABOLA — MIRRORS, DISHES &amp; THE FOCUS / ПАРАБОЛА — ЗЕРКАЛА, АНТЕННЫ И ФОКУС</title>
+<meta name="description" content="An interactive field guide to the parabola in telescopes: why one curve sends every ray to one point, why a sphere is not enough, how sharp a mirror can be (1.22 λ/D), Hubble's 2-micron flaw, how Webb's 18 segments become one mirror, radio dishes and surface accuracy, and what sits at the focus.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/parabola-mirrors-and-dishes">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PARABOLA — MIRRORS, DISHES &amp; THE FOCUS / ПАРАБОЛА — ЗЕРКАЛА, АНТЕННЫ И ФОКУС">
+<meta property="og:description" content="Ray tracing, diffraction, Hubble's flaw, Webb's 18 segments phased into one mirror, radio-dish tolerances and the conic family — the parabola in astronomy, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/parabola-mirrors-and-dishes">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+:root{--gold:#a8741a; --ray:#2f5aa1; --err:#b5452a;}
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">PARABOLA — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE CURVE</span></div>
+  <div class="hud-row"><span class="hud-label">FOCAL RATIO</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">RESOLUTION</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE CURVE">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — ONE CURVE, EVERY TELESCOPE" data-ru="РИС. 00 — ОДНА КРИВАЯ, ВСЕ ТЕЛЕСКОПЫ">FIG. 00 — ONE CURVE, EVERY TELESCOPE</span></span>
+        <span>y = x² / 4f</span>
+      </div>
+      <h1><span data-en="PARABOLA" data-ru="ПАРАБОЛА">PARABOLA</span><br><em data-en="MIRRORS, DISHES AND THE FOCUS" data-ru="ЗЕРКАЛА, АНТЕННЫ И ФОКУС">MIRRORS, DISHES AND THE FOCUS</em></h1>
+      <p class="sub lede" data-en="A parabola is the only curve that turns a beam of parallel light into a single point. Every big telescope, every radio dish and every satellite antenna is built around that one property — and around the ways real mirrors fall short of it. Eight chapters, eight instruments you can operate: trace the rays yourself, find Hubble's 2-micron mistake from its own numbers, and phase Webb's 18 mirrors into one, using the same Fourier optics the engineers used." data-ru="Парабола — единственная кривая, которая собирает пучок параллельных лучей в одну точку. Каждый большой телескоп, каждый радиотелескоп и каждая спутниковая антенна построены вокруг этого свойства — и вокруг того, где реальные зеркала до него не дотягивают. Восемь глав и восемь приборов, которыми можно управлять: проследите лучи сами, найдите двухмикронную ошибку «Хаббла» по его же цифрам и сфазируйте 18 зеркал «Уэбба» в одно с помощью той же фурье-оптики, которой пользовались инженеры.">A parabola is the only curve that turns a beam of parallel light into a single point.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE SHAPE -->
+<section id="ch1" class="section" data-phase="THE CURVE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="THE ONE CURVE THAT FOCUSES" data-ru="ЕДИНСТВЕННАЯ ФОКУСИРУЮЩАЯ КРИВАЯ">THE ONE CURVE THAT FOCUSES</span></div>
+    <h2 class="h-lg" data-en="Every ray travels the same distance to the focus" data-ru="Каждый луч проходит до фокуса одинаковый путь">Every ray travels the same distance to the focus</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A parabola is the set of points that are exactly as far from one fixed point, the <b>focus</b>, as they are from one fixed line, the <b>directrix</b>. That definition has a physical meaning. Light from a distant star arrives as a flat wavefront. Every ray hits the mirror at a different place, but because each point is equally far from the focus and from the directrix, every ray's path from the wavefront to the focus has the same length. They arrive at the same moment, in step, and add up." data-ru="Парабола — это множество точек, равноудалённых от одной точки, <b>фокуса</b>, и от одной прямой, <b>директрисы</b>. У этого определения есть физический смысл. Свет далёкой звезды приходит плоским волновым фронтом. Каждый луч попадает в своё место зеркала, но так как каждая точка одинаково удалена от фокуса и от директрисы, путь любого луча от фронта до фокуса имеет одну и ту же длину. Лучи приходят одновременно, в фазе, и складываются.">A parabola is the set of points equally far from the focus and the directrix.</p>
+      <p class="body-col" data-en="Equal path length is the whole secret, and it is also why a parabola works for radio waves, sound and light alike. Try it below. With the <b>parabola</b>, every ray meets at one point whatever the focal ratio. Switch to a <b>sphere</b> and the outer rays focus too short. Then tilt the beam: even a perfect parabola only works on its axis. Off-axis stars smear into a comet shape called <b>coma</b>, which is why wide-field telescopes are not simple parabolas (Chapter 7)." data-ru="Одинаковая длина пути — весь секрет, и именно поэтому парабола одинаково работает для радиоволн, звука и света. Попробуйте ниже. У <b>параболы</b> все лучи сходятся в одной точке при любом относительном фокусе. Переключитесь на <b>сферу</b> — и краевые лучи фокусируются ближе. Затем наклоните пучок: даже идеальная парабола работает только на своей оси. Звёзды вне оси размазываются в «хвостатую» фигуру — <b>кому</b>, поэтому широкоугольные телескопы — не просто параболы (глава 7).">Equal path length is the whole secret.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE PARABOLA AND ITS FOCUS" data-ru="ПАРАБОЛА И ЕЁ ФОКУС">THE PARABOLA AND ITS FOCUS</div>
+      <div class="eq-body">y = x² / 4f &nbsp;·&nbsp; F = (0, f) &nbsp;·&nbsp; directrix y = −f &nbsp;·&nbsp; N = f / D</div>
+      <div class="eq-note" data-en="f is the focal length, D the aperture (mirror diameter), N the focal ratio or “f-number”. A sphere of radius R = 2f matches the parabola near the centre, but not at the edge." data-ru="f — фокусное расстояние, D — апертура (диаметр зеркала), N — относительное фокусное расстояние, «диафрагменное число». Сфера радиуса R = 2f совпадает с параболой в центре, но не на краю.">f is the focal length, D the aperture, N the focal ratio.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="rayCanvas" class="sim-svg" viewBox="0 0 480 400" role="img" aria-label="Ray tracer: parallel rays reflecting from a parabolic or spherical mirror"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Mirror shape">
+          <button class="btn active" id="shapePar" data-en="PARABOLA" data-ru="ПАРАБОЛА">PARABOLA</button>
+          <button class="btn" id="shapeSph" data-en="SPHERE" data-ru="СФЕРА">SPHERE</button>
+          <button class="btn" id="showDir" aria-pressed="false" data-en="SHOW EQUAL PATHS" data-ru="ПОКАЗАТЬ РАВНЫЕ ПУТИ">SHOW EQUAL PATHS</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="fnum" data-en="FOCAL RATIO f/D" data-ru="ОТНОСИТЕЛЬНЫЙ ФОКУС f/D">FOCAL RATIO f/D</label><span class="v" id="fnumVal">—</span></div>
+          <input id="fnum" type="range" min="0.3" max="2" step="0.05" value="0.5">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="tilt" data-en="STAR OFF AXIS" data-ru="ЗВЕЗДА ВНЕ ОСИ">STAR OFF AXIS</label><span class="v" id="tiltVal">—</span></div>
+          <input id="tilt" type="range" min="0" max="6" step="0.1" value="0">
+        </div>
+        <div class="readout-grid" id="rayReadout"></div>
+        <div class="status" id="rayStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="The drawing is to scale for a mirror 1 m across. Ray directions are computed exactly (law of reflection on the true surface), not sketched; the spread is measured where the rays cross the focal plane." data-ru="Рисунок в масштабе для зеркала диаметром 1 м. Направления лучей вычисляются точно (закон отражения на настоящей поверхности), а не нарисованы; разброс измеряется там, где лучи пересекают фокальную плоскость.">The drawing is to scale for a 1 m mirror.</p>
+  </div>
+</section>
+
+<!-- CH2 — SPHERE VS PARABOLA, HUBBLE -->
+<section id="ch2" class="section" data-phase="TOLERANCE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="WHY A SPHERE IS NOT ENOUGH" data-ru="ПОЧЕМУ СФЕРЫ НЕДОСТАТОЧНО">WHY A SPHERE IS NOT ENOUGH</span></div>
+    <h2 class="h-lg" data-en="The difference is smaller than a wavelength — and it decides everything" data-ru="Разница меньше длины волны — и она решает всё">The difference is smaller than a wavelength — and it decides everything</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A sphere is easy to make: rub two discs of glass together and they grind each other into spheres. A parabola is harder: it has to be <b>figured</b> by hand or machine, deepening the centre slightly relative to the edge. How much? The sphere and the parabola differ by r⁴ / 64f³ at radius r. Refocusing to the best compromise cuts the error that matters to a quarter of that. The classic rule, Rayleigh's quarter-wave criterion, says the reflected wavefront must be good to λ/4, so the surface must be good to λ/8: about <b>69 nanometres</b> for green light [7]." data-ru="Сферу сделать легко: если тереть два стеклянных диска друг о друга, они сами шлифуют друг друга в сферы. Параболу сделать труднее: её нужно <b>ретушировать</b> вручную или станком, чуть углубляя центр относительно края. Насколько? Сфера и парабола расходятся на r⁴ / 64f³ на радиусе r. Если перефокусироваться на лучший компромисс, значимая ошибка уменьшается вчетверо. Классическое правило — критерий четверти волны Рэлея — требует, чтобы отражённый фронт был точен до λ/4, то есть поверхность — до λ/8: около <b>69 нанометров</b> для зелёного света [7].">A sphere is easy to make; a parabola has to be figured.</p>
+      <p class="body-col" data-en="For a small, slow mirror the difference is under that limit, and a sphere is a perfectly good telescope. The textbook case is a 150 mm mirror: at f/8 it sits right on the limit, and at f/8.5 or slower a sphere passes. Make the mirror bigger or faster and the error grows as D/N³ — no polishing trick fixes the wrong shape. Pick a mirror below; the calculator says whether a sphere would do, and by how much it misses if not." data-ru="У небольшого «медленного» зеркала разница меньше этого предела, и сфера — вполне хороший телескоп. Учебный пример — 150-мм зеркало: при f/8 оно ровно на пределе, а при f/8,5 и медленнее сфера проходит. Сделайте зеркало больше или «быстрее» — и ошибка растёт как D/N³: никакая полировка не исправит неверную форму. Выберите зеркало ниже; калькулятор покажет, подошла бы сфера или нет и во сколько раз она промахивается.">For a small, slow mirror a sphere is fine.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="sagSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Sphere minus parabola surface difference across the mirror, compared with the tolerance"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="size-pick" id="sagPresets" role="group" aria-label="Mirror presets"></div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="sagD" data-en="DIAMETER D" data-ru="ДИАМЕТР D">DIAMETER D</label><span class="v" id="sagDVal">—</span></div>
+          <input id="sagD" type="range" min="0" max="1000" step="1" value="200">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="sagN" data-en="FOCAL RATIO N" data-ru="ОТНОСИТЕЛЬНЫЙ ФОКУС N">FOCAL RATIO N</label><span class="v" id="sagNVal">—</span></div>
+          <input id="sagN" type="range" min="1" max="15" step="0.1" value="8">
+        </div>
+        <div class="readout-grid" id="sagReadout"></div>
+        <div class="status" id="sagStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <h3 class="h-md" style="margin-top:56px;" data-en="Hubble, 1990: a perfect mirror of the wrong shape" data-ru="«Хаббл», 1990: идеальное зеркало неправильной формы">Hubble, 1990: a perfect mirror of the wrong shape</h3>
+    <div class="grid-2">
+      <p class="body-col" data-en="Hubble's 2.4 m primary is not a parabola but a slightly steeper curve, a hyperbola with conic constant K = −1.0023, as its Ritchey–Chrétien design requires (Chapter 7). The mirror was polished superbly smooth, but to K ≈ −1.0139 [6]. A test instrument, the reflective null corrector, had one lens 1.3 mm out of position, so the mirror passed its test while being made too flat toward the edge [5]. Two months after launch on 24 April 1990, the images showed a sharp core inside a wide halo: classic spherical aberration." data-ru="Главное 2,4-метровое зеркало «Хаббла» — не парабола, а чуть более крутая кривая, гипербола с коническим коэффициентом K = −1,0023, как требует схема Ричи — Кретьена (глава 7). Зеркало отполировали превосходно гладко, но до K ≈ −1,0139 [6]. В контрольном приборе — отражательном нуль-корректоре — одна линза стояла на 1,3 мм не на месте, поэтому зеркало прошло проверку, хотя к краю оказалось слишком плоским [5]. Через два месяца после запуска 24 апреля 1990 года снимки показали резкое ядро внутри широкого гало — классическую сферическую аберрацию.">Hubble's primary was polished to the wrong conic constant.</p>
+      <p class="body-col" data-en="You can recover the size of the mistake from those two numbers alone. Near the axis a conic surface is z = r²/2R + (1+K)·r⁴/8R³, so changing K by ΔK moves the surface by ΔK·r⁴/8R³. With Hubble's R = 11.04 m and edge radius r = 1.2 m, ΔK = 0.0116 gives <b>2.2 µm</b> at the rim, about 1/50 of the width of a hair and some 30 times the λ/8 tolerance. In December 1993 astronauts installed COSTAR and the new WFPC2 camera, both carrying optics shaped with the opposite error: glasses for a telescope [5]." data-ru="Размер ошибки можно восстановить только по этим двум числам. Вблизи оси коническая поверхность — это z = r²/2R + (1+K)·r⁴/8R³, поэтому изменение K на ΔK сдвигает поверхность на ΔK·r⁴/8R³. При радиусе кривизны «Хаббла» R = 11,04 м и радиусе края r = 1,2 м ΔK = 0,0116 даёт <b>2,2 мкм</b> на краю — около 1/50 толщины волоса и примерно в 30 раз больше допуска λ/8. В декабре 1993 года астронавты установили COSTAR и новую камеру WFPC2 — обе несли оптику с ошибкой противоположного знака: очки для телескопа [5].">You can recover the size of the mistake from two numbers.</p>
+    </div>
+    <svg id="hubbleSvg" class="sim-svg" viewBox="0 0 800 220" role="img" aria-label="Hubble primary mirror surface error from centre to edge, as built minus as designed" style="margin-top:20px;"></svg>
+    <p class="note" data-en="Curve computed on this page from the two published conic constants [6]; the measured edge error was about 2 µm [5][6]. The figure is exaggerated vertically: the whole error is 0.002 mm." data-ru="Кривая вычислена на этой странице по двум опубликованным коническим коэффициентам [6]; измеренная ошибка на краю — около 2 мкм [5][6]. Рисунок растянут по вертикали: вся ошибка — 0,002 мм.">Curve computed from the two published conic constants.</p>
+  </div>
+</section>
+
+<!-- CH3 — RESOLUTION -->
+<section id="ch3" class="section" data-phase="RESOLUTION">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="HOW SHARP A MIRROR CAN SEE" data-ru="НАСКОЛЬКО РЕЗКО МОЖЕТ ВИДЕТЬ ЗЕРКАЛО">HOW SHARP A MIRROR CAN SEE</span></div>
+    <h2 class="h-lg" data-en="Even a perfect parabola turns a star into a small disc" data-ru="Даже идеальная парабола превращает звезду в маленький диск">Even a perfect parabola turns a star into a small disc</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Geometry says a parabola makes a point. Physics says it cannot, because light is a wave and the mirror has an edge. A circular aperture of diameter D turns a point source into the <b>Airy pattern</b>: a bright disc ringed by faint circles. The first dark ring sits at an angle θ = 1.22 λ/D [7]. Two stars closer than that blur into one. That is the <b>diffraction limit</b>, and the only ways to beat it are a shorter wavelength or a bigger mirror." data-ru="Геометрия говорит, что парабола даёт точку. Физика говорит, что не может, потому что свет — волна, а у зеркала есть край. Круглая апертура диаметром D превращает точечный источник в <b>картину Эйри</b>: яркий диск в окружении слабых колец. Первое тёмное кольцо лежит на угле θ = 1,22 λ/D [7]. Две звезды ближе этого сливаются в одну. Это <b>дифракционный предел</b>, и обойти его можно только более короткой волной или большим зеркалом.">The Airy pattern sets the limit.</p>
+      <p class="body-col" data-en="Move the two stars together and watch them merge. At exactly 1.22 λ/D the peak of one sits on the first dark ring of the other, and the dip between them falls to about 74% of the peaks: just resolved, the Rayleigh criterion. Then choose an instrument. Radio telescopes need huge dishes because their wavelengths are a million times longer. The Event Horizon Telescope beat even that by linking dishes across the whole Earth [14]." data-ru="Сдвигайте две звезды и смотрите, как они сливаются. Ровно на 1,22 λ/D пик одной попадает на первое тёмное кольцо другой, и провал между ними опускается примерно до 74% от пиков: звёзды «едва разрешены» — это критерий Рэлея. Затем выберите инструмент. Радиотелескопам нужны огромные антенны, потому что их длины волн в миллион раз больше. Телескоп горизонта событий обошёл и это, объединив антенны по всей Земле [14].">Move the two stars together and watch them merge.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="DIFFRACTION LIMIT (RAYLEIGH)" data-ru="ДИФРАКЦИОННЫЙ ПРЕДЕЛ (РЭЛЕЙ)">DIFFRACTION LIMIT (RAYLEIGH)</div>
+      <div class="eq-body">θ = 1.22 λ / D &nbsp;[rad] &nbsp;·&nbsp; I(x) = I₀ [2 J₁(x) / x]²</div>
+      <div class="eq-note" data-en="J₁ is the Bessel function of the first kind; x = π D sin θ / λ. 1 radian = 206,265 arcseconds." data-ru="J₁ — функция Бесселя первого рода; x = π D sin θ / λ. 1 радиан = 206 265 угловых секунд.">J₁ is the Bessel function of the first kind.</div>
+    </div>
+    <div class="sim-wrap">
+      <canvas id="airyCanvas" class="sim-canvas" width="480" height="360" role="img" aria-label="Two stars imaged by a telescope: Airy patterns and their brightness profile"></canvas>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="sep" data-en="STAR SEPARATION" data-ru="РАССТОЯНИЕ МЕЖДУ ЗВЁЗДАМИ">STAR SEPARATION</label><span class="v" id="sepVal">—</span></div>
+          <input id="sep" type="range" min="0.3" max="3" step="0.01" value="1.6">
+        </div>
+        <div class="size-pick" id="scopePresets" role="group" aria-label="Instrument presets"></div>
+        <div class="readout-grid" id="airyReadout"></div>
+        <div class="status" id="airyStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — SIZE -->
+<section id="ch4" class="section" data-phase="SIZE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="LIGHT GATHERING AND THE LIMITS OF ONE PIECE OF GLASS" data-ru="СБОР СВЕТА И ПРЕДЕЛЫ ЦЕЛЬНОГО СТЕКЛА">LIGHT GATHERING AND THE LIMITS OF ONE PIECE OF GLASS</span></div>
+    <h2 class="h-lg" data-en="Area grows with the square of the diameter. So does every difficulty" data-ru="Площадь растёт как квадрат диаметра. Как и все трудности">Area grows with the square of the diameter. So does every difficulty</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A mirror is a light bucket. Collecting area grows as D², so a mirror twice as wide gathers four times the light and reaches fainter objects in the same exposure. The dark-adapted eye has a pupil of about 7 mm. Webb's segmented mirror collects 25.4 m² [2], about 660,000 times more. The Extremely Large Telescope, 39 m across, will collect roughly 40 times more than Webb [12]." data-ru="Зеркало — это ведро для света. Площадь сбора растёт как D², поэтому вдвое более широкое зеркало собирает вчетверо больше света и за ту же выдержку видит более слабые объекты. Зрачок глаза, привыкшего к темноте, — около 7 мм. Сегментированное зеркало «Уэбба» собирает свет площадью 25,4 м² [2] — примерно в 660 000 раз больше. Чрезвычайно большой телескоп (ELT) диаметром 39 м соберёт примерно в 40 раз больше, чем «Уэбб» [12].">A mirror is a light bucket.</p>
+      <p class="body-col" data-en="But a single piece of glass stops around 8 metres. The largest monolithic mirrors, 8.2 to 8.4 m, are cast in rotating furnaces so the molten glass spins into a rough paraboloid. Beyond that size a mirror sags under its own weight, takes days to reach the night's temperature, and cannot be moved by road or launched by any rocket. The answer, from Keck in the 1990s to Webb and the ELT, is to build the parabola out of many pieces (Chapter 5) [13]." data-ru="Но цельное стекло упирается примерно в 8 метров. Крупнейшие монолитные зеркала, 8,2–8,4 м, отливают во вращающихся печах, чтобы расплав сам принял форму грубого параболоида. Больше этого зеркало прогибается под собственным весом, дни выходит на ночную температуру, и его нельзя ни провезти по дороге, ни запустить на ракете. Решение — от «Кека» в 1990-х до «Уэбба» и ELT — собрать параболу из множества частей (глава 5) [13].">A single piece of glass stops around 8 metres.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="sizeSvg" class="sim-svg" viewBox="0 0 480 480" role="img" aria-label="Telescope mirrors drawn to scale"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="size-pick" id="sizePresets" role="group" aria-label="Choose a telescope"></div>
+        <div class="readout-grid" id="sizeReadout"></div>
+        <div class="status" id="sizeStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Discs drawn to scale. Areas are π D²/4 except Webb (published unobscured area [2]); real mirrors lose a few percent to the central obstruction and segment gaps." data-ru="Диски в масштабе. Площади — π D²/4, кроме «Уэбба» (опубликованная площадь без затенения [2]); реальные зеркала теряют несколько процентов на центральное затенение и зазоры между сегментами.">Discs drawn to scale.</p>
+  </div>
+</section>
+
+<!-- CH5 — SEGMENTS -->
+<section id="ch5" class="section" data-phase="SEGMENTS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="EIGHTEEN MIRRORS THAT ACT AS ONE" data-ru="ВОСЕМНАДЦАТЬ ЗЕРКАЛ, РАБОТАЮЩИХ КАК ОДНО">EIGHTEEN MIRRORS THAT ACT AS ONE</span></div>
+    <h2 class="h-lg" data-en="Webb's mirror only works if 18 pieces agree to within nanometres" data-ru="Зеркало «Уэбба» работает, только если 18 частей согласованы до нанометров">Webb's mirror only works if 18 pieces agree to within nanometres</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Webb's 6.5 m primary is 18 hexagonal beryllium segments, each 1.32 m flat to flat, coated with 100 nm of gold for infrared reflectivity [1]. Each segment is an off-axis piece of one shared curve, and behind each sit seven actuators: six to set its position and tilt and one to adjust its curvature [1]. The mirror launched folded; after it opened in space, each segment made its own separate image of the same star." data-ru="Главное 6,5-метровое зеркало «Уэбба» — 18 шестиугольных бериллиевых сегментов по 1,32 м между гранями, покрытых 100 нм золота для отражения инфракрасного света [1]. Каждый сегмент — внеосевой кусок одной общей кривой, и за каждым стоят семь актуаторов: шесть задают положение и наклон, один меняет кривизну [1]. Зеркало летело сложенным; после раскрытия в космосе каждый сегмент давал своё отдельное изображение одной и той же звезды.">Webb's primary is 18 hexagonal beryllium segments.</p>
+      <p class="body-col" data-en="Alignment took months and went in stages: find each segment's separate image of a star, steer all 18 images onto one spot, then <b>phase</b> them, moving each segment up or down until their light adds in step. Fine phasing was finished on 11 March 2022 [3]. Below is the same physics: the image of a star is the squared Fourier transform of the light across the mirror. The page builds Webb's segment pattern, adds the errors you choose and computes the image." data-ru="Юстировка заняла месяцы и шла по этапам: найти отдельное изображение звезды от каждого сегмента, свести все 18 изображений в одну точку, а затем <b>сфазировать</b> их, сдвигая каждый сегмент вверх или вниз, пока их свет не сложится в фазе. Точное фазирование завершили 11 марта 2022 года [3]. Ниже — та же физика: изображение звезды — это квадрат фурье-образа света на зеркале. Страница строит раскладку сегментов «Уэбба», добавляет выбранные вами ошибки и вычисляет изображение.">Alignment took months and went in stages.</p>
+    </div>
+    <div class="sim-wrap">
+      <div>
+        <canvas id="psfCanvas" class="sim-canvas" width="512" height="512" role="img" aria-label="Computed image of a star through Webb's segmented mirror"></canvas>
+        <div class="fig-cap" data-en="Image of one star (log brightness). Inset: the mirror, coloured by each segment's error." data-ru="Изображение одной звезды (логарифм яркости). Врезка: зеркало, раскрашенное по ошибке каждого сегмента.">Image of one star (log brightness).</div>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="ctl-row"><span data-en="COMMISSIONING STAGE" data-ru="ЭТАП ЮСТИРОВКИ">COMMISSIONING STAGE</span></div>
+        <div class="btn-row" id="stageBtns" role="group" aria-label="Commissioning stage"></div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="pist" data-en="PISTON ERROR (RMS)" data-ru="ОШИБКА ПОРШНЯ (СКО)">PISTON ERROR (RMS)</label><span class="v" id="pistVal">—</span></div>
+          <input id="pist" type="range" min="0" max="3000" step="5" value="0">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="tiltErr" data-en="TILT ERROR" data-ru="ОШИБКА НАКЛОНА">TILT ERROR</label><span class="v" id="tiltErrVal">—</span></div>
+          <input id="tiltErr" type="range" min="0" max="100" step="1" value="0">
+        </div>
+        <div class="btn-row" id="lamBtns" role="group" aria-label="Wavelength"></div>
+        <div class="btn-row"><button class="btn" id="reroll" data-en="NEW RANDOM ERRORS" data-ru="НОВЫЕ СЛУЧАЙНЫЕ ОШИБКИ">NEW RANDOM ERRORS</button></div>
+        <div class="readout-grid" id="psfReadout"></div>
+        <div class="status" id="psfStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Computed on this page with a 256 × 256 fast Fourier transform. Piston is the wavefront error each segment adds (twice its surface height error). The six-pointed spikes are real: they come from the hexagonal edges, and Webb's images show them too. Simplifications: no secondary-mirror struts, no detector, monochromatic light." data-ru="Вычислено на этой странице быстрым преобразованием Фурье 256 × 256. «Поршень» — ошибка волнового фронта от сегмента (вдвое больше ошибки высоты поверхности). Шестилучевые «спицы» настоящие: они от шестиугольных краёв, и на снимках «Уэбба» они тоже есть. Упрощения: без растяжек вторичного зеркала, без детектора, монохроматический свет.">Computed with a 256 × 256 FFT.</p>
+  </div>
+</section>
+
+<!-- CH6 — RADIO -->
+<section id="ch6" class="section" data-phase="RADIO DISHES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="THE SAME CURVE FOR RADIO" data-ru="ТА ЖЕ КРИВАЯ ДЛЯ РАДИО">THE SAME CURVE FOR RADIO</span></div>
+    <h2 class="h-lg" data-en="A radio dish only has to be as smooth as its wavelength demands" data-ru="Радиоантенна должна быть гладкой ровно настолько, насколько требует длина волны">A radio dish only has to be as smooth as its wavelength demands</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A satellite dish and a radio telescope are parabolas for the same reason a mirror is: equal path lengths to the focus. What changes is the scale of 'smooth'. Ruze's rule gives the fraction of signal a dish keeps when its surface has random errors of size ε: η = exp[−(4πε/λ)²] [8]. With ε = λ/16, a dish keeps about 54%. At 21 cm a mesh with millimetre gaps is a perfect mirror; at submillimetre wavelengths the surface must be good to tens of micrometres." data-ru="Спутниковая тарелка и радиотелескоп — параболы по той же причине, что и зеркало: равные пути до фокуса. Меняется масштаб «гладкости». Правило Рузе даёт долю сигнала, которую сохраняет антенна со случайными ошибками поверхности ε: η = exp[−(4πε/λ)²] [8]. При ε = λ/16 антенна сохраняет около 54%. На волне 21 см сетка с миллиметровыми ячейками — идеальное зеркало; на субмиллиметровых волнах поверхность должна быть точна до десятков микрометров.">Ruze's rule.</p>
+      <p class="body-col" data-en="ALMA's 12 m antennas are specified to 25 µm RMS so they can work up to 950 GHz [10]. The 100 m Green Bank Telescope uses an active surface of motorised panels to hold about 230–300 µm [11]. China's 500 m FAST goes further: its reflector is a <b>sphere</b>, and for each observation about two thousand actuators pull a 300 m patch of it into a paraboloid aimed at the source, then let it go and pull another patch as the sky turns [9]." data-ru="Двенадцатиметровые антенны ALMA рассчитаны на точность 25 мкм (СКО), чтобы работать до 950 ГГц [10]. Стометровый телескоп Грин-Бэнк держит около 230–300 мкм с помощью активной поверхности из моторизованных панелей [11]. Китайский 500-метровый FAST идёт дальше: его рефлектор — <b>сфера</b>, и для каждого наблюдения около двух тысяч актуаторов вытягивают 300-метровый участок в параболоид, направленный на источник, а затем отпускают его и вытягивают другой участок, пока небо поворачивается [9].">ALMA, Green Bank, FAST.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="ruzeSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Dish efficiency versus frequency for the chosen surface accuracy"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="size-pick" id="ruzePresets" role="group" aria-label="Dish presets"></div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="ruzeEps" data-en="SURFACE ERROR ε (RMS)" data-ru="ОШИБКА ПОВЕРХНОСТИ ε (СКО)">SURFACE ERROR ε (RMS)</label><span class="v" id="ruzeEpsVal">—</span></div>
+          <input id="ruzeEps" type="range" min="0" max="1000" step="1" value="500">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="ruzeF" data-en="OBSERVING FREQUENCY" data-ru="ЧАСТОТА НАБЛЮДЕНИЯ">OBSERVING FREQUENCY</label><span class="v" id="ruzeFVal">—</span></div>
+          <input id="ruzeF" type="range" min="0" max="1000" step="1" value="500">
+        </div>
+        <div class="readout-grid" id="ruzeReadout"></div>
+        <div class="status" id="ruzeStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <h3 class="h-md" style="margin-top:56px;" data-en="FAST: pulling a sphere into a parabola" data-ru="FAST: как вытянуть сферу в параболу">FAST: pulling a sphere into a parabola</h3>
+    <div class="sim-wrap">
+      <svg id="fastSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="FAST spherical reflector with the active paraboloid patch"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="fastAng" data-en="POINTING (FROM ZENITH)" data-ru="НАВЕДЕНИЕ (ОТ ЗЕНИТА)">POINTING (FROM ZENITH)</label><span class="v" id="fastAngVal">—</span></div>
+          <input id="fastAng" type="range" min="-26" max="26" step="0.5" value="0">
+        </div>
+        <div class="readout-grid" id="fastReadout"></div>
+        <p class="note" data-en="Geometry from Nan et al. [9]: sphere radius 300 m, aperture 500 m, illuminated 300 m, f/R = 0.4665. The required panel movement is computed here with a best-fit paraboloid; the cross-section is shown with heights exaggerated ×40." data-ru="Геометрия по Нань и др. [9]: радиус сферы 300 м, апертура 500 м, освещаемая часть 300 м, f/R = 0,4665. Нужный ход панелей вычислен здесь по наилучшему параболоиду; на разрезе высоты увеличены в 40 раз.">Geometry from Nan et al. [9].</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — CONIC FAMILY -->
+<section id="ch7" class="section" data-phase="CONICS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="THE CONIC FAMILY AND FOLDED TELESCOPES" data-ru="СЕМЕЙСТВО КОНИК И «СЛОЖЕННЫЕ» ТЕЛЕСКОПЫ">THE CONIC FAMILY AND FOLDED TELESCOPES</span></div>
+    <h2 class="h-lg" data-en="The parabola is one member of a family, and big telescopes use its relatives" data-ru="Парабола — один член семейства, и большие телескопы используют её родственников">The parabola is one member of a family, and big telescopes use its relatives</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Slice a cone and you get a circle, an ellipse, a parabola or a hyperbola. Opticians describe them all with one number, the <b>conic constant</b> K: K = 0 is a sphere, −1 &lt; K &lt; 0 an ellipse, K = −1 exactly a parabola, K &lt; −1 a hyperbola. Each has its own trick. An ellipse sends light from one focus to the other. A hyperbola makes rays aimed at one focus appear to come from the other. Combining them folds a long telescope into a short tube." data-ru="Рассеките конус — и получите окружность, эллипс, параболу или гиперболу. Оптики описывают их одним числом — <b>коническим коэффициентом</b> K: K = 0 — сфера, −1 &lt; K &lt; 0 — эллипс, K = −1 — ровно парабола, K &lt; −1 — гипербола. У каждой свой фокус-трюк. Эллипс переводит свет из одного фокуса в другой. Гипербола делает так, что лучи, направленные в один фокус, будто выходят из другого. Их сочетание складывает длинный телескоп в короткую трубу.">The conic constant K.</p>
+      <p class="body-col" data-en="A <b>Cassegrain</b> pairs a parabolic primary with a convex hyperbolic secondary that sends the light back through a hole in the primary. The <b>Ritchey–Chrétien</b> version makes both mirrors hyperbolas, which cancels the coma you saw in Chapter 1 and gives a wide sharp field: Hubble is one [5]. Webb goes one step further, with a three-mirror anastigmat [1]. Slide K below and watch only K = −1 bring every ray to one point." data-ru="<b>Кассегрен</b> сочетает параболическое главное зеркало с выпуклым гиперболическим вторичным, которое возвращает свет через отверстие в главном. Вариант <b>Ричи — Кретьена</b> делает оба зеркала гиперболами: это убирает кому из главы 1 и даёт широкое резкое поле — так устроен «Хаббл» [5]. «Уэбб» идёт ещё дальше: это трёхзеркальный анастигмат [1]. Двигайте K ниже и смотрите: только при K = −1 все лучи сходятся в одной точке.">Cassegrain, Ritchey–Chrétien, three-mirror anastigmat.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="conicSvg" class="sim-svg" viewBox="0 0 480 400" role="img" aria-label="Rays reflecting from a mirror of adjustable conic constant"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="kSlider" data-en="CONIC CONSTANT K" data-ru="КОНИЧЕСКИЙ КОЭФФИЦИЕНТ K">CONIC CONSTANT K</label><span class="v" id="kVal">—</span></div>
+          <input id="kSlider" type="range" min="-3" max="1" step="0.01" value="-1">
+        </div>
+        <div class="size-pick" id="kPresets" role="group" aria-label="Conic presets"></div>
+        <div class="readout-grid" id="conicReadout"></div>
+        <div class="status" id="conicStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <svg id="cassSvg" class="sim-svg" viewBox="0 0 800 230" role="img" aria-label="Cassegrain telescope layout: parabolic primary, hyperbolic secondary, focus behind the primary" style="margin-top:28px;"></svg>
+    <p class="note" data-en="Cassegrain layout traced on this page with exact reflections from a parabolic primary and the matching hyperbolic secondary; proportions are illustrative." data-ru="Схема Кассегрена построена на этой странице точными отражениями от параболического главного и согласованного гиперболического вторичного зеркала; пропорции иллюстративны.">Cassegrain layout traced on this page.</p>
+  </div>
+</section>
+
+<!-- CH8 — AT THE FOCUS -->
+<section id="ch8" class="section" data-phase="AT THE FOCUS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="WHAT SITS AT THE FOCUS" data-ru="ЧТО СТОИТ В ФОКУСЕ">WHAT SITS AT THE FOCUS</span></div>
+    <h2 class="h-lg" data-en="The mirror only delivers light. The focus is where it becomes data" data-ru="Зеркало лишь доставляет свет. В фокусе он становится данными">The mirror only delivers light. The focus is where it becomes data</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="In an infrared telescope the instruments must be colder than the light they measure, or they glow in their own band. Webb's mirrors sit in the shade of its sunshield at about −220 °C [1]. Its near-infrared cameras use mercury-cadmium-telluride detectors that work best at about 37 K; the mid-infrared instrument MIRI uses arsenic-doped silicon that needs less than 7 K, reached only with a dedicated helium cryocooler [4]." data-ru="В инфракрасном телескопе приборы должны быть холоднее света, который они измеряют, иначе они светятся в своём же диапазоне. Зеркала «Уэбба» стоят в тени солнечного щита при температуре около −220 °C [1]. Его камеры ближнего ИК используют детекторы из теллурида кадмия-ртути, которые лучше всего работают при ~37 K; прибор среднего ИК MIRI использует кремний, легированный мышьяком, которому нужно меньше 7 K — это достижимо только со специальным гелиевым криокулером [4].">Instruments must be colder than the light they measure.</p>
+      <p class="body-col" data-en="A radio telescope puts a <b>feed horn</b> at the focus: a flared metal funnel that collects the wave and guides it into a receiver whose first amplifier is often cryogenically cooled to cut its own noise. The horn is shaped so it 'sees' the dish with a soft taper toward the rim, trading a little gain for much less noise picked up from the warm ground beyond the edge. Same curve, same focus, different eye." data-ru="Радиотелескоп ставит в фокус <b>облучатель</b> — расширяющуюся металлическую воронку, которая собирает волну и направляет её в приёмник, первый усилитель которого часто охлаждают криогенно, чтобы снизить его собственный шум. Облучатель устроен так, чтобы «видеть» зеркало с плавным спадом к краю: немного усиления в обмен на гораздо меньший шум от тёплой земли за краем. Та же кривая, тот же фокус — другой глаз.">A radio telescope puts a feed horn at the focus.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="cmp-table" id="focusTable"></table>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — LEGACY -->
+<section id="ch9" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="LEGACY: THE CURVE THROUGH TIME" data-ru="НАСЛЕДИЕ: КРИВАЯ СКВОЗЬ ВРЕМЯ">LEGACY: THE CURVE THROUGH TIME</span></div>
+    <h2 class="h-lg" data-en="Seventy-five years of ever larger parabolas" data-ru="Семьдесят пять лет всё больших парабол">Seventy-five years of ever larger parabolas</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Every one of these instruments is the same idea: make every path equal, then fight the wavelength, the weight and the weather to keep it that way." data-ru="Каждый из этих инструментов — одна и та же идея: сделать все пути равными, а затем бороться с длиной волны, весом и погодой, чтобы так и оставалось.">Every one of these instruments is the same idea.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — REFERENCES -->
+<section id="ch10" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',');
+  return s;
+}
+function fmtInt(n){
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+}
+function sig(n, d){
+  /* d significant digits, no exponent for the ranges used on this page */
+  if(n === 0) return '0';
+  var p = Math.floor(Math.log10(Math.abs(n)));
+  var dec = Math.max(0, d - 1 - p);
+  return fmt(n, Math.min(dec, 6));
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+
+/* length with a sensible unit, input in metres */
+function len(m){
+  var a = Math.abs(m);
+  if(a >= 1000) return sig(m/1000, 3) + T(' km',' км');
+  if(a >= 1) return sig(m, 3) + T(' m',' м');
+  if(a >= 1e-3) return sig(m*1e3, 3) + T(' mm',' мм');
+  if(a >= 1e-6) return sig(m*1e6, 3) + T(' µm',' мкм');
+  return sig(m*1e9, 3) + T(' nm',' нм');
+}
+/* angle with a sensible unit, input in radians */
+var AS = 206264.806;
+function ang(rad){
+  var s = rad*AS;
+  if(s >= 60) return sig(s/60, 3) + '′';
+  if(s >= 0.1) return sig(s, 3) + '″';
+  if(s >= 1e-4) return sig(s*1e3, 3) + T(' mas',' мсек');
+  return sig(s*1e6, 3) + T(' µas',' мксек');
+}
+var LAM_VIS = 550e-9;
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hudF = document.getElementById('hud-alt'), hudRes = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+
+/* ============ CH1 — RAY TRACER ============ */
+var ray = {shape:'par', N:0.5, tilt:0, paths:false};
+var raySvg = document.getElementById('rayCanvas');
+function sagPar(x, f){ return x*x/(4*f); }
+function slopePar(x, f){ return x/(2*f); }
+function sagSph(x, f){ var R = 2*f; return R - Math.sqrt(R*R - x*x); }
+function slopeSph(x, f){ var R = 2*f; return x/Math.sqrt(R*R - x*x); }
+/* trace one ray: hit the mirror at xm, incoming direction d = (sin t, -cos t); returns reflection data */
+function traceRay(xm, f, t, sph){
+  var zm = sph ? sagSph(xm, f) : sagPar(xm, f), m = sph ? slopeSph(xm, f) : slopePar(xm, f);
+  var nl = Math.sqrt(1 + m*m), nx = -m/nl, nz = 1/nl;
+  var dx = Math.sin(t), dz = -Math.cos(t), dn = dx*nx + dz*nz;
+  var rx = dx - 2*dn*nx, rz = dz - 2*dn*nz;
+  var lam = (f - zm)/rz;           /* reach the focal plane z = f */
+  return {xm:xm, zm:zm, rx:rx, rz:rz, xc:xm + lam*rx, lam:lam};
+}
+function renderRay(){
+  var N = ray.N, f = N*1.0, t = ray.tilt*Math.PI/180, sph = ray.shape === 'sph';
+  document.getElementById('fnumVal').textContent = 'f/' + fmt(N, 2);
+  document.getElementById('tiltVal').textContent = fmt(ray.tilt, 1) + '°';
+  hudF.textContent = 'f/' + fmt(N, 2);
+  raySvg.innerHTML = '';
+  var s = Math.min(400/1.1, 330/(f*1.12)), ox = 240, oy = 385;
+  function P(x, z){ return (ox + x*s).toFixed(1) + ',' + (oy - z*s).toFixed(1); }
+  var ztop = f*1.12;
+  /* axis + focal plane */
+  ns('line', {x1:ox, y1:oy + 6, x2:ox, y2:oy - ztop*s - 6, stroke:'#c9c9c1', 'stroke-dasharray':'3 4'}, raySvg);
+  ns('line', {x1:ox - 0.55*s, y1:oy - f*s, x2:ox + 0.55*s, y2:oy - f*s, stroke:'#c9c9c1'}, raySvg);
+  /* rays */
+  var NR = 15, data = [];
+  for(var i = 0; i < NR; i++){
+    var xm = -0.48 + 0.96*i/(NR - 1), d = traceRay(xm, f, t, sph);
+    data.push(d);
+    var L = (ztop - d.zm)/Math.cos(t), sx = d.xm - Math.sin(t)*L;
+    ns('line', {x1:(ox + sx*s).toFixed(1), y1:(oy - ztop*s).toFixed(1), x2:(ox + d.xm*s).toFixed(1), y2:(oy - d.zm*s).toFixed(1), stroke:'#2f5aa1', 'stroke-width':1, opacity:0.75}, raySvg);
+    var lam2 = Math.max(d.lam*1.25, 0.05);
+    ns('line', {x1:(ox + d.xm*s).toFixed(1), y1:(oy - d.zm*s).toFixed(1), x2:(ox + (d.xm + d.rx*lam2)*s).toFixed(1), y2:(oy - (d.zm + d.rz*lam2)*s).toFixed(1), stroke:'#b5452a', 'stroke-width':1, opacity:0.8}, raySvg);
+  }
+  /* mirror */
+  var pts = [];
+  for(var k = 0; k <= 80; k++){ var x = -0.5 + k/80; pts.push(P(x, sph ? sagSph(x, f) : sagPar(x, f))); }
+  ns('polyline', {points:pts.join(' '), fill:'none', stroke:'#0b0b0c', 'stroke-width':3}, raySvg);
+  /* focus */
+  ns('circle', {cx:ox, cy:oy - f*s, r:3.5, fill:'#0b0b0c'}, raySvg);
+  txt(raySvg, ox + 8, oy - f*s - 6, 'F', 'svg-label');
+  /* equal paths (on-axis only): wavefront at ztop, path = (ztop - zm) + |M - F| */
+  var pathSpread = null;
+  if(ray.paths && ray.tilt === 0){
+    ns('line', {x1:ox - 0.5*s, y1:oy - ztop*s, x2:ox + 0.5*s, y2:oy - ztop*s, stroke:'#a8741a', 'stroke-width':2}, raySvg);
+    txt(raySvg, ox + 0.5*s, oy - ztop*s - 6, T('wavefront','фронт волны'), 'svg-small', 'end');
+    var mn = 1e9, mx = -1e9;
+    data.forEach(function(d){
+      ns('line', {x1:(ox + d.xm*s).toFixed(1), y1:(oy - d.zm*s).toFixed(1), x2:ox, y2:(oy - f*s).toFixed(1), stroke:'#a8741a', 'stroke-width':1.2}, raySvg);
+      var Lp = (ztop - d.zm) + Math.sqrt(d.xm*d.xm + (f - d.zm)*(f - d.zm));
+      mn = Math.min(mn, Lp); mx = Math.max(mx, Lp);
+    });
+    pathSpread = mx - mn;
+  }
+  /* metrics */
+  var mean = data.reduce(function(a, d){ return a + d.xc; }, 0)/data.length;
+  var rms = Math.sqrt(data.reduce(function(a, d){ return a + (d.xc - mean)*(d.xc - mean); }, 0)/data.length);
+  var airy = 1.22*LAM_VIS*N;   /* Airy radius in the focal plane for a 1 m mirror */
+  var edge = data[0], axisZ = edge.zm + (-edge.xm/edge.rx)*edge.rz;
+  var rows = [
+    [T('FOCAL LENGTH (1 m MIRROR)','ФОКУС (ЗЕРКАЛО 1 м)'), len(f)],
+    [T('SPOT SPREAD (RMS)','РАЗБРОС ПЯТНА (СКО)'), rms < 1e-12 ? '0' : len(rms)],
+    [T('DIFFRACTION LIMIT (AIRY RADIUS)','ДИФРАКЦИОННЫЙ ПРЕДЕЛ (РАДИУС ЭЙРИ)'), len(airy)],
+    [T('EDGE RAY CROSSES AXIS','КРАЕВОЙ ЛУЧ ПЕРЕСЕКАЕТ ОСЬ'), ray.tilt === 0 ? (Math.abs(axisZ - f) < 1e-12 ? T('at F','в F') : len(f - axisZ) + T(' short of F',' ближе F')) : '—']
+  ];
+  if(pathSpread !== null) rows.push([T('PATH LENGTHS DIFFER BY','РАЗНИЦА ДЛИН ПУТЕЙ'), pathSpread < 1e-12 ? T('0 — all equal','0 — все равны') : len(pathSpread), true]);
+  cells(document.getElementById('rayReadout'), rows);
+  var st = document.getElementById('rayStatus');
+  if(rms <= airy) st.innerHTML = T('<b>Sharp.</b> All rays land inside the diffraction spot: the geometry is perfect for this mirror.', '<b>Резко.</b> Все лучи попадают в дифракционное пятно: геометрия для этого зеркала идеальна.');
+  else if(ray.tilt > 0 && !sph) st.innerHTML = T('<b>Coma.</b> The star is off the axis, so even the parabola smears it, ' + sig(rms/airy, 2) + '× wider than the diffraction spot.', '<b>Кома.</b> Звезда вне оси, и даже парабола её размазывает — в ' + sig(rms/airy, 2) + ' раза шире дифракционного пятна.');
+  else st.innerHTML = T('<b>Blurred.</b> The rays miss each other by ' + sig(rms/airy, 2) + '× the diffraction spot. ' + (sph ? 'Try a slower mirror (higher f/D) or switch to the parabola.' : ''), '<b>Размыто.</b> Лучи расходятся в ' + sig(rms/airy, 2) + ' раза больше дифракционного пятна. ' + (sph ? 'Попробуйте более «медленное» зеркало (больше f/D) или параболу.' : ''));
+}
+var fnumEl = document.getElementById('fnum'), tiltEl = document.getElementById('tilt');
+fnumEl.addEventListener('input', function(){ ray.N = parseFloat(fnumEl.value); renderRay(); });
+tiltEl.addEventListener('input', function(){ ray.tilt = parseFloat(tiltEl.value); renderRay(); });
+document.getElementById('shapePar').addEventListener('click', function(){ ray.shape = 'par'; this.classList.add('active'); document.getElementById('shapeSph').classList.remove('active'); renderRay(); });
+document.getElementById('shapeSph').addEventListener('click', function(){ ray.shape = 'sph'; this.classList.add('active'); document.getElementById('shapePar').classList.remove('active'); renderRay(); });
+document.getElementById('showDir').addEventListener('click', function(){
+  ray.paths = !ray.paths; this.classList.toggle('active', ray.paths); this.setAttribute('aria-pressed', ray.paths ? 'true' : 'false');
+  if(ray.paths && ray.tilt !== 0){ ray.tilt = 0; tiltEl.value = 0; }
+  renderRay();
+});
+
+/* ============ CH2 — SPHERE VS PARABOLA ============ */
+var sag = {D:0.15, N:8};
+var sagDEl = document.getElementById('sagD'), sagNEl = document.getElementById('sagN');
+var D_MIN = 0.05, D_MAX = 10;
+function dFromSlider(v){ return D_MIN*Math.pow(D_MAX/D_MIN, v/1000); }
+function sliderFromD(d){ return Math.round(1000*Math.log(d/D_MIN)/Math.log(D_MAX/D_MIN)); }
+var SAG_PRESETS = [
+  {D:0.15, N:8, en:'150 mm f/8', ru:'150 мм f/8'},
+  {D:0.15, N:8.5, en:'150 mm f/8.5', ru:'150 мм f/8,5'},
+  {D:0.2, N:6, en:'200 mm f/6', ru:'200 мм f/6'},
+  {D:0.3, N:4.5, en:'300 mm f/4.5', ru:'300 мм f/4,5'},
+  {D:2.4, N:2.3, en:'2.4 m f/2.3 (Hubble-size)', ru:'2,4 м f/2,3 (как «Хаббл»)'},
+  {D:8.2, N:1.8, en:'8.2 m f/1.8', ru:'8,2 м f/1,8'}
+];
+function renderSagPresets(){
+  var box = document.getElementById('sagPresets'); box.innerHTML = '';
+  SAG_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn'; b.textContent = T(p.en, p.ru);
+    b.addEventListener('click', function(){ sag.D = p.D; sag.N = p.N; sagDEl.value = sliderFromD(p.D); sagNEl.value = p.N; renderSag(); pressGroup(box, b); });
+    box.appendChild(b);
+  });
+}
+function renderSag(){
+  var D = sag.D, N = sag.N, f = D*N, r = D/2;
+  document.getElementById('sagDVal').textContent = len(D);
+  document.getElementById('sagNVal').textContent = 'f/' + fmt(N, 1);
+  var raw = Math.pow(r, 4)/(64*Math.pow(f, 3)), best = raw/4, tol = LAM_VIS/8;
+  var svg = document.getElementById('sagSvg'); svg.innerHTML = '';
+  var x0 = 40, x1 = 450, yMid = 150, H = 110;
+  var scale = Math.max(best, tol)*1.15;
+  function Y(v){ return yMid - v/scale*H; }
+  /* tolerance band: a surface error inside ±λ/16 of the mean keeps peak-to-valley ≤ λ/8 */
+  ns('rect', {x:x0, y:Y(tol/2), width:x1 - x0, height:Y(-tol/2) - Y(tol/2), fill:'#e6f3ec'}, svg);
+  txt(svg, x1, Y(tol/2) - 4, T('tolerance λ/8 (69 nm)','допуск λ/8 (69 нм)'), 'svg-small', 'end');
+  ns('line', {x1:x0, y1:yMid, x2:x1, y2:yMid, stroke:'#c9c9c1'}, svg);
+  /* residual after best refocus: x²(x² − r²)/64f³, shifted to zero mean of its range */
+  var pts = [];
+  for(var k = 0; k <= 160; k++){
+    var x = -r + 2*r*k/160, v = x*x*(x*x - r*r)/(64*Math.pow(f, 3)) + best/2;
+    pts.push((x0 + (x1 - x0)*k/160).toFixed(1) + ',' + Y(v).toFixed(1));
+  }
+  ns('polyline', {points:pts.join(' '), fill:'none', stroke: best <= tol ? '#2a7252' : '#b5452a', 'stroke-width':2.2}, svg);
+  txt(svg, x0, 22, T('surface error of a sphere after best focus','ошибка поверхности сферы после лучшей фокусировки'), 'svg-label');
+  txt(svg, x0, 290, T('edge','край'), 'svg-small'); txt(svg, (x0 + x1)/2, 290, T('centre','центр'), 'svg-small', 'middle'); txt(svg, x1, 290, T('edge','край'), 'svg-small', 'end');
+  var ratio = best/tol;
+  cells(document.getElementById('sagReadout'), [
+    [T('FOCAL LENGTH','ФОКУСНОЕ РАССТОЯНИЕ'), len(f)],
+    [T('SPHERE − PARABOLA AT EDGE','СФЕРА − ПАРАБОЛА НА КРАЮ'), len(raw)],
+    [T('ERROR AFTER BEST FOCUS (P–V)','ОШИБКА ПОСЛЕ ЛУЧШЕЙ ФОКУСИРОВКИ (P–V)'), len(best)],
+    [T('TOLERANCE λ/8 (550 nm)','ДОПУСК λ/8 (550 нм)'), len(tol)]
+  ]);
+  document.getElementById('sagStatus').innerHTML = ratio <= 1
+    ? T('<b>A sphere will do.</b> The error is ' + fmt(ratio*100, 0) + '% of the tolerance. Grind it spherical and skip the parabolizing.', '<b>Сфера подойдёт.</b> Ошибка — ' + fmt(ratio*100, 0) + '% допуска. Шлифуйте сферу и обходитесь без параболизации.')
+    : T('<b>Needs a parabola.</b> A sphere misses by ' + sig(ratio, 3) + '× the tolerance.', '<b>Нужна парабола.</b> Сфера промахивается в ' + sig(ratio, 3) + ' раза больше допуска.');
+}
+sagDEl.addEventListener('input', function(){ sag.D = dFromSlider(parseFloat(sagDEl.value)); renderSag(); });
+sagNEl.addEventListener('input', function(){ sag.N = parseFloat(sagNEl.value); renderSag(); });
+
+/* Hubble: as-built minus as-designed surface, ΔK·r⁴/8R³ (sources [5][6]) */
+var HUB = {R:11.04, rEdge:1.2, Kdesign:-1.0023, Kbuilt:-1.0139};
+function renderHubble(){
+  var svg = document.getElementById('hubbleSvg'); svg.innerHTML = '';
+  var x0 = 60, x1 = 770, y0 = 185, H = 140, dK = HUB.Kdesign - HUB.Kbuilt;
+  var edgeErr = dK*Math.pow(HUB.rEdge, 4)/(8*Math.pow(HUB.R, 3));
+  function X(r){ return x0 + (x1 - x0)*r/HUB.rEdge; }
+  function Y(v){ return y0 - v/(edgeErr*1.1)*H; }
+  ns('line', {x1:x0, y1:y0, x2:x1, y2:y0, stroke:'#0b0b0c'}, svg);
+  ns('line', {x1:x0, y1:y0, x2:x0, y2:y0 - H - 10, stroke:'#0b0b0c'}, svg);
+  var tolY = Y(LAM_VIS/8);
+  ns('line', {x1:x0, y1:tolY, x2:x1, y2:tolY, stroke:'#2a7252', 'stroke-dasharray':'5 4'}, svg);
+  txt(svg, x1, tolY - 5, T('tolerance λ/8 ≈ 0.07 µm','допуск λ/8 ≈ 0,07 мкм'), 'svg-small', 'end');
+  var pts = [];
+  for(var k = 0; k <= 120; k++){ var r = HUB.rEdge*k/120; pts.push(X(r).toFixed(1) + ',' + Y(dK*Math.pow(r, 4)/(8*Math.pow(HUB.R, 3))).toFixed(1)); }
+  ns('polyline', {points:pts.join(' '), fill:'none', stroke:'#b5452a', 'stroke-width':2.5}, svg);
+  ns('circle', {cx:X(HUB.rEdge), cy:Y(edgeErr), r:4, fill:'#b5452a'}, svg);
+  txt(svg, X(HUB.rEdge) - 8, Y(edgeErr) - 8, T('edge: ','край: ') + fmt(edgeErr*1e6, 2) + T(' µm too flat',' мкм — слишком плоско'), 'svg-label', 'end');
+  txt(svg, x0, y0 + 18, T('centre','центр'), 'svg-small'); txt(svg, x1, y0 + 18, T('edge, r = 1.2 m','край, r = 1,2 м'), 'svg-small', 'end');
+  txt(svg, x0 + 6, y0 - H - 2, T('surface error (µm)','ошибка поверхности (мкм)'), 'svg-small');
+}
+
+/* ============ CH3 — AIRY PATTERN ============ */
+/* Bessel J1, Numerical Recipes polynomial approximations (accurate to ~1e-8) */
+function besselJ1(x){
+  var ax = Math.abs(x), y, ans1, ans2;
+  if(ax < 8){
+    y = x*x;
+    ans1 = x*(72362614232.0 + y*(-7895059235.0 + y*(242396853.1 + y*(-2972611.439 + y*(15704.48260 + y*(-30.16036606))))));
+    ans2 = 144725228442.0 + y*(2300535178.0 + y*(18583304.74 + y*(99447.43394 + y*(376.9991397 + y))));
+    return ans1/ans2;
+  }
+  var z = 8/ax, xx = ax - 2.356194491; y = z*z;
+  ans1 = 1 + y*(0.183105e-2 + y*(-0.3516396496e-4 + y*(0.2457520174e-5 + y*(-0.240337019e-6))));
+  ans2 = 0.04687499995 + y*(-0.2002690873e-3 + y*(0.8449199096e-5 + y*(-0.88228987e-6 + y*0.105787412e-6)));
+  var ans = Math.sqrt(0.636619772/ax)*(Math.cos(xx)*ans1 - z*Math.sin(xx)*ans2);
+  return x < 0 ? -ans : ans;
+}
+function airyI(x){ if(Math.abs(x) < 1e-6) return 1; var v = 2*besselJ1(x)/x; return v*v; }
+var X1 = 3.8317059702;   /* first zero of J1: the Rayleigh angle 1.22 λ/D in these units */
+var SCOPES = [
+  {id:'eye', D:0.007, lam:550e-9, en:'Eye (7 mm)', ru:'Глаз (7 мм)'},
+  {id:'amateur', D:0.2, lam:550e-9, en:'200 mm amateur', ru:'Любительский 200 мм'},
+  {id:'hubble', D:2.4, lam:550e-9, en:'Hubble, visible', ru:'«Хаббл», видимый'},
+  {id:'webb', D:6.5, lam:2e-6, en:'Webb, 2 µm', ru:'«Уэбб», 2 мкм'},
+  {id:'elt', D:39, lam:2.2e-6, en:'ELT, 2.2 µm', ru:'ELT, 2,2 мкм'},
+  {id:'arecibo', D:305, lam:0.21, en:'Arecibo, 21 cm', ru:'Аресибо, 21 см'},
+  {id:'eht', D:1.07e7, lam:1.3e-3, eht:true, en:'EHT, 1.3 mm', ru:'EHT, 1,3 мм'}
+];
+var airy = {sep:1.6, scope:SCOPES[2]};
+var airyCanvas = document.getElementById('airyCanvas'), airyCtx = airyCanvas.getContext('2d');
+var airyPending = false;
+function drawAiry(){
+  airyPending = false;
+  var W = 480, Hh = 240, PX = 48;   /* PX pixels per Rayleigh angle */
+  var img = airyCtx.createImageData(W, Hh), d = img.data, cx = W/2, cy = Hh/2, half = airy.sep*PX/2;
+  for(var y = 0; y < Hh; y++){
+    for(var x = 0; x < W; x++){
+      var dx1 = x - (cx - half), dx2 = x - (cx + half), dy = y - cy;
+      var r1 = Math.sqrt(dx1*dx1 + dy*dy)*X1/PX, r2 = Math.sqrt(dx2*dx2 + dy*dy)*X1/PX;
+      var v = airyI(r1) + airyI(r2);
+      var g = Math.min(255, Math.round(255*Math.pow(Math.min(1, v), 0.45)));
+      var i = (y*W + x)*4; d[i] = g; d[i+1] = g; d[i+2] = g; d[i+3] = 255;
+    }
+  }
+  airyCtx.putImageData(img, 0, 0);
+  /* brightness profile through both stars */
+  airyCtx.fillStyle = '#ffffff'; airyCtx.fillRect(0, Hh, W, 120);
+  airyCtx.strokeStyle = '#c9c9c1'; airyCtx.beginPath(); airyCtx.moveTo(0, Hh + 100.5); airyCtx.lineTo(W, Hh + 100.5); airyCtx.stroke();
+  var prof = [], mx = 0;
+  for(var px = 0; px < W; px++){ var v2 = airyI(Math.abs(px - (cx - half))*X1/PX) + airyI(Math.abs(px - (cx + half))*X1/PX); prof.push(v2); mx = Math.max(mx, v2); }
+  airyCtx.strokeStyle = '#0b0b0c'; airyCtx.lineWidth = 1.5; airyCtx.beginPath();
+  prof.forEach(function(v3, px2){ var yy = Hh + 100 - v3/mx*85; if(px2) airyCtx.lineTo(px2, yy); else airyCtx.moveTo(px2, yy); });
+  airyCtx.stroke();
+  var dip = prof[Math.round(cx)]/mx;
+  airyCtx.fillStyle = '#7a7a74'; airyCtx.font = '10px "IBM Plex Mono", monospace';
+  airyCtx.fillText(T('brightness along the line through both stars','яркость вдоль линии через обе звезды'), 8, Hh + 14);
+  return dip;
+}
+function renderAiry(){
+  var sc = airy.scope, theta = sc.eht ? sc.lam/sc.D : 1.22*sc.lam/sc.D;
+  document.getElementById('sepVal').textContent = fmt(airy.sep, 2) + ' × θ';
+  var dip = drawAiry();
+  hudRes.textContent = ang(theta);
+  var moonKm = theta*384400;
+  cells(document.getElementById('airyReadout'), [
+    [T('INSTRUMENT','ИНСТРУМЕНТ'), T(sc.en, sc.ru), true],
+    [sc.eht ? T('RESOLUTION λ/B','РАЗРЕШЕНИЕ λ/B') : T('RESOLUTION 1.22 λ/D','РАЗРЕШЕНИЕ 1,22 λ/D'), ang(theta)],
+    [T('STARS SHOWN AT','ЗВЁЗДЫ НА РАССТОЯНИИ'), ang(theta*airy.sep)],
+    [T('SMALLEST MOON FEATURE','МЕЛЬЧАЙШАЯ ДЕТАЛЬ НА ЛУНЕ'), len(moonKm*1000)],
+    [T('DIP BETWEEN STARS','ПРОВАЛ МЕЖДУ ЗВЁЗДАМИ'), fmt(dip*100, 0) + '%']
+  ]);
+  document.getElementById('airyStatus').innerHTML = dip > 0.98
+    ? T('<b>One blob.</b> No dip between the peaks: these two stars cannot be told apart.', '<b>Одно пятно.</b> Провала между пиками нет: эти две звезды не различить.')
+    : (airy.sep < 0.995 ? T('<b>Barely.</b> A shallow dip, below the Rayleigh limit; careful processing might still split them.', '<b>Едва.</b> Неглубокий провал ниже предела Рэлея; тщательная обработка ещё может их разделить.')
+    : T('<b>Resolved.</b> Two stars, ' + (airy.sep < 1.05 ? 'just at the Rayleigh limit.' : 'clearly separate.'), '<b>Разрешены.</b> Две звезды, ' + (airy.sep < 1.05 ? 'ровно на пределе Рэлея.' : 'явно раздельные.')));
+}
+function scheduleAiry(){ if(!airyPending){ airyPending = true; requestAnimationFrame(renderAiry); } }
+document.getElementById('sep').addEventListener('input', function(e){ airy.sep = parseFloat(e.target.value); scheduleAiry(); });
+function renderScopePresets(){
+  var box = document.getElementById('scopePresets'); box.innerHTML = '';
+  SCOPES.forEach(function(sc){
+    var b = document.createElement('button'); b.className = 'btn' + (sc === airy.scope ? ' active' : ''); b.textContent = T(sc.en, sc.ru);
+    b.setAttribute('aria-pressed', sc === airy.scope ? 'true' : 'false');
+    b.addEventListener('click', function(){ airy.scope = sc; pressGroup(box, b); renderAiry(); });
+    box.appendChild(b);
+  });
+}
+
+/* ============ CH4 — SIZE ============ */
+var SIZES = [
+  {D:0.007, area:null, en:'Eye (7 mm pupil)', ru:'Глаз (зрачок 7 мм)', kind:'mono'},
+  {D:0.2, area:null, en:'200 mm amateur', ru:'Любительский 200 мм', kind:'mono'},
+  {D:2.4, area:null, en:'Hubble 2.4 m', ru:'«Хаббл» 2,4 м', kind:'mono'},
+  {D:6.5, area:25.4, en:'Webb 6.5 m', ru:'«Уэбб» 6,5 м', kind:'seg', segs:18},
+  {D:8.4, area:null, en:'8.4 m single mirror', ru:'Цельное зеркало 8,4 м', kind:'mono'},
+  {D:10, area:null, en:'Keck 10 m', ru:'«Кек» 10 м', kind:'seg', segs:36},
+  {D:39, area:978, en:'ELT 39 m', ru:'ELT 39 м', kind:'seg', segs:798}
+];
+var sizeSel = SIZES[3];
+function areaOf(s){ return s.area || Math.PI*s.D*s.D/4; }
+function renderSize(){
+  var svg = document.getElementById('sizeSvg'); svg.innerHTML = '';
+  var cx = 240, cy = 240, sc = 440/39;
+  SIZES.slice().reverse().forEach(function(s){
+    var r = Math.max(s.D*sc/2, 0.6), on = s === sizeSel;
+    ns('circle', {cx:cx, cy:cy, r:r.toFixed(2), fill: on ? '#efe2c6' : 'none', stroke: on ? '#a8741a' : '#0b0b0c', 'stroke-width': on ? 2.5 : 1}, svg);
+  });
+  txt(svg, cx, cy - 39*sc/2 + 18, 'ELT', 'svg-small', 'middle');
+  txt(svg, 12, 468, T('to scale · outer circle 39 m','в масштабе · внешний круг 39 м'), 'svg-small');
+  var eye = areaOf(SIZES[0]), hub = areaOf(SIZES[2]), A = areaOf(sizeSel);
+  cells(document.getElementById('sizeReadout'), [
+    [T('DIAMETER','ДИАМЕТР'), len(sizeSel.D)],
+    [T('COLLECTING AREA','ПЛОЩАДЬ СБОРА'), A >= 0.01 ? sig(A, 3) + T(' m²',' м²') : sig(A*1e6, 3) + T(' mm²',' мм²')],
+    [T('LIGHT VS THE EYE','СВЕТА ПО СРАВНЕНИЮ С ГЛАЗОМ'), '× ' + fmtInt(A/eye)],
+    [T('LIGHT VS HUBBLE','СВЕТА ПО СРАВНЕНИЮ С «ХАББЛОМ»'), '× ' + sig(A/hub, 3)]
+  ]);
+  document.getElementById('sizeStatus').innerHTML = sizeSel.kind === 'seg'
+    ? T('<b>Segmented:</b> ' + sizeSel.segs + ' pieces held in one curve.', '<b>Сегментированное:</b> ' + sizeSel.segs + ' частей, удерживаемых в одной кривой.')
+    : (sizeSel.D >= 8 ? T('<b>At the limit</b> for a single casting: the largest monolithic mirrors are 8.2–8.4 m.', '<b>На пределе</b> для одной отливки: крупнейшие монолитные зеркала — 8,2–8,4 м.')
+    : T('<b>One piece of glass.</b>', '<b>Одно стекло.</b>'));
+}
+function renderSizePresets(){
+  var box = document.getElementById('sizePresets'); box.innerHTML = '';
+  SIZES.forEach(function(s){
+    var b = document.createElement('button'); b.className = 'btn' + (s === sizeSel ? ' active' : ''); b.textContent = T(s.en, s.ru);
+    b.setAttribute('aria-pressed', s === sizeSel ? 'true' : 'false');
+    b.addEventListener('click', function(){ sizeSel = s; pressGroup(box, b); renderSize(); });
+    box.appendChild(b);
+  });
+}
+
+/* ============ CH5 — SEGMENTED MIRROR, FFT PSF ============ */
+var NF = 256;
+function fft1(re, im, n, inv){
+  for(var i = 1, j = 0; i < n; i++){
+    var bit = n >> 1;
+    for(; j & bit; bit >>= 1) j ^= bit;
+    j ^= bit;
+    if(i < j){ var t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; }
+  }
+  for(var len2 = 2; len2 <= n; len2 <<= 1){
+    var ang2 = 2*Math.PI/len2*(inv ? 1 : -1), wr = Math.cos(ang2), wi = Math.sin(ang2);
+    for(var s = 0; s < n; s += len2){
+      var cr = 1, ci = 0;
+      for(var k = 0; k < len2/2; k++){
+        var a = s + k, b = a + len2/2;
+        var xr = re[b]*cr - im[b]*ci, xi = re[b]*ci + im[b]*cr;
+        re[b] = re[a] - xr; im[b] = im[a] - xi; re[a] += xr; im[a] += xi;
+        var ncr = cr*wr - ci*wi; ci = cr*wi + ci*wr; cr = ncr;
+      }
+    }
+  }
+}
+function fft2(re, im, n){
+  var rr = new Float64Array(n), ri = new Float64Array(n), x, y;
+  for(y = 0; y < n; y++){
+    for(x = 0; x < n; x++){ rr[x] = re[y*n + x]; ri[x] = im[y*n + x]; }
+    fft1(rr, ri, n, false);
+    for(x = 0; x < n; x++){ re[y*n + x] = rr[x]; im[y*n + x] = ri[x]; }
+  }
+  for(x = 0; x < n; x++){
+    for(y = 0; y < n; y++){ rr[y] = re[y*n + x]; ri[y] = im[y*n + x]; }
+    fft1(rr, ri, n, false);
+    for(y = 0; y < n; y++){ re[y*n + x] = rr[y]; im[y*n + x] = ri[y]; }
+  }
+}
+/* Webb layout: 18 hexagons (flat-to-flat 1.32 m [1]) in two rings around an empty centre */
+var HEX_W = 1.32, GAP = 0.007, PITCH = HEX_W + GAP;
+var SEG_CENTRES = [];
+(function(){
+  for(var q = -2; q <= 2; q++) for(var r = -2; r <= 2; r++){
+    var s = -q - r, ring = Math.max(Math.abs(q), Math.abs(r), Math.abs(s));
+    if(ring === 1 || ring === 2) SEG_CENTRES.push({x:PITCH*(q + r/2), y:PITCH*(Math.sqrt(3)/2)*r});
+  }
+})();
+var PUPIL_PX = 80/6.6;     /* pixels per metre in the pupil plane: 6.6 m spans 80 of 256 px */
+var segMap = new Int8Array(NF*NF);
+(function(){
+  var Rv = HEX_W/Math.sqrt(3);
+  for(var y = 0; y < NF; y++) for(var x = 0; x < NF; x++){
+    var mx = (x - NF/2 + 0.5)/PUPIL_PX, my = (y - NF/2 + 0.5)/PUPIL_PX, id = -1;
+    for(var k = 0; k < SEG_CENTRES.length; k++){
+      var dx = Math.abs(mx - SEG_CENTRES[k].x), dy = Math.abs(my - SEG_CENTRES[k].y);
+      if(dx <= HEX_W/2 && dy <= Rv - dx/Math.sqrt(3)){ id = k; break; }
+    }
+    segMap[y*NF + x] = id;
+  }
+})();
+function gauss(rng){ var u = 1 - rng(), v = rng(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+function mulberry(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0)/4294967296; }; }
+var segRand = [];
+function reroll(seed){
+  var rng = mulberry(seed); segRand = [];
+  for(var k = 0; k < SEG_CENTRES.length; k++) segRand.push({p:gauss(rng), tx:gauss(rng), ty:gauss(rng)});
+  /* normalise piston draws to RMS 1 so the slider value is the true RMS */
+  var m = segRand.reduce(function(a, s){ return a + s.p; }, 0)/segRand.length, v = 0;
+  segRand.forEach(function(s){ s.p -= m; v += s.p*s.p; });
+  v = Math.sqrt(v/segRand.length); segRand.forEach(function(s){ s.p /= v; });
+}
+var STAGES = [
+  {pist:2500, tilt:70, en:'DEPLOYED: 18 SPOTS', ru:'РАСКРЫТО: 18 ПЯТЕН'},
+  {pist:2500, tilt:0, en:'STACKED', ru:'СВЕДЕНО'},
+  {pist:300, tilt:0, en:'COARSE PHASED', ru:'ГРУБОЕ ФАЗИРОВАНИЕ'},
+  {pist:20, tilt:0, en:'FINE PHASED', ru:'ТОЧНОЕ ФАЗИРОВАНИЕ'}
+];
+var LAMS = [0.6e-6, 1e-6, 2e-6, 4.4e-6];
+var psf = {pist:20, tilt:0, lam:2e-6, stage:3};
+var reBuf = new Float64Array(NF*NF), imBuf = new Float64Array(NF*NF), idealPeak = 0;
+function computePSF(pistNm, tiltPx, lam){
+  for(var i = 0; i < NF*NF; i++){
+    var id = segMap[i];
+    if(id < 0){ reBuf[i] = 0; imBuf[i] = 0; continue; }
+    var x = i % NF, y = (i/NF) | 0, sr = segRand[id];
+    var ph = 2*Math.PI*(pistNm*1e-9*sr.p)/lam + 2*Math.PI*(tiltPx*sr.tx*x + tiltPx*sr.ty*y)/NF*0.45;
+    reBuf[i] = Math.cos(ph); imBuf[i] = Math.sin(ph);
+  }
+  fft2(reBuf, imBuf, NF);
+  var out = new Float64Array(NF*NF), peak = 0;
+  for(var j = 0; j < NF*NF; j++){
+    var xx = (j % NF + NF/2) % NF, yy = (((j/NF) | 0) + NF/2) % NF, v = reBuf[j]*reBuf[j] + imBuf[j]*imBuf[j];
+    out[yy*NF + xx] = v; if(v > peak) peak = v;
+  }
+  return {img:out, peak:peak};
+}
+var psfCanvas = document.getElementById('psfCanvas'), psfCtx = psfCanvas.getContext('2d');
+var psfOff = document.createElement('canvas'); psfOff.width = 128; psfOff.height = 128;
+var psfPending = false;
+function drawPSF(){
+  psfPending = false;
+  if(!idealPeak) idealPeak = computePSF(0, 0, 2e-6).peak;
+  var r = computePSF(psf.pist, psf.tilt, psf.lam), oc = psfOff.getContext('2d'), im = oc.createImageData(128, 128), d = im.data;
+  for(var y = 0; y < 128; y++) for(var x = 0; x < 128; x++){
+    var v = r.img[(y + 64)*NF + (x + 64)]/idealPeak;
+    var g = Math.max(0, Math.min(1, (Math.log(v + 1e-5)/Math.LN10 + 4)/4));   /* 4 decades: core, spikes and the faint segment-lattice pattern */
+    var k = (y*128 + x)*4, c = Math.round(255*Math.pow(g, 1.3));
+    d[k] = c; d[k+1] = Math.round(c*0.93); d[k+2] = Math.round(c*0.78); d[k+3] = 255;
+  }
+  oc.putImageData(im, 0, 0);
+  psfCtx.imageSmoothingEnabled = false;
+  psfCtx.drawImage(psfOff, 0, 0, 512, 512);
+  /* inset: the mirror coloured by piston */
+  psfCtx.fillStyle = 'rgba(255,255,255,0.92)'; psfCtx.fillRect(8, 8, 112, 112);
+  var sc = 112/7.2;
+  SEG_CENTRES.forEach(function(c, k){
+    var p = segRand[k].p*Math.min(1, psf.pist/500), Rv = HEX_W/Math.sqrt(3)*sc*0.96;
+    var red = p > 0 ? Math.round(180*Math.min(1, p)) : 0, blue = p < 0 ? Math.round(180*Math.min(1, -p)) : 0;
+    psfCtx.fillStyle = 'rgb(' + (200 - blue + red*0.2 | 0) + ',' + (170 - red*0.5 - blue*0.4 | 0) + ',' + (60 + blue | 0) + ')';
+    psfCtx.beginPath();
+    for(var a = 0; a < 6; a++){ var t = Math.PI/6 + a*Math.PI/3, px = 64 + c.x*sc + Rv*Math.cos(t), py = 64 + c.y*sc + Rv*Math.sin(t); if(a) psfCtx.lineTo(px, py); else psfCtx.moveTo(px, py); }
+    psfCtx.closePath(); psfCtx.fill();
+  });
+  var strehl = r.peak/idealPeak, sigmaRad = 2*Math.PI*psf.pist*1e-9/psf.lam, marechal = Math.exp(-sigmaRad*sigmaRad);
+  document.getElementById('pistVal').textContent = fmtInt(psf.pist) + T(' nm',' нм');
+  document.getElementById('tiltErrVal').textContent = psf.tilt === 0 ? T('aligned','выровнено') : fmtInt(psf.tilt) + '%';
+  cells(document.getElementById('psfReadout'), [
+    [T('WAVELENGTH','ДЛИНА ВОЛНЫ'), fmt(psf.lam*1e6, 1) + T(' µm',' мкм')],
+    [T('DIFFRACTION LIMIT λ/D','ДИФРАКЦИОННЫЙ ПРЕДЕЛ λ/D'), ang(psf.lam/6.5)],
+    [T('PEAK VS PERFECT (STREHL)','ПИК ОТ ИДЕАЛА (ШТРЕЛЬ)'), fmt(strehl*100, 1) + '%'],
+    [T('MARÉCHAL ESTIMATE','ОЦЕНКА МАРЕШАЛЯ'), psf.tilt === 0 ? fmt(marechal*100, 1) + '%' : '—']
+  ]);
+  var st = document.getElementById('psfStatus');
+  if(psf.tilt > 20) st.innerHTML = T('<b>Eighteen stars.</b> Each tilted segment makes its own image of the same star — this is what the team saw in February 2022, before stacking.', '<b>Восемнадцать звёзд.</b> Каждый наклонённый сегмент даёт своё изображение одной и той же звезды — это команда увидела в феврале 2022 года, до сведения.');
+  else if(strehl < 0.2) st.innerHTML = T('<b>Stacked, not phased.</b> All the light lands in one place, but the segments are out of step, so it spreads into a speckled blob instead of one sharp core.', '<b>Сведено, но не сфазировано.</b> Весь свет попадает в одно место, но сегменты не в фазе, поэтому он расплывается в пятнистое пятно, а не в одно резкое ядро.');
+  else if(strehl < 0.8) st.innerHTML = T('<b>Almost.</b> A core is forming. Optics count as diffraction-limited above a Strehl ratio of about 0.8, the Maréchal criterion [7].', '<b>Почти.</b> Ядро формируется. Оптика считается дифракционно-ограниченной при числе Штреля выше ~0,8 — критерий Марешаля [7].');
+  else st.innerHTML = T('<b>One mirror.</b> 18 segments add in step: a sharp core with six spikes from the hexagon edges.', '<b>Одно зеркало.</b> 18 сегментов складываются в фазе: резкое ядро с шестью «спицами» от граней шестиугольников.');
+}
+function schedulePSF(){ if(!psfPending){ psfPending = true; requestAnimationFrame(drawPSF); } }
+var pistEl = document.getElementById('pist'), tiltErrEl = document.getElementById('tiltErr');
+pistEl.addEventListener('input', function(){ psf.pist = parseFloat(pistEl.value); clearStage(); schedulePSF(); });
+tiltErrEl.addEventListener('input', function(){ psf.tilt = parseFloat(tiltErrEl.value); clearStage(); schedulePSF(); });
+document.getElementById('reroll').addEventListener('click', function(){ reroll(Math.floor(Math.random()*1e9)); schedulePSF(); });
+function clearStage(){ psf.stage = -1; Array.prototype.forEach.call(document.querySelectorAll('#stageBtns .btn'), function(b){ b.classList.remove('active'); b.setAttribute('aria-pressed', 'false'); }); }
+function renderStageBtns(){
+  var box = document.getElementById('stageBtns'); box.innerHTML = '';
+  STAGES.forEach(function(s, i){
+    var b = document.createElement('button'); b.className = 'btn' + (psf.stage === i ? ' active' : ''); b.textContent = (i + 1) + ' · ' + T(s.en, s.ru);
+    b.setAttribute('aria-pressed', psf.stage === i ? 'true' : 'false');
+    b.addEventListener('click', function(){ psf.stage = i; psf.pist = s.pist; psf.tilt = s.tilt; pistEl.value = s.pist; tiltErrEl.value = s.tilt; pressGroup(box, b); schedulePSF(); });
+    box.appendChild(b);
+  });
+  var lb = document.getElementById('lamBtns'); lb.innerHTML = '';
+  LAMS.forEach(function(l){
+    var b = document.createElement('button'); b.className = 'btn' + (psf.lam === l ? ' active' : ''); b.textContent = fmt(l*1e6, 1) + T(' µm',' мкм');
+    b.setAttribute('aria-pressed', psf.lam === l ? 'true' : 'false');
+    b.addEventListener('click', function(){ psf.lam = l; pressGroup(lb, b); schedulePSF(); });
+    lb.appendChild(b);
+  });
+}
+
+/* ============ CH6 — RUZE + FAST ============ */
+var C = 299792458;
+var EPS_MIN = 5e-6, EPS_MAX = 0.01, F_MIN = 0.1e9, F_MAX = 1000e9;
+function logMap(v, a, b){ return a*Math.pow(b/a, v/1000); }
+function logInv(x, a, b){ return Math.round(1000*Math.log(x/a)/Math.log(b/a)); }
+var ruze = {eps:25e-6, f:345e9};
+var RUZE_PRESETS = [
+  {eps:25e-6, f:345e9, en:'ALMA 12 m, 345 GHz', ru:'ALMA 12 м, 345 ГГц'},
+  {eps:25e-6, f:950e9, en:'ALMA 12 m, 950 GHz', ru:'ALMA 12 м, 950 ГГц'},
+  {eps:230e-6, f:100e9, en:'Green Bank, 100 GHz', ru:'Грин-Бэнк, 100 ГГц'},
+  {eps:230e-6, f:1.42e9, en:'Green Bank, 21 cm', ru:'Грин-Бэнк, 21 см'}
+];
+function eff(eps, f){ var lam = C/f, a = 4*Math.PI*eps/lam; return Math.exp(-a*a); }
+function renderRuzePresets(){
+  var box = document.getElementById('ruzePresets'); box.innerHTML = '';
+  RUZE_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn'; b.textContent = T(p.en, p.ru);
+    b.addEventListener('click', function(){ ruze.eps = p.eps; ruze.f = p.f; syncRuzeSliders(); renderRuze(); pressGroup(box, b); });
+    box.appendChild(b);
+  });
+}
+function syncRuzeSliders(){ document.getElementById('ruzeEps').value = logInv(ruze.eps, EPS_MIN, EPS_MAX); document.getElementById('ruzeF').value = logInv(ruze.f, F_MIN, F_MAX); }
+function freq(f){ return f >= 1e9 ? sig(f/1e9, 3) + T(' GHz',' ГГц') : sig(f/1e6, 3) + T(' MHz',' МГц'); }
+function renderRuze(){
+  var svg = document.getElementById('ruzeSvg'); svg.innerHTML = '';
+  var x0 = 50, x1 = 460, y0 = 250, H = 210;
+  function X(f){ return x0 + (x1 - x0)*Math.log(f/F_MIN)/Math.log(F_MAX/F_MIN); }
+  function Y(e){ return y0 - e*H; }
+  ns('line', {x1:x0, y1:y0, x2:x1, y2:y0, stroke:'#0b0b0c'}, svg);
+  ns('line', {x1:x0, y1:y0, x2:x0, y2:y0 - H, stroke:'#0b0b0c'}, svg);
+  ns('line', {x1:x0, y1:Y(0.5), x2:x1, y2:Y(0.5), stroke:'#c9c9c1', 'stroke-dasharray':'4 4'}, svg);
+  txt(svg, x0 - 6, Y(1) + 4, '100%', 'svg-small', 'end'); txt(svg, x0 - 6, Y(0.5) + 4, '50%', 'svg-small', 'end'); txt(svg, x0 - 6, Y(0) + 4, '0', 'svg-small', 'end');
+  [0.1e9, 1e9, 10e9, 100e9, 1000e9].forEach(function(f){ ns('line', {x1:X(f), y1:y0, x2:X(f), y2:y0 + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(f), y0 + 16, freq(f), 'svg-small', 'middle'); });
+  var pts = [];
+  for(var k = 0; k <= 200; k++){ var f = logMap(k*5, F_MIN, F_MAX); pts.push(X(f).toFixed(1) + ',' + Y(eff(ruze.eps, f)).toFixed(1)); }
+  ns('polyline', {points:pts.join(' '), fill:'none', stroke:'#2f5aa1', 'stroke-width':2.2}, svg);
+  var e = eff(ruze.eps, ruze.f);
+  ns('circle', {cx:X(ruze.f), cy:Y(e), r:5, fill:'#b5452a'}, svg);
+  txt(svg, x0 + 6, y0 - H - 6 + 14, T('fraction of signal kept (Ruze)','доля сохранённого сигнала (Рузе)'), 'svg-small');
+  document.getElementById('ruzeEpsVal').textContent = len(ruze.eps);
+  document.getElementById('ruzeFVal').textContent = freq(ruze.f);
+  var lam = C/ruze.f, fHalf = C*Math.sqrt(Math.LN2)/(4*Math.PI*ruze.eps);
+  cells(document.getElementById('ruzeReadout'), [
+    [T('WAVELENGTH','ДЛИНА ВОЛНЫ'), len(lam)],
+    [T('ERROR / WAVELENGTH','ОШИБКА / ДЛИНА ВОЛНЫ'), 'λ/' + sig(lam/ruze.eps, 3)],
+    [T('SIGNAL KEPT','СИГНАЛА СОХРАНЕНО'), fmt(e*100, 1) + '%'],
+    [T('50% UP TO','50% ДО'), freq(fHalf)]
+  ]);
+  document.getElementById('ruzeStatus').innerHTML = e > 0.8
+    ? T('<b>Smooth enough.</b> At this wavelength the dish behaves as a perfect parabola.', '<b>Достаточно гладко.</b> На этой длине волны антенна ведёт себя как идеальная парабола.')
+    : (e > 0.5 ? T('<b>Usable</b>, with losses. Above about ' + freq(fHalf) + ' more than half the signal scatters away.', '<b>Пригодно</b>, с потерями. Выше примерно ' + freq(fHalf) + ' больше половины сигнала рассеивается.')
+    : T('<b>Too rough</b> for this frequency: most of the signal is scattered instead of focused.', '<b>Слишком грубо</b> для этой частоты: большая часть сигнала рассеивается, а не фокусируется.'));
+}
+document.getElementById('ruzeEps').addEventListener('input', function(e){ ruze.eps = logMap(parseFloat(e.target.value), EPS_MIN, EPS_MAX); renderRuze(); });
+document.getElementById('ruzeF').addEventListener('input', function(e){ ruze.f = logMap(parseFloat(e.target.value), F_MIN, F_MAX); renderRuze(); });
+
+/* FAST: sphere R = 300 m, illuminated 300 m patch pulled into a paraboloid with f = 0.4665 R [9] */
+var FAST = {R:300, f:0.4665*300, half:150};
+(function(){
+  /* best-fit vertical offset c of the paraboloid (minimax), computed once */
+  var best = null;
+  for(var c = -2; c <= 2; c += 0.0005){
+    var mx = 0;
+    for(var k = 0; k <= 150; k++){ var r = FAST.half*k/150, zs = FAST.R - Math.sqrt(FAST.R*FAST.R - r*r), zp = r*r/(4*FAST.f) + c; mx = Math.max(mx, Math.abs(zp - zs)); }
+    if(!best || mx < best.d) best = {d:mx, c:c};
+  }
+  FAST.c = best.c; FAST.maxDev = best.d;
+})();
+var fastAng = 0;
+function renderFast(){
+  var svg = document.getElementById('fastSvg'); svg.innerHTML = '';
+  var s = 0.62, cx = 240, cy = 20, R = FAST.R;   /* sphere centre near the top of the drawing */
+  function P(ax, r){ return (cx + ax*s).toFixed(1) + ',' + (cy + r*s).toFixed(1); }
+  var edge = Math.asin(250/R), pts = [];
+  for(var k = 0; k <= 120; k++){ var a = -edge + 2*edge*k/120; pts.push((cx + R*Math.sin(a)*s).toFixed(1) + ',' + (cy + R*Math.cos(a)*s).toFixed(1)); }
+  ns('polyline', {points:pts.join(' '), fill:'none', stroke:'#c9c9c1', 'stroke-width':4}, svg);
+  /* active patch: paraboloid with axis along the pointing direction, deviation exaggerated ×40 */
+  var th = fastAng*Math.PI/180, ux = Math.sin(th), uy = Math.cos(th), vx = Math.cos(th), vy = -Math.sin(th);
+  var patch = [];
+  for(var j = 0; j <= 80; j++){
+    var r = -FAST.half + 2*FAST.half*j/80, zs = R - Math.sqrt(R*R - r*r), zp = r*r/(4*FAST.f) + FAST.c;
+    var dev = (zp - zs)*40, rad = R - zs - dev;   /* distance from the sphere centre along the local normal */
+    var a2 = Math.asin(r/R);
+    var dirx = Math.sin(th + a2), diry = Math.cos(th + a2);
+    patch.push((cx + dirx*(R - dev)*s).toFixed(1) + ',' + (cy + diry*(R - dev)*s).toFixed(1));
+  }
+  ns('polyline', {points:patch.join(' '), fill:'none', stroke:'#a8741a', 'stroke-width':3}, svg);
+  /* focal cabin on the axis, f from the vertex */
+  var fr = R - FAST.f - FAST.c;
+  var fx = cx + ux*fr*s, fy = cy + uy*fr*s;
+  ns('line', {x1:cx + ux*R*s, y1:cy + uy*R*s, x2:cx - ux*20*s, y2:cy - uy*20*s, stroke:'#2f5aa1', 'stroke-dasharray':'4 4'}, svg);
+  ns('rect', {x:fx - 6, y:fy - 6, width:12, height:12, fill:'#0b0b0c'}, svg);
+  txt(svg, fx + 10, fy + 4, T('feed cabin','кабина облучателя'), 'svg-small');
+  txt(svg, 10, 292, T('grey: 500 m spherical dish · gold: 300 m paraboloid (deviation ×40)','серое: сферическое зеркало 500 м · золото: параболоид 300 м (отклонение ×40)'), 'svg-small');
+  document.getElementById('fastAngVal').textContent = fmt(Math.abs(fastAng), 1) + '°';
+  cells(document.getElementById('fastReadout'), [
+    [T('FOCAL LENGTH','ФОКУСНОЕ РАССТОЯНИЕ'), len(FAST.f)],
+    [T('PANEL MOVEMENT (MAX)','ХОД ПАНЕЛЕЙ (МАКС.)'), '± ' + len(FAST.maxDev)],
+    [T('PATCH / DISH','УЧАСТОК / ЗЕРКАЛО'), T('300 m of 500 m','300 м из 500 м')],
+    [T('FULL PATCH UP TO','ПОЛНЫЙ УЧАСТОК ДО'), fmt(Math.asin(250/300)*180/Math.PI - 30, 1) + T('° from zenith','° от зенита')]
+  ]);
+}
+document.getElementById('fastAng').addEventListener('input', function(e){ fastAng = parseFloat(e.target.value); renderFast(); });
+
+/* ============ CH7 — CONIC FAMILY ============ */
+var conicK = -1;
+function conicSag(x, R, K){ var q = 1 - (1 + K)*x*x/(R*R); return x*x/(R*(1 + Math.sqrt(Math.max(q, 0)))); }
+function conicSlope(x, R, K){ var h = 1e-6; return (conicSag(x + h, R, K) - conicSag(x - h, R, K))/(2*h); }
+var K_PRESETS = [
+  {K:0, en:'Sphere (0)', ru:'Сфера (0)'},
+  {K:-0.5, en:'Ellipse (−0.5)', ru:'Эллипс (−0,5)'},
+  {K:-1, en:'Parabola (−1)', ru:'Парабола (−1)'},
+  {K:-1.0023, en:'Hubble primary (−1.0023)', ru:'Главное «Хаббла» (−1,0023)'},
+  {K:-2, en:'Hyperbola (−2)', ru:'Гипербола (−2)'}
+];
+function renderKPresets(){
+  var box = document.getElementById('kPresets'); box.innerHTML = '';
+  K_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn'; b.textContent = T(p.en, p.ru);
+    b.addEventListener('click', function(){ conicK = p.K; document.getElementById('kSlider').value = p.K; pressGroup(box, b); renderConic(); });
+    box.appendChild(b);
+  });
+}
+function renderConic(){
+  var svg = document.getElementById('conicSvg'); svg.innerHTML = '';
+  var f = 1, R = 2*f, D = f/0.6, s = 400/(D*1.1), ox = 240, oy = 385;
+  function Pt(x, z){ return (ox + x*s).toFixed(1) + ',' + (oy - z*s).toFixed(1); }
+  var zTop = f*1.12;
+  ns('line', {x1:ox, y1:oy + 6, x2:ox, y2:oy - zTop*s, stroke:'#c9c9c1', 'stroke-dasharray':'3 4'}, svg);
+  var crossings = [];
+  for(var i = 0; i < 17; i++){
+    var xm = -D/2*0.97 + D*0.97*i/16; if(Math.abs(xm) < 1e-9) continue;
+    var zm = conicSag(xm, R, conicK), m = conicSlope(xm, R, conicK), nl = Math.sqrt(1 + m*m), nx = -m/nl, nz = 1/nl;
+    /* incoming d = (0, −1); reflected r = d − 2(d·n)n */
+    var dn = -nz, rx = -2*dn*nx, rz = -1 - 2*dn*nz;
+    var tAxis = -xm/rx, zc = zm + tAxis*rz;
+    crossings.push(zc);
+    ns('line', {x1:(ox + xm*s).toFixed(1), y1:(oy - zTop*s).toFixed(1), x2:(ox + xm*s).toFixed(1), y2:(oy - zm*s).toFixed(1), stroke:'#2f5aa1', opacity:0.7}, svg);
+    var tEnd = Math.min(tAxis*1.3, 3);
+    ns('line', {x1:(ox + xm*s).toFixed(1), y1:(oy - zm*s).toFixed(1), x2:(ox + (xm + rx*tEnd)*s).toFixed(1), y2:(oy - (zm + rz*tEnd)*s).toFixed(1), stroke:'#b5452a', opacity:0.8}, svg);
+  }
+  var pts = [];
+  for(var k = 0; k <= 100; k++){ var x = -D/2 + D*k/100; pts.push(Pt(x, conicSag(x, R, conicK))); }
+  ns('polyline', {points:pts.join(' '), fill:'none', stroke:'#0b0b0c', 'stroke-width':3}, svg);
+  ns('circle', {cx:ox, cy:oy - f*s, r:3.5, fill:'#0b0b0c'}, svg);
+  txt(svg, ox + 8, oy - f*s - 6, T('paraxial focus','параксиальный фокус'), 'svg-small');
+  var zmin = Math.min.apply(null, crossings), zmax = Math.max.apply(null, crossings), spread = zmax - zmin;
+  document.getElementById('kVal').textContent = (conicK < 0 ? '−' : '') + fmt(Math.abs(conicK), 4);
+  var name = Math.abs(conicK + 1) < 0.0005 ? T('parabola','парабола') : conicK < -1 ? T('hyperbola','гипербола') : conicK < 0 ? T('prolate ellipse','вытянутый эллипс') : conicK === 0 ? T('sphere','сфера') : T('oblate ellipse','сплюснутый эллипс');
+  cells(document.getElementById('conicReadout'), [
+    [T('SHAPE','ФОРМА'), name],
+    [T('RAYS CROSS THE AXIS OVER','ЛУЧИ ПЕРЕСЕКАЮТ ОСЬ НА ПРОТЯЖЕНИИ'), spread < 1e-9 ? T('one point','одной точке') : fmt(spread*1000, 1) + T(' mm per m of focal length',' мм на 1 м фокуса')]
+  ]);
+  document.getElementById('conicStatus').innerHTML = spread < 1e-9
+    ? T('<b>K = −1:</b> every ray meets at the focus. Only the parabola does this for a star on the axis.', '<b>K = −1:</b> все лучи встречаются в фокусе. Для звезды на оси так умеет только парабола.')
+    : (conicK < -1 ? T('<b>Hyperbola:</b> outer rays focus too far. Alone it blurs; paired with a matching hyperbolic secondary (Ritchey–Chrétien) it cancels coma over a wide field.', '<b>Гипербола:</b> краевые лучи фокусируются слишком далеко. Одна она размывает; в паре с подходящим гиперболическим вторичным (Ричи — Кретьен) она убирает кому в широком поле.')
+    : T('<b>Under-corrected:</b> outer rays focus too short, like the sphere in Chapter 1.', '<b>Недокоррекция:</b> краевые лучи фокусируются слишком близко, как у сферы в главе 1.'));
+}
+document.getElementById('kSlider').addEventListener('input', function(e){ conicK = parseFloat(e.target.value); renderConic(); });
+
+/* Cassegrain: parabolic primary (focus F1) + hyperbolic secondary with foci F1 and F2 behind the primary */
+function renderCass(){
+  var svg = document.getElementById('cassSvg'); svg.innerHTML = '';
+  var f = 1, D = 0.9, zS = 0.72, zF2 = -0.25;              /* secondary vertex and final focus along the axis */
+  var twoA = (zS - zF2) - (f - zS);                           /* |P−F2| − |P−F1| at the secondary vertex */
+  var sx = 480, ox = 640, oy = 112, VS = 210;                 /* axis horizontal: screen x = ox − z·sx; heights stretched (VS px per unit) */
+  function S(x, z){ return (ox - z*sx).toFixed(1) + ',' + (oy - x*VS).toFixed(1); }
+  function hyp(px, pz){ var d2 = Math.hypot(px, pz - zF2), d1 = Math.hypot(px, pz - f); return d2 - d1 - twoA; }
+  /* primary */
+  var pp = [];
+  for(var k = 0; k <= 60; k++){ var x = -D/2 + D*k/60; if(Math.abs(x) < 0.09) { pp.push(null); continue; } pp.push(S(x, x*x/(4*f))); }
+  var segA = pp.slice(0, 31).filter(Boolean), segB = pp.slice(31).filter(Boolean);
+  ns('polyline', {points:segA.join(' '), fill:'none', stroke:'#0b0b0c', 'stroke-width':3}, svg);
+  ns('polyline', {points:segB.join(' '), fill:'none', stroke:'#0b0b0c', 'stroke-width':3}, svg);
+  /* rays */
+  var secPts = [];
+  [-0.42, -0.32, -0.22, -0.14, 0.14, 0.22, 0.32, 0.42].forEach(function(xm){
+    var zm = xm*xm/(4*f);
+    var lo = 0, hi = 0.999, t;
+    for(var it = 0; it < 60; it++){ t = (lo + hi)/2; var px = xm*(1 - t), pz = zm + (f - zm)*t; if(hyp(px, pz) > 0) hi = t; else lo = t; }
+    var Px = xm*(1 - t), Pz = zm + (f - zm)*t;
+    secPts.push([Px, Pz]);
+    ns('line', {x1:(ox - 1.15*sx).toFixed(1), y1:S(xm, 0).split(',')[1], x2:S(xm, zm).split(',')[0], y2:S(xm, zm).split(',')[1], stroke:'#2f5aa1', opacity:0.7}, svg);
+    ns('polyline', {points:[S(xm, zm), S(Px, Pz), S(0, zF2)].join(' '), fill:'none', stroke:'#b5452a', opacity:0.85}, svg);
+  });
+  secPts.sort(function(a, b){ return a[0] - b[0]; });
+  ns('polyline', {points:secPts.map(function(p){ return S(p[0], p[1]); }).join(' '), fill:'none', stroke:'#0b0b0c', 'stroke-width':3}, svg);
+  ns('circle', {cx:ox - f*sx, cy:oy, r:3, fill:'none', stroke:'#7a7a74'}, svg);
+  txt(svg, ox - f*sx, oy - 10, T('F₁ (primary focus)','F₁ (фокус главного)'), 'svg-small', 'middle');
+  ns('circle', {cx:ox - zF2*sx, cy:oy, r:3.5, fill:'#0b0b0c'}, svg);
+  txt(svg, ox - zF2*sx - 4, oy + 22, T('F₂ — camera','F₂ — камера'), 'svg-label', 'end');
+  txt(svg, 12, 222, T('light enters from the left · parabolic primary · convex hyperbolic secondary · focus behind the primary','свет входит слева · параболическое главное · выпуклое гиперболическое вторичное · фокус за главным'), 'svg-small');
+}
+
+/* ============ CH8 — FOCUS TABLE ============ */
+function renderFocus(){
+  var rows = [
+    [T('Webb near-infrared (NIRCam, NIRSpec, NIRISS)','«Уэбб», ближний ИК (NIRCam, NIRSpec, NIRISS)'), T('HgCdTe arrays','матрицы HgCdTe'), T('~37 K, passively cooled [4]','~37 K, пассивное охлаждение [4]')],
+    [T('Webb mid-infrared (MIRI)','«Уэбб», средний ИК (MIRI)'), T('Si:As arrays','матрицы Si:As'), T('below 7 K, helium cryocooler [4]','ниже 7 K, гелиевый криокулер [4]')],
+    [T('Webb mirrors (gold, 0.6–28 µm)','Зеркала «Уэбба» (золото, 0,6–28 мкм)'), T('beryllium + 100 nm gold','бериллий + 100 нм золота'), T('about −220 °C in the sunshield\'s shade [1][2]','около −220 °C в тени щита [1][2]')],
+    [T('Radio telescope','Радиотелескоп'), T('feed horn + low-noise amplifier','облучатель + малошумящий усилитель'), T('first stage often cryogenically cooled','первый каскад часто охлаждают криогенно')],
+    [T('Your eye at a small telescope','Ваш глаз у небольшого телескопа'), T('retina','сетчатка'), '~310 K']
+  ];
+  document.getElementById('focusTable').innerHTML = '<thead><tr><th>' + T('At the focus','В фокусе') + '</th><th>' + T('Detector','Приёмник') + '</th><th>' + T('Temperature','Температура') + '</th></tr></thead><tbody>' +
+    rows.map(function(r){ return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td><td class="n">' + r[2] + '</td></tr>'; }).join('') + '</tbody>';
+}
+
+/* ============ CH9 — TIMELINE ============ */
+function renderTimeline(){
+  var items = [
+    ['1948', T('<b>Hale 200-inch (5.1 m)</b> dedicated at Palomar — the largest effective telescope in the world until 1993 [16].','<b>200-дюймовый телескоп Хейла (5,1 м)</b> открыт в Паломаре — крупнейший действующий телескоп мира до 1993 года [16].')],
+    ['1963', T('<b>Arecibo</b>, a 305 m <i>spherical</i> radio dish in a Puerto Rican sinkhole, its feed corrected for the sphere\'s aberration [15].','<b>Аресибо</b> — 305-метровое <i>сферическое</i> радиозеркало в карстовой воронке Пуэрто-Рико; облучатель исправлял аберрацию сферы [15].')],
+    ['1990', T('<b>Hubble</b> launched on 24 April; spherical aberration found on 27 June — a 2 µm figure error [5][6].','<b>«Хаббл»</b> запущен 24 апреля; 27 июня обнаружена сферическая аберрация — ошибка формы в 2 мкм [5][6].')],
+    ['1993', T('<b>Hubble fixed</b> in December: COSTAR and WFPC2 correct the mirror optically [5]. <b>Keck</b>\'s 36-segment 10 m mirror starts the segmented era [13].','<b>«Хаббл» исправлен</b> в декабре: COSTAR и WFPC2 оптически компенсируют зеркало [5]. 10-метровое зеркало <b>«Кека»</b> из 36 сегментов открывает эру сегментированных зеркал [13].')],
+    ['2016', T('<b>FAST</b> completed: a 500 m sphere that turns a 300 m patch of itself into a paraboloid for each source (design: [9]).','<b>FAST</b> построен: 500-метровая сфера, превращающая 300-метровый участок себя в параболоид для каждого источника (проект: [9]).')],
+    ['2019', T('<b>Event Horizon Telescope</b> images the black hole in M87 with dishes spread across the Earth at 1.3 mm [14].','<b>Телескоп горизонта событий</b> получает изображение чёрной дыры в M87, объединив антенны по всей Земле на волне 1,3 мм [14].')],
+    ['2020', T('<b>Arecibo collapses</b> on 1 December after cable failures [15].','<b>Аресибо обрушился</b> 1 декабря после обрыва тросов [15].')],
+    ['2022', T('<b>Webb</b>: 18 segments phased into one mirror on 11 March, less than three months after launch [3].','<b>«Уэбб»</b>: 18 сегментов сфазированы в одно зеркало 11 марта, менее чем через три месяца после запуска [3].')],
+    ['2029', T('<b>ELT</b> technical first light planned: 798 segments, 978 m², aligned to tens of nanometres [12].','<b>ELT</b>: технический первый свет запланирован на 2029 год — 798 сегментов, 978 м², выравнивание до десятков нанометров [12].')]
+  ];
+  document.getElementById('timeline').innerHTML = items.map(function(it){ return '<div class="tl"><div class="tl-y">' + it[0] + '</div><div class="tl-t">' + it[1] + '</div></div>'; }).join('');
+}
+
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {title:'Webb\'s Mirrors', url:'https://science.nasa.gov/mission/webb/webbs-mirrors/', note:{en:'NASA. 6.5 m primary of 18 hexagonal beryllium segments, 1.32 m flat to flat, about 20 kg each; 100 nm gold coating; seven actuators per segment; about −220 °C; three-mirror anastigmat design.', ru:'NASA. Главное зеркало 6,5 м из 18 шестиугольных бериллиевых сегментов по 1,32 м между гранями, около 20 кг каждый; золото 100 нм; семь актуаторов на сегмент; около −220 °C; трёхзеркальный анастигмат.'}},
+  {title:'JWST Telescope — JWST User Documentation (STScI)', url:'https://jwst-docs.stsci.edu/jwst-observatory-hardware/jwst-telescope', note:{en:'Unobscured collecting area 25.4 m² (26.3 m² polished); gold coating reflective from 0.6 to beyond 28 µm; three-mirror anastigmat, effective f/20.', ru:'Площадь сбора без затенения 25,4 м² (полированная — 26,3 м²); золотое покрытие отражает от 0,6 до более чем 28 мкм; трёхзеркальный анастигмат, эффективное f/20.'}},
+  {title:'NASA\'s Webb Reaches Alignment Milestone, Optics Working Successfully (16 March 2022)', url:'https://science.nasa.gov/resource/nasas-webb-reaches-alignment-milestone-optics-working-successfully/', note:{en:'Fine phasing completed on 11 March 2022; all 18 segments producing one unified image of a star.', ru:'Точное фазирование завершено 11 марта 2022 года; все 18 сегментов дают одно изображение звезды.'}},
+  {title:'Webb Cryocooler', url:'https://science.nasa.gov/mission/webb/cryocooler/', note:{en:'Near-infrared HgCdTe detectors work at about 37 K; MIRI\'s Si:As detectors need less than 7 K, reached with a dedicated cryocooler.', ru:'Детекторы ближнего ИК из HgCdTe работают при ~37 K; детекторам MIRI из Si:As нужно меньше 7 K, что достигается отдельным криокулером.'}},
+  {title:'Hubble\'s Mirror Flaw', url:'https://science.nasa.gov/mission/hubble/observatory/design/optics/hubbles-mirror-flaw/', note:{en:'NASA. Null-corrector spacing error of 1.3 mm made the mirror too flat away from its centre; flaw found 27 June 1990; corrected by COSTAR and WFPC2 in December 1993; Ritchey–Chrétien Cassegrain design.', ru:'NASA. Ошибка расстояния в нуль-корректоре 1,3 мм сделала зеркало слишком плоским вдали от центра; дефект обнаружен 27 июня 1990 года; исправлен COSTAR и WFPC2 в декабре 1993 года; схема Ричи — Кретьена.'}},
+  {title:'Allen, L. et al. (1990), The Hubble Space Telescope Optical Systems Failure Report, NASA-TM-103443', url:'https://ntrs.nasa.gov/citations/19910003124', note:{en:'The investigation board report: design conic constant −1.0023, as-built about −1.0139; cause traced to the reflective null corrector.', ru:'Отчёт комиссии: проектный конический коэффициент −1,0023, фактический около −1,0139; причина — отражательный нуль-корректор.'}},
+  {title:'Born, M. & Wolf, E., Principles of Optics, 7th ed. (Cambridge University Press, 1999)', url:'https://doi.org/10.1017/CBO9781139644181', note:{en:'Reflection from conic surfaces, the Airy pattern and the 1.22 λ/D first zero, the Rayleigh criterion, and the Maréchal / Strehl relation used in Chapters 2, 3 and 5.', ru:'Отражение от конических поверхностей, картина Эйри и первый ноль 1,22 λ/D, критерий Рэлея, связь Марешаля / Штреля — главы 2, 3 и 5.'}},
+  {title:'Ruze, J. (1966), “Antenna tolerance theory — A review”, Proceedings of the IEEE 54(4), 633–640', url:'https://doi.org/10.1109/PROC.1966.4784', note:{en:'Gain loss of a reflector with random surface errors: η = exp[−(4πε/λ)²].', ru:'Потери усиления рефлектора со случайными ошибками поверхности: η = exp[−(4πε/λ)²].'}},
+  {title:'Nan, R. et al. (2011), “The Five-Hundred-Meter Aperture Spherical Radio Telescope (FAST) Project”, Int. J. Mod. Phys. D 20, 989', url:'https://arxiv.org/abs/1105.3794', note:{en:'Spherical reflector of radius 300 m and aperture 500 m; illuminated 300 m patch adapted into a paraboloid; f/R = 0.4665; cable net with about 2,200 actuated nodes.', ru:'Сферический рефлектор радиусом 300 м и апертурой 500 м; освещаемый участок 300 м превращается в параболоид; f/R = 0,4665; тросовая сеть примерно с 2200 узлами-приводами.'}},
+  {title:'Andersen, T. & Napier, P., ALMA Project Book, Chapter 4: Antennas', url:'https://www.cv.nrao.edu/~demerson/almapbk/construc/chap4/chap4.pdf', note:{en:'12 m antenna surface specification of 25 µm RMS (goal 20 µm) for operation to the highest ALMA bands.', ru:'Требование к поверхности 12-метровых антенн — 25 мкм СКО (цель — 20 мкм) для работы в самых высокочастотных диапазонах ALMA.'}},
+  {title:'Green Bank Observatory, Proposer\'s Guide for the Green Bank Telescope', url:'https://greenbankobservatory.org/wp-content/uploads/2017/07/GBTpg.pdf', note:{en:'Active-surface accuracy of the 100 m GBT, a few hundred micrometres RMS in good conditions.', ru:'Точность активной поверхности 100-метрового GBT — несколько сотен микрометров СКО в хороших условиях.'}},
+  {title:'ESO, Extremely Large Telescope — Facts', url:'https://elt.eso.org/about/facts/', note:{en:'39 m main mirror of 798 segments, 978 m² collecting area, segment alignment to tens of nanometres, technical first light planned for 2029.', ru:'Главное зеркало 39 м из 798 сегментов, площадь сбора 978 м², выравнивание сегментов до десятков нанометров, технический первый свет — 2029 год.'}},
+  {title:'W. M. Keck Observatory — Telescopes', url:'https://keckobservatory.org/our-story/telescopes/', note:{en:'Twin 10 m telescopes, each primary made of 36 hexagonal segments working as one mirror.', ru:'Два 10-метровых телескопа; главное зеркало каждого — 36 шестиугольных сегментов, работающих как одно зеркало.'}},
+  {title:'Event Horizon Telescope Collaboration (2019), “First M87 Event Horizon Telescope Results. I.”, ApJL 875, L1', url:'https://doi.org/10.3847/2041-8213/ab0ec7', note:{en:'Earth-sized interferometer at 1.3 mm; angular resolution of about 25 µas, set by wavelength over baseline.', ru:'Интерферометр размером с Землю на волне 1,3 мм; угловое разрешение около 25 мксек, определяемое отношением длины волны к базе.'}},
+  {title:'NSF, Report on the Arecibo Observatory', url:'https://nsf-gov-resources.nsf.gov/files/AreciboReportFINAL-Protected-508-r.pdf', note:{en:'History of the 305 m telescope and the 1 December 2020 collapse of its instrument platform.', ru:'История 305-метрового телескопа и обрушение его приборной платформы 1 декабря 2020 года.'}},
+  {title:'Palomar Observatory, The 200-inch (5.1-meter) Hale Telescope', url:'https://sites.astro.caltech.edu/palomar/about/telescopes/hale.html', note:{en:'Dedicated in 1948; the largest effective telescope in the world until 1993.', ru:'Открыт в 1948 году; крупнейший действующий телескоп мира до 1993 года.'}}
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  REFERENCES.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderRay();
+  renderSagPresets(); renderSag(); renderHubble();
+  renderScopePresets(); renderAiry();
+  renderSizePresets(); renderSize();
+  renderStageBtns(); schedulePSF();
+  renderRuzePresets(); renderRuze(); renderFast();
+  renderKPresets(); renderConic(); renderCass();
+  renderFocus(); renderTimeline(); renderRefs();
+  onScroll();
+}
+reroll(20220311);
+sagDEl.value = sliderFromD(sag.D);
+syncRuzeSliders();
+applyLang('en');
+
+/* test hook (used by the page's automated checks; harmless in production) */
+window.__parabola = {traceRay:traceRay, besselJ1:besselJ1, airyI:airyI, conicSag:conicSag, eff:eff, FAST:FAST, computePSF:computePSF, SEG_CENTRES:SEG_CENTRES, segMap:segMap};
+})();
+
+</script>
+</body>
+</html>
