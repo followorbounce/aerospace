@@ -220,7 +220,7 @@ select{
         <span class="vnum" data-en="THIRD COSMIC VELOCITY" data-ru="ТРЕТЬЯ КОСМИЧЕСКАЯ СКОРОСТЬ">THIRD COSMIC VELOCITY</span>
         <span class="vval">16.6 KM/S</span>
         <svg viewBox="0 0 200 160"><circle cx="100" cy="80" r="6" fill="#0b0b0c"/><circle cx="40" cy="80" r="10" fill="#0b0b0c"/><path d="M40 80 C 20 30, 140 10, 190 40" fill="none" stroke="#0b0b0c" stroke-width="1.4"/><circle cx="188" cy="38" r="3" fill="#0b0b0c"/></svg>
-        <p data-en="Measured from Earth's orbit around the Sun, this is what's needed to leave the Solar System entirely — the speed of Voyager and Pioneer." data-ru="Отсчитывается от орбиты Земли вокруг Солнца — скорость, необходимая, чтобы полностью покинуть Солнечную систему. Это скорость «Вояджеров» и «Пионеров».">Measured from Earth's orbit around the Sun, this is what's needed to leave the Solar System entirely — the speed of Voyager and Pioneer.</p>
+        <p data-en="Measured relative to Earth, for a launch near the surface aimed along Earth's orbital motion, this is what's needed to leave the Solar System entirely. Relative to the Sun that is about 42.1 km/s; Earth's own 29.8 km/s orbital speed supplies the rest. Voyager and Pioneer reached solar escape only with a gravity assist from Jupiter." data-ru="Отсчитывается относительно Земли — при старте у поверхности по направлению орбитального движения Земли; это скорость, необходимая, чтобы полностью покинуть Солнечную систему. Относительно Солнца это около 42,1 км/с — остальные 29,8 км/с даёт орбитальное движение самой Земли. «Вояджеры» и «Пионеры» набрали скорость ухода из Солнечной системы лишь благодаря гравитационному манёвру у Юпитера.">Measured relative to Earth, for a launch near the surface aimed along Earth's orbital motion, this is what's needed to leave the Solar System entirely. Relative to the Sun that is about 42.1 km/s; Earth's own 29.8 km/s orbital speed supplies the rest. Voyager and Pioneer reached solar escape only with a gravity assist from Jupiter.</p>
       </div>
     </div>
   </div>
@@ -447,12 +447,18 @@ onScroll();
       verdict.innerHTML = lang==='en' ? 'SUBORBITAL — trajectory intersects the surface. The cannonball lands.' : 'СУБОРБИТАЛЬНАЯ ТРАЕКТОРИЯ — пересекает поверхность. Ядро падает на землю.';
     } else if(v < 11.15){
       // elliptical orbit, eccentricity grows with v
-      var e = (v-7.9)/(11.2-7.9)*0.75;
-      var a = R+34;
+      // Horizontal launch at radius rp makes the launch point the perigee:
+      // vis-viva gives e = (v/v_circ)^2 - 1 and a = rp/(1-e). Earth's centre
+      // is the lower focus; the apogee (opposite side) grows with v and
+      // leaves the frame above ~10 km/s. (Fixed 2026-10-02: the old drawing
+      // kept a fixed and slid the ellipse sideways, so its perigee dipped
+      // inside the Earth for v > ~9 km/s.)
+      var rp = R+2;
+      var e = Math.max(0, Math.min(0.995, (v/7.9)*(v/7.9) - 1));
+      var a = rp/(1-e);
       var b = a*Math.sqrt(1-e*e);
-      var foc = a*e;
-      svg.appendChild(ns('ellipse',{cx:cx+foc, cy:cy, rx:a, ry:b, fill:'none', stroke:'#0b0b0c','stroke-width':1.6}));
-      svg.appendChild(ns('circle',{cx:cx+foc-a, cy:cy, r:4, fill:'#0b0b0c'}));
+      svg.appendChild(ns('ellipse',{cx:cx, cy:cy+a*e, rx:b, ry:a, fill:'none', stroke:'#0b0b0c','stroke-width':1.6}));
+      svg.appendChild(ns('circle',{cx:cx, cy:Math.min(396, cy+rp*(1+e)/(1-e)), r:4, fill:'#0b0b0c'}));
       verdict.innerHTML = (v>7.85 && v<7.95) ?
         (lang==='en' ? 'CIRCULAR ORBIT — first cosmic velocity. Stable, closed loop.' : 'КРУГОВАЯ ОРБИТА — первая космическая скорость. Устойчивый замкнутый виток.') :
         (lang==='en' ? 'ELLIPTICAL ORBIT — bound to Earth, but the orbit is no longer circular.' : 'ЭЛЛИПТИЧЕСКАЯ ОРБИТА — аппарат всё ещё связан с Землёй, но орбита уже не круговая.');

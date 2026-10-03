@@ -18,7 +18,8 @@
 
 - 2026-09-19 — Added a Cloudflare Web Analytics beacon (cross-repo rollout across every deployed followorbounce/client site). See [[cloudflare-analytics-setup]] in the assistant's memory for the account/token map.
 
-## Next steps
-- Resolve the stray/duplicate-looking files at repo root (`build-your-own-cubsat.html`, `ISSandMir.html`, `lagrange-points.html`, `unfold-james-webb.html`, `time philosophy/` vs `time-philosophy/`) — confirm which are dead and remove them, or document why both exist.
+## Next steps- 2026-10-02 — Science/maths review of interactives (Hohmann, Kepler solvers, rocket equation, radiation, music cents — all verified numerically). Fixed: `physics-of-spaceflight.html` Δv ladder GEO 12.2 → 13.3 km/s (LEO 9.4 + coplanar Hohmann 2.46 + 1.48); `iss-and-mir.html` Newton-cannon ellipse now has perigee at the launch point (e = (v/7.9)² − 1) instead of dipping inside Earth above ~9 km/s; third-cosmic-velocity text (EN+RU) corrected — 16.6 km/s is relative to Earth, ≈42.1 km/s heliocentric. No broken internal links (resolving /aerospace/ base + extensionless URLs); all 50 inline scripts pass `node --check`.
+
+- ~~Resolve the stray/duplicate-looking files~~ — checked 2026-10-02: `build-your-own-cubsat.html`, `ISSandMir.html`, `unfold-james-webb.html`, `equilibrium-lagrange-points.html` and `time philosophy/` are all deliberate noindex redirect stubs (meta refresh + `location.replace`) to the canonical pages, kept so old/indexed URLs keep working. `lagrange-points.html` is the canonical Lagrange page. Keep the stubs; nothing to delete.
 - Planned: PARABOLA — optical/RF reflector field guide (workspace roadmap P2.1, `/home/none/git/roadmaps/roadmap-2026-10.html`).
 - No other open TODOs found in-repo; check `AGENTS.md` workflow protocol before larger changes.
