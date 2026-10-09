@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VESSEL — SHENZHOU &amp;amp; CHINA'S CREWED PROGRAM / КОРАБЛЬ — «ШЭНЬЧЖОУ» И ПИЛОТИРУЕМАЯ ПРОГРАММА КИТАЯ</title>
+<meta name="description" content="An interactive field guide to China's human spaceflight programme, 1992–2026: Project 921 and its three steps, the three-module Shenzhou spacecraft, Yang Liwei's 14 orbits, the first Chinese spacewalk, docking with Tiangong, six-month crews on the Tiangong station, the 2025 cracked window and the lifeboat swap, and the road to a crewed Moon landing.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/vessel-shenzhou-program">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VESSEL — SHENZHOU &amp;amp; CHINA'S CREWED PROGRAM / КОРАБЛЬ — «ШЭНЬЧЖОУ» И ПИЛОТИРУЕМАЯ ПРОГРАММА КИТАЯ">
+<meta property="og:description" content="Day and night in low orbit, the phasing that brings a ship to a station in hours, and the energy of a debris strike — Shenzhou, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/vessel-shenzhou-program">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">VESSEL — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PROJECT 921</span></div>
+  <div class="hud-row"><span class="hud-label">ALTITUDE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">PERIOD</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PROJECT 921">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 15 OCTOBER 2003, 01:00 UTC" data-ru="РИС. 00 — 15 ОКТЯБРЯ 2003, 01:00 UTC">FIG. 00 — 15 OCTOBER 2003, 01:00 UTC</span></span>
+        <span>JIUQUAN · 42.4°</span>
+      </div>
+      <h1><span data-en="VESSEL" data-ru="КОРАБЛЬ">VESSEL</span><br><em data-en="SHENZHOU AND CHINA'S CREWED PROGRAM" data-ru="«ШЭНЬЧЖОУ» И ПИЛОТИРУЕМАЯ ПРОГРАММА КИТАЯ">SHENZHOU AND CHINA'S CREWED PROGRAM</em></h1>
+      <p class="sub lede" data-en="China became the third country to launch people into space forty-two years after Gagarin, and then did something different from the two before it: it followed a single plan, written in 1992, step by step for three decades — a ship, a laboratory, a station — and is now building toward the Moon. Ten chapters and three instruments: count the sunrises in low orbit, plan the catch-up that brings a ship to a station in hours, and weigh the energy of a speck of debris that cracked a window in 2025." data-ru="Китай стал третьей страной, отправившей людей в космос, через сорок два года после Гагарина — и затем пошёл иным путём, чем две страны до него: три десятилетия он шаг за шагом следовал одному плану, написанному в 1992 году, — корабль, лаборатория, станция — и теперь готовится к Луне. Десять глав и три прибора: посчитайте восходы на низкой орбите, спланируйте догон, который приводит корабль к станции за несколько часов, и оцените энергию частицы мусора, которая в 2025 году расколола иллюминатор.">China became the third country to launch people into space.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — PROJECT 921 -->
+<section id="ch1" class="section" data-phase="PROJECT 921">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="A PLAN IN THREE STEPS" data-ru="ПЛАН ИЗ ТРЁХ ШАГОВ">A PLAN IN THREE STEPS</span></div>
+    <h2 class="h-lg" data-en="Project 921: named after the day it was approved" data-ru="«Проект 921»: назван по дню утверждения">Project 921: named after the day it was approved</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 21 September 1992, the Standing Committee of the Politburo approved a human spaceflight programme. It took its name from that date: <b>Project 921</b> [1]. The plan had three steps. First, fly uncrewed test ships and then a crewed one, building the basic capability. Second, learn spacewalks, rendezvous and docking, and fly a short-term space laboratory. Third, build a permanent space station [1]." data-ru="21 сентября 1992 года Постоянный комитет Политбюро утвердил программу пилотируемых полётов. Название она получила по этой дате — <b>«Проект 921»</b> [1]. В плане было три шага. Первый — беспилотные испытательные корабли, затем пилотируемый: базовые возможности. Второй — освоить выходы в открытый космос, сближение и стыковку и запустить краткосрочную лабораторию. Третий — построить постоянную космическую станцию [1].">Project 921 was approved on 21 September 1992.</p>
+      <p class="body-col" data-en="The striking thing is not the speed but the persistence. Each step took about a decade, each was completed in order, and the hardware evolved rather than being replaced: the same basic Shenzhou ship that carried the first astronaut in 2003 still carries crews to the station today. The rest of this guide follows the plan step by step, and then looks at the next one, which was not in the 1992 plan at all: the Moon." data-ru="Поражает не скорость, а последовательность. Каждый шаг занял около десятилетия, каждый выполнен по порядку, и техника развивалась, а не заменялась: тот же по сути корабль «Шэньчжоу», что поднял первого космонавта в 2003 году, возит экипажи на станцию и сегодня. Остальная часть справочника идёт по плану шаг за шагом, а затем рассматривает следующий, которого в плане 1992 года не было вовсе, — Луну.">The striking thing is persistence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — THE SHIP -->
+<section id="ch2" class="section" data-phase="THE SHIP">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THREE MODULES, ONE OF THEM LEFT BEHIND" data-ru="ТРИ ОТСЕКА, ОДИН ИЗ НИХ ОСТАЁТСЯ НА ОРБИТЕ">THREE MODULES, ONE OF THEM LEFT BEHIND</span></div>
+    <h2 class="h-lg" data-en="A Soyuz-like layout, built bigger" data-ru="Компоновка как у «Союза», только крупнее">A Soyuz-like layout, built bigger</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Shenzhou (“divine vessel”) has the same three-part arrangement as the Russian Soyuz: an <b>orbital module</b> at the front for living and working, a bell-shaped <b>descent module</b> in the middle that brings the crew home, and a <b>service module</b> at the back with engines, propellant and solar wings. The layout is a proven answer to a hard problem: only the small middle capsule needs a heat shield, so the ship stays light while the crew has room in orbit." data-ru="«Шэньчжоу» («божественный корабль») устроен по той же трёхчастной схеме, что и российский «Союз»: впереди <b>орбитальный отсек</b> для жизни и работы, посередине колоколообразный <b>спускаемый аппарат</b>, который возвращает экипаж, сзади <b>агрегатный отсек</b> с двигателями, топливом и солнечными батареями. Такая схема — проверенный ответ на трудную задачу: теплозащита нужна только маленькой средней капсуле, поэтому корабль лёгкий, а у экипажа есть место на орбите.">Shenzhou has three modules like Soyuz.</p>
+      <p class="body-col" data-en="The Chinese ship is larger, and its orbital module has its own solar panels and attitude control. On the early flights, after the crew came home in the descent module, the orbital module stayed in space and carried on working as a small experiment satellite. On Shenzhou 7 it doubled as the airlock for the first Chinese spacewalk [2]. Four uncrewed test flights, Shenzhou 1 to 4 from 1999 to 2002, flew before anyone rode it — step one of the plan [1]." data-ru="Китайский корабль крупнее, а у его орбитального отсека есть собственные солнечные батареи и система ориентации. В первых полётах, после возвращения экипажа в спускаемом аппарате, орбитальный отсек оставался в космосе и продолжал работать как небольшой экспериментальный спутник. На «Шэньчжоу-7» он служил шлюзом для первого китайского выхода в открытый космос [2]. Четыре беспилотных испытания, «Шэньчжоу» с 1-го по 4-й в 1999–2002 годах, прошли до того, как в нём полетел человек, — первый шаг плана [1].">The orbital module stayed in orbit as a satellite.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — YANG LIWEI -->
+<section id="ch3" class="section" data-phase="SHENZHOU 5">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="ONE ASTRONAUT, FOURTEEN ORBITS" data-ru="ОДИН КОСМОНАВТ, ЧЕТЫРНАДЦАТЬ ВИТКОВ">ONE ASTRONAUT, FOURTEEN ORBITS</span></div>
+    <h2 class="h-lg" data-en="Shenzhou 5: twenty-one hours and fourteen sunrises" data-ru="«Шэньчжоу-5»: двадцать один час и четырнадцать восходов">Shenzhou 5: twenty-one hours and fourteen sunrises</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="<b>Yang Liwei</b>, an air force pilot, launched from the Jiuquan centre in the Gobi desert at 01:00 UTC on 15 October 2003 into an orbit of about 331 by 338 km, inclined 42.4° [3]. He flew 14 orbits in 21 hours 22 minutes and landed on the grasslands of Inner Mongolia [3]. China had become the third country, after the Soviet Union and the United States, to put a person into orbit with its own rocket and ship." data-ru="<b>Ян Ливэй</b>, военный лётчик, стартовал с космодрома Цзюцюань в пустыне Гоби в 01:00 UTC 15 октября 2003 года на орбиту около 331 на 338 км с наклонением 42,4° [3]. Он выполнил 14 витков за 21 час 22 минуты и приземлился в степях Внутренней Монголии [3]. Китай стал третьей страной после СССР и США, выведшей человека на орбиту на собственных ракете и корабле.">Yang Liwei flew 14 orbits in 21 hours 22 minutes.</p>
+      <p class="body-col" data-en="At that height a ship circles the Earth in about an hour and a half, so the Sun rises and sets every orbit: Yang saw fourteen sunrises in a single day. How long each night lasts depends on the height and on the angle β between the orbit's plane and the direction of the Sun. When the Sun lies in the orbit plane (β = 0) the night is longest; when β is large enough, the ship never enters the Earth's shadow at all. Explore it below." data-ru="На такой высоте корабль облетает Землю примерно за полтора часа, поэтому Солнце восходит и заходит каждый виток: за одни сутки Ян увидел четырнадцать восходов. Сколько длится каждая ночь, зависит от высоты и от угла β между плоскостью орбиты и направлением на Солнце. Когда Солнце лежит в плоскости орбиты (β = 0), ночь самая длинная; при достаточно большом β корабль вообще не входит в тень Земли. Исследуйте это ниже.">Fourteen sunrises in a single day.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="ECLIPSE FRACTION OF A CIRCULAR ORBIT" data-ru="ДОЛЯ ТЕНИ ДЛЯ КРУГОВОЙ ОРБИТЫ">ECLIPSE FRACTION OF A CIRCULAR ORBIT</div>
+      <div class="eq-body">f = (1/π) · arccos[ √(h² + 2Rh) / ((R + h) cos β) ] &nbsp;for |β| &lt; β* = arcsin(R/(R + h)), else 0</div>
+      <div class="eq-note" data-en="Cylindrical shadow (no penumbra), spherical Earth, R = 6,371 km [5]. The period is T = 2π√((R+h)³/μ)." data-ru="Цилиндрическая тень (без полутени), сферическая Земля, R = 6371 км [5]. Период T = 2π√((R+h)³/μ).">Cylindrical shadow, spherical Earth.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="lightSvg" class="sim-svg" viewBox="0 0 480 360" role="img" aria-label="An orbit seen from above the Sun-facing side, with the part in Earth's shadow marked"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="size-pick" id="lightPresets" role="group" aria-label="Orbit presets"></div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="lH" data-en="ORBIT HEIGHT" data-ru="ВЫСОТА ОРБИТЫ">ORBIT HEIGHT</label><span class="v" id="lHVal">—</span></div>
+          <input id="lH" type="range" min="200" max="2000" step="1" value="335">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="lB" data-en="SUN ANGLE β" data-ru="УГОЛ СОЛНЦА β">SUN ANGLE β</label><span class="v" id="lBVal">—</span></div>
+          <input id="lB" type="range" min="0" max="90" step="0.5" value="0">
+        </div>
+        <div class="readout-grid" id="lightReadout"></div>
+        <div class="status" id="lightStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — TWO, THEN THREE -->
+<section id="ch4" class="section" data-phase="SPACEWALK">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="TWO ASTRONAUTS, THEN THREE AND A SPACEWALK" data-ru="ДВА КОСМОНАВТА, ЗАТЕМ ТРИ И ВЫХОД В КОСМОС">TWO ASTRONAUTS, THEN THREE AND A SPACEWALK</span></div>
+    <h2 class="h-lg" data-en="Living in the ship, then stepping outside" data-ru="Жизнь в корабле — а затем шаг наружу">Living in the ship, then stepping outside</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Two years later, <b>Shenzhou 6</b> carried Fei Junlong and Nie Haisheng for almost five days, 76 orbits, in October 2005 [4]. They took off their pressure suits, moved into the orbital module, ate hot food and slept in turns: the first test of the ship as a place to live rather than a capsule to survive." data-ru="Через два года <b>«Шэньчжоу-6»</b> с Фэй Цзюньлуном и Не Хайшэном провёл в полёте почти пять суток, 76 витков, в октябре 2005 года [4]. Они снимали скафандры, переходили в орбитальный отсек, ели горячую пищу и спали по очереди — первая проверка корабля как места для жизни, а не капсулы для выживания.">Shenzhou 6 flew two astronauts for almost five days.</p>
+      <p class="body-col" data-en="<b>Shenzhou 7</b>, in September 2008, carried three. On 27 September <b>Zhai Zhigang</b>, in the Chinese-built <b>Feitian</b> suit, made China's first spacewalk, about 22 minutes, retrieving a small experiment from the outside of the ship, while Liu Boming, in a Russian Orlan suit, stood in the hatch to assist [2]. The orbital module served as the airlock. Spacewalks were the first item of step two." data-ru="<b>«Шэньчжоу-7»</b> в сентябре 2008 года нёс троих. 27 сентября <b>Чжай Чжиган</b> в китайском скафандре <b>«Фэйтянь»</b> совершил первый китайский выход в открытый космос, около 22 минут, сняв небольшой эксперимент с внешней поверхности корабля, а Лю Бомин в российском «Орлане» помогал, стоя в люке [2]. Шлюзом служил орбитальный отсек. Выходы в космос были первым пунктом второго шага.">Zhai Zhigang made China's first spacewalk in 2008.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — DOCKING -->
+<section id="ch5" class="section" data-phase="RENDEZVOUS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="CATCHING A SPACE LABORATORY" data-ru="ДОГНАТЬ КОСМИЧЕСКУЮ ЛАБОРАТОРИЮ">CATCHING A SPACE LABORATORY</span></div>
+    <h2 class="h-lg" data-en="To catch up, fly lower" data-ru="Чтобы догнать — лети ниже">To catch up, fly lower</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Step two's other half was rendezvous and docking, practised with the <b>Tiangong-1</b> laboratory launched in 2011. In June 2012, <b>Shenzhou 9</b> carried Jing Haipeng, Liu Wang and <b>Liu Yang</b>, China's first woman in space, to the laboratory; Liu Wang flew the first manual docking [6]. In June 2013 <b>Shenzhou 10</b> followed, and Wang Yaping gave a physics lesson from orbit to schoolchildren across China [7]. Shenzhou 11, in 2016, stayed 32 days with the second laboratory, Tiangong-2 [8]." data-ru="Вторая половина второго шага — сближение и стыковка, их отрабатывали с лабораторией <b>«Тяньгун-1»</b>, запущенной в 2011 году. В июне 2012 года <b>«Шэньчжоу-9»</b> доставил к ней Цзин Хайпэна, Лю Вана и <b>Лю Ян</b> — первую китаянку в космосе; Лю Ван выполнил первую ручную стыковку [6]. В июне 2013 года последовал <b>«Шэньчжоу-10»</b>, и Ван Япин провела с орбиты урок физики для школьников всего Китая [7]. «Шэньчжоу-11» в 2016 году пробыл 32 дня со второй лабораторией, «Тяньгун-2» [8].">Shenzhou 9 made the first manual docking; Liu Yang was the first Chinese woman in space.</p>
+      <p class="body-col" data-en="Rendezvous starts with a paradox: to catch up with something ahead of you in orbit, you go <b>lower</b>, not faster. A lower orbit is shorter and has a shorter period, so the chaser gains angle on the target every lap. Engineers launch the ship into a slightly lower orbit, let it drift to the right phase, and then raise it to meet the station. The bigger the height difference, the faster it catches up — but the more propellant it takes to climb up at the end. Try it below." data-ru="Сближение начинается с парадокса: чтобы догнать то, что впереди на орбите, нужно лететь <b>ниже</b>, а не быстрее. Нижняя орбита короче и имеет меньший период, поэтому догоняющий корабль с каждым витком выигрывает угол у цели. Инженеры выводят корабль на чуть более низкую орбиту, дают ему «дрейфовать» до нужной фазы и затем поднимают навстречу станции. Чем больше разница высот, тем быстрее догон, — но тем больше топлива уйдёт на подъём в конце. Попробуйте ниже.">To catch up in orbit, go lower.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="PHASING: HOW FAST A LOWER ORBIT GAINS" data-ru="ФАЗИРОВАНИЕ: КАК БЫСТРО НИЖНЯЯ ОРБИТА ДОГОНЯЕТ">PHASING: HOW FAST A LOWER ORBIT GAINS</div>
+      <div class="eq-body">n = √(μ / r³) &nbsp;·&nbsp; t<sub>catch</sub> = θ<sub>0</sub> / (n<sub>chaser</sub> − n<sub>station</sub>) &nbsp;·&nbsp; Δv<sub>Hohmann</sub> ≈ √(μ/r₁)·[√(2r₂/(r₁+r₂)) − 1] + √(μ/r₂)·[1 − √(2r₁/(r₁+r₂))]</div>
+      <div class="eq-note" data-en="Circular orbits; θ₀ is how far the station is ahead. The Hohmann Δv is the cost of the final climb from the chaser's height to the station's." data-ru="Круговые орбиты; θ₀ — насколько станция впереди. Δv Гомана — цена финального подъёма с высоты догоняющего корабля на высоту станции.">Circular orbits.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="phaseSvg" class="sim-svg" viewBox="0 0 480 380" role="img" aria-label="Chaser on a lower orbit gaining on a station ahead of it"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="pHc" data-en="CHASER HEIGHT" data-ru="ВЫСОТА ДОГОНЯЮЩЕГО">CHASER HEIGHT</label><span class="v" id="pHcVal">—</span></div>
+          <input id="pHc" type="range" min="200" max="385" step="1" value="300">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="pTh" data-en="STATION AHEAD BY" data-ru="СТАНЦИЯ ВПЕРЕДИ НА">STATION AHEAD BY</label><span class="v" id="pThVal">—</span></div>
+          <input id="pTh" type="range" min="1" max="350" step="1" value="40">
+        </div>
+        <div class="btn-row"><button class="btn primary" id="pPlay" aria-pressed="false" data-en="▶ FLY THE CATCH-UP" data-ru="▶ ВЫПОЛНИТЬ ДОГОН">▶ FLY THE CATCH-UP</button></div>
+        <div class="readout-grid" id="phaseReadout"></div>
+        <div class="status" id="phaseStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Station height fixed at 390 km, close to Tiangong's recent operating orbit of about 380–390 km [11]. Real rendezvous uses several burns to adjust height and phase together; the fast profiles since 2021 dock within hours by launching at the exact moment the station passes overhead in the right geometry." data-ru="Высота станции зафиксирована на 390 км — близко к недавней рабочей орбите «Тяньгуна», около 380–390 км [11]. Реальное сближение использует несколько импульсов, корректируя высоту и фазу одновременно; быстрые схемы с 2021 года стыкуются за несколько часов, потому что старт происходит в точный момент, когда станция проходит в нужной геометрии.">Station height fixed at 390 km.</p>
+  </div>
+</section>
+
+<!-- CH6 — THE STATION -->
+<section id="ch6" class="section" data-phase="TIANGONG">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="STEP THREE: A STATION OF ITS OWN" data-ru="ШАГ ТРЕТИЙ: СОБСТВЕННАЯ СТАНЦИЯ">STEP THREE: A STATION OF ITS OWN</span></div>
+    <h2 class="h-lg" data-en="Six-month crews and a docking in three and a half hours" data-ru="Полугодовые экипажи и стыковка за три с половиной часа">Six-month crews and a docking in three and a half hours</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The core module <b>Tianhe</b> launched on 29 April 2021, followed by the laboratory modules Wentian and Mengtian in 2022, making a T-shaped station (the PALACE guide covers the station itself). <b>Shenzhou 12</b>, in June 2021, launched at 01:22 UTC and docked at 07:54 the same day, six and a half hours later, beginning a 92-day stay [9]. <b>Shenzhou 13</b> doubled it to 182 days; during it Wang Yaping became the first Chinese woman to walk in space [10]." data-ru="Базовый модуль <b>«Тяньхэ»</b> стартовал 29 апреля 2021 года, за ним в 2022 году последовали лабораторные модули «Вэньтянь» и «Мэнтянь», образовав Т-образную станцию (саму станцию описывает справочник PALACE). <b>«Шэньчжоу-12»</b> в июне 2021 года стартовал в 01:22 UTC и состыковался в 07:54 того же дня, через шесть с половиной часов, начав 92-суточную экспедицию [9]. <b>«Шэньчжоу-13»</b> удвоил её до 182 суток; в этом полёте Ван Япин стала первой китаянкой, вышедшей в открытый космос [10].">Shenzhou 12 docked 6.5 hours after launch; Shenzhou 13 stayed 182 days.</p>
+      <p class="body-col" data-en="Since then, crews have rotated about every six months, each new Shenzhou arriving before the old one leaves, so the station always has a lifeboat. Rendezvous became routine and faster: <b>Shenzhou 21</b> launched at 15:44 UTC on 31 October 2025 and docked at 19:22 — about three and a half hours [11]. In 2023, <b>Shenzhou 16</b> carried Gui Haichao, a university professor, the first Chinese civilian in space." data-ru="С тех пор экипажи меняются примерно каждые полгода: новый «Шэньчжоу» прибывает раньше, чем улетает старый, поэтому у станции всегда есть корабль-спасатель. Сближение стало рутинным и быстрым: <b>«Шэньчжоу-21»</b> стартовал в 15:44 UTC 31 октября 2025 года и состыковался в 19:22 — примерно через три с половиной часа [11]. В 2023 году <b>«Шэньчжоу-16»</b> доставил на станцию Гуй Хайчао, университетского профессора, — первого китайского гражданского космонавта.">Crews rotate every six months; Shenzhou 21 docked in about 3.5 hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — CRACKED WINDOW -->
+<section id="ch7" class="section" data-phase="DEBRIS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="NOVEMBER 2025: THE CRACKED WINDOW" data-ru="НОЯБРЬ 2025: ТРЕСНУВШИЙ ИЛЛЮМИНАТОР">NOVEMBER 2025: THE CRACKED WINDOW</span></div>
+    <h2 class="h-lg" data-en="A speck of debris, a lifeboat swap and an empty seat home" data-ru="Частица мусора, обмен кораблями и пустое кресло домой">A speck of debris, a lifeboat swap and an empty seat home</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Shenzhou 20's crew was due home on 5 November 2025. That day the China Manned Space Agency postponed the return because of a suspected impact by space debris [11]: tiny cracks had been found in a window of the descent module, judged too risky for re-entry. On 14 November the crew came home in the newly arrived <b>Shenzhou 21</b> spacecraft instead [12] — the first time a Chinese crew returned in a different ship from the one they launched in. That left the new Shenzhou 21 crew on the station with no safe ride home." data-ru="Экипаж «Шэньчжоу-20» должен был вернуться 5 ноября 2025 года. В этот день Китайское агентство пилотируемых полётов отложило посадку из-за подозрения на удар космического мусора [11]: в иллюминаторе спускаемого аппарата нашли мелкие трещины, сочтённые слишком опасными для спуска. 14 ноября экипаж вернулся на только что прибывшем корабле <b>«Шэньчжоу-21»</b> [12] — впервые китайский экипаж вернулся не на том корабле, на котором стартовал. В результате новый экипаж «Шэньчжоу-21» остался на станции без безопасного корабля для возвращения.">Shenzhou 20's window was cracked by suspected debris.</p>
+      <p class="body-col" data-en="China launched the uncrewed <b>Shenzhou 22</b> on 25 November, eleven days later, as a replacement lifeboat; it docked about 3.5 hours after launch [12]. The damaged Shenzhou 20 eventually came home empty in January 2026 [11]. Why can a particle too small to see crack a window? Because orbital debris hits at around <b>10 km/s</b> on average, up to about 15 km/s [13]. Kinetic energy grows as the square of speed: weigh it below." data-ru="Китай запустил беспилотный <b>«Шэньчжоу-22»</b> 25 ноября, через одиннадцать дней, как замену корабля-спасателя; он состыковался примерно через 3,5 часа после старта [12]. Повреждённый «Шэньчжоу-20» в итоге вернулся пустым в январе 2026 года [11]. Почему частица, которую не разглядеть глазом, может расколоть иллюминатор? Потому что орбитальный мусор врезается со средней скоростью около <b>10 км/с</b>, до примерно 15 км/с [13]. Кинетическая энергия растёт как квадрат скорости — оцените её ниже.">Shenzhou 22 launched as a replacement lifeboat.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="debrisSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Kinetic energy of a debris particle compared with familiar projectiles"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="dD" data-en="PARTICLE DIAMETER" data-ru="ДИАМЕТР ЧАСТИЦЫ">PARTICLE DIAMETER</label><span class="v" id="dDVal">—</span></div>
+          <input id="dD" type="range" min="0" max="1" step="0.001" value="0.33">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dV" data-en="IMPACT SPEED" data-ru="СКОРОСТЬ УДАРА">IMPACT SPEED</label><span class="v" id="dVVal">—</span></div>
+          <input id="dV" type="range" min="1" max="15" step="0.1" value="10">
+        </div>
+        <div class="size-pick" id="dMat" role="group" aria-label="Particle material"></div>
+        <div class="readout-grid" id="debrisReadout"></div>
+        <div class="status" id="debrisStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Energy only: what the impact does depends on shielding and on how the energy is delivered in a few microseconds. Comparisons use typical muzzle energies (≈ 500 J for a 9 mm pistol, ≈ 1,800 J for a 5.56 mm rifle round). The size of the object that hit Shenzhou 20 has not been published." data-ru="Только энергия: последствия удара зависят от защиты и того, как энергия передаётся за несколько микросекунд. Сравнения — по типичной дульной энергии (≈ 500 Дж у пистолета 9 мм, ≈ 1800 Дж у винтовочного патрона 5,56 мм). Размер объекта, ударившего «Шэньчжоу-20», не опубликован.">Energy only.</p>
+  </div>
+</section>
+
+<!-- CH8 — THE MOON -->
+<section id="ch8" class="section" data-phase="THE MOON">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="THE STEP THAT WAS NOT IN THE PLAN" data-ru="ШАГ, КОТОРОГО НЕ БЫЛО В ПЛАНЕ">THE STEP THAT WAS NOT IN THE PLAN</span></div>
+    <h2 class="h-lg" data-en="Mengzhou, Lanyue and a Moon landing “by 2030”" data-ru="«Мэнчжоу», «Ланьюэ» и посадка на Луну «к 2030 году»">Mengzhou, Lanyue and a Moon landing “by 2030”</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="China has set a goal of landing astronauts on the Moon <b>by 2030</b> [14]. The plan uses two launches of the new <b>Long March 10</b> rocket: one carries the <b>Lanyue</b> (“embracing the Moon”) lander, the other the <b>Mengzhou</b> (“dream vessel”) crew ship. They meet in lunar orbit; two astronauts transfer to Lanyue, land, and return to Mengzhou for the trip home — the lunar-orbit rendezvous idea that Apollo used, split across two rockets." data-ru="Китай поставил цель — высадить космонавтов на Луну <b>к 2030 году</b> [14]. План использует два пуска новой ракеты <b>«Чанчжэн-10»</b>: одна выводит посадочный корабль <b>«Ланьюэ»</b> («обнимающий Луну»), другая — пилотируемый корабль <b>«Мэнчжоу»</b> («корабль мечты»). Они встречаются на окололунной орбите; двое космонавтов переходят в «Ланьюэ», садятся и возвращаются к «Мэнчжоу» для полёта домой — схема встречи на лунной орбите, как у «Аполлона», разделённая на две ракеты.">China aims to land astronauts on the Moon by 2030.</p>
+      <p class="body-col" data-en="In October 2025 the agency outlined the tests ahead: integrated tests of the Lanyue lander, thermal and maximum-dynamic-pressure abort tests of Mengzhou, and further work on the Long March 10 [14]. Mengzhou is also designed to replace Shenzhou for station flights in low Earth orbit. The robotic Chang'e programme has already landed on the near and far sides of the Moon and brought samples home (the RABBIT guide covers it), mapping the ground the astronauts would walk on." data-ru="В октябре 2025 года агентство обозначило предстоящие испытания: комплексные испытания посадочного корабля «Ланьюэ», тепловые испытания и испытания системы аварийного спасения «Мэнчжоу» на участке максимального скоростного напора и дальнейшую работу над «Чанчжэн-10» [14]. «Мэнчжоу» также должен сменить «Шэньчжоу» в полётах к станции на низкой орбите. Автоматическая программа «Чанъэ» уже совершила посадки на видимой и обратной сторонах Луны и доставила образцы на Землю (её описывает справочник RABBIT), картографируя грунт, по которому пойдут космонавты.">Tests of Lanyue and Mengzhou are under way.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — LEGACY -->
+<section id="ch9" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="LEGACY: ONE PLAN, THIRTY YEARS" data-ru="НАСЛЕДИЕ: ОДИН ПЛАН, ТРИДЦАТЬ ЛЕТ">LEGACY: ONE PLAN, THIRTY YEARS</span></div>
+    <h2 class="h-lg" data-en="From approval to a permanent station" data-ru="От утверждения до постоянной станции">From approval to a permanent station</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="It was never the fastest programme. It was the one that did exactly what it said it would do, in the order it said, and kept the same ship flying long enough to make every flight look routine." data-ru="Это никогда не была самая быстрая программа. Это была программа, которая делала ровно то, что обещала, в обещанном порядке, — и так долго летала на одном корабле, что каждый полёт стал казаться обычным.">It was never the fastest programme.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — REFERENCES -->
+<section id="ch10" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CH3 — DAY AND NIGHT IN ORBIT ============ */
+function lighting(h, betaDeg){
+  var r = R_E + h, T = 2*Math.PI*Math.sqrt(r*r*r/MU_E), b = betaDeg*Math.PI/180;
+  var bStar = Math.asin(R_E/r), f = 0;
+  if(Math.abs(b) < bStar) f = Math.acos(Math.sqrt(h*h + 2*R_E*h)/(r*Math.cos(b)))/Math.PI;
+  return {T:T, f:f, bStar:bStar*180/Math.PI, perDay:86400/T};
+}
+var LIGHT_PRESETS = [
+  {k:'sz5', en:'SHENZHOU 5 (~335 KM)', ru:'«ШЭНЬЧЖОУ-5» (~335 КМ)', h:335},
+  {k:'tg', en:'TIANGONG (~390 KM)', ru:'«ТЯНЬГУН» (~390 КМ)', h:390},
+  {k:'hi', en:'1,000 KM', ru:'1000 КМ', h:1000}
+];
+var lH = document.getElementById('lH'), lB = document.getElementById('lB'), lightPreset = 'sz5', lightPhase = 0;
+function renderLightPresets(){
+  var w = document.getElementById('lightPresets'); w.innerHTML = '';
+  LIGHT_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn' + (lightPreset === p.k ? ' active' : ''); b.setAttribute('aria-pressed', lightPreset === p.k ? 'true' : 'false');
+    b.textContent = lang === 'en' ? p.en : p.ru;
+    b.addEventListener('click', function(){ lightPreset = p.k; lH.value = p.h; renderLightPresets(); renderLight(); });
+    w.appendChild(b);
+  });
+}
+var lightDot = null, lightGeom = null;
+function renderLight(){
+  var h = +lH.value, beta = +lB.value, L = lighting(h, beta);
+  document.getElementById('lHVal').textContent = fmtInt(h) + T(' km',' км');
+  document.getElementById('lBVal').textContent = fmt(beta, 1) + '°';
+  var svg = document.getElementById('lightSvg'); svg.innerHTML = '';
+  // view along the Sun line (Sun on the left), orbit drawn as a circle; shadow cylinder behind Earth (right)
+  var cx = 230, cy = 180, Re = 80, ro = Re*(R_E + h)/R_E;
+  var Ro = Math.min(ro, 165);
+  var reDraw = Ro*R_E/(R_E + h);
+  ns('rect', {x:cx, y:cy - reDraw, width:240, height:2*reDraw, fill:'#0b0b0c', opacity:0.08}, svg);
+  txt(svg, 470, cy - reDraw - 6, T('EARTH\'S SHADOW','ТЕНЬ ЗЕМЛИ'), 'svg-small', 'end');
+  txt(svg, 12, 20, T('☀ SUNLIGHT →','☀ СОЛНЕЧНЫЙ СВЕТ →'), 'svg-label');
+  ns('circle', {cx:cx, cy:cy, r:reDraw, fill:'#e9eef5', stroke:'#0b0b0c'}, svg);
+  // orbit seen tilted by beta: projected ellipse rx = Ro (along Sun line), ry = Ro (in-plane) -> to show beta, squash the Sun-line axis by cos(beta)
+  var b = beta*Math.PI/180, rx = Ro*Math.cos(b), ry = Ro;
+  ns('ellipse', {cx:cx, cy:cy, rx:Math.max(1, rx), ry:ry, fill:'none', stroke:'#0b0b0c', 'stroke-dasharray':'4 3'}, svg);
+  // night arc: points where x>0 (anti-Sun side) and |y|<reDraw in the 3D cylinder test → use exact fraction, centred on anti-Sun point
+  var half = L.f*Math.PI, d = '';
+  for(var i = 0; i <= 60; i++){ var a = -half + i/60*2*half; var x = cx + rx*Math.cos(a), y = cy + ry*Math.sin(a); d += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1); }
+  if(L.f > 0) ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':4}, svg);
+  lightGeom = {cx:cx, cy:cy, rx:rx, ry:ry, half:half};
+  lightDot = ns('circle', {cx:cx - rx, cy:cy, r:5, fill:'#b5452a', stroke:'#fff', 'stroke-width':1.5}, svg);
+  txt(svg, cx, cy + Ro + 20, T('thick arc: night  ·  β tilts the orbit out of the Sun line','толстая дуга — ночь  ·  β наклоняет орбиту от линии Солнца'), 'svg-small', 'middle');
+  cells(document.getElementById('lightReadout'), [
+    [T('PERIOD','ПЕРИОД'), fmt(L.T/60, 1) + T(' min',' мин')],
+    [T('SUNRISES PER DAY','ВОСХОДОВ В СУТКИ'), L.f > 0 ? fmt(L.perDay, 1) : '0'],
+    [T('NIGHT EACH ORBIT','НОЧЬ ЗА ВИТОК'), fmt(L.f*L.T/60, 1) + T(' min',' мин')],
+    [T('NO NIGHT ABOVE β','БЕЗ НОЧИ ПРИ β >'), fmt(L.bStar, 1) + '°']
+  ]);
+  hud1.textContent = fmtInt(h) + T(' km',' км'); hud2.textContent = fmt(L.T/60, 1) + T(' min',' мин');
+  document.getElementById('lightStatus').innerHTML = L.f > 0
+    ? T('In shadow <b>','В тени <b>') + fmt(L.f*100, 0) + T('%</b> of each orbit. Solar panels must charge batteries for the night in the remaining ','%</b> каждого витка. Солнечные батареи должны зарядить аккумуляторы на ночь за оставшиеся ') + fmt((1 - L.f)*L.T/60, 0) + T(' minutes.',' минут.')
+    : T('<b>Continuous sunlight</b>: the orbit plane is tilted far enough from the Sun that it never crosses the shadow. Stations face this a few times a year, and overheating becomes the problem.','<b>Непрерывное освещение</b>: плоскость орбиты настолько отклонена от Солнца, что не пересекает тень. Станции попадают в такой режим несколько раз в год, и проблемой становится перегрев.');
+}
+lH.addEventListener('input', function(){ lightPreset = ''; renderLightPresets(); renderLight(); });
+lB.addEventListener('input', renderLight);
+visibleLoop(document.getElementById('lightSvg'), function(dt){
+  if(!lightDot || !lightGeom) return;
+  lightPhase = (lightPhase + dt*2*Math.PI/(reduced() ? 18 : 6)) % (2*Math.PI);
+  var g = lightGeom, a = Math.PI + lightPhase;      // start on the Sun side
+  var x = g.cx + g.rx*Math.cos(a), y = g.cy + g.ry*Math.sin(a);
+  var aa = Math.atan2(Math.sin(a), Math.cos(a)), dark = g.half > 0 && Math.abs(aa) <= g.half;
+  lightDot.setAttribute('cx', x); lightDot.setAttribute('cy', y); lightDot.setAttribute('fill', dark ? '#0b0b0c' : '#b5452a');
+});
+
+/* ============ CH5 — PHASING ============ */
+var H_ST = 390, pHc = document.getElementById('pHc'), pTh = document.getElementById('pTh'), phasePlaying = false, phaseT = 0;
+function phasing(hc, thDeg){
+  var rc = R_E + hc, rs = R_E + H_ST;
+  var nc = Math.sqrt(MU_E/(rc*rc*rc)), ns_ = Math.sqrt(MU_E/(rs*rs*rs)), dn = nc - ns_;
+  var t = dn > 0 ? thDeg*Math.PI/180/dn : Infinity;
+  var at = (rc + rs)/2;
+  var dv = Math.sqrt(MU_E/rc)*(Math.sqrt(2*rs/(rc + rs)) - 1) + Math.sqrt(MU_E/rs)*(1 - Math.sqrt(2*rc/(rc + rs)));
+  return {t:t, dv:dv*1000, gainPerOrbit:dn*2*Math.PI/nc*180/Math.PI, Tc:2*Math.PI/nc, Ts:2*Math.PI/ns_, nc:nc, ns:ns_};
+}
+function renderPhase(){
+  var hc = +pHc.value, th = +pTh.value, P = phasing(hc, th);
+  document.getElementById('pHcVal').textContent = fmtInt(hc) + T(' km',' км');
+  document.getElementById('pThVal').textContent = fmtInt(th) + '°';
+  drawPhase(phasePlaying ? phaseT : 0, P, th);
+  var hrs = P.t/3600;
+  cells(document.getElementById('phaseReadout'), [
+    [T('GAIN PER ORBIT','ВЫИГРЫШ ЗА ВИТОК'), fmt(P.gainPerOrbit, 2) + '°'],
+    [T('TIME TO CATCH UP','ВРЕМЯ ДОГОНА'), isFinite(P.t) ? (hrs < 48 ? fmt(hrs, 1) + T(' h',' ч') : fmt(hrs/24, 1) + T(' days',' сут')) : '∞'],
+    [T('ORBITS NEEDED','НУЖНО ВИТКОВ'), isFinite(P.t) ? fmt(P.t/P.Tc, 1) : '∞'],
+    [T('FINAL CLIMB Δv','Δv НА ПОДЪЁМ'), fmt(P.dv, 1) + T(' m/s',' м/с')]
+  ]);
+  document.getElementById('phaseStatus').innerHTML = hc >= H_ST - 5
+    ? T('Almost the same height: the chaser barely gains. It would take <b>days</b> — cheap in fuel, slow in time.','Почти та же высота: догоняющий почти не выигрывает. Понадобятся <b>сутки</b> — дёшево по топливу, долго по времени.')
+    : T('Lower means faster catch-up, but a bigger climb at the end. Every rendezvous plan is a trade between hours and kilograms of propellant.','Ниже — быстрее догон, но больше подъём в конце. Любой план сближения — компромисс между часами и килограммами топлива.');
+}
+var phaseSvg = document.getElementById('phaseSvg');
+function drawPhase(t, P, th){
+  var svg = phaseSvg; svg.innerHTML = '';
+  var cx = 240, cy = 190, re = 70, sc = 150/(R_E + H_ST);
+  var rs = (R_E + H_ST)*sc, rc = (R_E + (+pHc.value))*sc;
+  // exaggerate the height gap visually so it can be seen
+  var rcV = rs - (rs - rc)*6 - 4;
+  ns('circle', {cx:cx, cy:cy, r:re, fill:'#e9eef5', stroke:'#0b0b0c'}, svg);
+  ns('circle', {cx:cx, cy:cy, r:rs, fill:'none', stroke:'#0b0b0c', 'stroke-dasharray':'4 3'}, svg);
+  ns('circle', {cx:cx, cy:cy, r:rcV, fill:'none', stroke:'#b5452a', 'stroke-dasharray':'2 3'}, svg);
+  var aS = -Math.PI/2 - th*Math.PI/180 - P.ns*t, aC = -Math.PI/2 - P.nc*t;   // counter-clockwise motion on screen
+  var sx = cx + rs*Math.cos(aS), sy = cy + rs*Math.sin(aS), chx = cx + rcV*Math.cos(aC), chy = cy + rcV*Math.sin(aC);
+  ns('rect', {x:sx - 7, y:sy - 4, width:14, height:8, fill:'#0b0b0c'}, svg);
+  ns('circle', {cx:chx, cy:chy, r:5, fill:'#b5452a'}, svg);
+  txt(svg, sx + 10, sy, T('station','станция'), 'svg-small'); txt(svg, chx + 9, chy + 12, 'Shenzhou', 'svg-small');
+  txt(svg, 12, 20, T('height gap drawn ×6 so it is visible','разница высот показана ×6, чтобы её было видно'), 'svg-small');
+  var gap = ((aC - aS)*180/Math.PI) % 360; if(gap < 0) gap += 360;
+  txt(svg, 12, 365, T('station ahead by ','станция впереди на ') + fmt(gap > 180 ? gap - 360 : gap, 1) + '°' + (isFinite(P.t) ? T('   ·   t = ','   ·   t = ') + fmt(t/3600, 1) + T(' h',' ч') : ''), 'svg-label');
+}
+function setPhaseBtn(){ var b = document.getElementById('pPlay'); b.setAttribute('aria-pressed', phasePlaying ? 'true' : 'false'); b.innerHTML = phasePlaying ? T('■ STOP','■ СТОП') : T('▶ FLY THE CATCH-UP','▶ ВЫПОЛНИТЬ ДОГОН'); }
+document.getElementById('pPlay').addEventListener('click', function(){ phasePlaying = !phasePlaying; phaseT = 0; setPhaseBtn(); renderPhase(); });
+[pHc, pTh].forEach(function(el){ el.addEventListener('input', function(){ phasePlaying = false; setPhaseBtn(); renderPhase(); }); });
+visibleLoop(phaseSvg, function(dt){
+  if(!phasePlaying) return;
+  var P = phasing(+pHc.value, +pTh.value);
+  if(!isFinite(P.t)){ phasePlaying = false; setPhaseBtn(); return; }
+  phaseT += dt*P.t/(reduced() ? 20 : 8);        // whole catch-up in 8 s
+  if(phaseT >= P.t){ phaseT = P.t; phasePlaying = false; setPhaseBtn(); }
+  drawPhase(phaseT, P, +pTh.value);
+});
+
+/* ============ CH7 — DEBRIS ENERGY ============ */
+var DMATS = [{k:'al', en:'ALUMINIUM', ru:'АЛЮМИНИЙ', rho:2700}, {k:'st', en:'STEEL', ru:'СТАЛЬ', rho:7850}, {k:'pt', en:'PAINT FLAKE', ru:'ЧЕШУЙКА КРАСКИ', rho:1500}];
+var dmat = 'al', dD = document.getElementById('dD'), dV = document.getElementById('dV');
+function diam(v){ return 0.1*Math.pow(10, 2*v); }   // slider 0..1 → 0.1 … 10 mm
+function debrisE(dmm, vkms, rho){ var r = dmm/2000, m = 4/3*Math.PI*r*r*r*rho; return {m:m, E:0.5*m*vkms*vkms*1e6}; }
+function renderDMat(){
+  var w = document.getElementById('dMat'); w.innerHTML = '';
+  DMATS.forEach(function(m){
+    var b = document.createElement('button'); b.className = 'btn' + (dmat === m.k ? ' active' : ''); b.setAttribute('aria-pressed', dmat === m.k ? 'true' : 'false');
+    b.textContent = lang === 'en' ? m.en : m.ru;
+    b.addEventListener('click', function(){ dmat = m.k; renderDMat(); renderDebris(); });
+    w.appendChild(b);
+  });
+}
+function renderDebris(){
+  var dmm = diam(+dD.value), v = +dV.value, M = DMATS.filter(function(x){ return x.k === dmat; })[0], R = debrisE(dmm, v, M.rho);
+  document.getElementById('dDVal').textContent = fmt(dmm, dmm < 1 ? 2 : 1) + T(' mm',' мм');
+  document.getElementById('dVVal').textContent = fmt(v, 1) + T(' km/s',' км/с');
+  var svg = document.getElementById('debrisSvg'); svg.innerHTML = '';
+  var L = 140, Rr = 460, Tp = 30, rowH = 50, eMin = -2, eMax = 6;   // log10 J
+  function X(E){ return L + (Math.log10(Math.max(E, 1e-2)) - eMin)/(eMax - eMin)*(Rr - L); }
+  for(var e = eMin; e <= eMax; e += 2){ ns('line', {x1:X(Math.pow(10, e)), y1:Tp - 8, x2:X(Math.pow(10, e)), y2:Tp + rowH*4 + 4, stroke:'#e4e4de'}, svg); txt(svg, X(Math.pow(10, e)), Tp + rowH*4 + 18, '10' + ({'-2':'⁻²','0':'⁰','2':'²','4':'⁴','6':'⁶'})[e] + T(' J',' Дж'), 'svg-small', 'middle'); }
+  var rows = [[T('this particle','эта частица'), R.E, '#b5452a']].concat([[T('9 mm pistol','пистолет 9 мм'), 500, '#0b0b0c'], [T('5.56 mm rifle','винтовка 5,56 мм'), 1800, '#0b0b0c'], [T('1 g of TNT','1 г тротила'), 4184, '#0b0b0c']]);
+  rows.forEach(function(r, i){ var y = Tp + i*rowH; txt(svg, L - 10, y + 14, r[0], 'svg-label', 'end'); ns('rect', {x:L, y:y + 2, width:Math.max(1, X(r[1]) - L), height:18, fill:r[2]}, svg); txt(svg, X(r[1]) + 6, y + 15, fmtInt(r[1]) + T(' J',' Дж'), 'svg-small'); });
+  cells(document.getElementById('debrisReadout'), [
+    [T('MASS','МАССА'), R.m < 1e-3 ? fmt(R.m*1e6, 2) + T(' mg',' мг') : fmt(R.m*1e3, 2) + T(' g',' г')],
+    [T('KINETIC ENERGY','КИНЕТИЧЕСКАЯ ЭНЕРГИЯ'), (R.E < 10 ? fmt(R.E, 2) : fmtInt(R.E)) + T(' J',' Дж')],
+    [T('VS A PISTOL BULLET','ОТНОСИТЕЛЬНО ПУЛИ ПИСТОЛЕТА'), '×' + (R.E/500 < 0.1 ? fmt(R.E/500, 3) : fmt(R.E/500, 1))],
+    [T('SAME PARTICLE AT 1 KM/S','ТА ЖЕ ЧАСТИЦА НА 1 КМ/С'), (R.E/(v*v) < 10 ? fmt(R.E/(v*v), 2) : fmtInt(R.E/(v*v))) + T(' J',' Дж')]
+  ]);
+  document.getElementById('debrisStatus').innerHTML = T('At ','На скорости ') + fmt(v, 0) + T(' km/s a particle carries ',' км/с частица несёт в ') + fmtInt(v*v) + T('× the energy it would at 1 km/s. The ISS shields its critical parts against debris up to about 1 cm [13]; windows are among the hardest places to shield.','× больше энергии, чем на 1 км/с. МКС защищает критичные части от частиц до ~1 см [13]; иллюминаторы — одни из самых трудных для защиты мест.');
+}
+dD.addEventListener('input', renderDebris); dV.addEventListener('input', renderDebris);
+
+/* ============ CH9 — TIMELINE ============ */
+var TIMELINE = [
+  ['1992', '<b>21 September:</b> Project 921 is approved.', '<b>21 сентября:</b> утверждён «Проект 921».'],
+  ['1999–2002', 'Shenzhou 1 to 4 fly uncrewed tests.', '«Шэньчжоу» 1–4 — беспилотные испытания.'],
+  ['2003', '<b>15 October:</b> Shenzhou 5, Yang Liwei, 14 orbits.', '<b>15 октября:</b> «Шэньчжоу-5», Ян Ливэй, 14 витков.'],
+  ['2005', 'Shenzhou 6: two astronauts, almost five days.', '«Шэньчжоу-6»: два космонавта, почти пять суток.'],
+  ['2008', '<b>27 September:</b> Zhai Zhigang makes China\'s first spacewalk (Shenzhou 7).', '<b>27 сентября:</b> Чжай Чжиган совершает первый китайский выход в открытый космос («Шэньчжоу-7»).'],
+  ['2011–13', 'Tiangong-1 laboratory; Shenzhou 8 docks automatically, Shenzhou 9 manually, with Liu Yang; Shenzhou 10.', 'Лаборатория «Тяньгун-1»; «Шэньчжоу-8» стыкуется автоматически, «Шэньчжоу-9» — вручную, с Лю Ян; «Шэньчжоу-10».'],
+  ['2016', 'Tiangong-2; Shenzhou 11 stays 32 days.', '«Тяньгун-2»; «Шэньчжоу-11» — 32 дня.'],
+  ['2021', '<b>29 April:</b> Tianhe core module. <b>17 June:</b> Shenzhou 12 docks 6.5 hours after launch.', '<b>29 апреля:</b> базовый модуль «Тяньхэ». <b>17 июня:</b> «Шэньчжоу-12» стыкуется через 6,5 часа после старта.'],
+  ['2022', 'Wentian and Mengtian modules complete the T-shaped station.', 'Модули «Вэньтянь» и «Мэнтянь» завершают Т-образную станцию.'],
+  ['2023', 'Shenzhou 16 carries the first Chinese civilian astronaut; the Moon landing goal is announced.', '«Шэньчжоу-16» доставляет первого китайского гражданского космонавта; объявлена цель посадки на Луну.'],
+  ['2025', '<b>November:</b> Shenzhou 20\'s window is cracked by suspected debris; the crew returns in Shenzhou 21; uncrewed Shenzhou 22 launched as a replacement.', '<b>Ноябрь:</b> иллюминатор «Шэньчжоу-20» треснул, предположительно от мусора; экипаж возвращается на «Шэньчжоу-21»; беспилотный «Шэньчжоу-22» запущен на замену.'],
+  ['2026', '<b>January:</b> the empty Shenzhou 20 returns to Earth.', '<b>Январь:</b> пустой «Шэньчжоу-20» возвращается на Землю.']
+];
+
+/* ============ CH10 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'GlobalSecurity.org, “921 Project”', url:'https://www.globalsecurity.org/space/world/china/921.htm', note:{en:'Approval on 21 September 1992 and the origin of the name; the three-step plan (crewed ship; laboratory, EVA and docking; station).', ru:'Утверждение 21 сентября 1992 года и происхождение названия; план из трёх шагов (пилотируемый корабль; лаборатория, выходы и стыковка; станция).'}},
+  {title:'Spacefacts, Shenzhou 7 mission data', url:'https://spacefacts.de/mission/english/shenzhou-7.htm', note:{en:'Zhai Zhigang\'s 22-minute spacewalk on 27 September 2008 in the Feitian suit; Liu Boming in an Orlan suit at the hatch; the orbital module as airlock.', ru:'22-минутный выход Чжай Чжигана 27 сентября 2008 года в скафандре «Фэйтянь»; Лю Бомин в «Орлане» у люка; орбитальный отсек как шлюз.'}},
+  {title:'Spacefacts, Shenzhou 5 mission data', url:'https://spacefacts.de/mission/english/shenzhou-5.htm', note:{en:'Launch 01:00:03 UTC, 15 October 2003; orbit 331–338 km, 42.4°; 14 orbits, 21 h 22 min 45 s.', ru:'Старт 01:00:03 UTC 15 октября 2003; орбита 331–338 км, 42,4°; 14 витков, 21 ч 22 мин 45 с.'}},
+  {title:'Spacefacts, Shenzhou 6 mission data', url:'https://spacefacts.de/mission/english/shenzhou-6.htm', note:{en:'Fei Junlong and Nie Haisheng, 76 orbits, 4 d 19 h 32 min, October 2005.', ru:'Фэй Цзюньлун и Не Хайшэн, 76 витков, 4 сут 19 ч 32 мин, октябрь 2005.'}},
+  {title:'NASA, Earth Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html', note:{en:'GM and radius of the Earth used in the lighting and phasing calculators.', ru:'GM и радиус Земли для калькуляторов освещённости и фазирования.'}},
+  {title:'Spacefacts, Shenzhou 9 mission data', url:'https://spacefacts.de/mission/english/shenzhou_9.htm', note:{en:'Jing Haipeng, Liu Wang, Liu Yang; docking with Tiangong-1 and the first manual docking; 12 d 15 h 25 min.', ru:'Цзин Хайпэн, Лю Ван, Лю Ян; стыковка с «Тяньгун-1» и первая ручная стыковка; 12 сут 15 ч 25 мин.'}},
+  {title:'Spacefacts, Shenzhou 10 mission data', url:'https://spacefacts.de/mission/english/shenzhou-10.htm', note:{en:'Nie Haisheng, Zhang Xiaoguang, Wang Yaping; 14 d 14 h 29 min at Tiangong-1.', ru:'Не Хайшэн, Чжан Сяогуан, Ван Япин; 14 сут 14 ч 29 мин у «Тяньгун-1».'}},
+  {title:'Spacefacts, Shenzhou 11 mission data', url:'https://spacefacts.de/mission/english/shenzhou-11.htm', note:{en:'Jing Haipeng and Chen Dong at Tiangong-2; 32 d 6 h 29 min.', ru:'Цзин Хайпэн и Чэнь Дун на «Тяньгун-2»; 32 сут 6 ч 29 мин.'}},
+  {title:'Spacefacts, Shenzhou 12 mission data', url:'https://spacefacts.de/mission/english/shenzhou-12.htm', note:{en:'Launch 01:22 UTC, docking with Tianhe 07:54 UTC on 17 June 2021; 92 d 4 h 11 min.', ru:'Старт 01:22 UTC, стыковка с «Тяньхэ» в 07:54 UTC 17 июня 2021; 92 сут 4 ч 11 мин.'}},
+  {title:'Spacefacts, Shenzhou 13 mission data', url:'https://spacefacts.de/mission/english/shenzhou-13.htm', note:{en:'Zhai Zhigang, Wang Yaping, Ye Guangfu; 182 d 9 h 32 min.', ru:'Чжай Чжиган, Ван Япин, Е Гуанфу; 182 сут 9 ч 32 мин.'}},
+  {title:'Spacefacts, Shenzhou 20 mission data (with Shenzhou 21)', url:'https://spacefacts.de/mission/english/shenzhou-20.htm', note:{en:'CMSA\'s 5 November 2025 postponement for a suspected debris impact; Shenzhou 21 launch 15:44 UTC and docking 19:22 UTC on 31 October 2025; Shenzhou 20 landed uncrewed 19 January 2026; orbit 379–389 km.', ru:'Перенос посадки 5 ноября 2025 года из-за подозрения на удар мусора; старт «Шэньчжоу-21» в 15:44 UTC и стыковка в 19:22 UTC 31 октября 2025; «Шэньчжоу-20» приземлился без экипажа 19 января 2026; орбита 379–389 км.'}},
+  {title:'SpacePolicyOnline (2025), “China Launches Uncrewed Replacement for Damaged Shenzhou-20”', url:'https://spacepolicyonline.com/news/china-launches-uncrewed-replacement-for-damaged-shenzhou-20/', note:{en:'The Shenzhou 20 crew\'s return in Shenzhou 21\'s spacecraft, Shenzhou 22\'s launch on 25 November 2025 (04:11:42 UTC) and docking 3.5 hours later.', ru:'Возвращение экипажа «Шэньчжоу-20» на корабле «Шэньчжоу-21», старт «Шэньчжоу-22» 25 ноября 2025 (04:11:42 UTC) и стыковка через 3,5 часа.'}},
+  {title:'NASA Orbital Debris Program Office, Frequently Asked Questions', url:'https://orbitaldebris.jsc.nasa.gov/faq/', note:{en:'Average impact speed between debris and another object about 10 km/s, up to about 15 km/s; ISS critical components shielded against debris up to about 1 cm.', ru:'Средняя скорость столкновения мусора с другим объектом около 10 км/с, до ~15 км/с; критичные узлы МКС защищены от частиц до ~1 см.'}},
+  {title:'Xinhua via China Aerospace Science and Technology Corporation (2025), “China targets manned moon landing by 2030, outlines testing tasks ahead”', url:'https://english.spacechina.com/n17212/c4470621/content.html', note:{en:'The 2030 goal, and the coming tests of the Lanyue lander, Mengzhou spacecraft and Long March 10.', ru:'Цель 2030 года и предстоящие испытания посадочного корабля «Ланьюэ», корабля «Мэнчжоу» и ракеты «Чанчжэн-10».'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderLightPresets(); renderLight();
+  renderPhase(); setPhaseBtn();
+  renderDMat(); renderDebris();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__vessel = {lighting:lighting, phasing:phasing, debrisE:debrisE, diam:diam};
+
+})();
+</script>
+</body>
+</html>

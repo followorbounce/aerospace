@@ -86,7 +86,8 @@
         { "slug": "rendezvous-gemini-program", "codename": "RENDEZVOUS", "label": { "en": "The Gemini Program", "ru": "Программа «Джемини»" } },
         { "slug": "orbiter-space-shuttle-program", "codename": "ORBITER", "label": { "en": "Space Shuttle Program", "ru": "Программа «Спейс шаттл»" } },
         { "slug": "union-soyuz-program", "codename": "UNION", "label": { "en": "Soyuz Program", "ru": "Программа «Союз»" } },
-        { "slug": "handoff-commercial-crew-program", "codename": "HANDOFF", "label": { "en": "Commercial Crew Program", "ru": "Программа Commercial Crew" } }
+        { "slug": "handoff-commercial-crew-program", "codename": "HANDOFF", "label": { "en": "Commercial Crew Program", "ru": "Программа Commercial Crew" } },
+        { "slug": "vessel-shenzhou-program", "codename": "VESSEL", "label": { "en": "Shenzhou & China's Crewed Program", "ru": "«Шэньчжоу» и пилотируемая программа Китая" } }
       ]
     },
     {
