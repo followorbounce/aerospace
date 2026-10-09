@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RABBIT — CHANG'E &amp;amp; THE FAR SIDE OF THE MOON / КРОЛИК — «ЧАНЪЭ» И ОБРАТНАЯ СТОРОНА ЛУНЫ</title>
+<meta name="description" content="An interactive field guide to China's robotic lunar programme, 2007–2024: orbit, land, return. Chang'e 1–3 and the Yutu rover, why the Moon always shows us one face, the Queqiao relay at the Earth–Moon L2 point and why it has to fly a halo orbit, the first landing on the far side (Chang'e 4), and the sample returns of Chang'e 5 and Chang'e 6 — 2-billion-year-old basalt and the first rocks from the far side.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/rabbit-change-far-side">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RABBIT — CHANG'E &amp;amp; THE FAR SIDE OF THE MOON / КРОЛИК — «ЧАНЪЭ» И ОБРАТНАЯ СТОРОНА ЛУНЫ">
+<meta property="og:description" content="Tidal locking, the L2 relay geometry, a lunar ascent calculator and the youngest Moon rocks ever dated — the Chang'e programme, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/rabbit-change-far-side">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">RABBIT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">ORBIT</span></div>
+  <div class="hud-row"><span class="hud-label">DISTANCE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">SIGNAL DELAY</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="ORBIT">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 3 JANUARY 2019, VON KÁRMÁN CRATER" data-ru="РИС. 00 — 3 ЯНВАРЯ 2019, КРАТЕР ФОН КАРМАН">FIG. 00 — 3 JANUARY 2019, VON KÁRMÁN CRATER</span></span>
+        <span>L2 · 1,731 g · 1,935.3 g</span>
+      </div>
+      <h1><span data-en="RABBIT" data-ru="КРОЛИК">RABBIT</span><br><em data-en="CHANG'E AND THE FAR SIDE OF THE MOON" data-ru="«ЧАНЪЭ» И ОБРАТНАЯ СТОРОНА ЛУНЫ">CHANG'E AND THE FAR SIDE OF THE MOON</em></h1>
+      <p class="sub lede" data-en="In Chinese legend, Chang'e is the goddess who lives on the Moon, and Yutu, the jade rabbit, is her companion. China's lunar programme took both names and a three-word plan — orbit, land, return — and carried it out in under fifteen years, then went somewhere no one had: the far side, which never faces Earth. Ten chapters and three instruments: see why the Moon shows us only one face, put a relay at the Earth–Moon L2 point and find out why it cannot simply sit there, and size the rocket that lifts samples off the Moon." data-ru="По китайской легенде, Чанъэ — богиня, живущая на Луне, а Юйту, нефритовый кролик, — её спутник. Лунная программа Китая взяла оба имени и план из трёх слов — облететь, сесть, вернуться — и выполнила его меньше чем за пятнадцать лет, а затем отправилась туда, где не бывал никто: на обратную сторону, которая никогда не обращена к Земле. Десять глав и три прибора: посмотрите, почему Луна показывает нам одну сторону, поставьте ретранслятор в точку L2 системы Земля — Луна и выясните, почему он не может просто висеть там, и рассчитайте ракету, поднимающую образцы с Луны.">China's lunar programme: orbit, land, return — and then the far side.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — ORBIT -->
+<section id="ch1" class="section" data-phase="ORBIT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="STEP ONE: CIRCLE THE MOON" data-ru="ШАГ ПЕРВЫЙ: ОБЛЕТЕТЬ ЛУНУ">STEP ONE: CIRCLE THE MOON</span></div>
+    <h2 class="h-lg" data-en="Two orbiters, a map and an asteroid" data-ru="Два орбитальных аппарата, карта и астероид">Two orbiters, a map and an asteroid</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Chinese Lunar Exploration Program was planned in three phases: “circling around the Moon”, “landing on the Moon” and “returning from the Moon” [1]. <b>Chang'e 1</b>, launched in October 2007 and built on a proven communications-satellite bus, raised its orbit step by step, entered lunar orbit on 5 November and settled into a 200 km polar orbit with a 127-minute period. It mapped the Moon in three dimensions and surveyed its surface chemistry [1]." data-ru="Китайская программа исследования Луны была разделена на три этапа: «облёт Луны», «посадка на Луну» и «возвращение с Луны» [1]. <b>«Чанъэ-1»</b>, запущенный в октябре 2007 года на базе проверенной платформы связного спутника, шаг за шагом поднял орбиту, вышел на окололунную орбиту 5 ноября и перешёл на полярную орбиту высотой 200 км с периодом 127 минут. Он построил трёхмерную карту Луны и исследовал химический состав поверхности [1].">The programme had three phases: orbit, land, return.</p>
+      <p class="body-col" data-en="<b>Chang'e 2</b> (2010) flew lower, photographed the next landing site at 1.2–1.5 m resolution and produced a 7 m map of the whole Moon. Then it left: it went to the Sun–Earth L2 point, and on 13 December 2012 flew past the asteroid 4179 Toutatis at just <b>1.9 km</b>, at 10.73 km/s [1]. A spare spacecraft became China's first interplanetary probe — an early sign of the programme's habit of getting extra missions out of its hardware." data-ru="<b>«Чанъэ-2»</b> (2010) летал ниже, сфотографировал место будущей посадки с разрешением 1,2–1,5 м и построил карту всей Луны с разрешением 7 м. Затем он улетел: отправился в точку L2 системы Солнце — Земля, а 13 декабря 2012 года пролетел мимо астероида 4179 Таутатис на расстоянии всего <b>1,9 км</b> со скоростью 10,73 км/с [1]. Запасной аппарат стал первым межпланетным зондом Китая — ранний признак привычки программы выжимать из техники дополнительные миссии.">Chang'e 2 mapped the Moon and flew past Toutatis at 1.9 km.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — LAND -->
+<section id="ch2" class="section" data-phase="LAND">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="STEP TWO: LAND, AND DRIVE" data-ru="ШАГ ВТОРОЙ: СЕСТЬ И ПОЕХАТЬ">STEP TWO: LAND, AND DRIVE</span></div>
+    <h2 class="h-lg" data-en="Chang'e 3: the first soft landing in thirty-seven years" data-ru="«Чанъэ-3»: первая мягкая посадка за тридцать семь лет">Chang'e 3: the first soft landing in thirty-seven years</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="<b>Chang'e 3</b> launched on 1 December 2013 and landed on 14 December at 13:11 UT in the northwest of Mare Imbrium, the first soft landing on the Moon since the Soviet Luna 24 in 1976 [1]. Its descent was automatic: it hovered about 100 m up to choose a safe spot by itself, cut its engine 4 m above the ground and dropped the rest of the way. The lander and its rover carried plutonium-238 heaters to survive the two-week lunar night [1]." data-ru="<b>«Чанъэ-3»</b> стартовал 1 декабря 2013 года и сел 14 декабря в 13:11 UT на северо-западе Моря Дождей — первая мягкая посадка на Луну после советской «Луны-24» в 1976 году [1]. Спуск был автоматическим: аппарат завис примерно в 100 м над поверхностью, сам выбрал безопасное место, выключил двигатель в 4 м над грунтом и упал остаток пути. Посадочный модуль и луноход несли нагреватели на плутонии-238, чтобы пережить двухнедельную лунную ночь [1].">Chang'e 3 landed in Mare Imbrium in December 2013.</p>
+      <p class="body-col" data-en="The 140 kg six-wheeled rover <b>Yutu</b> rolled off with a panoramic camera, a ground-penetrating radar and spectrometers [1]. It drove only about a hundred metres before a control fault immobilised it, but it kept sending data for months, and the lander kept working for years. Step two was done — and a second, identical set of hardware, built as a backup, was waiting for something bolder." data-ru="Шестиколёсный луноход <b>«Юйту»</b> массой 140 кг съехал на грунт с панорамной камерой, георадаром и спектрометрами [1]. Он проехал лишь около сотни метров, прежде чем отказ системы управления его обездвижил, но ещё месяцы передавал данные, а посадочный модуль работал годами. Второй шаг был сделан — а второй, такой же комплект техники, построенный как резервный, ждал чего-то более смелого.">Yutu was a 140 kg rover; a backup set of hardware remained.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — TIDAL LOCK -->
+<section id="ch3" class="section" data-phase="FAR SIDE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="THE SIDE WE NEVER SEE" data-ru="СТОРОНА, КОТОРУЮ МЫ НЕ ВИДИМ">THE SIDE WE NEVER SEE</span></div>
+    <h2 class="h-lg" data-en="One turn per orbit: why the far side has no view of Earth" data-ru="Один оборот за виток: почему с обратной стороны не видно Землю">One turn per orbit: why the far side has no view of Earth</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Moon spins on its axis exactly once for every orbit around the Earth, about 27.3 days for both [11]. Billions of years of tides slowed its spin until it matched — the Moon is <b>tidally locked</b>. So the same hemisphere always faces us, and the other, the <b>far side</b>, never does. It is not dark: it gets as much sunlight as the near side. It is simply out of sight, and out of radio contact." data-ru="Луна поворачивается вокруг своей оси ровно один раз за каждый оборот вокруг Земли — около 27,3 суток для того и другого [11]. Миллиарды лет приливов замедляли её вращение, пока периоды не совпали: Луна находится в <b>приливном захвате</b>. Поэтому к нам всегда обращено одно полушарие, а другое — <b>обратная сторона</b> — никогда. Она не тёмная: Солнце освещает её так же, как видимую. Она просто вне поля зрения — и вне радиосвязи.">The Moon is tidally locked; the far side never faces Earth.</p>
+      <p class="body-col" data-en="Toggle the spin below. With the true, locked rotation, a marker on the far side never points toward Earth, so a lander there cannot talk to Earth directly: every signal must go via a relay. Turn the lock off and the Moon would show us all of itself over a month. (In reality we see slightly more than half, about 59%, because the orbit is elliptical and tilted — the libration wobble.)" data-ru="Переключите вращение ниже. При настоящем, захваченном вращении метка на обратной стороне никогда не смотрит на Землю, поэтому посадочный аппарат там не может связаться с Землёй напрямую: любой сигнал должен идти через ретранслятор. Отключите захват — и Луна за месяц показала бы нам себя целиком. (На самом деле мы видим чуть больше половины, около 59%, потому что орбита эллиптична и наклонена — это либрация.)">Toggle the spin below.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="lockSvg" class="sim-svg" viewBox="0 0 480 380" role="img" aria-label="The Moon orbiting the Earth with a marker on its far side"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Rotation">
+          <button class="btn active" id="lockOn" aria-pressed="true" data-en="TIDALLY LOCKED (REAL)" data-ru="ПРИЛИВНЫЙ ЗАХВАТ (РЕАЛЬНО)">TIDALLY LOCKED (REAL)</button>
+          <button class="btn" id="lockOff" aria-pressed="false" data-en="NOT SPINNING" data-ru="БЕЗ ВРАЩЕНИЯ">NOT SPINNING</button>
+          <button class="btn" id="lockFast" aria-pressed="false" data-en="SPINNING FAST" data-ru="БЫСТРОЕ ВРАЩЕНИЕ">SPINNING FAST</button>
+        </div>
+        <div class="readout-grid" id="lockReadout"></div>
+        <div class="status" id="lockStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — QUEQIAO -->
+<section id="ch4" class="section" data-phase="QUEQIAO">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="A BRIDGE OF MAGPIES" data-ru="СОРОЧИЙ МОСТ">A BRIDGE OF MAGPIES</span></div>
+    <h2 class="h-lg" data-en="Queqiao: a relay that must never sit still" data-ru="«Цюэцяо»: ретранслятор, которому нельзя стоять на месте">Queqiao: a relay that must never sit still</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="In the legend, magpies form a bridge across the Milky Way once a year so that two separated lovers can meet. <b>Queqiao</b> (“Magpie Bridge”) launched in May 2018 to be a bridge between Earth and the far side, at the <b>Earth–Moon L2 point</b> beyond the Moon, about 455,000 km from Earth [2]. At L2 the combined pull of Earth and Moon keeps a spacecraft moving in step with the Moon, so it hangs behind it, always in view of the far side." data-ru="По легенде, раз в год сороки выстраивают мост через Млечный Путь, чтобы встретились двое разлучённых влюблённых. <b>«Цюэцяо»</b> («Сорочий мост») запустили в мае 2018 года, чтобы стать мостом между Землёй и обратной стороной Луны, в <b>точке L2 системы Земля — Луна</b> за Луной, примерно в 455 000 км от Земли [2]. В L2 совместное притяжение Земли и Луны заставляет аппарат двигаться синхронно с Луной, так что он «висит» за ней, всегда видя обратную сторону.">Queqiao went to the Earth–Moon L2 point.</p>
+      <p class="body-col" data-en="But a relay parked exactly at L2 would be useless: L2 lies on the Earth–Moon line, so from Earth it is <b>hidden behind the Moon</b>. Queqiao instead flies a <b>halo orbit</b>, a loop around L2 wide enough that Earth can always see past the Moon's edge [2]. Below, L2 is found exactly from the three-body equations, and the slider sets how far the relay swings from the line. Find the smallest loop that keeps both Earth and the far side in view." data-ru="Но ретранслятор, стоящий ровно в L2, был бы бесполезен: L2 лежит на линии Земля — Луна, поэтому с Земли он <b>закрыт Луной</b>. Поэтому «Цюэцяо» летает по <b>гало-орбите</b> — петле вокруг L2, достаточно широкой, чтобы с Земли всегда было видно его из-за края Луны [2]. Ниже L2 найдена точно по уравнениям задачи трёх тел, а ползунок задаёт, насколько далеко ретранслятор отходит от линии. Найдите наименьшую петлю, при которой видны и Земля, и обратная сторона.">At exactly L2 the relay would be hidden behind the Moon; it flies a halo orbit.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE COLLINEAR POINT L2 (CIRCULAR RESTRICTED THREE-BODY PROBLEM)" data-ru="КОЛЛИНЕАРНАЯ ТОЧКА L2 (ОГРАНИЧЕННАЯ КРУГОВАЯ ЗАДАЧА ТРЁХ ТЕЛ)">THE COLLINEAR POINT L2 (CIRCULAR RESTRICTED THREE-BODY PROBLEM)</div>
+      <div class="eq-body">γ⁵ + (3 − μ)γ⁴ + (3 − 2μ)γ³ − μγ² − 2μγ − μ = 0 &nbsp;·&nbsp; μ = M<sub>Moon</sub> / (M<sub>Earth</sub> + M<sub>Moon</sub>) ≈ 0.01215</div>
+      <div class="eq-note" data-en="γ is the distance from the Moon to L2 in units of the Earth–Moon distance (384,400 km) [11]; solved here by Newton's method. The quick Hill estimate γ ≈ (μ/3)^(1/3) gives 0.159; the exact root is 0.168." data-ru="γ — расстояние от Луны до L2 в единицах расстояния Земля — Луна (384 400 км) [11]; решается методом Ньютона. Быстрая оценка Хилла γ ≈ (μ/3)^(1/3) даёт 0,159; точный корень — 0,168.">γ: distance Moon–L2 in Earth–Moon units.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="l2Svg" class="sim-svg" viewBox="0 0 480 360" role="img" aria-label="Earth, Moon and the L2 point with a relay offset from the Earth–Moon line"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="hA" data-en="RELAY OFFSET FROM THE EARTH–MOON LINE" data-ru="ОТСТУП РЕТРАНСЛЯТОРА ОТ ЛИНИИ ЗЕМЛЯ — ЛУНА">RELAY OFFSET FROM THE EARTH–MOON LINE</label><span class="v" id="hAVal">—</span></div>
+          <input id="hA" type="range" min="0" max="20000" step="100" value="0">
+        </div>
+        <div class="readout-grid" id="l2Readout"></div>
+        <div class="status" id="l2Status" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Drawn with the vertical direction stretched ×8 so the Moon's shadow cone and the offset can be seen. Earth–Moon distance taken as the mean 384,400 km; real halo orbits also move along the line and are kept in place by small regular manoeuvres." data-ru="Вертикальное направление растянуто ×8, чтобы был виден конус тени Луны и отступ. Расстояние Земля — Луна взято средним, 384 400 км; реальные гало-орбиты смещаются и вдоль линии и поддерживаются небольшими регулярными манёврами.">Vertical stretched ×8.</p>
+  </div>
+</section>
+
+<!-- CH5 — CHANG'E 4 -->
+<section id="ch5" class="section" data-phase="CHANG'E 4">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="THE FIRST LANDING ON THE FAR SIDE" data-ru="ПЕРВАЯ ПОСАДКА НА ОБРАТНОЙ СТОРОНЕ">THE FIRST LANDING ON THE FAR SIDE</span></div>
+    <h2 class="h-lg" data-en="Chang'e 4 and Yutu-2 in the oldest, deepest basin" data-ru="«Чанъэ-4» и «Юйту-2» в древнейшем и глубочайшем бассейне">Chang'e 4 and Yutu-2 in the oldest, deepest basin</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The backup Chang'e 3 hardware became <b>Chang'e 4</b>. On 3 January 2019 it landed in <b>Von Kármán crater</b>, inside the <b>South Pole–Aitken basin</b>: the largest and oldest known impact basin on the Moon, some 2,500 km across [3]. It was the first landing ever made on the far side, and every command and every picture passed through Queqiao." data-ru="Резервная техника «Чанъэ-3» стала <b>«Чанъэ-4»</b>. 3 января 2019 года он сел в <b>кратере фон Карман</b> внутри <b>бассейна Южный полюс — Эйткен</b> — крупнейшего и древнейшего известного ударного бассейна на Луне, около 2500 км в поперечнике [3]. Это была первая посадка на обратной стороне Луны, и каждая команда и каждый снимок шли через «Цюэцяо».">Chang'e 4 landed in Von Kármán crater in January 2019.</p>
+      <p class="body-col" data-en="Why there? An impact that large may have dug through the crust into the <b>mantle</b>, material no one had ever sampled. The rover <b>Yutu-2</b>'s spectrometer found minerals rich in olivine and low-calcium pyroxene in the debris around it, which the team interpreted as likely mantle-derived material excavated by the impact [3]. Yutu-2 went on to become the longest-working rover on the Moon." data-ru="Почему именно там? Удар такого масштаба мог пробить кору до <b>мантии</b> — вещества, которое ещё никто не исследовал. Спектрометр лунохода <b>«Юйту-2»</b> нашёл в выбросах вокруг минералы, богатые оливином и низкокальциевым пироксеном, которые команда интерпретировала как вероятное мантийное вещество, выброшенное ударом [3]. «Юйту-2» стал луноходом, проработавшим на Луне дольше всех.">Yutu-2 found possible mantle-derived material.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — CHANG'E 5 -->
+<section id="ch6" class="section" data-phase="RETURN">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="STEP THREE: BRING IT HOME" data-ru="ШАГ ТРЕТИЙ: ДОСТАВИТЬ ДОМОЙ">STEP THREE: BRING IT HOME</span></div>
+    <h2 class="h-lg" data-en="Chang'e 5: four spacecraft, one rendezvous, 1,731 grams" data-ru="«Чанъэ-5»: четыре аппарата, одна стыковка, 1731 грамм">Chang'e 5: four spacecraft, one rendezvous, 1,731 grams</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A sample return is the hardest robotic lunar mission. In 2014 a test flight, <b>Chang'e 5-T1</b>, flew around the Moon and brought a capsule back through a “double-dip” skip re-entry, bouncing off the upper atmosphere once to spread the heating and lower the load [1]. Then in November 2020 <b>Chang'e 5</b> flew four craft in one: orbiter, lander, ascender and returner. The lander touched down on 1 December near <b>Mons Rümker</b> in Oceanus Procellarum, drilled and scooped, and the ascender launched the samples back to lunar orbit." data-ru="Возвращение образцов — самая сложная из автоматических лунных миссий. В 2014 году испытательный полёт <b>«Чанъэ-5-T1»</b> облетел Луну и вернул капсулу «двойным погружением» — рикошетным входом: она один раз отскочила от верхней атмосферы, растянув нагрев и снизив перегрузку [1]. Затем в ноябре 2020 года <b>«Чанъэ-5»</b> отправил четыре аппарата в одном: орбитальный, посадочный, взлётный и возвращаемый. Посадочный модуль сел 1 декабря у <b>горы Рюмкер</b> в Океане Бурь, пробурил и зачерпнул грунт, а взлётный модуль доставил образцы на окололунную орбиту.">Chang'e 5 flew four craft in one.</p>
+      <p class="body-col" data-en="There the ascender docked automatically with the orbiter, the first robotic rendezvous in lunar orbit, and handed over the sample container. The capsule landed in Inner Mongolia on 16–17 December with <b>1,731 g</b> of lunar material, the first samples returned from the Moon in 44 years [4]. Dating of basalt fragments gave <b>2,030 ± 4 million years</b>: the youngest volcanic rocks ever dated from the Moon, about a billion years younger than Apollo's, showing the Moon stayed volcanically active far longer than thought [5][6]." data-ru="Там взлётный модуль автоматически состыковался с орбитальным — первое автоматическое сближение на окололунной орбите — и передал контейнер с образцами. Капсула приземлилась во Внутренней Монголии 16–17 декабря с <b>1731 г</b> лунного вещества — первыми образцами с Луны за 44 года [4]. Датирование фрагментов базальта дало <b>2030 ± 4 миллиона лет</b>: это самые молодые вулканические породы, когда-либо датированные на Луне, примерно на миллиард лет моложе образцов «Аполлонов», — Луна оставалась вулканически активной гораздо дольше, чем считалось [5][6].">1,731 g returned; 2,030 Myr-old basalt.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="LIFTING OFF THE MOON: THE ROCKET EQUATION" data-ru="ВЗЛЁТ С ЛУНЫ: УРАВНЕНИЕ ЦИОЛКОВСКОГО">LIFTING OFF THE MOON: THE ROCKET EQUATION</div>
+      <div class="eq-body">Δv = I<sub>sp</sub> g₀ ln(m₀ / m<sub>f</sub>) &nbsp;⇒&nbsp; m<sub>prop</sub> = m<sub>f</sub> (e<sup>Δv / (I<sub>sp</sub> g₀)</sup> − 1)</div>
+      <div class="eq-note" data-en="m_f: everything that reaches orbit (structure, engine, sample container). About 1.9 km/s takes a vehicle from the surface to low lunar orbit, a quarter of what leaving Earth needs, because the Moon has no air and one sixth of Earth's gravity." data-ru="m_f — всё, что выходит на орбиту (конструкция, двигатель, контейнер с образцами). Около 1,9 км/с нужно, чтобы подняться с поверхности на низкую окололунную орбиту, — четверть того, что нужно для старта с Земли, потому что у Луны нет атмосферы, а тяготение в шесть раз слабее.">m_f: everything that reaches orbit.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="ascentSvg" class="sim-svg" viewBox="0 0 480 320" role="img" aria-label="Propellant needed to lift a given mass from the Moon to lunar orbit"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="aMf" data-en="MASS DELIVERED TO ORBIT" data-ru="МАССА НА ОРБИТУ">MASS DELIVERED TO ORBIT</label><span class="v" id="aMfVal">—</span></div>
+          <input id="aMf" type="range" min="50" max="1000" step="5" value="250">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="aIsp" data-en="ENGINE SPECIFIC IMPULSE" data-ru="УДЕЛЬНЫЙ ИМПУЛЬС ДВИГАТЕЛЯ">ENGINE SPECIFIC IMPULSE</label><span class="v" id="aIspVal">—</span></div>
+          <input id="aIsp" type="range" min="200" max="460" step="1" value="315">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="aDv" data-en="Δv TO LUNAR ORBIT" data-ru="Δv ДО ОКОЛОЛУННОЙ ОРБИТЫ">Δv TO LUNAR ORBIT</label><span class="v" id="aDvVal">—</span></div>
+          <input id="aDv" type="range" min="1.6" max="2.4" step="0.01" value="1.9">
+        </div>
+        <div class="readout-grid" id="ascentReadout"></div>
+        <div class="status" id="ascentStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Illustrative: Chang'e 5's ascender masses have not been published in detail. 315 s is typical for a storable-propellant engine; liquid hydrogen–oxygen (up to ~460 s) is far more efficient but hard to store on the Moon." data-ru="Иллюстрация: массы взлётного модуля «Чанъэ-5» подробно не публиковались. 315 с — типично для двигателя на долгохранимых компонентах; водород-кислородный (до ~460 с) гораздо эффективнее, но его трудно хранить на Луне.">Illustrative.</p>
+  </div>
+</section>
+
+<!-- CH7 — CHANG'E 6 -->
+<section id="ch7" class="section" data-phase="FAR SIDE ROCKS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="THE FAR SIDE IN A CAPSULE" data-ru="ОБРАТНАЯ СТОРОНА В КАПСУЛЕ">THE FAR SIDE IN A CAPSULE</span></div>
+    <h2 class="h-lg" data-en="Chang'e 6: the first rocks from the hidden hemisphere" data-ru="«Чанъэ-6»: первые камни с невидимого полушария">Chang'e 6: the first rocks from the hidden hemisphere</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Chang'e 5's backup became <b>Chang'e 6</b>, and the target moved to the far side. Because Queqiao's halo orbit was set up for the Chang'e 4 site, a second relay, <b>Queqiao-2</b>, was launched on 20 March 2024 into an elliptical orbit around the Moon itself [10]. Chang'e 6 landed in early June 2024 in the <b>Apollo crater</b>, inside the South Pole–Aitken basin, collected samples by drilling and scooping, and launched them from the far side, relaying everything through Queqiao-2 [7]." data-ru="Резерв «Чанъэ-5» стал <b>«Чанъэ-6»</b>, и цель переместилась на обратную сторону. Так как гало-орбита «Цюэцяо» была рассчитана на район «Чанъэ-4», 20 марта 2024 года запустили второй ретранслятор, <b>«Цюэцяо-2»</b>, на эллиптическую орбиту вокруг самой Луны [10]. «Чанъэ-6» сел в начале июня 2024 года в <b>кратере Аполлон</b> внутри бассейна Южный полюс — Эйткен, собрал образцы бурением и зачерпыванием и стартовал с обратной стороны, передавая всё через «Цюэцяо-2» [7].">Chang'e 6 landed in Apollo crater on the far side.</p>
+      <p class="body-col" data-en="On 25 June 2024 the capsule landed in Inner Mongolia with <b>1,935.3 g</b> of far-side material [8]. Basalt fragments in it were dated to about <b>2.8 billion years</b>: proof that the far side, long thought volcanically quieter than the near side, also had lava flows that late [9]. For the first time, scientists could compare rocks from both hemispheres of the Moon in the laboratory." data-ru="25 июня 2024 года капсула приземлилась во Внутренней Монголии с <b>1935,3 г</b> вещества обратной стороны [8]. Фрагменты базальта в нём датированы примерно <b>2,8 миллиарда лет</b>: доказательство того, что и на обратной стороне, долго считавшейся вулканически более спокойной, лава изливалась так поздно [9]. Впервые учёные смогли сравнить в лаборатории породы обоих полушарий Луны.">1,935.3 g returned; 2.8-billion-year-old far-side basalt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — NEXT -->
+<section id="ch8" class="section" data-phase="NEXT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="NEXT: THE SOUTH POLE, AND PEOPLE" data-ru="ДАЛЕЕ: ЮЖНЫЙ ПОЛЮС И ЛЮДИ">NEXT: THE SOUTH POLE, AND PEOPLE</span></div>
+    <h2 class="h-lg" data-en="From robots to a research station" data-ru="От роботов — к исследовательской станции">From robots to a research station</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The next phase turns to the lunar <b>south pole</b>, where permanently shadowed craters may hold water ice. Queqiao-2 was built to support the planned Chang'e 7 and Chang'e 8 missions there as well as Chang'e 6 [10]. Each mission so far has followed the same pattern: one flight to prove the hardware, a backup flown as a bolder second mission, and a relay put in place first." data-ru="Следующий этап обращён к <b>южному полюсу</b> Луны, где в вечно затенённых кратерах может быть водяной лёд. «Цюэцяо-2» построили, чтобы обслуживать и «Чанъэ-6», и запланированные туда миссии «Чанъэ-7» и «Чанъэ-8» [10]. Каждая миссия до сих пор следовала одному образцу: полёт, доказывающий технику, резервный аппарат как более смелая вторая миссия и ретранслятор, установленный заранее.">The next phase targets the south pole.</p>
+      <p class="body-col" data-en="It is meant to join China's crewed programme, which aims to land astronauts by 2030 with the Mengzhou spacecraft and the Lanyue lander (the VESSEL guide covers it). The robotic landings have already mapped and sampled the ground, tested precise automatic landing, lunar-orbit rendezvous and the return of a capsule at lunar speed — every hard step that a crewed landing needs." data-ru="Он должен соединиться с пилотируемой программой Китая, которая планирует высадить космонавтов к 2030 году на корабле «Мэнчжоу» и посадочном модуле «Ланьюэ» (её описывает справочник VESSEL). Автоматические посадки уже картографировали и опробовали грунт, отработали точную автоматическую посадку, сближение на окололунной орбите и возвращение капсулы с лунной скоростью — все трудные шаги, которые нужны пилотируемой посадке.">It joins the crewed programme.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — LEGACY -->
+<section id="ch9" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="LEGACY: ORBIT, LAND, RETURN" data-ru="НАСЛЕДИЕ: ОБЛЕТЕТЬ, СЕСТЬ, ВЕРНУТЬСЯ">LEGACY: ORBIT, LAND, RETURN</span></div>
+    <h2 class="h-lg" data-en="Seventeen years from first orbit to far-side samples" data-ru="Семнадцать лет — от первой орбиты до образцов с обратной стороны">Seventeen years from first orbit to far-side samples</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="The far side was the one place on the Moon no one could reach without first building a bridge. China built the bridge, then crossed it twice." data-ru="Обратная сторона была единственным местом на Луне, куда нельзя было попасть, не построив сначала моста. Китай построил мост — и прошёл по нему дважды.">The far side needed a bridge first.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — REFERENCES -->
+<section id="ch10" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS (NASA Moon fact sheet [6]) ============ */
+var D_EM = 384400, R_M = 1737.4, GM_M = 4902.8, MU_EM = 0.0123/(1 + 0.0123);
+
+/* ============ CH3 — TIDAL LOCK ============ */
+var lockMode = 'on', lockT = 0;
+function drawLock(){
+  var svg = document.getElementById('lockSvg'); svg.innerHTML = '';
+  var cx = 240, cy = 190, ro = 140, re = 34, rm = 18;
+  ns('circle', {cx:cx, cy:cy, r:ro, fill:'none', stroke:'#c9c9c1', 'stroke-dasharray':'4 4'}, svg);
+  ns('circle', {cx:cx, cy:cy, r:re, fill:'#e9eef5', stroke:'#0b0b0c'}, svg);
+  txt(svg, cx, cy + 4, T('EARTH','ЗЕМЛЯ'), 'svg-small', 'middle');
+  var a = lockT*2*Math.PI;                         // orbital angle (one orbit = 1 unit of lockT)
+  var mx = cx + ro*Math.cos(a), my = cy - ro*Math.sin(a);
+  // body rotation angle: locked → same as orbital angle; none → 0; fast → 5× orbital
+  var spin = lockMode === 'on' ? a : lockMode === 'off' ? 0 : 5*a;
+  ns('circle', {cx:mx, cy:my, r:rm, fill:'#d8d4c8', stroke:'#0b0b0c'}, svg);
+  // near-side hemisphere shading: the half facing "spin + π" direction (toward Earth when locked)
+  var nearDir = spin + Math.PI;
+  var p1x = mx + rm*Math.cos(nearDir - Math.PI/2), p1y = my - rm*Math.sin(nearDir - Math.PI/2);
+  var p2x = mx + rm*Math.cos(nearDir + Math.PI/2), p2y = my - rm*Math.sin(nearDir + Math.PI/2);
+  ns('path', {d:'M' + p1x + ' ' + p1y + ' A' + rm + ' ' + rm + ' 0 0 0 ' + p2x + ' ' + p2y + ' Z', fill:'#9a978d', opacity:0.55}, svg);
+  // far-side marker (Chang'e 4 site) on the far hemisphere
+  var fx = mx + rm*Math.cos(spin), fy = my - rm*Math.sin(spin);
+  ns('circle', {cx:fx, cy:fy, r:4.5, fill:'#b5452a', stroke:'#fff', 'stroke-width':1.2}, svg);
+  // line of sight test: does the marker face Earth? (angle between outward normal and direction to Earth)
+  var toE = Math.atan2(-(cy - my), cx - mx);         // math-angle toward Earth
+  var dot = Math.cos(spin - toE);
+  var sees = dot > 0;
+  ns('line', {x1:fx, y1:fy, x2:cx, y2:cy, stroke: sees ? '#2f5aa1' : '#c9c9c1', 'stroke-dasharray': sees ? '' : '3 3'}, svg);
+  txt(svg, 14, 20, T('shaded half: the side that faces Earth when locked · red dot: a far-side lander','затенённая половина — сторона, обращённая к Земле при захвате · красная точка — аппарат на обратной стороне'), 'svg-small');
+  cells(document.getElementById('lockReadout'), [
+    [T('ORBIT','ОРБИТА'), fmt((lockT % 1)*27.3, 1) + T(' of 27.3 days',' из 27,3 сут')],
+    [T('LANDER SEES EARTH?','АППАРАТ ВИДИТ ЗЕМЛЮ?'), sees ? T('yes','да') : T('no','нет')]
+  ]);
+  document.getElementById('lockStatus').innerHTML = lockMode === 'on'
+    ? T('Locked: the red dot <b>never</b> faces Earth. A far-side lander needs a relay for every message.','Захват: красная точка <b>никогда</b> не смотрит на Землю. Аппарату на обратной стороне нужен ретранслятор для каждого сообщения.')
+    : lockMode === 'off'
+      ? T('Without spin the Moon would show us every side once a month, and the “far side” would see Earth half the time.','Без вращения Луна раз в месяц показывала бы нам все стороны, а «обратная сторона» видела бы Землю половину времени.')
+      : T('Spinning fast, like the young Moon before tides slowed it: every point sees Earth several times per orbit.','При быстром вращении, как у молодой Луны до приливного торможения, каждая точка видит Землю несколько раз за виток.');
+}
+function setLock(m, btn){ lockMode = m; pressGroup(btn.parentNode, btn); drawLock(); }
+document.getElementById('lockOn').addEventListener('click', function(){ setLock('on', this); });
+document.getElementById('lockOff').addEventListener('click', function(){ setLock('off', this); });
+document.getElementById('lockFast').addEventListener('click', function(){ setLock('fast', this); });
+var lockAcc = 0;
+visibleLoop(document.getElementById('lockSvg'), function(dt){ lockT += dt/(reduced() ? 30 : 10); lockAcc += dt; drawLock(); });
+
+/* ============ CH4 — EARTH–MOON L2 ============ */
+function solveL2(mu){
+  var g = Math.pow(mu/3, 1/3);
+  for(var i = 0; i < 50; i++){
+    var f = Math.pow(g,5) + (3 - mu)*Math.pow(g,4) + (3 - 2*mu)*Math.pow(g,3) - mu*g*g - 2*mu*g - mu;
+    var df = 5*Math.pow(g,4) + 4*(3 - mu)*Math.pow(g,3) + 3*(3 - 2*mu)*g*g - 2*mu*g - 2*mu;
+    var s = f/df; g -= s; if(Math.abs(s) < 1e-15) break;
+  }
+  return g;
+}
+var GAMMA2 = solveL2(MU_EM);
+function relay(offsetKm){
+  var dL2 = D_EM*(1 + GAMMA2);                     // from Earth (taken at the barycentre-free Earth–Moon line)
+  var minOff = R_M*dL2/D_EM;                       // offset at which the relay clears the Moon's limb seen from Earth
+  var dEarth = Math.hypot(dL2, offsetKm), dMoon = Math.hypot(D_EM*GAMMA2, offsetKm);
+  var visible = offsetKm > minOff;
+  var delay = (dEarth + dMoon)/C_LIGHT;            // Earth → relay → lander (approx. lander at the far-side centre)
+  return {dL2:dL2, beyond:D_EM*GAMMA2, minOff:minOff, visible:visible, dEarth:dEarth, dMoon:dMoon, delay:delay};
+}
+var hA = document.getElementById('hA');
+function renderL2(){
+  var off = +hA.value, R = relay(off);
+  document.getElementById('hAVal').textContent = fmtInt(off) + T(' km',' км');
+  var svg = document.getElementById('l2Svg'); svg.innerHTML = '';
+  var L = 40, Rr = 450, cy = 180, k = (Rr - L)/R.dL2, vs = 8;      // vertical stretch ×8
+  var xE = L, xM = L + D_EM*k, xL = L + R.dL2*k;
+  function Y(km){ return cy - km*k*vs; }
+  // Moon's shadow cone (as seen from Earth): rays from Earth past the Moon's limb
+  var lim = R_M*k*vs;
+  ns('path', {d:'M' + xE + ' ' + cy + ' L' + (Rr + 20) + ' ' + (cy - lim*(Rr + 20 - xE)/(xM - xE)) + ' L' + (Rr + 20) + ' ' + (cy + lim*(Rr + 20 - xE)/(xM - xE)) + ' Z', fill:'#0b0b0c', opacity:0.06}, svg);
+  ns('line', {x1:xE, y1:cy, x2:Rr + 20, y2:cy, stroke:'#c9c9c1', 'stroke-dasharray':'3 4'}, svg);
+  ns('circle', {cx:xE, cy:cy, r:9, fill:'#e9eef5', stroke:'#0b0b0c'}, svg); txt(svg, xE, cy + 24, T('Earth','Земля'), 'svg-small', 'middle');
+  ns('ellipse', {cx:xM, cy:cy, rx:Math.max(3, R_M*k), ry:lim, fill:'#d8d4c8', stroke:'#0b0b0c'}, svg); txt(svg, xM, cy + lim + 16, T('Moon','Луна'), 'svg-small', 'middle');
+  ns('line', {x1:xL - 5, y1:cy - 5, x2:xL + 5, y2:cy + 5, stroke:'#0b0b0c'}, svg); ns('line', {x1:xL - 5, y1:cy + 5, x2:xL + 5, y2:cy - 5, stroke:'#0b0b0c'}, svg);
+  txt(svg, xL, cy + 22, 'L2', 'svg-label', 'middle');
+  // halo loop (schematic ellipse through the chosen offset)
+  if(off > 0) ns('ellipse', {cx:xL, cy:cy, rx:12, ry:off*k*vs, fill:'none', stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg);
+  var ry = Y(off);
+  ns('line', {x1:xE, y1:cy, x2:xL, y2:ry, stroke: R.visible ? '#2f5aa1' : '#b5452a', 'stroke-width':1.5}, svg);
+  ns('line', {x1:xL, y1:ry, x2:xM + R_M*k, y2:cy, stroke:'#0b0b0c', 'stroke-dasharray':'2 3'}, svg);
+  ns('rect', {x:xL - 6, y:ry - 6, width:12, height:12, fill: R.visible ? '#2f5aa1' : '#b5452a'}, svg);
+  txt(svg, 14, 20, T('vertical scale ×8 · shaded: hidden behind the Moon as seen from Earth','вертикаль ×8 · тень — область, закрытая Луной для наблюдателя с Земли'), 'svg-small');
+  cells(document.getElementById('l2Readout'), [
+    [T('L2 BEYOND THE MOON','L2 ЗА ЛУНОЙ'), fmtInt(R.beyond) + T(' km',' км')],
+    [T('L2 FROM EARTH','L2 ОТ ЗЕМЛИ'), fmtInt(R.dL2) + T(' km',' км')],
+    [T('MINIMUM OFFSET TO BE SEEN','МИН. ОТСТУП ДЛЯ ВИДИМОСТИ'), fmtInt(R.minOff) + T(' km',' км')],
+    [T('EARTH → RELAY → LANDER DELAY','ЗАДЕРЖКА ЗЕМЛЯ → РЕТРАНСЛЯТОР → АППАРАТ'), fmt(R.delay, 2) + T(' s',' с')]
+  ]);
+  hud1.textContent = fmtInt(R.dEarth) + T(' km',' км'); hud2.textContent = fmt(R.delay, 2) + T(' s',' с');
+  document.getElementById('l2Status').innerHTML = R.visible
+    ? T('<b>Link closed.</b> Earth can see the relay past the Moon\'s edge, and the relay can see the whole far side.','<b>Связь есть.</b> С Земли ретранслятор виден из-за края Луны, а он сам видит всю обратную сторону.')
+    : T('<b>Hidden.</b> From Earth the relay is behind the Moon: it needs to swing at least ','<b>Скрыт.</b> С Земли ретранслятор находится за Луной: ему нужно отойти от линии хотя бы на ') + fmtInt(R.minOff) + T(' km off the line — that is why Queqiao flies a halo orbit.',' км — поэтому «Цюэцяо» летает по гало-орбите.');
+}
+hA.addEventListener('input', renderL2);
+
+/* ============ CH6 — ASCENT ============ */
+var aMf = document.getElementById('aMf'), aIsp = document.getElementById('aIsp'), aDv = document.getElementById('aDv');
+function ascent(mf, isp, dvKms){ var r = Math.exp(dvKms*1000/(isp*9.80665)); return {prop:mf*(r - 1), m0:mf*r, ratio:r}; }
+function renderAscent(){
+  var mf = +aMf.value, isp = +aIsp.value, dv = +aDv.value, A = ascent(mf, isp, dv);
+  document.getElementById('aMfVal').textContent = fmtInt(mf) + T(' kg',' кг');
+  document.getElementById('aIspVal').textContent = fmtInt(isp) + T(' s',' с');
+  document.getElementById('aDvVal').textContent = fmt(dv, 2) + T(' km/s',' км/с');
+  var svg = document.getElementById('ascentSvg'); svg.innerHTML = '';
+  var L = 60, Rr = 465, Tp = 20, B = 280, iMin = 200, iMax = 460, pMax = ascent(mf, 200, 2.4).prop*1.05;
+  function X(i){ return L + (i - iMin)/(iMax - iMin)*(Rr - L); }
+  function Y(p){ return B - p/pMax*(B - Tp); }
+  for(var j = 0; j <= 4; j++){ var pv = pMax*j/4; ns('line', {x1:L, y1:Y(pv), x2:Rr, y2:Y(pv), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(pv) + 3, fmtInt(pv), 'svg-small', 'end'); }
+  [200,260,320,380,440].forEach(function(i){ txt(svg, X(i), B + 14, i + T(' s',' с'), 'svg-small', 'middle'); });
+  txt(svg, L, 13, T('propellant, kg','топливо, кг'), 'svg-small'); txt(svg, Rr, B + 28, T('specific impulse','удельный импульс'), 'svg-small', 'end');
+  var d = '';
+  for(var i = iMin; i <= iMax; i += 2){ d += (i === iMin ? 'M' : 'L') + X(i).toFixed(1) + ' ' + Y(ascent(mf, i, dv).prop).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(isp), cy:Y(A.prop), r:5, fill:'#b5452a'}, svg);
+  var perKg = A.prop/mf;
+  cells(document.getElementById('ascentReadout'), [
+    [T('PROPELLANT','ТОПЛИВО'), fmtInt(A.prop) + T(' kg',' кг')],
+    [T('LIFT-OFF MASS','СТАРТОВАЯ МАССА'), fmtInt(A.m0) + T(' kg',' кг')],
+    [T('MASS RATIO m₀/m_f','ОТНОШЕНИЕ МАСС m₀/m_f'), fmt(A.ratio, 2)],
+    [T('PROPELLANT PER KG TO ORBIT','ТОПЛИВА НА 1 КГ НА ОРБИТЕ'), fmt(perKg, 2) + T(' kg',' кг')]
+  ]);
+  document.getElementById('ascentStatus').innerHTML = T('Every kilogram that reaches lunar orbit costs <b>','Каждый килограмм на окололунной орбите стоит <b>') + fmt(perKg, 2) + T(' kg</b> of propellant at lift-off — and all of it had to be carried to the Moon first. On Earth the same exponent would apply to ~9.4 km/s instead of 1.9.',' кг</b> топлива на старте — и всё это сначала нужно было доставить на Луну. На Земле та же экспонента относилась бы к ~9,4 км/с вместо 1,9.');
+}
+[aMf, aIsp, aDv].forEach(function(el){ el.addEventListener('input', renderAscent); });
+
+/* ============ CH9 — TIMELINE ============ */
+var TIMELINE = [
+  ['2007', '<b>24 October:</b> Chang\'e 1 launches; enters lunar orbit on 5 November.', '<b>24 октября:</b> старт «Чанъэ-1»; выход на окололунную орбиту 5 ноября.'],
+  ['2010', 'Chang\'e 2 maps the Moon at 7 m resolution, then leaves for the Sun–Earth L2 point.', '«Чанъэ-2» картографирует Луну с разрешением 7 м, затем улетает в точку L2 системы Солнце — Земля.'],
+  ['2012', '<b>13 December:</b> Chang\'e 2 passes asteroid Toutatis at 1.9 km.', '<b>13 декабря:</b> «Чанъэ-2» пролетает астероид Таутатис на расстоянии 1,9 км.'],
+  ['2013', '<b>14 December:</b> Chang\'e 3 and Yutu land in Mare Imbrium.', '<b>14 декабря:</b> «Чанъэ-3» и «Юйту» садятся в Море Дождей.'],
+  ['2014', 'Chang\'e 5-T1 flies around the Moon and returns a capsule with a skip re-entry.', '«Чанъэ-5-T1» облетает Луну и возвращает капсулу рикошетным входом.'],
+  ['2018', '<b>May:</b> Queqiao relay launched to the Earth–Moon L2 point.', '<b>Май:</b> ретранслятор «Цюэцяо» запущен к точке L2 системы Земля — Луна.'],
+  ['2019', '<b>3 January:</b> Chang\'e 4 makes the first landing on the far side, in Von Kármán crater.', '<b>3 января:</b> «Чанъэ-4» совершает первую посадку на обратной стороне, в кратере фон Карман.'],
+  ['2020', '<b>1 December:</b> Chang\'e 5 lands near Mons Rümker; <b>16–17 December:</b> 1,731 g returned.', '<b>1 декабря:</b> «Чанъэ-5» садится у горы Рюмкер; <b>16–17 декабря:</b> доставлено 1731 г.'],
+  ['2021', 'Chang\'e 5 basalts dated to 2,030 ± 4 million years — the youngest lunar volcanic rocks known.', 'Базальты «Чанъэ-5» датированы 2030 ± 4 млн лет — самые молодые известные лунные вулканические породы.'],
+  ['2024', '<b>20 March:</b> Queqiao-2. <b>June:</b> Chang\'e 6 lands in Apollo crater; <b>25 June:</b> 1,935.3 g of far-side samples returned.', '<b>20 марта:</b> «Цюэцяо-2». <b>Июнь:</b> «Чанъэ-6» садится в кратере Аполлон; <b>25 июня:</b> доставлено 1935,3 г образцов обратной стороны.']
+];
+
+/* ============ CH10 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'A. A. Siddiqi (2018), Beyond Earth: A Chronicle of Deep Space Exploration, 1958–2016, NASA SP-2018-4041', url:'https://www.nasa.gov/wp-content/uploads/2018/09/beyond-earth-tagged.pdf', note:{en:'Chang\'e 1, Chang\'e 2 (7 m map, L2, Toutatis at 1.9 km), Chang\'e 3 and Yutu (landing 14 December 2013, 13:11 UT, Mare Imbrium) and the Chang\'e 5-T1 skip re-entry test.', ru:'«Чанъэ-1», «Чанъэ-2» (карта 7 м, L2, Таутатис на 1,9 км), «Чанъэ-3» и «Юйту» (посадка 14 декабря 2013, 13:11 UT, Море Дождей) и испытание рикошетного входа «Чанъэ-5-T1».'}},
+  {title:'Xinhua via China Aerospace Science and Technology Corporation (2018), “China launches relay satellite to explore Moon\'s far side”', url:'https://english.spacechina.com/n17212/c1872815/content.html', note:{en:'Queqiao\'s launch on a Long March-4C and its planned halo orbit around the Earth–Moon L2 point, about 455,000 km from Earth.', ru:'Запуск «Цюэцяо» ракетой «Чанчжэн-4C» и планируемая гало-орбита вокруг точки L2 системы Земля — Луна, около 455 000 км от Земли.'}},
+  {title:'C. Li et al. (2019), “Chang\'E-4 initial spectroscopic identification of lunar far-side mantle-derived materials”, Nature 569', url:'https://doi.org/10.1038/s41586-019-1189-0', note:{en:'The landing in Von Kármán crater in the South Pole–Aitken basin and Yutu-2\'s olivine- and low-calcium-pyroxene-rich spectra.', ru:'Посадка в кратере фон Карман в бассейне Южный полюс — Эйткен и спектры «Юйту-2», богатые оливином и низкокальциевым пироксеном.'}},
+  {title:'National Astronomical Observatories, CAS (2020), “China\'s Chang\'e-5 retrieves 1,731 grams of moon samples”', url:'https://english.nao.cas.cn/ne2015/News2015/202012/t20201221_260671.html', note:{en:'CNSA\'s announcement of the 1,731 g Chang\'e 5 sample and its handover to the Chinese Academy of Sciences.', ru:'Объявление CNSA о 1731 г образцов «Чанъэ-5» и их передаче Академии наук Китая.'}},
+  {title:'Q.-L. Li et al. (2021), “Two-billion-year-old volcanism on the Moon from Chang\'e-5 basalts”, Nature 600', url:'https://doi.org/10.1038/s41586-021-04100-2', note:{en:'Lead–lead age of 2,030 ± 4 million years for Chang\'e 5 basalt clasts — the youngest radiometric age for lunar basalt.', ru:'Свинец-свинцовый возраст 2030 ± 4 млн лет для обломков базальта «Чанъэ-5» — самый молодой радиометрический возраст лунного базальта.'}},
+  {title:'X. Che et al. (2021), “Age and composition of young basalts on the Moon, measured from samples returned by Chang\'e-5”, Science 374', url:'https://doi.org/10.1126/science.abl7957', note:{en:'Independent dating to about 2 billion years and the puzzle of a heat source for such late volcanism.', ru:'Независимая датировка около 2 млрд лет и загадка источника тепла для столь позднего вулканизма.'}},
+  {title:'L. Xin (2024), “China\'s Chang\'e-6 collects first rock samples from Moon\'s far side”, Nature (news)', url:'https://doi.org/10.1038/d41586-024-01625-0', note:{en:'The Chang\'e 6 landing in the Apollo crater of the South Pole–Aitken basin and its sampling.', ru:'Посадка «Чанъэ-6» в кратере Аполлон бассейна Южный полюс — Эйткен и сбор образцов.'}},
+  {title:'National Astronomical Observatories, CAS (2024), “Chinese Scientists analyze first lunar farside samples collected from the other half of the Moon”', url:'https://english.nao.cas.cn/focus/202409/t20240924_690449.html', note:{en:'1,935.3 g of samples from the South Pole–Aitken basin, returned 25 June 2024, gathered by drilling and scooping.', ru:'1935,3 г образцов из бассейна Южный полюс — Эйткен, доставлены 25 июня 2024 года, собраны бурением и зачерпыванием.'}},
+  {title:'Q. W. L. Zhang et al. (2024), “Lunar farside volcanism 2.8 billion years ago from Chang\'e-6 basalts”, Nature', url:'https://doi.org/10.1038/s41586-024-08382-0', note:{en:'Dating of far-side mare basalt from the Chang\'e 6 samples to about 2.8 billion years.', ru:'Датирование базальта обратной стороны из образцов «Чанъэ-6» — около 2,8 млрд лет.'}},
+  {title:'Science and Technology Daily (2024), “Queqiao 2 Paves the Way for Future Lunar Missions”', url:'https://stdaily.com/web/English/2024-03/26/content_1955436.html', note:{en:'Queqiao-2\'s launch on 20 March 2024 on a Long March 8 from Wenchang, to relay for Chang\'e 6 and the later Chang\'e 7 and 8.', ru:'Запуск «Цюэцяо-2» 20 марта 2024 года ракетой «Чанчжэн-8» с Вэньчана для ретрансляции «Чанъэ-6» и последующих «Чанъэ-7» и «Чанъэ-8».'}},
+  {title:'NASA, Moon Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html', note:{en:'Mean Earth–Moon distance 384,400 km, mean radius 1,737.4 km, GM 4,902.8 km³/s², mass ratio 0.0123, orbital period 27.3 days.', ru:'Среднее расстояние Земля — Луна 384 400 км, средний радиус 1737,4 км, GM 4902,8 км³/с², отношение масс 0,0123, период обращения 27,3 сут.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  drawLock();
+  renderL2();
+  renderAscent();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__rabbit = {solveL2:solveL2, GAMMA2:GAMMA2, relay:relay, ascent:ascent, MU_EM:MU_EM};
+
+})();
+</script>
+</body>
+</html>

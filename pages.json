@@ -49,7 +49,8 @@
         { "slug": "prospect-clementine-mission", "codename": "PROSPECT", "label": { "en": "The Clementine Mission", "ru": "Миссия «Клементина»" } },
         { "slug": "scout-lunar-reconnaissance-orbiter", "codename": "SCOUT", "label": { "en": "Lunar Reconnaissance Orbiter", "ru": "Орбитальный разведчик Луны" } },
         { "slug": "valor-the-chandrayaan-mission", "codename": "VALOR", "label": { "en": "The Chandrayaan Missions", "ru": "Миссии «Чандраян»" } },
-        { "slug": "campaign-artemis-program", "codename": "CAMPAIGN", "label": { "en": "The Artemis Program", "ru": "Программа Artemis" } }
+        { "slug": "campaign-artemis-program", "codename": "CAMPAIGN", "label": { "en": "The Artemis Program", "ru": "Программа Artemis" } },
+        { "slug": "rabbit-change-far-side", "codename": "RABBIT", "label": { "en": "Chang'e & the Far Side of the Moon", "ru": "«Чанъэ» и обратная сторона Луны" } }
       ]
     },
     {
