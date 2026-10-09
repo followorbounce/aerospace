@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THRUST — SATURN V &amp;amp; N1 / ТЯГА — «САТУРН-5» И Н-1</title>
+<meta name="description" content="An interactive field guide to the two Moon rockets: why reaching the Moon takes about 12 km/s and why that forces staging, the Saturn V's real Apollo 11 stage masses run through the rocket equation, the Soviet N1's 30 first-stage engines and its engine-control system, and the four N1 launches that failed between 1969 and 1972.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/thrust-saturn-v-n1">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="THRUST — SATURN V &amp;amp; N1 / ТЯГА — «САТУРН-5» И Н-1">
+<meta property="og:description" content="Apollo 11's real stage masses through the rocket equation, and what happens when an N1 loses engines — the two Moon rockets, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/thrust-saturn-v-n1">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">THRUST — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE PROBLEM</span></div>
+  <div class="hud-row"><span class="hud-label">TOTAL Δv</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">LIFTOFF T/W</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE PROBLEM">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 16 JULY 1969 · 21 FEBRUARY 1969" data-ru="РИС. 00 — 16 ИЮЛЯ 1969 · 21 ФЕВРАЛЯ 1969">FIG. 00 — 16 JULY 1969 · 21 FEBRUARY 1969</span></span>
+        <span>5 × F-1 · 30 × NK-15</span>
+      </div>
+      <h1><span data-en="THRUST" data-ru="ТЯГА">THRUST</span><br><em data-en="SATURN V AND N1" data-ru="«САТУРН-5» И Н-1">SATURN V AND N1</em></h1>
+      <p class="sub lede" data-en="Two countries built a rocket to put people on the Moon. The American Saturn V weighed almost 3,000 tonnes at ignition and lifted off on five huge engines; the Soviet N1 weighed about 2,750 tonnes and used thirty smaller ones. One flew every Apollo landing. The other was launched four times and never reached orbit. Six chapters and two instruments: run Apollo 11's real stage masses through the rocket equation, and switch off N1 engines to see how much thrust is left." data-ru="Две страны построили ракету, чтобы доставить людей на Луну. Американский «Сатурн-5» при зажигании весил почти 3000 тонн и взлетал на пяти огромных двигателях; советская Н-1 весила около 2750 тонн и несла тридцать двигателей поменьше. Первый обеспечил все высадки «Аполлонов». Вторую запускали четыре раза, и она ни разу не вышла на орбиту. Шесть глав и два прибора: прогоните настоящие массы ступеней «Аполлона-11» через уравнение ракеты и отключайте двигатели Н-1, чтобы увидеть, сколько тяги остаётся.">Two Moon rockets: one flew every Apollo landing, the other never reached orbit.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY STAGES -->
+<section id="ch1" class="section" data-phase="THE PROBLEM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 06</span> — <span data-en="WHY A MOON ROCKET IS THREE ROCKETS" data-ru="ПОЧЕМУ ЛУННАЯ РАКЕТА — ЭТО ТРИ РАКЕТЫ">WHY A MOON ROCKET IS THREE ROCKETS</span></div>
+    <h2 class="h-lg" data-en="Throw away the empty tanks" data-ru="Выбросить пустые баки">Throw away the empty tanks</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Reaching low Earth orbit takes about 9.4 km/s once air drag and the fight against gravity are paid for, and leaving it for the Moon takes roughly another 3 km/s (see <a href='/aerospace/physics-of-spaceflight'>The Physics of Spaceflight</a>). The rocket equation says the speed a rocket can gain grows only with the <b>logarithm</b> of how much heavier it is full than empty. Every tonne of tank and engine that rides all the way up makes the next kilometre per second more expensive." data-ru="Чтобы выйти на низкую околоземную орбиту, нужно около 9,4 км/с с учётом сопротивления воздуха и борьбы с тяготением, а чтобы улететь с неё к Луне — примерно ещё 3 км/с (см. <a href='/aerospace/physics-of-spaceflight'>«Физику космического полёта»</a>). Уравнение ракеты говорит: прирост скорости растёт лишь как <b>логарифм</b> отношения массы полной ракеты к пустой. Каждая тонна баков и двигателей, которую везут до самого конца, делает следующий километр в секунду дороже.">Reaching orbit takes about 9.4 km/s, the Moon about 3 more.</p>
+      <p class="body-col" data-en="The answer is <b>staging</b>: burn one rocket until it is empty, drop it, and light a smaller one that no longer has to carry the big tanks. Both Moon rockets had three main stages to reach orbit and leave for the Moon. Their designers made very different choices about how to build the first stage — and that is where the two stories split." data-ru="Ответ — <b>ступенчатость</b>: сжечь одну ракету до пустых баков, сбросить её и зажечь меньшую, которой уже не нужно тащить большие баки. У обеих лунных ракет было по три основных ступени для выхода на орбиту и разгона к Луне. Конструкторы очень по-разному решили, как строить первую ступень, — и именно здесь истории расходятся.">The answer is staging.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — SATURN V -->
+<section id="ch2" class="section" data-phase="SATURN V">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 06</span> — <span data-en="SATURN V, APOLLO 11" data-ru="«САТУРН-5», «АПОЛЛОН-11»">SATURN V, APOLLO 11</span></div>
+    <h2 class="h-lg" data-en="Five F-1s, five J-2s, then one" data-ru="Пять F-1, пять J-2, затем один">Five F-1s, five J-2s, then one</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Saturn V stood 363 feet (110.6 m) tall [2]. Its first stage, the <b>S-IC</b>, burned kerosene and liquid oxygen in five <b>F-1</b> engines rated at 1,522,000 lbf each — 7.61 million lbf together [1]. The F-1's specific impulse was about <b>265 s</b> [3]: not efficient, but enormously powerful. The second stage, <b>S-II</b>, had five <b>J-2</b> engines burning liquid hydrogen, and the third, <b>S-IVB</b>, one J-2 that fired twice: once to finish reaching orbit and once to leave for the Moon [1][2]." data-ru="«Сатурн-5» имел высоту 363 фута (110,6 м) [2]. Его первая ступень <b>S-IC</b> сжигала керосин с жидким кислородом в пяти двигателях <b>F-1</b> с номинальной тягой 1 522 000 фунтов каждый — 7,61 млн фунтов вместе [1]. Удельный импульс F-1 был около <b>265 с</b> [3]: не экономично, но невероятно мощно. На второй ступени <b>S-II</b> стояли пять двигателей <b>J-2</b> на жидком водороде, а на третьей, <b>S-IVB</b>, — один J-2, включавшийся дважды: чтобы завершить выход на орбиту и чтобы уйти к Луне [1][2].">The S-IC had five F-1 engines.</p>
+      <p class="body-col" data-en="NASA recorded every stage's weight at ignition. For Apollo 11 the whole vehicle weighed <b>6,477,875 lb (2,938 t)</b>, of which the spacecraft — command and service module, lunar module, adapter and escape tower — was only 109,646 lb, under 2 % [1]. Below, those numbers run through the rocket equation stage by stage. Add or remove payload, or see what one giant stage would manage with the same propellant." data-ru="NASA записывало массу каждой ступени при зажигании. У «Аполлона-11» вся ракета весила <b>6 477 875 фунтов (2938 т)</b>, из которых космический корабль — командный и служебный модули, лунный модуль, переходник и башня аварийного спасения — составлял лишь 109 646 фунтов, меньше 2 % [1]. Ниже эти цифры по ступеням прогоняются через уравнение ракеты. Добавьте или уберите полезную нагрузку или посмотрите, на что была бы способна одна гигантская ступень с тем же топливом.">Apollo 11 weighed 6,477,875 lb at ignition.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="STAGED ROCKET EQUATION" data-ru="УРАВНЕНИЕ РАКЕТЫ ДЛЯ СТУПЕНЕЙ">STAGED ROCKET EQUATION</div>
+      <div class="eq-body">Δv = Σ I<sub>sp,i</sub> g₀ ln(m<sub>0,i</sub> / m<sub>f,i</sub>)</div>
+      <div class="eq-note" data-en="Apollo 11 ground-ignition weights [1]: S-IC 5,023,648 lb (4,730,675 propellant), S-II 1,058,140 lb (977,166 propellant), S-IVB 262,613 lb (236,105 propellant), interstages, instrument unit and spacecraft. The escape tower is dropped with the first stage here. I<sub>sp</sub>: F-1 265 s [3]; J-2 ≈ 425 s [2]. This is ideal Δv with all loaded propellant burned — real flights leave reserves and lose speed to gravity and drag." data-ru="Массы «Аполлона-11» при зажигании [1]: S-IC 5 023 648 фунтов (топливо 4 730 675), S-II 1 058 140 (топливо 977 166), S-IVB 262 613 (топливо 236 105), переходники, приборный отсек и корабль. Башня спасения здесь сбрасывается вместе с первой ступенью. I<sub>уд</sub>: F-1 265 с [3]; J-2 ≈ 425 с [2]. Это идеальная Δv при сжигании всего залитого топлива — в реальном полёте остаются резервы и скорость теряется на тяготение и сопротивление.">Ideal Δv from Apollo 11 weights.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="stageSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Velocity gained by each Saturn V stage, stacked"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Design" id="stageMode">
+          <button class="btn active" data-m="3" aria-pressed="true" data-en="THREE STAGES" data-ru="ТРИ СТУПЕНИ">THREE STAGES</button>
+          <button class="btn" data-m="1" aria-pressed="false" data-en="ONE STAGE" data-ru="ОДНА СТУПЕНЬ">ONE STAGE</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="sPay" data-en="SPACECRAFT MASS" data-ru="МАССА КОРАБЛЯ">SPACECRAFT MASS</label><span class="v" id="sPayVal">—</span></div>
+          <input id="sPay" type="range" min="0" max="3" step="0.05" value="1">
+        </div>
+        <div class="ctl" id="sIspCtl">
+          <div class="ctl-row"><label for="sIsp" data-en="ONE-STAGE SPECIFIC IMPULSE" data-ru="УДЕЛЬНЫЙ ИМПУЛЬС ОДНОЙ СТУПЕНИ">ONE-STAGE SPECIFIC IMPULSE</label><span class="v" id="sIspVal">—</span></div>
+          <input id="sIsp" type="range" min="265" max="425" step="5" value="425">
+        </div>
+        <div class="readout-grid" id="stageReadout"></div>
+        <div class="status" id="stageStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — N1 -->
+<section id="ch3" class="section" data-phase="N1">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 06</span> — <span data-en="KOROLEV'S N1" data-ru="Н-1 КОРОЛЁВА">KOROLEV'S N1</span></div>
+    <h2 class="h-lg" data-en="Thirty engines and a computer to watch them" data-ru="Тридцать двигателей и автоматика, следящая за ними">Thirty engines and a computer to watch them</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Sergei Korolev and the country's leading rocket-engine designer, Valentin Glushko, split over the N1's engines, and in July 1962 the job went to Nikolai Kuznetsov's bureau, which had almost no experience with rocket engines [4]. Kuznetsov's engines were medium-sized: the first stage used <b>NK-15</b> engines of 153.4 tonnes of thrust each, the second eight NK-15Vs and the third four NK-21s [4]. When the lunar plan grew, six more engines were added to the first stage, for <b>30</b> in total, and the launch mass rose from 2,200 to <b>2,750 tonnes</b> [4]." data-ru="Сергей Королёв и ведущий конструктор ракетных двигателей страны Валентин Глушко разошлись во мнениях о двигателях Н-1, и в июле 1962 года работу передали бюро Николая Кузнецова, почти не имевшему опыта в ракетных двигателях [4]. Двигатели Кузнецова были средней размерности: на первой ступени стояли <b>НК-15</b> тягой по 153,4 тонны, на второй — восемь НК-15В, на третьей — четыре НК-21 [4]. Когда лунный план вырос, на первую ступень добавили ещё шесть двигателей — всего <b>30</b>, а стартовая масса выросла с 2200 до <b>2750 тонн</b> [4].">The N1 first stage used NK-15 engines.</p>
+      <p class="body-col" data-en="Many engines promised safety: lose one or two, and the rest could make up for it. To manage them, engineers built <b>KORD</b>, an engine-control system that would shut down a failing engine together with the one diametrically opposite, to keep the thrust balanced. In practice, it was far harder to make work than expected [4]. The first stage, with its 30 engines, was never fired as a whole on a test stand before flight [4]. Switch engines off in opposite pairs below." data-ru="Много двигателей обещало надёжность: потеря одного-двух компенсируется остальными. Для управления ими создали систему <b>КОРД</b> (контроль работы двигателей), которая должна была отключать неисправный двигатель вместе с диаметрально противоположным, чтобы сохранить симметрию тяги. На практике заставить её работать оказалось гораздо труднее, чем ожидали [4]. Первую ступень с её 30 двигателями ни разу не испытали целиком на стенде перед полётом [4]. Отключайте двигатели противоположными парами ниже.">KORD shut down failing engines in opposite pairs.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="engSvg" class="sim-svg" viewBox="0 0 480 340" role="img" aria-label="The 30 first-stage engines of the N1, with engines switched off in opposite pairs"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="eOut" data-en="ENGINE PAIRS SWITCHED OFF" data-ru="ОТКЛЮЧЕНО ПАР ДВИГАТЕЛЕЙ">ENGINE PAIRS SWITCHED OFF</label><span class="v" id="eOutVal">—</span></div>
+          <input id="eOut" type="range" min="0" max="15" step="1" value="1">
+        </div>
+        <div class="readout-grid" id="engReadout"></div>
+        <div class="status" id="engStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Thrust-to-weight at liftoff = engines × 153.4 t ÷ 2,750 t [4]. For comparison the Saturn V's 7.61 million lbf against 6.48 million lb gave about 1.17 [1]: losing one F-1 of five at liftoff would leave it below 1. Real engine-out survival also depends on control authority, which KORD's symmetric shutdowns tried to keep." data-ru="Тяговооружённость на старте = число двигателей × 153,4 т ÷ 2750 т [4]. Для сравнения, у «Сатурна-5» 7,61 млн фунтов тяги на 6,48 млн фунтов массы давали около 1,17 [1]: потеря одного F-1 из пяти на старте опустила бы её ниже 1. Реальная живучесть при отказах зависит и от управляемости, которую КОРД пыталась сохранить симметричными отключениями.">Thrust-to-weight = engines × 153.4 t ÷ 2,750 t.</p>
+  </div>
+</section>
+
+<!-- CH4 — FOUR FLIGHTS -->
+<section id="ch4" class="section" data-phase="FOUR FLIGHTS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 06</span> — <span data-en="FOUR LAUNCHES, FOUR FAILURES" data-ru="ЧЕТЫРЕ ПУСКА, ЧЕТЫРЕ АВАРИИ">FOUR LAUNCHES, FOUR FAILURES</span></div>
+    <h2 class="h-lg" data-en="Each one flew a little longer" data-ru="Каждая летела чуть дольше предыдущей">Each one flew a little longer</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="<b>21 February 1969 (vehicle 3L):</b> KORD wrongly shut down two engines in the first seconds; a fire then broke out in the tail, and at <b>T+68.7 s</b> it shut down the whole first stage. <b>3 July 1969 (5L):</b> a quarter-second before liftoff a metal fragment entered an oxidizer pump and engine no. 8 exploded; KORD shut engines down until only one was firing, and after a 23-second flight the rocket fell back and destroyed its launch pad [4]." data-ru="<b>21 февраля 1969 года (изделие 3Л):</b> КОРД в первые секунды ошибочно отключила два двигателя; затем в хвостовом отсеке начался пожар, и на <b>T+68,7 с</b> система выключила всю первую ступень. <b>3 июля 1969 года (5Л):</b> за четверть секунды до отрыва металлический обломок попал в насос окислителя, и двигатель № 8 взорвался; КОРД отключала двигатели, пока не остался работать один, и после 23-секундного полёта ракета упала обратно и разрушила стартовый комплекс [4].">Two failures in 1969.</p>
+      <p class="body-col" data-en="<b>27 June 1971 (6L):</b> uncontrolled roll — the airflow around the base and the asymmetric starter exhausts on the 30 engines produced a twisting force the control thrusters could not hold; at <b>T+50.1 s</b> KORD shut the engines down. <b>23 November 1972 (7L):</b> the best flight — at T+90 s the six central engines shut down as planned, but at T+104 s trouble began, and an explosion in the tail tore open the oxidizer tank, only seven seconds before the first stage would have separated [4]." data-ru="<b>27 июня 1971 года (6Л):</b> неуправляемое вращение по крену — обтекание донной части и несимметричные выхлопы пусковых устройств на 30 двигателях создали закручивающий момент, который не смогли парировать рулевые двигатели; на <b>T+50,1 с</b> КОРД выключила двигатели. <b>23 ноября 1972 года (7Л):</b> лучший полёт — на T+90 с шесть центральных двигателей штатно выключились, но на T+104 с начались неполадки, и взрыв в хвостовом отсеке разрушил бак окислителя всего за семь секунд до отделения первой ступени [4].">Two more failures, in 1971 and 1972.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — TIMELINE -->
+<section id="ch5" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 06</span> — <span data-en="TWO ROADS TO THE MOON" data-ru="ДВЕ ДОРОГИ К ЛУНЕ">TWO ROADS TO THE MOON</span></div>
+    <h2 class="h-lg" data-en="One rocket landed twelve people; the other was cancelled" data-ru="Одна ракета высадила двенадцать человек; другую закрыли">One rocket landed twelve people; the other was cancelled</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Saturn V flew 13 times from 1967 to 1973 and carried every crew that walked on the Moon (see <a href='/aerospace/tranquility-apollo-program'>TRANQUILITY</a>). Its large, well-tested engines meant there were only five to watch on the first stage." data-ru="«Сатурн-5» летал 13 раз с 1967 по 1973 год и доставил все экипажи, ходившие по Луне (см. <a href='/aerospace/tranquility-apollo-program'>ТИШИНА</a>). Крупные, хорошо отработанные двигатели означали, что на первой ступени следить нужно было лишь за пятью.">The Saturn V flew 13 times.</p>
+      <p class="body-col" data-en="After the fourth failure, engineers argued over whether the N1 could be saved with improved engines. Glushko argued that so many engines doomed it. The work was suspended on 24 June 1974 and formally ended on 18 February 1976 [4]. Kuznetsov had already finished testing improved, restartable engines, the NK-33 and NK-43, in 1972. He hid dozens of them away instead of scrapping them, and in 1993 the American company Aerojet imported an NK-33, calling it very modern technology compared with US kerosene engines [4]." data-ru="После четвёртой аварии инженеры спорили, можно ли спасти Н-1 улучшенными двигателями. Глушко утверждал, что её обрекает само число двигателей. Работы приостановили 24 июня 1974 года и официально прекратили 18 февраля 1976 года [4]. Кузнецов к 1972 году уже закончил испытания улучшенных двигателей многократного включения НК-33 и НК-43. Вместо того чтобы уничтожить, он спрятал десятки таких двигателей, и в 1993 году американская компания Aerojet импортировала НК-33, назвав его очень современной техникой по сравнению с американскими керосиновыми двигателями [4].">The N1 was suspended in 1974.</p>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Five engines you can test; thirty you have to trust. The N1 asked for trust it had not yet earned on the ground." data-ru="Пять двигателей можно испытать; тридцати приходится доверять. Н-1 просила доверия, которое ещё не заслужила на земле.">Five engines you can test; thirty you have to trust.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — REFERENCES -->
+<section id="ch6" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 06</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS — Apollo 11 ground-ignition weights, lb (Apollo by the Numbers [1]) ============ */
+var LB = 0.45359237, G0 = 9.80665;
+var W = {total:6477875, sicProp:1424889 + 3305786, sicDrop:287531 + 5442, ic2:11477, les:8910,
+         siiProp:977166, siiDrop:79714 + 1260, ic3:8076, sivbProp:43608 + 192497, spacecraft:109646 - 8910};
+var ISP = [265, 425, 425];                                 // F-1 [3]; J-2 ≈ 425 s [2]
+function stages(k){                                       // k = spacecraft-mass factor
+  var m0 = W.total + (k - 1)*W.spacecraft, out = [];
+  var props = [W.sicProp, W.siiProp, W.sivbProp], drops = [W.sicDrop + W.ic2 + W.les, W.siiDrop + W.ic3, 0];
+  for(var i = 0; i < 3; i++){ var mf = m0 - props[i]; out.push({m0:m0, mf:mf, dv:ISP[i]*G0*Math.log(m0/mf)}); m0 = mf - drops[i]; }
+  return out;
+}
+function oneStage(k, isp){ var m0 = W.total + (k - 1)*W.spacecraft, mf = m0 - W.sicProp - W.siiProp - W.sivbProp; return {m0:m0, mf:mf, dv:isp*G0*Math.log(m0/mf)}; }
+var NK15 = 153.4, N1_MASS = 2750;                          // tonnes-force, tonnes [4]
+var SV_TW = 7610000/6477875;                               // rated thrust / ignition weight [1]
+function n1tw(on){ return on*NK15/N1_MASS; }
+
+/* ============ CH2 — STAGING ============ */
+var sPay = document.getElementById('sPay'), sIsp = document.getElementById('sIsp'), stageMode = 3;
+function renderStage(){
+  var k = +sPay.value, isp = +sIsp.value, S = stages(k), tot = S[0].dv + S[1].dv + S[2].dv, O = oneStage(k, isp);
+  document.getElementById('sPayVal').textContent = fmtInt(k*W.spacecraft*LB/1000) + T(' t',' т') + ' (' + fmt(k*100, 0) + ' %)';
+  document.getElementById('sIspVal').textContent = fmtInt(isp) + T(' s',' с');
+  document.getElementById('sIspCtl').style.opacity = stageMode === 1 ? 1 : 0.45;
+  var svg = document.getElementById('stageSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 250, vmax = 16;
+  function Y(v){ return B - v/vmax*(B - Tp); }
+  [0,4,8,12,16].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 3, v, 'svg-small', 'end'); });
+  txt(svg, L, 13, T('ideal velocity gained, km/s','идеальный прирост скорости, км/с'), 'svg-small');
+  [[9.4, T('orbit ≈ 9.4','орбита ≈ 9,4')], [12.5, T('Moon ≈ 12.5','Луна ≈ 12,5')]].forEach(function(t){ ns('line', {x1:L, y1:Y(t[0]), x2:R, y2:Y(t[0]), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg); txt(svg, R - 2, Y(t[0]) - 4, t[1], 'svg-small', 'end'); });
+  var cols = ['#0b0b0c', '#8a8a82', '#b5452a'], names = [['S-IC','S-IC'],['S-II','S-II'],['S-IVB','S-IVB']];
+  var bx = 90, bw = 90, acc = 0;
+  S.forEach(function(s, i){ var y0 = Y(acc), y1 = Y(acc + s.dv/1000); ns('rect', {x:bx, y:y1, width:bw, height:y0 - y1, fill:cols[i]}, svg); var t = txt(svg, bx + bw/2, (y0 + y1)/2 + 4, names[i][0] + ' ' + fmt(s.dv/1000, 2), 'svg-small', 'middle'); t.style.fill = '#fff'; acc += s.dv/1000; });
+  txt(svg, bx + bw/2, B + 14, T('three stages','три ступени'), 'svg-small', 'middle');
+  var bx2 = 230; ns('rect', {x:bx2, y:Y(O.dv/1000), width:bw, height:B - Y(O.dv/1000), fill:'#c9c9c1', stroke: stageMode === 1 ? '#b5452a' : 'none', 'stroke-width':2}, svg);
+  txt(svg, bx2 + bw/2, Y(O.dv/1000) - 5, fmt(O.dv/1000, 2), 'svg-small', 'middle');
+  txt(svg, bx2 + bw/2, B + 14, T('one stage, ','одна ступень, ') + isp + T(' s',' с'), 'svg-small', 'middle');
+  var shown = stageMode === 3 ? tot : O.dv;
+  cells(document.getElementById('stageReadout'), stageMode === 3 ? [
+    [T('S-IC (F-1 × 5)','S-IC (F-1 × 5)'), fmt(S[0].dv/1000, 2) + T(' km/s',' км/с') + ' · ' + T('mass ratio ','отношение масс ') + fmt(S[0].m0/S[0].mf, 2)],
+    [T('S-II (J-2 × 5)','S-II (J-2 × 5)'), fmt(S[1].dv/1000, 2) + T(' km/s',' км/с') + ' · ' + fmt(S[1].m0/S[1].mf, 2)],
+    [T('S-IVB (J-2 × 1)','S-IVB (J-2 × 1)'), fmt(S[2].dv/1000, 2) + T(' km/s',' км/с') + ' · ' + fmt(S[2].m0/S[2].mf, 2)],
+    [T('TOTAL','ВСЕГО'), fmt(tot/1000, 2) + T(' km/s',' км/с')]
+  ] : [
+    [T('MASS RATIO','ОТНОШЕНИЕ МАСС'), fmt(O.m0/O.mf, 2)],
+    [T('EMPTY MASS CARRIED TO THE END','ПУСТАЯ МАССА ДО КОНЦА'), fmtInt(O.mf*LB/1000) + T(' t',' т')],
+    [T('ONE STAGE','ОДНА СТУПЕНЬ'), fmt(O.dv/1000, 2) + T(' km/s',' км/с')],
+    [T('THREE STAGES','ТРИ СТУПЕНИ'), fmt(tot/1000, 2) + T(' km/s',' км/с')]
+  ]);
+  hud1.textContent = fmt(shown/1000, 2) + T(' km/s',' км/с');
+  document.getElementById('stageStatus').innerHTML = stageMode === 1
+    ? T('Same propellant, no staging: every empty tank rides to the end. Even with the J-2\'s efficiency throughout, one stage falls well short of the Moon.','То же топливо без разделения ступеней: все пустые баки летят до конца. Даже с экономичностью J-2 на всём пути одна ступень сильно не дотягивает до Луны.')
+    : (tot >= 12200 ? T('About what reaching orbit and leaving for the Moon needs (≈ 12.5 km/s, a rough figure) — the Saturn V was sized for exactly this job, with little to spare.','Примерно столько и нужно, чтобы выйти на орбиту и уйти к Луне (≈ 12,5 км/с, грубая оценка): «Сатурн-5» был рассчитан именно на эту задачу, почти без запаса.')
+                    : T('Not enough for the Moon. Every extra tonne of spacecraft is carried by all three stages, so it costs speed at every step.','Для Луны не хватает. Каждую лишнюю тонну корабля несут все три ступени, поэтому она отнимает скорость на каждом этапе.'));
+}
+[sPay, sIsp].forEach(function(el){ el.addEventListener('input', renderStage); });
+Array.prototype.forEach.call(document.querySelectorAll('#stageMode .btn'), function(btn){
+  btn.addEventListener('click', function(){ stageMode = +this.getAttribute('data-m'); pressGroup(this.parentNode, this); renderStage(); });
+});
+
+/* ============ CH3 — N1 ENGINES ============ */
+var eOut = document.getElementById('eOut');
+// order in which opposite pairs are switched off: outer ring (12 pairs) spread around, then the inner ring (3 pairs)
+var PAIR_ORDER = [];
+[0,6,3,9,1,7,4,10,2,8,5,11].forEach(function(i){ PAIR_ORDER.push(['o', i]); });
+[0,1,2].forEach(function(i){ PAIR_ORDER.push(['i', i]); });
+function renderEng(){
+  var n = +eOut.value, on = 30 - 2*n, tw = n1tw(on);
+  document.getElementById('eOutVal').textContent = n + ' (' + 2*n + T(' engines',' дв.') + ')';
+  var off = {o:{}, i:{}};
+  for(var k = 0; k < n; k++){ var p = PAIR_ORDER[k]; off[p[0]][p[1]] = true; off[p[0]][p[1] + (p[0] === 'o' ? 12 : 3)] = true; }
+  var svg = document.getElementById('engSvg'); svg.innerHTML = '';
+  var cx = 165, cy = 182, Ro = 118, Ri = 48;
+  ns('circle', {cx:cx, cy:cy, r:Ro + 26, fill:'none', stroke:'#c9c9c1'}, svg);
+  function eng(x, y, isOff){ ns('circle', {cx:x, cy:y, r:15, fill: isOff ? '#f6f6f2' : '#0b0b0c', stroke: isOff ? '#b5452a' : '#0b0b0c', 'stroke-width':1.5}, svg); if(isOff){ ns('path', {d:'M' + (x - 7) + ' ' + (y - 7) + 'L' + (x + 7) + ' ' + (y + 7) + 'M' + (x + 7) + ' ' + (y - 7) + 'L' + (x - 7) + ' ' + (y + 7), stroke:'#b5452a', 'stroke-width':1.5}, svg); } }
+  for(var a = 0; a < 24; a++){ var th = a/24*2*Math.PI; eng(cx + Ro*Math.cos(th), cy + Ro*Math.sin(th), off.o[a]); }
+  for(var b = 0; b < 6; b++){ var th2 = b/6*2*Math.PI + Math.PI/6; eng(cx + Ri*Math.cos(th2), cy + Ri*Math.sin(th2), off.i[b]); }
+  txt(svg, cx, 20, T('N1 first stage, seen from below: 24 outer + 6 inner NK-15','первая ступень Н-1 снизу: 24 внешних + 6 внутренних НК-15'), 'svg-small', 'middle');
+  // T/W gauge
+  var gx = 375, gy0 = 300, gy1 = 60;
+  function GY(v){ return gy0 - v/2*(gy0 - gy1); }
+  ns('rect', {x:gx, y:gy1, width:28, height:gy0 - gy1, fill:'none', stroke:'#0b0b0c'}, svg);
+  ns('rect', {x:gx, y:GY(tw), width:28, height:gy0 - GY(tw), fill: tw >= 1 ? '#0b0b0c' : '#b5452a'}, svg);
+  [0,0.5,1,1.5,2].forEach(function(v){ txt(svg, gx + 34, GY(v) + 3, fmt(v, 1), 'svg-small'); });
+  ns('line', {x1:gx - 6, y1:GY(1), x2:gx + 34, y2:GY(1), stroke:'#2f5aa1', 'stroke-width':1.5}, svg);
+  ns('line', {x1:gx - 6, y1:GY(SV_TW), x2:gx, y2:GY(SV_TW), stroke:'#8a8a82', 'stroke-width':3}, svg);
+  txt(svg, gx - 9, GY(SV_TW) + 3, T('Saturn V','«Сатурн-5»'), 'svg-small', 'end');
+  txt(svg, gx + 14, gy1 - 8, T('thrust ÷ weight','тяга ÷ вес'), 'svg-small', 'middle');
+  cells(document.getElementById('engReadout'), [
+    [T('ENGINES FIRING','РАБОТАЕТ ДВИГАТЕЛЕЙ'), on + ' / 30'],
+    [T('THRUST','ТЯГА'), fmtInt(on*NK15) + T(' t',' т')],
+    [T('THRUST ÷ WEIGHT AT LIFTOFF','ТЯГОВООРУЖЁННОСТЬ НА СТАРТЕ'), fmt(tw, 2)],
+    [T('SATURN V, FOR COMPARISON','«САТУРН-5» ДЛЯ СРАВНЕНИЯ'), fmt(SV_TW, 2)]
+  ]);
+  hud2.textContent = fmt(tw, 2);
+  document.getElementById('engStatus').innerHTML = tw >= 1.3
+    ? T('Plenty of margin: on paper the N1 could lose several pairs and still climb. That was the whole idea of thirty engines.','Запас велик: на бумаге Н-1 могла потерять несколько пар и всё равно подниматься. В этом и был смысл тридцати двигателей.')
+    : tw >= 1 ? T('Still climbing, but slowly — more of the thrust goes into holding the rocket up against gravity, and less into speed.','Ещё поднимается, но медленно: всё больше тяги уходит на то, чтобы удерживать ракету против тяготения, и всё меньше — на разгон.')
+    : T('<b>Thrust is less than weight:</b> the rocket cannot leave the ground — or, already in the air, it falls back. On 3 July 1969 KORD shut down all but one engine within about ten seconds [4].','<b>Тяга меньше веса:</b> ракета не может оторваться от земли, а уже взлетевшая падает обратно. 3 июля 1969 года КОРД примерно за десять секунд выключила все двигатели, кроме одного [4].');
+}
+eOut.addEventListener('input', renderEng);
+
+/* ============ CH5 — TIMELINE ============ */
+var TIMELINE = [
+  ['1962', '<b>July:</b> the N1 engine contract goes to Kuznetsov\'s bureau; Korolev and Glushko split [4].', '<b>Июль:</b> заказ на двигатели Н-1 получает бюро Кузнецова; разрыв Королёва и Глушко [4].'],
+  ['1964', '<b>December:</b> the uprated N1 for a single-launch lunar landing: 30 first-stage engines, 2,750 t [4].', '<b>Декабрь:</b> усиленная Н-1 для высадки на Луну одним пуском: 30 двигателей первой ступени, 2750 т [4].'],
+  ['1967', '<b>November:</b> first Saturn V launch (Apollo 4).', '<b>Ноябрь:</b> первый пуск «Сатурна-5» («Аполлон-4»).'],
+  ['1968', '<b>21 December:</b> Apollo 8, first crew on a Saturn V, goes around the Moon [1].', '<b>21 декабря:</b> «Аполлон-8» — первый экипаж на «Сатурне-5» — облетает Луну [1].'],
+  ['1969', '<b>21 February:</b> N1 3L lost at T+68.7 s. <b>3 July:</b> N1 5L destroys its pad. <b>16 July:</b> Apollo 11 launches [1][4].', '<b>21 февраля:</b> Н-1 3Л потеряна на T+68,7 с. <b>3 июля:</b> Н-1 5Л разрушает стартовый комплекс. <b>16 июля:</b> старт «Аполлона-11» [1][4].'],
+  ['1971', '<b>27 June:</b> N1 6L lost to uncontrolled roll at T+50.1 s [4].', '<b>27 июня:</b> Н-1 6Л потеряна из-за неуправляемого вращения на T+50,1 с [4].'],
+  ['1972', '<b>23 November:</b> N1 7L explodes at about T+107 s, seconds before staging [4]. <b>7 December:</b> Apollo 17, the last Moon landing launch [1].', '<b>23 ноября:</b> Н-1 7Л взрывается около T+107 с, за секунды до разделения [4]. <b>7 декабря:</b> «Аполлон-17» — последний старт к Луне с высадкой [1].'],
+  ['1974', '<b>24 June:</b> N1 work suspended [4].', '<b>24 июня:</b> работы по Н-1 приостановлены [4].'],
+  ['1976', '<b>18 February:</b> the N1 programme is formally terminated [4].', '<b>18 февраля:</b> программа Н-1 официально прекращена [4].']
+];
+
+/* ============ CH6 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'R. W. Orloff (2000), Apollo by the Numbers: A Statistical Reference, NASA SP-2000-4029', url:'https://www.nasa.gov/wp-content/uploads/2023/04/sp-4029.pdf', note:{en:'Launch vehicle key facts (F-1 rated at 1,522,000 lbf, J-2 at 230,000 lbf) and ground-ignition weights for every Saturn V: Apollo 11 total 6,477,875 lb, stage dry and propellant weights, spacecraft 109,646 lb. (The table\'s S-II fuel and oxidizer rows appear swapped; only their sum is used here.)', ru:'Ключевые данные ракет (F-1 — 1 522 000 фунтов тяги, J-2 — 230 000) и массы при зажигании для каждого «Сатурна-5»: «Аполлон-11» — 6 477 875 фунтов, сухие массы и топливо ступеней, корабль — 109 646 фунтов. (Строки горючего и окислителя S-II в таблице, по-видимому, переставлены; здесь используется только их сумма.)'}},
+  {title:'NASA MSFC (1968), Saturn V Flight Manual SA-503, NASA TM X-72151', url:'https://ntrs.nasa.gov/citations/19750063889', note:{en:'Vehicle height 363 ft; engine data and burn times; J-2 specific impulse about 425 s against mixture ratio (figure 5-8); the S-IVB\'s two burns.', ru:'Высота ракеты 363 фута; данные двигателей и время работы; удельный импульс J-2 около 425 с в зависимости от соотношения компонентов (рис. 5-8); два включения S-IVB.'}},
+  {title:'Rocketdyne / NASA MSFC, “F-1 Saturn V First Stage Engine” (NTRS 20100027316)', url:'https://ntrs.nasa.gov/citations/20100027316', note:{en:'History of the F-1: about 1.5 million lbf of thrust and a specific impulse of 265 s.', ru:'История F-1: около 1,5 млн фунтов тяги и удельный импульс 265 с.'}},
+  {title:'A. A. Siddiqi (2000), Challenge to Apollo: The Soviet Union and the Space Race, 1945–1974, NASA SP-2000-4408', url:'https://history.nasa.gov/SP-4408pt2.pdf', note:{en:'The N1: Kuznetsov\'s NK-15 (153.4 t), NK-15V and NK-21 engines; 30 first-stage engines and 2,750 t; KORD; lack of integrated first-stage ground testing; the four launches (3L, 5L, 6L, 7L) and their causes; suspension in 1974 and termination in 1976; the NK-33 and its 1993 import by Aerojet.', ru:'Н-1: двигатели Кузнецова НК-15 (153,4 т), НК-15В и НК-21; 30 двигателей первой ступени и 2750 т; КОРД; отсутствие комплексных наземных испытаний первой ступени; четыре пуска (3Л, 5Л, 6Л, 7Л) и их причины; приостановка в 1974 и прекращение в 1976; НК-33 и его импорт Aerojet в 1993.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderStage();
+  renderEng();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__thrust = {stages:stages, oneStage:oneStage, n1tw:n1tw, W:W, SV_TW:SV_TW};
+
+})();
+</script>
+</body>
+</html>

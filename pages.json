@@ -115,6 +115,13 @@
       ]
     },
     {
+      "id": "rockets",
+      "title": { "en": "Rockets & Engineering", "ru": "Ракеты и техника" },
+      "pages": [
+        { "slug": "thrust-saturn-v-n1", "codename": "THRUST", "label": { "en": "Saturn V & N1", "ru": "«Сатурн-5» и Н-1" } }
+      ]
+    },
+    {
       "id": "foundations",
       "title": { "en": "Foundations & Tools", "ru": "Основы и инструменты" },
       "pages": [
