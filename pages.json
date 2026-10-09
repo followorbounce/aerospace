@@ -46,7 +46,8 @@
       "pages": [
         { "slug": "corona-parker-solar-orbiter", "codename": "CORONA", "label": { "en": "Parker Solar Probe & Solar Orbiter", "ru": "Parker Solar Probe и Solar Orbiter" } },
         { "slug": "comet-rosetta-philae", "codename": "COMET", "label": { "en": "Rosetta & Philae", "ru": "«Розетта» и «Филы»" } },
-        { "slug": "sample-hayabusa-osiris-rex", "codename": "SAMPLE", "label": { "en": "Hayabusa & OSIRIS-REx", "ru": "«Хаябуса» и OSIRIS-REx" } }
+        { "slug": "sample-hayabusa-osiris-rex", "codename": "SAMPLE", "label": { "en": "Hayabusa & OSIRIS-REx", "ru": "«Хаябуса» и OSIRIS-REx" } },
+        { "slug": "impact-dart-planetary-defence", "codename": "IMPACT", "label": { "en": "DART & Planetary Defence", "ru": "DART и планетарная защита" } }
       ]
     },
     {

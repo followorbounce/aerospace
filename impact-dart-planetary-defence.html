@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMPACT — DART &amp;amp; PLANETARY DEFENCE / УДАР — DART И ПЛАНЕТАРНАЯ ЗАЩИТА</title>
+<meta name="description" content="An interactive field guide to NASA's DART mission and planetary defence: why Chelyabinsk-size asteroids matter, how a 579 kg spacecraft hitting Dimorphos at 6.1 km/s shortened its 11.9-hour orbit by 33 minutes, why the ejecta pushed harder than the spacecraft, how years of warning turn millimetres per second into a miss, and ESA's Hera follow-up.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/impact-dart-planetary-defence">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IMPACT — DART &amp;amp; PLANETARY DEFENCE / УДАР — DART И ПЛАНЕТАРНАЯ ЗАЩИТА">
+<meta property="og:description" content="A 579 kg spacecraft, a 151 m moonlet and a 33-minute change: DART's test of asteroid deflection, with impact-energy, momentum and warning-time calculators.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/impact-dart-planetary-defence">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">IMPACT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE THREAT</span></div>
+  <div class="hud-row"><span class="hud-label">Δv</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">PERIOD CHANGE</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE THREAT">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 26 SEPTEMBER 2022, 23:14:24 UTC" data-ru="РИС. 00 — 26 СЕНТЯБРЯ 2022, 23:14:24 UTC">FIG. 00 — 26 SEPTEMBER 2022, 23:14:24 UTC</span></span>
+        <span>DIDYMOS · DIMORPHOS · 6.1449 km/s</span>
+      </div>
+      <h1><span data-en="IMPACT" data-ru="УДАР">IMPACT</span><br><em data-en="DART AND PLANETARY DEFENCE" data-ru="DART И ПЛАНЕТАРНАЯ ЗАЩИТА">DART AND PLANETARY DEFENCE</em></h1>
+      <p class="sub lede" data-en="For the first time, people deliberately changed the motion of a natural body in space. NASA's DART spacecraft, the mass of a small car, flew into Dimorphos — a 151-metre moonlet circling the asteroid Didymos — and shortened its orbit by 33 minutes, far more than the spacecraft's own momentum could explain. Nine chapters and three instruments: the energy of an asteroid strike, the momentum that moved Dimorphos, and how warning time turns a push of millimetres per second into a miss." data-ru="Впервые люди намеренно изменили движение природного тела в космосе. Аппарат NASA DART массой с небольшой автомобиль врезался в Диморф — 151-метровый спутник астероида Дидим — и сократил период его обращения на 33 минуты, гораздо больше, чем мог бы объяснить импульс самого аппарата. Девять глав и три прибора: энергия удара астероида, импульс, сдвинувший Диморф, и то, как время предупреждения превращает толчок в миллиметры в секунду в промах.">People deliberately changed the motion of a natural body in space.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE THREAT -->
+<section id="ch1" class="section" data-phase="THE THREAT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 09</span> — <span data-en="WHY BOTHER" data-ru="ЗАЧЕМ ЭТО НУЖНО">WHY BOTHER</span></div>
+    <h2 class="h-lg" data-en="Chelyabinsk was only 19 metres across" data-ru="Челябинский метеороид был всего 19 метров в поперечнике">Chelyabinsk was only 19 metres across</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 15 February 2013 an asteroid about <b>19 m</b> across exploded in the air south-east of Chelyabinsk, a region of more than a million people. It released roughly <b>500 kilotons</b> of TNT equivalent — the largest impact on Earth since the Tunguska event of 1908. Its shock wave broke windows across the city [6][7]. Objects this small are hard to see coming, and studies after Chelyabinsk suggested there are more of them than once thought [6]." data-ru="15 февраля 2013 года астероид поперечником около <b>19 м</b> взорвался в воздухе к юго-востоку от Челябинска, в регионе с населением больше миллиона человек. Выделилось около <b>500 килотонн</b> в тротиловом эквиваленте — крупнейший удар по Земле со времён Тунгусского события 1908 года. Ударная волна выбила окна по всему городу [6][7]. Такие небольшие тела трудно заметить заранее, а исследования после Челябинска показали, что их может быть больше, чем считалось [6].">Chelyabinsk released roughly 500 kilotons.</p>
+      <p class="body-col" data-en="Most near-Earth asteroids larger than a kilometre are now known [6], and none of the known ones threatens Earth for at least a century. But the catalogue is still incomplete for smaller bodies whose impact would devastate a region [1]. An object's energy grows with the <b>cube</b> of its size and the <b>square</b> of its speed, and it cannot hit slower than Earth's escape speed, about 11.2 km/s. Try it." data-ru="Большинство сближающихся с Землёй астероидов крупнее километра уже известны [6], и ни один из известных не угрожает Земле как минимум столетие. Но каталог всё ещё неполон для тел поменьше, удар которых опустошил бы целый регион [1]. Энергия тела растёт пропорционально <b>кубу</b> его размера и <b>квадрату</b> скорости, а ударить медленнее второй космической скорости Земли, около 11,2 км/с, оно не может. Попробуйте.">Energy grows with the cube of size and square of speed.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="energySvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Impact energy against asteroid diameter"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="kD" data-en="DIAMETER" data-ru="ДИАМЕТР">DIAMETER</label><span class="v" id="kDVal">—</span></div>
+          <input id="kD" type="range" min="0" max="3" step="0.01" value="1.28">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="kV" data-en="SPEED" data-ru="СКОРОСТЬ">SPEED</label><span class="v" id="kVVal">—</span></div>
+          <input id="kV" type="range" min="11.2" max="30" step="0.1" value="19">
+        </div>
+        <div class="readout-grid" id="energyReadout"></div>
+        <div class="status" id="energyStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="E = ½ m v² for a sphere of stony density 3,000 kg/m³ (an assumption; rubble piles are lighter, iron bodies heavier). 1 kiloton of TNT = 4.185 × 10¹² J [6]. Energy only — whether it bursts in the air or reaches the ground depends on size, strength and angle." data-ru="E = ½ m v² для шара плотностью каменного тела 3000 кг/м³ (допущение; «груды щебня» легче, железные тела тяжелее). 1 килотонна ТНТ = 4,185 × 10¹² Дж [6]. Только энергия — взорвётся ли тело в воздухе или долетит до земли, зависит от размера, прочности и угла.">E = ½ m v², stony density 3,000 kg/m³.</p>
+  </div>
+</section>
+
+<!-- CH2 — THE TEST -->
+<section id="ch2" class="section" data-phase="THE TEST">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 09</span> — <span data-en="A TEST YOU CAN MEASURE FROM EARTH" data-ru="ИСПЫТАНИЕ, КОТОРОЕ МОЖНО ИЗМЕРИТЬ С ЗЕМЛИ">A TEST YOU CAN MEASURE FROM EARTH</span></div>
+    <h2 class="h-lg" data-en="Hit the moon, time the moon" data-ru="Ударить спутник — и засечь его период">Hit the moon, time the moon</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Among the proposed ways to divert an asteroid, the simplest is a <b>kinetic impactor</b>: fly something heavy into it, fast. A full-scale test was ranked the highest-priority mission for asteroid mitigation [1]. But a nudge to an asteroid's path around the Sun is tiny and would take years to measure. DART's designers chose a trick: the binary asteroid <b>(65803) Didymos</b>, about 760 m across, with a moonlet, <b>Dimorphos</b>, circling it every 11.92 hours [1][2]." data-ru="Из предложенных способов отклонить астероид самый простой — <b>кинетический ударник</b>: направить в него что-то тяжёлое и быстрое. Полномасштабное испытание признали самой приоритетной миссией в области защиты от астероидов [1]. Но толчок, изменяющий путь астероида вокруг Солнца, крошечный, и измерять его пришлось бы годами. Создатели DART выбрали хитрость: двойной астероид <b>(65803) Дидим</b> поперечником около 760 м со спутником <b>Диморфом</b>, обращающимся вокруг него за 11,92 часа [1][2].">DART chose a binary asteroid.</p>
+      <p class="body-col" data-en="Each time Dimorphos passes in front of or behind Didymos, the pair's combined brightness dips. Telescopes on Earth had timed those dips for years and knew the orbital period to about half a second: <b>11.92148 ± 0.00013 hours</b> [2]. Hit the moonlet along its orbit and the period changes by minutes — easy to see from the ground. DART launched on 24 November 2021, carrying a single camera, DRACO, which it used to steer itself in the final hours without help from Earth [1]." data-ru="Каждый раз, когда Диморф проходит перед Дидимом или позади него, общий блеск пары падает. Телескопы на Земле годами засекали эти провалы и знали период обращения с точностью около полусекунды: <b>11,92148 ± 0,00013 часа</b> [2]. Если ударить спутник вдоль его орбиты, период изменится на минуты — это легко увидеть с Земли. DART стартовал 24 ноября 2021 года с единственной камерой DRACO, по которой в последние часы сам наводился на цель без помощи с Земли [1].">The period was known to half a second.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — IMPACT -->
+<section id="ch3" class="section" data-phase="IMPACT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 09</span> — <span data-en="THE LAST THREE SECONDS" data-ru="ПОСЛЕДНИЕ ТРИ СЕКУНДЫ">THE LAST THREE SECONDS</span></div>
+    <h2 class="h-lg" data-en="25 metres from dead centre, between two boulders" data-ru="В 25 метрах от центра, между двумя валунами">25 metres from dead centre, between two boulders</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Dimorphos had never been seen as more than a dot. DRACO resolved it only during the final approach: an oblate, boulder-strewn body 177 × 174 × 116 m, <b>151 m</b> across if made into a sphere [1]. An image taken 1.8 seconds before impact shows the spacecraft heading between two boulders 6.5 m and 6.1 m long. At <b>23:14:24 UTC on 26 September 2022</b> DART — <b>579.4 kg</b> at <b>6.1449 km/s</b>, carrying <b>10.94 GJ</b> — hit 25 m from the centre of the figure, almost ideal for pushing the whole body [1]." data-ru="Раньше Диморф никогда не был виден иначе как точка. DRACO различил его только на последнем подлёте: сплюснутое тело 177 × 174 × 116 м, усеянное валунами, — <b>151 м</b> в поперечнике, если превратить его в шар [1]. Снимок, сделанный за 1,8 секунды до удара, показывает, что аппарат летит между двумя валунами длиной 6,5 и 6,1 м. В <b>23:14:24 UTC 26 сентября 2022 года</b> DART — <b>579,4 кг</b> на скорости <b>6,1449 км/с</b>, с энергией <b>10,94 ГДж</b> — ударил в 25 м от центра фигуры, почти идеально для того, чтобы толкнуть всё тело целиком [1].">DART hit 25 m from the centre of the figure.</p>
+      <p class="body-col" data-en="Fifteen days earlier DART had released <b>LICIACube</b>, a small Italian satellite that flew past to watch. Its cameras recorded from 71 seconds before to 320 seconds after impact: a cone of debris 140° wide, filaments, dust and single boulders, moving from tens of metres per second up to about <b>500 m/s</b> [5]. The system brightened 8.3 times, and the Hubble Space Telescope watched the dust form a tail, like a comet's, that stretched behind the asteroid over the following weeks [4][5]." data-ru="За пятнадцать дней до этого DART отделил <b>LICIACube</b> — небольшой итальянский спутник, который пролетел мимо, чтобы наблюдать. Его камеры снимали с 71 секунды до удара по 320 секунд после: конус обломков шириной 140°, нити, пыль и отдельные валуны со скоростями от десятков метров в секунду примерно до <b>500 м/с</b> [5]. Блеск системы вырос в 8,3 раза, а телескоп «Хаббл» наблюдал, как пыль сформировала хвост, как у кометы, тянувшийся за астероидом в следующие недели [4][5].">LICIACube watched the plume.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — THE RESULT -->
+<section id="ch4" class="section" data-phase="THE RESULT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 09</span> — <span data-en="THIRTY-THREE MINUTES" data-ru="ТРИДЦАТЬ ТРИ МИНУТЫ">THIRTY-THREE MINUTES</span></div>
+    <h2 class="h-lg" data-en="The ejecta pushed harder than the spacecraft" data-ru="Выброс толкнул сильнее, чем сам аппарат">The ejecta pushed harder than the spacecraft</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Radar and light-curve observations from around the world agreed: Dimorphos's orbit had shrunk and its period was now 11.372 hours, a change of <b>−33.0 ± 1.0 minutes</b> [2]. If DART had simply stuck to Dimorphos, the expected change was about 7 minutes [2]. The extra came from the debris: rock thrown back out of the crater carries momentum in the opposite direction, so the target recoils, like a gun firing." data-ru="Радарные и фотометрические наблюдения со всего мира сошлись: орбита Диморфа сжалась, и его период стал 11,372 часа — изменение на <b>−33,0 ± 1,0 минуты</b> [2]. Если бы DART просто «прилип» к Диморфу, ожидалось изменение примерно на 7 минут [2]. Остальное дали обломки: порода, выброшенная из кратера назад, уносит импульс в противоположную сторону, и цель получает отдачу, как ружьё при выстреле.">The period changed by −33.0 ± 1.0 minutes.</p>
+      <p class="body-col" data-en="The <b>momentum enhancement factor β</b> is the total momentum given to the target divided by the momentum the impactor brought. The period change gives Dimorphos's slow-down along its orbit, <b>2.70 ± 0.10 mm/s</b>. Turning that into β needs Dimorphos's mass, which DART could not measure: for densities of 1,500–3,300 kg/m³, β lies between 2.2 and 4.9, and for 2,400 kg/m³ it is <b>3.61</b> [3]. Set β and the density below and see what period change you would predict." data-ru="<b>Коэффициент усиления импульса β</b> — это полный импульс, переданный цели, делённый на импульс, принесённый ударником. Изменение периода даёт замедление Диморфа вдоль орбиты — <b>2,70 ± 0,10 мм/с</b>. Чтобы перевести это в β, нужна масса Диморфа, которую DART измерить не мог: при плотностях 1500–3300 кг/м³ β лежит между 2,2 и 4,9, а при 2400 кг/м³ равен <b>3,61</b> [3]. Задайте β и плотность ниже и посмотрите, какое изменение периода получится.">β is total momentum over the impactor's momentum.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="MOMENTUM TRANSFER AND PERIOD CHANGE" data-ru="ПЕРЕДАЧА ИМПУЛЬСА И ИЗМЕНЕНИЕ ПЕРИОДА">MOMENTUM TRANSFER AND PERIOD CHANGE</div>
+      <div class="eq-body">Δv<sub>T</sub> = f · β m U / M &nbsp;·&nbsp; ΔT / T = 3 Δv<sub>T</sub> / v &nbsp;·&nbsp; v = 2π a / T</div>
+      <div class="eq-note" data-en="m = 579.4 kg, U = 6.1449 km/s, volume of Dimorphos 0.00181 km³ [1]; T = 11.92148 h [2]. The orbit radius a ≈ 1.20 km follows from Kepler's third law with the system mass 5.6 × 10¹¹ kg [1]. ΔT/T = 3Δv/v holds for a small along-track push on a circular orbit. DART did not hit exactly along the orbit, so f = 0.91 is a fixed geometry factor, chosen so that β = 3.61 at 2,400 kg/m³ gives the measured 2.70 mm/s [3]." data-ru="m = 579,4 кг, U = 6,1449 км/с, объём Диморфа 0,00181 км³ [1]; T = 11,92148 ч [2]. Радиус орбиты a ≈ 1,20 км следует из третьего закона Кеплера при массе системы 5,6 × 10¹¹ кг [1]. ΔT/T = 3Δv/v справедливо для малого толчка вдоль круговой орбиты. DART ударил не строго вдоль орбиты, поэтому f = 0,91 — постоянный геометрический множитель, подобранный так, чтобы β = 3,61 при 2400 кг/м³ давало измеренные 2,70 мм/с [3].">Geometry factor f = 0.91.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="betaSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Predicted change in Dimorphos's orbital period against the momentum enhancement factor"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="bBeta" data-en="MOMENTUM ENHANCEMENT β" data-ru="УСИЛЕНИЕ ИМПУЛЬСА β">MOMENTUM ENHANCEMENT β</label><span class="v" id="bBetaVal">—</span></div>
+          <input id="bBeta" type="range" min="1" max="5" step="0.01" value="3.61">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="bRho" data-en="DENSITY OF DIMORPHOS" data-ru="ПЛОТНОСТЬ ДИМОРФА">DENSITY OF DIMORPHOS</label><span class="v" id="bRhoVal">—</span></div>
+          <input id="bRho" type="range" min="1500" max="3300" step="10" value="2400">
+        </div>
+        <div class="readout-grid" id="betaReadout"></div>
+        <div class="status" id="betaStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — WARNING TIME -->
+<section id="ch5" class="section" data-phase="WARNING TIME">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 09</span> — <span data-en="TIME IS THE LEVER" data-ru="ВРЕМЯ — ЭТО РЫЧАГ">TIME IS THE LEVER</span></div>
+    <h2 class="h-lg" data-en="Millimetres per second, multiplied by years" data-ru="Миллиметры в секунду, умноженные на годы">Millimetres per second, multiplied by years</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The same rule that changed Dimorphos's period works for an asteroid going around the Sun. Speed it up or slow it down along its path and its orbital period changes by 3Δv/v; every orbit it arrives a little earlier or later than before. After a time t, it has drifted along its orbit by about <b>3 Δv t</b>. Earth is a target 12,742 km wide, and its gravity pulls in paths that would just miss, so the drift needed is somewhat more than one Earth radius." data-ru="То же правило, которое изменило период Диморфа, работает и для астероида на орбите вокруг Солнца. Ускорьте или замедлите его вдоль траектории — и его период изменится на 3Δv/v; на каждом витке он будет приходить чуть раньше или позже. За время t он сместится вдоль орбиты примерно на <b>3 Δv t</b>. Земля — мишень шириной 12 742 км, и её тяготение притягивает траектории, которые прошли бы рядом, поэтому нужно сместиться несколько больше чем на один земной радиус.">The drift is about 3 Δv t.</p>
+      <p class="body-col" data-en="That is why discovery matters more than force. A push of a centimetre per second given fifteen years ahead is enough; given a few months ahead, it is useless. DART itself was a test, not a rescue: its effect on the orbit of the whole Didymos pair around the Sun was only about 0.02 mm/s, because the push was shared with the much heavier Didymos. Find the push needed for a given warning time." data-ru="Поэтому обнаружение важнее силы. Толчка в сантиметр в секунду, сделанного за пятнадцать лет, достаточно; за несколько месяцев — бесполезно. DART был испытанием, а не спасением: его влияние на орбиту всей пары Дидима вокруг Солнца составило лишь около 0,02 мм/с, потому что толчок разделился с намного более тяжёлым Дидимом. Найдите нужный толчок для заданного времени предупреждения.">Discovery matters more than force.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="warnSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Drift of a deflected asteroid along its orbit against warning time"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="wDv" data-en="PUSH Δv ALONG THE ORBIT" data-ru="ТОЛЧОК Δv ВДОЛЬ ОРБИТЫ">PUSH Δv ALONG THE ORBIT</label><span class="v" id="wDvVal">—</span></div>
+          <input id="wDv" type="range" min="-2" max="2" step="0.01" value="1">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="wT" data-en="WARNING TIME" data-ru="ВРЕМЯ ПРЕДУПРЕЖДЕНИЯ">WARNING TIME</label><span class="v" id="wTVal">—</span></div>
+          <input id="wT" type="range" min="0.25" max="30" step="0.25" value="15">
+        </div>
+        <div class="readout-grid" id="warnReadout"></div>
+        <div class="status" id="warnStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Linear drift 3 Δv t for a small along-track push on a near-circular orbit. The target is Earth's radius enlarged by gravitational focusing, √(1 + v<sub>esc</sub>²/v<sub>∞</sub>²), for an approach speed v<sub>∞</sub> = 10 km/s (≈ 1.5 Earth radii). Real deflection planning uses the asteroid's actual orbit and close-approach geometry. The 0.02 mm/s figure is our rough estimate: β = 3.61 × DART's momentum ÷ the system mass 5.6 × 10¹¹ kg [1][3]." data-ru="Линейный дрейф 3 Δv t для малого толчка вдоль почти круговой орбиты. Мишень — радиус Земли, увеличенный гравитационной фокусировкой, √(1 + v<sub>убег</sub>²/v<sub>∞</sub>²), для скорости сближения v<sub>∞</sub> = 10 км/с (≈ 1,5 земного радиуса). Реальное планирование отклонения использует настоящую орбиту астероида и геометрию сближения. Значение 0,02 мм/с — наша грубая оценка: β = 3,61 × импульс DART ÷ масса системы 5,6 × 10¹¹ кг [1][3].">Linear drift approximation.</p>
+  </div>
+</section>
+
+<!-- CH6 — WHAT CHANGED -->
+<section id="ch6" class="section" data-phase="LESSONS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 09</span> — <span data-en="WHAT DART TAUGHT" data-ru="ЧЕМУ НАУЧИЛ DART">WHAT DART TAUGHT</span></div>
+    <h2 class="h-lg" data-en="Rubble piles are easier to push than solid rock" data-ru="«Груды щебня» толкать легче, чем монолит">Rubble piles are easier to push than solid rock</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Before the impact, nobody knew whether β would be close to 1 or several times larger; it depends on how strong and porous the surface is. DART answered for one real asteroid: well above 1, meaning a loose, weak body throws out a lot of debris and gets a bigger push for free [2][3]. The same weakness showed up on Ryugu and Bennu (see <a href='/aerospace/sample-hayabusa-osiris-rex'>SAMPLE</a>), so it may be common among small asteroids." data-ru="До удара никто не знал, будет ли β близок к 1 или в несколько раз больше: это зависит от прочности и пористости поверхности. DART ответил для одного реального астероида: заметно больше 1 — рыхлое, слабое тело выбрасывает много обломков и «бесплатно» получает более сильный толчок [2][3]. Та же слабость обнаружилась у Рюгу и Бенну (см. <a href='/aerospace/sample-hayabusa-osiris-rex'>ОБРАЗЕЦ</a>), так что среди малых астероидов она может быть обычной.">β was well above 1.</p>
+      <p class="body-col" data-en="It also showed that a spacecraft can find and hit a 150 m body it has never seen, by itself, at 6 km/s [1]. What it could not show is what the impact did to Dimorphos — the crater, its true mass, and therefore an exact β. That is the job of the follow-up mission." data-ru="Он также показал, что аппарат может сам найти тело размером 150 м, которого никогда не видел, и попасть в него на скорости 6 км/с [1]. Чего он показать не мог — что удар сделал с Диморфом: кратер, его истинную массу, а значит и точное β. Это задача следующей миссии.">A spacecraft can find and hit a 150 m body by itself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — HERA -->
+<section id="ch7" class="section" data-phase="HERA">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 09</span> — <span data-en="THE CRIME-SCENE INVESTIGATOR" data-ru="СЛЕДОВАТЕЛЬ НА МЕСТЕ ПРОИСШЕСТВИЯ">THE CRIME-SCENE INVESTIGATOR</span></div>
+    <h2 class="h-lg" data-en="Hera goes back to weigh Dimorphos" data-ru="«Гера» возвращается, чтобы взвесить Диморф">Hera goes back to weigh Dimorphos</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="ESA's <b>Hera</b> launched on 7 October 2024, flew past Mars in March 2025, and caught its first glimpse of Didymos in October 2026. It is due to rendezvous with the pair in <b>November 2026</b>, the first probe to survey a binary asteroid, with twelve payloads and two CubeSats [8]. By measuring Dimorphos's mass and the crater DART left, it will turn the β range into a single number — the calibration a real deflection mission would need." data-ru="Аппарат ЕКА <b>«Гера»</b> стартовал 7 октября 2024 года, в марте 2025 года пролетел мимо Марса, а в октябре 2026 года впервые увидел Дидим. Встреча с парой намечена на <b>ноябрь 2026 года</b>: это первый аппарат, который исследует двойной астероид, — с двенадцатью приборами и двумя кубсатами [8]. Измерив массу Диморфа и кратер, оставленный DART, он превратит диапазон β в одно число — калибровку, нужную настоящей миссии отклонения.">Hera rendezvous in November 2026.</p>
+      <p class="body-col" data-en="The next big test is natural. In 2029 the asteroid Apophis will make a rare close pass by Earth — like every known asteroid, it poses no threat for at least a century [1] — and NASA's OSIRIS-APEX, the spacecraft that brought Bennu home, is heading there to study how the encounter changes it [9]." data-ru="Следующее большое испытание устроит сама природа. В 2029 году астероид Апофис совершит редкое близкое сближение с Землёй — как и все известные астероиды, он не угрожает ей как минимум столетие [1], — а OSIRIS-APEX NASA, аппарат, доставивший образец Бенну, летит туда, чтобы изучить, как его изменит эта встреча [9].">Apophis in 2029.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — TIMELINE -->
+<section id="ch8" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 09</span> — <span data-en="FROM AIRBURST TO DEFLECTION" data-ru="ОТ ВОЗДУШНОГО ВЗРЫВА ДО ОТКЛОНЕНИЯ">FROM AIRBURST TO DEFLECTION</span></div>
+    <h2 class="h-lg" data-en="A short history of planetary defence" data-ru="Краткая история планетарной защиты">A short history of planetary defence</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="DART did not save the world. It showed that, given enough warning, we could." data-ru="DART не спас мир. Он показал, что при достаточном запасе времени мы могли бы.">DART showed that, given enough warning, we could.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — REFERENCES -->
+<section id="ch9" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 09</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS (Daly et al. 2023 [1], Thomas et al. 2023 [2], Cheng et al. 2023 [3]) ============ */
+var G_N = 6.674e-11, KT = 4.185e12, RHO_STONE = 3000;
+var M_DART = 579.4, U_DART = 6144.9;                      // kg, m/s
+var V_DIMO = 0.00181e9, M_SYS = 5.6e11;                   // m³, kg
+var P0 = 11.92148*3600;                                   // s, pre-impact period
+var A_ORB = Math.pow(G_N*M_SYS*P0*P0/(4*Math.PI*Math.PI), 1/3);   // m
+var V_ORB = 2*Math.PI*A_ORB/P0;                           // m/s
+var DVT_MEAS = 2.70e-3, BETA_REF = 3.61, RHO_REF = 2400;
+var F_GEOM = DVT_MEAS/(BETA_REF*M_DART*U_DART/(RHO_REF*V_DIMO));
+function dimo(beta, rho){ var M = rho*V_DIMO, dv = F_GEOM*beta*M_DART*U_DART/M; return {M:M, dv:dv, dP:-3*dv/V_ORB*P0}; }
+function impactEnergy(D, vkms){ var m = Math.PI/6*D*D*D*RHO_STONE; return {m:m, E:0.5*m*vkms*vkms*1e6}; }
+var V_ESC_E = Math.sqrt(2*MU_E/R_E), V_INF = 10, R_TARGET = R_E*Math.sqrt(1 + (V_ESC_E/V_INF)*(V_ESC_E/V_INF));   // km
+var YEAR = 365.25*86400, DV_SYS = BETA_REF*M_DART*U_DART/M_SYS;   // m/s, rough heliocentric push on the pair
+function drift(dvMms, years){ return 3*dvMms*1e-3*years*YEAR/1000; }   // km
+
+function energyStr(Ekt){ return Ekt >= 1e6 ? fmt(Ekt/1e6, Ekt >= 1e7 ? 0 : 1) + T(' Gt',' Гт') : Ekt >= 1e3 ? fmt(Ekt/1e3, Ekt >= 1e4 ? 0 : 1) + T(' Mt',' Мт') : Ekt >= 1 ? fmt(Ekt, Ekt >= 10 ? 0 : 1) + T(' kt',' кт') : fmt(Ekt*1000, Ekt*1000 >= 10 ? 0 : 1) + T(' t TNT',' т ТНТ'); }
+
+/* ============ CH1 — IMPACT ENERGY ============ */
+var kD = document.getElementById('kD'), kV = document.getElementById('kV');
+function renderEnergy(){
+  var D = Math.pow(10, +kD.value), v = +kV.value, I = impactEnergy(D, v), Ekt = I.E/KT;
+  document.getElementById('kDVal').textContent = (D < 10 ? fmt(D, 1) : fmtInt(D)) + T(' m',' м');
+  document.getElementById('kVVal').textContent = fmt(v, 1) + T(' km/s',' км/с');
+  var svg = document.getElementById('energySvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 250;
+  function X(d){ return L + Math.log10(d)/3*(R - L); }
+  function Y(e){ return B - (Math.log10(e) + 2)/11*(B - Tp); }       // 0.01 kt … 1e9 kt
+  [[0.01,'10 t'],[1,'1 kt'],[1e3,'1 Mt'],[1e6,'1 Gt'],[1e9,'1 Tt']].forEach(function(e){ ns('line', {x1:L, y1:Y(e[0]), x2:R, y2:Y(e[0]), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(e[0]) + 3, e[1], 'svg-small', 'end'); });
+  [1,10,100,1000].forEach(function(d){ txt(svg, X(d), B + 14, fmtInt(d) + T(' m',' м'), 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('diameter (log)','диаметр (лог.)'), 'svg-small', 'end'); txt(svg, L, 13, T('impact energy, TNT equivalent (log)','энергия удара, тротиловый эквивалент (лог.)'), 'svg-small');
+  ns('line', {x1:X(151), y1:Tp, x2:X(151), y2:B, stroke:'#c9c9c1', 'stroke-dasharray':'2 3'}, svg); txt(svg, X(151) - 3, Tp + 10, T('Dimorphos-size','размер Диморфа'), 'svg-small', 'end');
+  var d = '';
+  for(var lg = 0; lg <= 3.0001; lg += 0.02){ var dd = Math.pow(10, lg); d += (lg === 0 ? 'M' : 'L') + X(dd).toFixed(1) + ' ' + Y(impactEnergy(dd, v).E/KT).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  var cx = X(19), cy = Y(500);
+  ns('path', {d:'M' + (cx - 6) + ' ' + cy + 'L' + (cx + 6) + ' ' + cy + 'M' + cx + ' ' + (cy - 6) + 'L' + cx + ' ' + (cy + 6), stroke:'#2f5aa1', 'stroke-width':2}, svg);
+  txt(svg, cx - 8, cy - 8, T('Chelyabinsk','Челябинск'), 'svg-small', 'end');
+  ns('circle', {cx:X(D), cy:Y(Ekt), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('energyReadout'), [
+    [T('MASS','МАССА'), I.m >= 1e9 ? fmt(I.m/1e9, 1) + T(' million t',' млн т') : I.m >= 1e3 ? fmtInt(I.m/1e3) + T(' t',' т') : fmtInt(I.m) + T(' kg',' кг')],
+    [T('ENERGY','ЭНЕРГИЯ'), energyStr(Ekt)],
+    [T('× CHELYABINSK (500 kt)','× ЧЕЛЯБИНСК (500 кт)'), Ekt/500 >= 10 ? fmtInt(Ekt/500) : fmt(Ekt/500, Ekt/500 < 0.1 ? 3 : 2)],
+    [T('ENERGY IN JOULES','ЭНЕРГИЯ В ДЖОУЛЯХ'), I.E.toExponential(2).replace('e+', ' × 10^')]
+  ]);
+  document.getElementById('energyStatus').innerHTML = D < 25
+    ? T('Bodies this small usually break up and explode in the air, like Chelyabinsk; the damage comes from the blast wave.','Тела такого размера обычно разрушаются и взрываются в воздухе, как челябинское; ущерб наносит ударная волна.')
+    : D < 1000
+      ? T('A strike like this could devastate a city or a region. Objects in this range are the ones the survey catalogue is still missing [1].','Такой удар может опустошить город или регион. Именно таких тел ещё не хватает в каталоге обзоров [1].')
+      : T('Kilometre-size: global consequences. Most of these are already known [6].','Километровое тело: глобальные последствия. Большинство таких уже известно [6].');
+}
+[kD, kV].forEach(function(el){ el.addEventListener('input', renderEnergy); });
+
+/* ============ CH4 — β AND PERIOD CHANGE ============ */
+var bBeta = document.getElementById('bBeta'), bRho = document.getElementById('bRho');
+function renderBeta(){
+  var beta = +bBeta.value, rho = +bRho.value, D = dimo(beta, rho), dPmin = D.dP/60;
+  document.getElementById('bBetaVal').textContent = fmt(beta, 2);
+  document.getElementById('bRhoVal').textContent = fmtInt(rho) + T(' kg/m³',' кг/м³');
+  var svg = document.getElementById('betaSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 250;
+  function X(b){ return L + (b - 1)/4*(R - L); }
+  function Y(m){ return B - m/60*(B - Tp); }
+  [0,10,20,30,40,50,60].forEach(function(m){ ns('line', {x1:L, y1:Y(m), x2:R, y2:Y(m), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(m) + 3, m === 0 ? '0' : '−' + m, 'svg-small', 'end'); });
+  [1,2,3,4,5].forEach(function(b){ txt(svg, X(b), B + 14, b, 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('momentum enhancement β','усиление импульса β'), 'svg-small', 'end'); txt(svg, L, 13, T('change in orbital period, minutes','изменение периода обращения, минуты'), 'svg-small');
+  ns('rect', {x:L, y:Y(34), width:R - L, height:Y(32) - Y(34), fill:'#2f5aa1', opacity:0.15}, svg);
+  txt(svg, L + 6, Y(34) - 4, T('measured −33.0 ± 1.0 min','измерено −33,0 ± 1,0 мин'), 'svg-small');
+  var dd = '';
+  for(var b = 1; b <= 5.0001; b += 0.05) dd += (b === 1 ? 'M' : 'L') + X(b).toFixed(1) + ' ' + Y(Math.min(60, -dimo(b, rho).dP/60)).toFixed(1);
+  ns('path', {d:dd, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(beta), cy:Y(Math.min(60, -dPmin)), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('betaReadout'), [
+    [T('MASS OF DIMORPHOS','МАССА ДИМОРФА'), fmt(D.M/1e9, 2) + T(' × 10⁹ kg',' × 10⁹ кг')],
+    [T('ALONG-TRACK Δv','Δv ВДОЛЬ ОРБИТЫ'), fmt(D.dv*1000, 2) + T(' mm/s',' мм/с')],
+    [T('PERIOD CHANGE','ИЗМЕНЕНИЕ ПЕРИОДА'), '−' + fmt(-dPmin, 1) + T(' min',' мин')],
+    [T('ORBITAL SPEED OF DIMORPHOS','ОРБИТАЛЬНАЯ СКОРОСТЬ ДИМОРФА'), fmt(V_ORB*100, 1) + T(' cm/s',' см/с')]
+  ]);
+  hud1.textContent = fmt(D.dv*1000, 2) + T(' mm/s',' мм/с'); hud2.textContent = '−' + fmt(-dPmin, 1) + T(' min',' мин');
+  var off = -dPmin - 33.0;
+  document.getElementById('betaStatus').innerHTML = Math.abs(off) <= 1
+    ? T('<b>Matches the measurement.</b> This pair of β and density is consistent with what telescopes saw.','<b>Совпадает с измерением.</b> Эта пара β и плотности согласуется с наблюдениями телескопов.')
+    : (off < 0 ? T('Too small a change: for this density, the ejecta must have pushed harder (larger β).','Слишком малое изменение: при такой плотности выброс должен был толкнуть сильнее (β больше).')
+               : T('Too large a change: for this density, β must be smaller.','Слишком большое изменение: при такой плотности β должен быть меньше.')) + T(' β = 1 would mean no help from the ejecta at all.',' β = 1 означало бы, что выброс совсем не помог.');
+}
+[bBeta, bRho].forEach(function(el){ el.addEventListener('input', renderBeta); });
+
+/* ============ CH5 — WARNING TIME ============ */
+var wDv = document.getElementById('wDv'), wT = document.getElementById('wT');
+function renderWarn(){
+  var dv = Math.pow(10, +wDv.value), yrs = +wT.value, s = drift(dv, yrs), need = R_TARGET/(3*yrs*YEAR/1000)*1000;   // mm/s
+  document.getElementById('wDvVal').textContent = (dv < 1 ? fmt(dv, dv < 0.1 ? 3 : 2) : fmt(dv, dv < 10 ? 1 : 0)) + T(' mm/s',' мм/с');
+  document.getElementById('wTVal').textContent = fmt(yrs, yrs < 1 ? 2 : (yrs % 1 ? 2 : 0)) + T(' years',' лет');
+  var svg = document.getElementById('warnSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 250;
+  function X(y){ return L + y/30*(R - L); }
+  function Y(re){ return B - (Math.log10(Math.max(re, 1e-3)) + 3)/6*(B - Tp); }   // 0.001 … 1000 Earth radii
+  [0.001,0.01,0.1,1,10,100,1000].forEach(function(r){ ns('line', {x1:L, y1:Y(r), x2:R, y2:Y(r), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(r) + 3, r >= 1 ? fmtInt(r) : String(r).replace('.', T('.', ',')), 'svg-small', 'end'); });
+  [0,5,10,15,20,25,30].forEach(function(y){ txt(svg, X(y), B + 14, y, 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('warning time, years','время предупреждения, лет'), 'svg-small', 'end'); txt(svg, L, 13, T('drift along the orbit, Earth radii (log)','смещение вдоль орбиты, земные радиусы (лог.)'), 'svg-small');
+  var need1 = R_TARGET/R_E;
+  ns('rect', {x:L, y:Tp, width:R - L, height:Y(need1) - Tp, fill:'#2f5aa1', opacity:0.07}, svg);
+  ns('line', {x1:L, y1:Y(need1), x2:R, y2:Y(need1), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, R - 4, Y(need1) - 4, T('misses Earth','промах мимо Земли'), 'svg-small', 'end');
+  function curve(v, col, dash){ var p = ''; for(var y = 0.1; y <= 30.0001; y += 0.1) p += (p ? 'L' : 'M') + X(y).toFixed(1) + ' ' + Y(drift(v, y)/R_E).toFixed(1); var a = {d:p, fill:'none', stroke:col, 'stroke-width':2}; if(dash) a['stroke-dasharray'] = dash; ns('path', a, svg); }
+  curve(DV_SYS*1000, '#8a8a82', '5 3');
+  txt(svg, X(29), Y(drift(DV_SYS*1000, 29)/R_E) + 14, T('DART on the whole pair','DART для всей пары'), 'svg-small', 'end');
+  curve(dv, '#0b0b0c');
+  ns('circle', {cx:X(yrs), cy:Y(s/R_E), r:5, fill: s >= R_TARGET ? '#0b0b0c' : '#b5452a'}, svg);
+  cells(document.getElementById('warnReadout'), [
+    [T('DRIFT','СМЕЩЕНИЕ'), s >= 1e5 ? fmt(s/1e6, 2) + T(' million km',' млн км') : fmtInt(s) + T(' km',' км')],
+    [T('IN EARTH RADII','В ЗЕМНЫХ РАДИУСАХ'), fmt(s/R_E, s/R_E < 0.1 ? 3 : 2)],
+    [T('NEEDED TO MISS','НУЖНО ДЛЯ ПРОМАХА'), fmtInt(R_TARGET) + T(' km',' км')],
+    [T('MINIMUM PUSH FOR THIS TIME','МИН. ТОЛЧОК ДЛЯ ЭТОГО СРОКА'), fmt(need, need < 1 ? 2 : 1) + T(' mm/s',' мм/с')]
+  ]);
+  document.getElementById('warnStatus').innerHTML = s >= R_TARGET
+    ? T('<b>Miss.</b> The asteroid arrives far enough off schedule that Earth is somewhere else.','<b>Промах.</b> Астероид приходит настолько не вовремя, что Земли в этой точке уже нет.')
+    : T('<b>Still a hit.</b> Push harder, or — far cheaper — find it earlier.','<b>Всё ещё попадание.</b> Толкните сильнее или — гораздо дешевле — найдите его раньше.');
+}
+[wDv, wT].forEach(function(el){ el.addEventListener('input', renderWarn); });
+
+/* ============ CH8 — TIMELINE ============ */
+var TIMELINE = [
+  ['1908', 'Tunguska airburst over Siberia — the last event larger than Chelyabinsk [7].', 'Тунгусский воздушный взрыв над Сибирью — последнее событие мощнее челябинского [7].'],
+  ['2013', '<b>15 February:</b> the ~19 m Chelyabinsk asteroid explodes with ~500 kt [6][7].', '<b>15 февраля:</b> челябинский астероид поперечником ~19 м взрывается с энергией ~500 кт [6][7].'],
+  ['2021', '<b>24 November:</b> DART launches.', '<b>24 ноября:</b> старт DART.'],
+  ['2022', '<b>11 September:</b> LICIACube released. <b>26 September, 23:14 UTC:</b> DART hits Dimorphos at 6.1 km/s.', '<b>11 сентября:</b> отделение LICIACube. <b>26 сентября, 23:14 UTC:</b> DART врезается в Диморф на скорости 6,1 км/с.'],
+  ['2023', 'Results published: period change −33.0 ± 1.0 min, β ≈ 3.6, Hubble images of the ejecta tail.', 'Опубликованы результаты: изменение периода −33,0 ± 1,0 мин, β ≈ 3,6, снимки «Хаббла» с хвостом выброса.'],
+  ['2024', '<b>7 October:</b> ESA\'s Hera launches.', '<b>7 октября:</b> старт «Геры» ЕКА.'],
+  ['2025', '<b>March:</b> Hera flies past Mars.', '<b>Март:</b> «Гера» пролетает мимо Марса.'],
+  ['2026', '<b>October:</b> Hera sees Didymos for the first time; rendezvous due in November.', '<b>Октябрь:</b> «Гера» впервые видит Дидим; встреча намечена на ноябрь.'],
+  ['2029', 'Apophis makes a rare close pass by Earth; OSIRIS-APEX follows it.', 'Апофис совершает редкое близкое сближение с Землёй; за ним следит OSIRIS-APEX.']
+];
+
+/* ============ CH9 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'R. T. Daly et al. (2023), “Successful kinetic impact into an asteroid for planetary defence”, Nature 616, 443–447', url:'https://doi.org/10.1038/s41586-023-05810-5', note:{en:'Launch 24 November 2021; impact 23:14:24 UTC on 26 September 2022 at 6.1449 km/s; mass 579.4 kg; 10.94 GJ; impact 25 m from the centre of figure between two boulders; Dimorphos 177 × 174 × 116 m, 151 m equivalent diameter; Didymos 761 m; system mass 5.6 × 10¹¹ kg; no known asteroid threatens Earth for at least a century.', ru:'Старт 24 ноября 2021; удар в 23:14:24 UTC 26 сентября 2022 на скорости 6,1449 км/с; масса 579,4 кг; 10,94 ГДж; удар в 25 м от центра фигуры между двумя валунами; Диморф 177 × 174 × 116 м, эквивалентный диаметр 151 м; Дидим 761 м; масса системы 5,6 × 10¹¹ кг; ни один известный астероид не угрожает Земле как минимум столетие.'}},
+  {title:'C. A. Thomas et al. (2023), “Orbital period change of Dimorphos due to the DART kinetic impact”, Nature 616, 448–451', url:'https://doi.org/10.1038/s41586-023-05805-2', note:{en:'Pre-impact period 11.92148 ± 0.00013 h; post-impact 11.372 h; change −33.0 ± 1.0 (3σ) min; ~7 min expected for a perfectly inelastic collision.', ru:'Период до удара 11,92148 ± 0,00013 ч; после — 11,372 ч; изменение −33,0 ± 1,0 (3σ) мин; для абсолютно неупругого удара ожидалось ~7 мин.'}},
+  {title:'A. F. Cheng et al. (2023), “Momentum transfer from the DART mission kinetic impact on asteroid Dimorphos”, Nature 616, 457–460', url:'https://doi.org/10.1038/s41586-023-05878-z', note:{en:'Along-track Δv = 2.70 ± 0.10 mm/s; β = 2.2–4.9 for densities 1,500–3,300 kg/m³; β = 3.61 (+0.19/−0.25) at 2,400 kg/m³.', ru:'Δv вдоль орбиты 2,70 ± 0,10 мм/с; β = 2,2–4,9 при плотностях 1500–3300 кг/м³; β = 3,61 (+0,19/−0,25) при 2400 кг/м³.'}},
+  {title:'J.-Y. Li et al. (2023), “Ejecta from the DART-produced active asteroid Dimorphos”, Nature 616, 452–456', url:'https://doi.org/10.1038/s41586-023-05811-4', note:{en:'Hubble observations from 15 minutes to 18.5 days after impact; evolution of the ejecta into a sustained tail.', ru:'Наблюдения «Хаббла» с 15 минут до 18,5 суток после удара; превращение выброса в устойчивый хвост.'}},
+  {title:'E. Dotto et al. (2024), “The Dimorphos ejecta plume properties revealed by LICIACube”, Nature 627, 505–509', url:'https://doi.org/10.1038/s41586-023-06998-2', note:{en:'LICIACube released 15 days before impact; data from 71 s before to 320 s after; plume cone 140 ± 4°; ejecta from tens of m/s to ~500 m/s; system brightened 8.3 times.', ru:'LICIACube отделён за 15 дней до удара; данные с 71 с до удара по 320 с после; конус выброса 140 ± 4°; скорости выброса от десятков м/с до ~500 м/с; блеск системы вырос в 8,3 раза.'}},
+  {title:'P. G. Brown et al. (2013), “A 500-kiloton airburst over Chelyabinsk and an enhanced hazard from small impactors”, Nature 503, 238–241', url:'https://doi.org/10.1038/nature12741', note:{en:'Asteroid about 19 m (17–20 m) across; energy ~500 ± 100 kt TNT (1 kt = 4.185 × 10¹² J); most kilometre-size near-Earth asteroids now known; more 10–50 m impactors than earlier estimates.', ru:'Астероид поперечником около 19 м (17–20 м); энергия ~500 ± 100 кт ТНТ (1 кт = 4,185 × 10¹² Дж); большинство километровых астероидов уже известны; тел размером 10–50 м больше, чем считалось.'}},
+  {title:'O. P. Popova et al. (2013), “Chelyabinsk Airburst, Damage Assessment, Meteorite Recovery, and Characterization”, Science 342, 1069–1073', url:'https://doi.org/10.1126/science.1242642', note:{en:'The 15 February 2013 event, the largest airburst since Tunguska in 1908, over a region of more than a million people.', ru:'Событие 15 февраля 2013 года — крупнейший воздушный взрыв со времён Тунгусского (1908) над регионом с населением больше миллиона человек.'}},
+  {title:'ESA, Hera mission pages', url:'https://www.esa.int/Space_Safety/Hera', note:{en:'Launch 7 October 2024; Mars flyby March 2025; first view of Didymos October 2026; rendezvous November 2026; 12 payloads and 2 CubeSats; first survey of a binary asteroid.', ru:'Старт 7 октября 2024; пролёт Марса в марте 2025; первый снимок Дидима в октябре 2026; встреча в ноябре 2026; 12 приборов и 2 кубсата; первое исследование двойного астероида.'}},
+  {title:'NASA Science, OSIRIS-REx mission page (OSIRIS-APEX)', url:'https://science.nasa.gov/mission/osiris-rex/', note:{en:'OSIRIS-APEX will study the physical changes to Apophis after its rare close encounter with Earth in 2029.', ru:'OSIRIS-APEX изучит физические изменения Апофиса после его редкого близкого сближения с Землёй в 2029 году.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderEnergy();
+  renderBeta();
+  renderWarn();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__impact = {dimo:dimo, impactEnergy:impactEnergy, drift:drift, A_ORB:A_ORB, V_ORB:V_ORB, F_GEOM:F_GEOM, R_TARGET:R_TARGET, DV_SYS:DV_SYS, KT:KT, M_DART:M_DART, U_DART:U_DART};
+
+})();
+</script>
+</body>
+</html>
