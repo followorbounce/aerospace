@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENTRY — HEAT SHIELDS &amp;amp; ATMOSPHERIC ENTRY / ВХОД — ТЕПЛОЗАЩИТА И ВХОД В АТМОСФЕРУ</title>
+<meta name="description" content="An interactive field guide to atmospheric entry: Allen and Eggers' discovery that peak deceleration depends only on entry speed and angle, why Apollo needed lift to turn 36 g into 6.6 g, stagnation-point heating and why blunt capsules survive, ablative heat shields from Stardust's record 12.9 km/s entry to Orion's Artemis I char loss and the Artemis II fix.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/entry-heat-shields">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ENTRY — HEAT SHIELDS &amp;amp; ATMOSPHERIC ENTRY / ВХОД — ТЕПЛОЗАЩИТА И ВХОД В АТМОСФЕРУ">
+<meta property="og:description" content="Peak g independent of mass, 36 g vs 6.6 g for Apollo, and why blunt is better — atmospheric entry, interactive and sourced from NASA.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/entry-heat-shields">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">ENTRY — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE PLUNGE</span></div>
+  <div class="hud-row"><span class="hud-label">PEAK g</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">PEAK HEATING</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE PLUNGE">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — APOLLO 11 ENTRY, 36,194 FT/S, −6.48°" data-ru="РИС. 00 — ВХОД «АПОЛЛОНА-11», 36 194 ФУТ/С, −6,48°">FIG. 00 — APOLLO 11 ENTRY, 36,194 FT/S, −6.48°</span></span>
+        <span>6.56 g · 286 BTU/ft²/s</span>
+      </div>
+      <h1><span data-en="ENTRY" data-ru="ВХОД">ENTRY</span><br><em data-en="HEAT SHIELDS AND ATMOSPHERIC ENTRY" data-ru="ТЕПЛОЗАЩИТА И ВХОД В АТМОСФЕРУ">HEAT SHIELDS AND ATMOSPHERIC ENTRY</em></h1>
+      <p class="sub lede" data-en="Coming home from space means getting rid of almost all the energy the rocket gave you, in a few minutes, using the air as a brake. In 1958 two NACA engineers found that the worst deceleration does not depend on how heavy or large the vehicle is, and that a blunt shape sends most of the heat into the air instead of into the vehicle. Seven chapters and two instruments: fly a ballistic entry and find its peak g, then heat a nose and see why capsules are blunt." data-ru="Возвращение из космоса означает избавиться почти от всей энергии, сообщённой ракетой, за несколько минут, используя воздух как тормоз. В 1958 году два инженера NACA обнаружили, что максимальная перегрузка не зависит от массы и размера аппарата, а тупая форма отдаёт большую часть тепла воздуху, а не аппарату. Семь глав и два прибора: совершите баллистический вход и найдите пиковую перегрузку, затем нагрейте лобовую часть и узнайте, почему капсулы тупые.">Coming home from space means shedding almost all the rocket's energy.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — ENERGY -->
+<section id="ch1" class="section" data-phase="THE PLUNGE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 07</span> — <span data-en="LET THE AIR TAKE THE HEAT" data-ru="ПУСТЬ ТЕПЛО ЗАБЕРЁТ ВОЗДУХ">LET THE AIR TAKE THE HEAT</span></div>
+    <h2 class="h-lg" data-en="Most of the energy must never reach the vehicle" data-ru="Большая часть энергии не должна дойти до аппарата">Most of the energy must never reach the vehicle</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A capsule returning from the Moon arrives at about 11 km/s: each kilogram carries some 60 megajoules, many times the energy of a kilogram of explosive (see the re-entry instrument in <a href='/aerospace/sample-hayabusa-osiris-rex'>SAMPLE</a>). If even a few percent of that ended up inside the vehicle, it would vaporise. The question in the 1950s, when ballistic missile warheads first faced it, was how to make the air carry the heat away." data-ru="Капсула, возвращающаяся с Луны, входит со скоростью около 11 км/с: каждый килограмм несёт около 60 мегаджоулей — во много раз больше энергии килограмма взрывчатки (см. прибор входа в <a href='/aerospace/sample-hayabusa-osiris-rex'>ОБРАЗЦЕ</a>). Если бы даже несколько процентов этого попало внутрь аппарата, он бы испарился. В 1950-х годах, когда с этим впервые столкнулись боеголовки баллистических ракет, вопрос был в том, как заставить воздух унести тепло.">A lunar return carries about 60 MJ per kilogram.</p>
+      <p class="body-col" data-en="H. Julian Allen and Alfred Eggers answered it. If a body is light enough to be slowed down a lot, a <b>blunt</b> shape with high drag puts most of the heat into the shock wave and the air around it, while a pointed shape keeps the heat close to its own skin [1]. Every capsule since — Mercury, Soyuz, Apollo, Orion — is blunt for that reason. They also found something stranger about deceleration." data-ru="Ответ нашли Х. Джулиан Аллен и Альфред Эггерс. Если тело достаточно лёгкое, чтобы сильно затормозиться, <b>тупая</b> форма с большим сопротивлением отдаёт большую часть тепла ударной волне и окружающему воздуху, а заострённая держит тепло у собственной обшивки [1]. Поэтому все капсулы с тех пор — «Меркурий», «Союз», «Аполлон», «Орион» — тупые. Они обнаружили и кое-что более странное о перегрузке.">Allen and Eggers: blunt shapes put heat into the air.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — DECELERATION -->
+<section id="ch2" class="section" data-phase="DECELERATION">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 07</span> — <span data-en="PEAK g DOES NOT CARE ABOUT MASS" data-ru="ПИКОВОЙ ПЕРЕГРУЗКЕ ВСЁ РАВНО, КАКАЯ МАССА">PEAK g DOES NOT CARE ABOUT MASS</span></div>
+    <h2 class="h-lg" data-en="Only speed and angle decide the worst moment" data-ru="Худший момент определяют только скорость и угол">Only speed and angle decide the worst moment</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Allen and Eggers' “curious finding”: for a ballistic body falling along a straight line through an exponential atmosphere, the maximum deceleration is independent of its mass, size and drag coefficient, and depends only on entry speed and flight-path angle, provided it happens before the ground [1]. A heavy, slender body reaches the same peak — it just reaches it lower down." data-ru="«Любопытный вывод» Аллена и Эггерса: для баллистического тела, падающего по прямой через экспоненциальную атмосферу, максимальная перегрузка не зависит от массы, размера и коэффициента сопротивления и определяется только скоростью и углом входа — если она наступает до столкновения с землёй [1]. Тяжёлое узкое тело достигает того же пика — просто ниже.">Peak deceleration depends only on speed and angle.</p>
+      <p class="body-col" data-en="The peak comes when the speed has dropped to about 61 % of the entry speed. Slide the ballistic coefficient β = m/(C<sub>D</sub>A) and watch the curve move up or down without changing its height. Then try Apollo 11's entry: 36,194 ft/s at −6.48° [3]. A ballistic capsule would have felt about 36 g." data-ru="Пик наступает, когда скорость падает примерно до 61 % от скорости входа. Двигайте баллистический коэффициент β = m/(C<sub>D</sub>A) и смотрите, как кривая смещается вверх или вниз, не меняя высоты пика. Затем попробуйте вход «Аполлона-11»: 36 194 фут/с под углом −6,48° [3]. Баллистическая капсула испытала бы около 36 g.">Try Apollo 11's entry.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="ALLEN–EGGERS BALLISTIC ENTRY" data-ru="БАЛЛИСТИЧЕСКИЙ ВХОД ПО АЛЛЕНУ — ЭГГЕРСУ">ALLEN–EGGERS BALLISTIC ENTRY</div>
+      <div class="eq-body">V = V<sub>E</sub> exp[ −ρ₀H e<sup>−h/H</sup> / (2β sin γ) ] &nbsp;·&nbsp; a<sub>max</sub> = V<sub>E</sub>² sin γ / (2eH) &nbsp;·&nbsp; h* = H ln[ρ₀H / (β sin γ)]</div>
+      <div class="eq-note" data-en="Gravity and lift neglected, straight-line path, constant drag coefficient, exponential atmosphere with ρ₀ = 1.225 kg/m³ and scale height H = 7.2 km (assumed values; Allen and Eggers used their own fit) [1]." data-ru="Тяготение и подъёмная сила не учитываются, траектория прямая, коэффициент сопротивления постоянен, атмосфера экспоненциальная с ρ₀ = 1,225 кг/м³ и высотой однородной атмосферы H = 7,2 км (принятые значения; Аллен и Эггерс использовали собственную аппроксимацию) [1].">Gravity and lift neglected.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="decSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Deceleration against altitude during a ballistic entry"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset" id="decPre">
+          <button class="btn" data-v="7.88" data-g="2.07" aria-pressed="false" data-en="FROM ORBIT" data-ru="С ОРБИТЫ">FROM ORBIT</button>
+          <button class="btn active" data-v="11.03" data-g="6.48" aria-pressed="true" data-en="APOLLO 11" data-ru="«АПОЛЛОН-11»">APOLLO 11</button>
+          <button class="btn" data-v="12.9" data-g="8.2" aria-pressed="false" data-en="STARDUST" data-ru="STARDUST">STARDUST</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dV" data-en="ENTRY SPEED" data-ru="СКОРОСТЬ ВХОДА">ENTRY SPEED</label><span class="v" id="dVVal">—</span></div>
+          <input id="dV" type="range" min="6" max="13" step="0.01" value="11.03">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dG" data-en="ENTRY ANGLE BELOW HORIZONTAL" data-ru="УГОЛ ВХОДА К ГОРИЗОНТУ">ENTRY ANGLE BELOW HORIZONTAL</label><span class="v" id="dGVal">—</span></div>
+          <input id="dG" type="range" min="1" max="30" step="0.01" value="6.48">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dB" data-en="BALLISTIC COEFFICIENT β" data-ru="БАЛЛИСТИЧЕСКИЙ КОЭФФИЦИЕНТ β">BALLISTIC COEFFICIENT β</label><span class="v" id="dBVal">—</span></div>
+          <input id="dB" type="range" min="1.7" max="4" step="0.01" value="2.6">
+        </div>
+        <div class="readout-grid" id="decReadout"></div>
+        <div class="status" id="decStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Orbit preset: Apollo 7's entry, 25,846 ft/s at −2.07° [3]. Stardust: 12.9 km/s [4]; its 8.2° entry angle is an illustrative assumption here. All three are run as if purely ballistic." data-ru="Пресет «с орбиты» — вход «Аполлона-7»: 25 846 фут/с под углом −2,07° [3]. Stardust: 12,9 км/с [4]; угол 8,2° здесь — условное допущение. Все три рассчитаны как чисто баллистические.">Presets from Apollo by the Numbers and Desai et al.</p>
+  </div>
+</section>
+
+<!-- CH3 — LIFT -->
+<section id="ch3" class="section" data-phase="LIFT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 07</span> — <span data-en="A CAPSULE THAT FLIES" data-ru="КАПСУЛА, КОТОРАЯ ЛЕТИТ">A CAPSULE THAT FLIES</span></div>
+    <h2 class="h-lg" data-en="From 36 g to 6.6 g with a little lift" data-ru="От 36 g до 6,6 g благодаря небольшой подъёмной силе">From 36 g to 6.6 g with a little lift</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Apollo's command module was not a ballistic body. Its centre of mass was offset, so it flew tilted and its blunt heat shield produced lift — a lift-to-drag ratio of about <b>0.3</b> [3]. By rolling to point that lift up or down, the crew and computer stretched the deceleration over a longer, shallower path. Apollo 11's actual peak was <b>6.56 g</b>, and the whole entry took 929 seconds [3]." data-ru="Командный модуль «Аполлона» не был баллистическим телом. Его центр масс был смещён, поэтому он летел с наклоном, и тупой теплозащитный экран создавал подъёмную силу — аэродинамическое качество около <b>0,3</b> [3]. Поворачивая вектор подъёмной силы вверх или вниз, экипаж и компьютер растягивали торможение на более длинный и пологий путь. Реальный пик у «Аполлона-11» составил <b>6,56 g</b>, а весь вход длился 929 секунд [3].">Apollo had a lift-to-drag ratio of about 0.3.</p>
+      <p class="body-col" data-en="Orion takes the idea further with <b>skip entry</b>: on Artemis I it dipped into the upper atmosphere, used its lift to climb back out, then entered again for the final descent, which lets it reach a chosen landing area from farther away [6]. That flexibility had a price, as the heat shield would show." data-ru="«Орион» развивает эту идею <b>входом с рикошетом</b>: в полёте «Артемида-1» он нырнул в верхние слои атмосферы, за счёт подъёмной силы снова вышел из них, а затем вошёл окончательно — так можно достичь выбранного района посадки с большего расстояния [6]. У этой гибкости оказалась цена, что и показал теплозащитный экран.">Orion's skip entry.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — HEATING -->
+<section id="ch4" class="section" data-phase="HEATING">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 07</span> — <span data-en="WHY BLUNT IS BETTER" data-ru="ПОЧЕМУ ТУПОЕ ЛУЧШЕ">WHY BLUNT IS BETTER</span></div>
+    <h2 class="h-lg" data-en="Heating grows as speed cubed, and falls with nose size" data-ru="Нагрев растёт как куб скорости и падает с размером носа">Heating grows as speed cubed, and falls with nose size</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="At the very front of the capsule, the stagnation point, the convective heating rate follows a simple law worked out by Kenneth Sutton and Randolph Graves for any gas mixture: it grows with the square root of air density, the <b>cube</b> of speed, and falls with the square root of the nose radius [2]. A wide, rounded nose stands off the shock wave and keeps the hottest gas farther away." data-ru="В самой передней точке капсулы — точке торможения — конвективный тепловой поток подчиняется простому закону, выведенному Кеннетом Саттоном и Рэндолфом Грейвсом для любой газовой смеси: он растёт как квадратный корень из плотности воздуха и <b>куб</b> скорости и падает как квадратный корень из радиуса носа [2]. Широкий скруглённый нос отодвигает ударную волну и держит самый горячий газ дальше.">Sutton–Graves: q ∝ √(ρ/r<sub>n</sub>) v³.</p>
+      <p class="body-col" data-en="Run the same ballistic trajectory as above through that law and change the nose radius. For scale: Apollo 11's measured peak was 286 BTU/ft²/s (3.2 MW/m²), with 26,482 BTU/ft² (301 MJ/m²) absorbed over the whole entry [3] — on a lifting trajectory, so expect a ballistic peak to be higher and the heating pulse shorter." data-ru="Прогоните ту же баллистическую траекторию через этот закон и меняйте радиус носа. Для масштаба: измеренный пик у «Аполлона-11» — 286 БТЕ/фут²/с (3,2 МВт/м²), а за весь вход поглощено 26 482 БТЕ/фут² (301 МДж/м²) [3] — на траектории с подъёмной силой, поэтому у баллистического входа пик будет выше, а импульс нагрева короче.">Apollo 11: 3.2 MW/m² peak.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="STAGNATION-POINT CONVECTIVE HEATING (SUTTON–GRAVES)" data-ru="КОНВЕКТИВНЫЙ НАГРЕВ В ТОЧКЕ ТОРМОЖЕНИЯ (САТТОН — ГРЕЙВС)">STAGNATION-POINT CONVECTIVE HEATING (SUTTON–GRAVES)</div>
+      <div class="eq-body">q̇ = k √(ρ / r<sub>n</sub>) V³ &nbsp;·&nbsp; Q = ∫ q̇ dt</div>
+      <div class="eq-note" data-en="k ≈ 1.74 × 10⁻⁴ kg<sup>½</sup>/m for Earth's air in SI units, the commonly used form of Sutton and Graves' air coefficient [2]. Convective heating only: at lunar-return speeds and above, radiation from the hot shock layer adds substantially." data-ru="k ≈ 1,74 × 10⁻⁴ кг<sup>½</sup>/м для земного воздуха в единицах СИ — распространённая форма коэффициента Саттона и Грейвса для воздуха [2]. Только конвективный нагрев: при скоростях возвращения с Луны и выше значительную добавку даёт излучение раскалённого ударного слоя.">k ≈ 1.74 × 10⁻⁴.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="heatSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Stagnation-point heating rate against altitude"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="hR" data-en="NOSE RADIUS" data-ru="РАДИУС НОСА">NOSE RADIUS</label><span class="v" id="hRVal">—</span></div>
+          <input id="hR" type="range" min="-1.3" max="0.8" step="0.01" value="0.65">
+        </div>
+        <div class="readout-grid" id="heatReadout"></div>
+        <div class="status" id="heatStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Uses the speed, angle and ballistic coefficient from the deceleration instrument." data-ru="Используются скорость, угол и баллистический коэффициент из прибора перегрузки.">Uses the trajectory above.</p>
+  </div>
+</section>
+
+<!-- CH5 — HEAT SHIELDS -->
+<section id="ch5" class="section" data-phase="HEAT SHIELDS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 07</span> — <span data-en="SHIELDS THAT BURN AWAY ON PURPOSE" data-ru="ЭКРАНЫ, КОТОРЫЕ СГОРАЮТ НАМЕРЕННО">SHIELDS THAT BURN AWAY ON PURPOSE</span></div>
+    <h2 class="h-lg" data-en="From Stardust's record to Orion's cracked char" data-ru="От рекорда Stardust до растрескавшегося слоя «Ориона»">From Stardust's record to Orion's cracked char</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Capsule heat shields are mostly <b>ablators</b>: the surface chars, melts and vaporises, and the gas it gives off carries heat away and thickens the boundary layer. On 15 January 2006 NASA's Stardust capsule hit the air at <b>12.9 km/s</b>, the fastest Earth entry of any returning mission, compared with 11.0 km/s for Apollo [4]. Its shield was <b>PICA</b>, a carbon ablator developed at NASA Ames with a density of only about 0.27 g/cm³ — later used on Curiosity's 4.5 m Mars heat shield and SpaceX's Dragon [5]." data-ru="Теплозащитные экраны капсул — в основном <b>абляционные</b>: поверхность обугливается, плавится и испаряется, а выделяющийся газ уносит тепло и утолщает пограничный слой. 15 января 2006 года капсула NASA Stardust вошла в атмосферу со скоростью <b>12,9 км/с</b> — самый быстрый вход среди всех возвращаемых аппаратов, против 11,0 км/с у «Аполлонов» [4]. Её экран был из <b>PICA</b> — углеродного абляционного материала, созданного в NASA Ames, плотностью всего около 0,27 г/см³; позже он применялся на 4,5-метровом экране Curiosity для Марса и на Dragon компании SpaceX [5].">Stardust: 12.9 km/s with a PICA shield.</p>
+      <p class="body-col" data-en="Orion uses a material called Avcoat. After Artemis I in 2022, engineers found char missing in many places. After 121 tests, NASA concluded that gas produced inside the Avcoat during skip entry could not vent as expected, so pressure built up, the material cracked and pieces broke off [6]. For Artemis II the trajectory was changed to reduce heating; after its splashdown on <b>10 April 2026</b>, at nearly 35 times the speed of sound on entry, inspections found the char loss significantly reduced in quantity and size [7]." data-ru="«Орион» использует материал Avcoat. После «Артемиды-1» в 2022 году инженеры обнаружили, что во многих местах обугленный слой отсутствует. После 121 испытания NASA заключило, что газ, образующийся внутри Avcoat при входе с рикошетом, не мог выйти как ожидалось: давление росло, материал трескался, и куски отламывались [6]. Для «Артемиды-2» траекторию изменили, чтобы снизить нагрев; после приводнения <b>10 апреля 2026 года</b> — вход шёл почти на 35 скоростях звука — осмотры показали, что потери обугленного слоя значительно меньше и по количеству, и по размеру [7].">Orion's Avcoat char loss and the Artemis II result.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — TIMELINE -->
+<section id="ch6" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 07</span> — <span data-en="SEVENTY YEARS OF COMING BACK" data-ru="СЕМЬДЕСЯТ ЛЕТ ВОЗВРАЩЕНИЙ">SEVENTY YEARS OF COMING BACK</span></div>
+    <h2 class="h-lg" data-en="The blunt-body idea, tested again and again" data-ru="Идея тупого тела, проверенная снова и снова">The blunt-body idea, tested again and again</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="The answer to the hottest problem in spaceflight was not a better material but a worse shape — one that pushes the air so hard that the air takes the heat." data-ru="Ответом на самую горячую проблему космонавтики стал не лучший материал, а «худшая» форма — та, что толкает воздух так сильно, что тепло забирает воздух.">Not a better material but a worse shape.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — REFERENCES -->
+<section id="ch7" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 07</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ ALLEN–EGGERS BALLISTIC ENTRY [1] ============ */
+var RHO0 = 1.225, H = 7200, G0 = 9.80665, KSG = 1.7415e-4;     // SI; Sutton–Graves air constant [2]
+function rho(h){ return RHO0*Math.exp(-h/H); }
+function speedAt(h, VE, gam, beta){ return VE*Math.exp(-RHO0*H*Math.exp(-h/H)/(2*beta*Math.sin(gam))); }
+function aMax(VE, gam){ return VE*VE*Math.sin(gam)/(2*Math.E*H); }
+function hStar(gam, beta){ return H*Math.log(RHO0*H/(beta*Math.sin(gam))); }
+function profile(VE, gam, beta, rn){
+  var pts = [], peakA = 0, hA = 0, peakQ = 0, hQ = 0, Q = 0, t = 0, prev = null;
+  for(var h = 130000; h >= 0; h -= 100){
+    var V = speedAt(h, VE, gam, beta), r = rho(h), a = r*V*V/(2*beta), q = KSG*Math.sqrt(r/rn)*V*V*V;
+    if(prev){ var dt = 100/(0.5*(V + prev.V)*Math.sin(gam)); Q += 0.5*(q + prev.q)*dt; t += dt; }
+    if(a > peakA){ peakA = a; hA = h; } if(q > peakQ){ peakQ = q; hQ = h; }
+    pts.push({h:h, V:V, a:a, q:q}); prev = {V:V, q:q};
+  }
+  return {pts:pts, peakA:peakA, hA:hA, peakQ:peakQ, hQ:hQ, Q:Q, t:t, vGround:pts[pts.length - 1].V};
+}
+var dV = document.getElementById('dV'), dG = document.getElementById('dG'), dB = document.getElementById('dB'), hR = document.getElementById('hR');
+function cur(){ return {VE:+dV.value*1000, gam:+dG.value*Math.PI/180, beta:Math.pow(10, +dB.value), rn:Math.pow(10, +hR.value)}; }
+
+/* ============ CH2 — DECELERATION ============ */
+function renderDec(){
+  var c = cur(), P = profile(c.VE, c.gam, c.beta, c.rn), am = aMax(c.VE, c.gam), hs = hStar(c.gam, c.beta);
+  document.getElementById('dVVal').textContent = fmt(c.VE/1000, 2) + T(' km/s',' км/с');
+  document.getElementById('dGVal').textContent = fmt(+dG.value, 2) + '°';
+  document.getElementById('dBVal').textContent = fmtInt(c.beta) + T(' kg/m²',' кг/м²');
+  var svg = document.getElementById('decSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 250, gmax = Math.max(10, Math.ceil(am/G0/10)*10);
+  function X(g){ return L + g/gmax*(R - L); }
+  function Y(h){ return B - h/100000*(B - Tp); }
+  [0,20000,40000,60000,80000,100000].forEach(function(h){ ns('line', {x1:L, y1:Y(h), x2:R, y2:Y(h), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(h) + 3, h/1000, 'svg-small', 'end'); });
+  for(var gg = 0; gg <= gmax; gg += gmax/5) txt(svg, X(gg), B + 14, fmtInt(gg), 'svg-small', 'middle');
+  txt(svg, R, B + 28, T('deceleration, g','перегрузка, g'), 'svg-small', 'end'); txt(svg, L, 13, T('altitude, km','высота, км'), 'svg-small');
+  // other β for comparison (same peak height in g)
+  [Math.pow(10, 1.9), Math.pow(10, 3.6)].forEach(function(b){
+    var Q = profile(c.VE, c.gam, b, c.rn), d = '';
+    Q.pts.forEach(function(p, i){ if(p.h <= 100000) d += (d ? 'L' : 'M') + X(p.a/G0).toFixed(1) + ' ' + Y(p.h).toFixed(1); });
+    ns('path', {d:d, fill:'none', stroke:'#c9c9c1', 'stroke-width':1.2}, svg);
+  });
+  var d = '';
+  P.pts.forEach(function(p){ if(p.h <= 100000) d += (d ? 'L' : 'M') + X(p.a/G0).toFixed(1) + ' ' + Y(p.h).toFixed(1); });
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('line', {x1:X(am/G0), y1:Tp, x2:X(am/G0), y2:B, stroke:'#b5452a', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, X(am/G0) - 4, Tp + 10, T('Allen–Eggers peak','пик по Аллену — Эггерсу'), 'svg-small', 'end');
+  if(6.56 < gmax){ ns('line', {x1:X(6.56), y1:Tp, x2:X(6.56), y2:B, stroke:'#2f5aa1', 'stroke-dasharray':'2 3'}, svg); txt(svg, X(6.56) + 4, B - 6, T('Apollo 11 actual, with lift: 6.56 g','«Аполлон-11» реально, с подъёмной силой: 6,56 g'), 'svg-small'); }
+  var ok = hs > 0;
+  cells(document.getElementById('decReadout'), [
+    [T('PEAK DECELERATION','ПИКОВАЯ ПЕРЕГРУЗКА'), fmt(am/G0, 1) + ' g'],
+    [T('ALTITUDE OF THE PEAK','ВЫСОТА ПИКА'), ok ? fmt(hs/1000, 1) + T(' km',' км') : T('below ground','ниже земли')],
+    [T('SPEED AT THE PEAK','СКОРОСТЬ В ПИКЕ'), fmt(c.VE*Math.exp(-0.5)/1000, 2) + T(' km/s (61 %)',' км/с (61 %)')],
+    [T('SPEED AT 10 km (NO GRAVITY)','СКОРОСТЬ НА 10 км (БЕЗ ТЯГОТЕНИЯ)'), fmtInt(speedAt(10000, c.VE, c.gam, c.beta)) + T(' m/s',' м/с')]
+  ]);
+  hud1.textContent = fmt(am/G0, 1) + ' g';
+  document.getElementById('decStatus').innerHTML = !ok
+    ? T('<b>Too dense to slow down:</b> this body would reach the ground before its peak deceleration — like a heavy warhead.','<b>Слишком «плотное» тело:</b> оно достигнет земли раньше пика перегрузки — как тяжёлая боеголовка.')
+    : T('The grey curves are much lighter and much heavier bodies on the same path: their peaks sit higher or lower in the sky, but reach the same g.','Серые кривые — гораздо более лёгкое и гораздо более тяжёлое тело на том же пути: их пики выше или ниже в небе, но перегрузка та же.');
+  renderHeat();
+}
+[dV, dG, dB].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById('decPre'), null); renderDec(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#decPre .btn'), function(btn){
+  btn.addEventListener('click', function(){ dV.value = this.getAttribute('data-v'); dG.value = this.getAttribute('data-g'); pressGroup(this.parentNode, this); renderDec(); });
+});
+
+/* ============ CH4 — HEATING ============ */
+function renderHeat(){
+  if(!hR) return;
+  var c = cur(), P = profile(c.VE, c.gam, c.beta, c.rn), P2 = profile(c.VE, c.gam, c.beta, 0.1);
+  document.getElementById('hRVal').textContent = fmt(c.rn, c.rn < 1 ? 2 : 1) + T(' m',' м');
+  var svg = document.getElementById('heatSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 250, qmax = Math.max(1, Math.ceil(Math.max(P.peakQ, P2.peakQ)/1e6/5)*5);
+  function X(q){ return L + q/1e6/qmax*(R - L); }
+  function Y(h){ return B - h/100000*(B - Tp); }
+  [0,20000,40000,60000,80000,100000].forEach(function(h){ ns('line', {x1:L, y1:Y(h), x2:R, y2:Y(h), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(h) + 3, h/1000, 'svg-small', 'end'); });
+  for(var k = 0; k <= qmax + 1e-9; k += qmax/5) txt(svg, X(k*1e6), B + 14, fmt(k, qmax < 10 ? 1 : 0), 'svg-small', 'middle');
+  txt(svg, R, B + 28, T('heating rate, MW/m²','тепловой поток, МВт/м²'), 'svg-small', 'end'); txt(svg, L, 13, T('altitude, km','высота, км'), 'svg-small');
+  function path(Pr, col, w){ var d = ''; Pr.pts.forEach(function(p){ if(p.h <= 100000) d += (d ? 'L' : 'M') + X(p.q).toFixed(1) + ' ' + Y(p.h).toFixed(1); }); ns('path', {d:d, fill:'none', stroke:col, 'stroke-width':w}, svg); }
+  path(P2, '#c9c9c1', 1.2); txt(svg, X(P2.peakQ) - 4, Y(P2.hQ) - 6, T('10 cm nose','нос 10 см'), 'svg-small', 'end');
+  path(P, '#b5452a', 2);
+  ns('line', {x1:X(3.25e6), y1:Tp, x2:X(3.25e6), y2:B, stroke:'#2f5aa1', 'stroke-dasharray':'2 3'}, svg);
+  txt(svg, X(3.25e6) + 4, Tp + 10, T('Apollo 11 measured peak','измеренный пик «Аполлона-11»'), 'svg-small');
+  cells(document.getElementById('heatReadout'), [
+    [T('PEAK HEATING RATE','ПИКОВЫЙ ТЕПЛОВОЙ ПОТОК'), fmt(P.peakQ/1e6, 2) + T(' MW/m²',' МВт/м²')],
+    [T('AT ALTITUDE','НА ВЫСОТЕ'), fmt(P.hQ/1000, 1) + T(' km',' км')],
+    [T('TOTAL HEAT LOAD','ПОЛНАЯ ТЕПЛОВАЯ НАГРУЗКА'), fmtInt(P.Q/1e6) + T(' MJ/m²',' МДж/м²')],
+    [T('VS. A 10 cm NOSE','ПРОТИВ НОСА 10 см'), fmt(P.peakQ/P2.peakQ*100, 0) + ' %']
+  ]);
+  hud2.textContent = fmt(P.peakQ/1e6, 1) + T(' MW/m²',' МВт/м²');
+  document.getElementById('heatStatus').innerHTML = T('Heating ∝ 1/√r<sub>n</sub>: a nose ','Нагрев ∝ 1/√r<sub>n</sub>: нос в ') + fmt(c.rn/0.1, 1) + T(' times wider than 10 cm feels ',' раз шире 10 см получает ') + fmt(P.peakQ/P2.peakQ*100, 0) + T(' % of the heating. Capsules use the widest nose they can carry.',' % нагрева. Капсулы делают с самым широким носом, какой могут нести.');
+}
+hR.addEventListener('input', renderHeat);
+
+/* ============ CH6 — TIMELINE ============ */
+var TIMELINE = [
+  ['1958', 'Allen and Eggers publish the ballistic entry analysis and the case for blunt bodies (NACA Report 1381) [1].', 'Аллен и Эггерс публикуют анализ баллистического входа и обоснование тупых тел (доклад NACA 1381) [1].'],
+  ['1968', '<b>22 October:</b> Apollo 7 returns from orbit, 25,846 ft/s, peak 3.33 g. <b>27 December:</b> Apollo 8, the first crewed return from the Moon, 36,221 ft/s, 6.84 g [3].', '<b>22 октября:</b> «Аполлон-7» возвращается с орбиты, 25 846 фут/с, пик 3,33 g. <b>27 декабря:</b> «Аполлон-8» — первое возвращение экипажа от Луны, 36 221 фут/с, 6,84 g [3].'],
+  ['1969', '<b>24 July:</b> Apollo 11 enters at 36,194 ft/s, −6.48°, peak 6.56 g [3].', '<b>24 июля:</b> «Аполлон-11» входит со скоростью 36 194 фут/с под углом −6,48°, пик 6,56 g [3].'],
+  ['1971', 'Sutton and Graves publish a stagnation-point heating equation for arbitrary gas mixtures (NASA TR R-376) [2].', 'Саттон и Грейвс публикуют формулу нагрева в точке торможения для произвольных газовых смесей (NASA TR R-376) [2].'],
+  ['2006', '<b>15 January:</b> Stardust returns at 12.9 km/s under a PICA heat shield, the fastest Earth entry [4][5].', '<b>15 января:</b> Stardust возвращается со скоростью 12,9 км/с под экраном PICA — самый быстрый вход в атмосферу Земли [4][5].'],
+  ['2022', 'Artemis I: Orion\'s skip entry; char loss found on the Avcoat heat shield [6].', '«Артемида-1»: вход «Ориона» с рикошетом; обнаружены потери обугленного слоя экрана Avcoat [6].'],
+  ['2024', '<b>December:</b> NASA identifies the cause — trapped gas in the Avcoat [6].', '<b>Декабрь:</b> NASA устанавливает причину — газ, запертый в Avcoat [6].'],
+  ['2026', '<b>10 April:</b> Artemis II splashes down; char loss significantly reduced [7].', '<b>10 апреля:</b> приводнение «Артемиды-2»; потери обугленного слоя значительно меньше [7].']
+];
+
+/* ============ CH7 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'H. J. Allen, A. J. Eggers Jr. (1958), “A study of the motion and aerodynamic heating of ballistic missiles entering the earth\'s atmosphere at high supersonic speeds”, NACA Report 1381', url:'https://ntrs.nasa.gov/citations/19930091020', note:{en:'Maximum deceleration independent of mass, size and drag coefficient — set only by entry speed and flight-path angle; blunt, high-drag shapes minimise heat delivered to light bodies.', ru:'Максимальная перегрузка не зависит от массы, размера и коэффициента сопротивления — её задают только скорость и угол входа; тупые формы с большим сопротивлением минимизируют тепло, передаваемое лёгким телам.'}},
+  {title:'K. Sutton, R. A. Graves Jr. (1971), “A general stagnation-point convective heating equation for arbitrary gas mixtures”, NASA TR R-376', url:'https://ntrs.nasa.gov/citations/19720003329', note:{en:'Stagnation-point heating ∝ √(ρ/r_n), with a heat-transfer coefficient for air of about 0.11 in the report\'s units.', ru:'Нагрев в точке торможения ∝ √(ρ/r_n), коэффициент теплопередачи для воздуха около 0,11 в единицах доклада.'}},
+  {title:'R. W. Orloff (2000), Apollo by the Numbers, NASA SP-2000-4029 — “Entry, Splashdown, and Recovery”', url:'https://www.nasa.gov/wp-content/uploads/2023/04/sp-4029.pdf', note:{en:'Entry speeds, flight-path angles, peak g, lift-to-drag ratio (~0.3), peak heating rates and heat loads for Apollo 7–17: Apollo 11 36,194.4 ft/s, −6.48°, 6.56 g, 286 BTU/ft²/s, 26,482 BTU/ft², 929.3 s.', ru:'Скорости и углы входа, пиковые перегрузки, аэродинамическое качество (~0,3), пиковые потоки и тепловые нагрузки «Аполлонов» 7–17: «Аполлон-11» — 36 194,4 фут/с, −6,48°, 6,56 g, 286 БТЕ/фут²/с, 26 482 БТЕ/фут², 929,3 с.'}},
+  {title:'P. N. Desai et al. (2006), “Entry, Descent, and Landing Operations Analysis for the Stardust Re-Entry Capsule”, AIAA-2006-6410', url:'https://ntrs.nasa.gov/citations/20060028186', note:{en:'Landing 15 January 2006 in Utah; entry at 12.9 km/s inertial, the highest of any Earth-returning mission; Apollo 11.0 km/s; 0.8 m capsule, 60° sphere-cone.', ru:'Посадка 15 января 2006 в Юте; вход на 12,9 км/с (инерциальная), самый быстрый среди возвращаемых аппаратов; у «Аполлонов» 11,0 км/с; капсула 0,8 м, сфера-конус 60°.'}},
+  {title:'NASA Ames, Thermal Protection Materials Branch — Low Density Ablators', url:'https://www.nasa.gov/general/thermal-protection-materials-branch-low-density-ablators/', note:{en:'PICA developed at Ames in the 1980s for Stardust, density ~0.27 g/cm³; heritage on Dragon (2012) and the 4.5 m MSL heat shield.', ru:'PICA создан в Ames в 1980-х для Stardust, плотность ~0,27 г/см³; применялся на Dragon (2012) и 4,5-метровом экране MSL.'}},
+  {title:'NASA (2024), “NASA Identifies Cause of Artemis I Orion Heat Shield Char Loss”', url:'https://www.nasa.gov/missions/artemis/nasa-identifies-cause-of-artemis-i-orion-heat-shield-char-loss/', note:{en:'Skip entry; gases inside the Avcoat could not vent, causing cracking and char loss; 121 tests in eight campaigns.', ru:'Вход с рикошетом; газы внутри Avcoat не могли выйти, что вызвало растрескивание и потерю обугленного слоя; 121 испытание в восьми сериях.'}},
+  {title:'NASA (2026), “NASA on Track for Future Missions with Initial Artemis II Assessments”', url:'https://www.nasa.gov/missions/nasa-on-track-for-future-missions-with-initial-artemis-ii-assessments/', note:{en:'Artemis II launched 1 April and splashed down 10 April 2026; nearly 35 times the speed of sound at entry; char loss significantly reduced.', ru:'«Артемида-2» стартовала 1 апреля и приводнилась 10 апреля 2026; почти 35 скоростей звука при входе; потери обугленного слоя значительно меньше.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderDec();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__entry = {profile:profile, aMax:aMax, hStar:hStar, speedAt:speedAt, rho:rho, KSG:KSG};
+
+})();
+</script>
+</body>
+</html>
