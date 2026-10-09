@@ -44,7 +44,8 @@
       "id": "sun",
       "title": { "en": "The Sun & Small Bodies", "ru": "Солнце и малые тела" },
       "pages": [
-        { "slug": "corona-parker-solar-orbiter", "codename": "CORONA", "label": { "en": "Parker Solar Probe & Solar Orbiter", "ru": "Parker Solar Probe и Solar Orbiter" } }
+        { "slug": "corona-parker-solar-orbiter", "codename": "CORONA", "label": { "en": "Parker Solar Probe & Solar Orbiter", "ru": "Parker Solar Probe и Solar Orbiter" } },
+        { "slug": "comet-rosetta-philae", "codename": "COMET", "label": { "en": "Rosetta & Philae", "ru": "«Розетта» и «Филы»" } }
       ]
     },
     {

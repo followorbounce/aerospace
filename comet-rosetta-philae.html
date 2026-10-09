@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMET — ROSETTA &amp;amp; PHILAE / КОМЕТА — «РОЗЕТТА» И «ФИЛЫ»</title>
+<meta name="description" content="An interactive field guide to ESA's Rosetta mission: ten years and four planetary flybys to catch comet 67P/Churyumov–Gerasimenko, hibernating far from the Sun, orbiting a 10-billion-tonne body at walking pace, Philae's bouncing landing where escape speed is under 1 m/s, and what the comet's water, oxygen and glycine say about the early Solar System.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/comet-rosetta-philae">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="COMET — ROSETTA &amp;amp; PHILAE / КОМЕТА — «РОЗЕТТА» И «ФИЛЫ»">
+<meta property="og:description" content="Orbits at centimetres per second, a landing where one bounce could mean escape, and solar power at 5 AU — Rosetta and Philae, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/comet-rosetta-philae">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">COMET — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE COMET</span></div>
+  <div class="hud-row"><span class="hud-label">DISTANCE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">SPEED</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE COMET">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 12 NOVEMBER 2014, 15:34 UT" data-ru="РИС. 00 — 12 НОЯБРЯ 2014, 15:34 UT">FIG. 00 — 12 NOVEMBER 2014, 15:34 UT</span></span>
+        <span>67P/C–G · 533 kg/m³</span>
+      </div>
+      <h1><span data-en="COMET" data-ru="КОМЕТА">COMET</span><br><em data-en="ROSETTA AND PHILAE" data-ru="«РОЗЕТТА» И «ФИЛЫ»">ROSETTA AND PHILAE</em></h1>
+      <p class="sub lede" data-en="Rosetta spent ten years chasing a comet four kilometres across, then flew alongside it for two more, through its closest approach to the Sun. It dropped a lander that bounced, because on a comet a fridge-sized robot weighs about as much as a sheet of paper. Eight chapters and three instruments: orbit a comet at a few centimetres per second, drop a lander and see whether it stays, and watch the solar power fade as Rosetta goes out to Jupiter's distance and hibernates." data-ru="«Розетта» десять лет догоняла комету размером четыре километра, а затем ещё два года летела рядом с ней, пройдя вместе с ней ближайшую к Солнцу точку. Она сбросила посадочный аппарат, который отскочил, — ведь на комете робот размером с холодильник весит примерно как лист бумаги. Восемь глав и три прибора: облетите комету со скоростью несколько сантиметров в секунду, сбросьте посадочный аппарат и проверьте, удержится ли он, и посмотрите, как гаснет солнечная энергия, когда «Розетта» уходит к орбите Юпитера и засыпает.">Rosetta chased a comet for ten years and landed Philae on it.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY -->
+<section id="ch1" class="section" data-phase="THE COMET">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 08</span> — <span data-en="LEFTOVERS FROM THE BEGINNING" data-ru="ОСТАТКИ НАЧАЛА">LEFTOVERS FROM THE BEGINNING</span></div>
+    <h2 class="h-lg" data-en="A cornerstone mission to a different comet than planned" data-ru="Краеугольная миссия — к другой комете, чем планировалось">A cornerstone mission to a different comet than planned</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Comets are leftovers from the formation of the planets, kept cold in the outer Solar System for four and a half billion years. Earlier probes, such as ESA's Giotto at Halley's Comet in 1986, flew past at tens of kilometres per second and saw a comet for minutes. <b>Rosetta</b>, one of ESA's “cornerstone” missions, was designed to do something no one had tried: match a comet's orbit, stay with it, and put a lander on its surface [1][7]." data-ru="Кометы — остатки эпохи образования планет, четыре с половиной миллиарда лет хранившиеся в холоде на окраинах Солнечной системы. Прежние зонды, например «Джотто» ЕКА у кометы Галлея в 1986 году, пролетали мимо на скоростях в десятки километров в секунду и видели комету считаные минуты. <b>«Розетта»</b>, одна из «краеугольных» миссий ЕКА, задумывалась для того, чего ещё никто не пытался сделать: выйти на орбиту кометы, остаться с ней и посадить на неё аппарат [1][7].">Rosetta was designed to match a comet's orbit and land on it.</p>
+      <p class="body-col" data-en="It was meant to fly to comet 46P/Wirtanen, but an Ariane 5 failure delayed the launch, and the mission was redirected to <b>67P/Churyumov–Gerasimenko</b>. Rosetta and its 100 kg lander Philae, 3,000 kg together, left Earth on 2 March 2004 [1]. The names come from Egypt: the Rosetta Stone and an obelisk from the island of Philae, which together let scholars decipher hieroglyphs — the hope was that this pair would decode the early Solar System." data-ru="Её готовили к комете 46P/Виртанена, но авария «Ариана-5» отложила запуск, и миссию перенацелили на <b>67P/Чурюмова — Герасименко</b>. «Розетта» и её посадочный модуль «Филы» массой 100 кг, вместе 3000 кг, стартовали 2 марта 2004 года [1]. Имена пришли из Египта: Розеттский камень и обелиск с острова Филе вместе позволили расшифровать иероглифы — была надежда, что эта пара расшифрует раннюю Солнечную систему.">Rosetta was redirected to 67P after a launch delay.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — THE CHASE -->
+<section id="ch2" class="section" data-phase="THE CHASE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 08</span> — <span data-en="TEN YEARS TO CATCH UP" data-ru="ДЕСЯТЬ ЛЕТ ДОГОНЯ">TEN YEARS TO CATCH UP</span></div>
+    <h2 class="h-lg" data-en="Four planetary flybys, two asteroids and a long sleep" data-ru="Четыре пролёта планет, два астероида и долгий сон">Four planetary flybys, two asteroids and a long sleep</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="No rocket could put Rosetta straight onto the comet's orbit, so it borrowed speed: Earth in March 2005, a risky pass just 250 km above Mars in February 2007, Earth again in November 2007 and November 2009. On the way it flew by the asteroids Steins (800 km, 2008) and Lutetia (3,162 km, 2010), a 130 km battered world [1]." data-ru="Никакая ракета не могла вывести «Розетту» сразу на орбиту кометы, поэтому она занимала скорость у планет: Земля в марте 2005 года, рискованный пролёт всего в 250 км над Марсом в феврале 2007-го, снова Земля в ноябре 2007-го и ноябре 2009-го. По пути она пролетела мимо астероидов Штейнс (800 км, 2008) и Лютеция (3162 км, 2010) — изрытого кратерами мира размером 130 км [1].">Rosetta used four planetary flybys.</p>
+      <p class="body-col" data-en="Then the problem of power. Rosetta ran on solar panels, and its orbit took it out beyond Jupiter's, where sunlight is only a few percent of what reaches Earth. In June 2011 it was put into <b>hibernation</b>, with almost everything switched off. On 20 January 2014 its internal alarm clock woke it, and it signalled that all was well [1]. Slide the distance below to see why it had to sleep." data-ru="Затем — проблема энергии. «Розетта» работала на солнечных батареях, а её орбита уводила её за орбиту Юпитера, где солнечного света лишь несколько процентов от земного. В июне 2011 года её перевели в <b>спячку</b>, отключив почти всё. 20 января 2014 года её внутренний будильник разбудил её, и она сообщила, что всё в порядке [1]. Передвиньте расстояние ниже, чтобы понять, почему ей пришлось спать.">Rosetta hibernated from June 2011 to January 2014.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="powerSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Solar power available against distance from the Sun"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="pR" data-en="DISTANCE FROM THE SUN" data-ru="РАССТОЯНИЕ ОТ СОЛНЦА">DISTANCE FROM THE SUN</label><span class="v" id="pRVal">—</span></div>
+          <input id="pR" type="range" min="0.8" max="5.5" step="0.01" value="3">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="pNeed" data-en="POWER NEEDED (FRACTION OF 1 AU OUTPUT)" data-ru="НУЖНАЯ МОЩНОСТЬ (ДОЛЯ ОТ ВЫРАБОТКИ НА 1 а.е.)">POWER NEEDED (FRACTION OF 1 AU OUTPUT)</label><span class="v" id="pNeedVal">—</span></div>
+          <input id="pNeed" type="range" min="0.01" max="0.3" step="0.005" value="0.06">
+        </div>
+        <div class="readout-grid" id="powerReadout"></div>
+        <div class="status" id="powerStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Inverse-square law only; real solar cells also lose efficiency in the cold and dim light far from the Sun, which makes the problem worse." data-ru="Только закон обратных квадратов; реальные солнечные элементы вдали от Солнца ещё и теряют эффективность при холоде и слабом свете, что усугубляет проблему.">Inverse-square law only.</p>
+  </div>
+</section>
+
+<!-- CH3 — ORBITING A COMET -->
+<section id="ch3" class="section" data-phase="ORBIT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 08</span> — <span data-en="ORBITING A MOUNTAIN" data-ru="НА ОРБИТЕ ВОКРУГ ГОРЫ">ORBITING A MOUNTAIN</span></div>
+    <h2 class="h-lg" data-en="Slower than walking, a lap every two weeks" data-ru="Медленнее пешехода, виток раз в две недели">Slower than walking, a lap every two weeks</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 6 August 2014, 405 million km from Earth, Rosetta finished ten braking manoeuvres and arrived at 67P, a two-lobed “rubber duck” about 4 km long. By September it was in a roughly 29 km orbit: the first spacecraft ever to orbit a comet's nucleus [1]. Tracking Rosetta's motion gave the comet's mass, <b>about 1.0 × 10¹³ kg</b>, and with its volume a density of <b>533 kg/m³</b>, about half that of water [2]: the nucleus is mostly empty space, a loose pile of ice and dust." data-ru="6 августа 2014 года, в 405 млн км от Земли, «Розетта» завершила десять тормозных манёвров и прибыла к 67P — двухлопастной «резиновой уточке» длиной около 4 км. К сентябрю она была на орбите радиусом около 29 км — первый аппарат на орбите вокруг кометного ядра [1]. Слежение за движением «Розетты» дало массу кометы — <b>около 1,0 × 10¹³ кг</b>, а вместе с объёмом — плотность <b>533 кг/м³</b>, примерно половину плотности воды [2]: ядро в основном пустое, рыхлая груда льда и пыли.">Rosetta became the first spacecraft to orbit a comet; 67P's density is 533 kg/m³.</p>
+      <p class="body-col" data-en="With so little mass, gravity is feeble. An orbit at 30 km needs a speed of about <b>15 cm/s</b>, slower than a slow walk, and takes about two weeks per lap. The comet's lumpy shape and the gas jets it blows off push the spacecraft around as much as gravity holds it, so Rosetta's orbits were constantly adjusted. Choose a distance below." data-ru="При такой малой массе тяготение ничтожно. Орбита на 30 км требует скорости около <b>15 см/с</b> — медленнее неспешного шага — и одного витка примерно за две недели. Неправильная форма кометы и выбрасываемые ею газовые струи толкают аппарат не меньше, чем его удерживает тяготение, поэтому орбиты «Розетты» постоянно корректировали. Выберите расстояние ниже.">An orbit at 30 km needs about 15 cm/s.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="CIRCULAR ORBIT AND ESCAPE SPEED ABOUT A SMALL BODY" data-ru="КРУГОВАЯ ОРБИТА И СКОРОСТЬ УБЕГАНИЯ У МАЛОГО ТЕЛА">CIRCULAR ORBIT AND ESCAPE SPEED ABOUT A SMALL BODY</div>
+      <div class="eq-body">v<sub>c</sub> = √(GM/r) &nbsp;·&nbsp; T = 2π r / v<sub>c</sub> &nbsp;·&nbsp; v<sub>esc</sub> = √(2GM/r) &nbsp;·&nbsp; g = GM/r²</div>
+      <div class="eq-note" data-en="M = 9.982 × 10¹² kg [2]; G = 6.674 × 10⁻¹¹ m³/(kg·s²). The comet is treated as a point mass, which is fair at 30 km but not near its irregular surface." data-ru="M = 9,982 × 10¹² кг [2]; G = 6,674 × 10⁻¹¹ м³/(кг·с²). Комета считается точечной массой — разумно на 30 км, но не у её неправильной поверхности.">M = 9.982 × 10¹² kg.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="cOrbSvg" class="sim-svg" viewBox="0 0 480 340" role="img" aria-label="Rosetta orbiting the comet at the chosen distance"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="cR" data-en="ORBIT RADIUS" data-ru="РАДИУС ОРБИТЫ">ORBIT RADIUS</label><span class="v" id="cRVal">—</span></div>
+          <input id="cR" type="range" min="3" max="100" step="0.5" value="30">
+        </div>
+        <div class="readout-grid" id="cOrbReadout"></div>
+        <div class="status" id="cOrbStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — PHILAE -->
+<section id="ch4" class="section" data-phase="PHILAE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 08</span> — <span data-en="THREE LANDINGS IN TWO HOURS" data-ru="ТРИ ПОСАДКИ ЗА ДВА ЧАСА">THREE LANDINGS IN TWO HOURS</span></div>
+    <h2 class="h-lg" data-en="Philae: every way to hold on failed at once" data-ru="«Филы»: все способы зацепиться отказали сразу">Philae: every way to hold on failed at once</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 12 November 2014 at 08:35 UT, Philae separated and fell for seven hours toward the site Agilkia, arriving at about 1 m/s. It had three ways to stay put: a cold-gas thruster to press it down, two harpoons, and ice screws in its feet. The thruster had already shown a fault before release. At touchdown the harpoons did not fire, and the ice screws met a surface harder than expected [1][6]." data-ru="12 ноября 2014 года в 08:35 UT «Филы» отделились и семь часов падали к площадке Агилкия, подойдя со скоростью около 1 м/с. Было три способа удержаться: двигатель на холодном газе, прижимающий к поверхности, два гарпуна и ледобуры в опорах. Двигатель показал неисправность ещё до отделения. При касании гарпуны не выстрелили, а ледобуры встретили поверхность твёрже ожидаемой [1][6].">All three ways for Philae to hold on failed.</p>
+      <p class="body-col" data-en="So Philae bounced. It touched down at 15:34 UT, rose and came down again at 17:25, hopped once more and stopped at 17:31, about a kilometre from the target, in the shadow of a cliff at Abydos [1]. It still ran its first science sequence on battery power — 57 hours on the surface — then went silent. It woke briefly in June–July 2015, and Rosetta finally spotted it in close-up images in September 2016 [1]. Below: how high would a bounce carry you on 67P?" data-ru="Поэтому «Филы» отскочили. Касание в 15:34 UT, подъём и новое касание в 17:25, ещё один прыжок и остановка в 17:31 — примерно в километре от цели, в тени обрыва у Абидоса [1]. И всё же аппарат выполнил первую научную программу на батареях — 57 часов на поверхности — и замолчал. Он ненадолго проснулся в июне–июле 2015 года, а разглядеть его на снимках «Розетта» смогла лишь в сентябре 2016 года [1]. Ниже: насколько высоко унесёт отскок на 67P?">Philae bounced and stopped in shadow at Abydos.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="bounceSvg" class="sim-svg" viewBox="0 0 480 320" role="img" aria-label="Height of a bounce on the comet for a given rebound speed, compared with escape"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="bV" data-en="REBOUND SPEED" data-ru="СКОРОСТЬ ОТСКОКА">REBOUND SPEED</label><span class="v" id="bVVal">—</span></div>
+          <input id="bV" type="range" min="0.01" max="1.2" step="0.01" value="0.38">
+        </div>
+        <div class="readout-grid" id="bounceReadout"></div>
+        <div class="status" id="bounceStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Surface gravity from a sphere of the comet's mass and density (radius ≈ 1.65 km). The real comet is two-lobed and spins in about 12.4 hours, so local gravity varies and is partly cancelled by rotation; this is a rough, uniform-gravity estimate." data-ru="Поверхностное тяготение — для шара с массой и плотностью кометы (радиус ≈ 1,65 км). Настоящая комета двухлопастная и вращается примерно за 12,4 часа, поэтому местное тяготение различается и частично компенсируется вращением; это грубая оценка при однородном поле.">Rough uniform-gravity estimate.</p>
+  </div>
+</section>
+
+<!-- CH5 — FINDINGS -->
+<section id="ch5" class="section" data-phase="FINDINGS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 08</span> — <span data-en="WHAT THE COMET IS MADE OF" data-ru="ИЗ ЧЕГО СОСТОИТ КОМЕТА">WHAT THE COMET IS MADE OF</span></div>
+    <h2 class="h-lg" data-en="The wrong kind of water, free oxygen and an amino acid" data-ru="«Не та» вода, свободный кислород и аминокислота">The wrong kind of water, free oxygen and an amino acid</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Where did Earth's oceans come from? One test is the ratio of heavy hydrogen (deuterium) to ordinary hydrogen in water, a fingerprint of where the ice formed. Rosetta's ROSINA mass spectrometer measured a D/H ratio of <b>(5.3 ± 0.7) × 10⁻⁴</b> in 67P's water, about <b>three times</b> that of Earth's oceans [3]. Comets like 67P therefore cannot have supplied most of Earth's water; asteroids became the stronger candidate." data-ru="Откуда взялись океаны Земли? Одна из проверок — отношение тяжёлого водорода (дейтерия) к обычному в воде, «отпечаток» места, где образовался лёд. Масс-спектрометр ROSINA «Розетты» измерил в воде 67P отношение D/H, равное <b>(5,3 ± 0,7) × 10⁻⁴</b>, примерно <b>втрое</b> больше, чем в земных океанах [3]. Значит, кометы вроде 67P не могли дать большую часть воды Земли; более вероятными кандидатами стали астероиды.">67P's water has three times Earth's D/H ratio.</p>
+      <p class="body-col" data-en="Two more surprises. The comet's coma contained abundant <b>molecular oxygen</b>, O₂, which was expected to have reacted away long ago; its presence suggests the oxygen was frozen in when the comet formed [4]. And Rosetta detected the amino acid <b>glycine</b> and the element <b>phosphorus</b>, both ingredients of life, in the gas around the comet [5]. Comets carry the raw materials of chemistry that, on Earth, became biology." data-ru="Ещё два сюрприза. В коме кометы оказалось много <b>молекулярного кислорода</b> O₂, который, как считалось, давно должен был прореагировать; его присутствие говорит, что кислород вмёрз при образовании кометы [4]. А ещё «Розетта» обнаружила в газе вокруг кометы аминокислоту <b>глицин</b> и элемент <b>фосфор</b> — оба необходимы для жизни [5]. Кометы несут сырьё той химии, которая на Земле стала биологией.">Rosetta found molecular oxygen, glycine and phosphorus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — THE END -->
+<section id="ch6" class="section" data-phase="FINALE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 08</span> — <span data-en="PERIHELION AND A CONTROLLED LANDING" data-ru="ПЕРИГЕЛИЙ И УПРАВЛЯЕМАЯ ПОСАДКА">PERIHELION AND A CONTROLLED LANDING</span></div>
+    <h2 class="h-lg" data-en="Riding the comet to the Sun, then joining Philae" data-ru="Вместе с кометой к Солнцу — а затем к «Филам»">Riding the comet to the Sun, then joining Philae</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Rosetta stayed with 67P as it swung through perihelion on 13 August 2015, 186 million km from the Sun, when its jets of gas and dust were at their strongest — the first time a spacecraft watched a comet “switch on” from close up [1]. With so much gas and dust around the nucleus, it flew farther out during the most active months." data-ru="«Розетта» оставалась с 67P, когда та 13 августа 2015 года прошла перигелий в 186 млн км от Солнца и её газопылевые струи достигли максимума, — впервые аппарат вблизи наблюдал, как комета «включается» [1]. Из-за обилия газа и пыли вокруг ядра в самые активные месяцы он держался дальше.">Rosetta watched the comet at perihelion in 2015.</p>
+      <p class="body-col" data-en="As the comet headed back out toward Jupiter's orbit, there would again be too little sunlight to keep Rosetta going. Instead of hibernating a second time, ESA chose a finale: on 30 September 2016 Rosetta was guided down onto the comet from 19 km, taking pictures and sampling gas all the way, and contact ended at touchdown [1]. Both halves of the mission now rest on 67P." data-ru="Когда комета вновь направилась к орбите Юпитера, солнечного света снова не хватило бы для работы «Розетты». Вместо второй спячки ЕКА выбрало финал: 30 сентября 2016 года «Розетту» с высоты 19 км направили на комету, снимая и анализируя газ до самого конца, и связь прервалась в момент касания [1]. Обе половины миссии теперь покоятся на 67P.">On 30 September 2016 Rosetta was guided onto the comet.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — LEGACY -->
+<section id="ch7" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 08</span> — <span data-en="LEGACY: TWELVE YEARS WITH A COMET" data-ru="НАСЛЕДИЕ: ДВЕНАДЦАТЬ ЛЕТ С КОМЕТОЙ">LEGACY: TWELVE YEARS WITH A COMET</span></div>
+    <h2 class="h-lg" data-en="From launch to a landing of its own" data-ru="От старта — до собственной посадки">From launch to a landing of its own</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="The lander bounced, the orbiter had to keep its distance, and the comet's water turned out to be the wrong kind. That is what discovery looks like up close." data-ru="Посадочный аппарат отскочил, орбитальному пришлось держаться на расстоянии, а вода кометы оказалась «не той». Так открытие и выглядит вблизи.">That is what discovery looks like up close.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — REFERENCES -->
+<section id="ch8" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 08</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS: 67P (Pätzold et al. 2016 [2]) ============ */
+var G_N = 6.674e-11, M_67P = 9.982e12, RHO_67P = 533;
+var GM_67P = G_N*M_67P;                                           // m³/s²
+var R_EQ = Math.pow(3*M_67P/(4*Math.PI*RHO_67P), 1/3);            // m, equal-volume sphere
+function circ(rm){ var v = Math.sqrt(GM_67P/rm); return {v:v, T:2*Math.PI*rm/v, vesc:Math.sqrt(2*GM_67P/rm), g:GM_67P/(rm*rm)}; }
+
+/* ============ CH2 — SOLAR POWER ============ */
+var pR = document.getElementById('pR'), pNeed = document.getElementById('pNeed');
+function powerFrac(au){ return 1/(au*au); }
+function renderPower(){
+  var r = +pR.value, need = +pNeed.value, f = powerFrac(r), rMax = 1/Math.sqrt(need);
+  document.getElementById('pRVal').textContent = fmt(r, 2) + T(' AU',' а.е.');
+  document.getElementById('pNeedVal').textContent = fmt(need*100, 1) + ' %';
+  var svg = document.getElementById('powerSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 20, B = 250;
+  function X(a){ return L + (a - 0.8)/(5.5 - 0.8)*(R - L); }
+  function Y(p){ return B - Math.log10(Math.max(p, 0.01) / 0.01)/Math.log10(1.6/0.01)*(B - Tp); }
+  [0.01,0.03,0.1,0.3,1].forEach(function(p){ ns('line', {x1:L, y1:Y(p), x2:R, y2:Y(p), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(p) + 3, (p*100) + '%', 'svg-small', 'end'); });
+  [1,2,3,4,5].forEach(function(a){ txt(svg, X(a), B + 14, a + T(' AU',' а.е.'), 'svg-small', 'middle'); });
+  txt(svg, L, 13, T('solar power, % of output at 1 AU (log)','солнечная мощность, % от выработки на 1 а.е. (лог.)'), 'svg-small');
+  [[1, T('Earth','Земля')], [1.52, T('Mars','Марс')], [5.2, T('Jupiter','Юпитер')]].forEach(function(m){ ns('line', {x1:X(m[0]), y1:Tp, x2:X(m[0]), y2:B, stroke:'#c9c9c1', 'stroke-dasharray':'2 3'}, svg); txt(svg, X(m[0]) + 3, Tp + 10, m[1], 'svg-small'); });
+  ns('rect', {x:Math.min(R, X(Math.max(0.8, rMax))), y:Tp, width:Math.max(0, R - X(Math.max(0.8, rMax))), height:B - Tp, fill:'#2f5aa1', opacity:0.08}, svg);
+  if(rMax < 5.5) txt(svg, (X(rMax) + R)/2, B - 8, T('must hibernate','нужна спячка'), 'svg-small', 'middle');
+  ns('line', {x1:L, y1:Y(need), x2:R, y2:Y(need), stroke:'#2f5aa1', 'stroke-dasharray':'5 3'}, svg);
+  var d = '';
+  for(var a = 0.8; a <= 5.5001; a += 0.05) d += (a === 0.8 ? 'M' : 'L') + X(a).toFixed(1) + ' ' + Y(powerFrac(a)).toFixed(1);
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(r), cy:Y(f), r:5, fill: f >= need ? '#0b0b0c' : '#b5452a'}, svg);
+  cells(document.getElementById('powerReadout'), [
+    [T('POWER AVAILABLE','ДОСТУПНАЯ МОЩНОСТЬ'), fmt(f*100, 1) + T(' % of 1 AU',' % от 1 а.е.')],
+    [T('FARTHEST DISTANCE AWAKE','МАКС. РАССТОЯНИЕ БЕЗ СПЯЧКИ'), fmt(rMax, 2) + T(' AU',' а.е.')]
+  ]);
+  hud1.textContent = fmt(r, 2) + T(' AU',' а.е.');
+  document.getElementById('powerStatus').innerHTML = f >= need
+    ? T('Enough sunlight to keep working.','Солнечного света достаточно для работы.')
+    : T('<b>Not enough power.</b> Switch off everything but the heaters and the clock, and sleep until the Sun is close again — as Rosetta did from June 2011 to January 2014.','<b>Мощности не хватает.</b> Отключить всё, кроме нагревателей и часов, и спать, пока Солнце снова не приблизится, — как «Розетта» с июня 2011 по январь 2014 года.');
+}
+[pR, pNeed].forEach(function(el){ el.addEventListener('input', renderPower); });
+
+/* ============ CH3 — ORBIT AROUND 67P ============ */
+var cR = document.getElementById('cR'), cAng = 0, cDot = null, cGeom = null;
+function renderCOrb(){
+  var rkm = +cR.value, C = circ(rkm*1000);
+  document.getElementById('cRVal').textContent = fmt(rkm, 1) + T(' km',' км');
+  var svg = document.getElementById('cOrbSvg'); svg.innerHTML = '';
+  var cx = 240, cy = 175, sc = 140/100;      // 100 km → 140 px
+  var ro = rkm*sc;
+  // two-lobed nucleus to scale (about 4.1 km and 2.6 km lobes)
+  ns('ellipse', {cx:cx - 1.0*sc, cy:cy, rx:2.05*sc, ry:1.6*sc, fill:'#6f6c64'}, svg);
+  ns('ellipse', {cx:cx + 2.0*sc, cy:cy - 0.6*sc, rx:1.3*sc, ry:1.1*sc, fill:'#6f6c64'}, svg);
+  ns('circle', {cx:cx, cy:cy, r:ro, fill:'none', stroke:'#0b0b0c', 'stroke-dasharray':'4 3'}, svg);
+  cGeom = {cx:cx, cy:cy, ro:ro, T:C.T};
+  cDot = ns('rect', {x:cx + ro - 4, y:cy - 4, width:8, height:8, fill:'#b5452a'}, svg);
+  txt(svg, 12, 20, T('to scale: 100 km = 140 px · nucleus ≈ 4 km','в масштабе: 100 км = 140 пикс. · ядро ≈ 4 км'), 'svg-small');
+  cells(document.getElementById('cOrbReadout'), [
+    [T('ORBITAL SPEED','ОРБИТАЛЬНАЯ СКОРОСТЬ'), fmt(C.v*100, 1) + T(' cm/s',' см/с')],
+    [T('IN KM/H','В КМ/Ч'), fmt(C.v*3.6, 2)],
+    [T('ONE LAP','ОДИН ВИТОК'), fmt(C.T/86400, 1) + T(' days',' сут')],
+    [T('ESCAPE SPEED HERE','СКОРОСТЬ УБЕГАНИЯ ЗДЕСЬ'), fmt(C.vesc*100, 1) + T(' cm/s',' см/с')]
+  ]);
+  hud2.textContent = fmt(C.v*100, 1) + T(' cm/s',' см/с');
+  document.getElementById('cOrbStatus').innerHTML = T('A walking pace is about 140 cm/s. Here a single burn of a few cm/s changes the orbit completely — and the comet\'s own gas jets push harder than that.','Скорость пешехода — около 140 см/с. Здесь импульс в несколько сантиметров в секунду полностью меняет орбиту, а газовые струи самой кометы толкают сильнее.');
+}
+cR.addEventListener('input', renderCOrb);
+visibleLoop(document.getElementById('cOrbSvg'), function(dt){
+  if(!cDot || !cGeom) return;
+  cAng += dt*2*Math.PI/(reduced() ? 20 : 7);
+  cDot.setAttribute('x', cGeom.cx + cGeom.ro*Math.cos(cAng) - 4); cDot.setAttribute('y', cGeom.cy - cGeom.ro*Math.sin(cAng) - 4);
+});
+
+/* ============ CH4 — BOUNCE ============ */
+var bV = document.getElementById('bV');
+function bounce(v){ var S = circ(R_EQ), g = S.g; var esc = v >= S.vesc; return {g:g, vesc:S.vesc, esc:esc, h: esc ? Infinity : (v*v/(2*g))/(1 - v*v/(S.vesc*S.vesc)), tFlat:2*v/g}; }
+function renderBounce(){
+  var v = +bV.value, B = bounce(v);
+  document.getElementById('bVVal').textContent = fmt(v*100, 0) + T(' cm/s',' см/с');
+  var svg = document.getElementById('bounceSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 20, Bt = 270;
+  function X(vv){ return L + vv/1.2*(R - L); }
+  function Y(hm){ return Bt - Math.log10(Math.max(hm, 1))/4*(Bt - Tp); }      // 1 m … 10 km
+  [1,10,100,1000,10000].forEach(function(h){ ns('line', {x1:L, y1:Y(h), x2:R, y2:Y(h), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(h) + 3, h >= 1000 ? (h/1000) + T(' km',' км') : h + T(' m',' м'), 'svg-small', 'end'); });
+  [0,0.3,0.6,0.9,1.2].forEach(function(vv){ txt(svg, X(vv), Bt + 14, fmt(vv*100, 0), 'svg-small', 'middle'); });
+  txt(svg, R, Bt + 28, T('rebound speed, cm/s','скорость отскока, см/с'), 'svg-small', 'end'); txt(svg, L, 13, T('peak height (log)','высота подъёма (лог.)'), 'svg-small');
+  var d = '';
+  for(var vv = 0.02; vv < B.vesc; vv += 0.005){ var hh = bounce(vv).h; if(hh > 1e4) break; d += (d ? 'L' : 'M') + X(vv).toFixed(1) + ' ' + Y(hh).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('rect', {x:X(B.vesc), y:Tp, width:R - X(B.vesc), height:Bt - Tp, fill:'#b5452a', opacity:0.08}, svg);
+  ns('line', {x1:X(B.vesc), y1:Tp, x2:X(B.vesc), y2:Bt, stroke:'#b5452a', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, X(B.vesc) + 4, Tp + 12, T('escapes the comet','улетает с кометы'), 'svg-small');
+  ns('line', {x1:X(1.0), y1:Tp, x2:X(1.0), y2:Bt, stroke:'#2f5aa1', 'stroke-dasharray':'2 3'}, svg);
+  txt(svg, X(1.0) - 4, Bt - 6, T('Philae arrived at ~1 m/s','«Филы» подошли на ~1 м/с'), 'svg-small', 'end');
+  if(!B.esc && B.h < 1e4) ns('circle', {cx:X(v), cy:Y(B.h), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('bounceReadout'), [
+    [T('SURFACE GRAVITY','ТЯГОТЕНИЕ НА ПОВЕРХНОСТИ'), fmt(B.g*1e4, 2) + T(' × 10⁻⁴ m/s²',' × 10⁻⁴ м/с²')],
+    [T('100 kg WEIGHS LIKE','100 кг ВЕСЯТ КАК'), fmt(100*B.g/9.80665*1000, 1) + T(' g on Earth',' г на Земле')],
+    [T('ESCAPE SPEED','СКОРОСТЬ УБЕГАНИЯ'), fmt(B.vesc*100, 0) + T(' cm/s',' см/с')],
+    [T('PEAK HEIGHT','ВЫСОТА ПОДЪЁМА'), B.esc ? T('gone','улетел') : (B.h < 1000 ? fmtInt(B.h) + T(' m',' м') : fmt(B.h/1000, 1) + T(' km',' км'))]
+  ]);
+  document.getElementById('bounceStatus').innerHTML = B.esc
+    ? T('<b>Faster than escape speed:</b> the lander would leave the comet for good.','<b>Быстрее скорости убегания:</b> аппарат навсегда покинул бы комету.')
+    : T('A rebound of ','Отскок на ') + fmt(v*100, 0) + T(' cm/s — about a slow shuffle — carries the lander hundreds of metres up and keeps it airborne for the better part of an hour or more. Philae\'s first hop lasted almost two hours [1].',' см/с — как медленный шаг — уносит аппарат на сотни метров вверх и держит в полёте почти час и дольше. Первый прыжок «Фил» длился почти два часа [1].');
+}
+bV.addEventListener('input', renderBounce);
+
+/* ============ CH7 — TIMELINE ============ */
+var TIMELINE = [
+  ['2004', '<b>2 March:</b> Rosetta and Philae launch on an Ariane 5.', '<b>2 марта:</b> старт «Розетты» и «Фил» на «Ариане-5».'],
+  ['2005–09', 'Gravity assists: Earth (2005), Mars at 250 km (2007), Earth (2007, 2009).', 'Гравитационные манёвры: Земля (2005), Марс на 250 км (2007), Земля (2007, 2009).'],
+  ['2008', 'Flyby of asteroid Steins at 800 km.', 'Пролёт астероида Штейнс на 800 км.'],
+  ['2010', 'Flyby of asteroid Lutetia at 3,162 km.', 'Пролёт астероида Лютеция на 3162 км.'],
+  ['2011–14', 'Hibernation, June 2011 – 20 January 2014.', 'Спячка с июня 2011 по 20 января 2014.'],
+  ['2014', '<b>6 August:</b> arrival at 67P. <b>12 November:</b> Philae lands three times and settles at Abydos.', '<b>6 августа:</b> прибытие к 67P. <b>12 ноября:</b> «Филы» трижды касаются поверхности и останавливаются у Абидоса.'],
+  ['2015', 'D/H ratio published (January); Philae wakes briefly (June–July); comet perihelion on 13 August.', 'Опубликовано отношение D/H (январь); «Филы» ненадолго просыпаются (июнь–июль); перигелий кометы 13 августа.'],
+  ['2016', '<b>September:</b> Philae spotted in images; <b>30 September:</b> Rosetta ends its mission on the comet.', '<b>Сентябрь:</b> «Филы» найдены на снимках; <b>30 сентября:</b> «Розетта» завершает миссию на комете.']
+];
+
+/* ============ CH8 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'A. A. Siddiqi (2018), Beyond Earth: A Chronicle of Deep Space Exploration, 1958–2016, NASA SP-2018-4041', url:'https://www.nasa.gov/wp-content/uploads/2018/09/beyond-earth-tagged.pdf', note:{en:'Rosetta and Philae: target change from 46P, flybys, Steins and Lutetia, hibernation, arrival, the 29 km orbit, the landing times, 57 h on the surface, perihelion at 186 million km and the end of mission.', ru:'«Розетта» и «Филы»: смена цели с 46P, пролёты, Штейнс и Лютеция, спячка, прибытие, орбита 29 км, время посадок, 57 ч на поверхности, перигелий на 186 млн км и завершение миссии.'}},
+  {title:'M. Pätzold et al. (2016), “A homogeneous nucleus for comet 67P/Churyumov–Gerasimenko from its gravity field”, Nature 530', url:'https://doi.org/10.1038/nature16535', note:{en:'Mass (9.982 ± 0.003) × 10¹² kg and bulk density 533 ± 6 kg/m³ from Rosetta radio tracking.', ru:'Масса (9,982 ± 0,003) × 10¹² кг и средняя плотность 533 ± 6 кг/м³ по радиослежению за «Розеттой».'}},
+  {title:'K. Altwegg et al. (2015), “67P/Churyumov-Gerasimenko, a Jupiter family comet with a high D/H ratio”, Science 347', url:'https://doi.org/10.1126/science.1261952', note:{en:'D/H = (5.3 ± 0.7) × 10⁻⁴ measured by ROSINA, about three times the terrestrial ocean value.', ru:'D/H = (5,3 ± 0,7) × 10⁻⁴ по измерениям ROSINA — примерно втрое больше, чем в земном океане.'}},
+  {title:'A. Bieler et al. (2015), “Abundant molecular oxygen in the coma of comet 67P/Churyumov–Gerasimenko”, Nature 526', url:'https://doi.org/10.1038/nature15707', note:{en:'O₂ as a major coma species, interpreted as primordial.', ru:'O₂ как один из основных компонентов комы, интерпретируемый как первичный.'}},
+  {title:'K. Altwegg et al. (2016), “Prebiotic chemicals — amino acid and phosphorus — in the coma of comet 67P/Churyumov-Gerasimenko”, Science Advances 2', url:'https://doi.org/10.1126/sciadv.1600285', note:{en:'Detection of glycine and phosphorus.', ru:'Обнаружение глицина и фосфора.'}},
+  {title:'J. Biele et al. (2015), “The landing(s) of Philae and inferences about comet surface mechanical properties”, Science 349', url:'https://doi.org/10.1126/science.aaa9816', note:{en:'Reconstruction of Philae\'s multiple touchdowns, rebound parameters and the surface strength at Agilkia and Abydos.', ru:'Реконструкция многократных касаний «Фил», параметров отскока и прочности поверхности у Агилкии и Абидоса.'}},
+  {title:'ESA, Rosetta mission pages', url:'https://www.esa.int/Science_Exploration/Space_Science/Rosetta', note:{en:'ESA\'s overview of the Rosetta mission, its instruments and results.', ru:'Обзор ЕКА: миссия «Розетта», её приборы и результаты.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderPower();
+  renderCOrb();
+  renderBounce();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__comet = {circ:circ, bounce:bounce, R_EQ:R_EQ, GM_67P:GM_67P, powerFrac:powerFrac};
+
+})();
+</script>
+</body>
+</html>
