@@ -9,6 +9,10 @@
 Home: https://followorbounce.github.io/aerospace/
 Machine-readable index of every page: https://followorbounce.github.io/aerospace/pages.json
 
+## Dawn of the Space Age
+
+- [Sputnik, Explorer & the First Satellites](https://followorbounce.github.io/aerospace/beep-sputnik-explorer): the first satellites of 1957–58 — Kepler orbits of Sputnik 1/2 and Explorer 1, the Doppler curve that let APL fit Sputnik's orbit and became Transit navigation (with an audible pass), Laika, the Geiger-counter dead-time paradox that revealed the Van Allen belts, Explorer 1's major-axis tumble, and Vanguard 1's pear-shaped Earth.
+
 ## Space Stations
 
 - [ISS & Mir](https://followorbounce.github.io/aerospace/iss-and-mir): orbital mechanics, the ISS, and Mir.

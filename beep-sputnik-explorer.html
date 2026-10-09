@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEEP — SPUTNIK, EXPLORER &amp;amp; THE FIRST SATELLITES / БИП — СПУТНИК, «ЭКСПЛОРЕР» И ПЕРВЫЕ СПУТНИКИ</title>
+<meta name="description" content="An interactive field guide to the first artificial satellites, 1957–58: how the R-7 put Sputnik 1 into orbit, how its radio beeps let physicists work out its orbit from the Doppler shift, Laika and Sputnik 2, how Explorer 1's Geiger counter discovered the Van Allen belts by going silent, why Explorer 1 tumbled, and how tiny Vanguard 1 showed the Earth is slightly pear-shaped.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/beep-sputnik-explorer">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BEEP — SPUTNIK, EXPLORER &amp;amp; THE FIRST SATELLITES / БИП — СПУТНИК, «ЭКСПЛОРЕР» И ПЕРВЫЕ СПУТНИКИ">
+<meta property="og:description" content="Kepler orbits, the Doppler curve that became satellite navigation, the dead-time paradox that revealed the radiation belts and the spin rule Explorer 1 broke — the first satellites, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/beep-sputnik-explorer">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">BEEP — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE RACE</span></div>
+  <div class="hud-row"><span class="hud-label">ORBIT</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">PERIOD</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE RACE">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 4 OCTOBER 1957, 19:28 UTC" data-ru="РИС. 00 — 4 ОКТЯБРЯ 1957, 19:28 UTC">FIG. 00 — 4 OCTOBER 1957, 19:28 UTC</span></span>
+        <span>20.005 MHz · 40.002 MHz</span>
+      </div>
+      <h1><span data-en="BEEP" data-ru="БИП">BEEP</span><br><em data-en="SPUTNIK, EXPLORER AND THE FIRST SATELLITES" data-ru="СПУТНИК, «ЭКСПЛОРЕР» И ПЕРВЫЕ СПУТНИКИ">SPUTNIK, EXPLORER AND THE FIRST SATELLITES</em></h1>
+      <p class="sub lede" data-en="In six months between October 1957 and March 1958, five small objects went into orbit and changed what people thought was possible. They carried almost nothing: a radio, a thermometer, a Geiger counter. Yet from their beeps, their silences and their wobbles came satellite navigation, the discovery of the radiation belts, a better map of the Earth's shape and a lesson in spacecraft design still taught today. Ten chapters and four instruments you can operate: fly their orbits, track Sputnik from its Doppler shift, find the radiation belts in a counter that reads zero, and watch Explorer 1 tumble." data-ru="За полгода, с октября 1957 по март 1958 года, на орбиту вышли пять небольших объектов — и изменили представление о возможном. Они почти ничего не несли: радиопередатчик, термометр, счётчик Гейгера. Но из их сигналов, их молчания и их покачиваний родились спутниковая навигация, открытие радиационных поясов, уточнённая форма Земли и урок конструирования, который преподают до сих пор. Десять глав и четыре прибора, которыми можно управлять: пролетите их орбиты, отследите «Спутник» по доплеровскому сдвигу, найдите радиационные пояса в счётчике, показывающем ноль, и посмотрите, как кувыркается «Эксплорер-1».">In six months, five small objects went into orbit and changed what people thought was possible.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE RACE -->
+<section id="ch1" class="section" data-phase="THE RACE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="A YEAR OF GEOPHYSICS, A MISSILE AND A BALL" data-ru="ГОД ГЕОФИЗИКИ, РАКЕТА И ШАР">A YEAR OF GEOPHYSICS, A MISSILE AND A BALL</span></div>
+    <h2 class="h-lg" data-en="The simplest satellite anyone could build" data-ru="Простейший спутник, какой только можно построить">The simplest satellite anyone could build</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Scientists had picked 1957–58 as the <b>International Geophysical Year</b>, eighteen months of coordinated measurements of the Earth, its atmosphere and the Sun. Both superpowers promised to launch a scientific satellite for it; the United States announced its plan on 29 July 1955 [1][2]. The American effort, Project Vanguard, was a new civilian rocket built to carry a carefully instrumented satellite. The Soviet effort rode on something far bigger: the <b>R-7</b>, the world's first intercontinental ballistic missile, which flew successfully for the first time on 21 August 1957." data-ru="Учёные объявили 1957–58 годы <b>Международным геофизическим годом</b> — полутора годами согласованных измерений Земли, её атмосферы и Солнца. Обе сверхдержавы пообещали запустить к нему научный спутник; США объявили о своём плане 29 июля 1955 года [1][2]. Американский проект «Авангард» был новой гражданской ракетой для тщательно оснащённого спутника. Советский проект опирался на нечто гораздо большее — <b>Р-7</b>, первую в мире межконтинентальную баллистическую ракету, впервые успешно слетавшую 21 августа 1957 года.">Both superpowers promised a scientific satellite for the International Geophysical Year.</p>
+      <p class="body-col" data-en="Sergei Korolev's design bureau had been building a heavy, instrument-laden satellite (it later flew as Sputnik 3), but it was running late. To be first, the team built a stand-in in weeks: <b>PS-1</b>, “the simplest satellite”. It was a polished aluminium sphere 58 cm across, filled with nitrogen, with four whip antennas and two radio transmitters powered by silver-zinc batteries. It weighed 83.6 kg [1][3]. Its only measurement was hidden in its beeps: the length of the pulses changed with the temperature and pressure inside the sphere, so a leak or overheating would show up in the signal." data-ru="КБ Сергея Королёва строило тяжёлый спутник с множеством приборов (позже он полетел как «Спутник-3»), но работа затягивалась. Чтобы успеть первыми, команда за несколько недель сделала замену — <b>ПС-1</b>, «простейший спутник». Это была полированная алюминиевая сфера диаметром 58 см, заполненная азотом, с четырьмя штыревыми антеннами и двумя радиопередатчиками на серебряно-цинковых батареях. Масса — 83,6 кг [1][3]. Единственное её «измерение» было спрятано в сигнале: длительность импульсов менялась с температурой и давлением внутри сферы, поэтому разгерметизация или перегрев были бы слышны.">PS-1 was a polished aluminium sphere with four antennas and two transmitters.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="cmp-table">
+        <thead><tr><th data-en="Satellite" data-ru="Спутник">Satellite</th><th data-en="Launched (UTC)" data-ru="Запуск (UTC)">Launched (UTC)</th><th data-en="Mass" data-ru="Масса">Mass</th><th data-en="Initial orbit" data-ru="Начальная орбита">Initial orbit</th><th data-en="What it did" data-ru="Что сделал">What it did</th></tr></thead>
+        <tbody id="satTable"></tbody>
+      </table>
+    </div>
+    <p class="note" data-en="Masses from NASA's chronology [3]. Orbits from Gunter's Space Page [4] and NASA [5]; published tables differ by a few kilometres because the first orbits were fitted from sparse early tracking (Sputnik 1 is also widely quoted as 215 × 939 km)." data-ru="Массы — по хронологии NASA [3]. Орбиты — по Gunter's Space Page [4] и NASA [5]; опубликованные таблицы расходятся на несколько километров, потому что первые орбиты восстанавливали по скудным ранним измерениям (для «Спутника-1» часто приводят и 215 × 939 км).">Masses from NASA's chronology; orbits from Gunter's Space Page and NASA.</p>
+  </div>
+</section>
+
+<!-- CH2 — THE ORBIT -->
+<section id="ch2" class="section" data-phase="THE ORBIT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="FALLING AROUND THE EARTH" data-ru="ПАДАЯ ВОКРУГ ЗЕМЛИ">FALLING AROUND THE EARTH</span></div>
+    <h2 class="h-lg" data-en="An ellipse, a period and two speeds" data-ru="Эллипс, период и две скорости">An ellipse, a period and two speeds</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The R-7's core stage released Sputnik at about 7.8 km/s, a little faster than the speed needed for a circle at that height, so the orbit came out as an <b>ellipse</b>: about 228 km at its lowest point (<b>perigee</b>) and 947 km at its highest (<b>apogee</b>) [4]. Everything about the orbit follows from those two numbers and the Earth's gravity. The average of the two distances from the Earth's centre is the <b>semi-major axis a</b>; Kepler's third law turns it into the period, and the vis-viva equation gives the speed anywhere on the ellipse." data-ru="Центральный блок Р-7 отделил «Спутник» на скорости около 7,8 км/с — чуть больше, чем нужно для круговой орбиты на этой высоте, поэтому орбита вышла <b>эллипсом</b>: около 228 км в низшей точке (<b>перигее</b>) и 947 км в высшей (<b>апогее</b>) [4]. Всё об орбите следует из этих двух чисел и тяготения Земли. Среднее из двух расстояний от центра Земли — <b>большая полуось a</b>; третий закон Кеплера превращает её в период, а уравнение «вис-вива» даёт скорость в любой точке эллипса.">The orbit follows from perigee, apogee and Earth's gravity.</p>
+      <p class="body-col" data-en="Pick a satellite below, or set your own perigee and apogee. The dot moves at the true relative speed (it solves Kepler's equation every frame), so you can see it rush through perigee and dawdle at apogee. Notice how much faster Explorer 1's orbit is at the bottom than at the top, and how a higher apogee lengthens the period: Explorer 1 took almost 20 minutes longer per lap than Sputnik 1 [5]." data-ru="Выберите спутник ниже или задайте свои перигей и апогей. Точка движется с истинной относительной скоростью (каждый кадр решается уравнение Кеплера), поэтому видно, как она проносится через перигей и медлит в апогее. Обратите внимание, насколько быстрее «Эксплорер-1» внизу, чем наверху, и как высокий апогей удлиняет период: виток «Эксплорера-1» был почти на 20 минут дольше, чем у «Спутника-1» [5].">Pick a satellite or set your own perigee and apogee.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="KEPLER'S THIRD LAW AND VIS-VIVA" data-ru="ТРЕТИЙ ЗАКОН КЕПЛЕРА И «ВИС-ВИВА»">KEPLER'S THIRD LAW AND VIS-VIVA</div>
+      <div class="eq-body">T = 2π √(a³/μ) &nbsp;·&nbsp; v² = μ (2/r − 1/a) &nbsp;·&nbsp; a = R + (h<sub>p</sub> + h<sub>a</sub>)/2</div>
+      <div class="eq-note" data-en="μ = GM = 398,600 km³/s² for the Earth, R = 6,371 km (mean radius) [6]. h_p and h_a are perigee and apogee heights above the surface." data-ru="μ = GM = 398 600 км³/с² для Земли, R = 6371 км (средний радиус) [6]. h_p и h_a — высоты перигея и апогея над поверхностью.">μ = 398,600 km³/s² for the Earth.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="orbitSvg" class="sim-svg" viewBox="0 0 480 400" role="img" aria-label="Earth to scale with the selected orbit; a dot moves along it at the true relative speed"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="size-pick" id="orbitPresets" role="group" aria-label="Satellite presets"></div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="hp" data-en="PERIGEE HEIGHT" data-ru="ВЫСОТА ПЕРИГЕЯ">PERIGEE HEIGHT</label><span class="v" id="hpVal">—</span></div>
+          <input id="hp" type="range" min="150" max="2000" step="1" value="228">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="ha" data-en="APOGEE HEIGHT" data-ru="ВЫСОТА АПОГЕЯ">APOGEE HEIGHT</label><span class="v" id="haVal">—</span></div>
+          <input id="ha" type="range" min="150" max="6000" step="1" value="947">
+        </div>
+        <div class="readout-grid" id="orbitReadout"></div>
+        <div class="status" id="orbitStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Two-body Kepler orbit around a spherical Earth: no drag, no oblateness, so it never decays. Real low orbits lose height to air drag; the IMPULSE field guide covers drag and Δv." data-ru="Кеплерова орбита двух тел вокруг сферической Земли: без сопротивления воздуха и сжатия Земли, поэтому она не затухает. Реальные низкие орбиты теряют высоту из-за сопротивления атмосферы; о сопротивлении и Δv — в справочнике IMPULSE.">Two-body Kepler orbit, no drag.</p>
+  </div>
+</section>
+
+<!-- CH3 — THE SIGNAL -->
+<section id="ch3" class="section" data-phase="THE SIGNAL">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="HEARING AN ORBIT" data-ru="УСЛЫШАТЬ ОРБИТУ">HEARING AN ORBIT</span></div>
+    <h2 class="h-lg" data-en="The beep that became satellite navigation" data-ru="Сигнал, ставший спутниковой навигацией">The beep that became satellite navigation</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Sputnik's transmitters were deliberately put on 20.005 and 40.002 MHz, frequencies any radio amateur could receive. Two young physicists at the Johns Hopkins Applied Physics Laboratory, William Guier and George Weiffenbach, started recording the 20 MHz signal on the Monday after launch and studied what everyone could hear: as Sputnik approached, its pitch was high; as it receded, low. That is the <b>Doppler effect</b>. The shift is f₀·v/c, where v is the speed along the line of sight: at most about 520 Hz for Sputnik, one part in 38,000 [7]." data-ru="Передатчики «Спутника» намеренно работали на частотах 20,005 и 40,002 МГц, доступных любому радиолюбителю. Два молодых физика из Лаборатории прикладной физики Университета Джонса Хопкинса, Уильям Гуйер и Джордж Вайффенбах, в понедельник после запуска начали записывать сигнал на 20 МГц и изучили то, что мог услышать каждый: пока «Спутник» приближался, тон был выше, при удалении — ниже. Это <b>эффект Доплера</b>. Сдвиг равен f₀·v/c, где v — скорость вдоль луча зрения: для «Спутника» не более ~520 Гц, одна 38-тысячная [7].">Guier and Weiffenbach recorded the Doppler shift of Sputnik's 20 MHz signal.</p>
+      <p class="body-col" data-en="Their insight was that the <b>shape</b> of the curve carries the geometry. The frequency always sweeps from +f₀v/c to −f₀v/c, but how steeply it crosses zero depends on how close the satellite passes: the slope at closest approach is f₀v²/(c·r_min). From one pass they could fit the whole orbit. Then their colleague Frank McClure turned it around: if you know the orbit, the same curve tells you where <b>you</b> are. That became <b>Transit</b>, the US Navy's satellite navigation system, operational from 1964 and the direct ancestor of GPS [7]." data-ru="Их догадка: геометрия заключена в <b>форме</b> кривой. Частота всегда проходит от +f₀v/c до −f₀v/c, но крутизна перехода через ноль зависит от того, насколько близко пролетает спутник: наклон в момент наибольшего сближения равен f₀v²/(c·r_min). По одному пролёту можно восстановить всю орбиту. Затем их коллега Фрэнк Макклюр перевернул задачу: если орбита известна, та же кривая говорит, где находитесь <b>вы</b>. Так появился <b>Transit</b> — спутниковая навигационная система ВМС США, работавшая с 1964 года, прямой предок GPS [7].">The shape of the Doppler curve carries the geometry; reversed, it became Transit.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="DOPPLER SHIFT OF A PASSING SATELLITE" data-ru="ДОПЛЕРОВСКИЙ СДВИГ ПРОЛЕТАЮЩЕГО СПУТНИКА">DOPPLER SHIFT OF A PASSING SATELLITE</div>
+      <div class="eq-body">Δf = −f₀ ṙ / c &nbsp;·&nbsp; ṙ = v² t / √(r²<sub>min</sub> + v²t²) &nbsp;·&nbsp; dΔf/dt|<sub>t=0</sub> = −f₀ v² / (c r<sub>min</sub>)</div>
+      <div class="eq-note" data-en="Straight-line pass at constant speed v; r_min is the distance at closest approach (t = 0). Measure the slope, and r_min follows." data-ru="Прямолинейный пролёт с постоянной скоростью v; r_min — расстояние в момент наибольшего сближения (t = 0). Измерьте наклон — и r_min известно.">Straight-line pass at constant speed.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="dopSvg" class="sim-svg" viewBox="0 0 480 340" role="img" aria-label="Doppler shift of Sputnik's 20 MHz signal during a pass, against time"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="dopH" data-en="SATELLITE HEIGHT" data-ru="ВЫСОТА СПУТНИКА">SATELLITE HEIGHT</label><span class="v" id="dopHVal">—</span></div>
+          <input id="dopH" type="range" min="200" max="1500" step="10" value="500">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dopX" data-en="YOUR DISTANCE FROM THE GROUND TRACK" data-ru="ВАШЕ РАССТОЯНИЕ ОТ ТРАССЫ">YOUR DISTANCE FROM THE GROUND TRACK</label><span class="v" id="dopXVal">—</span></div>
+          <input id="dopX" type="range" min="0" max="2000" step="10" value="300">
+        </div>
+        <div class="btn-row">
+          <button class="btn primary" id="dopPlay" aria-pressed="false" data-en="▶ LISTEN TO THE PASS" data-ru="▶ ПОСЛУШАТЬ ПРОЛЁТ">▶ LISTEN TO THE PASS</button>
+        </div>
+        <div class="readout-grid" id="dopReadout"></div>
+        <div class="status" id="dopStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="The sound is what anyone's 20 MHz receiver produced in 1957: Sputnik was deliberately set about 1 kHz off an exact 20 MHz, so the beat note was a 1 kHz tone plus or minus the Doppler shift, sliding from about 1,500 to 500 Hz over a pass [7]. Keyed on and off in 0.3 s pulses like Sputnik. The pitch slides by the real Doppler shift; the 15-minute pass is compressed into 15 seconds. Straight-line, flat-Earth pass geometry (fine near closest approach)." data-ru="Звук — то, что давал в 1957 году любой приёмник на 20 МГц: частоту «Спутника» намеренно сместили примерно на 1 кГц от ровных 20 МГц, поэтому биения давали тон 1 кГц плюс-минус доплеровский сдвиг — от ~1500 до ~500 Гц за пролёт [7]. С паузами, как у «Спутника» (импульсы по 0,3 с). Тон скользит на реальный доплеровский сдвиг; 15-минутный пролёт сжат до 15 секунд. Геометрия — прямолинейный пролёт над плоской Землёй (вблизи сближения это хорошее приближение).">Beat note against the receiver's oscillator, 1 kHz offset; pass compressed 60×.</p>
+  </div>
+</section>
+
+<!-- CH4 — SPUTNIK 2 -->
+<section id="ch4" class="section" data-phase="SPUTNIK 2">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="LAIKA" data-ru="ЛАЙКА">LAIKA</span></div>
+    <h2 class="h-lg" data-en="The first animal in orbit, and a truth told 45 years later" data-ru="Первое животное на орбите — и правда, рассказанная через 45 лет">The first animal in orbit, and a truth told 45 years later</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Khrushchev wanted another spectacle for the 40th anniversary of the revolution. Korolev's team built <b>Sputnik 2</b> in about four weeks and launched it on 3 November 1957, less than a month after the first. It weighed 508.3 kg [3] and carried a pressurised cabin with a dog, <b>Laika</b>, a stray from the streets of Moscow, plus instruments for solar ultraviolet and X-rays and for cosmic rays. It stayed attached to the R-7's core stage, which made it heavy and hard to cool." data-ru="Хрущёв хотел нового зрелища к 40-летию революции. Команда Королёва построила <b>«Спутник-2»</b> примерно за четыре недели и запустила его 3 ноября 1957 года — меньше чем через месяц после первого. Его масса — 508,3 кг [3]; он нёс герметичную кабину с собакой <b>Лайкой</b>, дворняжкой с московских улиц, и приборы для ультрафиолетового и рентгеновского излучения Солнца и космических лучей. Он остался соединённым с центральным блоком Р-7, из-за чего был тяжёлым и плохо охлаждался.">Sputnik 2 was built in about four weeks and carried the dog Laika.</p>
+      <p class="body-col" data-en="There was never a plan to bring Laika back: the technology for re-entry did not exist yet. For decades the official story was that she lived for about a week. In 2002, Dimitri Malashenkov of the Institute of Biomedical Problems in Moscow told the World Space Congress in Houston that telemetry showed the cabin's temperature and humidity climbing after launch, and that she had died of <b>overheating and stress</b> five to seven hours into the flight [8]. Her flight still showed something important: a mammal survives launch and weightlessness. Three years later, dogs Belka and Strelka orbited on Sputnik 5 and came home alive." data-ru="Возвращать Лайку не планировали: технологии спуска с орбиты ещё не было. Десятилетиями официальная версия гласила, что она прожила около недели. В 2002 году Дмитрий Малашенков из Института медико-биологических проблем в Москве рассказал на Всемирном космическом конгрессе в Хьюстоне, что, по телеметрии, температура и влажность в кабине после старта росли и что она погибла от <b>перегрева и стресса</b> через пять–семь часов полёта [8]. И всё же её полёт показал важное: млекопитающее переносит старт и невесомость. Через три года собаки Белка и Стрелка облетели Землю на «Спутнике-5» и вернулись живыми.">Laika died from overheating within hours; the truth came out in 2002.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — EXPLORER 1 -->
+<section id="ch5" class="section" data-phase="EXPLORER 1">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="AMERICA'S ANSWER IN 84 DAYS" data-ru="ОТВЕТ АМЕРИКИ ЗА 84 ДНЯ">AMERICA'S ANSWER IN 84 DAYS</span></div>
+    <h2 class="h-lg" data-en="A missile, a pencil-thin satellite and a Geiger counter" data-ru="Ракета, тонкий, как карандаш, спутник и счётчик Гейгера">A missile, a pencil-thin satellite and a Geiger counter</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 6 December 1957, the first Vanguard rose about a metre, lost thrust and exploded on live television [3]. The Army team under Wernher von Braun had a backup ready: the <b>Jupiter-C</b>, a lengthened Redstone missile topped by a spinning tub of scaled-down Sergeant solid rockets in clusters of 11, 3 and 1. Renamed Juno I, it flew on 31 January 1958 local time (1 February, 03:48 UTC) [5]. The Jet Propulsion Laboratory under William Pickering built the satellite; physicist <b>James Van Allen</b> of the University of Iowa supplied the main instrument. ABMA and JPL did the job in 84 days [5]." data-ru="6 декабря 1957 года первый «Авангард» поднялся примерно на метр, потерял тягу и взорвался в прямом телеэфире [3]. У армейской команды Вернера фон Брауна был запасной вариант — <b>Jupiter-C</b>: удлинённая ракета «Редстоун» с вращающейся «бочкой» уменьшенных твердотопливных двигателей «Сержант» в связках по 11, 3 и 1. Переименованная в Juno I, она стартовала 31 января 1958 года по местному времени (1 февраля, 03:48 UTC) [5]. Спутник построила Лаборатория реактивного движения под руководством Уильяма Пикеринга; главный прибор дал физик <b>Джеймс Ван Аллен</b> из Университета Айовы. ABMA и JPL справились за 84 дня [5].">After Vanguard exploded, the Army's Jupiter-C launched Explorer 1.</p>
+      <p class="body-col" data-en="Explorer 1 was a cylinder 2 m long including the empty last-stage motor it stayed attached to. Total mass 30.66 lb (13.9 kg), of which 18.35 lb (8.3 kg) was instruments: a cosmic-ray Geiger counter, temperature sensors and a micrometeorite detector, with two radios. It spun about its long axis at 750 revolutions per minute to stay stable [5]. Its orbit was far more eccentric than Sputnik's, 360 by 2,535 km, which took it high into a region no instrument had visited. What it found there was the first scientific discovery of the space age." data-ru="«Эксплорер-1» — цилиндр длиной 2 м вместе с пустым двигателем последней ступени, с которым он остался соединён. Общая масса 30,66 фунта (13,9 кг), из них 18,35 фунта (8,3 кг) — приборы: счётчик Гейгера для космических лучей, датчики температуры и датчик микрометеоритов, плюс два радиопередатчика. Для устойчивости он вращался вокруг продольной оси со скоростью 750 оборотов в минуту [5]. Его орбита была гораздо вытянутее, чем у «Спутника», — 360 на 2535 км, — и заводила его высоко, туда, где не бывал ни один прибор. То, что он там нашёл, стало первым научным открытием космической эры.">Explorer 1 spun at 750 rpm and climbed to 2,535 km.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — DEAD TIME -->
+<section id="ch6" class="section" data-phase="THE BELTS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="THE COUNTER THAT READ ZERO" data-ru="СЧЁТЧИК, ПОКАЗЫВАВШИЙ НОЛЬ">THE COUNTER THAT READ ZERO</span></div>
+    <h2 class="h-lg" data-en="Too much radiation looks like none at all" data-ru="Слишком много радиации выглядит как её полное отсутствие">Too much radiation looks like none at all</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="At low altitude Explorer 1's counter reported the cosmic-ray rate the team expected. But on parts of the orbit, high up, the reading dropped toward <b>zero</b>: a much lower count than anticipated [5]. A broken instrument? Van Allen's group checked against Explorer 3, launched on 26 March with a tape recorder, and saw the pattern: the count rose with height, then suddenly fell silent [9][10]. Van Allen's student Carl McIlwain tested a spare tube in an X-ray beam at the lab and found the answer: a Geiger tube needs a short time to recover after each pulse, its <b>dead time</b>, and if particles arrive faster than that, it never recovers and stops counting." data-ru="На малых высотах счётчик «Эксплорера-1» показывал ожидаемый уровень космических лучей. Но на части орбиты, высоко, показания падали почти до <b>нуля</b> — гораздо ниже ожидаемого [5]. Неисправность? Группа Ван Аллена сверилась с «Эксплорером-3», запущенным 26 марта с магнитофоном, и увидела закономерность: счёт рос с высотой, а затем внезапно замолкал [9][10]. Студент Ван Аллена Карл Макилвейн испытал запасную трубку в пучке рентгеновских лучей в лаборатории и нашёл ответ: трубке Гейгера после каждого импульса нужно короткое время на восстановление — <b>мёртвое время</b>, и если частицы приходят чаще, она не успевает восстановиться и перестаёт считать.">A Geiger tube saturated by too much radiation reads zero.</p>
+      <p class="body-col" data-en="So the silence meant not an empty region but one so intense that the counter was swamped. On 1 May 1958 Van Allen announced that the Earth is surrounded by zones of energetic particles trapped by its magnetic field, now called the <b>Van Allen belts</b> [9][11]. Slide the altitude below. The counter here follows the standard model for a “paralysable” detector, m = N·e<sup>−Nτ</sup>: as the true rate N climbs, the reading m rises, peaks at N = 1/τ and then collapses toward zero. Two very different altitudes can give the same reading, which is exactly why a single number from orbit was so confusing." data-ru="Значит, тишина означала не пустоту, а излучение настолько сильное, что счётчик захлёбывался. 1 мая 1958 года Ван Аллен объявил, что Землю окружают зоны энергичных частиц, захваченных её магнитным полем, — теперь их называют <b>поясами Ван Аллена</b> [9][11]. Двигайте высоту ниже. Счётчик здесь подчиняется стандартной модели «парализуемого» детектора m = N·e<sup>−Nτ</sup>: при росте истинной скорости N показание m растёт, достигает максимума при N = 1/τ и затем падает почти до нуля. Две очень разные высоты могут давать одинаковое показание — именно поэтому одно число с орбиты так сбивало с толку.">The silence meant a radiation intensity a thousand times the cosmic-ray level.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="PARALYSABLE DEAD-TIME MODEL" data-ru="МОДЕЛЬ ПАРАЛИЗУЕМОГО МЁРТВОГО ВРЕМЕНИ">PARALYSABLE DEAD-TIME MODEL</div>
+      <div class="eq-body">m = N · e<sup>−N τ</sup> &nbsp;·&nbsp; m<sub>max</sub> = 1 / (e τ) at N = 1/τ</div>
+      <div class="eq-note" data-en="N: true rate of particles through the tube; m: rate the counter records; τ: dead time (here 100 µs, typical for a Geiger tube). Each arrival during the dead time restarts it." data-ru="N — истинная частота частиц через трубку; m — регистрируемая частота; τ — мёртвое время (здесь 100 мкс, типично для трубки Гейгера). Каждая частица, пришедшая во время мёртвого времени, перезапускает его.">N true rate, m recorded rate, τ dead time.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="geigerSvg" class="sim-svg" viewBox="0 0 480 340" role="img" aria-label="True particle rate and the counter reading against altitude"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="gAlt" data-en="ALTITUDE" data-ru="ВЫСОТА">ALTITUDE</label><span class="v" id="gAltVal">—</span></div>
+          <input id="gAlt" type="range" min="300" max="2550" step="5" value="600">
+        </div>
+        <div class="readout-grid" id="geigerReadout"></div>
+        <div class="status" id="geigerStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="The counting formula is exact for a paralysable counter; the rise of the true rate with altitude is an illustrative smooth profile, not a belt model (the real flux also depends on latitude and longitude, and is strongest over the South Atlantic Anomaly)." data-ru="Формула счёта точна для парализуемого счётчика; рост истинной частоты с высотой — иллюстративный гладкий профиль, а не модель поясов (реальный поток зависит ещё от широты и долготы и максимален над Южно-Атлантической аномалией).">The counting formula is exact; the altitude profile is illustrative.</p>
+  </div>
+</section>
+
+<!-- CH7 — TUMBLE -->
+<section id="ch7" class="section" data-phase="THE TUMBLE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="WHY EXPLORER 1 FLIPPED OVER" data-ru="ПОЧЕМУ «ЭКСПЛОРЕР-1» ПЕРЕВЕРНУЛСЯ">WHY EXPLORER 1 FLIPPED OVER</span></div>
+    <h2 class="h-lg" data-en="A long, thin spinner is stable only if nothing inside it flexes" data-ru="Длинное тонкое тело устойчиво во вращении, только если внутри ничего не гнётся">A long, thin spinner is stable only if nothing inside it flexes</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Explorer 1 was spun about its long axis, the axis with the <b>smallest</b> moment of inertia. For a perfectly rigid body that is a stable spin. But its four whip antennas flexed with every wobble, turning a little rotational energy into heat each time. Soon after reaching orbit, the satellite was no longer spinning around its long axis but tumbling end over end [5][12]." data-ru="«Эксплорер-1» закрутили вокруг продольной оси — оси с <b>наименьшим</b> моментом инерции. Для идеально жёсткого тела такое вращение устойчиво. Но четыре его штыревые антенны изгибались при каждом покачивании, понемногу превращая энергию вращения в тепло. Вскоре после выхода на орбиту спутник уже не вращался вокруг длинной оси, а кувыркался через голову [5][12].">Explorer 1 spun about its minor axis; flexing antennas dissipated energy.</p>
+      <p class="body-col" data-en="Why? With no outside torque, the angular momentum H is fixed, but energy can leak away. The rotational energy for a given H is H²/2I, smallest when the body spins about its axis of <b>largest</b> moment of inertia. So any dissipation pushes a body toward a flat spin about its major axis. This is the <b>major-axis rule</b>; engineer Ron Bracewell explained Explorer 1's motion with it, and Peter Likins later wrote it into spacecraft design practice [12]. Compare the two shapes below." data-ru="Почему? Без внешнего момента сил момент импульса H сохраняется, но энергия может утекать. Энергия вращения при заданном H равна H²/2I и минимальна при вращении вокруг оси с <b>наибольшим</b> моментом инерции. Поэтому любая диссипация подталкивает тело к «плоскому» вращению вокруг главной оси с наибольшим моментом. Это <b>правило главной оси</b>; инженер Рон Брейсуэлл объяснил им движение «Эксплорера-1», а Питер Лайкинс позже вписал его в практику проектирования космических аппаратов [12]. Сравните две формы ниже.">Energy dissipation drives a body to spin about its major axis.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="ENERGY AT FIXED ANGULAR MOMENTUM" data-ru="ЭНЕРГИЯ ПРИ ПОСТОЯННОМ МОМЕНТЕ ИМПУЛЬСА">ENERGY AT FIXED ANGULAR MOMENTUM</div>
+      <div class="eq-body">E(θ) = H²/2 · [ cos²θ / I<sub>s</sub> + sin²θ / I<sub>t</sub> ]</div>
+      <div class="eq-note" data-en="θ: angle between the body's symmetry axis and H. I_s: moment about the symmetry axis, I_t: about a transverse axis. Losing energy moves θ toward whichever end of the curve is lower." data-ru="θ — угол между осью симметрии тела и H. I_s — момент инерции относительно оси симметрии, I_t — относительно поперечной оси. Потеря энергии сдвигает θ к тому концу кривой, который ниже.">θ: angle between symmetry axis and H.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="spinSvg" class="sim-svg" viewBox="0 0 480 360" role="img" aria-label="A spinning body: its symmetry axis cones around the fixed angular momentum and drifts as energy is lost"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Body shape">
+          <button class="btn active" id="shapeRod" aria-pressed="true" data-en="LONG ROD (EXPLORER 1)" data-ru="ДЛИННЫЙ СТЕРЖЕНЬ («ЭКСПЛОРЕР-1»)">LONG ROD (EXPLORER 1)</button>
+          <button class="btn" id="shapeDisc" aria-pressed="false" data-en="SQUAT DRUM" data-ru="ПРИЗЕМИСТЫЙ БАРАБАН">SQUAT DRUM</button>
+          <button class="btn" id="spinReset" data-en="↺ RESTART" data-ru="↺ ЗАНОВО">↺ RESTART</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="damp" data-en="ENERGY LOSS (ANTENNA FLEX)" data-ru="ПОТЕРИ ЭНЕРГИИ (ИЗГИБ АНТЕНН)">ENERGY LOSS (ANTENNA FLEX)</label><span class="v" id="dampVal">—</span></div>
+          <input id="damp" type="range" min="0" max="1" step="0.01" value="0.5">
+        </div>
+        <div class="readout-grid" id="spinReadout"></div>
+        <div class="status" id="spinStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Motion is computed from E(θ) with energy removed at a rate set by the slider; the precession is drawn at a fixed visual speed. Time is compressed: the real flip took a span of orbits, not seconds." data-ru="Движение вычисляется по E(θ) с отбором энергии со скоростью, заданной ползунком; прецессия показана с постоянной наглядной скоростью. Время сжато: реальный переворот занял несколько витков, а не секунды.">Motion from E(θ); time compressed.</p>
+  </div>
+</section>
+
+<!-- CH8 — VANGUARD -->
+<section id="ch8" class="section" data-phase="VANGUARD">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="THE GRAPEFRUIT THAT IS STILL UP THERE" data-ru="«ГРЕЙПФРУТ», КОТОРЫЙ ВСЁ ЕЩЁ ТАМ">THE GRAPEFRUIT THAT IS STILL UP THERE</span></div>
+    <h2 class="h-lg" data-en="1.47 kg, the first solar cells, and a pear-shaped Earth" data-ru="1,47 кг, первые солнечные батареи и Земля в форме груши">1.47 kg, the first solar cells, and a pear-shaped Earth</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Vanguard finally succeeded on 17 March 1958. <b>Vanguard 1</b> was a 16 cm aluminium sphere weighing 1.47 kg [3], which Khrushchev mocked as “the grapefruit”. It was the first satellite powered by <b>solar cells</b>; its solar-powered transmitter kept working until 1964, long after battery-powered satellites had fallen silent. Its orbit was high enough that it is still up there today, the oldest human-made object in orbit." data-ru="«Авангард» наконец добился успеха 17 марта 1958 года. <b>«Авангард-1»</b> — алюминиевая сфера 16 см массой 1,47 кг [3], которую Хрущёв высмеял как «грейпфрут». Это первый спутник с <b>солнечными батареями</b>; его передатчик на солнечном питании проработал до 1964 года — намного дольше спутников на батареях. Его орбита достаточно высока, чтобы он оставался там и сегодня: это старейший рукотворный объект на орбите.">Vanguard 1 was the first solar-powered satellite and is still in orbit.</p>
+      <p class="body-col" data-en="Precise tracking of its orbit showed small, regular changes that a perfectly symmetric Earth would not produce. In 1959 John O'Keefe and colleagues reported that the Earth has a slight <b>pear shape</b>: the southern hemisphere is a little fuller and the northern a little more pointed, by only tens of metres at most [13]. The satellite, carrying no instruments for the purpose, was itself the instrument. That idea, measuring the Earth by watching orbits change, became the science of satellite geodesy, the reason GPS today can place you on a correctly shaped Earth." data-ru="Точное слежение за его орбитой выявило небольшие регулярные изменения, которых не дала бы идеально симметричная Земля. В 1959 году Джон О'Киф с коллегами сообщили, что Земля слегка <b>грушевидна</b>: южное полушарие чуть «полнее», северное чуть «острее», не более чем на десятки метров [13]. Спутник, не имевший для этого приборов, сам стал прибором. Эта идея — измерять Землю по изменениям орбит — стала спутниковой геодезией, благодаря которой GPS сегодня помещает вас на Землю правильной формы.">Tracking Vanguard 1 revealed the Earth's pear shape.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — LEGACY -->
+<section id="ch9" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="LEGACY: EIGHTEEN MONTHS THAT STARTED EVERYTHING" data-ru="НАСЛЕДИЕ: ПОЛТОРА ГОДА, С КОТОРЫХ ВСЁ НАЧАЛОСЬ">LEGACY: EIGHTEEN MONTHS THAT STARTED EVERYTHING</span></div>
+    <h2 class="h-lg" data-en="From a ball with antennas to NASA, navigation and geodesy" data-ru="От шара с антеннами — к NASA, навигации и геодезии">From a ball with antennas to NASA, navigation and geodesy</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="None of them was built to discover anything big. A radio, a counter and a sphere of tracked metal did it anyway, because someone listened carefully to what they were saying." data-ru="Ни один из них не строили ради больших открытий. Радиопередатчик, счётчик и отслеживаемая металлическая сфера сделали их всё равно — потому что кто-то внимательно слушал, что они говорят.">None of them was built to discover anything big.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — REFERENCES -->
+<section id="ch10" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CH1 — SATELLITE TABLE ============ */
+var SATS = [
+  {n:['Sputnik 1','Спутник-1'], d:'1957-10-04', m:83.6, o:'228 × 947 km', w:['First satellite; radio beeps for 21 days','Первый спутник; радиосигналы 21 день']},
+  {n:['Sputnik 2','Спутник-2'], d:'1957-11-03', m:508.3, o:'212 × 1,660 km', w:['First animal in orbit (Laika)','Первое животное на орбите (Лайка)']},
+  {n:['Explorer 1','Эксплорер-1'], d:'1958-02-01', m:13.9, o:'360 × 2,535 km', w:['Discovered the radiation belts','Открыл радиационные пояса']},
+  {n:['Vanguard 1','Авангард-1'], d:'1958-03-17', m:1.47, o:'—', w:['First solar cells; still in orbit','Первые солнечные батареи; всё ещё на орбите']},
+  {n:['Explorer 3','Эксплорер-3'], d:'1958-03-26', m:14, o:'—', w:['Tape recorder confirmed the belts','Магнитофон подтвердил пояса']}
+];
+function renderSatTable(){
+  var tb = document.getElementById('satTable');
+  tb.innerHTML = SATS.map(function(s){
+    var o = s.o === '—' ? '—' : (lang === 'ru' ? s.o.replace(/,/g,' ').replace('km','км') : s.o);
+    return '<tr><td>'+s.n[lang === 'en' ? 0 : 1]+'</td><td class="n">'+s.d+'</td><td class="n">'+fmt(s.m, s.m < 10 ? 2 : 1)+T(' kg',' кг')+'</td><td class="n">'+o+'</td><td>'+s.w[lang === 'en' ? 0 : 1]+'</td></tr>';
+  }).join('');
+}
+
+/* ============ CH2 — ORBIT ============ */
+var ORBIT_PRESETS = [
+  {k:'s1', en:'SPUTNIK 1', ru:'СПУТНИК-1', hp:228, ha:947},
+  {k:'s2', en:'SPUTNIK 2', ru:'СПУТНИК-2', hp:212, ha:1660},
+  {k:'e1', en:'EXPLORER 1', ru:'ЭКСПЛОРЕР-1', hp:360, ha:2535},
+  {k:'iss', en:'ISS TODAY (~420 KM)', ru:'МКС СЕЙЧАС (~420 КМ)', hp:415, ha:425}
+];
+var orb = {hp:228, ha:947, preset:'s1', M:0};
+var hpEl = document.getElementById('hp'), haEl = document.getElementById('ha');
+function orbitElems(hp, ha){
+  var rp = R_E + hp, ra = R_E + ha, a = (rp + ra)/2, e = (ra - rp)/(ra + rp);
+  var T = 2*Math.PI*Math.sqrt(a*a*a/MU_E);
+  return {rp:rp, ra:ra, a:a, e:e, T:T, vp:Math.sqrt(MU_E*(2/rp - 1/a)), va:Math.sqrt(MU_E*(2/ra - 1/a))};
+}
+function keplerE(M, e){ var E = M; for(var i = 0; i < 12; i++) E -= (E - e*Math.sin(E) - M)/(1 - e*Math.cos(E)); return E; }
+function renderOrbitPresets(){
+  var w = document.getElementById('orbitPresets'); w.innerHTML = '';
+  ORBIT_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn' + (orb.preset === p.k ? ' active' : '');
+    b.setAttribute('aria-pressed', orb.preset === p.k ? 'true' : 'false');
+    b.textContent = lang === 'en' ? p.en : p.ru;
+    b.addEventListener('click', function(){ orb.preset = p.k; orb.hp = p.hp; orb.ha = p.ha; hpEl.value = p.hp; haEl.value = p.ha; renderOrbitPresets(); renderOrbit(); });
+    w.appendChild(b);
+  });
+}
+var orbitSvg = document.getElementById('orbitSvg'), orbitDot = null, orbitScale = 1, orbitCx = 0;
+function renderOrbit(){
+  var o = orbitElems(orb.hp, orb.ha);
+  document.getElementById('hpVal').textContent = fmtInt(orb.hp) + T(' km',' км');
+  document.getElementById('haVal').textContent = fmtInt(orb.ha) + T(' km',' км');
+  var svg = orbitSvg; svg.innerHTML = '';
+  var W = 480, H = 400, maxR = o.ra; orbitScale = 170/Math.max(maxR, R_E + 3000);
+  // ellipse: focus (Earth centre) at origin; centre offset by a·e toward apogee (to the left)
+  var cx = 250 + o.a*o.e*orbitScale*0.5, cy = 200; orbitCx = cx;
+  var aS = o.a*orbitScale, bS = o.a*Math.sqrt(1 - o.e*o.e)*orbitScale;
+  ns('ellipse', {cx:cx - o.a*o.e*orbitScale, cy:cy, rx:aS, ry:bS, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.2, 'stroke-dasharray':'4 3'}, svg);
+  ns('circle', {cx:cx, cy:cy, r:R_E*orbitScale, fill:'#e9eef5', stroke:'#0b0b0c', 'stroke-width':1}, svg);
+  txt(svg, cx, cy + 4, T('EARTH (TO SCALE)','ЗЕМЛЯ (В МАСШТАБЕ)'), 'svg-small', 'middle');
+  var px = cx + o.rp*orbitScale, ax = cx - o.ra*orbitScale;
+  ns('circle', {cx:px, cy:cy, r:2.5, fill:'#0b0b0c'}, svg); ns('circle', {cx:ax, cy:cy, r:2.5, fill:'#0b0b0c'}, svg);
+  txt(svg, Math.min(px + 6, 470), cy - 8, T('PERIGEE','ПЕРИГЕЙ'), 'svg-small', px > 400 ? 'end' : 'start');
+  txt(svg, Math.max(ax - 6, 10), cy - 8, T('APOGEE','АПОГЕЙ'), 'svg-small', ax < 80 ? 'start' : 'end');
+  orbitDot = ns('circle', {cx:px, cy:cy, r:5, fill:'#b5452a', stroke:'#fff', 'stroke-width':1.5}, svg);
+  txt(svg, 12, 20, T('a = ','a = ') + fmtInt(o.a) + T(' km',' км') + '   e = ' + fmt(o.e, 3), 'svg-label');
+  var perDay = 86400/o.T;
+  cells(document.getElementById('orbitReadout'), [
+    [T('PERIOD','ПЕРИОД'), fmt(o.T/60, 1) + T(' min',' мин')],
+    [T('ORBITS PER DAY','ВИТКОВ В СУТКИ'), fmt(perDay, 2)],
+    [T('SPEED AT PERIGEE','СКОРОСТЬ В ПЕРИГЕЕ'), fmt(o.vp, 2) + T(' km/s',' км/с')],
+    [T('SPEED AT APOGEE','СКОРОСТЬ В АПОГЕЕ'), fmt(o.va, 2) + T(' km/s',' км/с')]
+  ]);
+  hud1.textContent = fmtInt(orb.hp) + '×' + fmtInt(orb.ha) + T(' km',' км'); hud2.textContent = fmt(o.T/60, 1) + T(' min',' мин');
+  var p = ORBIT_PRESETS.filter(function(x){ return x.k === orb.preset; })[0];
+  var st = document.getElementById('orbitStatus');
+  if(p && p.k === 's1') st.innerHTML = T('Published period: <b>96.2 min</b> [4]. The two-body formula gives ','Опубликованный период: <b>96,2 мин</b> [4]. Формула двух тел даёт ') + '<b>' + fmt(o.T/60, 1) + T(' min','&nbsp;мин') + '</b>.';
+  else if(p && p.k === 'e1') st.innerHTML = T('Published period: <b>114.9 min</b> [5]. The two-body formula gives ','Опубликованный период: <b>114,9 мин</b> [5]. Формула двух тел даёт ') + '<b>' + fmt(o.T/60, 1) + T(' min','&nbsp;мин') + '</b>.';
+  else st.innerHTML = T('Speed ratio perigee : apogee = ','Отношение скоростей перигей : апогей = ') + '<b>' + fmt(o.vp/o.va, 2) + '</b>' + T(' — equal to the ratio of distances r<sub>a</sub>/r<sub>p</sub> (Kepler\'s second law).',' — равно отношению расстояний r<sub>a</sub>/r<sub>p</sub> (второй закон Кеплера).');
+}
+function syncOrbitSliders(){
+  orb.hp = +hpEl.value; orb.ha = +haEl.value;
+  if(orb.ha < orb.hp){ orb.ha = orb.hp; haEl.value = orb.hp; }
+  orb.preset = ''; renderOrbitPresets(); renderOrbit();
+}
+hpEl.addEventListener('input', syncOrbitSliders); haEl.addEventListener('input', syncOrbitSliders);
+visibleLoop(orbitSvg, function(dt){
+  if(!orbitDot) return;
+  var o = orbitElems(orb.hp, orb.ha);
+  orb.M = (orb.M + dt*2*Math.PI/(reduced() ? 24 : 8)) % (2*Math.PI);   // one lap per 8 s, any orbit
+  var E = keplerE(orb.M, o.e), r = o.a*(1 - o.e*Math.cos(E));
+  var nu = 2*Math.atan2(Math.sqrt(1 + o.e)*Math.sin(E/2), Math.sqrt(1 - o.e)*Math.cos(E/2));
+  orbitDot.setAttribute('cx', orbitCx + r*Math.cos(nu)*orbitScale);
+  orbitDot.setAttribute('cy', 200 - r*Math.sin(nu)*orbitScale);
+});
+
+/* ============ CH3 — DOPPLER ============ */
+var F0 = 20.005e6;
+var dopHEl = document.getElementById('dopH'), dopXEl = document.getElementById('dopX');
+function dopGeom(){
+  var h = +dopHEl.value, x = +dopXEl.value;
+  var v = Math.sqrt(MU_E/(R_E + h));                 // circular speed at that height, km/s
+  var rmin = Math.sqrt(h*h + x*x);                   // km, straight-line pass
+  return {h:h, x:x, v:v, rmin:rmin};
+}
+function dopShift(g, t){ var s = g.v*t, r = Math.sqrt(g.rmin*g.rmin + s*s); return -F0*(g.v*s/r)/C_LIGHT; }   // Hz
+var dopSvg = document.getElementById('dopSvg'), dopCursor = null;
+function renderDoppler(){
+  var g = dopGeom();
+  document.getElementById('dopHVal').textContent = fmtInt(g.h) + T(' km',' км');
+  document.getElementById('dopXVal').textContent = fmtInt(g.x) + T(' km',' км');
+  var svg = dopSvg; svg.innerHTML = '';
+  var L = 50, R = 465, Tp = 20, B = 300, span = 450;     // ±450 s
+  var maxF = F0*g.v/C_LIGHT, yS = (B - Tp)/2/650;
+  function X(t){ return L + (t + span)/(2*span)*(R - L); }
+  function Y(f){ return (Tp + B)/2 - f*yS; }
+  ns('line', {x1:L, y1:Y(0), x2:R, y2:Y(0), stroke:'#c9c9c1'}, svg);
+  ns('line', {x1:X(0), y1:Tp, x2:X(0), y2:B, stroke:'#c9c9c1', 'stroke-dasharray':'3 3'}, svg);
+  [-600,-300,300,600].forEach(function(f){ ns('line', {x1:L - 4, y1:Y(f), x2:L, y2:Y(f), stroke:'#0b0b0c'}, svg); txt(svg, L - 6, Y(f) + 3, (f > 0 ? '+' : '') + fmtInt(f), 'svg-small', 'end'); });
+  [-400,-200,0,200,400].forEach(function(t){ txt(svg, X(t), B + 14, (t > 0 ? '+' : '') + fmtInt(t) + T(' s',' с'), 'svg-small', 'middle'); });
+  txt(svg, L, 14, T('Δf (Hz) at 20.005 MHz','Δf (Гц) на 20,005 МГц'), 'svg-small');
+  ns('line', {x1:L, y1:Y(maxF), x2:R, y2:Y(maxF), stroke:'#2f5aa1', 'stroke-dasharray':'2 4'}, svg);
+  ns('line', {x1:L, y1:Y(-maxF), x2:R, y2:Y(-maxF), stroke:'#2f5aa1', 'stroke-dasharray':'2 4'}, svg);
+  var d = '';
+  for(var i = 0; i <= 240; i++){ var t = -span + i*(2*span)/240; d += (i ? 'L' : 'M') + X(t).toFixed(1) + ' ' + Y(dopShift(g, t)).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.8}, svg);
+  var slope = -F0*g.v*g.v/(C_LIGHT*g.rmin);          // Hz/s at t = 0
+  var tl = 40; ns('line', {x1:X(-tl), y1:Y(-slope*tl), x2:X(tl), y2:Y(slope*tl), stroke:'#b5452a', 'stroke-width':2}, svg);
+  txt(svg, X(tl) + 4, Y(slope*tl) + 4, T('slope at closest approach','наклон при сближении'), 'svg-small');
+  dopCursor = ns('line', {x1:X(-span), y1:Tp, x2:X(-span), y2:B, stroke:'#b5452a', 'stroke-width':1, visibility:'hidden'}, svg);
+  var rRecovered = -F0*g.v*g.v/(C_LIGHT*slope);
+  cells(document.getElementById('dopReadout'), [
+    [T('ORBITAL SPEED','ОРБИТАЛЬНАЯ СКОРОСТЬ'), fmt(g.v, 2) + T(' km/s',' км/с')],
+    [T('MAX SHIFT ±','МАКС. СДВИГ ±'), fmtInt(maxF) + T(' Hz',' Гц')],
+    [T('SLOPE AT CLOSEST APPROACH','НАКЛОН ПРИ СБЛИЖЕНИИ'), fmt(slope, 2) + T(' Hz/s',' Гц/с')],
+    [T('DISTANCE RECOVERED FROM SLOPE','РАССТОЯНИЕ ПО НАКЛОНУ'), fmtInt(rRecovered) + T(' km',' км')]
+  ]);
+  document.getElementById('dopStatus').innerHTML = T('Move away from the ground track and the curve flattens: the slope falls as 1/r<sub>min</sub>, so the slope alone says how far away the satellite passed — <b>','Отойдите от трассы — и кривая станет пологой: наклон падает как 1/r<sub>min</sub>, поэтому один наклон говорит, на каком расстоянии прошёл спутник — <b>') + fmtInt(g.rmin) + T(' km</b>.','&nbsp;км</b>.');
+  dopSvg.__X = X;
+}
+dopHEl.addEventListener('input', renderDoppler); dopXEl.addEventListener('input', renderDoppler);
+
+/* Sound: beat note 1 kHz + Doppler (Sputnik's ~1 kHz offset from 20 MHz [7]), 0.3 s on/off, pass compressed 60× */
+var audio = null, playing = false, playT0 = 0, raf3 = 0;
+function iosUnlock(ctx){
+  try { if(navigator.audioSession) navigator.audioSession.type = 'playback'; } catch(e){}
+  try {
+    if(!audio.silent){ var a = document.createElement('audio'); a.setAttribute('playsinline', ''); a.loop = true;
+      a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAABErAAABAAgAZGF0YQAAAAA='; audio.silent = a; }
+    audio.silent.play().catch(function(){});
+  } catch(e){}
+  var b = ctx.createBuffer(1, 1, 22050), s = ctx.createBufferSource(); s.buffer = b; s.connect(ctx.destination); s.start(0);
+}
+function stopPass(){
+  playing = false; cancelAnimationFrame(raf3);
+  if(audio){ var now = audio.ctx.currentTime; audio.gain.gain.cancelScheduledValues(now); audio.gain.gain.setTargetAtTime(0, now, 0.02); try{ audio.osc.stop(now + 0.1); }catch(e){} audio.osc = null; if(audio.silent) audio.silent.pause(); }
+  var b = document.getElementById('dopPlay'); b.setAttribute('aria-pressed', 'false'); b.innerHTML = T('▶ LISTEN TO THE PASS','▶ ПОСЛУШАТЬ ПРОЛЁТ');
+  if(dopCursor) dopCursor.setAttribute('visibility', 'hidden');
+}
+function startPass(){
+  var AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+  if(!audio){ audio = {ctx:new AC()}; }
+  var ctx = audio.ctx; iosUnlock(ctx); if(ctx.state === 'suspended') ctx.resume();
+  var g = dopGeom(), osc = ctx.createOscillator(), gain = ctx.createGain(); osc.type = 'sine';
+  osc.connect(gain); gain.connect(ctx.destination); gain.gain.value = 0;
+  var t0 = ctx.currentTime + 0.05, dur = 15, span = 450;
+  // pulses: 0.3 s on, 0.3 s off; pitch follows the compressed pass
+  for(var k = 0; k*0.6 < dur; k++){
+    var ts = t0 + k*0.6; gain.gain.setValueAtTime(0, ts); gain.gain.linearRampToValueAtTime(0.18, ts + 0.01);
+    gain.gain.setValueAtTime(0.18, ts + 0.29); gain.gain.linearRampToValueAtTime(0, ts + 0.3);
+  }
+  for(var i = 0; i <= 150; i++){ var tt = i/150*dur, tPass = -span + tt/dur*2*span; osc.frequency.setValueAtTime(1000 + dopShift(g, tPass), t0 + tt); }
+  osc.start(t0); osc.stop(t0 + dur + 0.05);
+  audio.osc = osc; audio.gain = gain; playing = true; playT0 = performance.now();
+  var b = document.getElementById('dopPlay'); b.setAttribute('aria-pressed', 'true'); b.innerHTML = T('■ STOP','■ СТОП');
+  dopCursor.setAttribute('visibility', 'visible');
+  (function tick(){
+    if(!playing) return;
+    var tt = (performance.now() - playT0)/1000; if(tt > dur){ stopPass(); return; }
+    var x = dopSvg.__X(-span + tt/dur*2*span); dopCursor.setAttribute('x1', x); dopCursor.setAttribute('x2', x);
+    raf3 = requestAnimationFrame(tick);
+  })();
+}
+document.getElementById('dopPlay').addEventListener('click', function(){ playing ? stopPass() : startPass(); });
+document.addEventListener('visibilitychange', function(){ if(document.hidden && playing) stopPass(); });
+
+/* ============ CH6 — GEIGER DEAD TIME ============ */
+var TAU = 100e-6;                       // s
+function trueRate(h){                   // illustrative: ~30/s cosmic rays low down, rising steeply into the belt
+  return 30 + 3e5/(1 + Math.exp(-(h - 1800)/130));
+}
+function measured(N){ return N*Math.exp(-N*TAU); }
+var gAltEl = document.getElementById('gAlt');
+function renderGeiger(){
+  var h = +gAltEl.value, N = trueRate(h), m = measured(N);
+  document.getElementById('gAltVal').textContent = fmtInt(h) + T(' km',' км');
+  var svg = document.getElementById('geigerSvg'); svg.innerHTML = '';
+  var L = 54, R = 465, Tp = 22, B = 296, h0 = 300, h1 = 2550;
+  function X(a){ return L + (a - h0)/(h1 - h0)*(R - L); }
+  function Y(c){ return B - Math.log10(Math.max(c, 1))/6*(B - Tp); }     // log scale 1 … 10⁶ per second
+  for(var e = 0; e <= 6; e++){ ns('line', {x1:L, y1:Y(Math.pow(10, e)), x2:R, y2:Y(Math.pow(10, e)), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(Math.pow(10, e)) + 3, '10' + ['⁰','¹','²','³','⁴','⁵','⁶'][e], 'svg-small', 'end'); }
+  [500,1000,1500,2000,2500].forEach(function(a){ txt(svg, X(a), B + 14, fmtInt(a), 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('altitude, km','высота, км'), 'svg-small', 'end');
+  txt(svg, L, 14, T('counts per second (log scale)','импульсов в секунду (лог. шкала)'), 'svg-small');
+  var d1 = '', d2 = '';
+  for(var a = h0; a <= h1; a += 10){ d1 += (a === h0 ? 'M' : 'L') + X(a).toFixed(1) + ' ' + Y(trueRate(a)).toFixed(1); d2 += (a === h0 ? 'M' : 'L') + X(a).toFixed(1) + ' ' + Y(measured(trueRate(a))).toFixed(1); }
+  ns('path', {d:d1, fill:'none', stroke:'#2f5aa1', 'stroke-width':1.6, 'stroke-dasharray':'5 3'}, svg);
+  ns('path', {d:d2, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('line', {x1:X(h), y1:Tp, x2:X(h), y2:B, stroke:'#b5452a'}, svg);
+  ns('circle', {cx:X(h), cy:Y(m), r:4.5, fill:'#b5452a'}, svg);
+  txt(svg, R - 4, Y(trueRate(h1)) - 6, T('true rate N','истинная частота N'), 'svg-small', 'end');
+  txt(svg, X(1250), Y(measured(trueRate(1250))) - 8, T('counter reading m','показание счётчика m'), 'svg-label', 'middle');
+  cells(document.getElementById('geigerReadout'), [
+    [T('TRUE RATE N','ИСТИННАЯ ЧАСТОТА N'), fmtInt(N) + T(' /s',' /с')],
+    [T('COUNTER READS m','СЧЁТЧИК ПОКАЗЫВАЕТ m'), fmtInt(m) + T(' /s',' /с')],
+    [T('FRACTION COUNTED','ДОЛЯ СОСЧИТАННЫХ'), fmt(100*m/N, m/N < 0.01 ? 3 : 1) + ' %'],
+    [T('MAXIMUM POSSIBLE READING','МАКС. ВОЗМОЖНОЕ ПОКАЗАНИЕ'), fmtInt(1/(Math.E*TAU)) + T(' /s',' /с')]
+  ]);
+  var st = document.getElementById('geigerStatus');
+  if(N*TAU < 0.1) st.innerHTML = T('Below the belt: the counter is honest.','Ниже пояса: счётчик показывает честно.');
+  else if(N*TAU < 1) st.innerHTML = T('Entering the belt: the counter <b>under-reads</b> but still rises.','Вход в пояс: счётчик <b>занижает</b>, но показания ещё растут.');
+  else if(m > 30) st.innerHTML = T('Past the peak: <b>more radiation now gives a lower reading</b>.','За пиком: <b>больше радиации — меньше показание</b>.');
+  else st.innerHTML = T('Deep in the belt: the counter reads about what it read near the ground — or nothing. This is the “silence” of Explorer 1.','Глубоко в поясе: счётчик показывает примерно столько же, сколько у Земли, — или ничего. Это и есть «тишина» «Эксплорера-1».');
+}
+gAltEl.addEventListener('input', renderGeiger);
+
+/* ============ CH7 — SPIN STABILITY ============ */
+var spin = {shape:'rod', theta:0.12, phi:0, rot:0};
+var SHAPES = {rod:{Is:1, It:8}, disc:{Is:1.8, It:1}};     // moments of inertia (relative)
+var dampEl = document.getElementById('damp');
+function energy(th, sh){ var c = Math.cos(th), s = Math.sin(th); return 0.5*(c*c/sh.Is + s*s/sh.It); }   // per H², E(θ)
+function stepSpin(dt){
+  var sh = SHAPES[spin.shape], k = +dampEl.value;
+  // dissipation lowers E; θ moves down the E(θ) slope: dθ/dt = −k · dE/dθ / |dE/dθ|max (gradient flow)
+  var dE = 0.5*Math.sin(2*spin.theta)*(1/sh.It - 1/sh.Is);
+  var norm = 0.5*Math.abs(1/sh.It - 1/sh.Is);
+  spin.theta = Math.min(Math.PI/2, Math.max(0.0, spin.theta - k*1.4*dt*dE/norm));
+  spin.phi += dt*2.2; spin.rot += dt*9;
+}
+var spinSvg = document.getElementById('spinSvg');
+function drawSpin(){
+  var svg = spinSvg; svg.innerHTML = '';
+  var cx = 170, cy = 180, Lh = 120;
+  // fixed angular momentum H: vertical
+  ns('line', {x1:cx, y1:cy, x2:cx, y2:cy - 150, stroke:'#2f5aa1', 'stroke-width':2}, svg);
+  ns('polygon', {points:(cx - 5)+','+(cy - 142)+' '+(cx + 5)+','+(cy - 142)+' '+cx+','+(cy - 154), fill:'#2f5aa1'}, svg);
+  txt(svg, cx + 8, cy - 146, T('H (fixed)','H (неизменен)'), 'svg-small');
+  // body axis: cone of half-angle θ around H, projected (slight tilt for 3D feel)
+  var th = spin.theta, ph = spin.phi;
+  var ax = Math.sin(th)*Math.cos(ph), ay = Math.cos(th), az = Math.sin(th)*Math.sin(ph);
+  var px = ax, py = -(ay*0.95 - az*0.3);
+  var sh = spin.shape;
+  var len = sh === 'rod' ? Lh : 34, wid = sh === 'rod' ? 14 : 70;
+  var ex = px*len, ey = py*len;
+  var nx = -py, ny = px, nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
+  var p = function(sx, sy){ return (cx + sx).toFixed(1) + ',' + (cy + sy).toFixed(1); };
+  var pts = [p(-ex + nx*wid/2, -ey + ny*wid/2), p(ex + nx*wid/2, ey + ny*wid/2), p(ex - nx*wid/2, ey - ny*wid/2), p(-ex - nx*wid/2, -ey - ny*wid/2)].join(' ');
+  ns('polygon', {points:pts, fill:'#e9eef5', stroke:'#0b0b0c', 'stroke-width':1.3}, svg);
+  // spin stripe to show rotation about the body axis
+  var sp = Math.sin(spin.rot);
+  ns('line', {x1:cx - ex + nx*wid/2*sp, y1:cy - ey + ny*wid/2*sp, x2:cx + ex + nx*wid/2*sp, y2:cy + ey + ny*wid/2*sp, stroke:'#b5452a', 'stroke-width':1.5}, svg);
+  if(sh === 'rod'){   // whip antennas
+    [[0.25,1],[0.25,-1]].forEach(function(a){ ns('line', {x1:cx + ex*0.4, y1:cy + ey*0.4, x2:cx + ex*0.4 + nx*a[1]*46 + ex*a[0], y2:cy + ey*0.4 + ny*a[1]*46 + ey*a[0], stroke:'#0b0b0c', 'stroke-width':1}, svg); });
+  }
+  ns('line', {x1:cx, y1:cy, x2:cx + ex*1.25, y2:cy + ey*1.25, stroke:'#0b0b0c', 'stroke-dasharray':'3 3'}, svg);
+  // energy curve inset
+  var shp = SHAPES[sh], ix = 300, iy = 270, iw = 160, ih = 70;
+  var e0 = energy(0, shp), e1 = energy(Math.PI/2, shp), lo = Math.min(e0, e1), hi = Math.max(e0, e1);
+  var d = '';
+  for(var i = 0; i <= 40; i++){ var t = i/40*Math.PI/2; var e = energy(t, shp); d += (i ? 'L' : 'M') + (ix + i/40*iw).toFixed(1) + ' ' + (iy + ih - (e - lo)/(hi - lo)*ih).toFixed(1); }
+  ns('rect', {x:ix - 6, y:iy - 16, width:iw + 12, height:ih + 34, fill:'#fff', stroke:'#c9c9c1'}, svg);
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.4}, svg);
+  var ec = energy(th, shp); ns('circle', {cx:ix + th/(Math.PI/2)*iw, cy:iy + ih - (ec - lo)/(hi - lo)*ih, r:4, fill:'#b5452a'}, svg);
+  txt(svg, ix, iy - 4, T('energy E(θ) at fixed H','энергия E(θ) при постоянном H'), 'svg-small');
+  txt(svg, ix, iy + ih + 13, '0°', 'svg-small'); txt(svg, ix + iw, iy + ih + 13, '90°', 'svg-small', 'end');
+}
+function spinReadout(){
+  var deg = spin.theta*180/Math.PI;
+  cells(document.getElementById('spinReadout'), [
+    [T('AXIS TILT θ FROM H','НАКЛОН ОСИ θ ОТ H'), fmt(deg, 1) + '°'],
+    [T('MOMENT RATIO I<sub>s</sub>/I<sub>t</sub>','ОТНОШЕНИЕ I<sub>s</sub>/I<sub>t</sub>'), fmt(SHAPES[spin.shape].Is/SHAPES[spin.shape].It, 2)]
+  ]);
+  document.getElementById('dampVal').textContent = fmt(+dampEl.value, 2);
+  var st = document.getElementById('spinStatus');
+  if(spin.shape === 'rod') st.innerHTML = deg > 80 ? T('<b>Flat spin.</b> The rod now rotates end over end about its major axis — where Explorer 1 ended up.','<b>Плоское вращение.</b> Стержень теперь вращается «через голову» вокруг главной оси — так и закончил «Эксплорер-1».') : (+dampEl.value === 0 ? T('No dissipation: a rigid rod keeps its small wobble for ever.','Без диссипации жёсткий стержень сохраняет малое покачивание сколь угодно долго.') : T('Spin about the <b>minor</b> axis: losing energy makes the wobble grow.','Вращение вокруг <b>малой</b> оси: потеря энергии раскачивает его всё сильнее.'));
+  else st.innerHTML = deg < 3 ? T('<b>Stable.</b> A body spun about its major axis settles into a clean spin — why later spin-stabilised satellites were squat drums.','<b>Устойчиво.</b> Тело, закрученное вокруг главной оси наибольшего момента, успокаивается — поэтому позднейшие спутники со стабилизацией вращением делали приземистыми барабанами.') : T('Spin about the <b>major</b> axis: losing energy damps the wobble.','Вращение вокруг <b>главной</b> оси: потеря энергии гасит покачивание.');
+}
+function setShape(s){ spin.shape = s; spin.theta = s === 'rod' ? 0.12 : 0.6; pressGroup(document.getElementById('shapeRod').parentNode, document.getElementById(s === 'rod' ? 'shapeRod' : 'shapeDisc')); drawSpin(); spinReadout(); }
+document.getElementById('shapeRod').addEventListener('click', function(){ setShape('rod'); });
+document.getElementById('shapeDisc').addEventListener('click', function(){ setShape('disc'); });
+document.getElementById('spinReset').addEventListener('click', function(){ setShape(spin.shape); });
+dampEl.addEventListener('input', spinReadout);
+var spinAcc = 0;
+visibleLoop(spinSvg, function(dt){ stepSpin(dt*(reduced() ? 0.3 : 1)); drawSpin(); spinAcc += dt; if(spinAcc > 0.2){ spinAcc = 0; spinReadout(); } });
+
+/* ============ CH9 — TIMELINE ============ */
+var TIMELINE = [
+  ['1955', 'The United States announces it will launch a satellite for the International Geophysical Year (29 July).', 'США объявляют о запуске спутника к Международному геофизическому году (29 июля).'],
+  ['1957', '<b>21 August:</b> first successful flight of the R-7 ICBM. <b>4 October:</b> Sputnik 1. <b>3 November:</b> Sputnik 2 with Laika. <b>6 December:</b> Vanguard TV-3 explodes on the pad.', '<b>21 августа:</b> первый успешный полёт МБР Р-7. <b>4 октября:</b> «Спутник-1». <b>3 ноября:</b> «Спутник-2» с Лайкой. <b>6 декабря:</b> «Авангард» TV-3 взрывается на старте.'],
+  ['1958', '<b>4 January:</b> Sputnik 1 re-enters. <b>1 February (UTC):</b> Explorer 1. <b>17 March:</b> Vanguard 1. <b>26 March:</b> Explorer 3. <b>1 May:</b> Van Allen announces the radiation belts. <b>15 May:</b> Sputnik 3 (1,327 kg). <b>29 July:</b> Eisenhower signs the act creating NASA (it opens on 1 October).', '<b>4 января:</b> «Спутник-1» сходит с орбиты. <b>1 февраля (UTC):</b> «Эксплорер-1». <b>17 марта:</b> «Авангард-1». <b>26 марта:</b> «Эксплорер-3». <b>1 мая:</b> Ван Аллен объявляет о радиационных поясах. <b>15 мая:</b> «Спутник-3» (1327 кг). <b>29 июля:</b> Эйзенхауэр подписывает закон о создании NASA (оно начинает работу 1 октября).'],
+  ['1959', 'O\'Keefe, Eckels and Squires publish the pear-shaped Earth from Vanguard 1 tracking.', 'О\'Киф, Экелс и Сквайрс публикуют грушевидность Земли по слежению за «Авангардом-1».'],
+  ['1960', 'Belka and Strelka orbit on Sputnik 5 and return alive.', 'Белка и Стрелка облетают Землю на «Спутнике-5» и возвращаются живыми.'],
+  ['1964', 'Transit satellite navigation, born from the Sputnik Doppler work, enters US Navy service; Vanguard 1\'s transmitter falls silent.', 'Спутниковая навигация Transit, выросшая из доплеровской работы по «Спутнику», поступает на службу ВМС США; передатчик «Авангарда-1» замолкает.'],
+  ['1970', 'Explorer 1 re-enters on 31 March after more than 58,000 orbits.', '«Эксплорер-1» сходит с орбиты 31 марта, сделав более 58 000 витков.'],
+  ['Today', 'Vanguard 1 is still in orbit: the oldest human-made object in space.', '«Авангард-1» всё ещё на орбите — старейший рукотворный объект в космосе.']
+];
+
+/* ============ CH10 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'R. D. Launius, “Sputnik and the Origins of the Space Age”, NASA History Office', url:'https://www.nasa.gov/history/sputnik/sputorig.html', note:{en:'Context of the IGY and Sputnik: a 22-inch (58 cm) aluminium sphere of 183 lb, orbiting every 96 minutes.', ru:'Контекст МГГ и «Спутника»: алюминиевая сфера 22 дюйма (58 см), 183 фунта, виток за 96 минут.'}},
+  {title:'NASA History Office, Sputnik — Background and the International Geophysical Year', url:'https://www.nasa.gov/history/sputnik/', note:{en:'NASA\'s documentary history of Sputnik, Vanguard and Explorer, including the 1955 US satellite announcement.', ru:'Документальная история NASA о «Спутнике», «Авангарде» и «Эксплорере», включая объявление США 1955 года.'}},
+  {title:'NASA History Office, Chronology of Sputnik/Vanguard/Explorer Events 1957–58', url:'https://www.nasa.gov/history/sputnik/chronology.html', note:{en:'Dates and masses: Sputnik 1 83.6 kg, Sputnik 2 508.3 kg, Explorer 1 14 kg, Vanguard 1 1.47 kg, Sputnik 3 1,327 kg; Vanguard TV-3 failure.', ru:'Даты и массы: «Спутник-1» 83,6 кг, «Спутник-2» 508,3 кг, «Эксплорер-1» 14 кг, «Авангард-1» 1,47 кг, «Спутник-3» 1327 кг; авария «Авангарда» TV-3.'}},
+  {title:'Gunter\'s Space Page — Sputnik 1 (PS-1) and Sputnik 2 (PS-2)', url:'https://space.skyrocket.de/doc_sdat/sputnik-1.htm', note:{en:'Initial orbits 228 × 947 km, 65.0° (Sputnik 1) and 212 × 1,660 km, 65.3° (Sputnik 2, page sputnik-2.htm).', ru:'Начальные орбиты 228 × 947 км, 65,0° («Спутник-1») и 212 × 1660 км, 65,3° («Спутник-2», страница sputnik-2.htm).'}},
+  {title:'NASA History Office, Explorer-I and Jupiter-C', url:'https://www.nasa.gov/history/sputnik/expinfo.html', note:{en:'Jupiter-C and the 84-day build; orbit 224 × 1,575 miles, period 114.9 min; 30.66 lb total, 18.35 lb instruments; spin 750 rpm; the saturated counter and Explorer 3.', ru:'Jupiter-C и постройка за 84 дня; орбита 224 × 1575 миль, период 114,9 мин; 30,66 фунта, из них 18,35 фунта приборов; вращение 750 об/мин; насыщение счётчика и «Эксплорер-3».'}},
+  {title:'NASA, Earth Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html', note:{en:'GM = 0.39860 × 10⁶ km³/s², mean radius 6,371 km, used in every calculation on this page.', ru:'GM = 0,39860 × 10⁶ км³/с², средний радиус 6371 км — во всех расчётах на этой странице.'}},
+  {title:'W. H. Guier & G. C. Weiffenbach (1998), “Genesis of Satellite Navigation”, Johns Hopkins APL Technical Digest 19(1)', url:'https://secwww.jhuapl.edu/techdigest/content/techdigest/pdf/V19-N01/19-01-Guier.pdf', note:{en:'First-hand account: the 20 MHz recordings, Sputnik\'s 1 kHz offset (tone 1,500 → 500 Hz over a pass), orbit fitting from Doppler, McClure\'s inversion that became Transit.', ru:'Рассказ участников: записи на 20 МГц, смещение частоты «Спутника» на 1 кГц (тон от 1500 до 500 Гц за пролёт), определение орбиты по Доплеру, обращение задачи Макклюром, ставшее системой Transit.'}},
+  {title:'BBC News (2002), “First dog in space died within hours”', url:'http://news.bbc.co.uk/2/hi/science/nature/2367681.stm', note:{en:'Malashenkov\'s 2002 World Space Congress report: rising cabin temperature and humidity, no life signs after 5–7 hours.', ru:'Доклад Малашенкова на Всемирном космическом конгрессе 2002 года: рост температуры и влажности в кабине, признаков жизни нет через 5–7 часов.'}},
+  {title:'J. A. Van Allen, G. H. Ludwig, E. C. Ray & C. E. McIlwain (1958), “Observation of High Intensity Radiation by Satellites 1958 Alpha and Gamma”, Jet Propulsion 28(9)', url:'https://doi.org/10.2514/8.7396', note:{en:'The discovery paper: counting rates from Explorer 1 and Explorer 3, and the saturation interpretation.', ru:'Статья об открытии: частоты счёта «Эксплорера-1» и «Эксплорера-3» и объяснение через насыщение.'}},
+  {title:'J. A. Van Allen (1990), “What Is a Space Scientist? An Autobiographical Example”, Annual Review of Earth and Planetary Sciences 18', url:'https://doi.org/10.1146/annurev.ea.18.050190.000245', note:{en:'Van Allen\'s own account of the instrument, the zero readings and McIlwain\'s laboratory tests.', ru:'Рассказ самого Ван Аллена о приборе, нулевых показаниях и лабораторных испытаниях Макилвейна.'}},
+  {title:'J. A. Van Allen (1959), “The Geomagnetically Trapped Corpuscular Radiation”, Journal of Geophysical Research 64(11)', url:'https://doi.org/10.1029/JZ064i011p01683', note:{en:'The physics of trapped particles in the belts, a year after the discovery.', ru:'Физика захваченных частиц в поясах — через год после открытия.'}},
+  {title:'P. W. Likins (1986), “Spacecraft Attitude Dynamics and Control — A Personal Perspective on Early Developments”, Journal of Guidance, Control, and Dynamics 9(2)', url:'https://doi.org/10.2514/3.20080', note:{en:'Explorer 1\'s unexpected tumble, Bracewell and Garriott\'s energy-dissipation explanation, and the major-axis rule in design.', ru:'Неожиданное кувыркание «Эксплорера-1», объяснение Брейсуэлла и Гарриотта через диссипацию энергии и правило главной оси в проектировании.'}},
+  {title:'J. A. O\'Keefe, A. Eckels & R. K. Squires (1959), “Vanguard Measurements Give Pear-Shaped Component of Earth\'s Figure”, Science 129(3348)', url:'https://doi.org/10.1126/science.129.3348.565', note:{en:'The third zonal harmonic of the Earth\'s gravity field, from Vanguard 1\'s orbit.', ru:'Третья зональная гармоника гравитационного поля Земли по орбите «Авангарда-1».'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderSatTable();
+  renderOrbitPresets(); renderOrbit();
+  renderDoppler();
+  renderGeiger();
+  drawSpin(); spinReadout();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  if(playing) stopPass();
+  onScroll();
+}
+applyLang('en');
+window.__beep = {orbitElems:orbitElems, keplerE:keplerE, dopShift:dopShift, dopGeom:dopGeom, measured:measured, trueRate:trueRate, energy:energy, SHAPES:SHAPES, F0:F0, TAU:TAU};
+
+})();
+</script>
+</body>
+</html>

@@ -11,6 +11,13 @@
   ],
   "categories": [
     {
+      "id": "dawn",
+      "title": { "en": "Dawn of the Space Age", "ru": "Начало космической эры" },
+      "pages": [
+        { "slug": "beep-sputnik-explorer", "codename": "BEEP", "label": { "en": "Sputnik, Explorer & the First Satellites", "ru": "«Спутник», «Эксплорер» и первые спутники" } }
+      ]
+    },
+    {
       "id": "stations",
       "title": { "en": "Space Stations", "ru": "Космические станции" },
       "pages": [
