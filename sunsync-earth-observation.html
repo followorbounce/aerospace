@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUNSYNC — EARTH OBSERVATION SATELLITES / СОЛНЦЕ-СИНХРОННАЯ — СПУТНИКИ НАБЛЮДЕНИЯ ЗЕМЛИ</title>
+<meta name="description" content="An interactive field guide to Earth-observation satellites: how Earth's equatorial bulge turns an orbit just enough to keep pace with the Sun, so Landsat and Sentinel-2 always pass at mid-morning; the inclination this needs at each altitude, checked against Landsat 1, Landsat 9 and Sentinel-2; how swath width sets the revisit time; and the diffraction limit on image sharpness.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/sunsync-earth-observation">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SUNSYNC — EARTH OBSERVATION SATELLITES / СОЛНЦЕ-СИНХРОННАЯ — СПУТНИКИ НАБЛЮДЕНИЯ ЗЕМЛИ">
+<meta property="og:description" content="Why Landsat crosses the equator at 10:12 every day: sun-synchronous orbits, revisit time and image resolution, interactive and checked against NASA and ESA data.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/sunsync-earth-observation">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">SUNSYNC — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE BULGE</span></div>
+  <div class="hud-row"><span class="hud-label">INCLINATION</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">REVISIT</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE BULGE">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 705 KM · 98.2° · 10:12 AM" data-ru="РИС. 00 — 705 КМ · 98,2° · 10:12">FIG. 00 — 705 KM · 98.2° · 10:12 AM</span></span>
+        <span>J₂ = 1.0826 × 10⁻³</span>
+      </div>
+      <h1><span data-en="SUNSYNC" data-ru="СОЛНЦЕ-СИНХРОННАЯ">SUNSYNC</span><br><em data-en="EARTH OBSERVATION SATELLITES" data-ru="СПУТНИКИ НАБЛЮДЕНИЯ ЗЕМЛИ">EARTH OBSERVATION SATELLITES</em></h1>
+      <p class="sub lede" data-en="Landsat 9 crosses the equator at about 10:12 in the morning, local time, every single day of the year. That is no accident: its orbit is tilted just past the pole so that Earth's equatorial bulge turns it by one degree a day — exactly keeping pace with the Sun. Six chapters and three instruments: find the tilt that makes an orbit sun-synchronous, see how swath width sets how often a satellite sees the same place, and find the sharpest image a telescope can take from orbit." data-ru="Landsat 9 пересекает экватор около 10:12 утра по местному времени — каждый день в году. Это не случайность: его орбита наклонена чуть дальше полюса, так что экваториальное вздутие Земли поворачивает её на один градус в сутки — ровно в такт с Солнцем. Шесть глав и три прибора: найдите наклон, при котором орбита становится солнечно-синхронной, посмотрите, как ширина полосы обзора определяет частоту повторной съёмки, и найдите самое чёткое изображение, которое телескоп может снять с орбиты.">Landsat 9 crosses the equator at 10:12 every day.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY -->
+<section id="ch1" class="section" data-phase="THE BULGE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 06</span> — <span data-en="SAME LIGHT EVERY DAY" data-ru="КАЖДЫЙ ДЕНЬ — ОДИНАКОВЫЙ СВЕТ">SAME LIGHT EVERY DAY</span></div>
+    <h2 class="h-lg" data-en="Comparing pictures needs the same shadows" data-ru="Чтобы сравнивать снимки, нужны одинаковые тени">Comparing pictures needs the same shadows</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="To see a forest shrink or a glacier retreat, you compare images taken years apart. That only works if the light is the same: the same Sun angle, the same shadows. Earth-observation satellites therefore fly in <b>sun-synchronous</b> orbits, passing every point at the same local solar time. Sentinel-2 crosses the equator at 10:30 in the morning — a compromise between enough sunlight and the clouds that build up later in the day [3]." data-ru="Чтобы увидеть, как сокращается лес или отступает ледник, сравнивают снимки, сделанные с разницей в годы. Это работает, только если освещение одинаково: тот же угол Солнца, те же тени. Поэтому спутники наблюдения Земли летают по <b>солнечно-синхронным</b> орбитам и проходят над каждой точкой в одно и то же местное солнечное время. Sentinel-2 пересекает экватор в 10:30 утра — компромисс между достаточным освещением и облаками, которые нарастают к середине дня [3].">Sun-synchronous orbits keep the same light.</p>
+      <p class="body-col" data-en="The first Landsat, launched as ERTS-1 on 23 July 1972, already used such an orbit: 917 km up, inclined 99.2°, crossing the equator at about 9:42 a.m. [1]. Landsat 9, launched on 27 September 2021, flies at 705 km and 98.2° and crosses at about 10:12 a.m. [2]. Both inclinations are just past 90° — slightly <b>retrograde</b>. The next chapter shows why." data-ru="Первый Landsat, запущенный как ERTS-1 23 июля 1972 года, уже летал по такой орбите: 917 км, наклонение 99,2°, пересечение экватора около 9:42 утра [1]. Landsat 9, запущенный 27 сентября 2021 года, летает на 705 км с наклонением 98,2° и пересекает экватор около 10:12 [2]. Оба наклонения чуть больше 90° — орбиты слегка <b>обратные</b>. Почему — в следующей главе.">Landsat 1 (1972) and Landsat 9 (2021).</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — PRECESSION -->
+<section id="ch2" class="section" data-phase="PRECESSION">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 06</span> — <span data-en="A DEGREE A DAY" data-ru="ГРАДУС В СУТКИ">A DEGREE A DAY</span></div>
+    <h2 class="h-lg" data-en="Let Earth's bulge turn the orbit" data-ru="Пусть вздутие Земли поворачивает орбиту">Let Earth's bulge turn the orbit</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Earth goes around the Sun once a year, so the Sun's direction drifts by 360° in 365.24 days — about 0.986° a day. An orbit fixed in space would slowly drift in local time. But Earth is not a sphere: its equator bulges, measured by the coefficient <b>J₂</b>. The extra pull of the bulge makes an inclined orbit's plane swing around Earth's axis, and the rate depends on altitude and inclination." data-ru="Земля обходит Солнце за год, поэтому направление на Солнце смещается на 360° за 365,24 суток — около 0,986° в сутки. Орбита, неподвижная в пространстве, постепенно смещалась бы по местному времени. Но Земля — не шар: её экватор выпирает, и это описывает коэффициент <b>J₂</b>. Дополнительное притяжение вздутия заставляет плоскость наклонной орбиты поворачиваться вокруг оси Земли, и скорость поворота зависит от высоты и наклонения.">The Sun's direction drifts 0.986° a day.</p>
+      <p class="body-col" data-en="A prograde orbit swings westward; a slightly retrograde one swings eastward. Choose the inclination so that the eastward swing is exactly 0.986° a day, and the orbit keeps its angle to the Sun all year. Slide the altitude and see the inclination needed — and compare with Landsat 1, Landsat 9 and Sentinel-2, whose published inclinations come from their own orbit designs [1][2][3]." data-ru="Прямая орбита поворачивается к западу, слегка обратная — к востоку. Подберите наклонение так, чтобы поворот к востоку был ровно 0,986° в сутки, и орбита весь год сохранит угол к Солнцу. Двигайте высоту и смотрите нужное наклонение — и сравните с Landsat 1, Landsat 9 и Sentinel-2, чьи опубликованные наклонения взяты из их собственных расчётов орбит [1][2][3].">Choose the inclination for 0.986°/day.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="NODAL PRECESSION FROM J₂ (CIRCULAR ORBIT)" data-ru="ПРЕЦЕССИЯ УЗЛА ИЗ-ЗА J₂ (КРУГОВАЯ ОРБИТА)">NODAL PRECESSION FROM J₂ (CIRCULAR ORBIT)</div>
+      <div class="eq-body">dΩ/dt = −(3/2) n J₂ (R/a)² cos i &nbsp;·&nbsp; sun-synchronous: dΩ/dt = 360°/365.2422 d</div>
+      <div class="eq-note" data-en="n = √(μ/a³) is the mean motion; J₂ = 1.08263 × 10⁻³, R = 6,378.137 km, μ = 398,600.4418 km³/s² (standard geodetic values). Altitudes are taken above the equatorial radius. Higher-order terms and the small orbital eccentricity are ignored." data-ru="n = √(μ/a³) — среднее движение; J₂ = 1,08263 × 10⁻³, R = 6378,137 км, μ = 398 600,4418 км³/с² (стандартные геодезические значения). Высота отсчитывается от экваториального радиуса. Члены высших порядков и малый эксцентриситет не учитываются.">Standard geodetic constants.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="ssoSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Inclination needed for a sun-synchronous orbit against altitude"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="sH" data-en="ALTITUDE" data-ru="ВЫСОТА">ALTITUDE</label><span class="v" id="sHVal">—</span></div>
+          <input id="sH" type="range" min="300" max="1500" step="1" value="705">
+        </div>
+        <div class="readout-grid" id="ssoReadout"></div>
+        <div class="status" id="ssoStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — COVERAGE -->
+<section id="ch3" class="section" data-phase="COVERAGE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 06</span> — <span data-en="STRIPES AROUND THE WORLD" data-ru="ПОЛОСЫ ВОКРУГ ЗЕМЛИ">STRIPES AROUND THE WORLD</span></div>
+    <h2 class="h-lg" data-en="Swath width sets the revisit time" data-ru="Ширина полосы определяет период повторной съёмки">Swath width sets the revisit time</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Each orbit the satellite photographs a stripe — Landsat 9's is 185 km wide [2] — while Earth turns underneath. With about 14.5 orbits a day, neighbouring tracks on the same day are some 2,750 km apart at the equator, so filling in the gaps takes days. Landsat's orbit is tuned to repeat exactly every <b>16 days</b> [2]; Sentinel-2, with a 290 km swath, repeats every 10 days, and with two satellites half an orbit apart the same place is seen every 5 days [3]." data-ru="За каждый виток спутник снимает полосу — у Landsat 9 шириной 185 км [2], — а Земля под ним поворачивается. При примерно 14,5 витках в сутки соседние трассы одного дня разнесены на экваторе примерно на 2750 км, и на заполнение промежутков уходят дни. Орбита Landsat подобрана так, чтобы трасса точно повторялась каждые <b>16 суток</b> [2]; у Sentinel-2 с полосой 290 км цикл 10 суток, а два спутника на полвитка друг от друга видят одно и то же место каждые 5 суток [3].">Landsat 16 days, Sentinel-2 10 days (5 with two).</p>
+      <p class="body-col" data-en="The trade is unavoidable: a wider swath means seeing more often but usually with coarser pixels or a bigger instrument, and a lower orbit means sharper images but more drag and a narrower view. Try the swath and altitude below and compare the rough revisit estimate with the real cycles." data-ru="Компромисс неизбежен: более широкая полоса означает более частую съёмку, но обычно более крупные пиксели или больший прибор, а более низкая орбита — более чёткие снимки, но большее сопротивление и более узкий обзор. Попробуйте ширину полосы и высоту ниже и сравните грубую оценку периода с реальными циклами.">Swath vs resolution vs altitude.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="covSvg" class="sim-svg" viewBox="0 0 480 260" role="img" aria-label="Ground tracks of one day along the equator with the swath width"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset" id="covPre">
+          <button class="btn active" data-h="705" data-w="185" aria-pressed="true">LANDSAT 9</button>
+          <button class="btn" data-h="786" data-w="290" aria-pressed="false">SENTINEL-2</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="cW" data-en="SWATH WIDTH" data-ru="ШИРИНА ПОЛОСЫ">SWATH WIDTH</label><span class="v" id="cWVal">—</span></div>
+          <input id="cW" type="range" min="20" max="1500" step="5" value="185">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="cH" data-en="ALTITUDE" data-ru="ВЫСОТА">ALTITUDE</label><span class="v" id="cHVal">—</span></div>
+          <input id="cH" type="range" min="300" max="1500" step="1" value="705">
+        </div>
+        <div class="readout-grid" id="covReadout"></div>
+        <div class="status" id="covStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Estimate: days to cover the equator ≈ track spacing ÷ swath, rounded up. Real missions pick an exact repeat cycle (a whole number of orbits in a whole number of days) with some overlap between stripes." data-ru="Оценка: дней для покрытия экватора ≈ расстояние между трассами ÷ ширина полосы, с округлением вверх. Реальные миссии выбирают точный цикл повторения (целое число витков за целое число суток) с некоторым перекрытием полос.">Rough revisit estimate.</p>
+  </div>
+</section>
+
+<!-- CH4 — RESOLUTION -->
+<section id="ch4" class="section" data-phase="RESOLUTION">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 06</span> — <span data-en="HOW SHARP CAN IT BE" data-ru="НАСКОЛЬКО ЧЁТКО МОЖНО СНЯТЬ">HOW SHARP CAN IT BE</span></div>
+    <h2 class="h-lg" data-en="Diffraction sets a floor" data-ru="Дифракция задаёт предел">Diffraction sets a floor</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Landsat 9 sees in 30 m pixels in visible and short-wave infrared, 15 m in its panchromatic band and 100 m in thermal infrared [2]; Sentinel-2 in 10, 20 and 60 m bands [3]. A telescope cannot do better than its <b>diffraction limit</b>: the smallest angle it can separate is about 1.22 λ/D, so from a height h the finest ground detail is about 1.22 λ h / D (see <a href='/aerospace/parabola-mirrors-and-dishes'>PARABOLA</a> for the Airy pattern behind it)." data-ru="Landsat 9 снимает с пикселями 30 м в видимом и коротковолновом ИК-диапазонах, 15 м в панхроматическом канале и 100 м в тепловом ИК [2]; Sentinel-2 — в каналах 10, 20 и 60 м [3]. Телескоп не может превзойти свой <b>дифракционный предел</b>: наименьший различимый угол — около 1,22 λ/D, так что с высоты h самая мелкая деталь на земле — около 1,22 λ h / D (о картине Эйри, стоящей за этим, — в <a href='/aerospace/parabola-mirrors-and-dishes'>ПАРАБОЛЕ</a>).">Landsat 30 m, Sentinel-2 10 m.</p>
+      <p class="body-col" data-en="Thermal infrared at 11 µm has a wavelength about 17 times that of red light, so the same telescope sees thermal detail about 17 times coarser — one reason thermal bands have larger pixels. In practice survey missions choose pixels coarser than the diffraction limit, trading sharpness for a wide swath and manageable data." data-ru="Длина волны теплового ИК (11 мкм) примерно в 17 раз больше, чем у красного света, поэтому тот же телескоп видит тепловые детали примерно в 17 раз грубее — одна из причин, по которым у тепловых каналов пиксели крупнее. На практике обзорные миссии выбирают пиксели крупнее дифракционного предела, жертвуя чёткостью ради широкой полосы и разумного объёма данных.">Thermal infrared is coarser.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="resSvg" class="sim-svg" viewBox="0 0 480 260" role="img" aria-label="Diffraction-limited ground resolution against aperture"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Wavelength" id="resBand">
+          <button class="btn" data-l="0.45" aria-pressed="false" data-en="BLUE 0.45 µm" data-ru="СИНИЙ 0,45 мкм">BLUE 0.45 µm</button>
+          <button class="btn active" data-l="0.65" aria-pressed="true" data-en="RED 0.65 µm" data-ru="КРАСНЫЙ 0,65 мкм">RED 0.65 µm</button>
+          <button class="btn" data-l="11" aria-pressed="false" data-en="THERMAL 11 µm" data-ru="ТЕПЛОВОЙ 11 мкм">THERMAL 11 µm</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="rD" data-en="TELESCOPE APERTURE" data-ru="АПЕРТУРА ТЕЛЕСКОПА">TELESCOPE APERTURE</label><span class="v" id="rDVal">—</span></div>
+          <input id="rD" type="range" min="-2" max="0.5" step="0.01" value="-1">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="rH" data-en="ALTITUDE" data-ru="ВЫСОТА">ALTITUDE</label><span class="v" id="rHVal">—</span></div>
+          <input id="rH" type="range" min="300" max="1500" step="1" value="705">
+        </div>
+        <div class="readout-grid" id="resReadout"></div>
+        <div class="status" id="resStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — TIMELINE -->
+<section id="ch5" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 06</span> — <span data-en="HALF A CENTURY OF THE SAME VIEW" data-ru="ПОЛВЕКА ОДНОГО И ТОГО ЖЕ ВИДА">HALF A CENTURY OF THE SAME VIEW</span></div>
+    <h2 class="h-lg" data-en="The longest record of Earth from space" data-ru="Самая длинная летопись Земли из космоса">The longest record of Earth from space</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="A sun-synchronous orbit borrows a flaw in Earth's shape to keep a promise: the same light, the same shadows, every day for fifty years." data-ru="Солнечно-синхронная орбита использует «изъян» формы Земли, чтобы сдержать обещание: тот же свет, те же тени каждый день на протяжении пятидесяти лет.">The same light, every day for fifty years.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — REFERENCES -->
+<section id="ch6" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 06</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS (standard geodetic values) ============ */
+var MU = 398600.4418, RE = 6378.137, J2 = 1.08263e-3, YEAR = 365.2422*86400, EQ_KM = 40075.017;
+var OMEGA_SSO = 2*Math.PI/YEAR;                                                  // rad/s
+function n(aKm){ return Math.sqrt(MU/(aKm*aKm*aKm)); }
+function nodeRate(aKm, iDeg){ return -1.5*n(aKm)*J2*Math.pow(RE/aKm, 2)*Math.cos(iDeg*Math.PI/180); }
+function ssoInc(hKm){ var a = RE + hKm, c = -OMEGA_SSO/(1.5*n(a)*J2*Math.pow(RE/a, 2)); return Math.acos(c)*180/Math.PI; }
+function period(hKm){ return 2*Math.PI/n(RE + hKm); }                            // s
+var REF = [[917, 99.2, 'Landsat 1'], [786, 98.62, 'Sentinel-2'], [705, 98.2, 'Landsat 9']];
+
+/* ============ CH2 — SSO INCLINATION ============ */
+var sH = document.getElementById('sH');
+function renderSso(){
+  var h = +sH.value, inc = ssoInc(h), T_ = period(h);
+  document.getElementById('sHVal').textContent = fmtInt(h) + T(' km',' км');
+  var svg = document.getElementById('ssoSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 250, i0 = 96, i1 = 103;
+  function X(hh){ return L + (hh - 300)/1200*(R - L); }
+  function Y(ii){ return B - (ii - i0)/(i1 - i0)*(B - Tp); }
+  for(var ii = 96; ii <= 103; ii++){ ns('line', {x1:L, y1:Y(ii), x2:R, y2:Y(ii), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(ii) + 3, ii + '°', 'svg-small', 'end'); }
+  [300,600,900,1200,1500].forEach(function(hh){ txt(svg, X(hh), B + 14, hh, 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('altitude, km','высота, км'), 'svg-small', 'end'); txt(svg, L, 13, T('inclination for a sun-synchronous orbit','наклонение для солнечно-синхронной орбиты'), 'svg-small');
+  var d = ''; for(var hh2 = 300; hh2 <= 1500; hh2 += 10) d += (d ? 'L' : 'M') + X(hh2).toFixed(1) + ' ' + Y(ssoInc(hh2)).toFixed(1);
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  REF.forEach(function(r){ ns('rect', {x:X(r[0]) - 4, y:Y(r[1]) - 4, width:8, height:8, fill:'#2f5aa1'}, svg); txt(svg, X(r[0]) + 7, Y(r[1]) + 14, r[2] + ' ' + r[1] + '°', 'svg-small'); });
+  ns('circle', {cx:X(h), cy:Y(inc), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('ssoReadout'), [
+    [T('INCLINATION NEEDED','НУЖНОЕ НАКЛОНЕНИЕ'), fmt(inc, 2) + '°'],
+    [T('ORBITAL PERIOD','ПЕРИОД ОБРАЩЕНИЯ'), fmt(T_/60, 1) + T(' min',' мин')],
+    [T('ORBITS PER DAY','ВИТКОВ В СУТКИ'), fmt(86400/T_, 2)],
+    [T('PLANE TURNS PER DAY','ПОВОРОТ ПЛОСКОСТИ ЗА СУТКИ'), '+' + fmt(nodeRate(RE + h, inc)*86400*180/Math.PI, 4) + '°']
+  ]);
+  hud1.textContent = fmt(inc, 2) + '°';
+  var near = REF.filter(function(r){ return Math.abs(r[0] - h) < 3; })[0];
+  document.getElementById('ssoStatus').innerHTML = near
+    ? near[2] + T(': published ',': опубликовано ') + String(near[1]).replace('.', T('.', ',')) + T('°; this formula gives ','°; формула даёт ') + fmt(inc, 2) + '° [' + (near[2] === 'Sentinel-2' ? 3 : near[2] === 'Landsat 9' ? 2 : 1) + '].'
+    : T('Higher orbits need more tilt: the bulge\'s pull weakens with distance, so the orbit must lean further from the pole to turn fast enough.','Более высоким орбитам нужен больший наклон: притяжение вздутия ослабевает с расстоянием, и орбите приходится сильнее отклоняться от полюса, чтобы поворачиваться достаточно быстро.');
+}
+sH.addEventListener('input', renderSso);
+
+/* ============ CH3 — COVERAGE ============ */
+var cW = document.getElementById('cW'), cH = document.getElementById('cH');
+function coverage(hKm, wKm){ var T_ = period(hKm), sp = EQ_KM*T_/86400; return {spacing:sp, perDay:86400/T_, days:Math.ceil(sp/wKm - 1e-9)}; }
+function renderCov(){
+  var w = +cW.value, h = +cH.value, Cv = coverage(h, w);
+  document.getElementById('cWVal').textContent = fmtInt(w) + T(' km',' км');
+  document.getElementById('cHVal').textContent = fmtInt(h) + T(' km',' км');
+  var svg = document.getElementById('covSvg'); svg.innerHTML = '';
+  var L = 20, R = 460, y0 = 60, sc = (R - L)/EQ_KM, nShow = Math.min(Cv.days, 40);
+  ns('rect', {x:L, y:y0, width:R - L, height:120, fill:'#f6f6f2', stroke:'#c9c9c1'}, svg);
+  txt(svg, L, y0 - 22, T('the equator unrolled (40,075 km): stripes imaged on day 1, 2, 3…','развёрнутый экватор (40 075 км): полосы, снятые в 1-й, 2-й, 3-й… день'), 'svg-small');
+  for(var dd = 0; dd < nShow; dd++){
+    for(var k = 0; k < Math.ceil(Cv.perDay) + 1; k++){
+      var x = L + ((k*Cv.spacing + dd*w) % EQ_KM)*sc;
+      ns('rect', {x:x, y:y0 + 4 + (dd % 6)*19, width:Math.max(0.8, w*sc), height:16, fill: dd === 0 ? '#b5452a' : '#0b0b0c', opacity: dd === 0 ? 0.9 : 0.25 + 0.5*(1 - dd/nShow)}, svg);
+    }
+  }
+  txt(svg, L, y0 + 140, T('day 1 in red; each later day shifted by one swath (an idealised pattern)','1-й день — красным; каждый следующий сдвинут на ширину полосы (идеализированная схема)'), 'svg-small');
+  cells(document.getElementById('covReadout'), [
+    [T('ORBITS PER DAY','ВИТКОВ В СУТКИ'), fmt(Cv.perDay, 2)],
+    [T('TRACK SPACING AT EQUATOR','РАССТОЯНИЕ МЕЖДУ ТРАССАМИ'), fmtInt(Cv.spacing) + T(' km',' км')],
+    [T('DAYS TO COVER THE EQUATOR','ДНЕЙ ДЛЯ ПОКРЫТИЯ ЭКВАТОРА'), Cv.days],
+    [T('REAL CYCLE','РЕАЛЬНЫЙ ЦИКЛ'), Math.abs(h - 705) < 3 && Math.abs(w - 185) < 3 ? T('16 days [2]','16 сут [2]') : Math.abs(h - 786) < 3 && Math.abs(w - 290) < 3 ? T('10 days [3]','10 сут [3]') : '—']
+  ]);
+  hud2.textContent = Cv.days + T(' d',' сут');
+  document.getElementById('covStatus').innerHTML = T('A wider swath fills the gaps sooner. Real cycles come out a little longer than this estimate because stripes are made to overlap and the repeat must be a whole number of orbits.','Более широкая полоса быстрее заполняет промежутки. Реальные циклы немного длиннее этой оценки, потому что полосы делают с перекрытием, а повторение должно составлять целое число витков.');
+}
+[cW, cH].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById('covPre'), null); renderCov(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#covPre .btn'), function(btn){ btn.addEventListener('click', function(){ cH.value = this.getAttribute('data-h'); cW.value = this.getAttribute('data-w'); pressGroup(this.parentNode, this); renderCov(); }); });
+
+/* ============ CH4 — RESOLUTION ============ */
+var rD = document.getElementById('rD'), rH = document.getElementById('rH'), lamUm = 0.65;
+function gsd(lamUm, Dm, hKm){ return 1.22*lamUm*1e-6*hKm*1000/Dm; }
+function renderRes(){
+  var D = Math.pow(10, +rD.value), h = +rH.value, g = gsd(lamUm, D, h);
+  document.getElementById('rDVal').textContent = D < 1 ? fmt(D*100, 1) + T(' cm',' см') : fmt(D, 2) + T(' m',' м');
+  document.getElementById('rHVal').textContent = fmtInt(h) + T(' km',' км');
+  var svg = document.getElementById('resSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 220;
+  function X(lg){ return L + (lg + 2)/2.5*(R - L); }
+  function Y(m){ return B - (Math.log10(m) + 1)/4*(B - Tp); }        // 0.1 m … 1 km
+  [0.1,1,10,100,1000].forEach(function(m){ ns('line', {x1:L, y1:Y(m), x2:R, y2:Y(m), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(m) + 3, m >= 1 ? fmtInt(m) + T(' m',' м') : '0.1 m', 'svg-small', 'end'); });
+  [0.01,0.1,1,3].forEach(function(d){ txt(svg, X(Math.log10(d)), B + 14, d >= 1 ? d + ' m' : (d*100) + ' cm', 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('aperture (log)','апертура (лог.)'), 'svg-small', 'end'); txt(svg, L, 13, T('finest ground detail (log)','самая мелкая деталь на земле (лог.)'), 'svg-small');
+  [[30, 'Landsat 30 m'], [10, 'Sentinel-2 10 m']].forEach(function(r){ ns('line', {x1:L, y1:Y(r[0]), x2:R, y2:Y(r[0]), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg); txt(svg, R - 2, Y(r[0]) - 4, r[1], 'svg-small', 'end'); });
+  var d = ''; for(var lg = -2; lg <= 0.5001; lg += 0.02){ var v = gsd(lamUm, Math.pow(10, lg), h); d += (d ? 'L' : 'M') + X(lg).toFixed(1) + ' ' + Y(Math.max(0.1, Math.min(1000, v))).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(+rD.value), cy:Y(Math.max(0.1, Math.min(1000, g))), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('resReadout'), [
+    [T('DIFFRACTION LIMIT ON THE GROUND','ДИФРАКЦИОННЫЙ ПРЕДЕЛ НА ЗЕМЛЕ'), g < 1 ? fmt(g*100, 0) + T(' cm',' см') : fmt(g, g < 10 ? 2 : 1) + T(' m',' м')],
+    [T('ANGLE','УГОЛ'), fmt(1.22*lamUm*1e-6/D*1e6, 2) + T(' µrad',' мкрад')],
+    [T('APERTURE FOR 30 m','АПЕРТУРА ДЛЯ 30 м'), fmt(1.22*lamUm*1e-6*h*1000/30*100, 1) + T(' cm',' см')],
+    [T('APERTURE FOR 10 m','АПЕРТУРА ДЛЯ 10 м'), fmt(1.22*lamUm*1e-6*h*1000/10*100, 1) + T(' cm',' см')]
+  ]);
+  document.getElementById('resStatus').innerHTML = lamUm > 5
+    ? T('In thermal infrared the same telescope is about 17 times coarser than in red light.','В тепловом ИК тот же телескоп даёт примерно в 17 раз более грубую картинку, чем в красном свете.')
+    : T('In visible light a few centimetres of aperture already beats 30 m pixels — survey telescopes are limited by detector pixels and data volume, not by diffraction.','В видимом свете уже несколько сантиметров апертуры дают лучше 30-метровых пикселей — обзорные телескопы ограничены пикселями детектора и объёмом данных, а не дифракцией.');
+}
+[rD, rH].forEach(function(el){ el.addEventListener('input', renderRes); });
+Array.prototype.forEach.call(document.querySelectorAll('#resBand .btn'), function(btn){ btn.addEventListener('click', function(){ lamUm = +this.getAttribute('data-l'); pressGroup(this.parentNode, this); renderRes(); }); });
+
+/* ============ CH5 — TIMELINE ============ */
+var TIMELINE = [
+  ['1972', '<b>23 July:</b> ERTS-1, later Landsat 1, launched: 917 km, 99.2°, 9:42 a.m. crossing, 80 m pixels, 18-day cycle [1].', '<b>23 июля:</b> запуск ERTS-1 (позже Landsat 1): 917 км, 99,2°, пересечение экватора в 9:42, пиксели 80 м, цикл 18 суток [1].'],
+  ['1978', '<b>6 January:</b> Landsat 1 decommissioned [1].', '<b>6 января:</b> Landsat 1 выведен из эксплуатации [1].'],
+  ['Today', 'Sentinel-2 satellites in a 786 km, 98.62°, 10:30 orbit, 290 km swath, 10 m pixels [3].', 'Спутники Sentinel-2 на орбите 786 км, 98,62°, 10:30, полоса 290 км, пиксели 10 м [3].'],
+  ['2021', '<b>27 September:</b> Landsat 9 launched: 705 km, 98.2°, 10:12 a.m. crossing, 16-day cycle [2].', '<b>27 сентября:</b> запуск Landsat 9: 705 км, 98,2°, пересечение в 10:12, цикл 16 суток [2].']
+];
+
+/* ============ CH6 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA, “Landsat 1” mission page', url:'https://landsat.gsfc.nasa.gov/satellites/landsat-1/', note:{en:'ERTS-1 launched 23 July 1972, decommissioned 6 January 1978; 917 km, 99.2°, sun-synchronous, 9:42 a.m. descending node, 103 min, 185 km swath, 80 m, 18-day cycle.', ru:'ERTS-1 запущен 23 июля 1972, выведен из эксплуатации 6 января 1978; 917 км, 99,2°, солнечно-синхронная, нисходящий узел в 9:42, 103 мин, полоса 185 км, 80 м, цикл 18 суток.'}},
+  {title:'NASA, “Landsat 9” mission page', url:'https://landsat.gsfc.nasa.gov/satellites/landsat-9/', note:{en:'Launched 27 September 2021; 705 km, 98.2°, 10:12 a.m. (± 5 min) descending node, 99 min, ~14.5 orbits/day, 16-day cycle, 185 km swath, 30/15/100 m, WRS-2.', ru:'Запущен 27 сентября 2021; 705 км, 98,2°, нисходящий узел в 10:12 (± 5 мин), 99 мин, ~14,5 витка в сутки, цикл 16 суток, полоса 185 км, 30/15/100 м, WRS-2.'}},
+  {title:'ESA / Copernicus SentiWiki, “Sentinel-2 Mission”', url:'https://sentiwiki.copernicus.eu/web/s2-mission', note:{en:'Twin satellites phased 180°; 786 km, 98.62°, 100.6 min, 10-day cycle, 10:30 MLST descending node chosen between illumination and cloud cover; 290 km swath; 10, 20 and 60 m bands.', ru:'Два спутника со сдвигом 180°; 786 км, 98,62°, 100,6 мин, цикл 10 суток, нисходящий узел в 10:30 MLST (компромисс между освещённостью и облачностью); полоса 290 км; каналы 10, 20 и 60 м.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderSso();
+  renderCov();
+  renderRes();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__sso = {ssoInc:ssoInc, period:period, coverage:coverage, gsd:gsd, nodeRate:nodeRate};
+
+})();
+</script>
+</body>
+</html>

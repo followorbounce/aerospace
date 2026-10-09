@@ -17,6 +17,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 ## Earth Orbit & Applications
 
 - [GPS & Satellite Navigation](https://followorbounce.github.io/aerospace/navigator-gps): GPS — why four satellites (clock as an unknown, Gauss–Newton fix), 38.6 µs/day of relativity and the 10.22999999543 MHz factory clock setting (Ashby 2003), dilution of precision vs satellite geometry, Selective Availability
+- [Earth Observation Satellites](https://followorbounce.github.io/aerospace/sunsync-earth-observation): Earth observation — J2 nodal precession and the sun-synchronous inclination vs altitude (matches Landsat 1, Landsat 9 and Sentinel-2 within 0.1°), swath width vs revisit time, diffraction-limited ground resolution
 
 ## Space Stations
 
