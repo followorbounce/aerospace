@@ -1,0 +1,11 @@
+{
+ "slug": "link-deep-space-network",
+ "title_en": "LINK — THE DEEP SPACE NETWORK",
+ "title_ru": "СВЯЗЬ — СЕТЬ ДАЛЬНЕЙ КОСМИЧЕСКОЙ СВЯЗИ",
+ "description": "An interactive field guide to talking to spacecraft: NASA's Deep Space Network of 70 m and 34 m dishes in Goldstone, Madrid and Canberra, a link-budget calculator checked against JPL's own Voyager 2 design table (−145.5 dBm received from 48.6 AU), why antenna size and frequency matter, and Voyager 1 reaching one light-day from Earth on 18 November 2026.",
+ "og": "A 12-watt transmitter heard from 7 billion km: the Deep Space Network link budget, checked against JPL's Voyager tables, interactive.",
+ "brand": "LINK — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE NETWORK",
+ "hud1": "RECEIVED",
+ "hud2": "MAX DATA RATE"
+}

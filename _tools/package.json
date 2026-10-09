@@ -1,0 +1,7 @@
+{
+  "name": "aerospace-tools",
+  "private": true,
+  "description": "Build and test tooling for the generated field guides (see README.md)",
+  "scripts": { "check": "./check-all.sh" },
+  "devDependencies": { "jsdom": "24.1.3" }
+}

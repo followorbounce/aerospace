@@ -1,0 +1,11 @@
+{
+ "slug": "nozzle-rocket-engines",
+ "title_en": "NOZZLE — HOW ROCKET ENGINES WORK",
+ "title_ru": "СОПЛО — КАК РАБОТАЮТ РАКЕТНЫЕ ДВИГАТЕЛИ",
+ "description": "An interactive field guide to rocket engines: how a converging–diverging nozzle turns hot gas into a supersonic jet, what the area ratio does to exit Mach number and pressure, why sea-level nozzles are short and vacuum nozzles enormous, checked against the F-1 and the Space Shuttle main engine, and the pump cycles — gas generator and staged combustion — that feed them.",
+ "og": "Area ratio, exit pressure and why vacuum nozzles are huge — rocket engines from the F-1 to the RS-25, interactive and checked against NASA data.",
+ "brand": "NOZZLE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE THROAT",
+ "hud1": "EXIT MACH",
+ "hud2": "THRUST COEFF."
+}

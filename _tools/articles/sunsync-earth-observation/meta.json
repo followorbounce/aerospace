@@ -1,0 +1,11 @@
+{
+ "slug": "sunsync-earth-observation",
+ "title_en": "SUNSYNC — EARTH OBSERVATION SATELLITES",
+ "title_ru": "СОЛНЦЕ-СИНХРОННАЯ — СПУТНИКИ НАБЛЮДЕНИЯ ЗЕМЛИ",
+ "description": "An interactive field guide to Earth-observation satellites: how Earth's equatorial bulge turns an orbit just enough to keep pace with the Sun, so Landsat and Sentinel-2 always pass at mid-morning; the inclination this needs at each altitude, checked against Landsat 1, Landsat 9 and Sentinel-2; how swath width sets the revisit time; and the diffraction limit on image sharpness.",
+ "og": "Why Landsat crosses the equator at 10:12 every day: sun-synchronous orbits, revisit time and image resolution, interactive and checked against NASA and ESA data.",
+ "brand": "SUNSYNC — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE BULGE",
+ "hud1": "INCLINATION",
+ "hud2": "REVISIT"
+}

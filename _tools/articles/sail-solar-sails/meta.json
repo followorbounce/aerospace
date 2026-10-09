@@ -1,0 +1,11 @@
+{
+ "slug": "sail-solar-sails",
+ "title_en": "SAIL — SOLAR SAILS",
+ "title_ru": "ПАРУС — СОЛНЕЧНЫЕ ПАРУСА",
+ "description": "An interactive field guide to solar sails: how sunlight pushes with 9 micronewtons per square metre, JAXA's IKAROS and its measured 1.12 mN, the Planetary Society's LightSail 2 raising its orbit with light alone, NASA's ACS3, the 35° steering angle that makes the most of it, and why a push the weight of a grain of sand becomes real speed when it never stops.",
+ "og": "9 µN per square metre, 1.12 mN measured by IKAROS, and the 35° steering angle: solar sailing, interactive and sourced from JAXA, NASA and the Planetary Society.",
+ "brand": "SAIL — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "LIGHT PUSHES",
+ "hud1": "THRUST",
+ "hud2": "Δv PER DAY"
+}

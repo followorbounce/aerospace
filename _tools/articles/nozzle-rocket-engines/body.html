@@ -1,0 +1,133 @@
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE THROAT">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — THROAT 10.3 IN, EXIT 90.7 IN" data-ru="РИС. 00 — ГОРЛО 10,3 ДЮЙМА, СРЕЗ 90,7 ДЮЙМА">FIG. 00 — THROAT 10.3 IN, EXIT 90.7 IN</span></span>
+        <span>ε = A<sub>e</sub> / A* = 77.5</span>
+      </div>
+      <h1><span data-en="NOZZLE" data-ru="СОПЛО">NOZZLE</span><br><em data-en="HOW ROCKET ENGINES WORK" data-ru="КАК РАБОТАЮТ РАКЕТНЫЕ ДВИГАТЕЛИ">HOW ROCKET ENGINES WORK</em></h1>
+      <p class="sub lede" data-en="A rocket engine is a pump, a fire and a funnel shaped to break the sound barrier. The funnel — the nozzle — does the decisive work: it squeezes hot gas to the speed of sound at its narrowest point, then lets it expand to several times that speed. Six chapters and three instruments: shape a nozzle and read its exit Mach number and pressure, fly it from sea level to vacuum, and trace how the F-1 and the Space Shuttle main engine fed their fires." data-ru="Ракетный двигатель — это насос, огонь и воронка, рассчитанная на преодоление звукового барьера. Решающую работу делает воронка — сопло: в самом узком месте она разгоняет горячий газ до скорости звука, а затем даёт ему расшириться до скорости в несколько раз больше. Шесть глав и три прибора: задайте форму сопла и посмотрите число Маха и давление на срезе, проведите его от уровня моря до вакуума и проследите, как F-1 и главный двигатель «Спейс шаттла» питали своё пламя.">A rocket engine is a pump, a fire and a funnel.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THROAT -->
+<section id="ch1" class="section" data-phase="THE THROAT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 06</span> — <span data-en="CONVERGE, CHOKE, DIVERGE" data-ru="СУЖЕНИЕ, ЗАПИРАНИЕ, РАСШИРЕНИЕ">CONVERGE, CHOKE, DIVERGE</span></div>
+    <h2 class="h-lg" data-en="Supersonic gas speeds up in a widening pipe" data-ru="Сверхзвуковой газ разгоняется в расширяющейся трубе">Supersonic gas speeds up in a widening pipe</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Below the speed of sound, gas speeds up when a pipe narrows — like water from a pinched hose. Above it, the opposite holds: a supersonic flow speeds up when the pipe <b>widens</b>, because the gas expands and cools faster than the area grows. So a rocket nozzle first converges to a <b>throat</b>, where the flow reaches exactly Mach 1, then diverges into the bell [1][2]." data-ru="Ниже скорости звука газ ускоряется, когда труба сужается, — как вода из пережатого шланга. Выше — наоборот: сверхзвуковой поток ускоряется, когда труба <b>расширяется</b>, потому что газ расширяется и остывает быстрее, чем растёт площадь. Поэтому сопло ракеты сначала сужается к <b>горлу</b>, где поток достигает ровно числа Маха 1, а затем расширяется в колокол [1][2].">A nozzle converges to a throat, then diverges.</p>
+      <p class="body-col" data-en="The ratio of exit area to throat area, the <b>area ratio ε</b>, sets everything at the exit: Mach number, temperature and pressure. The Space Shuttle main engine's throat was 10.3 inches across and its exit 90.7 inches, an area ratio of <b>77.5</b> [4]. The F-1, built to work in thick air, had an area ratio of only <b>16</b> [3]." data-ru="Отношение площади среза к площади горла — <b>степень расширения ε</b> — определяет всё на выходе: число Маха, температуру и давление. Горло главного двигателя «Спейс шаттла» имело диаметр 10,3 дюйма, а срез — 90,7 дюйма: степень расширения <b>77,5</b> [4]. У F-1, созданного для работы в плотном воздухе, она была всего <b>16</b> [3].">The area ratio sets the exit conditions.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="ISENTROPIC NOZZLE FLOW" data-ru="ИЗОЭНТРОПИЧЕСКОЕ ТЕЧЕНИЕ В СОПЛЕ">ISENTROPIC NOZZLE FLOW</div>
+      <div class="eq-body">ε = A/A* = (1/M) [ (2/(γ+1)) (1 + (γ−1)M²/2) ]<sup>(γ+1)/(2(γ−1))</sup> &nbsp;·&nbsp; p/p<sub>c</sub> = (1 + (γ−1)M²/2)<sup>−γ/(γ−1)</sup></div>
+      <div class="eq-note" data-en="γ is the ratio of specific heats of the exhaust (about 1.2 for hot rocket exhaust; 1.4 for cold air). The flow is treated as ideal, one-dimensional and frozen in composition, as in NASA Glenn's derivations [1][2]." data-ru="γ — показатель адиабаты продуктов сгорания (около 1,2 для горячего выхлопа ракеты; 1,4 для холодного воздуха). Течение считается идеальным, одномерным и с неизменным составом, как в выводах NASA Glenn [1][2].">γ ≈ 1.2 for rocket exhaust.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="nozSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Nozzle profile with Mach number and pressure along its length"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="nE" data-en="AREA RATIO ε" data-ru="СТЕПЕНЬ РАСШИРЕНИЯ ε">AREA RATIO ε</label><span class="v" id="nEVal">—</span></div>
+          <input id="nE" type="range" min="2" max="150" step="0.5" value="30">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="nG" data-en="γ OF THE EXHAUST" data-ru="γ ПРОДУКТОВ СГОРАНИЯ">γ OF THE EXHAUST</label><span class="v" id="nGVal">—</span></div>
+          <input id="nG" type="range" min="1.12" max="1.4" step="0.01" value="1.2">
+        </div>
+        <div class="readout-grid" id="nozReadout"></div>
+        <div class="status" id="nozStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — ALTITUDE -->
+<section id="ch2" class="section" data-phase="ALTITUDE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 06</span> — <span data-en="ONE NOZZLE CANNOT FIT EVERY ALTITUDE" data-ru="ОДНО СОПЛО НЕ ПОДХОДИТ ДЛЯ ВСЕХ ВЫСОТ">ONE NOZZLE CANNOT FIT EVERY ALTITUDE</span></div>
+    <h2 class="h-lg" data-en="The air pushes back on the exit" data-ru="Воздух давит на срез сопла">The air pushes back on the exit</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Thrust has two parts: the momentum of the jet, and the difference between exit pressure and the surrounding air, acting on the exit area: <b>F = ṁ v<sub>e</sub> + (p<sub>e</sub> − p<sub>a</sub>) A<sub>e</sub></b> [1]. A nozzle gives its best when the exit pressure equals the air pressure. Expand further and at sea level the exit is <b>over-expanded</b>: the air presses inward on a large, low-pressure exit and steals thrust. In vacuum, any extra expansion only helps." data-ru="Тяга состоит из двух частей: импульса струи и разности давлений на срезе и в окружающем воздухе, действующей на площадь среза: <b>F = ṁ v<sub>e</sub> + (p<sub>e</sub> − p<sub>a</sub>) A<sub>e</sub></b> [1]. Сопло работает лучше всего, когда давление на срезе равно давлению воздуха. Если расширить сильнее, у земли сопло <b>перерасширено</b>: воздух давит внутрь на большой срез с низким давлением и отнимает тягу. В вакууме любое дополнительное расширение только помогает.">F = ṁv<sub>e</sub> + (p<sub>e</sub> − p<sub>a</sub>)A<sub>e</sub>.</p>
+      <p class="body-col" data-en="NASA's figures for the RS-25 show the effect directly: 418,000 lbf at sea level and 512,300 lbf in vacuum at the same power level [5]. The whole difference is the air pressing on the exit, 14.7 psi × A<sub>e</sub> — which implies an exit about 90 inches across, just what the drawings say [4][5]. Below, the thrust coefficient C<sub>F</sub> = F/(p<sub>c</sub>A*) of two real nozzles and your own, from the pad to space." data-ru="Данные NASA для RS-25 показывают это напрямую: 418 000 фунтов у земли и 512 300 фунтов в вакууме при одном и том же режиме [5]. Вся разница — это давление воздуха на срез, 14,7 фунта на кв. дюйм × A<sub>e</sub>, откуда диаметр среза около 90 дюймов — ровно как на чертежах [4][5]. Ниже — коэффициент тяги C<sub>F</sub> = F/(p<sub>c</sub>A*) двух настоящих сопел и вашего собственного от стартового стола до космоса.">RS-25: 418,000 lbf at sea level, 512,300 lbf in vacuum.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THRUST COEFFICIENT" data-ru="КОЭФФИЦИЕНТ ТЯГИ">THRUST COEFFICIENT</div>
+      <div class="eq-body">C<sub>F</sub> = √{ (2γ²/(γ−1)) (2/(γ+1))<sup>(γ+1)/(γ−1)</sup> [1 − (p<sub>e</sub>/p<sub>c</sub>)<sup>(γ−1)/γ</sup>] } + ε (p<sub>e</sub> − p<sub>a</sub>)/p<sub>c</sub></div>
+      <div class="eq-note" data-en="Chamber pressures: F-1 1,100 psi [3], RS-25 about 3,000 psi [4]; γ = 1.2 assumed for both. Air pressure from an exponential atmosphere with a 7.2 km scale height — an approximation. Flow separation in strongly over-expanded nozzles is not modelled." data-ru="Давление в камере: F-1 — 1100 фунтов на кв. дюйм [3], RS-25 — около 3000 [4]; γ = 1,2 принят для обоих. Давление воздуха — по экспоненциальной атмосфере с высотой однородной атмосферы 7,2 км (приближение). Отрыв потока в сильно перерасширенных соплах не моделируется.">Chamber pressures from the sources.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="altSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Thrust coefficient against altitude for three nozzles"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="aH" data-en="ALTITUDE" data-ru="ВЫСОТА">ALTITUDE</label><span class="v" id="aHVal">—</span></div>
+          <input id="aH" type="range" min="0" max="60" step="0.5" value="0">
+        </div>
+        <div class="readout-grid" id="altReadout"></div>
+        <div class="status" id="altStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Your nozzle in this chart uses the area ratio and γ from the first instrument at a 1,100 psi chamber pressure." data-ru="Ваше сопло на этом графике использует степень расширения и γ из первого прибора при давлении в камере 1100 фунтов на кв. дюйм.">Your nozzle uses the settings above.</p>
+  </div>
+</section>
+
+<!-- CH3 — CYCLES -->
+<section id="ch3" class="section" data-phase="CYCLES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 06</span> — <span data-en="FEEDING THE FIRE" data-ru="КАК ПИТАТЬ ПЛАМЯ">FEEDING THE FIRE</span></div>
+    <h2 class="h-lg" data-en="Where does the turbine's exhaust go?" data-ru="Куда уходит выхлоп турбины?">Where does the turbine's exhaust go?</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A large engine swallows propellant by the tonne per second — the Shuttle main engine about 1,035 lb/s at full power [4] — far too fast for tank pressure alone. Turbopumps do the work, driven by a turbine that burns a little propellant of its own. In the <b>gas-generator</b> cycle that small burn is thrown away afterwards: the F-1 piped its turbine exhaust into the nozzle wall from the 10:1 point downward [3], and the Merlin uses the same cycle [6]." data-ru="Большой двигатель поглощает топливо тоннами в секунду — главный двигатель шаттла около 1035 фунтов в секунду на полной мощности [4], — гораздо быстрее, чем может подать одно давление в баках. Работу делают турбонасосы, которые вращает турбина, сжигающая немного топлива. В цикле с <b>газогенератором</b> это небольшое сжигание затем выбрасывается: F-1 отводил выхлоп турбины в стенку сопла начиная с сечения 10:1 [3], а Merlin использует тот же цикл [6].">Gas-generator cycle: the turbine exhaust is dumped.</p>
+      <p class="body-col" data-en="In the <b>staged-combustion</b> cycle nothing is wasted: the turbine runs on a fuel-rich preburner, and its whole exhaust goes on into the main chamber to finish burning. It is harder to build — the RS-25's main chamber had to hold about 3,000 psi [4] — but gives higher performance [7]. The RS-25's 470,000 lbf of vacuum thrust from 1,035 lb/s means a specific impulse of about <b>454 s</b> [4]. Compare the cycles below." data-ru="В цикле с <b>дожиганием</b> ничего не пропадает: турбина работает на газе из богатого горючим предкамерного газогенератора, а весь её выхлоп идёт в основную камеру и догорает там. Построить такой двигатель труднее — камера RS-25 должна была выдерживать около 3000 фунтов на кв. дюйм [4], — но он эффективнее [7]. 470 000 фунтов тяги в вакууме при расходе 1035 фунтов в секунду у RS-25 означают удельный импульс около <b>454 с</b> [4]. Сравните циклы ниже.">Staged combustion burns everything.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="cycSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Schematic of the selected engine cycle"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Cycle" id="cycSel">
+          <button class="btn" data-c="press" aria-pressed="false" data-en="PRESSURE-FED" data-ru="ВЫТЕСНИТЕЛЬНАЯ">PRESSURE-FED</button>
+          <button class="btn active" data-c="gg" aria-pressed="true" data-en="GAS GENERATOR" data-ru="ГАЗОГЕНЕРАТОР">GAS GENERATOR</button>
+          <button class="btn" data-c="sc" aria-pressed="false" data-en="STAGED COMBUSTION" data-ru="ДОЖИГАНИЕ">STAGED COMBUSTION</button>
+        </div>
+        <div class="readout-grid" id="cycReadout"></div>
+        <div class="status" id="cycStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — COOLING -->
+<section id="ch4" class="section" data-phase="COOLING">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 06</span> — <span data-en="KEEPING THE NOZZLE SOLID" data-ru="КАК НЕ ДАТЬ СОПЛУ РАСПЛАВИТЬСЯ">KEEPING THE NOZZLE SOLID</span></div>
+    <h2 class="h-lg" data-en="The fuel cools the bell before it burns" data-ru="Горючее охлаждает колокол, прежде чем сгореть">The fuel cools the bell before it burns</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Combustion gas is far hotter than any metal can survive. Most engines are <b>regeneratively cooled</b>: propellant flows through channels or tubes in the walls before it reaches the injector, carrying the heat back into the engine. The Shuttle main engine's nozzle was lined with 1,080 stainless-steel tubes, an eighth of an inch across, carrying hydrogen [4]." data-ru="Продукты сгорания намного горячее, чем выдерживает любой металл. Большинство двигателей охлаждаются <b>регенеративно</b>: топливо, прежде чем попасть в смесительную головку, течёт по каналам или трубкам в стенках и возвращает тепло в двигатель. Сопло главного двигателя шаттла было выложено 1080 трубками из нержавеющей стали диаметром в восьмую часть дюйма, по которым шёл водород [4].">Regenerative cooling.</p>
+      <p class="body-col" data-en="The F-1's tubes ran only down to the 10:1 point; below it, the cooler turbine exhaust flowing along the wall protected the nozzle extension [3]. Each choice — area ratio, cycle, cooling — trades weight, complexity and efficiency for the one job the engine must do. That is why a first-stage engine and an upper-stage engine of the same company can look like different species." data-ru="Трубки F-1 доходили лишь до сечения 10:1; ниже насадок сопла защищал более холодный выхлоп турбины, текущий вдоль стенки [3]. Каждый выбор — степень расширения, цикл, охлаждение — обменивает массу, сложность и экономичность ради единственной задачи двигателя. Поэтому двигатель первой ступени и двигатель верхней ступени одной и той же фирмы могут выглядеть как разные виды.">Turbine exhaust as film cooling on the F-1.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — TIMELINE -->
+<section id="ch5" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 06</span> — <span data-en="ENGINES THAT KEPT FLYING" data-ru="ДВИГАТЕЛИ, КОТОРЫЕ ПРОДОЛЖАЮТ ЛЕТАТЬ">ENGINES THAT KEPT FLYING</span></div>
+    <h2 class="h-lg" data-en="From throwaway giants to reusable engines" data-ru="От одноразовых гигантов к многоразовым двигателям">From throwaway giants to reusable engines</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Every rocket engine is the same idea — burn, choke, expand — argued over for each altitude, each propellant and each budget." data-ru="Каждый ракетный двигатель — одна и та же идея: сжечь, запереть, расширить, — заново решаемая для каждой высоты, каждого топлива и каждого бюджета.">Burn, choke, expand.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — REFERENCES -->
+<section id="ch6" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 06</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>

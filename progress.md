@@ -80,3 +80,8 @@
 - **SAIL** (`sail-solar-sails.html`): 2S/c = 9.08 µN/m²; IKAROS 196 m² with η·cos²α ≈ 0.63 reproduces JAXA's measured 1.12 mN; 35.26° tacking optimum; 1/r² Δv accumulation; LightSail 2 (+2 km apogee in 4 days, +7.2 km in a month), ACS3, IKAROS ops ended 15 May 2025. 7 checks.
 - Homepage aero shader +5 missions (Landsat 1, NAVSTAR 1, first Shuttle EVA, Iridium–Cosmos, IKAROS — UTC 2010-05-20) → 85; card 68.
 - Tooling in ~/.cache/aero-src/w4/ (copy `ffa/` profile into a new wave dir or shot.sh fails).
+
+## 2026-10-09 — Track D: wave tooling moved into the repo
+- `_tools/` now holds the build/test tooling (assemble.py, helpers.js, wire.py, test.js, shot.sh) and the sources of all 16 generated guides (RABBIT + Waves 2–4) in `_tools/articles/<slug>/`. Previously these lived only in `~/.cache/aero-src/`.
+- All paths repo-relative; jsdom pinned in `_tools/package.json`; `shot.sh` uses a throwaway Firefox profile; new `check-all.sh` rebuilds each guide, fails on drift from the committed page, and runs every jsdom check. All 16 rebuild byte-identical and pass.
+- Underscore prefix keeps Jekyll (Pages "legacy" build) from publishing the sources. Wave 1's BEEP/FIRST/FURNACE/VESSEL sources were not kept and are not here.

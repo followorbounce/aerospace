@@ -1,0 +1,132 @@
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE NETWORK">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 18 NOVEMBER 2026, ONE LIGHT-DAY" data-ru="РИС. 00 — 18 НОЯБРЯ 2026, ОДИН СВЕТОВОЙ ДЕНЬ">FIG. 00 — 18 NOVEMBER 2026, ONE LIGHT-DAY</span></span>
+        <span>8.4 GHz · 70 m · 21 K</span>
+      </div>
+      <h1><span data-en="LINK" data-ru="СВЯЗЬ">LINK</span><br><em data-en="THE DEEP SPACE NETWORK" data-ru="СЕТЬ ДАЛЬНЕЙ КОСМИЧЕСКОЙ СВЯЗИ">THE DEEP SPACE NETWORK</em></h1>
+      <p class="sub lede" data-en="Voyager talks to Earth with about the power of a refrigerator light bulb, from billions of kilometres away. By the time it arrives, the signal is about 10⁻¹⁸ watt. Hearing it takes some of the largest steerable dishes on Earth, receivers cooled to near absolute zero, and careful bookkeeping in decibels. Six chapters and two instruments: build a link budget checked against JPL's own Voyager table, and see why bigger dishes and higher frequencies win." data-ru="«Вояджер» разговаривает с Землёй с мощностью примерно лампочки в холодильнике, с расстояния в миллиарды километров. До Земли доходит около 10⁻¹⁸ ватта. Чтобы его услышать, нужны одни из крупнейших поворотных антенн на Земле, приёмники, охлаждённые почти до абсолютного нуля, и аккуратный учёт в децибелах. Шесть глав и два прибора: соберите бюджет радиолинии, проверенный по таблице самой JPL для «Вояджера», и узнайте, почему выигрывают большие антенны и высокие частоты.">Voyager talks to Earth with the power of a light bulb.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — NETWORK -->
+<section id="ch1" class="section" data-phase="THE NETWORK">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 06</span> — <span data-en="THREE PLACES, ALWAYS ONE IN VIEW" data-ru="ТРИ МЕСТА — ВСЕГДА ОДНО В ЗОНЕ ВИДИМОСТИ">THREE PLACES, ALWAYS ONE IN VIEW</span></div>
+    <h2 class="h-lg" data-en="Goldstone, Madrid, Canberra" data-ru="Голдстоун, Мадрид, Канберра">Goldstone, Madrid, Canberra</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="As Earth turns, any one site loses sight of a distant spacecraft for half of each day. NASA's Deep Space Network solves this with three complexes spaced around the globe, in California, Spain and Australia, so that a spacecraft is always above someone's horizon. Each has one 70-metre dish — DSS-14 at Goldstone, DSS-63 at Madrid, DSS-43 at Canberra — and several 34-metre antennas [2]." data-ru="Пока Земля вращается, любая отдельная станция половину суток не видит далёкий аппарат. Сеть дальней космической связи NASA решает это тремя комплексами, разнесёнными по земному шару, — в Калифорнии, Испании и Австралии, — так что аппарат всегда над чьим-то горизонтом. В каждом есть одна 70-метровая антенна — DSS-14 в Голдстоуне, DSS-63 в Мадриде, DSS-43 в Канберре — и несколько 34-метровых [2].">Three complexes, one 70 m dish each.</p>
+      <p class="body-col" data-en="The 70-metre antennas listen through cryogenically cooled amplifiers: at X band the whole receiving system adds noise equivalent to a temperature of only about <b>21 kelvin</b> [1][2]. That is the real limit on a deep-space link — not how weak the signal is, but how weak it is compared with the noise." data-ru="70-метровые антенны слушают через усилители с криогенным охлаждением: в диапазоне X вся приёмная система добавляет шум, эквивалентный температуре всего около <b>21 кельвина</b> [1][2]. Это и есть настоящий предел дальней радиолинии — не насколько слаб сигнал, а насколько он слаб по сравнению с шумом.">System noise temperature about 21 K.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — LINK BUDGET -->
+<section id="ch2" class="section" data-phase="LINK BUDGET">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 06</span> — <span data-en="ADDING UP DECIBELS" data-ru="СЛОЖЕНИЕ ДЕЦИБЕЛ">ADDING UP DECIBELS</span></div>
+    <h2 class="h-lg" data-en="−308 dB of empty space" data-ru="−308 дБ пустого пространства">−308 dB of empty space</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A link budget multiplies everything along the way, so engineers add logarithms instead: transmitter power, plus the gain of each antenna, minus the <b>space loss</b> from the signal spreading over an ever larger sphere. JPL's published design table for Voyager 2 on 1 January 1996, at 48.62 AU, lists 40.9 dBm (12.3 W) into a 48.2 dBi high-gain antenna, a space loss of −308.19 dB at 8,415 MHz, a 70-m dish with 74.01 dBi, and a received power of <b>−145.5 dBm</b> [1]." data-ru="Бюджет радиолинии перемножает всё на пути сигнала, поэтому инженеры складывают логарифмы: мощность передатчика, плюс усиление каждой антенны, минус <b>потери в пространстве</b> из-за расхождения сигнала по всё большей сфере. Опубликованная JPL расчётная таблица для «Вояджера-2» на 1 января 1996 года, на расстоянии 48,62 а.е., даёт 40,9 дБм (12,3 Вт) в остронаправленную антенну с усилением 48,2 дБи, потери в пространстве −308,19 дБ на 8415 МГц, 70-метровую антенну с 74,01 дБи и принимаемую мощность <b>−145,5 дБм</b> [1].">Voyager 2, 1996: −145.5 dBm received.</p>
+      <p class="body-col" data-en="With a noise density of −185.35 dBm/Hz, that left a signal-to-noise density of 39.9 dB-Hz, and the 160 bit/s telemetry closed with a <b>13.3 dB</b> margin [1]. The instrument below rebuilds that budget from physics: dish gain from diameter, space loss from distance, noise from temperature. Start with the Voyager 2 preset, then push Voyager 1 out to one light-day." data-ru="При спектральной плотности шума −185,35 дБм/Гц это давало отношение сигнал/шум 39,9 дБ·Гц, и телеметрия 160 бит/с замыкалась с запасом <b>13,3 дБ</b> [1]. Прибор ниже собирает этот бюджет из физики: усиление антенны по диаметру, потери по расстоянию, шум по температуре. Начните с пресета «Вояджер-2», затем отодвиньте «Вояджер-1» на один световой день.">160 bit/s with 13.3 dB margin.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="LINK BUDGET" data-ru="БЮДЖЕТ РАДИОЛИНИИ">LINK BUDGET</div>
+      <div class="eq-body">P<sub>r</sub> = P<sub>t</sub> + G<sub>t</sub> + G<sub>r</sub> − 20 log(4πd/λ) − L &nbsp;·&nbsp; G = η(πD/λ)² &nbsp;·&nbsp; N₀ = kT &nbsp;·&nbsp; R<sub>max</sub> = (P<sub>r</sub>/N₀) / (E<sub>b</sub>/N₀)<sub>req</sub></div>
+      <div class="eq-note" data-en="Dish efficiency η = 0.65, which reproduces both of the table's gains (48.2 and 74.0 dBi) to within 0.1 dB; L = 0.42 dB of pointing, polarization and atmospheric losses, and the data-channel factors (−1.25 dB data power, −0.8 dB system losses, 2.34 dB required E<sub>b</sub>/N₀ for the coded link) all from the Voyager tables [1]. The 34-m antenna and Ka-band cases keep the same 21 K noise and efficiency — an assumption." data-ru="КПД антенны η = 0,65 воспроизводит оба усиления из таблицы (48,2 и 74,0 дБи) с точностью до 0,1 дБ; L = 0,42 дБ потерь наведения, поляризации и атмосферы и параметры канала данных (−1,25 дБ доля мощности данных, −0,8 дБ системные потери, 2,34 дБ требуемое E<sub>b</sub>/N₀ для кодированной линии) взяты из таблиц «Вояджера» [1]. Для 34-метровой антенны и диапазона Ka приняты те же 21 К и КПД — это допущение.">η = 0.65 reproduces both gains.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="lbSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Link budget waterfall in decibels"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset" id="lbPre">
+          <button class="btn active" data-p="v2" aria-pressed="true" data-en="VOYAGER 2, 1996" data-ru="«ВОЯДЖЕР-2», 1996">VOYAGER 2, 1996</button>
+          <button class="btn" data-p="v1" aria-pressed="false" data-en="VOYAGER 1, 1 LIGHT-DAY" data-ru="«ВОЯДЖЕР-1», 1 СВ. ДЕНЬ">VOYAGER 1, 1 LIGHT-DAY</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="lbD" data-en="DISTANCE" data-ru="РАССТОЯНИЕ">DISTANCE</label><span class="v" id="lbDVal">—</span></div>
+          <input id="lbD" type="range" min="-0.5" max="2.5" step="0.001" value="1.6868">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="lbP" data-en="TRANSMITTER POWER" data-ru="МОЩНОСТЬ ПЕРЕДАТЧИКА">TRANSMITTER POWER</label><span class="v" id="lbPVal">—</span></div>
+          <input id="lbP" type="range" min="1" max="100" step="0.1" value="12.3">
+        </div>
+        <div class="btn-row" role="group" aria-label="Ground antenna" id="lbAnt">
+          <button class="btn" data-d="34" aria-pressed="false">34 m</button>
+          <button class="btn active" data-d="70" aria-pressed="true">70 m</button>
+        </div>
+        <div class="btn-row" role="group" aria-label="Band" id="lbBand">
+          <button class="btn active" data-f="8.415" aria-pressed="true" data-en="X BAND 8.4 GHz" data-ru="X 8,4 ГГц">X BAND 8.4 GHz</button>
+          <button class="btn" data-f="32" aria-pressed="false" data-en="Ka BAND 32 GHz" data-ru="Ka 32 ГГц">Ka BAND 32 GHz</button>
+        </div>
+        <div class="readout-grid" id="lbReadout"></div>
+        <div class="status" id="lbStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — BEAM -->
+<section id="ch3" class="section" data-phase="THE BEAM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 06</span> — <span data-en="NARROW BEAMS, PRECISE POINTING" data-ru="УЗКИЕ ЛУЧИ, ТОЧНОЕ НАВЕДЕНИЕ">NARROW BEAMS, PRECISE POINTING</span></div>
+    <h2 class="h-lg" data-en="Gain is just focus" data-ru="Усиление — это просто фокусировка">Gain is just focus</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="An antenna does not create power; it squeezes it into a narrow beam. The gain grows with the square of the diameter measured in wavelengths, so a dish twice as wide, or a frequency four times higher, gains 6 dB or 12 dB. The price is pointing: the beam narrows in proportion, so a larger, higher-frequency antenna must be aimed more precisely (see <a href='/aerospace/parabola-mirrors-and-dishes'>PARABOLA</a> for why a dish focuses at all)." data-ru="Антенна не создаёт мощность — она сжимает её в узкий луч. Усиление растёт как квадрат диаметра, измеренного в длинах волн, поэтому вдвое более широкая антенна или вчетверо более высокая частота дают 6 дБ или 12 дБ. Платить приходится наведением: луч сужается в той же пропорции, и бо́льшую, более высокочастотную антенну нужно наводить точнее (о том, почему тарелка вообще фокусирует, — в <a href='/aerospace/parabola-mirrors-and-dishes'>ПАРАБОЛЕ</a>).">Gain ∝ (D/λ)².</p>
+      <p class="body-col" data-en="Voyager's 3.66 m high-gain antenna, with an X-band gain of about 48 dBi, is still wide enough in beam that its spot at Earth's distance from the outer Solar System is tens of millions of kilometres across [1]. Change the diameter and frequency and see how gain and beamwidth trade." data-ru="Остронаправленная антенна «Вояджера» диаметром 3,66 м с усилением в диапазоне X около 48 дБи всё же имеет такой луч, что его пятно на расстоянии Земли от окраин Солнечной системы — десятки миллионов километров [1]. Меняйте диаметр и частоту и смотрите, как обмениваются усиление и ширина луча.">Voyager's HGA: 3.66 m, 48 dBi.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="beamSvg" class="sim-svg" viewBox="0 0 480 280" role="img" aria-label="Antenna gain and beamwidth against dish diameter"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="bmD" data-en="DISH DIAMETER" data-ru="ДИАМЕТР АНТЕННЫ">DISH DIAMETER</label><span class="v" id="bmDVal">—</span></div>
+          <input id="bmD" type="range" min="-0.3" max="1.85" step="0.005" value="0.5635">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="bmF" data-en="FREQUENCY" data-ru="ЧАСТОТА">FREQUENCY</label><span class="v" id="bmFVal">—</span></div>
+          <input id="bmF" type="range" min="2" max="40" step="0.1" value="8.4">
+        </div>
+        <div class="readout-grid" id="beamReadout"></div>
+        <div class="status" id="beamStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Half-power beamwidth ≈ 70 λ/D degrees, a standard rule of thumb for a uniformly illuminated parabolic dish; η = 0.65." data-ru="Ширина луча по половинной мощности ≈ 70 λ/D градусов — стандартное эмпирическое правило для параболической антенны; η = 0,65.">Beamwidth ≈ 70λ/D.</p>
+  </div>
+</section>
+
+<!-- CH4 — FADING -->
+<section id="ch4" class="section" data-phase="FADING">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 06</span> — <span data-en="SLOWER EVERY YEAR" data-ru="МЕДЛЕННЕЕ С КАЖДЫМ ГОДОМ">SLOWER EVERY YEAR</span></div>
+    <h2 class="h-lg" data-en="Voyager's data rate, planned to fade" data-ru="Скорость передачи «Вояджера», рассчитанная на угасание">Voyager's data rate, planned to fade</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The signal weakens with the square of distance, so every doubling costs 6 dB, a factor of four in data rate. JPL planned for it: its Voyager telecom monograph lists the years in which each rate would stop working for each antenna — 1,400 bit/s on a 70-m dish until about 2007–2011, 160 bit/s on a 34-m dish until about 2024–2029 [1]. Voyager 1 is due to reach one light-day, about 25.9 billion km, on <b>18 November 2026</b>: a command then takes a full day to arrive [3]." data-ru="Сигнал ослабевает как квадрат расстояния, так что каждое удвоение стоит 6 дБ — вчетверо меньшую скорость передачи. JPL это предусмотрела: в её монографии о связи «Вояджеров» указаны годы, когда каждая скорость перестанет работать на каждой антенне: 1400 бит/с на 70-метровой — примерно до 2007–2011, 160 бит/с на 34-метровой — примерно до 2024–2029 [1]. «Вояджер-1» должен достичь одного светового дня, около 25,9 млрд км, <b>18 ноября 2026 года</b>: тогда команда будет идти до него целые сутки [3].">Each doubling of distance costs 6 dB.</p>
+      <p class="body-col" data-en="When one dish is no longer enough, the network <b>arrays</b> several antennas, adding their signals together; the monograph's table lists a 70-m plus 34-m array for the highest rates [1]. And it pays to go up in frequency: the same dishes at Ka band (32 GHz) instead of X band (8.4 GHz) gain about 11.6 dB at each end of the link — though rain and humidity hurt Ka band far more [4]." data-ru="Когда одной антенны уже не хватает, сеть <b>объединяет</b> несколько антенн, складывая их сигналы; в таблице монографии для самых высоких скоростей указана связка 70-метровой и 34-метровой антенн [1]. И выгодно подниматься по частоте: те же антенны в диапазоне Ka (32 ГГц) вместо X (8,4 ГГц) дают примерно по 11,6 дБ на каждом конце линии — хотя дождь и влажность гораздо сильнее мешают диапазону Ka [4].">Arraying and higher frequencies.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — TIMELINE -->
+<section id="ch5" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 06</span> — <span data-en="HALF A CENTURY OF LISTENING" data-ru="ПОЛВЕКА СЛУШАНИЯ">HALF A CENTURY OF LISTENING</span></div>
+    <h2 class="h-lg" data-en="The longest phone call" data-ru="Самый долгий телефонный разговор">The longest phone call</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="A link budget is a promise written in decibels: every one spent on distance has to be bought back with a bigger dish, a colder receiver or a slower message." data-ru="Бюджет радиолинии — обещание, записанное в децибелах: каждый, потраченный на расстояние, нужно выкупить большей антенной, более холодным приёмником или более медленным сообщением.">A promise written in decibels.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — REFERENCES -->
+<section id="ch6" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 06</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>

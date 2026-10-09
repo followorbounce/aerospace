@@ -1,0 +1,11 @@
+{
+ "slug": "entry-heat-shields",
+ "title_en": "ENTRY — HEAT SHIELDS &amp; ATMOSPHERIC ENTRY",
+ "title_ru": "ВХОД — ТЕПЛОЗАЩИТА И ВХОД В АТМОСФЕРУ",
+ "description": "An interactive field guide to atmospheric entry: Allen and Eggers' discovery that peak deceleration depends only on entry speed and angle, why Apollo needed lift to turn 36 g into 6.6 g, stagnation-point heating and why blunt capsules survive, ablative heat shields from Stardust's record 12.9 km/s entry to Orion's Artemis I char loss and the Artemis II fix.",
+ "og": "Peak g independent of mass, 36 g vs 6.6 g for Apollo, and why blunt is better — atmospheric entry, interactive and sourced from NASA.",
+ "brand": "ENTRY — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE PLUNGE",
+ "hud1": "PEAK g",
+ "hud2": "PEAK HEATING"
+}

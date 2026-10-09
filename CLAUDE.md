@@ -3,8 +3,9 @@
 Bilingual (EN/RU) aerospace & space-science field-guide site: a large set of single-file HTML articles (missions, programs, telescopes, physics/logic/music-theory field guides) plus an index, sitemap, and `llms.txt`.
 
 ## Structure
-- One `.html` file per article at repo root, no build system — static, dependency-free HTML/CSS/JS.
+- One `.html` file per article at repo root, static and dependency-free. Newer guides are generated from `_tools/articles/` and committed; older ones are hand-authored.
 - `assets/` — shared site CSS/JS used across articles.
+- `_tools/` — sources + build/test tooling for the generated guides (Wave 1 onward): `articles/<slug>/` sources, `assemble.py`, `wire.py`, `check-all.sh`, `shot.sh`. Edit the sources, not the generated page; see `_tools/README.md`. Underscore keeps Jekyll from publishing it.
 - `index.html`, `pages.json`, `sitemap.xml`, `llms.txt` — site manifest/navigation, regenerate together when adding a page.
 - `AGENTS.md` — the full "virtual expert team" charter (engineering, science, content, workflow roles). Read it before nontrivial changes; it has authority over role-specific conventions this file doesn't restate.
 - `docs/`, `time philosophy/` + `time-philosophy/` (duplicate-looking dirs — check both before assuming one is dead) — secondary content areas.

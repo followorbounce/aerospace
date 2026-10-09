@@ -1,0 +1,11 @@
+{
+ "slug": "debris-space-junk",
+ "title_en": "DEBRIS — SPACE JUNK &amp; THE KESSLER SYNDROME",
+ "title_ru": "ОБЛОМКИ — КОСМИЧЕСКИЙ МУСОР И СИНДРОМ КЕССЛЕРА",
+ "description": "An interactive field guide to orbital debris: why a centimetre-sized fragment at 11 km/s carries the energy to shatter a satellite, the 2007 Fengyun-1C test and the 2009 Iridium–Cosmos collision, how long debris stays up at each altitude, Kessler and Cour-Palais' warning of a self-sustaining debris belt, and the FCC's five-year deorbit rule.",
+ "og": "A marble at 11 km/s, the first satellite-on-satellite crash, and debris that stays for centuries — orbital debris, interactive and sourced from NASA's Orbital Debris Program Office.",
+ "brand": "DEBRIS — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE CLOUD",
+ "hud1": "IMPACT ENERGY",
+ "hud2": "LIFETIME"
+}

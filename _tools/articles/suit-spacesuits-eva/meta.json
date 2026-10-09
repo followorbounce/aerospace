@@ -1,0 +1,11 @@
+{
+ "slug": "suit-spacesuits-eva",
+ "title_en": "SUIT — SPACESUITS &amp; SPACEWALKS",
+ "title_ru": "СКАФАНДР — СКАФАНДРЫ И ВЫХОДЫ В ОТКРЫТЫЙ КОСМОС",
+ "description": "An interactive field guide to spacesuits: why a suit is a personal spacecraft inflated to about the pressure of a basketball, the trade between low pressure (mobility) and high pressure (no decompression sickness), NASA's tissue-ratio rule R ≤ 1.65 with a 360-minute nitrogen compartment, and how oxygen prebreathe, the Shuttle staged protocol and the ISS campout wash nitrogen out before a spacewalk.",
+ "og": "4.3 psi of pure oxygen, R ≤ 1.65 and hours of prebreathe: how a spacewalk avoids the bends, interactive and checked against NASA's protocols.",
+ "brand": "SUIT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE BALLOON",
+ "hud1": "SUIT PRESSURE",
+ "hud2": "TISSUE RATIO R"
+}

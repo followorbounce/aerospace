@@ -1,0 +1,172 @@
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE THREAT">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 26 SEPTEMBER 2022, 23:14:24 UTC" data-ru="РИС. 00 — 26 СЕНТЯБРЯ 2022, 23:14:24 UTC">FIG. 00 — 26 SEPTEMBER 2022, 23:14:24 UTC</span></span>
+        <span>DIDYMOS · DIMORPHOS · 6.1449 km/s</span>
+      </div>
+      <h1><span data-en="IMPACT" data-ru="УДАР">IMPACT</span><br><em data-en="DART AND PLANETARY DEFENCE" data-ru="DART И ПЛАНЕТАРНАЯ ЗАЩИТА">DART AND PLANETARY DEFENCE</em></h1>
+      <p class="sub lede" data-en="For the first time, people deliberately changed the motion of a natural body in space. NASA's DART spacecraft, the mass of a small car, flew into Dimorphos — a 151-metre moonlet circling the asteroid Didymos — and shortened its orbit by 33 minutes, far more than the spacecraft's own momentum could explain. Nine chapters and three instruments: the energy of an asteroid strike, the momentum that moved Dimorphos, and how warning time turns a push of millimetres per second into a miss." data-ru="Впервые люди намеренно изменили движение природного тела в космосе. Аппарат NASA DART массой с небольшой автомобиль врезался в Диморф — 151-метровый спутник астероида Дидим — и сократил период его обращения на 33 минуты, гораздо больше, чем мог бы объяснить импульс самого аппарата. Девять глав и три прибора: энергия удара астероида, импульс, сдвинувший Диморф, и то, как время предупреждения превращает толчок в миллиметры в секунду в промах.">People deliberately changed the motion of a natural body in space.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE THREAT -->
+<section id="ch1" class="section" data-phase="THE THREAT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 09</span> — <span data-en="WHY BOTHER" data-ru="ЗАЧЕМ ЭТО НУЖНО">WHY BOTHER</span></div>
+    <h2 class="h-lg" data-en="Chelyabinsk was only 19 metres across" data-ru="Челябинский метеороид был всего 19 метров в поперечнике">Chelyabinsk was only 19 metres across</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 15 February 2013 an asteroid about <b>19 m</b> across exploded in the air south-east of Chelyabinsk, a region of more than a million people. It released roughly <b>500 kilotons</b> of TNT equivalent — the largest impact on Earth since the Tunguska event of 1908. Its shock wave broke windows across the city [6][7]. Objects this small are hard to see coming, and studies after Chelyabinsk suggested there are more of them than once thought [6]." data-ru="15 февраля 2013 года астероид поперечником около <b>19 м</b> взорвался в воздухе к юго-востоку от Челябинска, в регионе с населением больше миллиона человек. Выделилось около <b>500 килотонн</b> в тротиловом эквиваленте — крупнейший удар по Земле со времён Тунгусского события 1908 года. Ударная волна выбила окна по всему городу [6][7]. Такие небольшие тела трудно заметить заранее, а исследования после Челябинска показали, что их может быть больше, чем считалось [6].">Chelyabinsk released roughly 500 kilotons.</p>
+      <p class="body-col" data-en="Most near-Earth asteroids larger than a kilometre are now known [6], and none of the known ones threatens Earth for at least a century. But the catalogue is still incomplete for smaller bodies whose impact would devastate a region [1]. An object's energy grows with the <b>cube</b> of its size and the <b>square</b> of its speed, and it cannot hit slower than Earth's escape speed, about 11.2 km/s. Try it." data-ru="Большинство сближающихся с Землёй астероидов крупнее километра уже известны [6], и ни один из известных не угрожает Земле как минимум столетие. Но каталог всё ещё неполон для тел поменьше, удар которых опустошил бы целый регион [1]. Энергия тела растёт пропорционально <b>кубу</b> его размера и <b>квадрату</b> скорости, а ударить медленнее второй космической скорости Земли, около 11,2 км/с, оно не может. Попробуйте.">Energy grows with the cube of size and square of speed.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="energySvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Impact energy against asteroid diameter"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="kD" data-en="DIAMETER" data-ru="ДИАМЕТР">DIAMETER</label><span class="v" id="kDVal">—</span></div>
+          <input id="kD" type="range" min="0" max="3" step="0.01" value="1.28">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="kV" data-en="SPEED" data-ru="СКОРОСТЬ">SPEED</label><span class="v" id="kVVal">—</span></div>
+          <input id="kV" type="range" min="11.2" max="30" step="0.1" value="19">
+        </div>
+        <div class="readout-grid" id="energyReadout"></div>
+        <div class="status" id="energyStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="E = ½ m v² for a sphere of stony density 3,000 kg/m³ (an assumption; rubble piles are lighter, iron bodies heavier). 1 kiloton of TNT = 4.185 × 10¹² J [6]. Energy only — whether it bursts in the air or reaches the ground depends on size, strength and angle." data-ru="E = ½ m v² для шара плотностью каменного тела 3000 кг/м³ (допущение; «груды щебня» легче, железные тела тяжелее). 1 килотонна ТНТ = 4,185 × 10¹² Дж [6]. Только энергия — взорвётся ли тело в воздухе или долетит до земли, зависит от размера, прочности и угла.">E = ½ m v², stony density 3,000 kg/m³.</p>
+  </div>
+</section>
+
+<!-- CH2 — THE TEST -->
+<section id="ch2" class="section" data-phase="THE TEST">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 09</span> — <span data-en="A TEST YOU CAN MEASURE FROM EARTH" data-ru="ИСПЫТАНИЕ, КОТОРОЕ МОЖНО ИЗМЕРИТЬ С ЗЕМЛИ">A TEST YOU CAN MEASURE FROM EARTH</span></div>
+    <h2 class="h-lg" data-en="Hit the moon, time the moon" data-ru="Ударить спутник — и засечь его период">Hit the moon, time the moon</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Among the proposed ways to divert an asteroid, the simplest is a <b>kinetic impactor</b>: fly something heavy into it, fast. A full-scale test was ranked the highest-priority mission for asteroid mitigation [1]. But a nudge to an asteroid's path around the Sun is tiny and would take years to measure. DART's designers chose a trick: the binary asteroid <b>(65803) Didymos</b>, about 760 m across, with a moonlet, <b>Dimorphos</b>, circling it every 11.92 hours [1][2]." data-ru="Из предложенных способов отклонить астероид самый простой — <b>кинетический ударник</b>: направить в него что-то тяжёлое и быстрое. Полномасштабное испытание признали самой приоритетной миссией в области защиты от астероидов [1]. Но толчок, изменяющий путь астероида вокруг Солнца, крошечный, и измерять его пришлось бы годами. Создатели DART выбрали хитрость: двойной астероид <b>(65803) Дидим</b> поперечником около 760 м со спутником <b>Диморфом</b>, обращающимся вокруг него за 11,92 часа [1][2].">DART chose a binary asteroid.</p>
+      <p class="body-col" data-en="Each time Dimorphos passes in front of or behind Didymos, the pair's combined brightness dips. Telescopes on Earth had timed those dips for years and knew the orbital period to about half a second: <b>11.92148 ± 0.00013 hours</b> [2]. Hit the moonlet along its orbit and the period changes by minutes — easy to see from the ground. DART launched on 24 November 2021, carrying a single camera, DRACO, which it used to steer itself in the final hours without help from Earth [1]." data-ru="Каждый раз, когда Диморф проходит перед Дидимом или позади него, общий блеск пары падает. Телескопы на Земле годами засекали эти провалы и знали период обращения с точностью около полусекунды: <b>11,92148 ± 0,00013 часа</b> [2]. Если ударить спутник вдоль его орбиты, период изменится на минуты — это легко увидеть с Земли. DART стартовал 24 ноября 2021 года с единственной камерой DRACO, по которой в последние часы сам наводился на цель без помощи с Земли [1].">The period was known to half a second.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — IMPACT -->
+<section id="ch3" class="section" data-phase="IMPACT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 09</span> — <span data-en="THE LAST THREE SECONDS" data-ru="ПОСЛЕДНИЕ ТРИ СЕКУНДЫ">THE LAST THREE SECONDS</span></div>
+    <h2 class="h-lg" data-en="25 metres from dead centre, between two boulders" data-ru="В 25 метрах от центра, между двумя валунами">25 metres from dead centre, between two boulders</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Dimorphos had never been seen as more than a dot. DRACO resolved it only during the final approach: an oblate, boulder-strewn body 177 × 174 × 116 m, <b>151 m</b> across if made into a sphere [1]. An image taken 1.8 seconds before impact shows the spacecraft heading between two boulders 6.5 m and 6.1 m long. At <b>23:14:24 UTC on 26 September 2022</b> DART — <b>579.4 kg</b> at <b>6.1449 km/s</b>, carrying <b>10.94 GJ</b> — hit 25 m from the centre of the figure, almost ideal for pushing the whole body [1]." data-ru="Раньше Диморф никогда не был виден иначе как точка. DRACO различил его только на последнем подлёте: сплюснутое тело 177 × 174 × 116 м, усеянное валунами, — <b>151 м</b> в поперечнике, если превратить его в шар [1]. Снимок, сделанный за 1,8 секунды до удара, показывает, что аппарат летит между двумя валунами длиной 6,5 и 6,1 м. В <b>23:14:24 UTC 26 сентября 2022 года</b> DART — <b>579,4 кг</b> на скорости <b>6,1449 км/с</b>, с энергией <b>10,94 ГДж</b> — ударил в 25 м от центра фигуры, почти идеально для того, чтобы толкнуть всё тело целиком [1].">DART hit 25 m from the centre of the figure.</p>
+      <p class="body-col" data-en="Fifteen days earlier DART had released <b>LICIACube</b>, a small Italian satellite that flew past to watch. Its cameras recorded from 71 seconds before to 320 seconds after impact: a cone of debris 140° wide, filaments, dust and single boulders, moving from tens of metres per second up to about <b>500 m/s</b> [5]. The system brightened 8.3 times, and the Hubble Space Telescope watched the dust form a tail, like a comet's, that stretched behind the asteroid over the following weeks [4][5]." data-ru="За пятнадцать дней до этого DART отделил <b>LICIACube</b> — небольшой итальянский спутник, который пролетел мимо, чтобы наблюдать. Его камеры снимали с 71 секунды до удара по 320 секунд после: конус обломков шириной 140°, нити, пыль и отдельные валуны со скоростями от десятков метров в секунду примерно до <b>500 м/с</b> [5]. Блеск системы вырос в 8,3 раза, а телескоп «Хаббл» наблюдал, как пыль сформировала хвост, как у кометы, тянувшийся за астероидом в следующие недели [4][5].">LICIACube watched the plume.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — THE RESULT -->
+<section id="ch4" class="section" data-phase="THE RESULT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 09</span> — <span data-en="THIRTY-THREE MINUTES" data-ru="ТРИДЦАТЬ ТРИ МИНУТЫ">THIRTY-THREE MINUTES</span></div>
+    <h2 class="h-lg" data-en="The ejecta pushed harder than the spacecraft" data-ru="Выброс толкнул сильнее, чем сам аппарат">The ejecta pushed harder than the spacecraft</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Radar and light-curve observations from around the world agreed: Dimorphos's orbit had shrunk and its period was now 11.372 hours, a change of <b>−33.0 ± 1.0 minutes</b> [2]. If DART had simply stuck to Dimorphos, the expected change was about 7 minutes [2]. The extra came from the debris: rock thrown back out of the crater carries momentum in the opposite direction, so the target recoils, like a gun firing." data-ru="Радарные и фотометрические наблюдения со всего мира сошлись: орбита Диморфа сжалась, и его период стал 11,372 часа — изменение на <b>−33,0 ± 1,0 минуты</b> [2]. Если бы DART просто «прилип» к Диморфу, ожидалось изменение примерно на 7 минут [2]. Остальное дали обломки: порода, выброшенная из кратера назад, уносит импульс в противоположную сторону, и цель получает отдачу, как ружьё при выстреле.">The period changed by −33.0 ± 1.0 minutes.</p>
+      <p class="body-col" data-en="The <b>momentum enhancement factor β</b> is the total momentum given to the target divided by the momentum the impactor brought. The period change gives Dimorphos's slow-down along its orbit, <b>2.70 ± 0.10 mm/s</b>. Turning that into β needs Dimorphos's mass, which DART could not measure: for densities of 1,500–3,300 kg/m³, β lies between 2.2 and 4.9, and for 2,400 kg/m³ it is <b>3.61</b> [3]. Set β and the density below and see what period change you would predict." data-ru="<b>Коэффициент усиления импульса β</b> — это полный импульс, переданный цели, делённый на импульс, принесённый ударником. Изменение периода даёт замедление Диморфа вдоль орбиты — <b>2,70 ± 0,10 мм/с</b>. Чтобы перевести это в β, нужна масса Диморфа, которую DART измерить не мог: при плотностях 1500–3300 кг/м³ β лежит между 2,2 и 4,9, а при 2400 кг/м³ равен <b>3,61</b> [3]. Задайте β и плотность ниже и посмотрите, какое изменение периода получится.">β is total momentum over the impactor's momentum.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="MOMENTUM TRANSFER AND PERIOD CHANGE" data-ru="ПЕРЕДАЧА ИМПУЛЬСА И ИЗМЕНЕНИЕ ПЕРИОДА">MOMENTUM TRANSFER AND PERIOD CHANGE</div>
+      <div class="eq-body">Δv<sub>T</sub> = f · β m U / M &nbsp;·&nbsp; ΔT / T = 3 Δv<sub>T</sub> / v &nbsp;·&nbsp; v = 2π a / T</div>
+      <div class="eq-note" data-en="m = 579.4 kg, U = 6.1449 km/s, volume of Dimorphos 0.00181 km³ [1]; T = 11.92148 h [2]. The orbit radius a ≈ 1.20 km follows from Kepler's third law with the system mass 5.6 × 10¹¹ kg [1]. ΔT/T = 3Δv/v holds for a small along-track push on a circular orbit. DART did not hit exactly along the orbit, so f = 0.91 is a fixed geometry factor, chosen so that β = 3.61 at 2,400 kg/m³ gives the measured 2.70 mm/s [3]." data-ru="m = 579,4 кг, U = 6,1449 км/с, объём Диморфа 0,00181 км³ [1]; T = 11,92148 ч [2]. Радиус орбиты a ≈ 1,20 км следует из третьего закона Кеплера при массе системы 5,6 × 10¹¹ кг [1]. ΔT/T = 3Δv/v справедливо для малого толчка вдоль круговой орбиты. DART ударил не строго вдоль орбиты, поэтому f = 0,91 — постоянный геометрический множитель, подобранный так, чтобы β = 3,61 при 2400 кг/м³ давало измеренные 2,70 мм/с [3].">Geometry factor f = 0.91.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="betaSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Predicted change in Dimorphos's orbital period against the momentum enhancement factor"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="bBeta" data-en="MOMENTUM ENHANCEMENT β" data-ru="УСИЛЕНИЕ ИМПУЛЬСА β">MOMENTUM ENHANCEMENT β</label><span class="v" id="bBetaVal">—</span></div>
+          <input id="bBeta" type="range" min="1" max="5" step="0.01" value="3.61">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="bRho" data-en="DENSITY OF DIMORPHOS" data-ru="ПЛОТНОСТЬ ДИМОРФА">DENSITY OF DIMORPHOS</label><span class="v" id="bRhoVal">—</span></div>
+          <input id="bRho" type="range" min="1500" max="3300" step="10" value="2400">
+        </div>
+        <div class="readout-grid" id="betaReadout"></div>
+        <div class="status" id="betaStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — WARNING TIME -->
+<section id="ch5" class="section" data-phase="WARNING TIME">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 09</span> — <span data-en="TIME IS THE LEVER" data-ru="ВРЕМЯ — ЭТО РЫЧАГ">TIME IS THE LEVER</span></div>
+    <h2 class="h-lg" data-en="Millimetres per second, multiplied by years" data-ru="Миллиметры в секунду, умноженные на годы">Millimetres per second, multiplied by years</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The same rule that changed Dimorphos's period works for an asteroid going around the Sun. Speed it up or slow it down along its path and its orbital period changes by 3Δv/v; every orbit it arrives a little earlier or later than before. After a time t, it has drifted along its orbit by about <b>3 Δv t</b>. Earth is a target 12,742 km wide, and its gravity pulls in paths that would just miss, so the drift needed is somewhat more than one Earth radius." data-ru="То же правило, которое изменило период Диморфа, работает и для астероида на орбите вокруг Солнца. Ускорьте или замедлите его вдоль траектории — и его период изменится на 3Δv/v; на каждом витке он будет приходить чуть раньше или позже. За время t он сместится вдоль орбиты примерно на <b>3 Δv t</b>. Земля — мишень шириной 12 742 км, и её тяготение притягивает траектории, которые прошли бы рядом, поэтому нужно сместиться несколько больше чем на один земной радиус.">The drift is about 3 Δv t.</p>
+      <p class="body-col" data-en="That is why discovery matters more than force. A push of a centimetre per second given fifteen years ahead is enough; given a few months ahead, it is useless. DART itself was a test, not a rescue: its effect on the orbit of the whole Didymos pair around the Sun was only about 0.02 mm/s, because the push was shared with the much heavier Didymos. Find the push needed for a given warning time." data-ru="Поэтому обнаружение важнее силы. Толчка в сантиметр в секунду, сделанного за пятнадцать лет, достаточно; за несколько месяцев — бесполезно. DART был испытанием, а не спасением: его влияние на орбиту всей пары Дидима вокруг Солнца составило лишь около 0,02 мм/с, потому что толчок разделился с намного более тяжёлым Дидимом. Найдите нужный толчок для заданного времени предупреждения.">Discovery matters more than force.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="warnSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Drift of a deflected asteroid along its orbit against warning time"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="wDv" data-en="PUSH Δv ALONG THE ORBIT" data-ru="ТОЛЧОК Δv ВДОЛЬ ОРБИТЫ">PUSH Δv ALONG THE ORBIT</label><span class="v" id="wDvVal">—</span></div>
+          <input id="wDv" type="range" min="-2" max="2" step="0.01" value="1">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="wT" data-en="WARNING TIME" data-ru="ВРЕМЯ ПРЕДУПРЕЖДЕНИЯ">WARNING TIME</label><span class="v" id="wTVal">—</span></div>
+          <input id="wT" type="range" min="0.25" max="30" step="0.25" value="15">
+        </div>
+        <div class="readout-grid" id="warnReadout"></div>
+        <div class="status" id="warnStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Linear drift 3 Δv t for a small along-track push on a near-circular orbit. The target is Earth's radius enlarged by gravitational focusing, √(1 + v<sub>esc</sub>²/v<sub>∞</sub>²), for an approach speed v<sub>∞</sub> = 10 km/s (≈ 1.5 Earth radii). Real deflection planning uses the asteroid's actual orbit and close-approach geometry. The 0.02 mm/s figure is our rough estimate: β = 3.61 × DART's momentum ÷ the system mass 5.6 × 10¹¹ kg [1][3]." data-ru="Линейный дрейф 3 Δv t для малого толчка вдоль почти круговой орбиты. Мишень — радиус Земли, увеличенный гравитационной фокусировкой, √(1 + v<sub>убег</sub>²/v<sub>∞</sub>²), для скорости сближения v<sub>∞</sub> = 10 км/с (≈ 1,5 земного радиуса). Реальное планирование отклонения использует настоящую орбиту астероида и геометрию сближения. Значение 0,02 мм/с — наша грубая оценка: β = 3,61 × импульс DART ÷ масса системы 5,6 × 10¹¹ кг [1][3].">Linear drift approximation.</p>
+  </div>
+</section>
+
+<!-- CH6 — WHAT CHANGED -->
+<section id="ch6" class="section" data-phase="LESSONS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 09</span> — <span data-en="WHAT DART TAUGHT" data-ru="ЧЕМУ НАУЧИЛ DART">WHAT DART TAUGHT</span></div>
+    <h2 class="h-lg" data-en="Rubble piles are easier to push than solid rock" data-ru="«Груды щебня» толкать легче, чем монолит">Rubble piles are easier to push than solid rock</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Before the impact, nobody knew whether β would be close to 1 or several times larger; it depends on how strong and porous the surface is. DART answered for one real asteroid: well above 1, meaning a loose, weak body throws out a lot of debris and gets a bigger push for free [2][3]. The same weakness showed up on Ryugu and Bennu (see <a href='/aerospace/sample-hayabusa-osiris-rex'>SAMPLE</a>), so it may be common among small asteroids." data-ru="До удара никто не знал, будет ли β близок к 1 или в несколько раз больше: это зависит от прочности и пористости поверхности. DART ответил для одного реального астероида: заметно больше 1 — рыхлое, слабое тело выбрасывает много обломков и «бесплатно» получает более сильный толчок [2][3]. Та же слабость обнаружилась у Рюгу и Бенну (см. <a href='/aerospace/sample-hayabusa-osiris-rex'>ОБРАЗЕЦ</a>), так что среди малых астероидов она может быть обычной.">β was well above 1.</p>
+      <p class="body-col" data-en="It also showed that a spacecraft can find and hit a 150 m body it has never seen, by itself, at 6 km/s [1]. What it could not show is what the impact did to Dimorphos — the crater, its true mass, and therefore an exact β. That is the job of the follow-up mission." data-ru="Он также показал, что аппарат может сам найти тело размером 150 м, которого никогда не видел, и попасть в него на скорости 6 км/с [1]. Чего он показать не мог — что удар сделал с Диморфом: кратер, его истинную массу, а значит и точное β. Это задача следующей миссии.">A spacecraft can find and hit a 150 m body by itself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — HERA -->
+<section id="ch7" class="section" data-phase="HERA">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 09</span> — <span data-en="THE CRIME-SCENE INVESTIGATOR" data-ru="СЛЕДОВАТЕЛЬ НА МЕСТЕ ПРОИСШЕСТВИЯ">THE CRIME-SCENE INVESTIGATOR</span></div>
+    <h2 class="h-lg" data-en="Hera goes back to weigh Dimorphos" data-ru="«Гера» возвращается, чтобы взвесить Диморф">Hera goes back to weigh Dimorphos</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="ESA's <b>Hera</b> launched on 7 October 2024, flew past Mars in March 2025, and caught its first glimpse of Didymos in October 2026. It is due to rendezvous with the pair in <b>November 2026</b>, the first probe to survey a binary asteroid, with twelve payloads and two CubeSats [8]. By measuring Dimorphos's mass and the crater DART left, it will turn the β range into a single number — the calibration a real deflection mission would need." data-ru="Аппарат ЕКА <b>«Гера»</b> стартовал 7 октября 2024 года, в марте 2025 года пролетел мимо Марса, а в октябре 2026 года впервые увидел Дидим. Встреча с парой намечена на <b>ноябрь 2026 года</b>: это первый аппарат, который исследует двойной астероид, — с двенадцатью приборами и двумя кубсатами [8]. Измерив массу Диморфа и кратер, оставленный DART, он превратит диапазон β в одно число — калибровку, нужную настоящей миссии отклонения.">Hera rendezvous in November 2026.</p>
+      <p class="body-col" data-en="The next big test is natural. In 2029 the asteroid Apophis will make a rare close pass by Earth — like every known asteroid, it poses no threat for at least a century [1] — and NASA's OSIRIS-APEX, the spacecraft that brought Bennu home, is heading there to study how the encounter changes it [9]." data-ru="Следующее большое испытание устроит сама природа. В 2029 году астероид Апофис совершит редкое близкое сближение с Землёй — как и все известные астероиды, он не угрожает ей как минимум столетие [1], — а OSIRIS-APEX NASA, аппарат, доставивший образец Бенну, летит туда, чтобы изучить, как его изменит эта встреча [9].">Apophis in 2029.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — TIMELINE -->
+<section id="ch8" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 09</span> — <span data-en="FROM AIRBURST TO DEFLECTION" data-ru="ОТ ВОЗДУШНОГО ВЗРЫВА ДО ОТКЛОНЕНИЯ">FROM AIRBURST TO DEFLECTION</span></div>
+    <h2 class="h-lg" data-en="A short history of planetary defence" data-ru="Краткая история планетарной защиты">A short history of planetary defence</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="DART did not save the world. It showed that, given enough warning, we could." data-ru="DART не спас мир. Он показал, что при достаточном запасе времени мы могли бы.">DART showed that, given enough warning, we could.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — REFERENCES -->
+<section id="ch9" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 09</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>

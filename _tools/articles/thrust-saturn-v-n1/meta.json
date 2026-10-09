@@ -1,0 +1,11 @@
+{
+ "slug": "thrust-saturn-v-n1",
+ "title_en": "THRUST — SATURN V &amp; N1",
+ "title_ru": "ТЯГА — «САТУРН-5» И Н-1",
+ "description": "An interactive field guide to the two Moon rockets: why reaching the Moon takes about 12 km/s and why that forces staging, the Saturn V's real Apollo 11 stage masses run through the rocket equation, the Soviet N1's 30 first-stage engines and its engine-control system, and the four N1 launches that failed between 1969 and 1972.",
+ "og": "Apollo 11's real stage masses through the rocket equation, and what happens when an N1 loses engines — the two Moon rockets, interactive and sourced.",
+ "brand": "THRUST — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE PROBLEM",
+ "hud1": "TOTAL Δv",
+ "hud2": "LIFTOFF T/W"
+}

@@ -1,0 +1,11 @@
+{
+ "slug": "impact-dart-planetary-defence",
+ "title_en": "IMPACT — DART &amp; PLANETARY DEFENCE",
+ "title_ru": "УДАР — DART И ПЛАНЕТАРНАЯ ЗАЩИТА",
+ "description": "An interactive field guide to NASA's DART mission and planetary defence: why Chelyabinsk-size asteroids matter, how a 579 kg spacecraft hitting Dimorphos at 6.1 km/s shortened its 11.9-hour orbit by 33 minutes, why the ejecta pushed harder than the spacecraft, how years of warning turn millimetres per second into a miss, and ESA's Hera follow-up.",
+ "og": "A 579 kg spacecraft, a 151 m moonlet and a 33-minute change: DART's test of asteroid deflection, with impact-energy, momentum and warning-time calculators.",
+ "brand": "IMPACT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE THREAT",
+ "hud1": "Δv",
+ "hud2": "PERIOD CHANGE"
+}

@@ -1,0 +1,136 @@
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="WHERE AM I">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 10.229 999 995 43 MHz" data-ru="РИС. 00 — 10,229 999 995 43 МГц">FIG. 00 — 10.229 999 995 43 MHz</span></span>
+        <span>24 SATS · 6 PLANES · 55°</span>
+      </div>
+      <h1><span data-en="NAVIGATOR" data-ru="НАВИГАТОР">NAVIGATOR</span><br><em data-en="GPS AND SATELLITE NAVIGATION" data-ru="GPS И СПУТНИКОВАЯ НАВИГАЦИЯ">GPS AND SATELLITE NAVIGATION</em></h1>
+      <p class="sub lede" data-en="A phone finds itself on Earth to within a few metres by timing radio signals from satellites twenty thousand kilometres away. Light covers 30 cm in a nanosecond, so the whole system is really a set of clocks — clocks precise enough that Einstein's relativity has to be built in, or GPS would drift by kilometres a day. Six chapters and three instruments: fix a position with a bad clock, set a satellite's clock for relativity, and see why satellite geometry matters." data-ru="Телефон определяет своё место на Земле с точностью до нескольких метров, засекая время радиосигналов от спутников в двадцати тысячах километров. Свет проходит 30 см за наносекунду, так что вся система — это, по сути, набор часов, настолько точных, что в неё пришлось встроить теорию относительности Эйнштейна, иначе GPS уходил бы на километры в сутки. Шесть глав и три прибора: определите место с неточными часами, настройте часы спутника с учётом относительности и узнайте, почему важна геометрия спутников.">GPS is really a set of clocks.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — SYSTEM -->
+<section id="ch1" class="section" data-phase="WHERE AM I">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 06</span> — <span data-en="CLOCKS IN ORBIT" data-ru="ЧАСЫ НА ОРБИТЕ">CLOCKS IN ORBIT</span></div>
+    <h2 class="h-lg" data-en="Twenty-four satellites, each broadcasting the time" data-ru="Двадцать четыре спутника, и каждый передаёт время">Twenty-four satellites, each broadcasting the time</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The first NAVSTAR satellite was launched in 1978, and the 24-satellite system became fully operational in 1993 [2]. The constellation is four satellites in each of six orbital planes inclined at 55° to the equator, each carrying atomic clocks [1]. Every satellite broadcasts where it is and what time its clock says; GPS signals reach the ground on carriers at 154 and 120 times a 10.23 MHz reference [1]." data-ru="Первый спутник NAVSTAR был запущен в 1978 году, а система из 24 спутников полностью заработала в 1993 году [2]. Группировка — по четыре спутника в каждой из шести орбитальных плоскостей, наклонённых на 55° к экватору, и на каждом атомные часы [1]. Каждый спутник передаёт, где он находится и сколько показывают его часы; сигналы GPS приходят на Землю на несущих, в 154 и 120 раз больших опорной частоты 10,23 МГц [1].">24 satellites in 6 planes at 55°.</p>
+      <p class="body-col" data-en="A receiver compares the arrival time of each signal with the time it was sent, and multiplies by the speed of light to get a distance. But a phone's quartz clock is nowhere near as good as an atomic one: an error of one microsecond is 300 metres of range. That is why GPS needs <b>four</b> satellites, not three: three for position in space, one more to solve for the receiver's own clock error." data-ru="Приёмник сравнивает время прихода каждого сигнала со временем отправки и умножает на скорость света, получая расстояние. Но кварцевые часы телефона далеко не так хороши, как атомные: ошибка в одну микросекунду — это 300 метров дальности. Поэтому GPS нужны <b>четыре</b> спутника, а не три: три для положения в пространстве и ещё один, чтобы найти ошибку собственных часов приёмника.">Four satellites: three for position, one for the clock.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — FIX -->
+<section id="ch2" class="section" data-phase="THE FIX">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 06</span> — <span data-en="CIRCLES THAT DON'T MEET" data-ru="ОКРУЖНОСТИ, КОТОРЫЕ НЕ СХОДЯТСЯ">CIRCLES THAT DON'T MEET</span></div>
+    <h2 class="h-lg" data-en="Solve for the clock, and the circles close" data-ru="Найдите ошибку часов — и окружности сойдутся">Solve for the clock, and the circles close</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="In this flat version, three satellites send signals to a receiver. Its clock is off by a little, so every measured range — the <b>pseudorange</b> — is too long or too short by the same amount, c·Δt. Drawn as circles, they no longer meet at one point." data-ru="В этой плоской модели три спутника посылают сигналы приёмнику. Его часы чуть врут, поэтому каждая измеренная дальность — <b>псевдодальность</b> — длиннее или короче на одну и ту же величину c·Δt. Если нарисовать их окружностями, они уже не сходятся в одной точке.">Pseudoranges all share the same clock error.</p>
+      <p class="body-col" data-en="Because the error is the same for every satellite, it can be treated as one more unknown. In two dimensions that means three unknowns — x, y and the clock — and three satellites; in three dimensions, four of each. Turn on the clock solution and watch the receiver find both its place and its time." data-ru="Поскольку ошибка одинакова для всех спутников, её можно считать ещё одним неизвестным. На плоскости это три неизвестных — x, y и часы — и три спутника; в пространстве — по четыре. Включите решение для часов и посмотрите, как приёмник находит и своё место, и время.">The clock error becomes one more unknown.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="fixSvg" class="sim-svg" viewBox="0 0 480 340" role="img" aria-label="Three range circles around a receiver, with and without a clock correction"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="fB" data-en="RECEIVER CLOCK ERROR" data-ru="ОШИБКА ЧАСОВ ПРИЁМНИКА">RECEIVER CLOCK ERROR</label><span class="v" id="fBVal">—</span></div>
+          <input id="fB" type="range" min="-1" max="1" step="0.01" value="0.4">
+        </div>
+        <div class="btn-row" role="group" aria-label="Solution" id="fMode">
+          <button class="btn active" data-m="0" aria-pressed="true" data-en="POSITION ONLY" data-ru="ТОЛЬКО ПОЛОЖЕНИЕ">POSITION ONLY</button>
+          <button class="btn" data-m="1" aria-pressed="false" data-en="POSITION + CLOCK" data-ru="ПОЛОЖЕНИЕ + ЧАСЫ">POSITION + CLOCK</button>
+        </div>
+        <div class="readout-grid" id="fixReadout"></div>
+        <div class="status" id="fixStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="A flat, noise-free illustration with ranges of thousands of kilometres. “Position only” assumes the clock is right and solves for x and y by least squares; “position + clock” solves for x, y and Δt together (Gauss–Newton)." data-ru="Плоская иллюстрация без шума с дальностями в тысячи километров. «Только положение» считает часы верными и находит x и y методом наименьших квадратов; «положение + часы» находит x, y и Δt вместе (метод Гаусса — Ньютона).">Flat, noise-free illustration.</p>
+  </div>
+</section>
+
+<!-- CH3 — RELATIVITY -->
+<section id="ch3" class="section" data-phase="RELATIVITY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 06</span> — <span data-en="EINSTEIN IN YOUR POCKET" data-ru="ЭЙНШТЕЙН В КАРМАНЕ">EINSTEIN IN YOUR POCKET</span></div>
+    <h2 class="h-lg" data-en="Satellite clocks run 38 microseconds a day fast" data-ru="Часы спутников уходят вперёд на 38 микросекунд в сутки">Satellite clocks run 38 microseconds a day fast</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Two effects pull in opposite directions. A clock higher up in Earth's gravity runs <b>faster</b> (gravitational blueshift); a clock moving fast runs <b>slower</b> (time dilation). For a GPS satellite the first wins: as Neil Ashby's review sets out, the net fractional rate is <b>4.4647 × 10⁻¹⁰</b> fast compared with a clock on the ground [1]. That is about 38.6 microseconds every day." data-ru="Два эффекта тянут в разные стороны. Часы выше в поле тяготения Земли идут <b>быстрее</b> (гравитационное фиолетовое смещение); быстро движущиеся часы идут <b>медленнее</b> (замедление времени). Для спутника GPS побеждает первое: как показано в обзоре Нила Эшби, итоговое относительное ускорение хода — <b>4,4647 × 10⁻¹⁰</b> по сравнению с часами на Земле [1]. Это около 38,6 микросекунды в сутки.">Net 4.4647 × 10⁻¹⁰.</p>
+      <p class="body-col" data-en="So the clocks are deliberately set slow before launch: instead of 10.23 MHz, they run at <b>10.229 999 995 43 MHz</b> on the ground, which looks like exactly 10.23 MHz from Earth once they are in orbit [1]. Uncorrected, 38.6 µs a day would be a ranging error growing by more than 11 km a day. For a low orbit like the Shuttle's, time dilation wins instead; the two effects cancel at an orbit radius of about 9,545 km [1]." data-ru="Поэтому часы до запуска намеренно замедляют: вместо 10,23 МГц на Земле они идут на <b>10,229 999 995 43 МГц</b>, что на орбите выглядит с Земли ровно как 10,23 МГц [1]. Без поправки 38,6 мкс в сутки давали бы ошибку дальности, растущую более чем на 11 км в сутки. Для низкой орбиты, как у шаттла, побеждает замедление времени; эффекты компенсируют друг друга на радиусе орбиты около 9545 км [1].">Clocks are set slow before launch.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="CLOCK RATE IN A CIRCULAR ORBIT, RELATIVE TO THE GEOID" data-ru="ХОД ЧАСОВ НА КРУГОВОЙ ОРБИТЕ ОТНОСИТЕЛЬНО ГЕОИДА">CLOCK RATE IN A CIRCULAR ORBIT, RELATIVE TO THE GEOID</div>
+      <div class="eq-body">Δf/f = −Φ₀/c² − GM/(ac²) − GM/(2ac²) = 6.9693 × 10⁻¹⁰ − 3GM/(2ac²)</div>
+      <div class="eq-note" data-en="Φ₀/c² = −6.9693 × 10⁻¹⁰ is the effective potential on the rotating geoid; GM/(ac²) is the gravitational term in orbit and GM/(2ac²) the velocity (time-dilation) term [1]. Small eccentricity and oblateness terms are left out." data-ru="Φ₀/c² = −6,9693 × 10⁻¹⁰ — эффективный потенциал на вращающемся геоиде; GM/(ac²) — гравитационный член на орбите, GM/(2ac²) — скоростной (замедление времени) [1]. Малые члены от эксцентриситета и сплюснутости опущены.">Ashby, eq. 35.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="relSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Daily clock gain against orbit altitude"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="rA" data-en="ORBIT ALTITUDE" data-ru="ВЫСОТА ОРБИТЫ">ORBIT ALTITUDE</label><span class="v" id="rAVal">—</span></div>
+          <input id="rA" type="range" min="2.3" max="4.6" step="0.001" value="4.305">
+        </div>
+        <div class="readout-grid" id="relReadout"></div>
+        <div class="status" id="relStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — GEOMETRY -->
+<section id="ch4" class="section" data-phase="GEOMETRY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 06</span> — <span data-en="WHERE THE SATELLITES ARE MATTERS" data-ru="ВАЖНО, ГДЕ НАХОДЯТСЯ СПУТНИКИ">WHERE THE SATELLITES ARE MATTERS</span></div>
+    <h2 class="h-lg" data-en="Spread out is precise; bunched up is not" data-ru="Разнесены — точно; скучены — нет">Spread out is precise; bunched up is not</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The government commits to broadcasting signals with a global average <b>user range error</b> of 2.0 m or better, 95 % of the time; on 20 April 2021 the actual figure was 0.643 m [3]. But the error in position is the range error multiplied by a geometry factor, the <b>dilution of precision</b>. Satellites spread across the sky cross at clean angles; satellites bunched in one direction meet at shallow angles and smear the fix." data-ru="Правительство обязуется передавать сигнал со среднемировой <b>ошибкой дальности</b> не более 2,0 м с вероятностью 95 %; 20 апреля 2021 года фактическое значение составило 0,643 м [3]. Но ошибка положения — это ошибка дальности, умноженная на геометрический множитель, <b>снижение точности</b> (DOP). Спутники, разнесённые по небу, пересекаются под чёткими углами; скученные в одном направлении — под пологими и размазывают решение.">User range error ≤ 2.0 m; actual 0.643 m.</p>
+      <p class="body-col" data-en="That is why phones do worse in city streets, where buildings hide most of the sky: GPS smartphones are typically accurate to within 4.9 m under open sky, but worse near buildings, bridges and trees [3]. Squeeze the satellites together below and watch the error grow." data-ru="Поэтому телефоны хуже работают на городских улицах, где здания закрывают большую часть неба: смартфоны с GPS обычно точны до 4,9 м под открытым небом, но хуже возле зданий, мостов и деревьев [3]. Сдвиньте спутники вместе ниже и посмотрите, как растёт ошибка.">4.9 m under open sky.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="dopSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Satellite directions and the resulting dilution of precision"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="dS" data-en="SPREAD OF SATELLITES ACROSS THE SKY" data-ru="РАЗБРОС СПУТНИКОВ ПО НЕБУ">SPREAD OF SATELLITES ACROSS THE SKY</label><span class="v" id="dSVal">—</span></div>
+          <input id="dS" type="range" min="10" max="180" step="1" value="150">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dU" data-en="USER RANGE ERROR" data-ru="ОШИБКА ДАЛЬНОСТИ">USER RANGE ERROR</label><span class="v" id="dUVal">—</span></div>
+          <input id="dU" type="range" min="0.3" max="5" step="0.05" value="0.65">
+        </div>
+        <div class="readout-grid" id="dopReadout"></div>
+        <div class="status" id="dopStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Four satellites in a flat sky (azimuth spread only), unknowns x, y and clock: DOP = √(trace (HᵀH)⁻¹) with rows [−cos θ, −sin θ, 1]. Real receivers use elevation too and usually see more satellites." data-ru="Четыре спутника на плоском небе (только разброс по азимуту), неизвестные x, y и часы: DOP = √(след (HᵀH)⁻¹) со строками [−cos θ, −sin θ, 1]. Реальные приёмники учитывают и угол места и обычно видят больше спутников.">Flat-sky DOP.</p>
+  </div>
+</section>
+
+<!-- CH5 — TIMELINE -->
+<section id="ch5" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 06</span> — <span data-en="FROM A MILITARY SYSTEM TO EVERY PHONE" data-ru="ОТ ВОЕННОЙ СИСТЕМЫ — К КАЖДОМУ ТЕЛЕФОНУ">FROM A MILITARY SYSTEM TO EVERY PHONE</span></div>
+    <h2 class="h-lg" data-en="The day accuracy improved overnight" data-ru="День, когда точность выросла за ночь">The day accuracy improved overnight</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="For years the civilian signal was deliberately degraded by <b>Selective Availability</b>. It was switched off a few minutes after midnight EDT at the end of 1 May 2000, simultaneously across the whole constellation; civil users then saw accuracy of 10–20 m or better, and the United States says it has no intention of ever switching it back on [4]." data-ru="Годами гражданский сигнал намеренно ухудшался режимом <b>Selective Availability</b>. Его отключили через несколько минут после полуночи по восточному летнему времени в конце 1 мая 2000 года, одновременно на всей группировке; гражданские пользователи получили точность 10–20 м и лучше, а США заявляют, что не намерены когда-либо включать его снова [4].">Selective Availability off, May 2000.</p>
+      <p class="body-col" data-en="Other systems work the same way: Russia's GLONASS orbits slightly lower, 17 times for every 16 GPS orbits, and Europe's Galileo was planned with about 30 satellites [1]. A modern receiver listens to several of them at once, which means more satellites in view and better geometry." data-ru="Другие системы устроены так же: российская ГЛОНАСС летает чуть ниже — 17 витков на каждые 16 витков GPS, — а европейская Galileo задумывалась примерно из 30 спутников [1]. Современный приёмник слушает сразу несколько систем, а значит, видит больше спутников и получает лучшую геометрию.">GLONASS and Galileo.</p>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Every blue dot on a map is a measurement of time, corrected for general relativity, before you have finished looking at it." data-ru="Каждая синяя точка на карте — это измерение времени с поправкой на общую теорию относительности, сделанное раньше, чем вы успели на неё взглянуть.">Every blue dot is a measurement of time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — REFERENCES -->
+<section id="ch6" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 06</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
