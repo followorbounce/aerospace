@@ -59,3 +59,14 @@
 - Homepage (followorbounce.github.io) aero shader: +6 missions (Hayabusa return, Rosetta at 67P, Juno JOI, DART, OSIRIS-REx return, Parker perihelion) → 76, all with guides; card says 58.
 - Not verified: real-device touch on the new sliders; Juno's status after the 25 Feb 2026 perijove (the page says "still at work in early 2026" only).
 - Wave 3 (THRUST, RETURN, NOZZLE, ENTRY, LINK) not started — only if asked.
+
+## 2026-10-09 — Wave 3 of the article plan (done, 58 → 63 guides)
+- **New category** `rockets` — "Rockets & Engineering" / "Ракеты и техника" (before `foundations`).
+- **THRUST** (`thrust-saturn-v-n1.html`): Apollo 11 ground-ignition weights (SP-2000-4029) through the staged rocket equation (ideal 12.46 km/s; one stage at 425 s = 10.40), N1 engine-out thrust-to-weight with KORD opposite-pair shutdowns (30 × 153.4 t ÷ 2,750 t), the four N1 failures (Siddiqi SP-2000-4408); 11 checks. Note: SP-4029's S-II fuel/oxidizer rows look swapped — only their sum is used.
+- **RETURN** (`return-reusable-rockets.html`): illustrative two-stage model (assumed masses — SpaceX publishes none) for payload lost to a recovery Δv reserve, banded against the MIT IAC-18 ranges (downrange 10–20 %, launch site ~½); landing burn with Merlin min throttle 108,300 lbf (can't hover); FAA PEA Starship numbers; Booster 12 catch. 10 checks.
+- **NOZZLE** (`nozzle-rocket-engines.html`): isentropic area–Mach, C_F vs altitude; checks: SSME 90.7/10.3 in → ε 77.5, RS-25 NASA SL/vac thrust gap implies a 90.4 in exit, model SL/vac 0.804 vs NASA 0.816, Isp 470,000/1,035 = 454 s. 9 checks.
+- **ENTRY** (`entry-heat-shields.html`): Allen–Eggers ballistic entry (RK4 cross-check), Apollo 11 36 g ballistic vs 6.56 g flown (L/D 0.3), Sutton–Graves stagnation heating vs nose radius, Stardust 12.9 km/s / PICA, Orion Avcoat char loss → Artemis II (10 Apr 2026) reduced. 9 checks.
+- **LINK** (`link-deep-space-network.html`): link budget reproducing JPL's Voyager 2 1996 DCT (−145.46 vs −145.5 dBm, 39.89 vs 39.9 dB-Hz) with η = 0.65; gain/beamwidth; Voyager 1 one light-day 18 Nov 2026. 10 checks.
+- Homepage aero shader: +4 missions (first N1, Stardust return, first Falcon 9 landing, Super Heavy catch) → 80; card says 63. Future-dated missions deliberately not added (the panel shows "N days ago").
+- Wave 3 tooling: ~/.cache/aero-src/w3/ (same scripts as w2; sources in src/, src2/, src3/).
+- Not verified: real-device touch on the new sliders.
