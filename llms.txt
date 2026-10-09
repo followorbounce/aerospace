@@ -92,6 +92,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [Falcon 9, Starship & Reusable Rockets](https://followorbounce.github.io/aerospace/return-reusable-rockets): reusable boosters — payload cost of keeping propellant for recovery (illustrative two-stage model vs. the MIT IAC-18 ranges), why a Falcon 9 booster cannot hover and must time its landing burn, first landings and reflights, Starship's tower catch
 - [How Rocket Engines Work](https://followorbounce.github.io/aerospace/nozzle-rocket-engines): rocket engines — isentropic nozzle flow (area ratio → exit Mach and pressure), thrust coefficient from sea level to vacuum checked against the RS-25's NASA sea-level/vacuum thrust, gas-generator vs staged-combustion cycles (F-1, Merlin, RS-25)
 - [Heat Shields & Atmospheric Entry](https://followorbounce.github.io/aerospace/entry-heat-shields): atmospheric entry — Allen–Eggers ballistic deceleration (peak g independent of mass, checked by RK4), Apollo's lifting entry (36 g ballistic vs 6.56 g flown), Sutton–Graves stagnation heating vs nose radius, Stardust's PICA and Orion's Avcoat char loss
+- [The Deep Space Network](https://followorbounce.github.io/aerospace/link-deep-space-network): NASA's Deep Space Network — a link-budget calculator reproducing JPL's Voyager 2 design table (−145.5 dBm from 48.6 AU), antenna gain vs beamwidth, X vs Ka band, Voyager 1 at one light-day (18 Nov 2026)
 
 ## Foundations & Tools
 
