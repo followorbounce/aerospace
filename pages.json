@@ -14,7 +14,8 @@
       "id": "dawn",
       "title": { "en": "Dawn of the Space Age", "ru": "Начало космической эры" },
       "pages": [
-        { "slug": "beep-sputnik-explorer", "codename": "BEEP", "label": { "en": "Sputnik, Explorer & the First Satellites", "ru": "«Спутник», «Эксплорер» и первые спутники" } }
+        { "slug": "beep-sputnik-explorer", "codename": "BEEP", "label": { "en": "Sputnik, Explorer & the First Satellites", "ru": "«Спутник», «Эксплорер» и первые спутники" } },
+        { "slug": "first-vostok-voskhod", "codename": "FIRST", "label": { "en": "Vostok & Voskhod", "ru": "«Восток» и «Восход»" } }
       ]
     },
     {

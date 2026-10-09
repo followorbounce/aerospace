@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIRST — VOSTOK &amp;amp; VOSKHOD / ПЕРВЫЕ — «ВОСТОК» И «ВОСХОД»</title>
+<meta name="description" content="An interactive field guide to the first human spaceflights, 1961–65: Gagarin's 108 minutes on Vostok 1 minute by minute, ballistic re-entry and its 8 g, the orbital-decay safety net that replaced a backup retrorocket, Titov, the group flights and Tereshkova, three men without spacesuits on Voskhod 1, and Leonov's spacewalk in a ballooning suit.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/first-vostok-voskhod">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FIRST — VOSTOK &amp;amp; VOSKHOD / ПЕРВЫЕ — «ВОСТОК» И «ВОСХОД»">
+<meta property="og:description" content="Allen–Eggers re-entry, the decay that would have brought Vostok home, and why a pressurised suit fights every bend — the first people in space, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/first-vostok-voskhod">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">FIRST — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">VOSTOK</span></div>
+  <div class="hud-row"><span class="hud-label">MISSION TIME</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">PEAK LOAD</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="VOSTOK">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 12 APRIL 1961, 06:07 UTC" data-ru="РИС. 00 — 12 АПРЕЛЯ 1961, 06:07 UTC">FIG. 00 — 12 APRIL 1961, 06:07 UTC</span></span>
+        <span>181–327 km · 64.95°</span>
+      </div>
+      <h1><span data-en="FIRST" data-ru="ПЕРВЫЕ">FIRST</span><br><em data-en="VOSTOK AND VOSKHOD" data-ru="«ВОСТОК» И «ВОСХОД»">VOSTOK AND VOSKHOD</em></h1>
+      <p class="sub lede" data-en="Between April 1961 and March 1965 the Soviet Union flew eleven people into orbit in two spacecraft built around the same steel ball. The first man, the first day in orbit, the first woman, the first crew of three and the first spacewalk all came from this hardware, and almost every flight had a moment when it nearly went wrong. Eleven chapters and four instruments: follow Gagarin's single orbit minute by minute, fly a ballistic re-entry, test the decaying orbit that replaced a backup engine, and feel why Leonov's ballooning suit would not bend." data-ru="С апреля 1961 по март 1965 года Советский Союз отправил на орбиту одиннадцать человек на двух кораблях, построенных вокруг одного и того же стального шара. Первый человек, первые сутки на орбите, первая женщина, первый экипаж из трёх человек и первый выход в открытый космос — всё на этой технике, и почти в каждом полёте был момент, когда всё могло пойти не так. Одиннадцать глав и четыре прибора: пройдите единственный виток Гагарина минута за минутой, совершите баллистический спуск, проверьте затухающую орбиту, заменившую резервный двигатель, и почувствуйте, почему раздувшийся скафандр Леонова не сгибался.">Between 1961 and 1965 the Soviet Union flew eleven people into orbit.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE SHIP -->
+<section id="ch1" class="section" data-phase="VOSTOK">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 11</span> — <span data-en="A BALL, A CONE AND A SEAT" data-ru="ШАР, КОНУС И КРЕСЛО">A BALL, A CONE AND A SEAT</span></div>
+    <h2 class="h-lg" data-en="The simplest shape that comes home the right way up" data-ru="Простейшая форма, которая возвращается правильной стороной вниз">The simplest shape that comes home the right way up</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Vostok was two parts: a spherical <b>descent module</b> with the pilot, an ejection seat and the parachutes, and a conical <b>instrument module</b> with batteries, oxygen, attitude control and the TDU-1 braking engine. The whole ship weighed about 4,730 kg [3]. A sphere has no “front”, so it needs no fins and no thrusters to face the right way during re-entry: the designers simply put the heavy equipment low in the ball, and its weight swung the heat-shielded side forward like a roly-poly toy [3]." data-ru="«Восток» состоял из двух частей: сферического <b>спускаемого аппарата</b> с пилотом, катапультным креслом и парашютами и конического <b>приборного отсека</b> с батареями, кислородом, системой ориентации и тормозной двигательной установкой ТДУ-1. Весь корабль весил около 4730 кг [3]. У шара нет «носа», поэтому ему не нужны ни стабилизаторы, ни двигатели, чтобы при спуске развернуться как надо: конструкторы просто разместили тяжёлое оборудование внизу шара, и его вес разворачивал теплозащищённую сторону вперёд, как у неваляшки [3].">Vostok was a spherical descent module and a conical instrument module.</p>
+      <p class="body-col" data-en="The ball landed hard: it had a parachute but no landing rockets or airbags. So at about 7 km altitude the hatch blew off and the cosmonaut <b>ejected</b>, coming down under his own parachute [3]. The same seat was the escape system on the pad, but only after about 20 seconds of flight, when it had time to open [3]. And there was no backup braking engine. If the TDU-1 failed, the plan was the orbit itself: low enough that air drag would bring the ship down within 10 days, with food and oxygen for that long [3] (Chapter 4)." data-ru="Шар приземлялся жёстко: у него был парашют, но не было ни двигателей мягкой посадки, ни амортизаторов. Поэтому на высоте около 7 км люк отстреливался и космонавт <b>катапультировался</b>, спускаясь на собственном парашюте [3]. То же кресло было и системой спасения на старте — но только примерно через 20 секунд полёта, когда успевал раскрыться парашют [3]. А резервного тормозного двигателя не было. Если бы ТДУ-1 отказала, выручила бы сама орбита: достаточно низкая, чтобы сопротивление воздуха спустило корабль в течение 10 суток, — и пищи и кислорода было на этот срок [3] (глава 4).">The cosmonaut ejected at about 7 km; the low orbit was the backup for the braking engine.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — 108 MINUTES -->
+<section id="ch2" class="section" data-phase="108 MINUTES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 11</span> — <span data-en="ONE ORBIT, MINUTE BY MINUTE" data-ru="ОДИН ВИТОК, МИНУТА ЗА МИНУТОЙ">ONE ORBIT, MINUTE BY MINUTE</span></div>
+    <h2 class="h-lg" data-en="“Poyekhali!” — and 108 minutes later, a field near Saratov" data-ru="«Поехали!» — и через 108 минут поле под Саратовом">“Poyekhali!” — and 108 minutes later, a field near Saratov</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Yuri Gagarin lifted off at 06:07 UTC on 12 April 1961 into an orbit of about 181 by 327 km, inclined 64.95° [2]. He flew one orbit eastward over Siberia and the Pacific, crossed South America in darkness and came out over the Atlantic. Everything was automatic; a sealed envelope held the code to unlock manual control in case he needed it. At 07:25 UTC, over the west coast of Africa, the braking engine fired for about 42 seconds [1]." data-ru="Юрий Гагарин стартовал в 06:07 UTC 12 апреля 1961 года на орбиту примерно 181 на 327 км с наклонением 64,95° [2]. Он сделал один виток на восток над Сибирью и Тихим океаном, пересёк Южную Америку в темноте и вышел над Атлантикой. Всё было автоматическим; код для перехода на ручное управление лежал в запечатанном конверте на случай необходимости. В 07:25 UTC, над западным побережьем Африки, тормозной двигатель проработал около 42 секунд [1].">Gagarin lifted off at 06:07 UTC into a 181 × 327 km orbit.</p>
+      <p class="body-col" data-en="Then the instrument module failed to separate. A valve in the braking engine had not closed fully, the burn ended early, and the two halves stayed tied by a bundle of wires, tumbling, until the heat of re-entry burned them through about ten minutes later [1][4]. Gagarin reported “everything is OK”: he reasoned, correctly, that the tumbling was not dangerous. He felt about 8 g; his own report says “over 10 g” [1][2]. At 7 km he ejected; he and the capsule both came down 26 km southwest of Engels, in the Saratov region [1]. Drag the clock below." data-ru="Затем приборный отсек не отделился. Клапан тормозного двигателя закрылся не полностью, импульс оборвался раньше, и две половины остались связанными пучком проводов и кувыркались, пока жар входа в атмосферу не пережёг их примерно через десять минут [1][4]. Гагарин передал: «Всё нормально» — он рассудил, что вращение не опасно, и был прав. Перегрузка составила около 8 g; в его собственном докладе — «свыше 10 g» [1][2]. На высоте 7 км он катапультировался; и он, и капсула приземлились в 26 км к юго-западу от Энгельса в Саратовской области [1]. Передвигайте часы ниже.">Then the instrument module failed to separate.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="clockSvg" class="sim-svg" viewBox="0 0 480 380" role="img" aria-label="Vostok 1 mission clock: one orbit with the main events, and the time from launch"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="clockT" data-en="UTC, 12 APRIL 1961" data-ru="UTC, 12 АПРЕЛЯ 1961">UTC, 12 APRIL 1961</label><span class="v" id="clockTVal">—</span></div>
+          <input id="clockT" type="range" min="0" max="118" step="1" value="0">
+        </div>
+        <div class="btn-row"><button class="btn primary" id="clockPlay" aria-pressed="false" data-en="▶ PLAY THE FLIGHT" data-ru="▶ ВОСПРОИЗВЕСТИ ПОЛЁТ">▶ PLAY THE FLIGHT</button></div>
+        <div class="readout-grid" id="clockReadout"></div>
+        <div class="status" id="clockStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Times from ESA's minute-by-minute account [1]; the dot moves at constant angular speed around a schematic orbit, not along a true ground track. The official flight time, 108 minutes, runs to the capsule's landing; in ESA's account Gagarin, under his own parachute, touched down at 08:05 UTC [1], while Spacefacts gives 1 h 46 min [2]." data-ru="Время — по поминутной хронике ESA [1]; точка движется с постоянной угловой скоростью по схематичной орбите, а не по реальной трассе. Официальная продолжительность полёта, 108 минут, отсчитывается до посадки капсулы; по хронике ESA Гагарин на собственном парашюте приземлился в 08:05 UTC [1], а Spacefacts даёт 1 ч 46 мин [2].">Times from ESA's minute-by-minute account.</p>
+  </div>
+</section>
+
+<!-- CH3 — RE-ENTRY -->
+<section id="ch3" class="section" data-phase="RE-ENTRY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 11</span> — <span data-en="BALLISTIC RE-ENTRY" data-ru="БАЛЛИСТИЧЕСКИЙ СПУСК">BALLISTIC RE-ENTRY</span></div>
+    <h2 class="h-lg" data-en="The peak load depends on one angle, not on the spacecraft" data-ru="Пиковая перегрузка зависит от одного угла, а не от корабля">The peak load depends on one angle, not on the spacecraft</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A ball cannot fly; it can only fall. With no lift, its path through the atmosphere is set at the moment the braking engine stops, by the <b>flight-path angle γ</b> at which it meets the air. In 1953–57 Harry Allen and Alfred Eggers at NACA's Ames laboratory solved this motion in closed form for an exponential atmosphere [5]. Their result is surprising: the <b>maximum deceleration</b> depends only on the entry speed, the angle and the atmosphere's scale height, not on the mass or size of the vehicle." data-ru="Шар не может лететь — он может только падать. Без подъёмной силы его траектория в атмосфере задана в момент выключения тормозного двигателя <b>углом входа γ</b>, под которым он встречает воздух. В 1953–57 годах Гарри Аллен и Альфред Эггерс из лаборатории NACA в Эймсе решили это движение в замкнутой форме для экспоненциальной атмосферы [5]. Результат неожиданный: <b>максимальное торможение</b> зависит только от скорости входа, угла и шкалы высот атмосферы — а не от массы и размеров аппарата.">Allen and Eggers solved ballistic entry in closed form.</p>
+      <p class="body-col" data-en="What the vehicle changes is <b>where</b> the peak happens. A heavy, compact body (high ballistic coefficient β = m / C<sub>D</sub>A) punches deeper before slowing down; a light, broad one slows high up. Shallower entries are gentler, but too shallow and the ship skims or lingers; too steep and the load becomes lethal. About 3° at orbital speed gives Vostok's 8 g. Later ships flew with lift: Soyuz steers its offset centre of mass to keep re-entries near 4 g, but falls back to a Vostok-like ballistic entry if its guidance fails." data-ru="От аппарата зависит, <b>где</b> наступит пик. Тяжёлое компактное тело (большой баллистический коэффициент β = m / C<sub>D</sub>A) проникает глубже, прежде чем затормозить; лёгкое и широкое тормозится высоко. Пологий вход мягче, но слишком пологий — и корабль скользит по верхушке атмосферы или задерживается в ней; слишком крутой — и перегрузка становится смертельной. Около 3° на орбитальной скорости дают «восточные» 8 g. Более поздние корабли летали с подъёмной силой: «Союз» управляет смещённым центром масс, удерживая перегрузку около 4 g, но при отказе управления переходит на баллистический спуск вроде «Востока».">The vehicle changes where the peak happens, not how big it is.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="ALLEN–EGGERS BALLISTIC ENTRY" data-ru="БАЛЛИСТИЧЕСКИЙ ВХОД АЛЛЕНА — ЭГГЕРСА">ALLEN–EGGERS BALLISTIC ENTRY</div>
+      <div class="eq-body">V(h) = V<sub>E</sub> exp[ −ρ(h) H / (2β sin γ) ] &nbsp;·&nbsp; a<sub>max</sub> = V<sub>E</sub>² sin γ / (2eH) &nbsp;·&nbsp; ρ(h<sub>max</sub>) = β sin γ / H</div>
+      <div class="eq-note" data-en="ρ(h) = ρ₀ e^(−h/H), ρ₀ = 1.225 kg/m³, H = 7.2 km; straight-line path, gravity neglected during the pulse. At peak deceleration the speed is V_E/√e ≈ 0.61 V_E." data-ru="ρ(h) = ρ₀ e^(−h/H), ρ₀ = 1,225 кг/м³, H = 7,2 км; прямолинейная траектория, гравитация во время импульса не учитывается. В момент пикового торможения скорость равна V_E/√e ≈ 0,61 V_E.">ρ(h) = ρ₀ e^(−h/H).</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="entrySvg" class="sim-svg" viewBox="0 0 480 360" role="img" aria-label="Deceleration in g against altitude for a ballistic entry"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="eGam" data-en="ENTRY ANGLE γ" data-ru="УГОЛ ВХОДА γ">ENTRY ANGLE γ</label><span class="v" id="eGamVal">—</span></div>
+          <input id="eGam" type="range" min="0.5" max="12" step="0.1" value="2.9">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="eBeta" data-en="BALLISTIC COEFFICIENT β" data-ru="БАЛЛИСТИЧЕСКИЙ КОЭФФИЦИЕНТ β">BALLISTIC COEFFICIENT β</label><span class="v" id="eBetaVal">—</span></div>
+          <input id="eBeta" type="range" min="50" max="3000" step="10" value="590">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="eV" data-en="ENTRY SPEED V<sub>E</sub>" data-ru="СКОРОСТЬ ВХОДА V<sub>E</sub>">ENTRY SPEED V<sub>E</sub></label><span class="v" id="eVVal">—</span></div>
+          <input id="eV" type="range" min="6" max="11.2" step="0.1" value="7.8">
+        </div>
+        <div class="readout-grid" id="entryReadout"></div>
+        <div class="status" id="entryStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Default β assumes the Vostok sphere: about 2.4 t, 2.3 m across, C_D ≈ 1 (β ≈ 590 kg/m²). The model ignores lift, gravity and the curvature of the path, so it is best for the deceleration pulse itself (below ~25 km a real capsule settles at a terminal speed of a couple of hundred m/s, which the model cannot show); real peak loads also depend on how the vehicle tumbles." data-ru="β по умолчанию — для шара «Востока»: около 2,4 т, диаметр 2,3 м, C_D ≈ 1 (β ≈ 590 кг/м²). Модель не учитывает подъёмную силу, гравитацию и кривизну траектории, поэтому лучше всего описывает сам импульс торможения (ниже ~25 км реальная капсула выходит на установившуюся скорость в пару сотен м/с, которую модель показать не может); реальные пики зависят ещё и от вращения аппарата.">Default β assumes the Vostok sphere.</p>
+  </div>
+</section>
+
+<!-- CH4 — DECAY -->
+<section id="ch4" class="section" data-phase="SAFETY NET">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 11</span> — <span data-en="THE ORBIT AS A BACKUP ENGINE" data-ru="ОРБИТА КАК РЕЗЕРВНЫЙ ДВИГАТЕЛЬ">THE ORBIT AS A BACKUP ENGINE</span></div>
+    <h2 class="h-lg" data-en="Ten days of air, and an orbit that would have taken twenty" data-ru="Воздуха на десять суток — и орбита, которой понадобилось бы двадцать">Ten days of air, and an orbit that would have taken twenty</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Vostok carried one braking engine. Instead of a second, its designers relied on the thin upper atmosphere: every pass through perigee takes a little speed away, lowering the apogee, until the ship falls in. They aimed for an orbit low enough to decay within 10 days, and gave the cosmonaut 10 days of life support [2][3]. But on 12 April the rocket put Vostok 1 into a higher orbit than planned, with an apogee of 327 km [2]. Spacefacts gives the result: from that orbit natural descent would have taken about <b>20 days</b>, twice the life support [2]." data-ru="У «Востока» был один тормозной двигатель. Вместо второго конструкторы положились на разреженную верхнюю атмосферу: каждый проход перигея немного гасит скорость, апогей снижается, пока корабль не войдёт в атмосферу. Они целились в орбиту, достаточно низкую, чтобы затухнуть за 10 суток, и дали космонавту систему жизнеобеспечения на 10 суток [2][3]. Но 12 апреля ракета вывела «Восток-1» на орбиту выше расчётной, с апогеем 327 км [2]. По данным Spacefacts, с такой орбиты естественный спуск занял бы около <b>20 суток</b> — вдвое больше ресурса жизнеобеспечения [2].">Vostok relied on orbital decay instead of a second braking engine.</p>
+      <p class="body-col" data-en="Try it. The model below lowers the orbit step by step with the drag at each point of the ellipse, using the 1976 US Standard Atmosphere [6]. Two things decide the answer: how high the apogee is, and how dense the upper air happens to be. That density swings several-fold with solar activity: when the Sun is active, the heated atmosphere expands and low orbits decay much faster, which is why the multiplier is there. For Vostok 5 in 1963, mission planners recalculated an expected 10 days down to 8 for exactly this reason." data-ru="Попробуйте. Модель ниже шаг за шагом снижает орбиту под действием сопротивления в каждой точке эллипса по Стандартной атмосфере США 1976 года [6]. Ответ определяют две вещи: высота апогея и то, насколько плотен в этот момент верхний воздух. Эта плотность меняется в разы с солнечной активностью: когда Солнце активно, нагретая атмосфера расширяется и низкие орбиты затухают гораздо быстрее — для этого и нужен множитель. Для «Востока-5» в 1963 году баллистики по той же причине пересчитали ожидаемые 10 суток в 8.">The model lowers the orbit step by step with drag.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="decaySvg" class="sim-svg" viewBox="0 0 480 340" role="img" aria-label="Perigee and apogee height against days until re-entry"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="size-pick" id="decayPresets" role="group" aria-label="Orbit presets"></div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dHa" data-en="APOGEE HEIGHT" data-ru="ВЫСОТА АПОГЕЯ">APOGEE HEIGHT</label><span class="v" id="dHaVal">—</span></div>
+          <input id="dHa" type="range" min="190" max="500" step="1" value="327">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dRho" data-en="AIR DENSITY × (SOLAR ACTIVITY)" data-ru="ПЛОТНОСТЬ ВОЗДУХА × (АКТИВНОСТЬ СОЛНЦА)">AIR DENSITY × (SOLAR ACTIVITY)</label><span class="v" id="dRhoVal">—</span></div>
+          <input id="dRho" type="range" min="-1" max="1" step="0.01" value="0">
+        </div>
+        <div class="readout-grid" id="decayReadout"></div>
+        <div class="status" id="decayStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Perigee fixed at 181 km; re-entry counted when perigee falls below 120 km. Ballistic coefficient assumed 300 kg/m² for the whole ship (≈4.7 t, tumbling, C_D ≈ 2.2) — an estimate, not a published value. Orbit-averaged drag (Gauss equations, 72 points per orbit), no Earth oblateness." data-ru="Перигей зафиксирован на 181 км; спуск засчитывается, когда перигей опускается ниже 120 км. Баллистический коэффициент принят 300 кг/м² для всего корабля (≈4,7 т, вращение, C_D ≈ 2,2) — оценка, а не опубликованное значение. Сопротивление усреднено по витку (уравнения Гаусса, 72 точки на виток), сжатие Земли не учтено.">Perigee fixed at 181 km; β assumed 300 kg/m².</p>
+  </div>
+</section>
+
+<!-- CH5 — TITOV AND THE PAIRS -->
+<section id="ch5" class="section" data-phase="A DAY IN ORBIT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 11</span> — <span data-en="A DAY IN ORBIT, THEN TWO SHIPS AT ONCE" data-ru="СУТКИ НА ОРБИТЕ, ЗАТЕМ ДВА КОРАБЛЯ СРАЗУ">A DAY IN ORBIT, THEN TWO SHIPS AT ONCE</span></div>
+    <h2 class="h-lg" data-en="Sleeping, feeling sick, and seeing another spacecraft" data-ru="Спать, страдать от тошноты и увидеть другой корабль">Sleeping, feeling sick, and seeing another spacecraft</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Four months after Gagarin, <b>Gherman Titov</b> flew Vostok 2 for 17 orbits and 25 hours, from 6 to 7 August 1961 [7]. He was the first person to sleep in space, and the first to suffer what is now called space adaptation syndrome: nausea and disorientation in the first day of weightlessness [7]. Doctors had not expected it; many astronauts still feel it today." data-ru="Через четыре месяца после Гагарина <b>Герман Титов</b> провёл «Восток-2» 17 витков, 25 часов, 6–7 августа 1961 года [7]. Он первым спал в космосе и первым испытал то, что теперь называют синдромом космической адаптации: тошноту и дезориентацию в первые сутки невесомости [7]. Врачи этого не ожидали; многие космонавты сталкиваются с этим и сегодня.">Titov flew 17 orbits and was the first to sleep in space.</p>
+      <p class="body-col" data-en="In August 1962, Vostok 3 (Andriyan Nikolayev, nearly four days) and Vostok 4 (Pavel Popovich, nearly three) launched a day apart into almost the same orbit. Vostok had no engine for changing orbit, so this was not a rendezvous: precise launch timing alone brought the ships within about 6.5 km, close enough to see each other, before they drifted apart [8]. In June 1963 Valery Bykovsky's Vostok 5 stayed up almost five days, 81 orbits, still the longest solo flight [9]." data-ru="В августе 1962 года «Восток-3» (Андриян Николаев, почти четверо суток) и «Восток-4» (Павел Попович, почти трое) стартовали с разницей в сутки почти на одну и ту же орбиту. У «Востока» не было двигателя для изменения орбиты, так что это не было сближением: только точный момент старта свёл корабли примерно на 6,5 км — на расстояние видимости, — после чего они разошлись [8]. В июне 1963 года «Восток-5» Валерия Быковского пробыл на орбите почти пять суток, 81 виток, — это до сих пор самый длинный одиночный полёт [9].">Vostok 3 and 4 came within about 6.5 km without any engine for changing orbit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — TERESHKOVA -->
+<section id="ch6" class="section" data-phase="TERESHKOVA">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 11</span> — <span data-en="VOSTOK 6" data-ru="«ВОСТОК-6»">VOSTOK 6</span></div>
+    <h2 class="h-lg" data-en="48 orbits, and nineteen years until the next woman" data-ru="48 витков — и девятнадцать лет до следующей женщины">48 orbits, and nineteen years until the next woman</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="<b>Valentina Tereshkova</b>, a textile-factory worker and amateur parachutist, was chosen from a group of five women trained in 1962 — parachuting skill mattered, because every Vostok pilot ejected and landed under canopy. She launched on Vostok 6 on 16 June 1963, while Bykovsky was still in orbit, and flew 48 orbits in 2 days 22 hours 50 minutes [10]: longer than all six American Mercury flights put together." data-ru="<b>Валентину Терешкову</b>, работницу текстильного комбината и парашютистку-любительницу, выбрали из пяти женщин, проходивших подготовку с 1962 года: умение прыгать с парашютом было важно, ведь каждый пилот «Востока» катапультировался и приземлялся на парашюте. Она стартовала на «Востоке-6» 16 июня 1963 года, когда Быковский ещё был на орбите, и выполнила 48 витков за 2 суток 22 часа 50 минут [10] — дольше, чем все шесть американских полётов «Меркурия» вместе взятые.">Tereshkova flew 48 orbits in nearly three days.</p>
+      <p class="body-col" data-en="The flight was hard: she suffered from space sickness and missed several communication sessions. She still kept a flight log, oriented the ship by hand and photographed the horizon; those photographs were later used to identify aerosol layers in the atmosphere [10]. No other woman flew in space until Svetlana Savitskaya in 1982; the women's group was disbanded in 1969. The first American woman, Sally Ride, followed in 1983." data-ru="Полёт был тяжёлым: её мучила космическая болезнь, и она пропустила несколько сеансов связи. И всё же она вела бортовой журнал, ориентировала корабль вручную и фотографировала горизонт; по этим снимкам позже выявили аэрозольные слои в атмосфере [10]. Следующая женщина полетела в космос только в 1982 году — Светлана Савицкая; женскую группу расформировали в 1969 году. Первая американка, Салли Райд, — в 1983 году.">No other woman flew until 1982.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — VOSKHOD 1 -->
+<section id="ch7" class="section" data-phase="VOSKHOD 1">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 11</span> — <span data-en="THREE MEN IN A BALL BUILT FOR ONE" data-ru="ТРОЕ В ШАРЕ, ПОСТРОЕННОМ ДЛЯ ОДНОГО">THREE MEN IN A BALL BUILT FOR ONE</span></div>
+    <h2 class="h-lg" data-en="Voskhod 1: no spacesuits, no ejection seats, no margin" data-ru="«Восход-1»: без скафандров, без катапульт, без запаса">Voskhod 1: no spacesuits, no ejection seats, no margin</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The American Gemini programme would fly two astronauts. Soviet leaders wanted three first. There was no time for a new ship, so the Vostok sphere was refitted: the ejection seat came out, three couches went in, and a solid-fuel backup braking rocket and a soft-landing rocket were added so the crew could stay inside to touchdown. There was no room and no weight for spacesuits, so <b>Vladimir Komarov, Konstantin Feoktistov and Boris Yegorov</b> flew in woollen suits [11]." data-ru="Американская программа «Джемини» собиралась летать вдвоём. Советское руководство хотело первым запустить троих. На новый корабль не было времени, и шар «Востока» переделали: катапульту убрали, поставили три ложемента, добавили резервную твердотопливную тормозную установку и двигатель мягкой посадки, чтобы экипаж мог оставаться внутри до касания. Для скафандров не хватило ни места, ни массы, поэтому <b>Владимир Комаров, Константин Феоктистов и Борис Егоров</b> летели в шерстяных костюмах [11].">The Vostok sphere was refitted for three, with no room for spacesuits.</p>
+      <p class="body-col" data-en="They flew 16 orbits in 24 hours 17 minutes on 12–13 October 1964 [11]: the first crew of more than one, the first engineer and the first physician in space. Any loss of cabin pressure, and any launch failure in the first minutes, would have been fatal; there was no escape system at all. It worked, and it set the template for what came next: Voskhod 2 used the same trick to fit two men in pressure suits and an inflatable airlock." data-ru="Они выполнили 16 витков за 24 часа 17 минут 12–13 октября 1964 года [11]: первый экипаж из нескольких человек, первый инженер и первый врач в космосе. Любая разгерметизация и любая авария ракеты в первые минуты стали бы смертельными: системы спасения не было вовсе. Всё получилось — и задало шаблон для следующего: «Восход-2» тем же приёмом вместил двоих в скафандрах и надувной шлюз.">16 orbits with no escape system at all.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — SPACEWALK -->
+<section id="ch8" class="section" data-phase="SPACEWALK">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 11</span> — <span data-en="LEONOV OUTSIDE" data-ru="ЛЕОНОВ СНАРУЖИ">LEONOV OUTSIDE</span></div>
+    <h2 class="h-lg" data-en="Twelve minutes outside, and a suit too stiff to come back in" data-ru="Двенадцать минут снаружи — и скафандр, слишком жёсткий, чтобы вернуться">Twelve minutes outside, and a suit too stiff to come back in</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Voskhod 2 launched on 18 March 1965 with Pavel Belyayev and <b>Alexei Leonov</b>. Vostok's electronics were cooled by cabin air, so the cabin could not be depressurised; instead Belyayev inflated <b>Volga</b>, a fabric airlock on the outside of the sphere. Leonov crawled through it and pushed off on a 5 m tether, the first person ever outside a spacecraft, for about 12 minutes [12]." data-ru="«Восход-2» стартовал 18 марта 1965 года с Павлом Беляевым и <b>Алексеем Леоновым</b>. Электронику «Востока» охлаждал воздух кабины, поэтому кабину нельзя было разгерметизировать; вместо этого Беляев надул <b>«Волгу»</b> — тканевый шлюз снаружи шара. Леонов прополз через него и оттолкнулся на 5-метровом фале — первый человек за бортом космического корабля, около 12 минут [12].">Leonov went outside through an inflatable airlock.</p>
+      <p class="body-col" data-en="In vacuum his <b>Berkut</b> suit ballooned. Its pressure could be set at 40.6 kPa or 27.4 kPa [12]. At the higher setting his hands slipped out of the gloves and his feet out of the boots, and the suit would not bend enough to get into the airlock. Without telling the ground, he opened a valve and bled it to the lower setting, then went in head first, against the plan, and had to turn round inside the narrow tube. Why did lowering the pressure help? An inflated tube resists bending in proportion to its pressure times the cube of its radius." data-ru="В вакууме его скафандр <b>«Беркут»</b> раздулся. Давление в нём можно было установить 40,6 кПа или 27,4 кПа [12]. На высоком давлении кисти выскользнули из перчаток, а ступни — из ботинок, и скафандр не сгибался настолько, чтобы войти в шлюз. Не сообщив на Землю, он открыл клапан и стравил давление до нижнего уровня, а затем вошёл головой вперёд, вопреки плану, и был вынужден развернуться внутри узкой трубы. Почему помогло снижение давления? Надутая трубка сопротивляется изгибу пропорционально давлению, умноженному на куб радиуса.">The Berkut suit ballooned; Leonov bled it to the lower setting.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="BENDING AN INFLATED TUBE (COMER & LEVY)" data-ru="ИЗГИБ НАДУТОЙ ТРУБКИ (КОМЕР И ЛЕВИ)">BENDING AN INFLATED TUBE (COMER & LEVY)</div>
+      <div class="eq-body">M<sub>wrinkle</sub> = π p r³ / 2 &nbsp;·&nbsp; M<sub>collapse</sub> = π p r³ &nbsp;·&nbsp; T<sub>hoop</sub> = p r</div>
+      <div class="eq-note" data-en="p: suit pressure above vacuum; r: radius of the limb section. Below M_wrinkle the fabric stays taut and the tube behaves like a stiff beam; bending past it means crumpling fabric and squeezing gas, which takes work at every joint [13]." data-ru="p — давление в скафандре относительно вакуума; r — радиус сечения конечности. Пока момент меньше M_wrinkle, ткань натянута и трубка ведёт себя как жёсткая балка; чтобы согнуть её дальше, нужно сминать ткань и сжимать газ, а это работа в каждом суставе [13].">p: suit pressure; r: limb radius.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="suitSvg" class="sim-svg" viewBox="0 0 480 320" role="img" aria-label="Moment needed to bend a pressurised suit limb against pressure, with the two Berkut settings marked"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="sP" data-en="SUIT PRESSURE" data-ru="ДАВЛЕНИЕ В СКАФАНДРЕ">SUIT PRESSURE</label><span class="v" id="sPVal">—</span></div>
+          <input id="sP" type="range" min="15" max="60" step="0.2" value="40.6">
+        </div>
+        <div class="size-pick" id="limbPick" role="group" aria-label="Limb"></div>
+        <div class="readout-grid" id="suitReadout"></div>
+        <div class="status" id="suitStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Idealised fabric tube; real suits use joints designed to bend at nearly constant volume, which is why modern suits move more easily at the same pressure. Pure oxygen at 27.4 kPa still gives more oxygen pressure than sea-level air (21 kPa), but dropping suit pressure raises the risk of decompression sickness; Leonov had breathed pure oxygen beforehand to wash nitrogen out of his blood." data-ru="Идеализированная тканевая трубка; в настоящих скафандрах суставы устроены так, чтобы гнуться почти без изменения объёма, — поэтому современные скафандры при том же давлении подвижнее. Чистый кислород при 27,4 кПа даёт парциальное давление кислорода больше, чем воздух на уровне моря (21 кПа), но снижение давления повышает риск декомпрессионной болезни; Леонов перед выходом дышал чистым кислородом, чтобы вымыть азот из крови.">Idealised fabric tube.</p>
+  </div>
+</section>
+
+<!-- CH9 — THE LONG WAY HOME -->
+<section id="ch9" class="section" data-phase="THE TAIGA">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 11</span> — <span data-en="THE LONG WAY HOME" data-ru="ДОЛГАЯ ДОРОГА ДОМОЙ">THE LONG WAY HOME</span></div>
+    <h2 class="h-lg" data-en="A manual retrofire and two nights in the snow" data-ru="Ручное торможение и две ночи в снегу">A manual retrofire and two nights in the snow</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Voskhod 2's troubles did not end with the spacewalk. The hatch did not seal well at first; then the automatic orientation system failed before the braking burn, and the crew had to orient the ship by hand for the first time in the Soviet programme. To reach the controls and the window they had to leave their couches, and for 46 seconds after orienting the ship they could not get back to restore its balance; the burn came an orbit late [12]." data-ru="Неприятности «Восхода-2» не закончились выходом. Сначала люк закрылся негерметично; затем перед торможением отказала автоматическая система ориентации, и экипажу впервые в советской программе пришлось ориентировать корабль вручную. Чтобы добраться до органов управления и иллюминатора, космонавты покинули ложементы и ещё 46 секунд после ориентации не могли вернуться на места, чтобы восстановить центровку корабля; импульс выдали на виток позже [12].">The automatic system failed; the crew oriented the ship by hand.</p>
+      <p class="body-col" data-en="They landed on 19 March far off target, in deep forest about 180 km northeast of Perm [12]. Helicopters found them but could not land among the trees. That night the temperature fell below −30 °C, and the hatch had been blown off; the cosmonauts wrung the sweat out of their underwear and wrapped themselves in suit liners. Rescuers arrived on skis the next day, built a log cabin, and after a second night the crew skied to a helicopter several kilometres away [12]." data-ru="Они приземлились 19 марта далеко от расчётной точки, в глухом лесу примерно в 180 км к северо-востоку от Перми [12]. Вертолёты их нашли, но не могли сесть среди деревьев. Ночью температура опустилась ниже −30 °C, а люк был отстрелен; космонавты выжимали пот из белья и кутались в подкладку скафандров. Спасатели пришли на лыжах на следующий день, построили избу, и после второй ночи экипаж дошёл на лыжах до вертолёта в нескольких километрах [12].">They landed in deep forest and spent two nights there.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY: FOUR YEARS OF FIRSTS" data-ru="НАСЛЕДИЕ: ЧЕТЫРЕ ГОДА ПЕРВЕНСТВ">LEGACY: FOUR YEARS OF FIRSTS</span></div>
+    <h2 class="h-lg" data-en="From one orbit to a day, a week, a crew and a spacewalk" data-ru="От одного витка — к суткам, неделе, экипажу и выходу в космос">From one orbit to a day, a week, a crew and a spacewalk</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Every flight answered one question: can a person survive this? Each answer came with a moment where the hardware nearly did not, and a pilot who kept calm enough to get home." data-ru="Каждый полёт отвечал на один вопрос: выдержит ли это человек? И в каждом был момент, когда техника едва не подвела, — и пилот, сохранивший спокойствие, чтобы вернуться.">Every flight answered one question.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH11 — REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CH2 — MISSION CLOCK (ESA timeline [1]) ============ */
+var EVENTS = [
+  [0,   'Lift-off from Baikonur. Korolev: “We wish you a good flight.” Gagarin: “Poyekhali!”', 'Старт с Байконура. Королёв: «Желаем вам доброго полёта». Гагарин: «Поехали!»'],
+  [2,   'The four strap-on boosters burn out and fall away (T+119 s).', 'Четыре боковых блока выгорают и отделяются (T+119 с).'],
+  [3,   'The payload shroud is released; the Vzor window at Gagarin\'s feet is uncovered.', 'Сброшен головной обтекатель; открыт иллюминатор «Взор» у ног Гагарина.'],
+  [5,   'Core stage shuts down; the final stage takes over.', 'Центральный блок выключается; работает последняя ступень.'],
+  [10,  'Final stage shuts down; Vostok 1 separates and is in orbit (T+676 s).', 'Последняя ступень выключается; «Восток-1» отделяется и выходит на орбиту (T+676 с).'],
+  [14,  'Over Kamchatka and out across the North Pacific.', 'Над Камчаткой — и дальше над северной частью Тихого океана.'],
+  [30,  'Sunset over the North Pacific: Gagarin enters night, out of VHF range.', 'Закат над северной частью Тихого океана: Гагарин входит в ночь, вне зоны УКВ-связи.'],
+  [41,  'Crosses the equator at about 170° W, heading southeast.', 'Пересекает экватор примерно на 170° з. д., курсом на юго-восток.'],
+  [44,  'The Sun-seeking orientation system is switched on, to aim the ship for retrofire.', 'Включена солнечная система ориентации — для наведения корабля к торможению.'],
+  [53,  'Over the Strait of Magellan. Radio Moscow announces the flight.', 'Над Магеллановым проливом. Радио Москвы объявляет о полёте.'],
+  [63,  'Sunrise over the South Atlantic; 15 minutes to retrofire.', 'Восход над Южной Атлантикой; до торможения 15 минут.'],
+  [78,  'Retrofire over the west coast of Africa: about 42 s. The modules fail to separate.', 'Торможение над западным побережьем Африки: около 42 с. Отсеки не разделяются.'],
+  [88,  'Re-entry over Egypt; the wires burn through, the ball separates and rights itself. About 8 g.', 'Вход в атмосферу над Египтом; провода перегорают, шар отделяется и выравнивается. Около 8 g.'],
+  [108, 'At 7 km the hatch blows and Gagarin ejects two seconds later.', 'На высоте 7 км отстреливается люк, и через две секунды Гагарин катапультируется.'],
+  [118, 'Gagarin lands under his own parachute, 26 km southwest of Engels.', 'Гагарин приземляется на собственном парашюте в 26 км к юго-западу от Энгельса.']
+];
+var clockEl = document.getElementById('clockT'), clockPlaying = false;
+function hhmm(min){ var t = 6*60 + 7 + min; return String(Math.floor(t/60)).padStart(2,'0') + ':' + String(t%60).padStart(2,'0'); }
+function renderClock(){
+  var m = +clockEl.value;
+  document.getElementById('clockTVal').textContent = hhmm(m) + ' UTC · T+' + m + T(' min',' мин');
+  var svg = document.getElementById('clockSvg'); svg.innerHTML = '';
+  var cx = 240, cy = 190, Rg = 92, Ro = 150;
+  ns('circle', {cx:cx, cy:cy, r:Rg, fill:'#e9eef5', stroke:'#0b0b0c'}, svg);
+  txt(svg, cx, cy + 4, T('EARTH','ЗЕМЛЯ'), 'svg-small', 'middle');
+  ns('circle', {cx:cx, cy:cy, r:Ro, fill:'none', stroke:'#c9c9c1', 'stroke-dasharray':'3 4'}, svg);
+  // orbit from insertion (10) to retrofire (78) ≈ most of one revolution; ascent before, descent after
+  function pos(t){
+    var a0 = -Math.PI/2 - 0.35;                   // launch point, upper left
+    var ang, r;
+    if(t <= 10){ ang = a0 + (t/10)*0.5; r = Rg + (Ro - Rg)*(t/10); }
+    else if(t <= 78){ ang = a0 + 0.5 + (t - 10)/68*(2*Math.PI - 1.2); r = Ro; }
+    else { var k = Math.min(1, (t - 78)/40); ang = a0 + 0.5 + (2*Math.PI - 1.2) + k*0.55; r = Ro - (Ro - Rg)*Math.pow(k, 0.6); }
+    return [cx + r*Math.cos(ang), cy + r*Math.sin(ang)];
+  }
+  var d = '';
+  for(var t = 0; t <= 118; t += 1){ var p = pos(t); d += (t ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.2}, svg);
+  var done = '';
+  for(var t2 = 0; t2 <= m; t2 += 1){ var p2 = pos(t2); done += (t2 ? 'L' : 'M') + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1); }
+  if(m > 0) ns('path', {d:done, fill:'none', stroke:'#b5452a', 'stroke-width':2.4}, svg);
+  EVENTS.forEach(function(e){ var p = pos(e[0]); ns('circle', {cx:p[0], cy:p[1], r:3, fill: e[0] <= m ? '#b5452a' : '#fff', stroke:'#0b0b0c'}, svg); });
+  var now = pos(m); ns('circle', {cx:now[0], cy:now[1], r:6.5, fill:'#b5452a', stroke:'#fff', 'stroke-width':2}, svg);
+  // night side shading hint: sunset 30, sunrise 63
+  var night = m >= 30 && m < 63;
+  txt(svg, 14, 22, (night ? T('NIGHT SIDE','НОЧНАЯ СТОРОНА') : T('DAYLIGHT','ДЕНЬ')) + ' · ' + hhmm(m) + ' UTC', 'svg-label');
+  var cur = EVENTS[0]; EVENTS.forEach(function(e){ if(e[0] <= m) cur = e; });
+  var phase = m < 10 ? T('ASCENT','ВЫВЕДЕНИЕ') : m < 78 ? T('ORBIT','ОРБИТА') : m < 108 ? T('DESCENT','СПУСК') : T('PARACHUTE','ПАРАШЮТ');
+  cells(document.getElementById('clockReadout'), [[T('PHASE','ЭТАП'), phase], [T('LAST EVENT','ПОСЛЕДНЕЕ СОБЫТИЕ'), hhmm(cur[0]) + ' UTC']]);
+  document.getElementById('clockStatus').innerHTML = '<b>' + hhmm(cur[0]) + '</b> — ' + (lang === 'en' ? cur[1] : cur[2]);
+  hud1.textContent = 'T+' + m + T(' min',' мин');
+}
+clockEl.addEventListener('input', function(){ stopClock(); renderClock(); });
+var clockAcc = 0;
+function stopClock(){ clockPlaying = false; var b = document.getElementById('clockPlay'); b.setAttribute('aria-pressed','false'); b.innerHTML = T('▶ PLAY THE FLIGHT','▶ ВОСПРОИЗВЕСТИ ПОЛЁТ'); }
+document.getElementById('clockPlay').addEventListener('click', function(){
+  if(clockPlaying){ stopClock(); return; }
+  if(+clockEl.value >= 118) clockEl.value = 0;
+  clockPlaying = true; var b = this; b.setAttribute('aria-pressed','true'); b.innerHTML = T('■ PAUSE','■ ПАУЗА');
+});
+visibleLoop(document.getElementById('clockSvg'), function(dt){
+  if(!clockPlaying) return;
+  clockAcc += dt*(reduced() ? 2 : 6);          // 6 mission-minutes per second
+  if(clockAcc >= 1){ var n = Math.floor(clockAcc); clockAcc -= n; clockEl.value = Math.min(118, +clockEl.value + n); renderClock(); if(+clockEl.value >= 118) stopClock(); }
+});
+
+/* ============ CH3 — ALLEN–EGGERS ============ */
+var RHO0 = 1.225, HS = 7200, G0 = 9.80665;
+var eGam = document.getElementById('eGam'), eBeta = document.getElementById('eBeta'), eV = document.getElementById('eV');
+function entry(VE, gamDeg, beta){
+  var sg = Math.sin(gamDeg*Math.PI/180);
+  var aMax = VE*VE*sg/(2*Math.E*HS);                         // m/s²
+  var rhoPk = beta*sg/HS, hPk = HS*Math.log(RHO0/rhoPk);      // m
+  function V(h){ return VE*Math.exp(-RHO0*Math.exp(-h/HS)*HS/(2*beta*sg)); }
+  function acc(h){ var v = V(h); return RHO0*Math.exp(-h/HS)*v*v/(2*beta); }
+  return {aMax:aMax, hPk:hPk, V:V, acc:acc, vPk:VE/Math.sqrt(Math.E)};
+}
+function renderEntry(){
+  var VE = +eV.value*1000, g = +eGam.value, b = +eBeta.value, E = entry(VE, g, b);
+  document.getElementById('eGamVal').textContent = fmt(g, 1) + '°';
+  document.getElementById('eBetaVal').textContent = fmtInt(b) + T(' kg/m²',' кг/м²');
+  document.getElementById('eVVal').textContent = fmt(+eV.value, 1) + T(' km/s',' км/с');
+  var svg = document.getElementById('entrySvg'); svg.innerHTML = '';
+  var L = 50, R = 465, Tp = 20, B = 310, hTop = 100, gMax = 40;
+  function X(gl){ return L + Math.min(gl, gMax)/gMax*(R - L); }
+  function Y(hk){ return B - hk/hTop*(B - Tp); }
+  [0,20,40,60,80,100].forEach(function(h){ ns('line', {x1:L, y1:Y(h), x2:R, y2:Y(h), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(h) + 3, h, 'svg-small', 'end'); });
+  [0,5,10,20,30,40].forEach(function(gl){ txt(svg, X(gl), B + 14, gl + ' g', 'svg-small', 'middle'); });
+  txt(svg, L, 13, T('altitude, km','высота, км'), 'svg-small');
+  // danger bands
+  ns('rect', {x:X(10), y:Tp, width:X(gMax) - X(10), height:B - Tp, fill:'#b5452a', opacity:0.06}, svg);
+  txt(svg, X(25), Tp + 14, T('> 10 g: dangerous for an untrained person','> 10 g: опасно для нетренированного человека'), 'svg-small', 'middle');
+  var d = '';
+  for(var hk = 100; hk >= 0; hk -= 0.5){ var a = E.acc(hk*1000)/G0; d += (hk === 100 ? 'M' : 'L') + X(a).toFixed(1) + ' ' + Y(hk).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  var gpk = E.aMax/G0;
+  if(E.hPk > 0 && E.hPk < 100000){ ns('circle', {cx:X(gpk), cy:Y(E.hPk/1000), r:5, fill:'#b5452a'}, svg); txt(svg, Math.min(X(gpk) + 8, 400), Y(E.hPk/1000) - 6, fmt(gpk, 1) + ' g', 'svg-label'); }
+  // Vostok reference: 8 g [1]
+  ns('line', {x1:X(8), y1:Tp, x2:X(8), y2:B, stroke:'#2f5aa1', 'stroke-dasharray':'3 3'}, svg);
+  txt(svg, X(8) + 4, B - 6, T('Vostok ≈ 8 g [1]','«Восток» ≈ 8 g [1]'), 'svg-small');
+  cells(document.getElementById('entryReadout'), [
+    [T('PEAK DECELERATION','ПИКОВОЕ ТОРМОЖЕНИЕ'), fmt(gpk, 1) + ' g'],
+    [T('ALTITUDE OF PEAK','ВЫСОТА ПИКА'), E.hPk > 0 ? fmt(E.hPk/1000, 1) + T(' km',' км') : T('below ground','ниже земли')],
+    [T('SPEED AT PEAK','СКОРОСТЬ В ПИКЕ'), fmt(E.vPk/1000, 2) + T(' km/s',' км/с')],
+    [T('SPEED AT 30 KM','СКОРОСТЬ НА 30 КМ'), fmtInt(E.V(30000)) + T(' m/s',' м/с')]
+  ]);
+  hud2.textContent = fmt(gpk, 1) + ' g';
+  var st = document.getElementById('entryStatus');
+  if(E.hPk <= 0) st.innerHTML = T('So dense and so steep that it would still be decelerating hard at ground level: the Allen–Eggers peak lies below the surface.','Настолько плотный и крутой вход, что торможение ещё сильное у самой земли: пик по Аллену — Эггерсу лежит под поверхностью.');
+  else if(gpk > 15) st.innerHTML = T('<b>Lethal territory.</b> Peak loads above ~15 g for more than seconds are beyond what a trained pilot tolerates.','<b>Смертельная зона.</b> Пиковые перегрузки свыше ~15 g дольше нескольких секунд — за пределом переносимого даже тренированным пилотом.');
+  else if(gpk > 6) st.innerHTML = T('A Vostok-class ballistic entry: hard but survivable lying on a contoured couch, chest-to-back.','Баллистический спуск класса «Востока»: тяжело, но переносимо лёжа в профилированном ложементе, в направлении грудь — спина.');
+  else st.innerHTML = T('Gentle — but at such a shallow angle a real capsule spends a long time in the upper air and risks a long, poorly predicted path.','Мягко — но при таком пологом угле настоящая капсула долго идёт в верхних слоях, и траекторию трудно предсказать.');
+}
+[eGam, eBeta, eV].forEach(function(el){ el.addEventListener('input', renderEntry); });
+
+/* ============ CH4 — ORBITAL DECAY (US Standard Atmosphere 1976 [6]) ============ */
+var US76 = [[100,5.297e-7],[120,2.222e-8],[150,2.076e-9],[200,2.541e-10],[250,6.073e-11],[300,1.916e-11],[350,7.014e-12],[400,2.803e-12],[450,1.184e-12],[500,5.215e-13],[600,1.137e-13],[700,3.070e-14],[800,1.136e-14],[900,5.759e-15],[1000,3.561e-15]];
+function rhoUS(h){
+  if(h <= 100) return US76[0][1];
+  if(h >= 1000) return US76[14][1]*Math.exp(-(h - 1000)/250);
+  for(var i = 0; i < 14; i++){ var a = US76[i], b = US76[i + 1]; if(h <= b[0]) return Math.exp(Math.log(a[1]) + (Math.log(b[1]) - Math.log(a[1]))*(h - a[0])/(b[0] - a[0])); }
+}
+var BETA_V = 300, HP_V = 181;
+function decay(hp, ha, beta, f){
+  var a = R_E + (hp + ha)/2, e = (ha - hp)/(2*a), t = 0, track = [[0, hp, ha]];
+  while(t < 400*86400){
+    var rp = a*(1 - e); if(rp - R_E < 120){ track.push([t/86400, rp - R_E, a*(1 + e) - R_E]); return {days:t/86400, track:track}; }
+    var dadt = 0, dedt = 0, N = 72;
+    for(var k = 0; k < N; k++){
+      var E = (k + 0.5)/N*2*Math.PI, r = a*(1 - e*Math.cos(E)), v = Math.sqrt(MU_E*(2/r - 1/a));
+      var cnu = (Math.cos(E) - e)/(1 - e*Math.cos(E));
+      var aT = -0.5*rhoUS(r - R_E)*f*(v*1000)*(v*1000)/beta/1000;      // km/s²
+      var w = (1 - e*Math.cos(E))/N;
+      dadt += w*2*a*a*v*aT/MU_E; dedt += w*2*(e + cnu)*aT/v;
+    }
+    var dt = Math.min(21600, Math.max(60, 0.01*a/Math.abs(dadt || 1e-12)));
+    a += dadt*dt; e = Math.max(0, e + dedt*dt); t += dt;
+    if(track.length < 400 && t/86400 - track[track.length - 1][0] > 0.25) track.push([t/86400, a*(1 - e) - R_E, a*(1 + e) - R_E]);
+  }
+  return {days:Infinity, track:track};
+}
+var DECAY_PRESETS = [
+  {k:'v1', en:'VOSTOK 1 (181 × 327 KM)', ru:'«ВОСТОК-1» (181 × 327 КМ)', ha:327},
+  {k:'lo', en:'LOWER APOGEE (181 × 240 KM)', ru:'НИЖЕ АПОГЕЙ (181 × 240 КМ)', ha:240}
+];
+var dHa = document.getElementById('dHa'), dRho = document.getElementById('dRho'), decayPreset = 'v1';
+function renderDecayPresets(){
+  var w = document.getElementById('decayPresets'); w.innerHTML = '';
+  DECAY_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn' + (decayPreset === p.k ? ' active' : ''); b.setAttribute('aria-pressed', decayPreset === p.k ? 'true' : 'false');
+    b.textContent = lang === 'en' ? p.en : p.ru;
+    b.addEventListener('click', function(){ decayPreset = p.k; dHa.value = p.ha; renderDecayPresets(); renderDecay(); });
+    w.appendChild(b);
+  });
+}
+function renderDecay(){
+  var ha = +dHa.value, f = Math.pow(10, +dRho.value*Math.log10(5)), res = decay(HP_V, ha, BETA_V, f);
+  document.getElementById('dHaVal').textContent = fmtInt(ha) + T(' km',' км');
+  document.getElementById('dRhoVal').textContent = '×' + fmt(f, 2);
+  var svg = document.getElementById('decaySvg'); svg.innerHTML = '';
+  var L = 50, R = 465, Tp = 20, B = 290, dMax = 40, hMax = 500;
+  function X(d){ return L + Math.min(d, dMax)/dMax*(R - L); }
+  function Y(h){ return B - (h - 100)/(hMax - 100)*(B - Tp); }
+  [100,200,300,400,500].forEach(function(h){ ns('line', {x1:L, y1:Y(h), x2:R, y2:Y(h), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(h) + 3, h, 'svg-small', 'end'); });
+  [0,10,20,30,40].forEach(function(d){ txt(svg, X(d), B + 14, d + T(' d',' сут'), 'svg-small', 'middle'); });
+  txt(svg, L, 13, T('height, km','высота, км'), 'svg-small');
+  ns('rect', {x:X(0), y:Tp, width:X(10) - X(0), height:B - Tp, fill:'#2f5aa1', opacity:0.07}, svg);
+  txt(svg, X(5), Tp + 14, T('10 days of life support','10 суток жизнеобеспечения'), 'svg-small', 'middle');
+  var dp = '', da = '';
+  res.track.forEach(function(p, i){ dp += (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); da += (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[2]).toFixed(1); });
+  ns('path', {d:da, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.8}, svg);
+  ns('path', {d:dp, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.8, 'stroke-dasharray':'5 3'}, svg);
+  txt(svg, X(0) + 6, Y(ha) - 6, T('apogee','апогей'), 'svg-small'); txt(svg, X(0) + 6, Y(HP_V) + 13, T('perigee','перигей'), 'svg-small');
+  if(isFinite(res.days)){ ns('line', {x1:X(res.days), y1:Tp, x2:X(res.days), y2:B, stroke:'#b5452a', 'stroke-width':1.5}, svg); txt(svg, Math.min(X(res.days) + 4, 420), Y(450), T('re-entry','спуск'), 'svg-small'); }
+  cells(document.getElementById('decayReadout'), [
+    [T('DAYS TO RE-ENTRY','СУТОК ДО СПУСКА'), isFinite(res.days) ? fmt(res.days, 1) : '> 400'],
+    [T('VERSUS LIFE SUPPORT','ОТНОСИТЕЛЬНО ЖИЗНЕОБЕСПЕЧЕНИЯ'), isFinite(res.days) ? '×' + fmt(res.days/10, 1) : '—'],
+    [T('DENSITY MULTIPLIER','МНОЖИТЕЛЬ ПЛОТНОСТИ'), '×' + fmt(f, 2)],
+    [T('ASSUMED β','ПРИНЯТЫЙ β'), fmtInt(BETA_V) + T(' kg/m²',' кг/м²')]
+  ]);
+  var st = document.getElementById('decayStatus');
+  st.innerHTML = res.days <= 10 ? T('<b>Inside the safety net:</b> the orbit decays before the 10 days of air and food run out.','<b>В пределах страховки:</b> орбита затухает раньше, чем закончатся 10 суток воздуха и пищи.') : T('<b>Outside the safety net:</b> a failed braking engine would have meant running out of air in orbit.','<b>За пределами страховки:</b> отказ тормозного двигателя означал бы, что воздух кончится ещё на орбите.');
+}
+dHa.addEventListener('input', function(){ decayPreset = ''; renderDecayPresets(); renderDecay(); });
+dRho.addEventListener('input', renderDecay);
+
+/* ============ CH8 — SUIT STIFFNESS (Comer & Levy [13]) ============ */
+var LIMBS = [
+  {k:'finger', en:'FINGER (r ≈ 1 CM)', ru:'ПАЛЕЦ (r ≈ 1 СМ)', r:0.010},
+  {k:'arm', en:'ARM (r ≈ 5 CM)', ru:'РУКА (r ≈ 5 СМ)', r:0.050},
+  {k:'leg', en:'LEG (r ≈ 7.5 CM)', ru:'НОГА (r ≈ 7,5 СМ)', r:0.075},
+  {k:'torso', en:'WAIST (r ≈ 17 CM)', ru:'ТАЛИЯ (r ≈ 17 СМ)', r:0.17}
+];
+var limb = 'arm', sPEl = document.getElementById('sP');
+function renderLimbs(){
+  var w = document.getElementById('limbPick'); w.innerHTML = '';
+  LIMBS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn' + (limb === p.k ? ' active' : ''); b.setAttribute('aria-pressed', limb === p.k ? 'true' : 'false');
+    b.textContent = lang === 'en' ? p.en : p.ru;
+    b.addEventListener('click', function(){ limb = p.k; renderLimbs(); renderSuit(); });
+    w.appendChild(b);
+  });
+}
+function renderSuit(){
+  var p = +sPEl.value*1000, L0 = LIMBS.filter(function(x){ return x.k === limb; })[0], r = L0.r;
+  var Mw = Math.PI*p*r*r*r/2, Mc = Math.PI*p*r*r*r, hoop = p*r;
+  document.getElementById('sPVal').textContent = fmt(+sPEl.value, 1) + T(' kPa',' кПа') + ' (' + fmt(+sPEl.value/101.325, 2) + T(' atm',' атм') + ')';
+  var svg = document.getElementById('suitSvg'); svg.innerHTML = '';
+  var Lx = 56, Rx = 465, Tp = 20, B = 270, pMax = 60;
+  var McMax = Math.PI*pMax*1000*r*r*r;
+  function X(kpa){ return Lx + (kpa - 15)/(pMax - 15)*(Rx - Lx); }
+  function Y(m){ return B - m/McMax*(B - Tp); }
+  [15,20,30,40,50,60].forEach(function(k){ txt(svg, X(k), B + 14, k, 'svg-small', 'middle'); });
+  txt(svg, Rx, B + 28, T('suit pressure, kPa','давление в скафандре, кПа'), 'svg-small', 'end');
+  for(var i = 0; i <= 4; i++){ var mv = McMax*i/4; ns('line', {x1:Lx, y1:Y(mv), x2:Rx, y2:Y(mv), stroke:'#e4e4de'}, svg); txt(svg, Lx - 6, Y(mv) + 3, fmt(mv, mv < 10 ? 1 : 0), 'svg-small', 'end'); }
+  txt(svg, Lx, 13, T('bending moment, N·m','изгибающий момент, Н·м'), 'svg-small');
+  ns('path', {d:'M' + X(15) + ' ' + Y(Math.PI*15000*r*r*r) + ' L' + X(pMax) + ' ' + Y(McMax), stroke:'#0b0b0c', 'stroke-width':2, fill:'none'}, svg);
+  ns('path', {d:'M' + X(15) + ' ' + Y(Math.PI*15000*r*r*r/2) + ' L' + X(pMax) + ' ' + Y(McMax/2), stroke:'#0b0b0c', 'stroke-width':1.2, 'stroke-dasharray':'5 3', fill:'none'}, svg);
+  txt(svg, X(57), Y(McMax*0.95) - 8, T('collapse','излом'), 'svg-small', 'end'); txt(svg, X(57), Y(McMax*0.475) - 8, T('wrinkling','складка'), 'svg-small', 'end');
+  [[40.6,'40.6'],[27.4,'27.4']].forEach(function(s){ ns('line', {x1:X(s[0]), y1:Tp, x2:X(s[0]), y2:B, stroke:'#2f5aa1', 'stroke-dasharray':'3 3'}, svg); txt(svg, X(s[0]) + 3, Tp + 12, 'Berkut ' + (lang === 'ru' ? s[1].replace('.', ',') : s[1]), 'svg-small'); });
+  ns('line', {x1:X(+sPEl.value), y1:Tp, x2:X(+sPEl.value), y2:B, stroke:'#b5452a', 'stroke-width':1.5}, svg);
+  ns('circle', {cx:X(+sPEl.value), cy:Y(Mc), r:4.5, fill:'#b5452a'}, svg);
+  var ratio = (40.6/27.4);
+  cells(document.getElementById('suitReadout'), [
+    [T('MOMENT TO START BENDING','МОМЕНТ НАЧАЛА ИЗГИБА'), fmt(Mw, Mw < 10 ? 2 : 1) + T(' N·m',' Н·м')],
+    [T('MOMENT TO FOLD IT','МОМЕНТ ДО ИЗЛОМА'), fmt(Mc, Mc < 10 ? 2 : 1) + T(' N·m',' Н·м')],
+    [T('FABRIC TENSION (HOOP)','НАТЯЖЕНИЕ ТКАНИ (ОКРУЖНОЕ)'), fmtInt(hoop) + T(' N per m',' Н на м')],
+    [T('O₂ PRESSURE VS SEA-LEVEL AIR','ДАВЛЕНИЕ O₂ ОТНОСИТЕЛЬНО ВОЗДУХА'), '×' + fmt(+sPEl.value/21.2, 2)]
+  ]);
+  document.getElementById('suitStatus').innerHTML = T('Dropping from 40.6 to 27.4 kPa cuts every bending moment by a third (÷','Снижение с 40,6 до 27,4 кПа уменьшает каждый изгибающий момент на треть (÷') + fmt(ratio, 2) + T('). Moments grow as r³: the waist, which Leonov had to fold to enter the airlock, is the hardest joint of all.','). Моменты растут как r³: талия, которую Леонову нужно было согнуть, чтобы войти в шлюз, — самый тяжёлый сустав.');
+}
+sPEl.addEventListener('input', renderSuit);
+
+/* ============ CH10 — TIMELINE ============ */
+var TIMELINE = [
+  ['1961', '<b>12 April:</b> Vostok 1, Yuri Gagarin, one orbit. <b>6–7 August:</b> Vostok 2, Gherman Titov, 17 orbits in about 25 hours.', '<b>12 апреля:</b> «Восток-1», Юрий Гагарин, один виток. <b>6–7 августа:</b> «Восток-2», Герман Титов, 17 витков примерно за 25 часов.'],
+  ['1962', '<b>11–15 August:</b> Vostok 3 and Vostok 4 fly together; the ships pass within about 6.5 km.', '<b>11–15 августа:</b> групповой полёт «Востока-3» и «Востока-4»; корабли сходятся примерно на 6,5 км.'],
+  ['1963', '<b>14–19 June:</b> Vostok 5, Valery Bykovsky, 81 orbits. <b>16–19 June:</b> Vostok 6, Valentina Tereshkova, 48 orbits.', '<b>14–19 июня:</b> «Восток-5», Валерий Быковский, 81 виток. <b>16–19 июня:</b> «Восток-6», Валентина Терешкова, 48 витков.'],
+  ['1964', '<b>12–13 October:</b> Voskhod 1, the first crew of three, without spacesuits.', '<b>12–13 октября:</b> «Восход-1», первый экипаж из трёх человек, без скафандров.'],
+  ['1965', '<b>18–19 March:</b> Voskhod 2; Alexei Leonov makes the first spacewalk; manual retrofire, landing in the taiga. <b>3 June:</b> Ed White makes the first American spacewalk on Gemini 4.', '<b>18–19 марта:</b> «Восход-2»; Алексей Леонов совершает первый выход в открытый космос; ручное торможение, посадка в тайге. <b>3 июня:</b> Эд Уайт совершает первый американский выход на «Джемини-4».'],
+  ['1967', 'Soyuz, designed for lifting re-entry and docking, replaces the Vostok line for crews.', '«Союз», созданный для управляемого спуска и стыковки, сменяет линию «Востока» в пилотируемых полётах.'],
+  ['1982', 'Svetlana Savitskaya becomes the second woman in space, 19 years after Tereshkova.', 'Светлана Савицкая — вторая женщина в космосе, через 19 лет после Терешковой.']
+];
+
+/* ============ CH11 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'ESA, “The flight of Vostok 1” (50 years of humans in space)', url:'https://www.esa.int/About_Us/ESA_history/50_years_of_humans_in_space/The_flight_of_Vostok_1', note:{en:'Minute-by-minute timeline: launch 06:07 UTC, orbit at T+676 s, retrofire 07:25 for about 42 s, failed separation, about 8 g, ejection at 7 km, landing 26 km SW of Engels.', ru:'Поминутная хроника: старт 06:07 UTC, орбита на T+676 с, торможение в 07:25 около 42 с, неразделение отсеков, около 8 g, катапультирование на 7 км, посадка в 26 км к ЮЗ от Энгельса.'}},
+  {title:'Spacefacts, Vostok 1 mission data', url:'https://spacefacts.de/mission/english/vostok-1.htm', note:{en:'Orbit 181–327 km, 64.95°; launch 06:06:59.7 UTC; Gagarin\'s “over 10 g”; the actual orbit would have needed about 20 days to decay against 10 days of life support.', ru:'Орбита 181–327 км, 64,95°; старт 06:06:59,7 UTC; «свыше 10 g» в докладе Гагарина; с фактической орбиты спуск занял бы около 20 суток при 10 сутках жизнеобеспечения.'}},
+  {title:'Gunter\'s Space Page, Vostok-3K (3KA)', url:'https://space.skyrocket.de/doc_sdat/vostok-3k.htm', note:{en:'Design summary: 4,730 kg; passive attitude by mass distribution; ejection at 7,000 m; escape seat usable after about 20 s of flight; 10-day decay backup.', ru:'Описание конструкции: 4730 кг; пассивная ориентация за счёт распределения масс; катапультирование на 7000 м; кресло пригодно для спасения примерно через 20 с полёта; 10-суточная страховка затуханием орбиты.'}},
+  {title:'A. Zak, “Landing of Vostok-1”, RussianSpaceWeb', url:'https://www.russianspaceweb.com/vostok1_landing.html', note:{en:'The braking-engine valve that did not close, the late separation and Gagarin\'s own description of the loads.', ru:'Не закрывшийся клапан тормозной установки, позднее разделение и собственное описание перегрузок Гагариным.'}},
+  {title:'H. J. Allen & A. J. Eggers (1958), “A study of the motion and aerodynamic heating of ballistic missiles entering the earth\'s atmosphere at high supersonic speeds”, NACA Report 1381', url:'https://ntrs.nasa.gov/citations/19930091020', note:{en:'The closed-form ballistic entry solution used in Chapter 3, including the peak deceleration V²sinγ/(2eH).', ru:'Решение баллистического входа в замкнутой форме из главы 3, включая пиковое торможение V²sinγ/(2eH).'}},
+  {title:'NOAA, NASA & USAF (1976), U.S. Standard Atmosphere, 1976', url:'https://ntrs.nasa.gov/citations/19770009539', note:{en:'Density from 100 to 1,000 km used by the decay model (Chapter 4), interpolated logarithmically.', ru:'Плотность от 100 до 1000 км для модели затухания (глава 4), логарифмическая интерполяция.'}},
+  {title:'Spacefacts, Vostok 2 mission data', url:'https://spacefacts.de/mission/english/vostok-2.htm', note:{en:'6–7 August 1961, 17 orbits, 1 d 1 h 18 min; first sleep in orbit; space sickness.', ru:'6–7 августа 1961, 17 витков, 1 сут 1 ч 18 мин; первый сон на орбите; космическая болезнь.'}},
+  {title:'Spacefacts, Vostok 3 mission data (with Vostok 4)', url:'https://spacefacts.de/mission/english/vostok-3.htm', note:{en:'Nikolayev, 64 orbits; the joint flight with Popovich\'s Vostok 4 (48 orbits) passed within about 6.5 km without manoeuvring capability.', ru:'Николаев, 64 витка; групповой полёт с «Востоком-4» Поповича (48 витков): сближение примерно до 6,5 км без возможности маневрирования.'}},
+  {title:'Spacefacts, Vostok 5 mission data', url:'https://spacefacts.de/mission/english/vostok-5.htm', note:{en:'Bykovsky, 14–19 June 1963, 81 orbits, 4 d 23 h 07 min.', ru:'Быковский, 14–19 июня 1963, 81 виток, 4 сут 23 ч 07 мин.'}},
+  {title:'Spacefacts, Vostok 6 mission data', url:'https://spacefacts.de/mission/english/vostok-6.htm', note:{en:'Tereshkova, 16–19 June 1963, 48 orbits, 2 d 22 h 50 min; space sickness, manual orientation, horizon photographs used for aerosol studies.', ru:'Терешкова, 16–19 июня 1963, 48 витков, 2 сут 22 ч 50 мин; космическая болезнь, ручная ориентация, снимки горизонта для изучения аэрозолей.'}},
+  {title:'Spacefacts, Voskhod 1 mission data', url:'https://spacefacts.de/mission/english/voskhod-1.htm', note:{en:'Komarov, Feoktistov, Yegorov, 12–13 October 1964, 16 orbits, 1 d 0 h 17 min; spacesuits omitted for lack of room and mass.', ru:'Комаров, Феоктистов, Егоров, 12–13 октября 1964, 16 витков, 1 сут 0 ч 17 мин; скафандры не взяли из-за нехватки места и массы.'}},
+  {title:'Spacefacts, Voskhod 2 mission data', url:'https://spacefacts.de/mission/english/voskhod-2.htm', note:{en:'Berkut suit settings 40.6 or 27.4 kPa; Volga airlock; manual re-entry; landing 180 km NE of Perm; two nights in the forest; EVA times.', ru:'Режимы «Беркута» 40,6 или 27,4 кПа; шлюз «Волга»; ручной спуск; посадка в 180 км к СВ от Перми; две ночи в лесу; время выхода.'}},
+  {title:'R. L. Comer & S. Levy (1963), “Deflections of an Inflated Circular-Cylindrical Cantilever Beam”, AIAA Journal 1(7)', url:'https://doi.org/10.2514/3.1873', note:{en:'Wrinkling at M = πpr³/2 and collapse at M = πpr³ for a pressurised fabric tube — the mechanics behind a ballooning spacesuit.', ru:'Образование складки при M = πpr³/2 и излом при M = πpr³ для надутой тканевой трубки — механика раздувшегося скафандра.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderClock();
+  renderEntry();
+  renderDecayPresets(); renderDecay();
+  renderLimbs(); renderSuit();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  if(clockPlaying) stopClock();
+  onScroll();
+}
+applyLang('en');
+window.__first = {entry:entry, decay:decay, rhoUS:rhoUS, EVENTS:EVENTS};
+
+})();
+</script>
+</body>
+</html>

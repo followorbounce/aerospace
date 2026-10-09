@@ -12,6 +12,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 ## Dawn of the Space Age
 
 - [Sputnik, Explorer & the First Satellites](https://followorbounce.github.io/aerospace/beep-sputnik-explorer): the first satellites of 1957–58 — Kepler orbits of Sputnik 1/2 and Explorer 1, the Doppler curve that let APL fit Sputnik's orbit and became Transit navigation (with an audible pass), Laika, the Geiger-counter dead-time paradox that revealed the Van Allen belts, Explorer 1's major-axis tumble, and Vanguard 1's pear-shaped Earth.
+- [Vostok & Voskhod](https://followorbounce.github.io/aerospace/first-vostok-voskhod): the first human spaceflights 1961–65 — Gagarin's Vostok 1 minute by minute (ESA timeline), Allen–Eggers ballistic re-entry and its 8 g, the orbital-decay safety net (US Standard Atmosphere 1976 drag model reproduces the ~20-day figure), Titov and the group flights, Tereshkova, Voskhod 1 without spacesuits, and Leonov's spacewalk with an inflated-tube model of his ballooning Berkut suit.
 
 ## Space Stations
 
