@@ -89,6 +89,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 ## Rockets & Engineering
 
 - [Saturn V & N1](https://followorbounce.github.io/aerospace/thrust-saturn-v-n1): the two Moon rockets — Apollo 11's real Saturn V stage weights through the staged rocket equation (vs. one stage), the N1's 30 NK-15 engines and KORD engine-out thrust-to-weight, and the four N1 failures 1969–1972
+- [Falcon 9, Starship & Reusable Rockets](https://followorbounce.github.io/aerospace/return-reusable-rockets): reusable boosters — payload cost of keeping propellant for recovery (illustrative two-stage model vs. the MIT IAC-18 ranges), why a Falcon 9 booster cannot hover and must time its landing burn, first landings and reflights, Starship's tower catch
 
 ## Foundations & Tools
 

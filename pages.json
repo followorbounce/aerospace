@@ -118,7 +118,8 @@
       "id": "rockets",
       "title": { "en": "Rockets & Engineering", "ru": "Ракеты и техника" },
       "pages": [
-        { "slug": "thrust-saturn-v-n1", "codename": "THRUST", "label": { "en": "Saturn V & N1", "ru": "«Сатурн-5» и Н-1" } }
+        { "slug": "thrust-saturn-v-n1", "codename": "THRUST", "label": { "en": "Saturn V & N1", "ru": "«Сатурн-5» и Н-1" } },
+        { "slug": "return-reusable-rockets", "codename": "RETURN", "label": { "en": "Falcon 9, Starship & Reusable Rockets", "ru": "Falcon 9, Starship и многоразовые ракеты" } }
       ]
     },
     {

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RETURN — FALCON 9, STARSHIP &amp;amp; REUSABLE ROCKETS / ВОЗВРАТ — FALCON 9, STARSHIP И МНОГОРАЗОВЫЕ РАКЕТЫ</title>
+<meta name="description" content="An interactive field guide to reusable rockets: what it costs in payload to keep propellant for a booster landing (downrange vs. back at the launch site), why a Falcon 9 booster cannot hover and must time its landing burn to the metre, the first landings and reflights from 2015 to today, and Starship's Super Heavy booster caught by the launch tower.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/return-reusable-rockets">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RETURN — FALCON 9, STARSHIP &amp;amp; REUSABLE ROCKETS / ВОЗВРАТ — FALCON 9, STARSHIP И МНОГОРАЗОВЫЕ РАКЕТЫ">
+<meta property="og:description" content="How much payload a booster landing costs, why a Falcon 9 cannot hover, and the tower catch of Super Heavy — reusable rockets, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/return-reusable-rockets">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">RETURN — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THROWN AWAY</span></div>
+  <div class="hud-row"><span class="hud-label">PAYLOAD</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">LANDING</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THROWN AWAY">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 21 DECEMBER 2015, LANDING ZONE 1" data-ru="РИС. 00 — 21 ДЕКАБРЯ 2015, LANDING ZONE 1">FIG. 00 — 21 DECEMBER 2015, LANDING ZONE 1</span></span>
+        <span>9 × MERLIN 1D · 33 × RAPTOR</span>
+      </div>
+      <h1><span data-en="RETURN" data-ru="ВОЗВРАТ">RETURN</span><br><em data-en="FALCON 9, STARSHIP AND REUSABLE ROCKETS" data-ru="FALCON 9, STARSHIP И МНОГОРАЗОВЫЕ РАКЕТЫ">FALCON 9, STARSHIP AND REUSABLE ROCKETS</em></h1>
+      <p class="sub lede" data-en="For sixty years almost every rocket was thrown away after one flight, like an airliner scrapped after landing. Since 2015 SpaceX has landed its Falcon 9 boosters on concrete pads and floating platforms and flown them again, hundreds of times, and in 2024 a tower caught the far larger Super Heavy in mid-air. Seven chapters and two instruments: find out how much payload it costs to bring a booster home, and try to land one with an engine too strong to hover." data-ru="Шестьдесят лет почти каждую ракету выбрасывали после одного полёта — как если бы авиалайнер списывали после посадки. С 2015 года SpaceX сажает ступени Falcon 9 на бетонные площадки и плавучие платформы и запускает их снова, сотни раз, а в 2024 году башня поймала в воздухе гораздо более крупный ускоритель Super Heavy. Семь глав и два прибора: узнайте, сколько полезной нагрузки стоит возвращение ступени, и попробуйте посадить её на двигателе, слишком мощном, чтобы зависнуть.">For sixty years almost every rocket was thrown away after one flight.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY -->
+<section id="ch1" class="section" data-phase="THROWN AWAY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 07</span> — <span data-en="THE MOST EXPENSIVE PART FALLS INTO THE SEA" data-ru="САМАЯ ДОРОГАЯ ЧАСТЬ ПАДАЕТ В МОРЕ">THE MOST EXPENSIVE PART FALLS INTO THE SEA</span></div>
+    <h2 class="h-lg" data-en="Reuse saves money, but it costs payload" data-ru="Повторное использование экономит деньги, но стоит полезной нагрузки">Reuse saves money, but it costs payload</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A first stage carries most of a rocket's engines and tanks. Throwing it away every time means building a new one for every launch. The <a href='/aerospace/orbiter-space-shuttle-program'>Space Shuttle</a> recovered its solid boosters by parachute and flew its orbiter again, but needed extensive work between flights. The Falcon 9 approach is different: the first stage, with its nine Merlin engines, flies itself back and lands upright on its legs [1][3]." data-ru="Первая ступень несёт большую часть двигателей и баков ракеты. Выбрасывать её каждый раз — значит строить новую для каждого пуска. <a href='/aerospace/orbiter-space-shuttle-program'>«Спейс шаттл»</a> возвращал твердотопливные ускорители на парашютах и снова летал на орбитальном корабле, но между полётами требовался большой объём работ. У Falcon 9 подход другой: первая ступень с девятью двигателями Merlin сама летит обратно и садится вертикально на опоры [1][3].">A first stage carries most of a rocket's engines.</p>
+      <p class="body-col" data-en="Nothing is free. To come back, the booster must keep propellant in its tanks instead of using it to push the upper stage, and it carries legs and steering fins it would not otherwise need. A 2018 MIT study compared every major recovery method under common assumptions: landing downrange costs about <b>10–20 %</b> of the payload, while flying all the way back to the launch site costs about <b>half</b> [2]." data-ru="Ничто не даётся даром. Чтобы вернуться, ступень должна оставить топливо в баках, а не потратить его на разгон второй ступени, и несёт опоры и аэродинамические рули, которые иначе не нужны. Исследование MIT 2018 года сравнило все основные способы возвращения при общих допущениях: посадка вдали от старта стоит около <b>10–20 %</b> полезной нагрузки, а полёт обратно к месту старта — около <b>половины</b> [2].">Landing downrange costs 10–20 % of payload; returning to the launch site about half.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — PAYLOAD PRICE -->
+<section id="ch2" class="section" data-phase="THE PRICE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 07</span> — <span data-en="PROPELLANT KEPT FOR THE WAY HOME" data-ru="ТОПЛИВО, ОСТАВЛЕННОЕ НА ДОРОГУ ДОМОЙ">PROPELLANT KEPT FOR THE WAY HOME</span></div>
+    <h2 class="h-lg" data-en="Every km/s held back for landing is payload left on the ground" data-ru="Каждый км/с, оставленный для посадки, — полезная нагрузка, оставшаяся на земле">Every km/s held back for landing is payload left on the ground</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On the first landing flight the booster separated at nearly 4,000 mph (1.8 km/s), about 80 km up and heading away from the coast. One engine then turned it around, and it came down on a pad about ten kilometres south of where it had launched [3]. Landing <b>downrange</b> on a ship needs only a braking burn into the atmosphere and the landing burn. Returning to the <b>launch site</b> also means cancelling all that downrange speed — a much larger reserve." data-ru="В первом полёте с посадкой ступень отделилась на скорости почти 4000 миль/ч (1,8 км/с) на высоте около 80 км, удаляясь от побережья. Затем один двигатель развернул её, и она села на площадку примерно в десяти километрах к югу от места старта [3]. Для посадки <b>вдали от старта</b> на судно нужны лишь тормозной импульс перед входом в атмосферу и посадочный импульс. Возвращение к <b>месту старта</b> требует ещё и погасить всю эту скорость от берега — гораздо больший резерв.">Downrange vs. launch-site landing.</p>
+      <p class="body-col" data-en="SpaceX does not publish its stage masses or the payload of each landing mode — its user's guide gives mass-to-orbit figures only on request [1]. So the instrument below uses an <b>illustrative</b> two-stage kerosene rocket of about Falcon 9's size, with assumed masses, and asks one question: how much payload is left if the first stage keeps a given Δv for the way home? Compare the answer with the MIT ranges [2]." data-ru="SpaceX не публикует массы ступеней и полезную нагрузку для каждого способа посадки — её руководство пользователя даёт характеристики по выведению только по запросу [1]. Поэтому прибор ниже использует <b>условную</b> двухступенчатую керосиновую ракету размером примерно с Falcon 9 с принятыми массами и задаёт один вопрос: сколько полезной нагрузки останется, если первая ступень сохранит заданную Δv на обратный путь? Сравните ответ с диапазонами MIT [2].">An illustrative two-stage rocket model.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="RESERVE PROPELLANT AND PAYLOAD" data-ru="РЕЗЕРВ ТОПЛИВА И ПОЛЕЗНАЯ НАГРУЗКА">RESERVE PROPELLANT AND PAYLOAD</div>
+      <div class="eq-body">m<sub>res</sub> = m<sub>dry,1</sub> (e<sup>Δv<sub>rec</sub>/c₁</sup> − 1) &nbsp;·&nbsp; c₁ ln(m₀/m₁) + c₂ ln(m₂/m<sub>f</sub>) = 9.4 km/s</div>
+      <div class="eq-note" data-en="Assumed, not SpaceX data: stage 1 holds 410 t of propellant and has a 25 t dry mass, average I<sub>sp</sub> 300 s; stage 2 holds 110 t with 4.5 t dry, I<sub>sp</sub> 348 s; 9.4 km/s to low orbit including losses. The payload is found by solving for the largest mass that still reaches 9.4 km/s. Landing hardware (legs, fins) adds to the first-stage dry mass." data-ru="Допущения, не данные SpaceX: первая ступень — 410 т топлива и 25 т сухой массы, средний I<sub>уд</sub> 300 с; вторая — 110 т топлива и 4,5 т сухой массы, I<sub>уд</sub> 348 с; 9,4 км/с до низкой орбиты с потерями. Полезная нагрузка — наибольшая масса, при которой ещё набираются 9,4 км/с. Посадочное оборудование (опоры, рули) добавляется к сухой массе первой ступени.">Assumed masses, not SpaceX data.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="paySvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Payload to orbit against the velocity the first stage keeps for recovery"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Recovery mode" id="payMode">
+          <button class="btn" data-dv="0" data-hw="0" aria-pressed="false" data-en="EXPENDABLE" data-ru="ОДНОРАЗОВАЯ">EXPENDABLE</button>
+          <button class="btn active" data-dv="1.4" data-hw="2" aria-pressed="true" data-en="SHIP" data-ru="СУДНО">SHIP</button>
+          <button class="btn" data-dv="3.5" data-hw="2" aria-pressed="false" data-en="LAUNCH SITE" data-ru="МЕСТО СТАРТА">LAUNCH SITE</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="pDv" data-en="Δv KEPT FOR RECOVERY" data-ru="Δv НА ВОЗВРАЩЕНИЕ">Δv KEPT FOR RECOVERY</label><span class="v" id="pDvVal">—</span></div>
+          <input id="pDv" type="range" min="0" max="5" step="0.05" value="1.4">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="pHw" data-en="LANDING HARDWARE" data-ru="ПОСАДОЧНОЕ ОБОРУДОВАНИЕ">LANDING HARDWARE</label><span class="v" id="pHwVal">—</span></div>
+          <input id="pHw" type="range" min="0" max="5" step="0.25" value="2">
+        </div>
+        <div class="readout-grid" id="payReadout"></div>
+        <div class="status" id="payStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Preset reserves (1.4 and 3.5 km/s) are rough assumptions. The MIT study, using a fuller model, found that a return to the launch site costs about half the payload [2]; this simple model needs a reserve of about 4.5 km/s to reach the same penalty, a sign of how much it leaves out (losses during the boostback, the different trajectory a returning booster must fly)." data-ru="Заданные резервы (1,4 и 3,5 км/с) — грубые допущения. Исследование MIT с более полной моделью нашло, что возвращение к месту старта стоит около половины полезной нагрузки [2]; этой простой модели для такого же проигрыша нужен резерв около 4,5 км/с — признак того, сколько она не учитывает (потери при обратном развороте, другую траекторию возвращающейся ступени).">Preset reserves are rough assumptions.</p>
+  </div>
+</section>
+
+<!-- CH3 — LANDING BURN -->
+<section id="ch3" class="section" data-phase="LANDING">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 07</span> — <span data-en="TOO STRONG TO HOVER" data-ru="СЛИШКОМ МОЩНЫЙ, ЧТОБЫ ЗАВИСНУТЬ">TOO STRONG TO HOVER</span></div>
+    <h2 class="h-lg" data-en="Zero speed at zero height — not a moment earlier" data-ru="Нулевая скорость на нулевой высоте — и ни мгновением раньше">Zero speed at zero height — not a moment earlier</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A Merlin 1D gives up to 190,000 lbf at sea level and can throttle down to <b>108,300 lbf</b> (482 kN) [1]. A nearly empty booster weighs far less than that. Even one engine at its lowest setting pushes harder than gravity pulls, so the booster cannot hover: once the landing burn starts, it is decelerating, and if it reaches zero speed above the pad it starts climbing again." data-ru="Merlin 1D развивает до 190 000 фунтов тяги у земли и может дросселироваться до <b>108 300 фунтов</b> (482 кН) [1]. Почти пустая ступень весит гораздо меньше. Даже один двигатель на минимальном режиме толкает сильнее, чем тянет тяготение, поэтому ступень не может зависнуть: после начала посадочного импульса она тормозит, и если остановится выше площадки — начнёт снова подниматься.">A Merlin 1D throttles down to 108,300 lbf.</p>
+      <p class="body-col" data-en="So the burn has to be timed so that speed reaches zero exactly at touchdown: the first landing booster reached <b>zero velocity just as it hit the pad</b> [3]. Pick the booster's mass, its falling speed and the height at which the engine lights, and see whether it lands, crashes, or stops in mid-air." data-ru="Поэтому импульс нужно рассчитать так, чтобы скорость стала нулевой ровно в момент касания: первая севшая ступень <b>погасила скорость точно в момент касания площадки</b> [3]. Выберите массу ступени, скорость падения и высоту включения двигателя — и посмотрите, сядет ли она, разобьётся или остановится в воздухе.">The burn must reach zero speed at touchdown.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="landSvg" class="sim-svg" viewBox="0 0 480 320" role="img" aria-label="Height against speed during the landing burn"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="lM" data-en="BOOSTER MASS AT LANDING" data-ru="МАССА СТУПЕНИ ПРИ ПОСАДКЕ">BOOSTER MASS AT LANDING</label><span class="v" id="lMVal">—</span></div>
+          <input id="lM" type="range" min="20" max="45" step="0.5" value="30">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="lV" data-en="FALLING SPEED AT IGNITION" data-ru="СКОРОСТЬ ПАДЕНИЯ ПРИ ВКЛЮЧЕНИИ">FALLING SPEED AT IGNITION</label><span class="v" id="lVVal">—</span></div>
+          <input id="lV" type="range" min="50" max="300" step="5" value="200">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="lH" data-en="IGNITION HEIGHT" data-ru="ВЫСОТА ВКЛЮЧЕНИЯ">IGNITION HEIGHT</label><span class="v" id="lHVal">—</span></div>
+          <input id="lH" type="range" min="200" max="3000" step="5" value="1500">
+        </div>
+        <div class="readout-grid" id="landReadout"></div>
+        <div class="status" id="landStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="One engine at full throttle (845 kN) [1], constant mass during the burn, no drag — a simplification; the real booster loses mass as it burns, can throttle, and also slows down in the air. The booster mass and falling speed are assumptions to explore with, not SpaceX figures." data-ru="Один двигатель на полной тяге (845 кН) [1], постоянная масса во время импульса, без сопротивления воздуха — упрощение: реальная ступень теряет массу, может дросселироваться и тормозится воздухом. Масса ступени и скорость падения — допущения для экспериментов, а не данные SpaceX.">Simplified: one engine, constant mass, no drag.</p>
+  </div>
+</section>
+
+<!-- CH4 — FIRSTS -->
+<section id="ch4" class="section" data-phase="FIRSTS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 07</span> — <span data-en="FROM ONE LANDING TO HUNDREDS" data-ru="ОТ ОДНОЙ ПОСАДКИ К СОТНЯМ">FROM ONE LANDING TO HUNDREDS</span></div>
+    <h2 class="h-lg" data-en="Land it, then fly it again" data-ru="Посадить — и запустить снова">Land it, then fly it again</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 21 December 2015 (local time) a Falcon 9 launched eleven Orbcomm satellites and its first stage landed on Landing Zone 1 at Cape Canaveral, less than ten minutes after liftoff — the first orbital-class booster brought back intact [3]. On 8 April 2016, after four failed attempts at sea, a booster from a space station cargo flight landed on the drone ship <i>Of Course I Still Love You</i>, about 300 km offshore [4]." data-ru="21 декабря 2015 года (по местному времени) Falcon 9 вывел одиннадцать спутников Orbcomm, а его первая ступень менее чем через десять минут после старта села на площадку Landing Zone 1 на мысе Канаверал — впервые ступень орбитальной ракеты вернулась целой [3]. 8 апреля 2016 года, после четырёх неудачных попыток в море, ступень грузового полёта к космической станции села на беспилотную баржу <i>Of Course I Still Love You</i> примерно в 300 км от берега [4].">The first landings, 2015 and 2016.</p>
+      <p class="body-col" data-en="That same booster flew again on 30 March 2017, launching the SES-10 satellite — the first reflight of a Falcon 9 first stage. It had taken about four months to refurbish [5]. Turnaround became routine: in August 2025 SpaceX launched its <b>450th</b> flight-proven Falcon booster [6]." data-ru="Эта же ступень снова полетела 30 марта 2017 года, выведя спутник SES-10, — первый повторный полёт первой ступени Falcon 9. На её подготовку ушло около четырёх месяцев [5]. Повторные полёты стали рутиной: в августе 2025 года SpaceX запустила <b>450-ю</b> уже летавшую ступень Falcon [6].">The first reflight, 2017.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — STARSHIP -->
+<section id="ch5" class="section" data-phase="STARSHIP">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 07</span> — <span data-en="STARSHIP AND SUPER HEAVY" data-ru="STARSHIP И SUPER HEAVY">STARSHIP AND SUPER HEAVY</span></div>
+    <h2 class="h-lg" data-en="No legs: the tower catches the booster" data-ru="Без опор: ускоритель ловит башня">No legs: the tower catches the booster</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Starship is designed to reuse <b>both</b> stages. According to the FAA's 2022 environmental assessment, the Super Heavy booster holds up to 3,700 tonnes of liquid oxygen and methane and has up to 37 Raptor engines giving up to 74 MN at liftoff; the Starship upper stage holds up to 1,500 tonnes with six Raptors [7]. Neither has separable fairings or parachutes [7]." data-ru="Starship задуман с повторным использованием <b>обеих</b> ступеней. По экологической оценке FAA 2022 года, ускоритель Super Heavy вмещает до 3700 тонн жидкого кислорода и метана и несёт до 37 двигателей Raptor с тягой на старте до 74 МН; верхняя ступень Starship вмещает до 1500 тонн и несёт шесть двигателей Raptor [7]. Ни у одной нет сбрасываемых обтекателей или парашютов [7].">Starship reuses both stages.</p>
+      <p class="body-col" data-en="Instead of landing legs, the booster flies back to the tower it launched from. On 13 October 2024, on Starship's fifth test flight, Super Heavy Booster 12 returned to its pad about seven minutes after liftoff, and two giant arms on the tower closed around it as its engines shut down [8]. Below, the liftoff thrust of the rockets in these guides." data-ru="Вместо посадочных опор ускоритель возвращается к башне, с которой стартовал. 13 октября 2024 года, в пятом испытательном полёте Starship, ускоритель Super Heavy Booster 12 вернулся к стартовому столу примерно через семь минут после старта, и две огромные руки башни сомкнулись на нём, когда двигатели выключились [8]. Ниже — стартовая тяга ракет из этих справочников.">The tower caught Booster 12 on 13 October 2024.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="thrSvg" class="sim-svg" viewBox="0 0 480 260" role="img" aria-label="Liftoff thrust of Falcon 9, Falcon Heavy, Saturn V, N1 and Super Heavy"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Units" id="thrUnit">
+          <button class="btn active" data-u="mn" aria-pressed="true" data-en="MEGANEWTONS" data-ru="МЕГАНЬЮТОНЫ">MEGANEWTONS</button>
+          <button class="btn" data-u="t" aria-pressed="false" data-en="TONNES-FORCE" data-ru="ТОННЫ-СИЛЫ">TONNES-FORCE</button>
+        </div>
+        <div class="status" id="thrStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — TIMELINE -->
+<section id="ch6" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 07</span> — <span data-en="TEN YEARS OF COMING BACK" data-ru="ДЕСЯТЬ ЛЕТ ВОЗВРАЩЕНИЙ">TEN YEARS OF COMING BACK</span></div>
+    <h2 class="h-lg" data-en="From a single landing to a tower catch" data-ru="От одной посадки до поимки башней">From a single landing to a tower catch</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="The rocket equation did not change. What changed was the decision to pay a tenth or more of the payload to keep the most expensive part of the rocket." data-ru="Уравнение ракеты не изменилось. Изменилось решение платить десятой частью полезной нагрузки и больше за то, чтобы сохранить самую дорогую часть ракеты.">The rocket equation did not change.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — REFERENCES -->
+<section id="ch7" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 07</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CH2 — PAYLOAD MODEL (illustrative, assumed masses — not SpaceX data) ============ */
+var G0 = 9.80665;
+var RK = {p1:410000, d1:25000, i1:300, p2:110000, d2:4500, i2:348, req:9400};
+function payload(dvRec, hwKg){
+  var c1 = RK.i1*G0, c2 = RK.i2*G0, d1 = RK.d1 + hwKg, res = d1*(Math.exp(dvRec/c1) - 1);
+  if(res >= RK.p1) return {P:0, res:res};
+  function dv(P){ var m0 = RK.p1 + d1 + RK.p2 + RK.d2 + P, m1 = m0 - (RK.p1 - res); return c1*Math.log(m0/m1) + c2*Math.log((RK.p2 + RK.d2 + P)/(RK.d2 + P)); }
+  if(dv(0) < RK.req) return {P:0, res:res};
+  var lo = 0, hi = 200000;
+  for(var k = 0; k < 70; k++){ var m = 0.5*(lo + hi); if(dv(m) >= RK.req) lo = m; else hi = m; }
+  return {P:lo, res:res};
+}
+var P_EXP = payload(0, 0).P;
+var pDv = document.getElementById('pDv'), pHw = document.getElementById('pHw');
+function renderPay(){
+  var dvk = +pDv.value, hw = +pHw.value, R = payload(dvk*1000, hw*1000), pen = 1 - R.P/P_EXP;
+  document.getElementById('pDvVal').textContent = fmt(dvk, 2) + T(' km/s',' км/с');
+  document.getElementById('pHwVal').textContent = fmt(hw, 2) + T(' t',' т');
+  var svg = document.getElementById('paySvg'); svg.innerHTML = '';
+  var L = 56, Rr = 465, Tp = 22, B = 250;
+  function X(v){ return L + v/5*(Rr - L); }
+  function Y(p){ return B - p*(B - Tp); }
+  [0,0.25,0.5,0.75,1].forEach(function(p){ ns('line', {x1:L, y1:Y(p), x2:Rr, y2:Y(p), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(p) + 3, (p*100) + '%', 'svg-small', 'end'); });
+  [0,1,2,3,4,5].forEach(function(v){ txt(svg, X(v), B + 14, v, 'svg-small', 'middle'); });
+  txt(svg, Rr, B + 28, T('Δv kept for recovery, km/s','Δv на возвращение, км/с'), 'svg-small', 'end');
+  txt(svg, L, 13, T('payload, % of the expendable rocket','полезная нагрузка, % от одноразовой ракеты'), 'svg-small');
+  // MIT ranges [2]
+  ns('rect', {x:L, y:Y(0.9), width:Rr - L, height:Y(0.8) - Y(0.9), fill:'#2f5aa1', opacity:0.12}, svg);
+  txt(svg, Rr - 4, Y(0.9) - 4, T('MIT: downrange landing, −10 to −20 %','MIT: посадка вдали, −10…−20 %'), 'svg-small', 'end');
+  ns('line', {x1:L, y1:Y(0.5), x2:Rr, y2:Y(0.5), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, Rr - 4, Y(0.5) - 4, T('MIT: back to launch site, about half','MIT: к месту старта, около половины'), 'svg-small', 'end');
+  var d = '';
+  for(var v = 0; v <= 5.0001; v += 0.05) d += (v === 0 ? 'M' : 'L') + X(v).toFixed(1) + ' ' + Y(payload(v*1000, hw*1000).P/P_EXP).toFixed(1);
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(dvk), cy:Y(R.P/P_EXP), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('payReadout'), [
+    [T('PAYLOAD','ПОЛЕЗНАЯ НАГРУЗКА'), fmt(R.P/1000, 1) + T(' t',' т')],
+    [T('EXPENDABLE','ОДНОРАЗОВАЯ'), fmt(P_EXP/1000, 1) + T(' t',' т')],
+    [T('PAYLOAD LOST','ПОТЕРЯ НАГРУЗКИ'), fmt(pen*100, 1) + ' %'],
+    [T('PROPELLANT KEPT IN STAGE 1','ТОПЛИВО, ОСТАВЛЕННОЕ В 1-Й СТУПЕНИ'), fmt(R.res/1000, 1) + T(' t',' т')]
+  ]);
+  hud1.textContent = fmt(R.P/1000, 1) + T(' t',' т');
+  document.getElementById('payStatus').innerHTML = R.P <= 0
+    ? T('<b>Nothing left:</b> the booster would need more propellant for the way home than it can spare.','<b>Ничего не осталось:</b> ступени понадобилось бы больше топлива на возвращение, чем она может выделить.')
+    : T('The booster keeps ','Ступень оставляет ') + fmt(R.res/1000, 1) + T(' t of propellant (',' т топлива (') + fmt(R.res/RK.p1*100, 1) + T(' % of its load). That mass rides all the way to staging, so the upper stage starts slower, and the payload pays.',' % загрузки). Эта масса едет до самого разделения, вторая ступень стартует медленнее, и расплачивается полезная нагрузка.');
+}
+[pDv, pHw].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById('payMode'), null); renderPay(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#payMode .btn'), function(btn){
+  btn.addEventListener('click', function(){ pDv.value = this.getAttribute('data-dv'); pHw.value = this.getAttribute('data-hw'); pressGroup(this.parentNode, this); renderPay(); });
+});
+
+/* ============ CH3 — LANDING BURN ============ */
+var F_MAX = 190000*4.4482216, F_MIN = 108300*4.4482216;   // N, one Merlin 1D at sea level [1]
+var lM = document.getElementById('lM'), lV = document.getElementById('lV'), lH = document.getElementById('lH');
+function landing(mT, v0, h0){
+  var m = mT*1000, a = F_MAX/m - G0, stop = v0*v0/(2*a);
+  return {a:a, stop:stop, twMin:F_MIN/(m*G0), result: h0 > stop ? 'early' : 'late', gap:h0 - stop, vHit: h0 >= stop ? 0 : Math.sqrt(v0*v0 - 2*a*h0), t:v0/a};
+}
+function renderLand(){
+  var mT = +lM.value, v0 = +lV.value, h0 = +lH.value, Ld = landing(mT, v0, h0);
+  document.getElementById('lMVal').textContent = fmt(mT, 1) + T(' t',' т');
+  document.getElementById('lVVal').textContent = fmtInt(v0) + T(' m/s',' м/с');
+  document.getElementById('lHVal').textContent = fmtInt(h0) + T(' m',' м');
+  var svg = document.getElementById('landSvg'); svg.innerHTML = '';
+  var L = 56, Rr = 465, Tp = 22, B = 270, hmax = 3000;
+  function X(v){ return L + v/300*(Rr - L); }
+  function Y(h){ return B - h/hmax*(B - Tp); }
+  [0,500,1000,1500,2000,2500,3000].forEach(function(h){ ns('line', {x1:L, y1:Y(h), x2:Rr, y2:Y(h), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(h) + 3, fmtInt(h), 'svg-small', 'end'); });
+  [0,100,200,300].forEach(function(v){ txt(svg, X(v), B + 14, v, 'svg-small', 'middle'); });
+  txt(svg, Rr, B + 28, T('falling speed, m/s','скорость падения, м/с'), 'svg-small', 'end'); txt(svg, L, 13, T('height, m','высота, м'), 'svg-small');
+  // ideal curve: h = v²/2a (speed that reaches zero exactly at the ground)
+  var d = '';
+  for(var v = 0; v <= 300; v += 2){ var h = v*v/(2*Ld.a); if(h > hmax) break; d += (d ? 'L' : 'M') + X(v).toFixed(1) + ' ' + Y(h).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#2f5aa1', 'stroke-dasharray':'4 3', 'stroke-width':1.5}, svg);
+  txt(svg, X(Math.min(290, Math.sqrt(2*Ld.a*hmax))) - 4, Tp + 12, T('perfect burn','идеальный импульс'), 'svg-small', 'end');
+  // this burn: from (v0,h0) decelerating at a
+  var p = '', end = Math.max(0, Ld.gap);
+  for(var vv = v0; vv >= 0; vv -= 1){ var hh = h0 - (v0*v0 - vv*vv)/(2*Ld.a); if(hh < 0){ p += 'L' + X(Ld.vHit).toFixed(1) + ' ' + Y(0).toFixed(1); break; } p += (p ? 'L' : 'M') + X(vv).toFixed(1) + ' ' + Y(hh).toFixed(1); }
+  ns('path', {d:p, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(v0), cy:Y(h0), r:5, fill:'#b5452a'}, svg);
+  ns('circle', {cx:X(Ld.result === 'early' ? 0 : Ld.vHit), cy:Y(end), r:4, fill: Math.abs(Ld.gap) < 3 || (Ld.result === 'late' && Ld.vHit < 2) ? '#0b0b0c' : '#b5452a'}, svg);
+  cells(document.getElementById('landReadout'), [
+    [T('DECELERATION','ТОРМОЖЕНИЕ'), fmt(Ld.a/G0, 2) + ' g'],
+    [T('LOWEST THRUST ÷ WEIGHT','МИН. ТЯГА ÷ ВЕС'), fmt(Ld.twMin, 2)],
+    [T('PERFECT IGNITION HEIGHT','ИДЕАЛЬНАЯ ВЫСОТА ВКЛЮЧЕНИЯ'), fmtInt(Ld.stop) + T(' m',' м')],
+    [T('BURN TIME','ДЛИТЕЛЬНОСТЬ ИМПУЛЬСА'), fmt(Ld.t, 1) + T(' s',' с')]
+  ]);
+  var ok = Ld.result === 'early' ? Ld.gap < 3 : Ld.vHit < 2;
+  hud2.textContent = ok ? T('LANDED','ПОСАДКА') : Ld.result === 'early' ? T('TOO EARLY','РАНО') : T('TOO LATE','ПОЗДНО');
+  document.getElementById('landStatus').innerHTML = ok
+    ? T('<b>Landed.</b> Zero speed at zero height.','<b>Посадка.</b> Нулевая скорость на нулевой высоте.')
+    : Ld.result === 'early'
+      ? T('<b>Too early:</b> it stops ','<b>Слишком рано:</b> ступень останавливается в ') + fmtInt(Ld.gap) + T(' m above the pad and, with thrust still greater than weight even at minimum throttle (' ,' м над площадкой и, поскольку даже на минимальном режиме тяга больше веса (') + fmt(Ld.twMin, 2) + T('), starts to rise again.','), начинает снова подниматься.')
+      : T('<b>Too late:</b> it hits the pad at ','<b>Слишком поздно:</b> ступень ударяется о площадку на скорости ') + fmtInt(Ld.vHit) + T(' m/s.',' м/с.');
+}
+[lM, lV, lH].forEach(function(el){ el.addEventListener('input', renderLand); });
+
+/* ============ CH5 — THRUST COMPARISON ============ */
+var LBF = 4.4482216, THR = [
+  ['Falcon 9', 'Falcon 9', 7.686, 'reuse', '[1]'],
+  ['Falcon Heavy', 'Falcon Heavy', 22.819, 'reuse', '[1]'],
+  ['Saturn V', '«Сатурн-5»', 7610000*LBF/1e6, 'exp', '[9]'],
+  ['N1', 'Н-1', 30*153.4*G0/1000, 'exp', '[10]'],
+  ['Super Heavy', 'Super Heavy', 74, 'reuse', '[7]']
+], thrUnit = 'mn';
+function renderThr(){
+  var svg = document.getElementById('thrSvg'); svg.innerHTML = '';
+  var L = 110, Rr = 420, Tp = 24, row = 40, max = 90;
+  function X(v){ return L + v/max*(Rr - L); }
+  THR.forEach(function(r, i){
+    var y = Tp + i*row, v = thrUnit === 'mn' ? r[2] : r[2]*1e6/G0/1000;
+    txt(svg, L - 8, y + 17, T(r[0], r[1]), 'svg-small', 'end');
+    ns('rect', {x:L, y:y + 4, width:X(r[2]) - L, height:20, fill: r[3] === 'reuse' ? '#0b0b0c' : '#8a8a82'}, svg);
+    txt(svg, X(r[2]) + 6, y + 18, (thrUnit === 'mn' ? fmt(v, 1) + T(' MN',' МН') : fmtInt(v) + T(' t',' т')) + ' ' + r[4], 'svg-small');
+  });
+  ns('rect', {x:L, y:Tp + 5*row + 4, width:10, height:10, fill:'#0b0b0c'}, svg); txt(svg, L + 14, Tp + 5*row + 13, T('first stage built to be reused','первая ступень многоразовая'), 'svg-small');
+  ns('rect', {x:L + 200, y:Tp + 5*row + 4, width:10, height:10, fill:'#8a8a82'}, svg); txt(svg, L + 214, Tp + 5*row + 13, T('expendable','одноразовая'), 'svg-small');
+  document.getElementById('thrStatus').innerHTML = T('Super Heavy\'s figure is the FAA document\'s maximum (\"up to 74 MN\") [7]. Thrust in tonnes-force is the mass it could hold up against Earth\'s gravity.','Значение для Super Heavy — максимум из документа FAA («до 74 МН») [7]. Тяга в тоннах-силы — масса, которую она могла бы удерживать против земного тяготения.');
+}
+Array.prototype.forEach.call(document.querySelectorAll('#thrUnit .btn'), function(btn){
+  btn.addEventListener('click', function(){ thrUnit = this.getAttribute('data-u'); pressGroup(this.parentNode, this); renderThr(); });
+});
+
+/* ============ CH6 — TIMELINE ============ */
+var TIMELINE = [
+  ['2015', '<b>21 December (local time):</b> Orbcomm-2 launch; first landing of an orbital-class booster, at Landing Zone 1 [3].', '<b>21 декабря (местное время):</b> пуск Orbcomm-2; первая посадка ступени орбитальной ракеты, на Landing Zone 1 [3].'],
+  ['2016', '<b>8 April:</b> CRS-8 booster lands on a drone ship about 300 km offshore [4].', '<b>8 апреля:</b> ступень CRS-8 садится на баржу примерно в 300 км от берега [4].'],
+  ['2017', '<b>30 March:</b> SES-10 — the CRS-8 booster flies again, the first Falcon 9 reflight [5].', '<b>30 марта:</b> SES-10 — ступень CRS-8 летит снова, первый повторный полёт Falcon 9 [5].'],
+  ['2018', 'Falcon 9 Block 5, designed for rapid reuse, enters service [1].', 'В строй входит Falcon 9 Block 5, рассчитанный на быстрое повторное использование [1].'],
+  ['2022', '<b>June:</b> FAA environmental assessment for Starship/Super Heavy at Boca Chica [7].', '<b>Июнь:</b> экологическая оценка FAA для Starship/Super Heavy в Бока-Чике [7].'],
+  ['2024', '<b>13 October:</b> Starship flight 5 — Super Heavy Booster 12 caught by the launch tower [8].', '<b>13 октября:</b> пятый полёт Starship — ускоритель Super Heavy Booster 12 пойман стартовой башней [8].'],
+  ['2025', '<b>August:</b> the 450th launch of a flight-proven Falcon booster [6].', '<b>Август:</b> 450-й запуск уже летавшей ступени Falcon [6].']
+];
+
+/* ============ CH7 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'SpaceX (2025), Falcon User\'s Guide (May 2025)', url:'https://www.spacex.com/assets/media/falcon-users-guide-2025-05-09.pdf', note:{en:'Merlin 1D: 845 kN (190,000 lbf) sea-level thrust, throttle to 108,300 lbf; Falcon 9 7,686 kN and Falcon Heavy 22,819 kN at liftoff; recoverable first stage; Full Thrust (2015) and Block 5 (2018); mass-to-orbit figures available on request.', ru:'Merlin 1D: 845 кН (190 000 фунтов) у земли, дросселирование до 108 300 фунтов; стартовая тяга Falcon 9 — 7686 кН, Falcon Heavy — 22 819 кН; возвращаемая первая ступень; версии Full Thrust (2015) и Block 5 (2018); характеристики по выведению — по запросу.'}},
+  {title:'M. Vernacchia, K. Mathesius (2018), “Strategies for Re-Use of Launch Vehicle First Stages”, IAC-18-D2.4.3 (MIT)', url:'https://iafastro.directory/iac/archive/browse/IAC-18/D2/4/47508/', note:{en:'Payload penalty under common assumptions: propulsive return to the launch site about half; air-breathing fly-back 15–45 %; downrange propulsive or glider landing 10–20 %; engines-only parachute recovery almost none.', ru:'Потеря полезной нагрузки при общих допущениях: реактивное возвращение к месту старта — около половины; возвращение на воздушно-реактивных двигателях — 15–45 %; посадка вдали от старта (реактивная или планирующая) — 10–20 %; спасение только двигателей на парашюте — почти ноль.'}},
+  {title:'Spaceflight Now (2015), “Round-trip rocket flight gives SpaceX a trifecta of successes”', url:'https://spaceflightnow.com/2015/12/22/round-trip-rocket-flight-gives-spacex-a-trifecta-of-successes/', note:{en:'Orbcomm-2: staging at nearly 4,000 mph and 50 miles altitude; landing about six miles south of the pad, reaching zero velocity just as it hit the pad.', ru:'Orbcomm-2: разделение на скорости почти 4000 миль/ч и высоте 50 миль; посадка примерно в шести милях к югу от старта с нулевой скоростью в момент касания.'}},
+  {title:'Spaceflight Now (2016), “SpaceX lands rocket on ocean-going drone ship”', url:'https://spaceflightnow.com/2016/04/08/spacex-lands-rocket-on-floating-platform-after-station-resupply-launch/', note:{en:'CRS-8: first successful drone-ship landing after four failed attempts, about 300 km northeast of Cape Canaveral.', ru:'CRS-8: первая успешная посадка на баржу после четырёх неудачных попыток, примерно в 300 км к северо-востоку от мыса Канаверал.'}},
+  {title:'Spaceflight Now (2017), “SpaceX flies rocket for second time in historic test of cost-cutting technology”', url:'https://spaceflightnow.com/2017/03/31/spacex-flies-rocket-for-second-time-in-historic-test-of-cost-cutting-technology/', note:{en:'SES-10 on 30 March 2017: first reflight; about four months of refurbishment.', ru:'SES-10, 30 марта 2017: первый повторный полёт; около четырёх месяцев подготовки.'}},
+  {title:'Spaceflight Now (2025), “Starlink mission marks SpaceX\'s 450th flight-proven Falcon booster launched”', url:'https://spaceflightnow.com/2025/08/03/live-coverage-spacex-to-launch-28-starlink-satellites-on-falcon-9-rocket-from-cape-canaveral-8/', note:{en:'The 450th launch of a previously flown Falcon booster, August 2025.', ru:'450-й запуск ранее летавшей ступени Falcon, август 2025.'}},
+  {title:'FAA (2022), Final Programmatic Environmental Assessment for the SpaceX Starship/Super Heavy Launch Vehicle Program at the Boca Chica Launch Site', url:'https://www.faa.gov/sites/faa.gov/files/2022-06/PEA_for_SpaceX_Starship_Super_Heavy_at_Boca_Chica_FINAL.pdf', note:{en:'Super Heavy: up to 37 Raptors, up to 3,700 t of propellant, up to 74 MN; Starship: six Raptors, up to 1,500 t, 12 MN; LOX/methane 3.6:1; no separable fairings or parachutes.', ru:'Super Heavy: до 37 двигателей Raptor, до 3700 т топлива, до 74 МН; Starship: шесть Raptor, до 1500 т, 12 МН; кислород/метан 3,6:1; без сбрасываемых обтекателей и парашютов.'}},
+  {title:'Spaceflight Now (2024), “SpaceX pulls off mid-air launch pad capture of descending Super Heavy booster”', url:'https://spaceflightnow.com/2024/10/13/spacex-pulls-off-mid-air-launch-pad-capture-of-descending-super-heavy-booster/', note:{en:'Flight 5, 13 October 2024: Booster 12 caught by the tower arms about seven minutes after liftoff.', ru:'Пятый полёт, 13 октября 2024: Booster 12 пойман руками башни примерно через семь минут после старта.'}},
+  {title:'R. W. Orloff (2000), Apollo by the Numbers, NASA SP-2000-4029', url:'https://www.nasa.gov/wp-content/uploads/2023/04/sp-4029.pdf', note:{en:'Saturn V S-IC rated thrust 7,610,000 lbf.', ru:'Номинальная тяга S-IC «Сатурна-5» — 7 610 000 фунтов.'}},
+  {title:'A. A. Siddiqi (2000), Challenge to Apollo, NASA SP-2000-4408', url:'https://history.nasa.gov/SP-4408pt2.pdf', note:{en:'N1 first stage: 30 NK-15 engines of 153.4 t sea-level thrust.', ru:'Первая ступень Н-1: 30 двигателей НК-15 по 153,4 т тяги у земли.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderPay();
+  renderLand();
+  renderThr();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__return = {payload:payload, P_EXP:P_EXP, landing:landing, F_MIN:F_MIN, F_MAX:F_MAX, THR:THR};
+
+})();
+</script>
+</body>
+</html>
