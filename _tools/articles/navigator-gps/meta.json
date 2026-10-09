@@ -1,6 +1,6 @@
 {
  "slug": "navigator-gps",
- "title_en": "NAVIGATOR — GPS &amp; SATELLITE NAVIGATION",
+ "title_en": "NAVIGATOR — GPS & SATELLITE NAVIGATION",
  "title_ru": "НАВИГАТОР — GPS И СПУТНИКОВАЯ НАВИГАЦИЯ",
  "description": "An interactive field guide to GPS: why a receiver needs four satellites (three for position, one for its own clock), how a microsecond of clock error becomes 300 metres, why satellite clocks are set to tick slow on the ground to cancel 38 microseconds a day of relativity, and how satellite geometry multiplies range errors.",
  "og": "Four satellites, one clock error, 38 µs a day of relativity: GPS positioning, interactive and checked against Ashby's relativity review.",
