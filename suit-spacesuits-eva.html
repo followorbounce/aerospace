@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUIT — SPACESUITS &amp;amp; SPACEWALKS / СКАФАНДР — СКАФАНДРЫ И ВЫХОДЫ В ОТКРЫТЫЙ КОСМОС</title>
+<meta name="description" content="An interactive field guide to spacesuits: why a suit is a personal spacecraft inflated to about the pressure of a basketball, the trade between low pressure (mobility) and high pressure (no decompression sickness), NASA's tissue-ratio rule R ≤ 1.65 with a 360-minute nitrogen compartment, and how oxygen prebreathe, the Shuttle staged protocol and the ISS campout wash nitrogen out before a spacewalk.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/suit-spacesuits-eva">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SUIT — SPACESUITS &amp;amp; SPACEWALKS / СКАФАНДР — СКАФАНДРЫ И ВЫХОДЫ В ОТКРЫТЫЙ КОСМОС">
+<meta property="og:description" content="4.3 psi of pure oxygen, R ≤ 1.65 and hours of prebreathe: how a spacewalk avoids the bends, interactive and checked against NASA's protocols.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/suit-spacesuits-eva">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">SUIT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE BALLOON</span></div>
+  <div class="hud-row"><span class="hud-label">SUIT PRESSURE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">TISSUE RATIO R</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE BALLOON">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — EMU 29.6 kPa (4.3 PSI), 100 % O₂" data-ru="РИС. 00 — EMU 29,6 кПа (4,3 PSI), 100 % O₂">FIG. 00 — EMU 29.6 kPa (4.3 PSI), 100 % O₂</span></span>
+        <span>R = P<sub>N₂</sub> / P<sub>suit</sub> ≤ 1.65</span>
+      </div>
+      <h1><span data-en="SUIT" data-ru="СКАФАНДР">SUIT</span><br><em data-en="SPACESUITS AND SPACEWALKS" data-ru="СКАФАНДРЫ И ВЫХОДЫ В ОТКРЫТЫЙ КОСМОС">SPACESUITS AND SPACEWALKS</em></h1>
+      <p class="sub lede" data-en="A spacesuit is a one-person spacecraft that you have to bend. Pump it up to normal air pressure and it becomes as stiff as a tyre; let it down to a third of that and the astronaut risks the bends, the diver's disease, as nitrogen fizzes out of the blood. NASA's suit settles at 4.3 psi of pure oxygen — about the pressure of a basketball — and pays for it with hours of breathing oxygen before going outside. Six chapters and two instruments: choose a suit pressure, and plan a prebreathe that keeps the nitrogen in solution." data-ru="Скафандр — это одноместный космический корабль, который приходится сгибать. Накачайте его до обычного давления воздуха, и он станет жёстким, как шина; спустите до трети — и астронавт рискует кессонной болезнью, когда азот вскипает в крови. Скафандр NASA работает при 4,3 фунта на кв. дюйм чистого кислорода — примерно как баскетбольный мяч — и расплачивается за это часами дыхания кислородом перед выходом. Шесть глав и два прибора: выберите давление в скафандре и спланируйте десатурацию, при которой азот останется растворённым.">A spacesuit is a one-person spacecraft that you have to bend.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY -->
+<section id="ch1" class="section" data-phase="THE BALLOON">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 06</span> — <span data-en="A SPACECRAFT YOU WEAR" data-ru="КОРАБЛЬ, КОТОРЫЙ НАДЕВАЮТ">A SPACECRAFT YOU WEAR</span></div>
+    <h2 class="h-lg" data-en="Pressure, oxygen, cooling, protection" data-ru="Давление, кислород, охлаждение, защита">Pressure, oxygen, cooling, protection</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="In vacuum the body needs pressure around it, oxygen to breathe, a way to dump heat, and protection from radiation, micrometeoroids and orbital debris [1]. The first spacewalker, Alexei Leonov in 1965, found his suit had ballooned so much he had to bleed pressure to get back inside (see <a href='/aerospace/first-vostok-voskhod'>FIRST</a>). Every suit since has wrestled with the same problem: a pressurised fabric skin resists every bend." data-ru="В вакууме телу нужно давление вокруг, кислород для дыхания, способ сбрасывать тепло и защита от радиации, микрометеороидов и орбитального мусора [1]. Первый человек в открытом космосе, Алексей Леонов, в 1965 году обнаружил, что скафандр раздуло так, что для возвращения пришлось стравить давление (см. <a href='/aerospace/first-vostok-voskhod'>ПЕРВЫЙ</a>). С тех пор каждый скафандр борется с той же проблемой: оболочка под давлением сопротивляется каждому сгибу.">Leonov had to bleed pressure in 1965.</p>
+      <p class="body-col" data-en="The Apollo lunar suits ran at 25.8 kPa (3.75 psi), low enough for long walks and real work on the Moon, with liquid cooling garments to carry away heat. The Shuttle and ISS Extravehicular Mobility Unit (EMU) grew out of the advanced Apollo design and runs at <b>29.6 kPa (4.3 psi)</b> — about the pressure inside a basketball [1]. Even so, its stiffness can injure shoulders, wrists and fingernails [1]." data-ru="Лунные скафандры «Аполлона» работали при 25,8 кПа (3,75 фунта на кв. дюйм) — достаточно низко для долгой ходьбы и настоящей работы на Луне, с костюмами жидкостного охлаждения. Скафандр EMU для шаттла и МКС вырос из усовершенствованной конструкции «Аполлона» и работает при <b>29,6 кПа (4,3 фунта на кв. дюйм)</b> — примерно как давление в баскетбольном мяче [1]. Даже так его жёсткость может травмировать плечи, запястья и ногти [1].">EMU: 29.6 kPa, like a basketball.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — PRESSURE TRADE -->
+<section id="ch2" class="section" data-phase="THE TRADE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 06</span> — <span data-en="SOFT OR SAFE" data-ru="ГИБКИЙ ИЛИ БЕЗОПАСНЫЙ">SOFT OR SAFE</span></div>
+    <h2 class="h-lg" data-en="Lower pressure bends easier — and bubbles sooner" data-ru="Низкое давление легче гнуть — и пузыри появляются раньше">Lower pressure bends easier — and bubbles sooner</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The ISS cabin is ordinary air at about 14.5–14.7 psi, 79 % nitrogen [1]. A body living in it carries about 11.6 psi of nitrogen dissolved in its tissues [2]. Drop suddenly to 4.3 psi and that nitrogen is far above the surrounding pressure: like a shaken bottle opened, it can form bubbles — <b>decompression sickness</b>." data-ru="В кабине МКС обычный воздух при давлении около 14,5–14,7 фунта на кв. дюйм, 79 % азота [1]. Тело, живущее в нём, несёт около 11,6 фунта на кв. дюйм растворённого в тканях азота [2]. Резкое падение до 4,3 — и этот азот намного выше окружающего давления: как встряхнутая бутылка, которую открыли, он может образовать пузыри — <b>декомпрессионная болезнь</b>.">11.6 psi of nitrogen in the tissues.</p>
+      <p class="body-col" data-en="NASA measures the risk with the <b>tissue ratio R</b>: the nitrogen pressure in a model tissue with a 360-minute half-time divided by the suit pressure. For the 4.3 psi EMU, <b>R ≤ 1.65</b> is acceptable; the Russian Orlan suit, at 5.8 psi, operates at about 1.85 for an equivalent risk, so the limit itself depends on suit pressure [2][4]. Choose a suit pressure below and see R straight from the cabin, with no prebreathe." data-ru="NASA оценивает риск <b>тканевым коэффициентом R</b>: давление азота в модельной ткани с периодом полунасыщения 360 минут, делённое на давление в скафандре. Для EMU при 4,3 фунта на кв. дюйм допустимо <b>R ≤ 1,65</b>; российский «Орлан» при 5,8 работает примерно при 1,85 для равного риска, так что сам предел зависит от давления в скафандре [2][4]. Выберите давление ниже и посмотрите R сразу из кабины, без десатурации.">R ≤ 1.65 for the EMU.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="prSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Tissue ratio and relative suit stiffness against suit pressure"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="pP" data-en="SUIT PRESSURE (100 % OXYGEN)" data-ru="ДАВЛЕНИЕ В СКАФАНДРЕ (100 % КИСЛОРОДА)">SUIT PRESSURE (100 % OXYGEN)</label><span class="v" id="pPVal">—</span></div>
+          <input id="pP" type="range" min="3" max="8.3" step="0.05" value="4.3">
+        </div>
+        <div class="readout-grid" id="prReadout"></div>
+        <div class="status" id="prStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="R without prebreathe = 11.6 psi ÷ suit pressure [2]. Oxygen to breathe: pure O₂ at the suit pressure, compared with 0.21 × 14.7 = 3.1 psi in sea-level air. “Stiffness” is shown simply as proportional to suit pressure — the force needed to bend a pressurised fabric joint grows with the pressure difference; real joint design changes the constant, not the trend." data-ru="R без десатурации = 11,6 ÷ давление в скафандре [2]. Кислород для дыхания: чистый O₂ при давлении скафандра против 0,21 × 14,7 = 3,1 фунта на кв. дюйм в воздухе на уровне моря. «Жёсткость» показана просто пропорциональной давлению: усилие сгиба герметичного тканевого сустава растёт с перепадом давления; конструкция суставов меняет коэффициент, но не тенденцию.">R = 11.6 ÷ suit pressure.</p>
+  </div>
+</section>
+
+<!-- CH3 — PREBREATHE -->
+<section id="ch3" class="section" data-phase="PREBREATHE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 06</span> — <span data-en="BREATHING THE NITROGEN OUT" data-ru="ВЫДЫШАТЬ АЗОТ">BREATHING THE NITROGEN OUT</span></div>
+    <h2 class="h-lg" data-en="Hours of oxygen before the hatch opens" data-ru="Часы кислорода перед открытием люка">Hours of oxygen before the hatch opens</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Breathing pure oxygen lets dissolved nitrogen leave the body slowly. In the 360-minute tissue the nitrogen pressure falls exponentially, P(t) = P<sub>a</sub> + (P₀ − P<sub>a</sub>) e<sup>−kt</sup> with k = ln 2 / 360 min [2][4]. Breathing oxygen alone from 14.7 psi takes about four hours to reach R ≈ 1.65 — far too long to sit in a suit." data-ru="Дыхание чистым кислородом позволяет растворённому азоту медленно покидать тело. В 360-минутной ткани давление азота падает экспоненциально: P(t) = P<sub>a</sub> + (P₀ − P<sub>a</sub>) e<sup>−kt</sup>, где k = ln 2 / 360 мин [2][4]. Только кислородом с 14,7 фунта на кв. дюйм до R ≈ 1,65 нужно около четырёх часов — слишком долго, чтобы сидеть в скафандре.">P(t) = Pa + (P0 − Pa)e^(−kt).</p>
+      <p class="body-col" data-en="The Shuttle used a <b>staged</b> protocol: 60 minutes of oxygen by mask, then the whole cabin lowered to 10.2 psi with 26.5 % oxygen for at least 12 hours, then 40–75 minutes of oxygen in the suit [3]. The ISS keeps sea-level air, so its spacewalkers <b>camp out</b> overnight in the airlock at 10.2 psi — limited to 8 hours 40 minutes — or exercise while breathing oxygen to speed nitrogen out [3]. Try the protocols below." data-ru="На шаттле использовался <b>ступенчатый</b> протокол: 60 минут кислорода через маску, затем давление во всей кабине снижали до 10,2 фунта на кв. дюйм с 26,5 % кислорода не менее чем на 12 часов, затем 40–75 минут кислорода в скафандре [3]. На МКС поддерживается обычный воздух, поэтому выходящие <b>ночуют</b> в шлюзе при 10,2 — не дольше 8 часов 40 минут — или выполняют упражнения, дыша кислородом, чтобы ускорить вывод азота [3]. Попробуйте протоколы ниже.">Shuttle staged protocol and ISS campout.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="pbSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Tissue nitrogen ratio over time during a prebreathe protocol"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Protocol" id="pbPro">
+          <button class="btn" data-p="o2" aria-pressed="false" data-en="OXYGEN ONLY" data-ru="ТОЛЬКО КИСЛОРОД">OXYGEN ONLY</button>
+          <button class="btn active" data-p="staged" aria-pressed="true" data-en="SHUTTLE STAGED" data-ru="СТУПЕНЧАТЫЙ (ШАТТЛ)">SHUTTLE STAGED</button>
+          <button class="btn" data-p="camp" aria-pressed="false" data-en="ISS CAMPOUT" data-ru="НОЧЁВКА (МКС)">ISS CAMPOUT</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="pbS" data-en="TIME AT 10.2 PSI (26.5 % O₂)" data-ru="ВРЕМЯ ПРИ 10,2 PSI (26,5 % O₂)">TIME AT 10.2 PSI (26.5 % O₂)</label><span class="v" id="pbSVal">—</span></div>
+          <input id="pbS" type="range" min="0" max="16" step="0.25" value="12">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="pbO" data-en="FINAL OXYGEN PREBREATHE" data-ru="ЗАВЕРШАЮЩЕЕ ДЫХАНИЕ КИСЛОРОДОМ">FINAL OXYGEN PREBREATHE</label><span class="v" id="pbOVal">—</span></div>
+          <input id="pbO" type="range" min="0" max="300" step="5" value="75">
+        </div>
+        <div class="readout-grid" id="pbReadout"></div>
+        <div class="status" id="pbStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Every protocol starts with 60 min of oxygen at sea-level pressure (“oxygen only” uses just the final slider). At 10.2 psi with 26.5 % O₂ the surrounding nitrogen is 7.5 psi, which tissues approach [3]. Suit pressure 4.3 psi. A single-compartment model: NASA's real protocols also count exercise, repressurisations and breaks." data-ru="Каждый протокол начинается с 60 минут кислорода при нормальном давлении («только кислород» использует лишь нижний ползунок). При 10,2 фунта на кв. дюйм и 26,5 % O₂ окружающий азот — 7,5, к нему и стремятся ткани [3]. Давление в скафандре 4,3. Однокамерная модель: реальные протоколы NASA учитывают ещё упражнения, повышения давления и перерывы.">Single-compartment model.</p>
+  </div>
+</section>
+
+<!-- CH4 — WORK -->
+<section id="ch4" class="section" data-phase="WORK">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 06</span> — <span data-en="SIX HOURS INSIDE A BALLOON" data-ru="ШЕСТЬ ЧАСОВ ВНУТРИ ВОЗДУШНОГО ШАРА">SIX HOURS INSIDE A BALLOON</span></div>
+    <h2 class="h-lg" data-en="Heat, gloves and the long day" data-ru="Тепло, перчатки и долгий день">Heat, gloves and the long day</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A spacewalk is hard physical work against the suit itself. The EMU's cooling system was designed for metabolic rates as high as 1,600 BTU per hour (about 470 W), twice the rates used in the early decompression trials [1]. The hands show it most: every grip squeezes a pressurised glove, and suit-induced injuries to the wrists and fingernails are a known problem [1]." data-ru="Выход в открытый космос — тяжёлая физическая работа против самого скафандра. Система охлаждения EMU рассчитана на метаболическую нагрузку до 1600 БТЕ в час (около 470 Вт), вдвое больше, чем в ранних испытаниях декомпрессии [1]. Заметнее всего это по кистям: каждый захват сжимает перчатку под давлением, и травмы запястий и ногтей от скафандра — известная проблема [1].">Cooling for 1,600 BTU/h.</p>
+      <p class="body-col" data-en="The decompression risk is also why the long prebreathes exist at all: a higher-pressure suit would need far less, but would be stiffer still. NASA notes that walking and physical activity at low pressure raise the risk of decompression sickness, so protocols that work in the weightlessness of the ISS are not automatically safe for walking on the Moon or Mars [3]." data-ru="Риск декомпрессии — и причина долгих десатураций: скафандру с более высоким давлением её нужно гораздо меньше, но он ещё жёстче. NASA отмечает, что ходьба и физическая активность при низком давлении повышают риск декомпрессионной болезни, поэтому протоколы, работающие в невесомости МКС, не обязательно безопасны для ходьбы по Луне или Марсу [3].">Walking raises the risk.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — TIMELINE -->
+<section id="ch5" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 06</span> — <span data-en="FROM THE SHUTTLE TO THE STATION" data-ru="ОТ ШАТТЛА ДО СТАНЦИИ">FROM THE SHUTTLE TO THE STATION</span></div>
+    <h2 class="h-lg" data-en="Forty years of washing out nitrogen" data-ru="Сорок лет вымывания азота">Forty years of washing out nitrogen</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="The hardest part of a spacewalk often happens before the hatch opens: hours of quiet breathing, while nitrogen leaves the body one exponential at a time." data-ru="Самая трудная часть выхода часто происходит до открытия люка: часы спокойного дыхания, пока азот покидает тело — экспонента за экспонентой.">Nitrogen leaves one exponential at a time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — REFERENCES -->
+<section id="ch6" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 06</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS (NASA [1]–[4]) ============ */
+var PN2_SEA = 11.6, K = Math.LN2/360, PN2_STAGED = 0.735*10.2, R_EMU = 1.65, P_EMU = 4.3;   // psi, per minute
+function decay(P0, Pa, minutes){ return Pa + (P0 - Pa)*Math.exp(-K*minutes); }
+function protocol(kind, hStage, mO2, pSuit){
+  var pts = [], P = PN2_SEA, t = 0; pSuit = pSuit || P_EMU;
+  function step(Pa, mins, label){ for(var m = 0; m < mins; m += 5){ var dm = Math.min(5, mins - m); P = decay(P, Pa, dm); t += dm; pts.push([t, P/pSuit, label]); } }
+  pts.push([0, P/pSuit, 'start']);
+  if(kind !== 'o2'){ step(0, 60, 'mask'); step(PN2_STAGED, (kind === 'camp' ? Math.min(hStage, 8 + 40/60) : hStage)*60, 'stage'); }
+  step(0, mO2, 'o2');
+  return {pts:pts, R:P/pSuit, total:t};
+}
+
+/* ============ CH2 — PRESSURE TRADE ============ */
+var pP = document.getElementById('pP');
+function renderPr(){
+  var p = +pP.value, R = PN2_SEA/p;
+  document.getElementById('pPVal').textContent = fmt(p, 2) + T(' psi',' psi') + ' (' + fmt(p*6.894757, 1) + T(' kPa',' кПа') + ')';
+  var svg = document.getElementById('prSvg'); svg.innerHTML = '';
+  var L = 56, Rr = 440, Tp = 22, B = 250;
+  function X(pp){ return L + (pp - 3)/5.3*(Rr - L); }
+  function Y(r){ return B - (r - 1)/3*(B - Tp); }                  // R 1 … 4
+  [1,1.5,2,2.5,3,3.5,4].forEach(function(r){ ns('line', {x1:L, y1:Y(r), x2:Rr, y2:Y(r), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(r) + 3, fmt(r, 1), 'svg-small', 'end'); });
+  [3,4,5,6,7,8].forEach(function(pp){ txt(svg, X(pp), B + 14, pp, 'svg-small', 'middle'); });
+  txt(svg, Rr, B + 28, T('suit pressure, psi','давление в скафандре, psi'), 'svg-small', 'end'); txt(svg, L, 13, T('tissue ratio R with no prebreathe','тканевый коэффициент R без десатурации'), 'svg-small');
+  var d = ''; for(var pp = 3; pp <= 8.3001; pp += 0.05) d += (d ? 'L' : 'M') + X(pp).toFixed(1) + ' ' + Y(Math.min(4, PN2_SEA/pp)).toFixed(1);
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('line', {x1:L, y1:Y(R_EMU), x2:Rr, y2:Y(R_EMU), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg); txt(svg, Rr - 2, Y(R_EMU) - 4, T('EMU limit 1.65','предел EMU 1,65'), 'svg-small', 'end');
+  [[3.75, T('Apollo','«Аполлон»')], [4.3, 'EMU'], [5.8, T('Orlan','«Орлан»')]].forEach(function(s){ ns('line', {x1:X(s[0]), y1:Tp, x2:X(s[0]), y2:B, stroke:'#c9c9c1', 'stroke-dasharray':'2 3'}, svg); txt(svg, X(s[0]) + 3, Tp + 10, s[1], 'svg-small'); });
+  // stiffness bar (proportional to pressure)
+  var bx = 452, sh = (p/8.3)*(B - Tp);
+  ns('rect', {x:bx, y:B - sh, width:16, height:sh, fill:'#a8741a'}, svg); txt(svg, bx + 8, B + 14, T('stiff','жёстк.'), 'svg-small', 'middle');
+  ns('circle', {cx:X(p), cy:Y(Math.min(4, R)), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('prReadout'), [
+    [T('R STRAIGHT FROM THE CABIN','R СРАЗУ ИЗ КАБИНЫ'), fmt(R, 2)],
+    [T('OXYGEN PRESSURE vs SEA-LEVEL AIR','ДАВЛЕНИЕ O₂ К ВОЗДУХУ У МОРЯ'), fmt(p/3.087, 2) + '×'],
+    [T('PREBREATHE TO REACH R 1.65 (O₂ ONLY)','ДЕСАТУРАЦИЯ ДО R 1,65 (ТОЛЬКО O₂)'), R <= R_EMU ? T('none','не нужна') : fmt(Math.log(PN2_SEA/(R_EMU*p))/K/60, 1) + T(' h',' ч')],
+    [T('RELATIVE STIFFNESS vs EMU','ЖЁСТКОСТЬ ОТНОСИТЕЛЬНО EMU'), fmt(p/P_EMU, 2) + '×']
+  ]);
+  hud1.textContent = fmt(p, 2) + ' psi';
+  document.getElementById('prStatus').innerHTML = p >= PN2_SEA/R_EMU
+    ? T('High enough to skip prebreathe against the 1.65 rule — but stiff: every grip and bend now costs more effort.','Достаточно высоко, чтобы обойтись без десатурации по правилу 1,65, — но скафандр жёсткий: каждый захват и сгиб требует больше сил.')
+    : T('Easy to move in, but the nitrogen dissolved at cabin pressure is far above the suit pressure: without prebreathe, R is ','Двигаться легко, но азот, растворённый при давлении кабины, намного выше давления в скафандре: без десатурации R = ') + fmt(R, 2) + '.';
+}
+pP.addEventListener('input', renderPr);
+
+/* ============ CH3 — PREBREATHE ============ */
+var pbS = document.getElementById('pbS'), pbO = document.getElementById('pbO'), pbKind = 'staged';
+var PRESET = {o2:[0, 240], staged:[12, 75], camp:[8 + 40/60, 50]};
+function renderPb(){
+  var hS = +pbS.value, mO = +pbO.value, Pr = protocol(pbKind, hS, mO);
+  document.getElementById('pbSVal').textContent = pbKind === 'o2' ? '—' : fmt(pbKind === 'camp' ? Math.min(hS, 8 + 40/60) : hS, 2) + T(' h',' ч') + (pbKind === 'camp' && hS > 8.67 ? T(' (capped at 8 h 40 min)',' (не более 8 ч 40 мин)') : '');
+  document.getElementById('pbOVal').textContent = fmtInt(mO) + T(' min',' мин');
+  var svg = document.getElementById('pbSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 250, tmax = Math.max(300, Math.ceil(Pr.total/60)*60);
+  function X(t){ return L + t/tmax*(R - L); }
+  function Y(r){ return B - (r - 1)/2*(B - Tp); }                  // 1 … 3
+  [1,1.5,2,2.5,3].forEach(function(r){ ns('line', {x1:L, y1:Y(r), x2:R, y2:Y(r), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(r) + 3, fmt(r, 1), 'svg-small', 'end'); });
+  for(var hh = 0; hh <= tmax/60; hh += Math.max(1, Math.round(tmax/60/6))) txt(svg, X(hh*60), B + 14, hh + T(' h',' ч'), 'svg-small', 'middle');
+  txt(svg, L, 13, T('tissue ratio R if the suit were entered now (4.3 psi)','коэффициент R при переходе в скафандр сейчас (4,3 psi)'), 'svg-small');
+  ns('line', {x1:L, y1:Y(R_EMU), x2:R, y2:Y(R_EMU), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg); txt(svg, R - 2, Y(R_EMU) - 4, T('R ≤ 1.65','R ≤ 1,65'), 'svg-small', 'end');
+  var cols = {start:'#0b0b0c', mask:'#2f5aa1', stage:'#a8741a', o2:'#b5452a'}, prev = Pr.pts[0];
+  Pr.pts.slice(1).forEach(function(p){ ns('line', {x1:X(prev[0]), y1:Y(prev[1]), x2:X(p[0]), y2:Y(p[1]), stroke:cols[p[2]], 'stroke-width':2.5}, svg); prev = p; });
+  [['mask', T('O₂ mask','маска O₂')], ['stage', T('10.2 psi','10,2 psi')], ['o2', T('O₂ in suit','O₂ в скафандре')]].forEach(function(k, i){ ns('rect', {x:L + 10 + i*120, y:B + 22, width:10, height:4, fill:cols[k[0]]}, svg); txt(svg, L + 24 + i*120, B + 27, k[1], 'svg-small'); });
+  ns('circle', {cx:X(Pr.total), cy:Y(Pr.R), r:5, fill: Pr.R < R_EMU + 0.005 ? '#0b0b0c' : '#b5452a'}, svg);
+  cells(document.getElementById('pbReadout'), [
+    [T('FINAL R','ИТОГОВЫЙ R'), fmt(Pr.R, 3)],
+    [T('TISSUE NITROGEN','АЗОТ В ТКАНЯХ'), fmt(Pr.R*P_EMU, 2) + T(' psi',' psi')],
+    [T('TOTAL TIME','ОБЩЕЕ ВРЕМЯ'), fmt(Pr.total/60, 1) + T(' h',' ч')],
+    [T('VERDICT','ИТОГ'), Pr.R < R_EMU + 0.005 ? T('within 1.65','в пределах 1,65') : T('too much nitrogen','слишком много азота')]
+  ]);
+  hud2.textContent = fmt(Pr.R, 2);
+  document.getElementById('pbStatus').innerHTML = pbKind === 'staged' && hS === 12 && mO === 75
+    ? T('NASA\'s Shuttle staged protocol: 60 min mask, ≥ 12 h at 10.2 psi, then 40–75 min in the suit [3]. This simple model lands right at ','Ступенчатый протокол шаттла NASA: 60 мин маски, ≥ 12 ч при 10,2 psi, затем 40–75 мин в скафандре [3]. Эта простая модель попадает ровно в ') + fmt(Pr.R, 2) + '.'
+    : Pr.R < R_EMU + 0.005 ? T('Enough nitrogen is gone for the 1.65 rule.','Азота ушло достаточно для правила 1,65.') : T('Not yet — keep breathing oxygen, or spend longer at 10.2 psi.','Пока нет — продолжайте дышать кислородом или проведите дольше при 10,2 psi.');
+}
+[pbS, pbO].forEach(function(el){ el.addEventListener('input', renderPb); });
+Array.prototype.forEach.call(document.querySelectorAll('#pbPro .btn'), function(btn){ btn.addEventListener('click', function(){ pbKind = this.getAttribute('data-p'); var pr = PRESET[pbKind]; pbS.value = pr[0]; pbO.value = pr[1]; pressGroup(this.parentNode, this); renderPb(); }); });
+
+/* ============ CH5 — TIMELINE ============ */
+var TIMELINE = [
+  ['1981', '<b>12 April:</b> the first Space Shuttle flight [2].', '<b>12 апреля:</b> первый полёт «Спейс шаттла» [2].'],
+  ['1982', '<b>August:</b> NASA tests 3.5- and 4-hour oxygen prebreathes at Johnson Space Center; 4 h cuts DCS from 42 % to 21 % in those trials [2].', '<b>Август:</b> NASA испытывает 3,5- и 4-часовую десатурацию в Космическом центре Джонсона; 4 часа снижают ДКБ с 42 % до 21 % в этих испытаниях [2].'],
+  ['1983', '<b>7 April:</b> first spacewalk from the Shuttle, after a 3.5-hour in-suit prebreathe [2].', '<b>7 апреля:</b> первый выход из шаттла после 3,5-часовой десатурации в скафандре [2].'],
+  ['2001', '<b>July:</b> the ISS Quest airlock arrives; exercise-enhanced prebreathe becomes possible [3].', '<b>Июль:</b> на МКС прибывает шлюз Quest; становится возможной десатурация с упражнениями [3].'],
+  ['2006', '<b>September:</b> first ISS spacewalks using the overnight campout protocol [3].', '<b>Сентябрь:</b> первые выходы с МКС по протоколу ночёвки в шлюзе [3].'],
+  ['2013', 'About 145 person-EVAs completed with the campout protocol by 1 August [3].', 'К 1 августа по протоколу ночёвки выполнено около 145 человеко-выходов [3].']
+];
+
+/* ============ CH6 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'M. L. Gernhardt, J. P. Dervay, J. M. Waligora, D. T. Fitzpatrick, J. Conkin (2013), “Extravehicular Activities”, chapter 5.4 in Biomedical Results of the Space Shuttle Program (NASA)', url:'https://www.nasa.gov/wp-content/uploads/2023/03/gernhardt-eva-ops-chp-5.4-2013.pdf', note:{en:'EMU at 29.6 kPa (4.3 psi), like a basketball; cabin 14.5 psia, 79 % N₂; Apollo suits at 25.8 kPa (3.75 psia); stiffness causing shoulder, wrist and fingernail injuries; cooling for up to 1,600 BTU/h; R = 1.65 with a 360-min compartment.', ru:'EMU при 29,6 кПа (4,3 psi), как баскетбольный мяч; кабина 14,5 psia, 79 % N₂; скафандры «Аполлона» 25,8 кПа (3,75 psia); жёсткость, травмирующая плечи, запястья и ногти; охлаждение до 1600 БТЕ/ч; R = 1,65 для 360-минутной ткани.'}},
+  {title:'J. Conkin (2011), Preventing Decompression Sickness Over Three Decades of Extravehicular Activity, NASA/TP-2011-216147', url:'https://www.nasa.gov/wp-content/uploads/2023/03/conkin-prebreathe-overview-tp216147-2011.pdf', note:{en:'Tissue ratio P1N2/P2 with sea-level tissue N₂ of 11.6 psia; 360-min compartment; R ≤ 1.65 for the 4.3 psia EMU, ~1.85 for the 5.8 psia Orlan; 1982 prebreathe tests; first Shuttle EVA 7 April 1983.', ru:'Тканевый коэффициент P1N2/P2 при азоте в тканях 11,6 psia на уровне моря; 360-минутная ткань; R ≤ 1,65 для EMU при 4,3 psia, ~1,85 для «Орлана» при 5,8 psia; испытания десатурации 1982 г.; первый выход из шаттла 7 апреля 1983.'}},
+  {title:'J. Conkin, J. R. Norcross, J. H. Wessel III (2014), Evidence Report: Risk of Decompression Sickness (DCS), NASA Human Research Program', url:'https://ntrs.nasa.gov/citations/20140003729', note:{en:'Shuttle staged protocol (60 min O₂ mask, ≥ 12 h at 10.2 psia / 26.5 % O₂, 40–75 min in-suit), tissues equilibrating to ~7.5 psia; ISS campout limited to 8 h 40 min, first used September 2006, ~145 person-EVAs by August 2013; exercise prebreathe after the Quest airlock (July 2001); ambulation increases DCS.', ru:'Ступенчатый протокол шаттла (60 мин маски O₂, ≥ 12 ч при 10,2 psia / 26,5 % O₂, 40–75 мин в скафандре), ткани выравниваются к ~7,5 psia; ночёвка на МКС не дольше 8 ч 40 мин, впервые в сентябре 2006, ~145 человеко-выходов к августу 2013; десатурация с упражнениями после шлюза Quest (июль 2001); ходьба повышает риск ДКБ.'}},
+  {title:'NASA Office of the Chief Health and Medical Officer (2023), Technical Brief: Decompression Sickness (OCHMO-TB-037)', url:'https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-037-decompression-sickness.pdf', note:{en:'R = PN₂ / P_suit; exponential nitrogen elimination with a 360-minute half-time; EMU historically R ≤ 1.65.', ru:'R = PN₂ / P_скаф; экспоненциальное выведение азота с периодом 360 минут; для EMU исторически R ≤ 1,65.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderPr();
+  renderPb();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__suit = {protocol:protocol, decay:decay, K:K};
+
+})();
+</script>
+</body>
+</html>

@@ -82,6 +82,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [Soyuz Program](https://followorbounce.github.io/aerospace/union-soyuz-program): the Soyuz spacecraft, nearly sixty years of continuous crewed flight.
 - [Commercial Crew Program](https://followorbounce.github.io/aerospace/handoff-commercial-crew-program): NASA's Commercial Crew Program, Crew Dragon, and Starliner.
 - [Shenzhou & China's Crewed Program](https://followorbounce.github.io/aerospace/vessel-shenzhou-program): China's human spaceflight programme 1992–2026 — Project 921's three steps, the three-module Shenzhou ship, Yang Liwei's 14 orbits with an orbit day/night (eclipse fraction vs β) calculator, the first Chinese spacewalk, Tiangong docking with a phasing/catch-up calculator, six-month station crews and 3.5-hour rendezvous, the November 2025 Shenzhou-20 cracked window and lifeboat swap with a debris-energy calculator, and the Mengzhou/Lanyue plan for a Moon landing by 2030.
+- [Spacesuits & Spacewalks](https://followorbounce.github.io/aerospace/suit-spacesuits-eva): spacesuits and EVA — suit pressure vs mobility vs decompression risk, NASA's tissue ratio R (360-min compartment, R ≤ 1.65 for the 4.3 psi EMU), oxygen prebreathe, the Shuttle staged protocol (model gives 1.65) and the ISS campout
 
 ## Future Exploration
 

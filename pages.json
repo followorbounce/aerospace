@@ -108,7 +108,8 @@
         { "slug": "orbiter-space-shuttle-program", "codename": "ORBITER", "label": { "en": "Space Shuttle Program", "ru": "Программа «Спейс шаттл»" } },
         { "slug": "union-soyuz-program", "codename": "UNION", "label": { "en": "Soyuz Program", "ru": "Программа «Союз»" } },
         { "slug": "handoff-commercial-crew-program", "codename": "HANDOFF", "label": { "en": "Commercial Crew Program", "ru": "Программа Commercial Crew" } },
-        { "slug": "vessel-shenzhou-program", "codename": "VESSEL", "label": { "en": "Shenzhou & China's Crewed Program", "ru": "«Шэньчжоу» и пилотируемая программа Китая" } }
+        { "slug": "vessel-shenzhou-program", "codename": "VESSEL", "label": { "en": "Shenzhou & China's Crewed Program", "ru": "«Шэньчжоу» и пилотируемая программа Китая" } },
+        { "slug": "suit-spacesuits-eva", "codename": "SUIT", "label": { "en": "Spacesuits & Spacewalks", "ru": "Скафандры и выходы в открытый космос" } }
       ]
     },
     {
