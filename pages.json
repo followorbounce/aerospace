@@ -121,7 +121,8 @@
         { "slug": "retrieve-mars-sample-return", "codename": "RETRIEVE", "label": { "en": "Mars Sample Return", "ru": "Доставка образцов с Марса" } },
         { "slug": "flyby-europa-clipper", "codename": "FLYBY", "label": { "en": "Europa Clipper", "ru": "«Европа Клипер»" } },
         { "slug": "rotor-dragonfly-titan", "codename": "ROTOR", "label": { "en": "Dragonfly Mission", "ru": "Миссия Dragonfly" } },
-        { "slug": "beyond-interstellar-probe", "codename": "BEYOND", "label": { "en": "Interstellar Probe Concept", "ru": "Концепция межзвёздного зонда" } }
+        { "slug": "beyond-interstellar-probe", "codename": "BEYOND", "label": { "en": "Interstellar Probe Concept", "ru": "Концепция межзвёздного зонда" } },
+        { "slug": "sail-solar-sails", "codename": "SAIL", "label": { "en": "Solar Sails", "ru": "Солнечные паруса" } }
       ]
     },
     {

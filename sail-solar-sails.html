@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAIL — SOLAR SAILS / ПАРУС — СОЛНЕЧНЫЕ ПАРУСА</title>
+<meta name="description" content="An interactive field guide to solar sails: how sunlight pushes with 9 micronewtons per square metre, JAXA's IKAROS and its measured 1.12 mN, the Planetary Society's LightSail 2 raising its orbit with light alone, NASA's ACS3, the 35° steering angle that makes the most of it, and why a push the weight of a grain of sand becomes real speed when it never stops.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/sail-solar-sails">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SAIL — SOLAR SAILS / ПАРУС — СОЛНЕЧНЫЕ ПАРУСА">
+<meta property="og:description" content="9 µN per square metre, 1.12 mN measured by IKAROS, and the 35° steering angle: solar sailing, interactive and sourced from JAXA, NASA and the Planetary Society.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/sail-solar-sails">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">SAIL — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">LIGHT PUSHES</span></div>
+  <div class="hud-row"><span class="hud-label">THRUST</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">Δv PER DAY</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="LIGHT PUSHES">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — IKAROS, 14 × 14 M, 1.12 mN" data-ru="РИС. 00 — IKAROS, 14 × 14 М, 1,12 мН">FIG. 00 — IKAROS, 14 × 14 M, 1.12 mN</span></span>
+        <span>2S/c = 9.08 µN/m²</span>
+      </div>
+      <h1><span data-en="SAIL" data-ru="ПАРУС">SAIL</span><br><em data-en="SOLAR SAILS" data-ru="СОЛНЕЧНЫЕ ПАРУСА">SOLAR SAILS</em></h1>
+      <p class="sub lede" data-en="Light carries momentum. Bounce sunlight off a mirror and it pushes — very gently: on a perfect mirror facing the Sun near Earth, about 9 micronewtons per square metre. But that push never runs out of fuel. Six chapters and three instruments: size a sail and see its thrust and daily speed gain, steer it to climb or descend, and watch the push fall away with distance from the Sun." data-ru="Свет переносит импульс. Отразите солнечный свет от зеркала — и он толкает, очень мягко: на идеальное зеркало, обращённое к Солнцу у Земли, около 9 микроньютонов на квадратный метр. Но у этого толчка никогда не кончается топливо. Шесть глав и три прибора: подберите размер паруса и посмотрите тягу и суточный прирост скорости, поверните его, чтобы подняться или снизиться, и посмотрите, как толчок слабеет с удалением от Солнца.">Light carries momentum.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — PRESSURE -->
+<section id="ch1" class="section" data-phase="LIGHT PUSHES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 06</span> — <span data-en="MOMENTUM FROM PHOTONS" data-ru="ИМПУЛЬС ФОТОНОВ">MOMENTUM FROM PHOTONS</span></div>
+    <h2 class="h-lg" data-en="Nine micronewtons per square metre" data-ru="Девять микроньютонов на квадратный метр">Nine micronewtons per square metre</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Sunlight near Earth delivers about <b>1,361 W/m²</b> [1]. Each joule of light carries 1/c of momentum, so a surface that absorbs it feels a pressure S/c ≈ 4.5 µN/m², and a perfect mirror, which sends the light back, feels twice that: <b>9.08 µN/m²</b>. A sail tilted at an angle α to the Sun catches less light (cos α) and pushes along its own normal, so the force falls as cos²α." data-ru="Солнечный свет у Земли приносит около <b>1361 Вт/м²</b> [1]. Каждый джоуль света несёт импульс 1/c, так что поглощающая поверхность испытывает давление S/c ≈ 4,5 мкН/м², а идеальное зеркало, отражающее свет обратно, — вдвое больше: <b>9,08 мкН/м²</b>. Парус, наклонённый к Солнцу под углом α, ловит меньше света (cos α) и толкается вдоль своей нормали, так что сила падает как cos²α.">S = 1,361 W/m²; 2S/c = 9.08 µN/m².</p>
+      <p class="body-col" data-en="Real sails are not perfect mirrors: they absorb some light, wrinkle and billow. JAXA's <b>IKAROS</b>, launched on 21 May 2010 with the Venus probe Akatsuki, unfurled a 14 × 14 m membrane and became the first in the world to demonstrate a solar sail in flight [7]; tracking showed a sunlight thrust of <b>1.12 mN</b>, the value expected [2][3]. That is about the weight of a tenth of a gram on Earth [3]." data-ru="Настоящие паруса — не идеальные зеркала: они поглощают часть света, морщатся и выгибаются. Японский <b>IKAROS</b>, запущенный 21 мая 2010 года вместе с венерианским зондом «Акацуки», развернул мембрану 14 × 14 м и первым в мире продемонстрировал солнечный парус в полёте [7]; траекторные измерения показали тягу солнечного света <b>1,12 мН</b> — ожидаемое значение [2][3]. Это примерно вес десятой доли грамма на Земле [3].">IKAROS: 1.12 mN measured.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="SOLAR RADIATION PRESSURE ON A SAIL" data-ru="ДАВЛЕНИЕ СОЛНЕЧНОГО ИЗЛУЧЕНИЯ НА ПАРУС">SOLAR RADIATION PRESSURE ON A SAIL</div>
+      <div class="eq-body">F = η · (2S/c) · A · cos²α / r² &nbsp;·&nbsp; a = F/m</div>
+      <div class="eq-note" data-en="S = 1,361 W/m² at 1 AU [1]; r in AU; η is the sail's efficiency compared with a perfect flat mirror (absorption, wrinkles, billow). With A = 196 m² facing the Sun, a perfect mirror would give 1.78 mN; IKAROS's measured 1.12 mN corresponds to η × cos²α ≈ 0.63." data-ru="S = 1361 Вт/м² на 1 а.е. [1]; r в а.е.; η — эффективность паруса по сравнению с идеальным плоским зеркалом (поглощение, морщины, прогиб). При A = 196 м² лицом к Солнцу идеальное зеркало дало бы 1,78 мН; измеренные у IKAROS 1,12 мН соответствуют η × cos²α ≈ 0,63.">IKAROS: η·cos²α ≈ 0.63.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="fSvg" class="sim-svg" viewBox="0 0 480 280" role="img" aria-label="Sail thrust and acceleration"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset" id="fPre">
+          <button class="btn active" data-a="196" data-m="310" data-e="0.63" aria-pressed="true">IKAROS</button>
+          <button class="btn" data-a="32" data-m="5" data-e="0.63" aria-pressed="false">LIGHTSAIL 2</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="fA" data-en="SAIL AREA" data-ru="ПЛОЩАДЬ ПАРУСА">SAIL AREA</label><span class="v" id="fAVal">—</span></div>
+          <input id="fA" type="range" min="1" max="4" step="0.01" value="2.2923">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="fM" data-en="SPACECRAFT MASS" data-ru="МАССА АППАРАТА">SPACECRAFT MASS</label><span class="v" id="fMVal">—</span></div>
+          <input id="fM" type="range" min="0" max="3" step="0.01" value="2.4914">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="fE" data-en="SAIL EFFICIENCY η" data-ru="ЭФФЕКТИВНОСТЬ ПАРУСА η">SAIL EFFICIENCY η</label><span class="v" id="fEVal">—</span></div>
+          <input id="fE" type="range" min="0.3" max="1" step="0.01" value="0.63">
+        </div>
+        <div class="readout-grid" id="fReadout"></div>
+        <div class="status" id="fStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="IKAROS: 196 m², about 310 kg [2]. LightSail 2: 32 m² [4]; its 5 kg mass is an assumption for a 3U CubeSat, and η = 0.63 is borrowed from IKAROS — not a measured LightSail value." data-ru="IKAROS: 196 м², около 310 кг [2]. LightSail 2: 32 м² [4]; масса 5 кг — допущение для кубсата 3U, а η = 0,63 взята от IKAROS и не измерена для LightSail.">Preset values and assumptions.</p>
+  </div>
+</section>
+
+<!-- CH2 — STEERING -->
+<section id="ch2" class="section" data-phase="STEERING">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 06</span> — <span data-en="TACKING AGAINST THE SUN" data-ru="ГАЛСЫ ПРОТИВ СОЛНЦА">TACKING AGAINST THE SUN</span></div>
+    <h2 class="h-lg" data-en="Tilt about 35° to push sideways" data-ru="Наклон около 35°, чтобы толкать вбок">Tilt about 35° to push sideways</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Sunlight always pushes away from the Sun, but a sail can be tilted so part of the push goes sideways — along the direction of travel to speed up and raise the orbit, or against it to slow down and spiral in. The sideways part of the force is proportional to cos²α · sin α, which is largest at <b>α ≈ 35.26°</b>, where it reaches about 38 % of the full face-on push." data-ru="Солнечный свет всегда толкает от Солнца, но парус можно наклонить так, чтобы часть толчка шла вбок — вдоль направления движения, чтобы разогнаться и поднять орбиту, или против него, чтобы затормозить и спуститься по спирали. Боковая составляющая силы пропорциональна cos²α · sin α и максимальна при <b>α ≈ 35,26°</b>, где достигает около 38 % полного лобового толчка.">Maximum at α ≈ 35.26°.</p>
+      <p class="body-col" data-en="Around Earth the job is harder: half of every orbit the sail moves towards the Sun and must be turned edge-on, and below a few hundred kilometres air drag is stronger than sunlight. The Planetary Society's <b>LightSail 2</b>, launched on 25 June 2019 into a 720 km orbit, nevertheless raised the high point of its orbit with light alone: by about 2 km in four days at the end of July 2019, and by 7.2 km after a month of sailing, before drag eventually won and it re-entered on 17 November 2022 [4][5][8]." data-ru="Вокруг Земли задача сложнее: полвитка парус движется к Солнцу и его нужно ставить ребром, а ниже нескольких сотен километров сопротивление воздуха сильнее солнечного света. Тем не менее <b>LightSail 2</b> Планетного общества, запущенный 25 июня 2019 года на орбиту 720 км, поднимал высшую точку своей орбиты одним светом: примерно на 2 км за четыре дня в конце июля 2019 года и на 7,2 км за месяц, пока сопротивление в итоге не победило и 17 ноября 2022 года он не вошёл в атмосферу [4][5][8].">LightSail 2 raised its orbit with light.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="sSvg" class="sim-svg" viewBox="0 0 480 260" role="img" aria-label="Sideways thrust against sail angle"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="sA" data-en="SAIL ANGLE TO THE SUN α" data-ru="УГОЛ ПАРУСА К СОЛНЦУ α">SAIL ANGLE TO THE SUN α</label><span class="v" id="sAVal">—</span></div>
+          <input id="sA" type="range" min="0" max="90" step="0.5" value="35">
+        </div>
+        <div class="readout-grid" id="sReadout"></div>
+        <div class="status" id="sStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — DISTANCE -->
+<section id="ch3" class="section" data-phase="DISTANCE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 06</span> — <span data-en="CLOSE TO THE SUN, STRONG; FAR AWAY, WEAK" data-ru="У СОЛНЦА — СИЛЬНО, ВДАЛИ — СЛАБО">CLOSE TO THE SUN, STRONG; FAR AWAY, WEAK</span></div>
+    <h2 class="h-lg" data-en="A push that never stops adds up" data-ru="Толчок, который никогда не прекращается, накапливается">A push that never stops adds up</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Sunlight thins as 1/r², so a sail at Venus's distance gets almost twice the push it gets at Earth, and at Jupiter about 4 %. Inward missions — to the Sun, to Mercury, or to high-inclination solar orbits — are where sails shine: they keep accelerating for months without propellant, where a rocket would need an enormous tank." data-ru="Солнечный свет ослабевает как 1/r², так что на расстоянии Венеры парус получает почти вдвое больший толчок, чем у Земли, а у Юпитера — около 4 %. Сильнее всего паруса во внутренних миссиях — к Солнцу, к Меркурию или на орбиты с большим наклоном к эклиптике: они разгоняются месяцами без топлива там, где ракете понадобился бы огромный бак.">1/r².</p>
+      <p class="body-col" data-en="NASA's <b>Advanced Composite Solar Sail System</b> (ACS3), launched on 23 April 2024, tests lightweight composite booms for a sail of about 80 m² [6]. JAXA ended IKAROS operations on 15 May 2025: it had last been heard before entering its fifth hibernation in May 2015 [7]. Choose a distance and a time below and see what a sail accumulates." data-ru="Аппарат NASA <b>Advanced Composite Solar Sail System</b> (ACS3), запущенный 23 апреля 2024 года, испытывает лёгкие композитные штанги для паруса площадью около 80 м² [6]. JAXA завершило работу с IKAROS 15 мая 2025 года: последний раз его слышали перед пятым погружением в спячку в мае 2015 года [7]. Выберите ниже расстояние и время и посмотрите, что накопит парус.">ACS3 and the end of IKAROS.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="dSvg" class="sim-svg" viewBox="0 0 480 260" role="img" aria-label="Velocity gained by a sail over time at the chosen distance from the Sun"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="dR" data-en="DISTANCE FROM THE SUN" data-ru="РАССТОЯНИЕ ОТ СОЛНЦА">DISTANCE FROM THE SUN</label><span class="v" id="dRVal">—</span></div>
+          <input id="dR" type="range" min="0.3" max="5.2" step="0.01" value="1">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dT" data-en="TIME" data-ru="ВРЕМЯ">TIME</label><span class="v" id="dTVal">—</span></div>
+          <input id="dT" type="range" min="1" max="1000" step="1" value="365">
+        </div>
+        <div class="readout-grid" id="dReadout"></div>
+        <div class="status" id="dStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Uses the sail from the first instrument, face-on to the Sun, at a fixed distance — a simple accumulation of Δv = a·t, not a trajectory." data-ru="Используется парус из первого прибора, лицом к Солнцу, на неизменном расстоянии — простое накопление Δv = a·t, а не расчёт траектории.">Simple Δv = a·t.</p>
+  </div>
+</section>
+
+<!-- CH4 — LIMITS -->
+<section id="ch4" class="section" data-phase="LIMITS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 06</span> — <span data-en="LIGHT, THIN AND HUGE" data-ru="ЛЁГКИЙ, ТОНКИЙ И ОГРОМНЫЙ">LIGHT, THIN AND HUGE</span></div>
+    <h2 class="h-lg" data-en="Everything depends on grams per square metre" data-ru="Всё решают граммы на квадратный метр">Everything depends on grams per square metre</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Because the force is tiny and fixed by area, a sail's performance is set by its <b>areal density</b> — total mass per square metre of sail. IKAROS carried about 1.6 kg per square metre, mostly its spacecraft body; a sail whose whole spacecraft weighs a few grams per square metre would accelerate a hundred times faster. That is why sail missions push towards thinner films, lighter booms (ACS3's composites) and tiny payloads [6]." data-ru="Поскольку сила мала и определяется площадью, характеристики паруса задаёт его <b>поверхностная плотность</b> — полная масса на квадратный метр паруса. IKAROS нёс около 1,6 кг на квадратный метр, в основном за счёт корпуса; аппарат, весящий всего несколько граммов на квадратный метр паруса, разгонялся бы в сто раз быстрее. Поэтому парусные миссии стремятся к более тонким плёнкам, лёгким штангам (композиты ACS3) и крошечной полезной нагрузке [6].">Areal density sets performance.</p>
+      <p class="body-col" data-en="The other limits are practical: unfolding hundreds of square metres of film without tearing it, steering something the size of a tennis court with tiny torques, and surviving the heat close to the Sun. IKAROS steered with liquid-crystal panels on the sail that changed their reflectivity [2]. Each demonstration so far has tested one more piece of the puzzle." data-ru="Остальные ограничения практические: развернуть сотни квадратных метров плёнки, не порвав её, управлять чем-то размером с теннисный корт при крошечных моментах и выдерживать жар вблизи Солнца. IKAROS управлялся жидкокристаллическими панелями на парусе, менявшими отражательную способность [2]. Каждая демонстрация пока проверяла ещё одну часть головоломки.">IKAROS steered with LCD panels.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — TIMELINE -->
+<section id="ch5" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 06</span> — <span data-en="SAILING BY LIGHT" data-ru="ПОД ПАРУСОМ ИЗ СВЕТА">SAILING BY LIGHT</span></div>
+    <h2 class="h-lg" data-en="Demonstrations, one piece at a time" data-ru="Демонстрации — по одной части за раз">Demonstrations, one piece at a time</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="A sail trades power for patience: the gentlest push in spaceflight, delivered for free, for as long as the Sun shines." data-ru="Парус меняет мощность на терпение: самый мягкий толчок в космонавтике, бесплатный, пока светит Солнце.">The gentlest push, for as long as the Sun shines.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — REFERENCES -->
+<section id="ch6" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 06</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var S0 = 1361, C_MS = 299792458, P_IDEAL = 2*S0/C_MS;                    // W/m² at 1 AU [1]; N/m²
+function force(A, eta, alphaDeg, rAU){ var c = Math.cos(alphaDeg*Math.PI/180); return eta*P_IDEAL*A*c*c/(rAU*rAU); }
+function sideways(alphaDeg){ var a = alphaDeg*Math.PI/180; return Math.cos(a)*Math.cos(a)*Math.sin(a); }
+
+/* ============ CH1 — THRUST ============ */
+var fA = document.getElementById('fA'), fM = document.getElementById('fM'), fE = document.getElementById('fE');
+function cur(){ return {A:Math.pow(10, +fA.value), m:Math.pow(10, +fM.value), eta:+fE.value}; }
+function nStr(F){ return F >= 1e-3 ? fmt(F*1000, 2) + T(' mN',' мН') : fmt(F*1e6, 1) + T(' µN',' мкН'); }
+function renderF(){
+  var c = cur(), F = force(c.A, c.eta, 0, 1), a = F/c.m;
+  document.getElementById('fAVal').textContent = fmt(c.A, c.A < 10 ? 1 : 0) + T(' m²',' м²') + ' (' + fmt(Math.sqrt(c.A), 1) + T(' m square',' м сторона') + ')';
+  document.getElementById('fMVal').textContent = fmt(c.m, c.m < 10 ? 1 : 0) + T(' kg',' кг');
+  document.getElementById('fEVal').textContent = fmt(c.eta, 2);
+  var svg = document.getElementById('fSvg'); svg.innerHTML = '';
+  // sail drawn to scale against a 20 m reference, with sunlight arrows
+  var x0 = 40, y0 = 40, sc = 180/20, side = Math.min(200, Math.sqrt(c.A)*sc);
+  ns('rect', {x:x0, y:y0, width:180, height:180, fill:'none', stroke:'#e4e4de', 'stroke-dasharray':'3 3'}, svg);
+  txt(svg, x0, y0 - 8, T('20 × 20 m reference','квадрат 20 × 20 м для масштаба'), 'svg-small');
+  ns('rect', {x:x0 + (180 - side)/2, y:y0 + (180 - side)/2, width:side, height:side, fill:'#e9e4cf', stroke:'#a8741a'}, svg);
+  for(var k = 0; k < 5; k++){ var yy = y0 + 20 + k*35; ns('line', {x1:x0 + 230, y1:yy, x2:x0 + 196, y2:yy, stroke:'#a8741a', 'stroke-width':1.5}, svg); ns('path', {d:'M' + (x0 + 196) + ' ' + yy + 'l8 -4 l0 8 z', fill:'#a8741a'}, svg); }
+  txt(svg, x0 + 240, y0 + 95, T('sunlight','свет Солнца'), 'svg-small');
+  // compare thrust to weights
+  var gEq = F/9.80665*1000;
+  txt(svg, 300, 150, T('thrust ≈ the weight of','тяга ≈ вес'), 'svg-small');
+  txt(svg, 300, 166, fmt(gEq*1000, 0) + T(' mg on Earth',' мг на Земле'), 'svg-small');
+  cells(document.getElementById('fReadout'), [
+    [T('THRUST AT 1 AU, FACE-ON','ТЯГА НА 1 а.е., ЛИЦОМ К СОЛНЦУ'), nStr(F)],
+    [T('ACCELERATION','УСКОРЕНИЕ'), (a).toExponential(2) + T(' m/s²',' м/с²')],
+    [T('Δv PER DAY','Δv ЗА СУТКИ'), fmt(a*86400, a*86400 < 1 ? 3 : 2) + T(' m/s',' м/с')],
+    [T('AREAL DENSITY','ПОВЕРХНОСТНАЯ ПЛОТНОСТЬ'), fmt(c.m/c.A*1000, 0) + T(' g/m²',' г/м²')]
+  ]);
+  hud1.textContent = nStr(F); hud2.textContent = fmt(a*86400, 3) + T(' m/s',' м/с');
+  var ik = Math.abs(c.A - 196) < 2 && Math.abs(c.m - 310) < 5 && Math.abs(c.eta - 0.63) < 0.005;
+  document.getElementById('fStatus').innerHTML = ik
+    ? T('JAXA measured 1.12 mN for IKAROS [3]; this setting gives ','JAXA измерило у IKAROS 1,12 мН [3]; эти параметры дают ') + nStr(F) + '.'
+    : T('Tiny force, but it never stops: a year of it adds ','Сила крошечная, но непрерывная: за год она добавляет ') + fmtInt(a*86400*365.25) + T(' m/s.',' м/с.');
+  renderD();
+}
+[fA, fM, fE].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById('fPre'), null); renderF(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#fPre .btn'), function(btn){ btn.addEventListener('click', function(){ fA.value = Math.log10(+this.getAttribute('data-a')); fM.value = Math.log10(+this.getAttribute('data-m')); fE.value = this.getAttribute('data-e'); pressGroup(this.parentNode, this); renderF(); }); });
+
+/* ============ CH2 — STEERING ============ */
+var sA = document.getElementById('sA');
+function renderS(){
+  var al = +sA.value, sw = sideways(al), fr = Math.cos(al*Math.PI/180)*Math.cos(al*Math.PI/180);
+  document.getElementById('sAVal').textContent = fmt(al, 1) + '°';
+  var svg = document.getElementById('sSvg'); svg.innerHTML = '';
+  var L = 56, R = 300, Tp = 22, B = 220;
+  function X(a){ return L + a/90*(R - L); }
+  function Y(v){ return B - v*(B - Tp); }
+  [0,0.25,0.5,0.75,1].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 3, (v*100) + '%', 'svg-small', 'end'); });
+  [0,30,60,90].forEach(function(a){ txt(svg, X(a), B + 14, a + '°', 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('sail angle α','угол паруса α'), 'svg-small', 'end'); txt(svg, L, 13, T('share of the face-on push','доля лобового толчка'), 'svg-small');
+  var d1 = '', d2 = ''; for(var a = 0; a <= 90.001; a += 1){ d1 += (a ? 'L' : 'M') + X(a).toFixed(1) + ' ' + Y(Math.pow(Math.cos(a*Math.PI/180), 2)).toFixed(1); d2 += (a ? 'L' : 'M') + X(a).toFixed(1) + ' ' + Y(sideways(a)).toFixed(1); }
+  ns('path', {d:d1, fill:'none', stroke:'#8a8a82', 'stroke-width':1.5}, svg); ns('path', {d:d2, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  txt(svg, X(8), Y(0.95), T('total push','полный толчок'), 'svg-small'); txt(svg, X(50), Y(0.42), T('sideways part','боковая часть'), 'svg-small');
+  ns('line', {x1:X(35.26), y1:Tp, x2:X(35.26), y2:B, stroke:'#2f5aa1', 'stroke-dasharray':'3 3'}, svg);
+  ns('circle', {cx:X(al), cy:Y(sw), r:5, fill:'#b5452a'}, svg);
+  // diagram: sun rays, sail, force
+  var cx = 390, cy = 120, a = al*Math.PI/180;
+  for(var k = -2; k <= 2; k++) ns('line', {x1:cx - 80, y1:cy + k*16, x2:cx - 20, y2:cy + k*16, stroke:'#a8741a'}, svg);
+  txt(svg, cx - 80, cy - 46, T('sunlight →','свет →'), 'svg-small');
+  var nx = Math.cos(a), ny = -Math.sin(a), tx = -ny, ty = nx;
+  ns('line', {x1:cx - tx*45, y1:cy - ty*45, x2:cx + tx*45, y2:cy + ty*45, stroke:'#0b0b0c', 'stroke-width':4}, svg);
+  var fl = 60*fr; ns('line', {x1:cx, y1:cy, x2:cx + nx*fl, y2:cy + ny*fl, stroke:'#b5452a', 'stroke-width':2.5}, svg);
+  txt(svg, cx + nx*fl + 4, cy + ny*fl, 'F', 'svg-small');
+  ns('line', {x1:cx, y1:cy, x2:cx, y2:cy + ny*fl, stroke:'#2f5aa1', 'stroke-width':2, 'stroke-dasharray':'3 2'}, svg);
+  txt(svg, cx + 4, cy + ny*fl - 4, T('sideways','вбок'), 'svg-small');
+  cells(document.getElementById('sReadout'), [
+    [T('TOTAL PUSH','ПОЛНЫЙ ТОЛЧОК'), fmt(fr*100, 1) + ' %'],
+    [T('SIDEWAYS PART','БОКОВАЯ ЧАСТЬ'), fmt(sw*100, 1) + ' %'],
+    [T('BEST ANGLE','ЛУЧШИЙ УГОЛ'), '35.26° → 38.5 %'.replace(/\./g, T('.', ','))],
+    [T('SIDEWAYS vs BEST','ВБОК ОТНОСИТЕЛЬНО ЛУЧШЕГО'), fmt(sw/0.3849*100, 0) + ' %']
+  ]);
+  document.getElementById('sStatus').innerHTML = Math.abs(al - 35.26) < 2
+    ? T('Close to the best tacking angle: tan α = 1/√2.','Близко к лучшему углу галса: tg α = 1/√2.')
+    : al < 35 ? T('Facing the Sun more: lots of push, but mostly straight outward.','Больше лицом к Солнцу: толчок сильный, но в основном прямо от Солнца.') : T('Turned edge-on: less light caught, so less push of any kind.','Почти ребром: ловится меньше света, и толчок слабеет во всех направлениях.');
+}
+sA.addEventListener('input', renderS);
+
+/* ============ CH3 — DISTANCE ============ */
+var dR = document.getElementById('dR'), dT = document.getElementById('dT');
+function renderD(){
+  if(!dR) return;
+  var c = cur(), r = +dR.value, days = +dT.value, a = force(c.A, c.eta, 0, r)/c.m, dv = a*days*86400;
+  document.getElementById('dRVal').textContent = fmt(r, 2) + T(' AU',' а.е.');
+  document.getElementById('dTVal').textContent = fmtInt(days) + T(' days',' сут');
+  var svg = document.getElementById('dSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 220, vmax = Math.max(10, a*1000*86400*1.05);
+  function X(d){ return L + d/1000*(R - L); }
+  function Y(v){ return B - v/vmax*(B - Tp); }
+  for(var k = 0; k <= 4; k++){ var v = vmax*k/4; ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 3, v >= 1000 ? fmt(v/1000, 1) + 'k' : fmtInt(v), 'svg-small', 'end'); }
+  [0,250,500,750,1000].forEach(function(d){ txt(svg, X(d), B + 14, d, 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('days','сутки'), 'svg-small', 'end'); txt(svg, L, 13, T('speed gained, m/s','набранная скорость, м/с'), 'svg-small');
+  [[0.72, T('Venus','Венера'), '#2f5aa1'], [1, T('Earth','Земля'), '#8a8a82'], [r, T('chosen','выбрано'), '#0b0b0c']].forEach(function(p){ var ap = force(c.A, c.eta, 0, p[0])/c.m; ns('line', {x1:X(0), y1:Y(0), x2:X(1000), y2:Y(ap*1000*86400), stroke:p[2], 'stroke-width': p[1] === T('chosen','выбрано') ? 2 : 1.2}, svg); });
+  ns('circle', {cx:X(days), cy:Y(dv), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('dReadout'), [
+    [T('SUNLIGHT HERE','СВЕТ ЗДЕСЬ'), fmtInt(S0/(r*r)) + T(' W/m²',' Вт/м²')],
+    [T('THRUST HERE','ТЯГА ЗДЕСЬ'), nStr(force(c.A, c.eta, 0, r))],
+    [T('SPEED GAINED','НАБРАННАЯ СКОРОСТЬ'), fmt(dv, dv < 10 ? 2 : 0) + T(' m/s',' м/с')],
+    [T('vs. AT 1 AU','ОТНОСИТЕЛЬНО 1 а.е.'), fmt(1/(r*r)*100, 0) + ' %']
+  ]);
+  document.getElementById('dStatus').innerHTML = r > 3 ? T('Out at Jupiter\'s distance the push is a few percent of Earth\'s — sails belong in the inner Solar System.','У Юпитера толчок — несколько процентов от земного: место парусов — во внутренней Солнечной системе.') : T('Never switching off, the sail keeps adding speed for as long as it points well.','Никогда не выключаясь, парус продолжает набирать скорость, пока правильно ориентирован.');
+}
+[dR, dT].forEach(function(el){ el.addEventListener('input', renderD); });
+
+/* ============ CH5 — TIMELINE ============ */
+var TIMELINE = [
+  ['2010', '<b>21 May:</b> IKAROS launched with Akatsuki; <b>9 July:</b> JAXA confirms 1.12 mN of sunlight thrust [2][3].', '<b>21 мая:</b> запуск IKAROS вместе с «Акацуки»; <b>9 июля:</b> JAXA подтверждает тягу солнечного света 1,12 мН [2][3].'],
+  ['2015', '<b>May:</b> IKAROS enters its fifth hibernation; no signal afterwards [7].', '<b>Май:</b> IKAROS в пятый раз уходит в спячку; сигналов больше нет [7].'],
+  ['2019', '<b>25 June:</b> LightSail 2 launched; <b>late July:</b> apogee raised ~2 km in four days by light alone [4][5].', '<b>25 июня:</b> запуск LightSail 2; <b>конец июля:</b> апогей поднят на ~2 км за четыре дня одним светом [4][5].'],
+  ['2022', '<b>17 November:</b> LightSail 2 re-enters after three and a half years [4].', '<b>17 ноября:</b> LightSail 2 входит в атмосферу после трёх с половиной лет [4].'],
+  ['2024', '<b>23 April:</b> NASA\'s ACS3 launched to test composite sail booms, ~80 m² [6].', '<b>23 апреля:</b> запуск ACS3 NASA для испытания композитных штанг паруса, ~80 м² [6].'],
+  ['2025', '<b>15 May:</b> JAXA ends IKAROS operations after 15 years [7].', '<b>15 мая:</b> JAXA завершает работу с IKAROS через 15 лет [7].']
+];
+
+/* ============ CH6 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'G. Kopp, J. L. Lean (2011), “A new, lower value of total solar irradiance: Evidence and climate significance”, Geophysical Research Letters 38', url:'https://doi.org/10.1029/2010GL045777', note:{en:'Total solar irradiance of about 1,361 W/m² at 1 AU.', ru:'Полная солнечная освещённость около 1361 Вт/м² на 1 а.е.'}},
+  {title:'JAXA ISAS, “IKAROS” mission page', url:'https://www.isas.jaxa.jp/en/missions/spacecraft/past/ikaros.html', note:{en:'Launched 21 May 2010 (JST) on H-IIA F17; about 310 kg; 14 m × 14 m square membrane; spin-deployed; thin-film solar cells; trajectory control with LCD devices.', ru:'Запущен 21 мая 2010 (JST) на H-IIA F17; около 310 кг; квадратная мембрана 14 × 14 м; раскрыт вращением; тонкоплёночные солнечные элементы; управление траекторией жидкокристаллическими элементами.'}},
+  {title:'JAXA (2010), “Confirmation of Photon Acceleration” of IKAROS, press release 9 July 2010', url:'https://www.jaxa.jp/press/2010/07/20100709_ikaros_e.html', note:{en:'Thrust from solar light pressure 1.12 mN, the expected value, from Doppler tracking; about the weight of 0.114 g on Earth.', ru:'Тяга солнечного давления 1,12 мН — ожидаемое значение, по доплеровским измерениям; около веса 0,114 г на Земле.'}},
+  {title:'The Planetary Society, “LightSail”', url:'https://www.planetary.org/sci-tech/lightsail', note:{en:'LightSail 2 launched 25 June 2019 on Falcon Heavy (STP-2) into a ~720 km orbit; 32 m² sail (5.6 m sides); re-entered 17 November 2022.', ru:'LightSail 2 запущен 25 июня 2019 на Falcon Heavy (STP-2) на орбиту ~720 км; парус 32 м² (сторона 5,6 м); вошёл в атмосферу 17 ноября 2022.'}},
+  {title:'The Planetary Society (2019), “LightSail 2 Spacecraft Successfully Demonstrates Flight by Light”', url:'https://www.planetary.org/articles/lightsail-2-successful-flight-by-light', note:{en:'Apogee raised by about 2 km from 26 to 30 July 2019, attributable only to solar sailing.', ru:'Апогей поднят примерно на 2 км с 26 по 30 июля 2019 — только за счёт солнечного паруса.'}},
+  {title:'NASA, “Advanced Composite Solar Sail System (ACS3)”', url:'https://www.nasa.gov/mission/acs3/', note:{en:'Launched 23 April 2024; CubeSat with a sail of about 80 m² on lightweight composite booms.', ru:'Запущен 23 апреля 2024; кубсат с парусом около 80 м² на лёгких композитных штангах.'}},
+  {title:'JAXA ISAS (2025), “End of 15 year operation of the Small Scale Solar Powered Sail Demonstration Satellite, IKAROS”', url:'https://www.isas.jaxa.jp/en/topics/004006.html', note:{en:'Operations and search end 15 May 2025; no radio signal since the fifth hibernation in May 2015.', ru:'Работа и поиск завершены 15 мая 2025; радиосигналов нет с пятой спячки в мае 2015.'}},
+  {title:'The Planetary Society (2019), “LightSail 2 Marks 1 Month of Solar Sailing”', url:'https://www.planetary.org/articles/ls2-one-month-sailing', note:{en:'Apogee raised by 7.2 km after a month of solar sailing since 23 July 2019.', ru:'Апогей поднят на 7,2 км за месяц плавания под солнечным парусом с 23 июля 2019.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderF();
+  renderS();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__sail = {force:force, sideways:sideways, P_IDEAL:P_IDEAL};
+
+})();
+</script>
+</body>
+</html>
