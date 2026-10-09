@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://followorbounce.github.io/aerospace/</loc></url>
+  <url><loc>https://followorbounce.github.io/aerospace/beep-sputnik-explorer</loc></url>
   <url><loc>https://followorbounce.github.io/aerospace/iss-and-mir</loc></url>
   <url><loc>https://followorbounce.github.io/aerospace/workshop-skylab</loc></url>
   <url><loc>https://followorbounce.github.io/aerospace/salute-salyut-program</loc></url>
@@ -49,5 +50,4 @@
   <url><loc>https://followorbounce.github.io/aerospace/mathematics-of-music</loc></url>
   <url><loc>https://followorbounce.github.io/aerospace/time-philosophy/</loc></url>
   <url><loc>https://followorbounce.github.io/aerospace/time-philosophy/time-as-space</loc></url>
-  <url><loc>https://followorbounce.github.io/aerospace/beep-sputnik-explorer</loc></url>
 </urlset>
