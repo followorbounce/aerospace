@@ -28,6 +28,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [New Horizons & the Kuiper Belt](https://followorbounce.github.io/aerospace/frontier-new-horizons): New Horizons, Pluto, and the Kuiper Belt.
 - [Galileo at Jupiter](https://followorbounce.github.io/aerospace/umbrella-galileo-jupiter): NASA's Galileo mission to Jupiter.
 - [Cassini-Huygens at Saturn](https://followorbounce.github.io/aerospace/finale-cassini-huygens): the Cassini-Huygens mission to Saturn and Titan.
+- [Venera & Vega](https://followorbounce.github.io/aerospace/furnace-venera-vega): the Soviet exploration of Venus 1967–85 — descent through the Venus International Reference Atmosphere with a terminal-velocity model that reproduces Venera 11's 53-minute fall, a pressure-sphere designer (strength vs buckling, NASA SP-8032 knockdown), Venera 4's crushing, Venera 7's 23 minutes from the surface, the first pictures (Venera 9), survival times of every lander (Venera 13: 127 min), and the Vega balloons at 54 km.
 
 ## Moon Exploration
 

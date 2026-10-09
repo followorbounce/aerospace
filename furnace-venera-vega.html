@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FURNACE — VENERA &amp;amp; VEGA / ПЕЧЬ — «ВЕНЕРА» И «ВЕГА»</title>
+<meta name="description" content="An interactive field guide to the Soviet exploration of Venus, 1967–85: a descent through 92 bar and 465 °C using the Venus International Reference Atmosphere, why Venera 4 was crushed and how a pressure sphere is sized, the first signal from another planet's surface, the first pictures, how long each lander survived, and the Vega balloons that floated at 54 km.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/furnace-venera-vega">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FURNACE — VENERA &amp;amp; VEGA / ПЕЧЬ — «ВЕНЕРА» И «ВЕГА»">
+<meta property="og:description" content="Terminal velocity in a CO₂ ocean, pressure-sphere design, survival times of every lander and a balloon that floats on Venus — the Venera and Vega missions, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/furnace-venera-vega">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">FURNACE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">VENUS</span></div>
+  <div class="hud-row"><span class="hud-label">ALTITUDE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">PRESSURE</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="VENUS">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 15 DECEMBER 1970, 05:34 UT" data-ru="РИС. 00 — 15 ДЕКАБРЯ 1970, 05:34 UT">FIG. 00 — 15 DECEMBER 1970, 05:34 UT</span></span>
+        <span>92 bar · 737 K · 96.5 % CO₂</span>
+      </div>
+      <h1><span data-en="FURNACE" data-ru="ПЕЧЬ">FURNACE</span><br><em data-en="VENERA AND VEGA" data-ru="«ВЕНЕРА» И «ВЕГА»">VENERA AND VEGA</em></h1>
+      <p class="sub lede" data-en="The surface of Venus is hot enough to melt lead under an atmosphere as heavy as the ocean a kilometre down. Between 1967 and 1985 the Soviet Union sent probe after probe into it, learned from each one that was crushed or cooked, and became the only nation to land on Venus, photograph its surface and fly balloons in its clouds. Ten chapters and four instruments: fall through the atmosphere with a lander, size a pressure sphere that will not buckle, compare how long every lander lasted, and float a balloon at 54 km." data-ru="Поверхность Венеры достаточно горяча, чтобы плавить свинец, под атмосферой, тяжёлой, как океан на километровой глубине. С 1967 по 1985 год Советский Союз отправлял туда аппарат за аппаратом, учился на каждом раздавленном или сгоревшем и стал единственной страной, посадившей аппараты на Венеру, сфотографировавшей её поверхность и запустившей аэростаты в её облаках. Десять глав и четыре прибора: спуститесь сквозь атмосферу вместе с посадочным аппаратом, рассчитайте прочную сферу, которая не потеряет устойчивость, сравните, сколько прожил каждый аппарат, и запустите аэростат на высоте 54 км.">The surface of Venus is hot enough to melt lead.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE PLANET -->
+<section id="ch1" class="section" data-phase="VENUS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="EARTH'S TWIN, GONE WRONG" data-ru="БЛИЗНЕЦ ЗЕМЛИ, У КОТОРОГО ВСЁ ПОШЛО НЕ ТАК">EARTH'S TWIN, GONE WRONG</span></div>
+    <h2 class="h-lg" data-en="Same size as Earth, a different world" data-ru="Того же размера, что и Земля, — совсем другой мир">Same size as Earth, a different world</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Venus is almost Earth's size, with 0.9 of Earth's surface gravity (8.87 m/s²). But its atmosphere is 96.5% carbon dioxide and so massive that the surface pressure is <b>92 bar</b>, ninety-two times ours, and the air at the ground is about 65 kg per cubic metre: one fifteenth the density of water [1]. Carbon dioxide traps the planet's heat so well that the average surface temperature is <b>737 K (464 °C)</b>, day and night, pole and equator alike [1]. The planet turns once every 243 Earth days, backwards." data-ru="Венера почти размером с Землю, с ускорением свободного падения 0,9 земного (8,87 м/с²). Но её атмосфера на 96,5% состоит из углекислого газа и настолько массивна, что давление у поверхности — <b>92 бара</b>, в девяносто два раза больше земного, а плотность воздуха у грунта — около 65 кг на кубический метр, одна пятнадцатая плотности воды [1]. Углекислый газ так хорошо удерживает тепло, что средняя температура поверхности — <b>737 К (464 °C)</b>, днём и ночью, на полюсах и на экваторе [1]. Планета делает один оборот за 243 земных дня — в обратную сторону.">Venus has 92 bar and 737 K at the surface.</p>
+      <p class="body-col" data-en="None of this was known in 1960. Radio astronomers had measured strong microwave emission suggesting a hot surface, but some scientists argued the heat came from the upper atmosphere, and some still pictured oceans or swamps under the clouds. The only way to find out was to go in. The Soviet probes were built to answer the most basic questions — how hot, how dense, what is it made of — and each one that failed answered part of them by the way it failed." data-ru="В 1960 году ничего из этого известно не было. Радиоастрономы измерили сильное микроволновое излучение, указывающее на горячую поверхность, но часть учёных считала, что тепло идёт из верхней атмосферы, а кто-то ещё представлял под облаками океаны или болота. Выяснить можно было только одним способом — войти туда. Советские аппараты строили, чтобы ответить на самые простые вопросы: насколько жарко, насколько плотно, из чего состоит, — и каждый неудачный отвечал на часть из них тем, как именно он погибал.">None of this was known in 1960.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — DESCENT -->
+<section id="ch2" class="section" data-phase="DESCENT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="FALLING THROUGH A CO₂ OCEAN" data-ru="ПАДЕНИЕ СКВОЗЬ УГЛЕКИСЛЫЙ ОКЕАН">FALLING THROUGH A CO₂ OCEAN</span></div>
+    <h2 class="h-lg" data-en="So dense near the ground that a disc is enough to land" data-ru="Так плотно у земли, что для посадки хватает диска">So dense near the ground that a disc is enough to land</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The later landers came in at about 11 km/s, braked with a heat shield, and opened parachutes high in the clouds, around 60 km. Then something unusual happened: at about 46–50 km they <b>threw the parachutes away</b>. The air below was so dense that a stiff circular disc around the lander, an aerobrake, was enough. Venera 11 fell the last 46 km in 52 minutes 58 seconds and touched down at about 7.5 m/s, the speed of a slow jog [4]." data-ru="Поздние посадочные аппараты входили в атмосферу на скорости около 11 км/с, тормозили теплозащитным экраном и раскрывали парашюты высоко в облаках, примерно на 60 км. Затем происходило необычное: на высоте около 46–50 км они <b>сбрасывали парашюты</b>. Воздух ниже был настолько плотным, что хватало жёсткого кругового диска вокруг аппарата — аэродинамического тормоза. «Венера-11» падала последние 46 км 52 минуты 58 секунд и коснулась поверхности на скорости около 7,5 м/с — как при лёгком беге [4].">The landers discarded their parachutes at 46–50 km; a disc was enough.</p>
+      <p class="body-col" data-en="Move down through the atmosphere below. Temperature and pressure come from the <b>Venus International Reference Atmosphere</b>, compiled from the Venera and Pioneer Venus probes [2][3]. Density follows from the gas law for carbon dioxide, and the lander's falling speed from the balance of weight and drag: it slows as the air thickens. One number describes the lander, its mass per unit of drag area; the default is the value that reproduces Venera 11's 53-minute fall and 7.5 m/s landing." data-ru="Опуститесь сквозь атмосферу ниже. Температура и давление — по <b>Международной справочной атмосфере Венеры</b> (VIRA), составленной по данным «Венер» и «Пионер-Венеры» [2][3]. Плотность следует из газового закона для углекислого газа, а скорость падения — из равновесия веса и сопротивления: аппарат замедляется по мере уплотнения воздуха. Аппарат описывает одно число — масса на единицу площади сопротивления; по умолчанию стоит значение, воспроизводящее 53-минутное падение «Венеры-11» и посадку на 7,5 м/с.">Temperature and pressure from VIRA; speed from weight and drag.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="DENSITY AND TERMINAL SPEED" data-ru="ПЛОТНОСТЬ И УСТАНОВИВШАЯСЯ СКОРОСТЬ">DENSITY AND TERMINAL SPEED</div>
+      <div class="eq-body">ρ = p M / (R T) &nbsp;·&nbsp; v<sub>t</sub> = √(2 g K / ρ) &nbsp;·&nbsp; K = m / (C<sub>D</sub> A) &nbsp;·&nbsp; t = ∫ dh / v<sub>t</sub>(h)</div>
+      <div class="eq-note" data-en="M = 0.04401 kg/mol (CO₂), R = 8.314 J/(mol·K), g = 8.87 m/s². The ideal-gas density at the surface is 66 kg/m³, close to the 65 kg/m³ of the fact sheet [1]; real CO₂ at 92 bar is slightly less dense than ideal." data-ru="M = 0,04401 кг/моль (CO₂), R = 8,314 Дж/(моль·К), g = 8,87 м/с². Плотность идеального газа у поверхности — 66 кг/м³, близко к 65 кг/м³ из справочника [1]; реальный CO₂ при 92 барах чуть менее плотен, чем идеальный.">M = 0.04401 kg/mol, g = 8.87 m/s².</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="descSvg" class="sim-svg" viewBox="0 0 480 400" role="img" aria-label="Venus atmosphere temperature and pressure against altitude, with the lander's position"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="dAlt" data-en="ALTITUDE" data-ru="ВЫСОТА">ALTITUDE</label><span class="v" id="dAltVal">—</span></div>
+          <input id="dAlt" type="range" min="0" max="70" step="0.5" value="46">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dK" data-en="MASS PER DRAG AREA K" data-ru="МАССА НА ПЛОЩАДЬ СОПРОТИВЛЕНИЯ K">MASS PER DRAG AREA K</label><span class="v" id="dKVal">—</span></div>
+          <input id="dK" type="range" min="50" max="800" step="5" value="225">
+        </div>
+        <div class="btn-row"><button class="btn primary" id="dDrop" aria-pressed="false" data-en="▼ DROP FROM 46 KM" data-ru="▼ СБРОСИТЬ С 46 КМ">▼ DROP FROM 46 KM</button></div>
+        <div class="readout-grid" id="descReadout"></div>
+        <div class="status" id="descStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="VIRA deep-atmosphere values every 5 km from 0 to 70 km (as tabulated by Bains et al. [3] from Seiff et al. [2]); above 32 km VIRA varies with latitude and these are mid-latitude values. The drop animation runs 60× faster than real time." data-ru="Значения VIRA для глубокой атмосферы через каждые 5 км от 0 до 70 км (в табуляции Бейнса и др. [3] по Сейффу и др. [2]); выше 32 км VIRA зависит от широты, здесь — значения для средних широт. Анимация падения идёт в 60 раз быстрее реального времени.">VIRA values every 5 km.</p>
+  </div>
+</section>
+
+<!-- CH3 — VENERA 4 -->
+<section id="ch3" class="section" data-phase="VENERA 4">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="THE FIRST PROBE INSIDE ANOTHER PLANET" data-ru="ПЕРВЫЙ АППАРАТ ВНУТРИ ДРУГОЙ ПЛАНЕТЫ">THE FIRST PROBE INSIDE ANOTHER PLANET</span></div>
+    <h2 class="h-lg" data-en="Venera 4: built for an atmosphere that did not exist" data-ru="«Венера-4»: построена для атмосферы, которой не было">Venera 4: built for an atmosphere that did not exist</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 18 October 1967, Venera 4 released a 383 kg capsule that hit the atmosphere at 11 km/s, survived up to <b>300 g</b> of deceleration and opened its parachute at 210 m/s [4]. For 93 minutes it sent back temperature and pressure as it sank, the first data ever returned from inside another planet's atmosphere. Its gas analysers found 90–95% carbon dioxide, overturning the idea of a nitrogen atmosphere like Earth's [4]." data-ru="18 октября 1967 года «Венера-4» отделила капсулу массой 383 кг, которая вошла в атмосферу на скорости 11 км/с, выдержала торможение до <b>300 g</b> и раскрыла парашют на 210 м/с [4]. 93 минуты она передавала температуру и давление, медленно опускаясь, — первые данные, полученные изнутри атмосферы другой планеты. Газоанализаторы нашли 90–95% углекислого газа, опрокинув представление об азотной, как у Земли, атмосфере [4].">Venera 4 transmitted for 93 minutes from inside the atmosphere.</p>
+      <p class="body-col" data-en="Soviet scientists first announced that it had transmitted all the way to the surface. Later analysis showed that it fell silent at about <b>28 km</b> altitude, when heat and pressure destroyed it; its readings, up to 262 °C, implied a surface of about 500 °C and 75 atmospheres [4]. The designers had planned for a much thinner, cooler atmosphere. The answer was in the failure itself: every later Venera was built to survive a crushing, furnace-hot surface." data-ru="Советские учёные сначала объявили, что она передавала до самой поверхности. Позднейший анализ показал, что она замолчала на высоте около <b>28 км</b>, когда её разрушили жар и давление; её показания, до 262 °C, указывали на поверхность с температурой около 500 °C и давлением 75 атмосфер [4]. Конструкторы рассчитывали на гораздо более разреженную и холодную атмосферу. Ответ был в самой неудаче: каждую следующую «Венеру» строили так, чтобы выдержать раскалённую поверхность, давящую с силой глубинного океана.">It fell silent at about 28 km; every later Venera was built for the surface.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — PRESSURE SPHERE -->
+<section id="ch4" class="section" data-phase="PRESSURE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="HOW TO BUILD A SPHERE THAT WILL NOT BE CRUSHED" data-ru="КАК ПОСТРОИТЬ СФЕРУ, КОТОРУЮ НЕ РАЗДАВИТ">HOW TO BUILD A SPHERE THAT WILL NOT BE CRUSHED</span></div>
+    <h2 class="h-lg" data-en="Strength is not the problem. Stability is." data-ru="Проблема не в прочности, а в устойчивости">Strength is not the problem. Stability is.</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="After Venera 4, the Venera 7 capsule was redesigned to withstand <b>150–180 atmospheres</b> and 540 °C; Venera 8, with better data in hand, was designed for 105 atmospheres and 493 °C, saving mass for instruments [4]. A sphere is the best shape for resisting pressure, because every part of the wall carries the same load. A thin sphere of radius R and wall thickness t under pressure p carries a wall stress of pR/2t, so the wall needed for strength is simple to compute." data-ru="После «Венеры-4» капсулу «Венеры-7» перепроектировали на <b>150–180 атмосфер</b> и 540 °C; «Венеру-8», уже с лучшими данными, — на 105 атмосфер и 493 °C, сэкономив массу для приборов [4]. Сфера — лучшая форма для сопротивления давлению: каждый участок стенки несёт одинаковую нагрузку. Тонкая сфера радиуса R со стенкой толщины t под давлением p испытывает напряжение pR/2t, поэтому толщину, нужную для прочности, посчитать просто.">Venera 7 was built for 150–180 atm; a sphere carries stress pR/2t.</p>
+      <p class="body-col" data-en="But a thin shell under <b>external</b> pressure fails long before the metal yields: it snaps inward, or buckles. The classical buckling pressure of a perfect sphere goes as the square of t/R, and real spheres, with tiny dents and uneven walls, buckle at only a fraction of that, often a fifth to a third. NASA's design rules for shells (SP-8032) build that “knockdown” into every design [5]. Size a sphere below: for most choices, buckling, not strength, sets the wall thickness — and the mass." data-ru="Но тонкая оболочка под <b>внешним</b> давлением разрушается задолго до того, как металл потечёт: она прощёлкивается внутрь — теряет устойчивость. Классическое критическое давление идеальной сферы растёт как квадрат t/R, а реальные сферы с крошечными вмятинами и неравномерной стенкой теряют устойчивость лишь при доле этого значения, часто от пятой до трети. Правила NASA для оболочек (SP-8032) закладывают этот «понижающий коэффициент» в любой расчёт [5]. Рассчитайте сферу ниже: при большинстве вариантов толщину стенки — и массу — определяет устойчивость, а не прочность.">Under external pressure, buckling sets the wall thickness.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THIN SPHERE UNDER EXTERNAL PRESSURE" data-ru="ТОНКАЯ СФЕРА ПОД ВНЕШНИМ ДАВЛЕНИЕМ">THIN SPHERE UNDER EXTERNAL PRESSURE</div>
+      <div class="eq-body">t<sub>strength</sub> = S · p R / (2 σ<sub>y</sub>) &nbsp;·&nbsp; p<sub>cr</sub> = k · 2E (t/R)² / √(3(1−ν²)) &nbsp;⇒&nbsp; t<sub>buckling</sub> = R √( S p √(3(1−ν²)) / (2 k E) )</div>
+      <div class="eq-note" data-en="σ_y: yield strength, E: Young's modulus, ν: Poisson's ratio, S: safety factor (1.5 here), k: knockdown factor. Room-temperature properties; at 465 °C titanium and steel are weaker, which is one more reason the landers were cooled and insulated." data-ru="σ_y — предел текучести, E — модуль Юнга, ν — коэффициент Пуассона, S — коэффициент запаса (здесь 1,5), k — понижающий коэффициент. Свойства при комнатной температуре; при 465 °C титан и сталь слабее — ещё одна причина охлаждать и теплоизолировать аппараты.">Room-temperature properties.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="vesselSvg" class="sim-svg" viewBox="0 0 480 340" role="img" aria-label="Required wall thickness for strength and for buckling against sphere radius"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="size-pick" id="matPick" role="group" aria-label="Material"></div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="vP" data-en="DESIGN PRESSURE" data-ru="РАСЧЁТНОЕ ДАВЛЕНИЕ">DESIGN PRESSURE</label><span class="v" id="vPVal">—</span></div>
+          <input id="vP" type="range" min="10" max="200" step="1" value="92">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="vR" data-en="SPHERE RADIUS" data-ru="РАДИУС СФЕРЫ">SPHERE RADIUS</label><span class="v" id="vRVal">—</span></div>
+          <input id="vR" type="range" min="0.2" max="1.2" step="0.01" value="0.5">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="vK" data-en="KNOCKDOWN FACTOR k" data-ru="ПОНИЖАЮЩИЙ КОЭФФИЦИЕНТ k">KNOCKDOWN FACTOR k</label><span class="v" id="vKVal">—</span></div>
+          <input id="vK" type="range" min="0.1" max="1" step="0.01" value="0.25">
+        </div>
+        <div class="readout-grid" id="vesselReadout"></div>
+        <div class="status" id="vesselStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Material values are typical handbook figures for a titanium alloy (Ti-6Al-4V), a high-strength steel and a 7075-T6 aluminium alloy; the real landers' shells also carried insulation, windows, hatches and stiffening that add mass." data-ru="Свойства материалов — типичные справочные значения для титанового сплава (Ti-6Al-4V), высокопрочной стали и алюминиевого сплава 7075-T6; реальные корпуса аппаратов несли ещё теплоизоляцию, иллюминаторы, люки и подкрепления, добавляющие массу.">Typical handbook values.</p>
+  </div>
+</section>
+
+<!-- CH5 — VENERA 7 -->
+<section id="ch5" class="section" data-phase="VENERA 7">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="A SIGNAL FROM THE SURFACE" data-ru="СИГНАЛ С ПОВЕРХНОСТИ">A SIGNAL FROM THE SURFACE</span></div>
+    <h2 class="h-lg" data-en="Twenty-three minutes hidden in the noise" data-ru="Двадцать три минуты, спрятанные в шуме">Twenty-three minutes hidden in the noise</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Venera 7's 490 kg spherical lander entered on 15 December 1970 at 11.5 km/s and opened its parachute at 60 km. The ride down was rough; the parachute may have torn and collapsed, and the lander hit the ground at <b>17 m/s</b> at 05:34:10 UT on the night side [4]. The signal seemed to stop at the moment of impact, and the flight was at first counted a near-miss." data-ru="Сферический посадочный аппарат «Венеры-7» массой 490 кг вошёл в атмосферу 15 декабря 1970 года на скорости 11,5 км/с и раскрыл парашют на 60 км. Спуск был тряским; возможно, парашют порвался и сложился, и аппарат ударился о грунт на скорости <b>17 м/с</b> в 05:34:10 UT на ночной стороне [4]. Сигнал, казалось, оборвался в момент удара, и полёт сначала сочли почти удачей.">Venera 7 hit the ground at 17 m/s.</p>
+      <p class="body-col" data-en="But ground stations had kept recording what sounded like noise. Computer processing found <b>22 minutes 58 seconds</b> of very weak data inside it: the first transmission ever received from the surface of another planet. The lander had probably tipped onto its side, pointing its antenna away from Earth. It reported <b>475 ± 20 °C and 90 ± 15 atmospheres</b> [4] — the first direct measurement of Venus's surface." data-ru="Но наземные станции продолжали записывать то, что звучало как шум. Обработка на ЭВМ нашла в нём <b>22 минуты 58 секунд</b> очень слабых данных — первую передачу, когда-либо принятую с поверхности другой планеты. Аппарат, вероятно, завалился на бок, отвернув антенну от Земли. Он сообщил <b>475 ± 20 °C и 90 ± 15 атмосфер</b> [4] — первое прямое измерение на поверхности Венеры.">22 min 58 s of data were found in the noise.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — LIGHT AND PICTURES -->
+<section id="ch6" class="section" data-phase="PICTURES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="DAYLIGHT, THEN THE FIRST PICTURES" data-ru="ДНЕВНОЙ СВЕТ — А ЗАТЕМ ПЕРВЫЕ СНИМКИ">DAYLIGHT, THEN THE FIRST PICTURES</span></div>
+    <h2 class="h-lg" data-en="Is it light enough down there to take a photograph?" data-ru="Достаточно ли там светло, чтобы фотографировать?">Is it light enough down there to take a photograph?</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Venera 8 landed on 22 July 1972 on the <b>sunlit side</b>, the first daytime landing, and survived 50 minutes 11 seconds. Its photometer settled a question that mattered for the next missions: some sunlight does reach the ground, and visibility was about a kilometre. It also measured the soil's natural radioactivity (potassium, uranium, thorium) [4]. Venera 11 later found that only 3–6% of the sunlight reaches the surface [4]." data-ru="«Венера-8» села 22 июля 1972 года на <b>освещённой стороне</b> — первая дневная посадка — и проработала 50 минут 11 секунд. Её фотометр решил важный для следующих миссий вопрос: часть солнечного света до грунта доходит, видимость — около километра. Она же измерила естественную радиоактивность грунта (калий, уран, торий) [4]. Позже «Венера-11» установила, что до поверхности доходит лишь 3–6% солнечного света [4].">Venera 8 showed sunlight reaches the ground.</p>
+      <p class="body-col" data-en="Venera 9 was a new, five-times-heavier generation: a 660 kg lander inside a 2.4 m entry sphere, delivered by a Proton rocket [4]. On 22 October 1975 it came down under parachutes to about 50 km, then fell on its <b>disc aerobrake</b>, touched down at about 7 m/s on deforming crush rings, and in 53 minutes sent back the <b>first picture ever taken on the surface of another planet</b>: flat, angular rocks, from a camera 90 cm above the ground [4]. Its twin Venera 10 lasted 65 minutes." data-ru="«Венера-9» открыла новое поколение, впятеро тяжелее: посадочный аппарат 660 кг в спускаемой сфере диаметром 2,4 м, выведенный ракетой «Протон» [4]. 22 октября 1975 года он спустился на парашютах примерно до 50 км, затем падал на своём <b>дисковом аэротормозе</b>, коснулся поверхности на скорости около 7 м/с на сминаемом амортизирующем кольце и за 53 минуты передал <b>первый снимок, сделанный на поверхности другой планеты</b>: плоские угловатые камни, снятые камерой на высоте 90 см [4]. Её близнец «Венера-10» проработала 65 минут.">Venera 9 sent the first picture from another planet's surface.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — SURVIVAL -->
+<section id="ch7" class="section" data-phase="SURVIVAL">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="HOW LONG EACH ONE LASTED" data-ru="СКОЛЬКО ПРОЖИЛ КАЖДЫЙ">HOW LONG EACH ONE LASTED</span></div>
+    <h2 class="h-lg" data-en="A race between the insulation and the oven" data-ru="Гонка между теплоизоляцией и печью">A race between the insulation and the oven</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="No lander could keep Venus out for long. Before entry, the landers were chilled by their carrier spacecraft; on the surface, heat leaked through insulation into the electronics until something failed. Every minute was bought with mass: thicker insulation, heat-absorbing materials inside, a stronger shell. The chart shows how long each lander transmitted from the surface, and, where the source gives it, how long it was designed to last [4]." data-ru="Ни один аппарат не мог долго сдерживать Венеру. Перед входом в атмосферу их охлаждали перелётные модули; на поверхности тепло просачивалось сквозь изоляцию к электронике, пока что-нибудь не отказывало. Каждая минута покупалась массой: более толстая изоляция, теплопоглощающие материалы внутри, более прочный корпус. На диаграмме — сколько каждый аппарат передавал с поверхности и, если источник это указывает, на сколько он был рассчитан [4].">Every minute on the surface was bought with mass.</p>
+      <p class="body-col" data-en="The record belongs to <b>Venera 13</b>: designed for 32 minutes, it landed on 1 March 1982 and kept transmitting for <b>127 minutes</b>, at 462 °C and 88.7 atmospheres [4]. It returned the first colour pictures of Venus — orange-brown angular rocks and loose soil — and drilled a soil sample that turned out to be similar to a potassium-rich basalt on Earth. Its twin, Venera 14, lasted 57 minutes. No lander has been sent to the surface since Vega 2 in 1985." data-ru="Рекорд принадлежит <b>«Венере-13»</b>: рассчитанная на 32 минуты, она села 1 марта 1982 года и передавала <b>127 минут</b> при 462 °C и 88,7 атмосферы [4]. Она прислала первые цветные снимки Венеры — оранжево-бурые угловатые камни и рыхлый грунт — и пробурила грунт, оказавшийся похожим на богатый калием земной базальт. Её близнец «Венера-14» проработала 57 минут. С «Веги-2» в 1985 году на поверхность Венеры не садился ни один аппарат.">Venera 13 lasted 127 minutes against a 32-minute design.</p>
+    </div>
+    <div class="sim-panel corner-frame" style="margin-top:28px;">
+      <div class="btn-row" role="group" aria-label="Sort">
+        <button class="btn active" id="sortDate" aria-pressed="true" data-en="BY DATE" data-ru="ПО ДАТЕ">BY DATE</button>
+        <button class="btn" id="sortLife" aria-pressed="false" data-en="BY SURVIVAL" data-ru="ПО ДОЛГОВЕЧНОСТИ">BY SURVIVAL</button>
+      </div>
+      <svg id="lifeSvg" class="sim-svg" viewBox="0 0 800 330" role="img" aria-label="Minutes each Venus lander transmitted from the surface" style="margin-top:16px;"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — VEGA -->
+<section id="ch8" class="section" data-phase="VEGA">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="BALLOONS IN THE CLOUDS, THEN A COMET" data-ru="АЭРОСТАТЫ В ОБЛАКАХ — А ЗАТЕМ КОМЕТА">BALLOONS IN THE CLOUDS, THEN A COMET</span></div>
+    <h2 class="h-lg" data-en="Vega: two landers, two balloons and Halley's Comet" data-ru="«Вега»: два посадочных аппарата, два аэростата и комета Галлея">Vega: two landers, two balloons and Halley's Comet</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The twin <b>Vega</b> spacecraft (from “Venera” and “Gallei”, Russian for Halley) were an international mission: Soviet spacecraft, with instruments from eight other European countries and one from the United States [4]. In June 1985 each dropped a lander and, during the descent at 61 km, a helium balloon carrying a 20.8 kg system with instruments and a radio [4][6]. The balloons floated near <b>54 km</b>, in the middle of the cloud deck, and drifted about 30% of the way around the planet [6]." data-ru="Близнецы <b>«Вега»</b> (от «Венера» и «Галлей») были международной миссией: советские аппараты с приборами из восьми других европейских стран и одним из США [4]. В июне 1985 года каждый сбросил посадочный аппарат, а во время спуска на высоте 61 км — гелиевый аэростат с системой массой 20,8 кг, приборами и радиопередатчиком [4][6]. Аэростаты плыли около <b>54 км</b>, посреди облачного слоя, и прошли примерно 30% пути вокруг планеты [6].">Each Vega dropped a lander and a balloon that floated near 54 km.</p>
+      <p class="body-col" data-en="Each balloon worked for <b>46.5 hours</b> until its batteries ran out, tracked by 20 radio telescopes on Earth that measured its drift and so the winds of Venus [4][6]. They met downdrafts of up to 3.5 m/s that pushed them 2.5 km below their float level [7]. Then the two buses used Venus's gravity to swing on to <b>Halley's Comet</b>, passing it in March 1986 at 77–79 km/s (Vega 2 within 8,030 km) and imaging its nucleus [4]. Find the balloon size for yourself below." data-ru="Каждый аэростат проработал <b>46,5 часа</b>, пока не сели батареи; за ними следили 20 радиотелескопов на Земле, измерявших их дрейф, а значит, и ветры Венеры [4][6]. Они попадали в нисходящие потоки до 3,5 м/с, опускавшие их на 2,5 км ниже равновесной высоты [7]. Затем оба перелётных модуля с помощью гравитации Венеры отправились к <b>комете Галлея</b>, пролетели её в марте 1986 года на скорости 77–79 км/с («Вега-2» — на расстоянии 8030 км) и сняли её ядро [4]. Рассчитайте размер аэростата ниже.">Each balloon flew 46.5 hours; the buses went on to Halley's Comet.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="BUOYANCY" data-ru="ПЛАВУЧЕСТЬ">BUOYANCY</div>
+      <div class="eq-body">m = V (ρ<sub>CO₂</sub> − ρ<sub>He</sub>) &nbsp;⇒&nbsp; V = m / (ρ<sub>CO₂</sub> − ρ<sub>He</sub>) &nbsp;·&nbsp; D = (6V/π)<sup>1/3</sup></div>
+      <div class="eq-note" data-en="Both gases at the local temperature and pressure (VIRA); helium M = 0.004 kg/mol. A superpressure balloon keeps its volume, so it floats where the surrounding density matches." data-ru="Оба газа при местных температуре и давлении (VIRA); гелий M = 0,004 кг/моль. Сверхдавленный аэростат сохраняет объём, поэтому плавает там, где плотность окружающего газа совпадает.">Both gases at local T and p.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="balloonSvg" class="sim-svg" viewBox="0 0 480 340" role="img" aria-label="Balloon diameter needed to float a given mass, against altitude"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="bAlt" data-en="FLOAT ALTITUDE" data-ru="ВЫСОТА ДРЕЙФА">FLOAT ALTITUDE</label><span class="v" id="bAltVal">—</span></div>
+          <input id="bAlt" type="range" min="40" max="68" step="0.5" value="54">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="bM" data-en="TOTAL FLOATING MASS" data-ru="ОБЩАЯ ПЛАВУЧАЯ МАССА">TOTAL FLOATING MASS</label><span class="v" id="bMVal">—</span></div>
+          <input id="bM" type="range" min="5" max="100" step="0.1" value="20.8">
+        </div>
+        <div class="readout-grid" id="balloonReadout"></div>
+        <div class="status" id="balloonStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — LEGACY -->
+<section id="ch9" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="LEGACY: EIGHTEEN YEARS INTO THE FURNACE" data-ru="НАСЛЕДИЕ: ВОСЕМНАДЦАТЬ ЛЕТ В ПЕЧИ">LEGACY: EIGHTEEN YEARS INTO THE FURNACE</span></div>
+    <h2 class="h-lg" data-en="From a crushed capsule to colour pictures and balloons" data-ru="От раздавленной капсулы к цветным снимкам и аэростатам">From a crushed capsule to colour pictures and balloons</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Each probe was designed for the planet the last one had revealed. That is how you explore a place no one has seen: by sending something, listening to how it dies, and building the next one for that." data-ru="Каждый аппарат проектировали для той планеты, которую открыл предыдущий. Так исследуют место, которого никто не видел: отправляешь что-то, слушаешь, как оно погибает, и строишь следующее именно для этого.">Each probe was designed for the planet the last one had revealed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — REFERENCES -->
+<section id="ch10" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ VENUS ATMOSPHERE (VIRA via Bains et al. [2][3]) ============ */
+var VIRA = [[0,735,92.10],[5,697,66.50],[10,658,47.39],[15,621,33.04],[20,579,22.52],[25,537,14.93],[30,495,9.85],[35,453,5.92],[40,416,3.50],[45,383,1.98],[50,348,1.07],[55,300,0.53],[60,263,0.24],[65,243,0.10],[70,230,0.04]];
+var G_V = 8.87, RGAS = 8.314, M_CO2 = 0.04401, M_HE = 0.004003;
+function atm(hkm){                      // → [T (K), p (bar)]; T linear, ln p linear between 5 km nodes
+  var h = Math.max(0, Math.min(70, hkm)), i = Math.min(13, Math.floor(h/5)), a = VIRA[i], b = VIRA[i + 1], f = (h - a[0])/5;
+  return [a[1] + (b[1] - a[1])*f, Math.exp(Math.log(a[2]) + (Math.log(b[2]) - Math.log(a[2]))*f)];
+}
+function rhoGas(hkm, M){ var A = atm(hkm); return A[1]*1e5*M/(RGAS*A[0]); }
+function vTerm(hkm, K){ return Math.sqrt(2*G_V*K/rhoGas(hkm, M_CO2)); }
+function fallTime(h0km, K){ var t = 0, dh = 10; for(var h = h0km*1000; h > 0; h -= dh) t += dh/vTerm((h - dh/2)/1000, K); return t; }
+
+/* ============ CH2 — DESCENT ============ */
+var dAlt = document.getElementById('dAlt'), dK = document.getElementById('dK'), dropping = false;
+function renderDesc(){
+  var h = +dAlt.value, K = +dK.value, A = atm(h), rho = rhoGas(h, M_CO2), v = vTerm(h, K);
+  document.getElementById('dAltVal').textContent = fmt(h, 1) + T(' km',' км');
+  document.getElementById('dKVal').textContent = fmtInt(K) + T(' kg/m²',' кг/м²');
+  var svg = document.getElementById('descSvg'); svg.innerHTML = '';
+  var L = 46, R = 300, Tp = 20, B = 370;
+  function Y(hk){ return B - hk/70*(B - Tp); }
+  function XT(Tk){ return L + (Tk - 200)/(750 - 200)*(R - L); }
+  function XP(pb){ return L + (Math.log10(pb) + 2)/4*(R - L); }   // 0.01 … 100 bar, log
+  // cloud deck ~48–70 km (middle/upper clouds) — shading only
+  ns('rect', {x:L, y:Y(70), width:R - L, height:Y(48) - Y(70), fill:'#e8dcb8', opacity:0.35}, svg);
+  txt(svg, R - 4, Y(66), T('clouds','облака'), 'svg-small', 'end');
+  [0,10,20,30,40,50,60,70].forEach(function(k){ ns('line', {x1:L, y1:Y(k), x2:R, y2:Y(k), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(k) + 3, k, 'svg-small', 'end'); });
+  txt(svg, L, 12, T('altitude, km','высота, км'), 'svg-small');
+  var dT = '', dP = '';
+  for(var k = 0; k <= 70; k += 1){ var a = atm(k); dT += (k ? 'L' : 'M') + XT(a[0]).toFixed(1) + ' ' + Y(k).toFixed(1); dP += (k ? 'L' : 'M') + XP(a[1]).toFixed(1) + ' ' + Y(k).toFixed(1); }
+  ns('path', {d:dT, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  ns('path', {d:dP, fill:'none', stroke:'#2f5aa1', 'stroke-width':2, 'stroke-dasharray':'6 3'}, svg);
+  txt(svg, XT(735) - 4, Y(2), T('T','T'), 'svg-label', 'end'); txt(svg, XP(92) - 4, Y(5), 'p', 'svg-label', 'end');
+  [300,500,700].forEach(function(t){ txt(svg, XT(t), B + 14, t + ' K', 'svg-small', 'middle'); });
+  [0.01,1,100].forEach(function(p){ txt(svg, XP(p), B + 26, (p < 1 ? fmt(p, 2) : p) + T(' bar',' бар'), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:Y(h), x2:R, y2:Y(h), stroke:'#0b0b0c', 'stroke-dasharray':'2 2'}, svg);
+  // lander icon on the right column
+  var lx = 395, ly = Y(h);
+  ns('line', {x1:lx, y1:Tp, x2:lx, y2:B, stroke:'#c9c9c1'}, svg);
+  ns('ellipse', {cx:lx, cy:ly, rx:22, ry:4, fill:'#0b0b0c'}, svg);        // aerobrake disc
+  ns('circle', {cx:lx, cy:ly + 8, r:9, fill:'#e9eef5', stroke:'#0b0b0c'}, svg);
+  ns('rect', {x:lx - 14, y:ly + 15, width:28, height:5, fill:'none', stroke:'#0b0b0c'}, svg);
+  txt(svg, lx, Y(46) - 6, T('parachutes dropped (~46 km)','сброс парашютов (~46 км)'), 'svg-small', 'middle');
+  ns('line', {x1:lx - 40, y1:Y(46), x2:lx + 40, y2:Y(46), stroke:'#c9c9c1', 'stroke-dasharray':'3 3'}, svg);
+  ns('rect', {x:310, y:B - 2, width:160, height:4, fill:'#8a6d3b'}, svg);
+  var tLeft = fallTime(h, K);
+  cells(document.getElementById('descReadout'), [
+    [T('TEMPERATURE','ТЕМПЕРАТУРА'), fmtInt(A[0]) + ' K · ' + fmtInt(A[0] - 273.15) + ' °C'],
+    [T('PRESSURE','ДАВЛЕНИЕ'), fmt(A[1], A[1] < 1 ? 3 : 1) + T(' bar',' бар')],
+    [T('DENSITY (CO₂)','ПЛОТНОСТЬ (CO₂)'), fmt(rho, rho < 1 ? 3 : 1) + T(' kg/m³',' кг/м³')],
+    [T('FALLING SPEED','СКОРОСТЬ ПАДЕНИЯ'), fmt(v, v < 20 ? 1 : 0) + T(' m/s',' м/с')],
+    [T('TIME TO THE GROUND','ВРЕМЯ ДО ПОВЕРХНОСТИ'), fmt(tLeft/60, 1) + T(' min',' мин'), 1]
+  ]);
+  hud1.textContent = fmt(h, 1) + T(' km',' км'); hud2.textContent = fmt(A[1], A[1] < 1 ? 2 : 1) + T(' bar',' бар');
+  var t46 = fallTime(46, K), vGround = vTerm(0, K);
+  document.getElementById('descStatus').innerHTML = T('From 46 km this lander takes <b>','С 46 км этот аппарат падает <b>') + fmt(t46/60, 1) + T(' min</b> and lands at <b>',' мин</b> и садится на <b>') + fmt(vGround, 1) + T(' m/s</b>. Venera 11: 52 min 58 s, about 7.5 m/s [4].',' м/с</b>. «Венера-11»: 52 мин 58 с, около 7,5 м/с [4].');
+}
+dAlt.addEventListener('input', function(){ dropping = false; setDropBtn(); renderDesc(); });
+dK.addEventListener('input', renderDesc);
+function setDropBtn(){ var b = document.getElementById('dDrop'); b.setAttribute('aria-pressed', dropping ? 'true' : 'false'); b.innerHTML = dropping ? T('■ STOP','■ СТОП') : T('▼ DROP FROM 46 KM','▼ СБРОСИТЬ С 46 КМ'); }
+document.getElementById('dDrop').addEventListener('click', function(){ dropping = !dropping; if(dropping) dAlt.value = 46; setDropBtn(); renderDesc(); });
+visibleLoop(document.getElementById('descSvg'), function(dt){
+  if(!dropping) return;
+  var h = +dAlt.value; if(h <= 0){ dropping = false; setDropBtn(); return; }
+  var v = vTerm(h, +dK.value);
+  var nh = Math.max(0, h - v*dt*60/1000*(reduced() ? 0.3 : 1));      // 60× real time
+  dAlt.value = nh; renderDesc();
+});
+
+/* ============ CH4 — PRESSURE SPHERE ============ */
+var MATS = [
+  {k:'ti', en:'TITANIUM ALLOY', ru:'ТИТАНОВЫЙ СПЛАВ', sy:880e6, E:114e9, nu:0.34, rho:4430},
+  {k:'st', en:'HIGH-STRENGTH STEEL', ru:'ВЫСОКОПРОЧНАЯ СТАЛЬ', sy:900e6, E:200e9, nu:0.29, rho:7850},
+  {k:'al', en:'ALUMINIUM 7075-T6', ru:'АЛЮМИНИЙ 7075-T6', sy:503e6, E:71.7e9, nu:0.33, rho:2810}
+];
+var mat = 'ti', SF = 1.5, vP = document.getElementById('vP'), vR = document.getElementById('vR'), vK = document.getElementById('vK');
+function vessel(pbar, R, k, m){
+  var p = pbar*1e5;
+  var tS = SF*p*R/(2*m.sy);
+  var c = Math.sqrt(3*(1 - m.nu*m.nu));
+  var tB = R*Math.sqrt(SF*p*c/(2*k*m.E));
+  var t = Math.max(tS, tB);
+  return {tS:tS, tB:tB, t:t, mass:4*Math.PI*R*R*t*m.rho, gov: tB > tS ? 'b' : 's'};
+}
+function renderMats(){
+  var w = document.getElementById('matPick'); w.innerHTML = '';
+  MATS.forEach(function(m){
+    var b = document.createElement('button'); b.className = 'btn' + (mat === m.k ? ' active' : ''); b.setAttribute('aria-pressed', mat === m.k ? 'true' : 'false');
+    b.textContent = lang === 'en' ? m.en : m.ru;
+    b.addEventListener('click', function(){ mat = m.k; renderMats(); renderVessel(); });
+    w.appendChild(b);
+  });
+}
+function renderVessel(){
+  var m = MATS.filter(function(x){ return x.k === mat; })[0], p = +vP.value, R = +vR.value, k = +vK.value, V = vessel(p, R, k, m);
+  document.getElementById('vPVal').textContent = fmtInt(p) + T(' bar',' бар');
+  document.getElementById('vRVal').textContent = fmt(R, 2) + T(' m',' м');
+  document.getElementById('vKVal').textContent = fmt(k, 2);
+  var svg = document.getElementById('vesselSvg'); svg.innerHTML = '';
+  var L = 56, Rr = 465, Tp = 20, B = 290, rMin = 0.2, rMax = 1.2;
+  var tMax = Math.max(vessel(p, rMax, k, m).tS, vessel(p, rMax, k, m).tB)*1.1*1000;
+  function X(r){ return L + (r - rMin)/(rMax - rMin)*(Rr - L); }
+  function Y(tmm){ return B - tmm/tMax*(B - Tp); }
+  for(var i = 0; i <= 4; i++){ var tv = tMax*i/4; ns('line', {x1:L, y1:Y(tv), x2:Rr, y2:Y(tv), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(tv) + 3, fmt(tv, tv < 10 ? 1 : 0), 'svg-small', 'end'); }
+  [0.2,0.4,0.6,0.8,1.0,1.2].forEach(function(r){ txt(svg, X(r), B + 14, fmt(r, 1), 'svg-small', 'middle'); });
+  txt(svg, Rr, B + 28, T('sphere radius, m','радиус сферы, м'), 'svg-small', 'end'); txt(svg, L, 13, T('wall thickness, mm','толщина стенки, мм'), 'svg-small');
+  var dS = '', dB = '';
+  for(var r = rMin; r <= rMax + 1e-9; r += 0.01){ var vv = vessel(p, r, k, m); dS += (r === rMin ? 'M' : 'L') + X(r).toFixed(1) + ' ' + Y(vv.tS*1000).toFixed(1); dB += (r === rMin ? 'M' : 'L') + X(r).toFixed(1) + ' ' + Y(vv.tB*1000).toFixed(1); }
+  ns('path', {d:dS, fill:'none', stroke:'#2f5aa1', 'stroke-width':2}, svg);
+  ns('path', {d:dB, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  txt(svg, X(1.15), Y(vessel(p, 1.15, k, m).tS*1000) - 6, T('strength','прочность'), 'svg-small', 'end');
+  txt(svg, X(1.15), Y(vessel(p, 1.15, k, m).tB*1000) - 6, T('buckling','устойчивость'), 'svg-small', 'end');
+  ns('circle', {cx:X(R), cy:Y(V.t*1000), r:5, fill:'#0b0b0c'}, svg);
+  cells(document.getElementById('vesselReadout'), [
+    [T('WALL FOR STRENGTH','СТЕНКА ПО ПРОЧНОСТИ'), fmt(V.tS*1000, 1) + T(' mm',' мм')],
+    [T('WALL FOR BUCKLING','СТЕНКА ПО УСТОЙЧИВОСТИ'), fmt(V.tB*1000, 1) + T(' mm',' мм')],
+    [T('SHELL MASS','МАССА ОБОЛОЧКИ'), fmtInt(V.mass) + T(' kg',' кг')],
+    [T('GOVERNED BY','ОПРЕДЕЛЯЕТ'), V.gov === 'b' ? T('buckling','устойчивость') : T('strength','прочность')]
+  ]);
+  document.getElementById('vesselStatus').innerHTML = V.gov === 'b'
+    ? T('<b>Buckling governs.</b> The metal could carry the stress with a thinner wall, but that wall would snap inward first. Stiffer materials (high E) help more than stronger ones here.','<b>Определяет устойчивость.</b> Металл выдержал бы напряжение и при более тонкой стенке, но такая стенка раньше прощёлкнулась бы внутрь. Здесь жёсткость материала (большой E) важнее прочности.')
+    : T('<b>Strength governs.</b> The wall is thick enough relative to the radius that it would yield before it buckled.','<b>Определяет прочность.</b> Стенка достаточно толстая относительно радиуса, чтобы металл потёк раньше, чем она потеряет устойчивость.');
+}
+[vP, vR, vK].forEach(function(el){ el.addEventListener('input', renderVessel); });
+
+/* ============ CH7 — SURVIVAL CHART (Beyond Earth [4]) ============ */
+var LANDERS = [
+  {n:'Venera 7', nr:'Венера-7', y:1970, min:23, design:null},
+  {n:'Venera 8', nr:'Венера-8', y:1972, min:50, design:null},
+  {n:'Venera 9', nr:'Венера-9', y:1975, min:53, design:null},
+  {n:'Venera 10', nr:'Венера-10', y:1975, min:65, design:30},
+  {n:'Venera 11', nr:'Венера-11', y:1978, min:95, design:null},
+  {n:'Venera 12', nr:'Венера-12', y:1978, min:110, design:null},
+  {n:'Venera 13', nr:'Венера-13', y:1982, min:127, design:32},
+  {n:'Venera 14', nr:'Венера-14', y:1982, min:57, design:null},
+  {n:'Vega 1', nr:'Вега-1', y:1985, min:56, design:null},
+  {n:'Vega 2', nr:'Вега-2', y:1985, min:57, design:null}
+];
+var sortBy = 'date';
+function renderLife(){
+  var svg = document.getElementById('lifeSvg'); svg.innerHTML = '';
+  var list = LANDERS.slice(); if(sortBy === 'life') list.sort(function(a, b){ return b.min - a.min; });
+  var L = 130, R = 760, Tp = 14, rowH = 29, mMax = 140;
+  function X(m){ return L + m/mMax*(R - L); }
+  [0,30,60,90,120].forEach(function(m){ ns('line', {x1:X(m), y1:Tp - 4, x2:X(m), y2:Tp + rowH*list.length, stroke:'#e4e4de'}, svg); txt(svg, X(m), Tp + rowH*list.length + 14, m + T(' min',' мин'), 'svg-small', 'middle'); });
+  list.forEach(function(l, i){
+    var y = Tp + i*rowH;
+    txt(svg, L - 10, y + 17, (lang === 'en' ? l.n : l.nr) + ' · ' + l.y, 'svg-label', 'end');
+    ns('rect', {x:L, y:y + 6, width:X(l.min) - L, height:15, fill: l.min === 127 ? '#b5452a' : '#0b0b0c'}, svg);
+    txt(svg, X(l.min) + 6, y + 17, l.min + T(' min',' мин'), 'svg-small');
+    if(l.design){ ns('line', {x1:X(l.design), y1:y + 2, x2:X(l.design), y2:y + 25, stroke:'#2f5aa1', 'stroke-width':2}, svg); txt(svg, X(l.design) + 3, y + 3, T('design','расчёт'), 'svg-small'); }
+  });
+}
+document.getElementById('sortDate').addEventListener('click', function(){ sortBy = 'date'; pressGroup(this.parentNode, this); renderLife(); });
+document.getElementById('sortLife').addEventListener('click', function(){ sortBy = 'life'; pressGroup(this.parentNode, this); renderLife(); });
+
+/* ============ CH8 — BALLOON ============ */
+var bAlt = document.getElementById('bAlt'), bM = document.getElementById('bM');
+function balloon(hkm, m){
+  var dr = rhoGas(hkm, M_CO2) - rhoGas(hkm, M_HE), V = m/dr;
+  return {V:V, D:Math.pow(6*V/Math.PI, 1/3), rhoA:rhoGas(hkm, M_CO2), rhoH:rhoGas(hkm, M_HE)};
+}
+function renderBalloon(){
+  var h = +bAlt.value, m = +bM.value, b = balloon(h, m), A = atm(h);
+  document.getElementById('bAltVal').textContent = fmt(h, 1) + T(' km',' км');
+  document.getElementById('bMVal').textContent = fmt(m, 1) + T(' kg',' кг');
+  var svg = document.getElementById('balloonSvg'); svg.innerHTML = '';
+  var L = 50, R = 300, Tp = 20, B = 300, h0 = 40, h1 = 68, dMax = 12;
+  function Y(hk){ return B - (hk - h0)/(h1 - h0)*(B - Tp); }
+  function X(d){ return L + Math.min(d, dMax)/dMax*(R - L); }
+  [40,45,50,55,60,65].forEach(function(k){ ns('line', {x1:L, y1:Y(k), x2:R, y2:Y(k), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(k) + 3, k, 'svg-small', 'end'); });
+  [0,3,6,9,12].forEach(function(d){ txt(svg, X(d), B + 14, d + T(' m',' м'), 'svg-small', 'middle'); });
+  txt(svg, L, 13, T('altitude, km','высота, км'), 'svg-small'); txt(svg, R, B + 28, T('balloon diameter','диаметр аэростата'), 'svg-small', 'end');
+  var d = '';
+  for(var k = h0; k <= h1; k += 0.25){ d += (k === h0 ? 'M' : 'L') + X(balloon(k, m).D).toFixed(1) + ' ' + Y(k).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('line', {x1:L, y1:Y(54), x2:R, y2:Y(54), stroke:'#2f5aa1', 'stroke-dasharray':'3 3'}, svg);
+  txt(svg, R - 2, Y(54) - 4, T('Vega float ~54 km [6]','дрейф «Веги» ~54 км [6]'), 'svg-small', 'end');
+  ns('circle', {cx:X(b.D), cy:Y(h), r:5, fill:'#b5452a'}, svg);
+  // balloon drawn to scale on the right (4 m = 100 px)
+  var sc = 100/4, cx = 390, cy = 120, r = Math.min(110, b.D/2*sc);
+  ns('circle', {cx:cx, cy:cy, r:r, fill:'#f6f1e2', stroke:'#0b0b0c'}, svg);
+  ns('line', {x1:cx, y1:cy + r, x2:cx, y2:cy + r + 40, stroke:'#0b0b0c'}, svg);
+  ns('rect', {x:cx - 6, y:cy + r + 40, width:12, height:18, fill:'#0b0b0c'}, svg);
+  ns('line', {x1:cx - 50, y1:290, x2:cx + 50, y2:290, stroke:'#0b0b0c'}, svg);
+  txt(svg, cx, 305, T('4 m scale bar','шкала 4 м'), 'svg-small', 'middle');
+  cells(document.getElementById('balloonReadout'), [
+    [T('AIR (CO₂) DENSITY','ПЛОТНОСТЬ CO₂'), fmt(b.rhoA, 3) + T(' kg/m³',' кг/м³')],
+    [T('HELIUM DENSITY','ПЛОТНОСТЬ ГЕЛИЯ'), fmt(b.rhoH, 3) + T(' kg/m³',' кг/м³')],
+    [T('VOLUME NEEDED','НУЖНЫЙ ОБЪЁМ'), fmt(b.V, 1) + T(' m³',' м³')],
+    [T('DIAMETER','ДИАМЕТР'), fmt(b.D, 2) + T(' m',' м')],
+    [T('CONDITIONS','УСЛОВИЯ'), fmtInt(A[0] - 273.15) + ' °C · ' + fmt(A[1], 2) + T(' bar',' бар'), 1]
+  ]);
+  document.getElementById('balloonStatus').innerHTML = T('At 54 km the cloud layer is close to Earth-like: about half a bar and around room temperature, which is why balloons — and some ideas for future crewed Venus stations — aim for this height.','На 54 км облачный слой близок к земным условиям: около половины бара и примерно комнатная температура — поэтому туда нацеливают и аэростаты, и некоторые идеи будущих обитаемых станций у Венеры.');
+}
+[bAlt, bM].forEach(function(el){ el.addEventListener('input', renderBalloon); });
+
+/* ============ CH9 — TIMELINE ============ */
+var TIMELINE = [
+  ['1961', 'Venera 1, the first spacecraft sent to Venus, loses contact on the way.', '«Венера-1», первый аппарат к Венере, теряет связь в пути.'],
+  ['1967', '<b>18 October:</b> Venera 4 returns the first data from inside another planet\'s atmosphere; it falls silent at about 28 km.', '<b>18 октября:</b> «Венера-4» передаёт первые данные изнутри атмосферы другой планеты; замолкает на высоте около 28 км.'],
+  ['1970', '<b>15 December:</b> Venera 7 makes the first landing on another planet and transmits for 23 minutes.', '<b>15 декабря:</b> «Венера-7» совершает первую посадку на другую планету и передаёт 23 минуты.'],
+  ['1972', '<b>22 July:</b> Venera 8, the first landing on the day side; 50 minutes.', '<b>22 июля:</b> «Венера-8» — первая посадка на дневной стороне; 50 минут.'],
+  ['1975', '<b>22 and 25 October:</b> Venera 9 and 10 return the first pictures from the surface of another planet.', '<b>22 и 25 октября:</b> «Венера-9» и «Венера-10» передают первые снимки с поверхности другой планеты.'],
+  ['1978', 'Venera 11 and 12 land; Venera 12 transmits for a record 110 minutes.', 'Посадка «Венеры-11» и «Венеры-12»; «Венера-12» передаёт рекордные 110 минут.'],
+  ['1982', '<b>1 March:</b> Venera 13 — first colour pictures and soil analysis, 127 minutes. <b>5 March:</b> Venera 14.', '<b>1 марта:</b> «Венера-13» — первые цветные снимки и анализ грунта, 127 минут. <b>5 марта:</b> «Венера-14».'],
+  ['1983', 'Venera 15 and 16 map the northern hemisphere by radar from orbit.', '«Венера-15» и «Венера-16» картографируют северное полушарие радаром с орбиты.'],
+  ['1985', '<b>June:</b> Vega 1 and 2 drop landers and the first balloons on another planet.', '<b>Июнь:</b> «Вега-1» и «Вега-2» сбрасывают посадочные аппараты и первые аэростаты на другой планете.'],
+  ['1986', '<b>March:</b> both Vegas fly past Halley\'s Comet.', '<b>Март:</b> обе «Веги» пролетают мимо кометы Галлея.']
+];
+
+/* ============ CH10 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA, Venus Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html', note:{en:'Surface pressure 92 bar, density ~65 kg/m³, average temperature 737 K (464 °C), 96.5% CO₂, sidereal rotation −5,832.6 h.', ru:'Давление у поверхности 92 бара, плотность ~65 кг/м³, средняя температура 737 К (464 °C), 96,5% CO₂, сидерический период вращения −5832,6 ч.'}},
+  {title:'A. Seiff et al. (1985), “Models of the structure of the atmosphere of Venus from the surface to 100 kilometers altitude”, Advances in Space Research 5(11) — the Venus International Reference Atmosphere (VIRA)', url:'https://doi.org/10.1016/0273-1177(85)90197-8', note:{en:'The reference temperature and pressure profiles used in Chapters 2 and 8.', ru:'Опорные профили температуры и давления для глав 2 и 8.'}},
+  {title:'W. Bains et al. (2020), “Phosphine on Venus Cannot be Explained by Conventional Processes”, supplementary tables (arXiv:2009.06499)', url:'https://arxiv.org/abs/2009.06499', note:{en:'Tabulates the VIRA profile every 5 km from 0 to 70 km (0 km: 735 K, 92.10 bar … 70 km: 230 K, 0.04 bar); the values used on this page.', ru:'Таблица профиля VIRA через каждые 5 км от 0 до 70 км (0 км: 735 К, 92,10 бара … 70 км: 230 К, 0,04 бара); значения, использованные на этой странице.'}},
+  {title:'A. A. Siddiqi (2018), Beyond Earth: A Chronicle of Deep Space Exploration, 1958–2016, NASA SP-2018-4041', url:'https://www.nasa.gov/wp-content/uploads/2018/09/beyond-earth-tagged.pdf', note:{en:'Mission-by-mission source for every Venera and Vega: entry speeds, loads, descent sequences, landing speeds, surface temperatures and pressures, survival times and design lives.', ru:'Источник по каждой «Венере» и «Веге»: скорости входа, перегрузки, схемы спуска, посадочные скорости, температуры и давления на поверхности, время работы и расчётный ресурс.'}},
+  {title:'V. I. Weingarten & P. Seide (1969), Buckling of Thin-Walled Doubly Curved Shells, NASA SP-8032', url:'https://everyspec.com/NASA/NASA-SP-PUBS/NASA_SP-8032_46171/', note:{en:'NASA design criteria for spheres and other shells under external pressure, including knockdown factors for real imperfect shells.', ru:'Критерии NASA для сфер и других оболочек под внешним давлением, включая понижающие коэффициенты для реальных несовершенных оболочек.'}},
+  {title:'R. Z. Sagdeev et al. (1986), “The VEGA Venus Balloon Experiment”, Science 231(4744)', url:'https://doi.org/10.1126/science.231.4744.1407', note:{en:'Two balloons, float altitude near 54 km, about 30% of the way around Venus, tracked by 20 radio antennas (VLBI).', ru:'Два аэростата, высота дрейфа около 54 км, около 30% пути вокруг Венеры, сопровождение 20 радиоантеннами (РСДБ).'}},
+  {title:'R. Z. Sagdeev et al. (1986), “Overview of VEGA Venus Balloon in Situ Meteorological Measurements”, Science 231(4744)', url:'https://doi.org/10.1126/science.231.4744.1411', note:{en:'Vertical winds: downdrafts up to 3.5 m/s forcing the balloons up to 2.5 km below their float altitude.', ru:'Вертикальные ветры: нисходящие потоки до 3,5 м/с опускали аэростаты до 2,5 км ниже равновесной высоты.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderDesc(); setDropBtn();
+  renderMats(); renderVessel();
+  renderLife();
+  renderBalloon();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__furnace = {atm:atm, rhoGas:rhoGas, vTerm:vTerm, fallTime:fallTime, vessel:vessel, MATS:MATS, balloon:balloon, M_CO2:M_CO2};
+
+})();
+</script>
+</body>
+</html>

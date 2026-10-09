@@ -36,7 +36,8 @@
         { "slug": "voyager-and-pioner", "codename": "DEPARTURE", "label": { "en": "Voyager & Pioneer", "ru": "«Вояджер» и «Пионер»" } },
         { "slug": "frontier-new-horizons", "codename": "FRONTIER", "label": { "en": "New Horizons & the Kuiper Belt", "ru": "«Новые горизонты» и пояс Койпера" } },
         { "slug": "umbrella-galileo-jupiter", "codename": "UMBRELLA", "label": { "en": "Galileo at Jupiter", "ru": "«Галилео» у Юпитера" } },
-        { "slug": "finale-cassini-huygens", "codename": "FINALE", "label": { "en": "Cassini-Huygens at Saturn", "ru": "«Кассини-Гюйгенс» у Сатурна" } }
+        { "slug": "finale-cassini-huygens", "codename": "FINALE", "label": { "en": "Cassini-Huygens at Saturn", "ru": "«Кассини-Гюйгенс» у Сатурна" } },
+        { "slug": "furnace-venera-vega", "codename": "FURNACE", "label": { "en": "Venera & Vega", "ru": "«Венера» и «Вега»" } }
       ]
     },
     {
