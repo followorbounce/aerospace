@@ -41,6 +41,13 @@
       ]
     },
     {
+      "id": "sun",
+      "title": { "en": "The Sun & Small Bodies", "ru": "Солнце и малые тела" },
+      "pages": [
+        { "slug": "corona-parker-solar-orbiter", "codename": "CORONA", "label": { "en": "Parker Solar Probe & Solar Orbiter", "ru": "Parker Solar Probe и Solar Orbiter" } }
+      ]
+    },
+    {
       "id": "moon",
       "title": { "en": "Moon Exploration", "ru": "Исследование Луны" },
       "pages": [

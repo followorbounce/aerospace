@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CORONA — PARKER SOLAR PROBE &amp;amp; SOLAR ORBITER / КОРОНА — PARKER SOLAR PROBE И SOLAR ORBITER</title>
+<meta name="description" content="An interactive field guide to flying to the Sun: why it takes more energy to reach the Sun than to leave the Solar System, Helios's 1970s records, Parker Solar Probe's heat shield and its record 6.16 million km pass at 192 km/s, the first flight through the corona in 2021, and Solar Orbiter's first views of the Sun's poles.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/corona-parker-solar-orbiter">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CORONA — PARKER SOLAR PROBE &amp;amp; SOLAR ORBITER / КОРОНА — PARKER SOLAR PROBE И SOLAR ORBITER">
+<meta property="og:description" content="The Δv to fall into the Sun, the temperature of a sunlit shield, and the speed of the fastest object ever built — Parker Solar Probe and Solar Orbiter, interactive and sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/corona-parker-solar-orbiter">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">CORONA — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE SUN</span></div>
+  <div class="hud-row"><span class="hud-label">DISTANCE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">SPEED</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE SUN">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 24 DECEMBER 2024, 11:53 UTC" data-ru="РИС. 00 — 24 ДЕКАБРЯ 2024, 11:53 UTC">FIG. 00 — 24 DECEMBER 2024, 11:53 UTC</span></span>
+        <span>9.86 R☉ · 192 km/s</span>
+      </div>
+      <h1><span data-en="CORONA" data-ru="КОРОНА">CORONA</span><br><em data-en="PARKER SOLAR PROBE AND SOLAR ORBITER" data-ru="PARKER SOLAR PROBE И SOLAR ORBITER">PARKER SOLAR PROBE AND SOLAR ORBITER</em></h1>
+      <p class="sub lede" data-en="The Sun holds 99.8% of the Solar System's mass, and yet it is the hardest place in it to reach. On Christmas Eve 2024 a spacecraft the size of a small car passed 6.16 million km above its surface at 192 km/s, behind a shield 11 cm thick, and stayed at room temperature inside. Eight chapters and three instruments: work out why falling into the Sun costs more than leaving the Solar System, heat a shield in sunlight 475 times stronger than on Earth, and fly the fastest orbit ever achieved." data-ru="В Солнце сосредоточено 99,8% массы Солнечной системы — и всё же это самое труднодостижимое место в ней. В сочельник 2024 года аппарат размером с небольшой автомобиль прошёл в 6,16 млн км над его поверхностью со скоростью 192 км/с за щитом толщиной 11 см — и внутри оставался при комнатной температуре. Восемь глав и три прибора: выясните, почему упасть на Солнце дороже, чем покинуть Солнечную систему, нагрейте щит в солнечном свете в 475 раз сильнее земного и пролетите самую быструю орбиту из когда-либо достигнутых.">The Sun is the hardest place in the Solar System to reach.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY IT IS HARD -->
+<section id="ch1" class="section" data-phase="Δv">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 08</span> — <span data-en="THE COSTLIEST DESTINATION" data-ru="САМАЯ ДОРОГАЯ ЦЕЛЬ">THE COSTLIEST DESTINATION</span></div>
+    <h2 class="h-lg" data-en="To fall into the Sun, you first have to stop" data-ru="Чтобы упасть на Солнце, сначала нужно остановиться">To fall into the Sun, you first have to stop</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Everything launched from Earth starts out moving with the Earth, at <b>29.78 km/s</b> around the Sun [2]. That sideways speed is what keeps the Earth from falling in. To dive toward the Sun, a spacecraft must cancel most of it. To escape the Solar System, by contrast, it only has to add about 12.3 km/s. So reaching the Sun's surface directly would take more than twice the effort of leaving the Sun behind." data-ru="Всё, что запускают с Земли, изначально движется вместе с Землёй — 29,78 км/с вокруг Солнца [2]. Именно эта боковая скорость не даёт Земле упасть. Чтобы нырнуть к Солнцу, аппарат должен погасить большую её часть. А чтобы покинуть Солнечную систему, достаточно добавить около 12,3 км/с. Поэтому прямой полёт к поверхности Солнца потребовал бы вдвое больше усилий, чем уход от Солнца.">Reaching the Sun means cancelling the Earth's 29.78 km/s.</p>
+      <p class="body-col" data-en="Use the calculator: choose how close to the Sun the spacecraft should get, and it computes the speed change needed at Earth's distance to drop the orbit's low point there. Parker Solar Probe's final orbit dips to 9.86 solar radii. Even the largest rocket could not do that alone, so Parker used <b>Venus</b> instead: seven flybys, each one slowing it relative to the Sun and lowering its perihelion a step further [4][5]." data-ru="Воспользуйтесь калькулятором: выберите, насколько близко к Солнцу должен подойти аппарат, и он посчитает, какое изменение скорости нужно на расстоянии Земли, чтобы опустить туда нижнюю точку орбиты. Последняя орбита Parker Solar Probe опускается до 9,86 солнечного радиуса. Даже крупнейшая ракета не смогла бы сделать это сама, поэтому Parker использовал <b>Венеру</b>: семь пролётов, каждый из которых тормозил его относительно Солнца и опускал перигелий ещё на ступень [4][5].">Parker used seven Venus flybys.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="LOWERING THE PERIHELION FROM 1 AU" data-ru="ОПУСКАНИЕ ПЕРИГЕЛИЯ С РАССТОЯНИЯ 1 а.е.">LOWERING THE PERIHELION FROM 1 AU</div>
+      <div class="eq-body">v<sub>⊕</sub> = √(μ<sub>☉</sub>/r<sub>⊕</sub>) &nbsp;·&nbsp; v<sub>aphelion</sub> = √(μ<sub>☉</sub> · 2r<sub>p</sub> / (r<sub>⊕</sub>(r<sub>⊕</sub> + r<sub>p</sub>))) &nbsp;·&nbsp; Δv = v<sub>⊕</sub> − v<sub>aphelion</sub></div>
+      <div class="eq-note" data-en="μ☉ = 132,712 × 10⁶ km³/s², R☉ = 695,700 km [1]. Heliocentric speeds; the extra cost of climbing out of Earth's own gravity is not included." data-ru="μ☉ = 132 712 × 10⁶ км³/с², R☉ = 695 700 км [1]. Гелиоцентрические скорости; дополнительная цена выхода из поля тяготения самой Земли не учтена.">Heliocentric speeds.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="dvSvg" class="sim-svg" viewBox="0 0 480 330" role="img" aria-label="Speed change needed for different destinations from Earth's orbit"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="dvR" data-en="TARGET PERIHELION" data-ru="ЦЕЛЕВОЙ ПЕРИГЕЛИЙ">TARGET PERIHELION</label><span class="v" id="dvRVal">—</span></div>
+          <input id="dvR" type="range" min="0" max="1" step="0.001" value="0.25">
+        </div>
+        <div class="readout-grid" id="dvReadout"></div>
+        <div class="status" id="dvStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — HELIOS -->
+<section id="ch2" class="section" data-phase="HELIOS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 08</span> — <span data-en="THE RECORD THAT LASTED 42 YEARS" data-ru="РЕКОРД, ПРОДЕРЖАВШИЙСЯ 42 ГОДА">THE RECORD THAT LASTED 42 YEARS</span></div>
+    <h2 class="h-lg" data-en="Helios: a third of the way to the Sun" data-ru="«Гелиос»: треть пути до Солнца">Helios: a third of the way to the Sun</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The twin <b>Helios</b> probes, built by West Germany and launched by NASA, were the first to go deep inside Mercury's orbit. On 15 March 1975 Helios 1 passed within 46 million km of the Sun at 238,000 km/h; on 17 April 1976 Helios 2 reached <b>0.29 AU</b>, 43.4 million km, and took about 10% more heat than its twin [3]. They measured the solar wind, magnetic fields, cosmic rays and dust, and watched comets." data-ru="Близнецы <b>«Гелиос»</b>, построенные ФРГ и запущенные NASA, первыми забрались глубоко внутрь орбиты Меркурия. 15 марта 1975 года «Гелиос-1» прошёл в 46 млн км от Солнца со скоростью 238 000 км/ч; 17 апреля 1976 года «Гелиос-2» достиг <b>0,29 а.е.</b>, 43,4 млн км, и получил примерно на 10% больше тепла, чем близнец [3]. Они измеряли солнечный ветер, магнитные поля, космические лучи и пыль и наблюдали кометы.">Helios 2 reached 0.29 AU in 1976.</p>
+      <p class="body-col" data-en="That record stood until Parker Solar Probe broke it in 2018, on its first pass. Helios stayed out where sunlight is about 12 times stronger than at Earth, and survived by spinning and by covering its sides with mirrors. Going seven times closer, where sunlight is hundreds of times stronger, needed something new: a single shield that faces the Sun at all times, with everything else hiding in its shadow." data-ru="Этот рекорд продержался, пока Parker Solar Probe не побил его в 2018 году на первом же витке. «Гелиосы» держались там, где солнечный свет примерно в 12 раз сильнее, чем у Земли, и выживали благодаря вращению и зеркальным бокам. Чтобы подойти в семь раз ближе, где свет в сотни раз сильнее, понадобилось новое решение: единый щит, всегда обращённый к Солнцу, и всё остальное — в его тени.">Going closer needed a single sunward shield.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — PARKER -->
+<section id="ch3" class="section" data-phase="PARKER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 08</span> — <span data-en="PARKER SOLAR PROBE" data-ru="PARKER SOLAR PROBE">PARKER SOLAR PROBE</span></div>
+    <h2 class="h-lg" data-en="685 kilograms, the biggest rocket, and Venus seven times" data-ru="685 килограммов, самая большая ракета и семь встреч с Венерой">685 kilograms, the biggest rocket, and Venus seven times</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Named after Eugene Parker, who predicted the solar wind in 1958, the probe launched on 12 August 2018 on a Delta IV Heavy with an extra upper stage, one of the most powerful rockets then flying, to send a spacecraft of only <b>685 kg</b> [4]. The plan: 24 orbits of the Sun over seven years, each lowered by Venus flybys, ending with perihelia under 10 solar radii from December 2024 [4][5]." data-ru="Аппарат назван в честь Юджина Паркера, предсказавшего солнечный ветер в 1958 году; он стартовал 12 августа 2018 года на «Дельте IV Хэви» с дополнительной верхней ступенью — одной из самых мощных ракет того времени, — чтобы отправить аппарат массой всего <b>685 кг</b> [4]. План: 24 витка вокруг Солнца за семь лет, каждый всё ниже благодаря пролётам Венеры, с перигелиями менее 10 солнечных радиусов начиная с декабря 2024 года [4][5].">Parker launched in 2018: 685 kg, 24 orbits in seven years.</p>
+      <p class="body-col" data-en="The first perihelion, in November 2018, was at about 35 solar radii — already closer than Helios [5]. On 28 April 2021, at 18.8 solar radii, its instruments showed that it had crossed the <b>Alfvén critical surface</b>, the boundary where the Sun's magnetic field stops holding on to its plasma: the outer edge of the solar atmosphere. For the first time, a spacecraft had flown through the corona [6]." data-ru="Первый перигелий, в ноябре 2018 года, был примерно на 35 солнечных радиусах — уже ближе «Гелиосов» [5]. 28 апреля 2021 года, на 18,8 солнечного радиуса, приборы показали, что аппарат пересёк <b>альвеновскую критическую поверхность</b> — границу, где магнитное поле Солнца перестаёт удерживать плазму: внешний край солнечной атмосферы. Впервые космический аппарат пролетел сквозь корону [6].">On 28 April 2021 Parker flew through the corona.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — SHIELD -->
+<section id="ch4" class="section" data-phase="HEAT SHIELD">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 08</span> — <span data-en="THE THERMAL PROTECTION SYSTEM" data-ru="СИСТЕМА ТЕПЛОВОЙ ЗАЩИТЫ">THE THERMAL PROTECTION SYSTEM</span></div>
+    <h2 class="h-lg" data-en="1,400 °C on the front, room temperature behind" data-ru="1400 °C спереди, комнатная температура позади">1,400 °C on the front, room temperature behind</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Parker's shield is a sandwich <b>11.43 cm thick</b>: carbon-composite skins around carbon foam, with a white ceramic coating on the Sun-facing side. It is designed to withstand nearly <b>1,377 °C</b> [4]. Behind it the instruments stay near room temperature; the spacecraft constantly keeps the shield between itself and the Sun, and a few sensors and the solar panels' cooling system are all that peek out." data-ru="Щит Parker — это «бутерброд» толщиной <b>11,43 см</b>: обшивки из углерод-углеродного композита вокруг углеродной пены, с белым керамическим покрытием на стороне, обращённой к Солнцу. Он рассчитан почти на <b>1377 °C</b> [4]. За ним приборы остаются при комнатной температуре; аппарат постоянно держит щит между собой и Солнцем, и наружу выглядывают лишь несколько датчиков и система охлаждения солнечных батарей.">The shield is 11.43 cm thick and rated to about 1,377 °C.</p>
+      <p class="body-col" data-en="How hot does a surface in sunlight get? It settles where it radiates away as much heat as it absorbs. Sunlight at Earth delivers 1,361 W per square metre [2]; that grows as one over the distance squared, so at 9.86 solar radii it is about 475 times stronger. The answer also depends on the surface: the ratio of how much sunlight it <b>absorbs</b> (α) to how well it <b>emits</b> heat (ε). A white coating keeps α low; carbon keeps ε high. Try it below." data-ru="Насколько нагревается поверхность на солнце? Она приходит к температуре, при которой излучает столько тепла, сколько поглощает. Солнечный свет у Земли даёт 1361 Вт на квадратный метр [2]; он растёт обратно квадрату расстояния, так что на 9,86 солнечного радиуса он примерно в 475 раз сильнее. Ответ зависит и от поверхности: от отношения того, сколько света она <b>поглощает</b> (α), к тому, насколько хорошо она <b>излучает</b> тепло (ε). Белое покрытие держит α низким, углерод — ε высоким. Попробуйте ниже.">The temperature depends on distance and on α/ε.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="EQUILIBRIUM TEMPERATURE OF A SUNLIT PLATE" data-ru="РАВНОВЕСНАЯ ТЕМПЕРАТУРА ОСВЕЩЁННОЙ ПЛАСТИНЫ">EQUILIBRIUM TEMPERATURE OF A SUNLIT PLATE</div>
+      <div class="eq-body">S(r) = S<sub>⊕</sub> (1 AU / r)² &nbsp;·&nbsp; α S = ε σ T⁴ &nbsp;⇒&nbsp; T = (α S / ε σ)<sup>1/4</sup></div>
+      <div class="eq-note" data-en="Flat plate facing the Sun, radiating only from its front face (well insulated behind); σ = 5.670 × 10⁻⁸ W/(m²·K⁴). The Sun's finite size is ignored, which slightly overestimates the flux very close in." data-ru="Плоская пластина, обращённая к Солнцу и излучающая только лицевой стороной (хорошо изолирована сзади); σ = 5,670 × 10⁻⁸ Вт/(м²·К⁴). Конечный размер Солнца не учитывается, что вблизи немного завышает поток.">Flat plate facing the Sun.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="heatSvg" class="sim-svg" viewBox="0 0 480 330" role="img" aria-label="Shield temperature against distance from the Sun"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="hR" data-en="DISTANCE FROM THE SUN'S CENTRE" data-ru="РАССТОЯНИЕ ОТ ЦЕНТРА СОЛНЦА">DISTANCE FROM THE SUN'S CENTRE</label><span class="v" id="hRVal">—</span></div>
+          <input id="hR" type="range" min="0" max="1" step="0.001" value="0.05">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="hAE" data-en="ABSORB / EMIT RATIO α/ε" data-ru="ОТНОШЕНИЕ ПОГЛОЩЕНИЯ К ИЗЛУЧЕНИЮ α/ε">ABSORB / EMIT RATIO α/ε</label><span class="v" id="hAEVal">—</span></div>
+          <input id="hAE" type="range" min="0.1" max="1.5" step="0.01" value="0.6">
+        </div>
+        <div class="readout-grid" id="heatReadout"></div>
+        <div class="status" id="heatStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — FASTEST -->
+<section id="ch5" class="section" data-phase="RECORD">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 08</span> — <span data-en="THE FASTEST THING EVER BUILT" data-ru="САМЫЙ БЫСТРЫЙ РУКОТВОРНЫЙ ОБЪЕКТ">THE FASTEST THING EVER BUILT</span></div>
+    <h2 class="h-lg" data-en="Christmas Eve 2024: 6.16 million km, 192 km/s" data-ru="Сочельник 2024 года: 6,16 млн км, 192 км/с">Christmas Eve 2024: 6.16 million km, 192 km/s</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The last Venus flyby, on 6 November 2024, set up the final orbits [7]. On 24 December 2024 at 11:53 UTC Parker passed <b>6,167,590 km</b> above the Sun's surface at <b>192.22 km/s</b> relative to the Sun, about 692,000 km/h — the closest approach to the Sun and the highest speed of any human-made object [8]." data-ru="Последний пролёт Венеры, 6 ноября 2024 года, задал финальные орбиты [7]. 24 декабря 2024 года в 11:53 UTC Parker прошёл в <b>6 167 590 км</b> над поверхностью Солнца со скоростью <b>192,22 км/с</b> относительно Солнца, около 692 000 км/ч, — самое близкое сближение с Солнцем и самая высокая скорость из всех рукотворных объектов [8].">On 24 December 2024 Parker passed 6.17 million km from the surface at 192 km/s.</p>
+      <p class="body-col" data-en="Why so fast? Kepler's second law: an orbit sweeps out equal areas in equal times, so the closer the perihelion, the faster the spacecraft must move there. The final orbit stretches from 9.86 solar radii out to around Venus's distance, where every earlier orbit had to return for its next flyby. Set the two ends below and the vis-viva equation gives the speed, and Kepler's third law the period." data-ru="Почему так быстро? Второй закон Кеплера: орбита за равные времена заметает равные площади, поэтому чем ближе перигелий, тем быстрее там движется аппарат. Последняя орбита простирается от 9,86 солнечного радиуса примерно до расстояния Венеры, куда каждая прежняя орбита должна была возвращаться для очередного пролёта. Задайте оба конца ниже — уравнение «вис-вива» даст скорость, а третий закон Кеплера — период.">Kepler's laws explain the speed.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="orbSvg" class="sim-svg" viewBox="0 0 480 360" role="img" aria-label="A solar orbit with the chosen perihelion and aphelion, and the spacecraft moving along it"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="size-pick" id="orbPresets" role="group" aria-label="Orbit presets"></div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="oP" data-en="PERIHELION" data-ru="ПЕРИГЕЛИЙ">PERIHELION</label><span class="v" id="oPVal">—</span></div>
+          <input id="oP" type="range" min="0" max="1" step="0.001" value="0">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="oA" data-en="APHELION" data-ru="АФЕЛИЙ">APHELION</label><span class="v" id="oAVal">—</span></div>
+          <input id="oA" type="range" min="0.3" max="1.1" step="0.001" value="0.728">
+        </div>
+        <div class="readout-grid" id="orbReadout"></div>
+        <div class="status" id="orbStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — SOLAR ORBITER -->
+<section id="ch6" class="section" data-phase="SOLAR ORBITER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 08</span> — <span data-en="LOOKING DOWN ON THE POLES" data-ru="ВЗГЛЯД НА ПОЛЮСА СВЕРХУ">LOOKING DOWN ON THE POLES</span></div>
+    <h2 class="h-lg" data-en="Solar Orbiter: not the closest, but the first to see the poles" data-ru="Solar Orbiter: не самый близкий, но первым увидел полюса">Solar Orbiter: not the closest, but the first to see the poles</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="ESA's <b>Solar Orbiter</b>, with NASA as partner, launched in February 2020 on an Atlas V. At 1,800 kg it carries ten instruments, including telescopes that look straight at the Sun through small doors in its heat shield, something Parker, which only samples the space around it, does not do [9][10]. Its distance from the Sun swings from inside Mercury's orbit to nearly Earth's, with a close approach every six months [9]." data-ru="<b>Solar Orbiter</b> ЕКА при участии NASA стартовал в феврале 2020 года на «Атласе V». При массе 1800 кг он несёт десять приборов, включая телескопы, смотрящие прямо на Солнце через небольшие дверцы в теплозащитном щите, — то, чего не делает Parker, который лишь измеряет пространство вокруг себя [9][10]. Его расстояние от Солнца меняется от области внутри орбиты Меркурия почти до земной, со сближением каждые полгода [9].">Solar Orbiter has telescopes looking at the Sun through its shield.</p>
+      <p class="body-col" data-en="Its real novelty is height. Every earlier view of the Sun came from close to the plane of the planets, where the poles are seen edge-on. Venus flybys tilt Solar Orbiter's orbit: in March 2025 it reached <b>17°</b> below the solar equator and took the first-ever images of the Sun's <b>south pole</b>, released in June 2025, showing a tangled magnetic field near solar maximum [11]. A flyby on 24 December 2026 will raise the tilt to 24°, and from June 2029 it will orbit at 33° [11]." data-ru="Его настоящая новизна — высота. Все прежние виды Солнца получены вблизи плоскости планет, откуда полюса видны с ребра. Пролёты Венеры наклоняют орбиту Solar Orbiter: в марте 2025 года он поднялся на <b>17°</b> ниже солнечного экватора и сделал первые в истории снимки <b>южного полюса</b> Солнца, опубликованные в июне 2025 года, — с запутанным магнитным полем вблизи солнечного максимума [11]. Пролёт 24 декабря 2026 года увеличит наклон до 24°, а с июня 2029 года он будет обращаться под углом 33° [11].">Solar Orbiter saw the Sun's south pole in 2025.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — LEGACY -->
+<section id="ch7" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 08</span> — <span data-en="LEGACY: FIFTY YEARS OF GETTING CLOSER" data-ru="НАСЛЕДИЕ: ПОЛВЕКА ПРИБЛИЖЕНИЯ">LEGACY: FIFTY YEARS OF GETTING CLOSER</span></div>
+    <h2 class="h-lg" data-en="From Helios to the corona" data-ru="От «Гелиоса» — к короне">From Helios to the corona</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="To touch the Sun, you have to bring your own shadow and never let go of it." data-ru="Чтобы прикоснуться к Солнцу, нужно принести с собой собственную тень — и ни на миг её не отпускать.">Bring your own shadow.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — REFERENCES -->
+<section id="ch8" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 08</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS [1][2] ============ */
+var MU_S = 132712e6, AU = 149597870.7, R_S = 695700, S_EARTH = 1361, SIGMA = 5.670374e-8, V_EARTH = 29.78;
+/* log slider helpers */
+function logMap(v, a, b){ return a*Math.pow(b/a, v); }
+function logInv(x, a, b){ return Math.log(x/a)/Math.log(b/a); }
+
+/* ============ CH1 — Δv TO LOWER PERIHELION ============ */
+function dvPerihelion(rpKm){
+  var rE = AU, vE = Math.sqrt(MU_S/rE), vAp = Math.sqrt(MU_S*2*rpKm/(rE*(rE + rpKm)));
+  return {vE:vE, vAp:vAp, dv:vE - vAp};
+}
+var V_ESC_1AU = Math.sqrt(2*MU_S/AU), DV_ESCAPE = V_ESC_1AU - Math.sqrt(MU_S/AU);
+var dvR = document.getElementById('dvR');
+function rpFromSlider(){ return logMap(+dvR.value, 1.0, 215); }      // in solar radii (centre distance), 1 … 215 (≈1 AU)
+function renderDv(){
+  var rRs = rpFromSlider(), D = dvPerihelion(rRs*R_S);
+  document.getElementById('dvRVal').textContent = fmt(rRs, rRs < 10 ? 2 : 1) + T(' R☉',' R☉') + ' · ' + fmt(rRs*R_S/AU, 3) + T(' AU',' а.е.');
+  var bars = [
+    [T('Hohmann to Mars (departure)','Гоман к Марсу (старт)'), dvPerihelionOut(1.524*AU)],
+    [T('Escape the Solar System','Покинуть Солнечную систему'), DV_ESCAPE],
+    [T('Mercury\'s distance','Расстояние Меркурия'), dvPerihelion(0.387*AU).dv],
+    [T('Parker 2024 (9.86 R☉)','Parker 2024 (9,86 R☉)'), dvPerihelion(9.86*R_S).dv],
+    [T('Your target','Ваша цель'), D.dv]
+  ];
+  var svg = document.getElementById('dvSvg'); svg.innerHTML = '';
+  var L = 210, R = 460, Tp = 24, rowH = 52, vMax = 32;
+  function X(v){ return L + v/vMax*(R - L); }
+  [0,10,20,30].forEach(function(v){ ns('line', {x1:X(v), y1:Tp - 6, x2:X(v), y2:Tp + rowH*bars.length, stroke:'#e4e4de'}, svg); txt(svg, X(v), Tp + rowH*bars.length + 14, v + T(' km/s',' км/с'), 'svg-small', 'middle'); });
+  bars.forEach(function(b, i){
+    var y = Tp + i*rowH, last = i === bars.length - 1;
+    txt(svg, L - 10, y + 18, b[0], 'svg-label', 'end');
+    ns('rect', {x:L, y:y + 6, width:Math.max(1, X(b[1]) - L), height:18, fill: last ? '#b5452a' : '#0b0b0c'}, svg);
+    txt(svg, X(b[1]) + 6, y + 19, fmt(b[1], 1), 'svg-small');
+  });
+  ns('line', {x1:X(V_EARTH), y1:Tp - 6, x2:X(V_EARTH), y2:Tp + rowH*bars.length, stroke:'#2f5aa1', 'stroke-dasharray':'3 3'}, svg);
+  txt(svg, X(V_EARTH) - 4, Tp - 10, T('Earth\'s 29.78 km/s','29,78 км/с Земли'), 'svg-small', 'end');
+  cells(document.getElementById('dvReadout'), [
+    [T('EARTH\'S ORBITAL SPEED','ОРБИТАЛЬНАЯ СКОРОСТЬ ЗЕМЛИ'), fmt(D.vE, 2) + T(' km/s',' км/с')],
+    [T('SPEED LEFT AT 1 AU','ОСТАВШАЯСЯ СКОРОСТЬ НА 1 а.е.'), fmt(D.vAp, 2) + T(' km/s',' км/с')],
+    [T('Δv NEEDED','НУЖНОЕ Δv'), fmt(D.dv, 2) + T(' km/s',' км/с')],
+    [T('VERSUS ESCAPING','ОТНОСИТЕЛЬНО УХОДА ИЗ СИСТЕМЫ'), '×' + fmt(D.dv/DV_ESCAPE, 2)]
+  ]);
+  document.getElementById('dvStatus').innerHTML = D.dv > DV_ESCAPE
+    ? T('Diving this close costs <b>more</b> than leaving the Solar System altogether.','Нырнуть так близко стоит <b>дороже</b>, чем вовсе покинуть Солнечную систему.')
+    : T('Still cheaper than escaping the Solar System — the Sun\'s gravity does most of the work once the orbit is lowered.','Пока дешевле, чем уйти из Солнечной системы: стоит опустить орбиту — и основную работу делает тяготение Солнца.');
+}
+function dvPerihelionOut(raKm){ var rE = AU, vE = Math.sqrt(MU_S/rE), vP = Math.sqrt(MU_S*2*raKm/(rE*(rE + raKm))); return vP - vE; }
+dvR.addEventListener('input', renderDv);
+
+/* ============ CH4 — HEAT SHIELD ============ */
+var hR = document.getElementById('hR'), hAE = document.getElementById('hAE');
+function shieldT(rKm, ae){ var S = S_EARTH*Math.pow(AU/rKm, 2); return {S:S, T:Math.pow(ae*S/SIGMA, 0.25)}; }
+function renderHeat(){
+  var rRs = logMap(+hR.value, 5, 215), ae = +hAE.value, H = shieldT(rRs*R_S, ae);
+  document.getElementById('hRVal').textContent = fmt(rRs, 1) + T(' R☉',' R☉') + ' · ' + fmt(rRs*R_S/AU, 3) + T(' AU',' а.е.');
+  document.getElementById('hAEVal').textContent = fmt(ae, 2);
+  var svg = document.getElementById('heatSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 20, B = 280, tMax = 2200;
+  function X(rs){ return L + logInv(rs, 5, 215)*(R - L); }
+  function Y(c){ return B - c/tMax*(B - Tp); }
+  [0,500,1000,1500,2000].forEach(function(c){ ns('line', {x1:L, y1:Y(c), x2:R, y2:Y(c), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(c) + 3, c, 'svg-small', 'end'); });
+  [5,10,20,50,100,215].forEach(function(rs){ txt(svg, X(rs), B + 14, rs, 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('distance, solar radii (log)','расстояние, солнечные радиусы (лог.)'), 'svg-small', 'end'); txt(svg, L, 13, T('front-face temperature, °C','температура лицевой стороны, °C'), 'svg-small');
+  ns('line', {x1:L, y1:Y(1377), x2:R, y2:Y(1377), stroke:'#b5452a', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, R - 4, Y(1377) - 5, T('Parker shield rating ~1,377 °C [4]','предел щита Parker ~1377 °C [4]'), 'svg-small', 'end');
+  [[9.86, T('Parker 2024','Parker 2024')], [0.29*AU/R_S, 'Helios 2'], [0.387*AU/R_S, T('Mercury','Меркурий')], [AU/R_S, T('Earth','Земля')]].forEach(function(m){ ns('line', {x1:X(m[0]), y1:Tp, x2:X(m[0]), y2:B, stroke:'#c9c9c1', 'stroke-dasharray':'2 3'}, svg); txt(svg, X(m[0]) + 3, Tp + 10, m[1], 'svg-small'); });
+  var d = '';
+  for(var v = 0; v <= 1.0001; v += 0.01){ var rs = logMap(v, 5, 215); d += (v === 0 ? 'M' : 'L') + X(rs).toFixed(1) + ' ' + Y(shieldT(rs*R_S, ae).T - 273.15).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(rRs), cy:Y(H.T - 273.15), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('heatReadout'), [
+    [T('SUNLIGHT','СОЛНЕЧНЫЙ ПОТОК'), fmtInt(H.S/1000) + T(' kW/m²',' кВт/м²')],
+    [T('TIMES EARTH\'S','РАЗ БОЛЬШЕ ЗЕМНОГО'), '×' + fmtInt(H.S/S_EARTH)],
+    [T('FRONT-FACE TEMPERATURE','ТЕМПЕРАТУРА ЛИЦЕВОЙ СТОРОНЫ'), fmtInt(H.T - 273.15) + ' °C'],
+    [T('IN KELVIN','В КЕЛЬВИНАХ'), fmtInt(H.T) + ' K']
+  ]);
+  hud1.textContent = fmt(rRs, 1) + ' R☉';
+  document.getElementById('heatStatus').innerHTML = H.T - 273.15 > 1377
+    ? T('<b>Above the shield\'s rating.</b> Lower α/ε (a whiter, more emissive surface) or stay farther out.','<b>Выше предела щита.</b> Уменьшите α/ε (более белая и сильнее излучающая поверхность) или держитесь дальше.')
+    : T('Within the rating. At 9.86 R☉ a surface with α/ε ≈ 0.6 settles near 1,350 °C in this model — close to the shield\'s design figure.','В пределах допуска. На 9,86 R☉ поверхность с α/ε ≈ 0,6 в этой модели нагревается примерно до 1350 °C — близко к расчётному значению щита.');
+}
+[hR, hAE].forEach(function(el){ el.addEventListener('input', renderHeat); });
+
+/* ============ CH5 — ORBIT SPEED ============ */
+var ORB_PRESETS = [
+  {k:'psp', en:'PARKER FINAL', ru:'PARKER, ФИНАЛ', rp:9.86, ra:0.728},
+  {k:'psp1', en:'PARKER FIRST (~35 R☉)', ru:'PARKER, ПЕРВЫЙ (~35 R☉)', rp:35.7, ra:1.0},
+  {k:'he2', en:'HELIOS 2', ru:'«ГЕЛИОС-2»', rp:0.29*AU/R_S, ra:0.98},
+  {k:'so', en:'SOLAR ORBITER (~0.28–0.9 AU)', ru:'SOLAR ORBITER (~0,28–0,9 а.е.)', rp:0.28*AU/R_S, ra:0.9}
+];
+var oP = document.getElementById('oP'), oA = document.getElementById('oA'), orbPreset = 'psp', orbM = 0, orbDot = null, orbGeom = null;
+function rpRs(){ return logMap(+oP.value, 9.86, 70); }
+function setRpRs(rs){ oP.value = logInv(Math.min(70, Math.max(9.86, rs)), 9.86, 70); }
+function solarOrbit(rpKm, raKm){
+  var a = (rpKm + raKm)/2, e = (raKm - rpKm)/(raKm + rpKm);
+  return {a:a, e:e, T:2*Math.PI*Math.sqrt(a*a*a/MU_S), vp:Math.sqrt(MU_S*(2/rpKm - 1/a)), va:Math.sqrt(MU_S*(2/raKm - 1/a))};
+}
+function renderOrbPresets(){
+  var w = document.getElementById('orbPresets'); w.innerHTML = '';
+  ORB_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn' + (orbPreset === p.k ? ' active' : ''); b.setAttribute('aria-pressed', orbPreset === p.k ? 'true' : 'false');
+    b.textContent = lang === 'en' ? p.en : p.ru;
+    b.addEventListener('click', function(){ orbPreset = p.k; setRpRs(p.rp); oA.value = p.ra; renderOrbPresets(); renderOrb(); });
+    w.appendChild(b);
+  });
+}
+function renderOrb(){
+  var rp = rpRs()*R_S, ra = Math.max(+oA.value*AU, rp*1.01), O = solarOrbit(rp, ra);
+  document.getElementById('oPVal').textContent = fmt(rp/R_S, 2) + ' R☉';
+  document.getElementById('oAVal').textContent = fmt(ra/AU, 3) + T(' AU',' а.е.');
+  var svg = document.getElementById('orbSvg'); svg.innerHTML = '';
+  var sc = 160/AU, cx = 300, cy = 180;
+  ns('circle', {cx:cx, cy:cy, r:AU*sc, fill:'none', stroke:'#c9c9c1', 'stroke-dasharray':'2 4'}, svg); txt(svg, cx + AU*sc - 4, cy - 4, T('Earth','Земля'), 'svg-small', 'end');
+  ns('circle', {cx:cx, cy:cy, r:0.723*AU*sc, fill:'none', stroke:'#c9c9c1', 'stroke-dasharray':'2 4'}, svg); txt(svg, cx, cy - 0.723*AU*sc - 4, T('Venus','Венера'), 'svg-small', 'middle');
+  ns('circle', {cx:cx, cy:cy, r:Math.max(2.5, R_S*sc), fill:'#e0a020'}, svg);
+  var b = O.a*Math.sqrt(1 - O.e*O.e);
+  ns('ellipse', {cx:cx - O.a*O.e*sc, cy:cy, rx:O.a*sc, ry:b*sc, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.4}, svg);
+  orbGeom = {cx:cx, cy:cy, sc:sc, O:O};
+  orbDot = ns('circle', {cx:cx + rp*sc, cy:cy, r:5, fill:'#b5452a', stroke:'#fff', 'stroke-width':1.5}, svg);
+  txt(svg, 12, 20, T('scale: Earth\'s orbit = 1 AU','масштаб: орбита Земли = 1 а.е.'), 'svg-small');
+  cells(document.getElementById('orbReadout'), [
+    [T('SPEED AT PERIHELION','СКОРОСТЬ В ПЕРИГЕЛИИ'), fmt(O.vp, 1) + T(' km/s',' км/с')],
+    [T('IN KM/H','В КМ/Ч'), fmtInt(O.vp*3600)],
+    [T('SPEED AT APHELION','СКОРОСТЬ В АФЕЛИИ'), fmt(O.va, 1) + T(' km/s',' км/с')],
+    [T('ORBITAL PERIOD','ПЕРИОД ОБРАЩЕНИЯ'), fmt(O.T/86400, 1) + T(' days',' сут')]
+  ]);
+  hud2.textContent = fmt(O.vp, 1) + T(' km/s',' км/с');
+  document.getElementById('orbStatus').innerHTML = orbPreset === 'psp'
+    ? T('Model: <b>','Модель: <b>') + fmt(O.vp, 1) + T(' km/s</b> at perihelion. Measured on 24 December 2024: <b>192.22 km/s</b> [8].',' км/с</b> в перигелии. Измерено 24 декабря 2024 года: <b>192,22 км/с</b> [8].')
+    : T('Perihelion speed ÷ aphelion speed = aphelion distance ÷ perihelion distance (Kepler\'s second law).','Скорость в перигелии ÷ скорость в афелии = расстояние афелия ÷ расстояние перигелия (второй закон Кеплера).');
+}
+function keplerE(M, e){ var E = e > 0.8 ? Math.PI : M; for(var i = 0; i < 30; i++) E -= (E - e*Math.sin(E) - M)/(1 - e*Math.cos(E)); return E; }
+oP.addEventListener('input', function(){ orbPreset = ''; renderOrbPresets(); renderOrb(); });
+oA.addEventListener('input', function(){ orbPreset = ''; renderOrbPresets(); renderOrb(); });
+visibleLoop(document.getElementById('orbSvg'), function(dt){
+  if(!orbDot || !orbGeom) return;
+  var g = orbGeom, O = g.O;
+  orbM = (orbM + dt*2*Math.PI/(reduced() ? 24 : 8)) % (2*Math.PI);
+  var E = keplerE(orbM, O.e), r = O.a*(1 - O.e*Math.cos(E));
+  var nu = 2*Math.atan2(Math.sqrt(1 + O.e)*Math.sin(E/2), Math.sqrt(1 - O.e)*Math.cos(E/2));
+  orbDot.setAttribute('cx', g.cx + r*Math.cos(nu)*g.sc); orbDot.setAttribute('cy', g.cy - r*Math.sin(nu)*g.sc);
+});
+
+/* ============ CH7 — TIMELINE ============ */
+var TIMELINE = [
+  ['1958', 'Eugene Parker predicts the solar wind.', 'Юджин Паркер предсказывает солнечный ветер.'],
+  ['1975', '<b>15 March:</b> Helios 1 passes 46 million km from the Sun.', '<b>15 марта:</b> «Гелиос-1» проходит в 46 млн км от Солнца.'],
+  ['1976', '<b>17 April:</b> Helios 2 reaches 0.29 AU, a record for 42 years.', '<b>17 апреля:</b> «Гелиос-2» достигает 0,29 а.е. — рекорд на 42 года.'],
+  ['2018', '<b>12 August:</b> Parker Solar Probe launches; first perihelion in November at about 35 solar radii.', '<b>12 августа:</b> старт Parker Solar Probe; первый перигелий в ноябре — около 35 солнечных радиусов.'],
+  ['2020', '<b>February:</b> Solar Orbiter launches.', '<b>Февраль:</b> старт Solar Orbiter.'],
+  ['2021', '<b>28 April:</b> Parker crosses the Alfvén critical surface at 18.8 solar radii — the first spacecraft inside the corona.', '<b>28 апреля:</b> Parker пересекает альвеновскую поверхность на 18,8 солнечного радиуса — первый аппарат внутри короны.'],
+  ['2024', '<b>6 November:</b> Parker\'s seventh and last Venus flyby. <b>24 December:</b> closest approach, 6.17 million km at 192.2 km/s.', '<b>6 ноября:</b> седьмой и последний пролёт Венеры. <b>24 декабря:</b> наибольшее сближение, 6,17 млн км при 192,2 км/с.'],
+  ['2025', '<b>March:</b> Solar Orbiter reaches 17° and photographs the Sun\'s south pole (released in June).', '<b>Март:</b> Solar Orbiter поднимается на 17° и фотографирует южный полюс Солнца (опубликовано в июне).'],
+  ['2026–29', 'Venus flybys tilt Solar Orbiter to 24° (from 24 December 2026) and 33° (from June 2029).', 'Пролёты Венеры наклоняют Solar Orbiter до 24° (с 24 декабря 2026) и 33° (с июня 2029).']
+];
+
+/* ============ CH8 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA, Sun Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html', note:{en:'GM = 132,712 × 10⁶ km³/s², volumetric mean radius 695,700 km.', ru:'GM = 132 712 × 10⁶ км³/с², средний радиус 695 700 км.'}},
+  {title:'NASA, Earth Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html', note:{en:'Solar irradiance 1,361 W/m²; mean orbital velocity 29.78 km/s.', ru:'Солнечная постоянная 1361 Вт/м²; средняя орбитальная скорость 29,78 км/с.'}},
+  {title:'A. A. Siddiqi (2018), Beyond Earth: A Chronicle of Deep Space Exploration, 1958–2016, NASA SP-2018-4041', url:'https://www.nasa.gov/wp-content/uploads/2018/09/beyond-earth-tagged.pdf', note:{en:'Helios 1 (46 million km, 238,000 km/h, 15 March 1975) and Helios 2 (0.29 AU, 17 April 1976).', ru:'«Гелиос-1» (46 млн км, 238 000 км/ч, 15 марта 1975) и «Гелиос-2» (0,29 а.е., 17 апреля 1976).'}},
+  {title:'NASA Science, Parker Solar Probe mission page', url:'https://science.nasa.gov/mission/parker-solar-probe/', note:{en:'Launch 12 August 2018 on a Delta IV Heavy; 685 kg; 24 orbits in seven years; 11.43 cm carbon-composite shield rated to nearly 1,377 °C; about 700,000 km/h.', ru:'Старт 12 августа 2018 на «Дельте IV Хэви»; 685 кг; 24 витка за семь лет; углеродный композитный щит 11,43 см с пределом почти 1377 °C; около 700 000 км/ч.'}},
+  {title:'NASA Scientific Visualization Studio, “Parker Solar Probe Orbit From August 2018 – March 2019”', url:'https://svs.gsfc.nasa.gov/12998', note:{en:'Venus gravity assists; first perihelion about 35 solar radii; the final three perihelia (December 2024 – June 2025) under 10 solar radii.', ru:'Гравитационные манёвры у Венеры; первый перигелий около 35 солнечных радиусов; последние три перигелия (декабрь 2024 – июнь 2025) — менее 10 солнечных радиусов.'}},
+  {title:'NASA (2021), “NASA Enters the Solar Atmosphere for the First Time, Bringing New Discoveries”', url:'https://www.nasa.gov/solar-system/nasa-enters-the-solar-atmosphere-for-the-first-time-bringing-new-discoveries/', note:{en:'Crossing of the Alfvén critical surface on 28 April 2021 at 18.8 solar radii during the eighth perihelion.', ru:'Пересечение альвеновской критической поверхности 28 апреля 2021 года на 18,8 солнечного радиуса во время восьмого перигелия.'}},
+  {title:'NASA Scientific Visualization Studio, “Parker Solar Probe Towards its Ultimate Perihelion”', url:'https://svs.gsfc.nasa.gov/5428', note:{en:'From the last Venus flyby on 6 November 2024 to the closest perihelion on 24 December 2024.', ru:'От последнего пролёта Венеры 6 ноября 2024 года до наибольшего сближения 24 декабря 2024 года.'}},
+  {title:'Guinness World Records, “Closest approach to the Sun by a spacecraft”', url:'https://www.guinnessworldrecords.com/world-records/sun-closest-approach-by-spacecraft', note:{en:'6,167,590 km from the surface at 11:53:48 UTC on 24 December 2024; 192.22 km/s relative to the Sun.', ru:'6 167 590 км от поверхности в 11:53:48 UTC 24 декабря 2024 года; 192,22 км/с относительно Солнца.'}},
+  {title:'ESA, Solar Orbiter factsheet', url:'https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Solar_Orbiter_factsheet', note:{en:'1,800 kg, launched February 2020 on an Atlas V; ten instruments; close approach every six months, from inside Mercury\'s orbit to near Earth\'s; inclination 24° (nominal) to 33° (extended).', ru:'1800 кг, старт в феврале 2020 на «Атласе V»; десять приборов; сближение каждые полгода, от области внутри орбиты Меркурия почти до земной; наклон 24° (основная миссия) — 33° (продлённая).'}},
+  {title:'D. Müller et al. (2020), “The Solar Orbiter mission. Science overview”, Astronomy & Astrophysics 642', url:'https://doi.org/10.1051/0004-6361/202038467', note:{en:'Mission design, remote-sensing and in-situ payload, and the science goals including the polar views.', ru:'Схема миссии, приборы дистанционного зондирования и прямых измерений, научные цели, включая наблюдения полюсов.'}},
+  {title:'ESA (2025), “Solar Orbiter gets world-first views of the Sun\'s poles”', url:'https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Solar_Orbiter_gets_world-first_views_of_the_Sun_s_poles', note:{en:'South-pole images from 16–17 March 2025 at 15° and 23 March at 17°; tilt to 24° from 24 December 2026 and 33° from 10 June 2029.', ru:'Снимки южного полюса 16–17 марта 2025 года под углом 15° и 23 марта под углом 17°; наклон 24° с 24 декабря 2026 и 33° с 10 июня 2029.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderDv();
+  renderHeat();
+  if(orbPreset === 'psp' && +oP.value === 0) setRpRs(9.86);
+  renderOrbPresets(); renderOrb();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__corona = {dvPerihelion:dvPerihelion, DV_ESCAPE:DV_ESCAPE, shieldT:shieldT, solarOrbit:solarOrbit, R_S:R_S, AU:AU, dvPerihelionOut:dvPerihelionOut};
+
+})();
+</script>
+</body>
+</html>

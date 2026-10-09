@@ -30,6 +30,10 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [Cassini-Huygens at Saturn](https://followorbounce.github.io/aerospace/finale-cassini-huygens): the Cassini-Huygens mission to Saturn and Titan.
 - [Venera & Vega](https://followorbounce.github.io/aerospace/furnace-venera-vega): the Soviet exploration of Venus 1967–85 — descent through the Venus International Reference Atmosphere with a terminal-velocity model that reproduces Venera 11's 53-minute fall, a pressure-sphere designer (strength vs buckling, NASA SP-8032 knockdown), Venera 4's crushing, Venera 7's 23 minutes from the surface, the first pictures (Venera 9), survival times of every lander (Venera 13: 127 min), and the Vega balloons at 54 km.
 
+## The Sun & Small Bodies
+
+- [Parker Solar Probe & Solar Orbiter](https://followorbounce.github.io/aerospace/corona-parker-solar-orbiter): flying to the Sun — why lowering perihelion from 1 AU costs more than escaping the Solar System (Δv calculator), Helios's 1970s records, Parker Solar Probe's 11.43 cm shield with a sunlit-plate equilibrium-temperature model (α/ε), the 2021 first flight through the corona and the 24 December 2024 record (6.17 million km, 192.2 km/s, reproduced by vis-viva), and Solar Orbiter's first views of the Sun's poles.
+
 ## Moon Exploration
 
 - [Luna & the Moon Race](https://followorbounce.github.io/aerospace/luna-programs): the Luna program, Apollo, and the exploration of the Moon.
