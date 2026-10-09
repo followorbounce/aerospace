@@ -14,6 +14,10 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [Sputnik, Explorer & the First Satellites](https://followorbounce.github.io/aerospace/beep-sputnik-explorer): the first satellites of 1957–58 — Kepler orbits of Sputnik 1/2 and Explorer 1, the Doppler curve that let APL fit Sputnik's orbit and became Transit navigation (with an audible pass), Laika, the Geiger-counter dead-time paradox that revealed the Van Allen belts, Explorer 1's major-axis tumble, and Vanguard 1's pear-shaped Earth.
 - [Vostok & Voskhod](https://followorbounce.github.io/aerospace/first-vostok-voskhod): the first human spaceflights 1961–65 — Gagarin's Vostok 1 minute by minute (ESA timeline), Allen–Eggers ballistic re-entry and its 8 g, the orbital-decay safety net (US Standard Atmosphere 1976 drag model reproduces the ~20-day figure), Titov and the group flights, Tereshkova, Voskhod 1 without spacesuits, and Leonov's spacewalk with an inflated-tube model of his ballooning Berkut suit.
 
+## Earth Orbit & Applications
+
+- [GPS & Satellite Navigation](https://followorbounce.github.io/aerospace/navigator-gps): GPS — why four satellites (clock as an unknown, Gauss–Newton fix), 38.6 µs/day of relativity and the 10.22999999543 MHz factory clock setting (Ashby 2003), dilution of precision vs satellite geometry, Selective Availability
+
 ## Space Stations
 
 - [ISS & Mir](https://followorbounce.github.io/aerospace/iss-and-mir): orbital mechanics, the ISS, and Mir.

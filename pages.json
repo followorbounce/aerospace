@@ -19,6 +19,13 @@
       ]
     },
     {
+      "id": "orbit",
+      "title": { "en": "Earth Orbit & Applications", "ru": "Околоземная орбита и её применение" },
+      "pages": [
+        { "slug": "navigator-gps", "codename": "NAVIGATOR", "label": { "en": "GPS & Satellite Navigation", "ru": "GPS и спутниковая навигация" } }
+      ]
+    },
+    {
       "id": "stations",
       "title": { "en": "Space Stations", "ru": "Космические станции" },
       "pages": [
