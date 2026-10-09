@@ -23,7 +23,8 @@
       "title": { "en": "Earth Orbit & Applications", "ru": "Околоземная орбита и её применение" },
       "pages": [
         { "slug": "navigator-gps", "codename": "NAVIGATOR", "label": { "en": "GPS & Satellite Navigation", "ru": "GPS и спутниковая навигация" } },
-        { "slug": "sunsync-earth-observation", "codename": "SUNSYNC", "label": { "en": "Earth Observation Satellites", "ru": "Спутники наблюдения Земли" } }
+        { "slug": "sunsync-earth-observation", "codename": "SUNSYNC", "label": { "en": "Earth Observation Satellites", "ru": "Спутники наблюдения Земли" } },
+        { "slug": "debris-space-junk", "codename": "DEBRIS", "label": { "en": "Space Debris & the Kessler Syndrome", "ru": "Космический мусор и синдром Кесслера" } }
       ]
     },
     {

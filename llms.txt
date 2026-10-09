@@ -18,6 +18,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 
 - [GPS & Satellite Navigation](https://followorbounce.github.io/aerospace/navigator-gps): GPS — why four satellites (clock as an unknown, Gauss–Newton fix), 38.6 µs/day of relativity and the 10.22999999543 MHz factory clock setting (Ashby 2003), dilution of precision vs satellite geometry, Selective Availability
 - [Earth Observation Satellites](https://followorbounce.github.io/aerospace/sunsync-earth-observation): Earth observation — J2 nodal precession and the sun-synchronous inclination vs altitude (matches Landsat 1, Landsat 9 and Sentinel-2 within 0.1°), swath width vs revisit time, diffraction-limited ground resolution
+- [Space Debris & the Kessler Syndrome](https://followorbounce.github.io/aerospace/debris-space-junk): orbital debris — impact energy vs fragment size and crossing angle (40 J/g shattering threshold), Fengyun-1C (2007) and Iridium–Cosmos (2009), drag decay lifetime vs altitude checked against NASA ODPO statements, Kessler & Cour-Palais 1978, the FCC five-year rule
 
 ## Space Stations
 

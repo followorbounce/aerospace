@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEBRIS — SPACE JUNK &amp;amp; THE KESSLER SYNDROME / ОБЛОМКИ — КОСМИЧЕСКИЙ МУСОР И СИНДРОМ КЕССЛЕРА</title>
+<meta name="description" content="An interactive field guide to orbital debris: why a centimetre-sized fragment at 11 km/s carries the energy to shatter a satellite, the 2007 Fengyun-1C test and the 2009 Iridium–Cosmos collision, how long debris stays up at each altitude, Kessler and Cour-Palais' warning of a self-sustaining debris belt, and the FCC's five-year deorbit rule.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/debris-space-junk">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DEBRIS — SPACE JUNK &amp;amp; THE KESSLER SYNDROME / ОБЛОМКИ — КОСМИЧЕСКИЙ МУСОР И СИНДРОМ КЕССЛЕРА">
+<meta property="og:description" content="A marble at 11 km/s, the first satellite-on-satellite crash, and debris that stays for centuries — orbital debris, interactive and sourced from NASA's Orbital Debris Program Office.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/debris-space-junk">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block; touch-action:none;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">DEBRIS — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE CLOUD</span></div>
+  <div class="hud-row"><span class="hud-label">IMPACT ENERGY</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">LIFETIME</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE CLOUD">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 10 FEBRUARY 2009, 16:56 GMT, 790 KM" data-ru="РИС. 00 — 10 ФЕВРАЛЯ 2009, 16:56 GMT, 790 КМ">FIG. 00 — 10 FEBRUARY 2009, 16:56 GMT, 790 KM</span></span>
+        <span>IRIDIUM 33 × COSMOS 2251</span>
+      </div>
+      <h1><span data-en="DEBRIS" data-ru="ОБЛОМКИ">DEBRIS</span><br><em data-en="SPACE JUNK AND THE KESSLER SYNDROME" data-ru="КОСМИЧЕСКИЙ МУСОР И СИНДРОМ КЕССЛЕРА">SPACE JUNK AND THE KESSLER SYNDROME</em></h1>
+      <p class="sub lede" data-en="Low Earth orbit holds more than 25,000 tracked objects larger than 10 cm and over 100 million particles larger than a millimetre, circling at 7–8 km/s and colliding at about 10 km/s on average [1]. At that speed a 1 cm aluminium bead carries about 70 kilojoules — the energy of a one-tonne car at 43 km/h. Six chapters and two instruments: work out what a fragment of debris can destroy, and how long it will stay in orbit before the atmosphere pulls it down." data-ru="На низкой околоземной орбите — больше 25 000 отслеживаемых объектов крупнее 10 см и свыше 100 миллионов частиц крупнее миллиметра, они обращаются со скоростью 7–8 км/с и сталкиваются в среднем на скорости около 10 км/с [1]. При такой скорости алюминиевая бусина диаметром 1 см несёт около 70 килоджоулей — энергию одной тонны автомобиля на скорости 43 км/ч. Шесть глав и два прибора: вычислите, что может разрушить обломок, и сколько он пробудет на орбите, прежде чем атмосфера его затормозит.">Over 25,000 tracked objects in orbit.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — POPULATION -->
+<section id="ch1" class="section" data-phase="THE CLOUD">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 06</span> — <span data-en="WHAT IS UP THERE" data-ru="ЧТО ТАМ НАВЕРХУ">WHAT IS UP THERE</span></div>
+    <h2 class="h-lg" data-en="Nine thousand tonnes, mostly broken" data-ru="Девять тысяч тонн, в основном обломки">Nine thousand tonnes, mostly broken</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="NASA's Orbital Debris Program Office counts more than 25,000 objects larger than 10 cm, about 500,000 between 1 and 10 cm, and more than 100 million larger than 1 mm. As of January 2022 the material orbiting Earth exceeded <b>9,000 tonnes</b> [1]. Only the largest pieces can be tracked; anything smaller is known from statistics, radar sampling and the pits found on returned spacecraft surfaces [1]." data-ru="Управление NASA по орбитальному мусору насчитывает более 25 000 объектов крупнее 10 см, около 500 000 размером от 1 до 10 см и свыше 100 миллионов крупнее 1 мм. На январь 2022 года масса вещества на орбите превысила <b>9000 тонн</b> [1]. Отслеживать можно только самые крупные куски; о более мелких известно из статистики, выборочных радарных наблюдений и следов ударов на вернувшихся поверхностях аппаратов [1].">Over 9,000 tonnes in orbit.</p>
+      <p class="body-col" data-en="Before 2007 most large debris came from explosions of old upper stages and spacecraft. Then two events changed the picture: a deliberate anti-satellite test, and the first accidental collision between two whole satellites [1][2][3]. In 1978 Donald Kessler and Burton Cour-Palais had already warned that collisions could one day create a debris belt that feeds itself [4]." data-ru="До 2007 года большая часть крупного мусора появлялась при взрывах старых верхних ступеней и аппаратов. Затем картину изменили два события: намеренное противоспутниковое испытание и первое случайное столкновение двух целых спутников [1][2][3]. Ещё в 1978 году Дональд Кесслер и Бёртон Кур-Пале предупреждали, что столкновения однажды могут создать самоподдерживающийся пояс обломков [4].">Explosions, then collisions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — EVENTS -->
+<section id="ch2" class="section" data-phase="EVENTS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 06</span> — <span data-en="TWO EVENTS IN TWO YEARS" data-ru="ДВА СОБЫТИЯ ЗА ДВА ГОДА">TWO EVENTS IN TWO YEARS</span></div>
+    <h2 class="h-lg" data-en="Fengyun-1C and Iridium 33" data-ru="«Фэнъюнь-1C» и Iridium 33">Fengyun-1C and Iridium 33</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On <b>11 January 2007</b> a Chinese ballistic interceptor struck Fengyun-1C, an old 960 kg weather satellite in an 845 × 865 km orbit. NASA called the resulting cloud the single worst contamination of low Earth orbit in fifty years: it stretched from 200 km to more than 4,000 km, and by 31 March 1,613 fragments were being tracked, most in orbits that will last decades or centuries [2]." data-ru="<b>11 января 2007 года</b> китайский перехватчик поразил «Фэнъюнь-1C» — старый 960-килограммовый метеоспутник на орбите 845 × 865 км. NASA назвало образовавшееся облако самым сильным загрязнением низкой орбиты за пятьдесят лет: оно простиралось от 200 до более чем 4000 км, и к 31 марта отслеживалось 1613 обломков, большинство — на орбитах, где они продержатся десятилетия и века [2].">Fengyun-1C, 11 January 2007.</p>
+      <p class="body-col" data-en="On <b>10 February 2009</b> at 16:56 GMT, over northern Siberia at 790 km, the working Iridium 33 (560 kg) and the dead Cosmos 2251 (about 900 kg) collided. Their orbits crossed at nearly a right angle, so they met at <b>more than 11 km/s</b>. By the end of March, 823 large fragments had been catalogued [3]. In ground tests, satellites were completely shattered by impacts carrying about <b>40 J per gram</b> of target [3]." data-ru="<b>10 февраля 2009 года</b> в 16:56 GMT над севером Сибири на высоте 790 км столкнулись работающий Iridium 33 (560 кг) и мёртвый «Космос-2251» (около 900 кг). Их орбиты пересекались почти под прямым углом, поэтому они встретились на скорости <b>более 11 км/с</b>. К концу марта было каталогизировано 823 крупных обломка [3]. В наземных испытаниях спутники полностью разрушались при ударах с энергией около <b>40 Дж на грамм</b> мишени [3].">Iridium 33 × Cosmos 2251, 10 February 2009.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="IMPACT SPEED AND ENERGY" data-ru="СКОРОСТЬ И ЭНЕРГИЯ УДАРА">IMPACT SPEED AND ENERGY</div>
+      <div class="eq-body">v<sub>rel</sub> = 2 v sin(θ/2) &nbsp;·&nbsp; E = ½ m v<sub>rel</sub>² &nbsp;·&nbsp; target shattered if E/M<sub>target</sub> ≳ 40 J/g</div>
+      <div class="eq-note" data-en="Two circular orbits at the same altitude crossing at angle θ; v = √(μ/r). The 40 J/g figure comes from fragmentation tests reported by NASA's Orbital Debris Program Office [3]; it is a rough threshold, not a law." data-ru="Две круговые орбиты на одной высоте, пересекающиеся под углом θ; v = √(μ/r). Значение 40 Дж/г взято из испытаний на разрушение, описанных Управлением NASA по орбитальному мусору [3]; это грубый порог, а не закон.">40 J/g shattering threshold.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="impSvg" class="sim-svg" viewBox="0 0 480 280" role="img" aria-label="Impact energy of a debris fragment against its size"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="iD" data-en="FRAGMENT DIAMETER (ALUMINIUM)" data-ru="ДИАМЕТР ОБЛОМКА (АЛЮМИНИЙ)">FRAGMENT DIAMETER (ALUMINIUM)</label><span class="v" id="iDVal">—</span></div>
+          <input id="iD" type="range" min="-1" max="1" step="0.01" value="0">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="iA" data-en="ANGLE BETWEEN THE ORBITS" data-ru="УГОЛ МЕЖДУ ОРБИТАМИ">ANGLE BETWEEN THE ORBITS</label><span class="v" id="iAVal">—</span></div>
+          <input id="iA" type="range" min="5" max="180" step="1" value="100">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="iH" data-en="ALTITUDE" data-ru="ВЫСОТА">ALTITUDE</label><span class="v" id="iHVal">—</span></div>
+          <input id="iH" type="range" min="300" max="1500" step="5" value="790">
+        </div>
+        <div class="readout-grid" id="impReadout"></div>
+        <div class="status" id="impStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — LIFETIME -->
+<section id="ch3" class="section" data-phase="LIFETIME">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 06</span> — <span data-en="THE ATMOSPHERE AS A BROOM" data-ru="АТМОСФЕРА КАК МЕТЛА">THE ATMOSPHERE AS A BROOM</span></div>
+    <h2 class="h-lg" data-en="Years below 600 km, centuries above 800" data-ru="Годы ниже 600 км, века выше 800">Years below 600 km, centuries above 800</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The only natural cleaner is the thin top of the atmosphere, which drags objects down slowly. According to NASA, debris left in orbits below 600 km normally falls back within several years; at 800 km decay is often measured in centuries; above 1,000 km debris will normally keep circling for a thousand years or more [1]. That is why the Fengyun-1C cloud at about 850 km is such a lasting problem." data-ru="Единственный естественный «уборщик» — разреженный верх атмосферы, который медленно тормозит объекты. По данным NASA, мусор на орбитах ниже 600 км обычно падает за несколько лет; на 800 км распад часто измеряется веками; выше 1000 км мусор обычно кружит тысячу лет и больше [1]. Поэтому облако «Фэнъюнь-1C» на высоте около 850 км — такая долговечная проблема.">NASA: several years below 600 km, centuries at 800 km.</p>
+      <p class="body-col" data-en="How fast something falls depends on how much area it shows the air for its mass: a light, flat panel comes down far sooner than a dense lump. And it depends on the Sun: at solar maximum the upper atmosphere heats and swells, raising the density at a given height several times. Try both below." data-ru="Скорость падения зависит от того, какую площадь предмет подставляет воздуху на единицу массы: лёгкая плоская панель падает гораздо раньше плотного куска. И зависит от Солнца: в максимум солнечной активности верхняя атмосфера нагревается и разбухает, и плотность на той же высоте возрастает в несколько раз. Попробуйте и то и другое ниже.">Area-to-mass and solar activity.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="ORBITAL DECAY BY DRAG (CIRCULAR ORBIT)" data-ru="ТОРМОЖЕНИЕ ОРБИТЫ АТМОСФЕРОЙ (КРУГОВАЯ ОРБИТА)">ORBITAL DECAY BY DRAG (CIRCULAR ORBIT)</div>
+      <div class="eq-body">da/dt = −(C<sub>D</sub>A/m) ρ(h) √(μa)</div>
+      <div class="eq-note" data-en="ρ(h) is interpolated from approximate mean densities of the 1976 U.S. Standard Atmosphere (about 2.8 × 10⁻¹² kg/m³ at 400 km, 1.1 × 10⁻¹⁴ at 800 km), multiplied by a solar-activity factor. Real decay depends on the solar cycle and on the object's tumbling, so these lifetimes are order-of-magnitude estimates — compare them with NASA's statement above." data-ru="ρ(h) интерполируется по приближённым средним плотностям Стандартной атмосферы США 1976 года (около 2,8 × 10⁻¹² кг/м³ на 400 км, 1,1 × 10⁻¹⁴ на 800 км) и умножается на множитель солнечной активности. Реальный распад зависит от солнечного цикла и вращения объекта, поэтому эти сроки — оценки по порядку величины; сравните их с утверждением NASA выше.">Order-of-magnitude estimate.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="lifeSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Orbital lifetime against altitude"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="lH" data-en="STARTING ALTITUDE" data-ru="НАЧАЛЬНАЯ ВЫСОТА">STARTING ALTITUDE</label><span class="v" id="lHVal">—</span></div>
+          <input id="lH" type="range" min="250" max="1000" step="5" value="550">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="lB" data-en="AREA-TO-MASS × C_D" data-ru="ПЛОЩАДЬ/МАССА × C_D">AREA-TO-MASS × C_D</label><span class="v" id="lBVal">—</span></div>
+          <input id="lB" type="range" min="-3" max="-0.5" step="0.01" value="-2">
+        </div>
+        <div class="btn-row" role="group" aria-label="Sun" id="lSun">
+          <button class="btn" data-f="0.5" aria-pressed="false" data-en="QUIET SUN ×0.5" data-ru="СПОКОЙНОЕ СОЛНЦЕ ×0,5">QUIET SUN ×0.5</button>
+          <button class="btn active" data-f="1" aria-pressed="true" data-en="AVERAGE" data-ru="СРЕДНЕЕ">AVERAGE</button>
+          <button class="btn" data-f="4" aria-pressed="false" data-en="ACTIVE SUN ×4" data-ru="АКТИВНОЕ СОЛНЦЕ ×4">ACTIVE SUN ×4</button>
+        </div>
+        <div class="readout-grid" id="lifeReadout"></div>
+        <div class="status" id="lifeStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — KESSLER -->
+<section id="ch4" class="section" data-phase="KESSLER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 06</span> — <span data-en="A BELT THAT FEEDS ITSELF" data-ru="ПОЯС, КОТОРЫЙ ПОДПИТЫВАЕТ САМ СЕБЯ">A BELT THAT FEEDS ITSELF</span></div>
+    <h2 class="h-lg" data-en="When collisions make debris faster than air removes it" data-ru="Когда столкновения рождают мусор быстрее, чем воздух его убирает">When collisions make debris faster than air removes it</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="In 1978 Kessler and Cour-Palais calculated how often artificial satellites would collide as their number grew. Each collision creates fragments that can cause further collisions, so the rate rises with the <b>square</b> of the population. In orbits high enough that drag removes debris only slowly, they argued, collisions could eventually produce a debris belt around Earth [4]. This idea is now known as the <b>Kessler syndrome</b>." data-ru="В 1978 году Кесслер и Кур-Пале рассчитали, как часто будут сталкиваться искусственные спутники по мере роста их числа. Каждое столкновение создаёт обломки, способные вызвать новые столкновения, поэтому их частота растёт как <b>квадрат</b> численности. На орбитах достаточно высоких, где сопротивление убирает мусор лишь медленно, утверждали они, столкновения со временем могут образовать пояс обломков вокруг Земли [4]. Эту идею теперь называют <b>синдромом Кесслера</b>.">Collision rate ∝ N².</p>
+      <p class="body-col" data-en="The lever is simple: in the altitudes most at risk, removal by drag is linear in the population while creation by collisions is quadratic. The only stable answer is to stop adding mass that stays — by bringing satellites down soon after their missions end. In 2022 the US Federal Communications Commission adopted a <b>five-year rule</b>: satellites ending their missions in low Earth orbit, below 2,000 km, must be disposed of as soon as practicable and no later than five years afterwards, replacing the old 25-year guideline [5]." data-ru="Рычаг прост: на самых опасных высотах удаление сопротивлением линейно по численности, а рождение обломков при столкновениях — квадратично. Единственный устойчивый ответ — перестать добавлять массу, которая остаётся, сводя спутники с орбиты вскоре после окончания миссии. В 2022 году Федеральная комиссия связи США приняла <b>правило пяти лет</b>: спутники, завершающие миссию на низкой орбите ниже 2000 км, должны утилизироваться как можно скорее и не позднее чем через пять лет, вместо прежнего 25-летнего ориентира [5].">The FCC's five-year rule.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — TIMELINE -->
+<section id="ch5" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 06</span> — <span data-en="FROM WARNING TO RULE" data-ru="ОТ ПРЕДУПРЕЖДЕНИЯ К ПРАВИЛУ">FROM WARNING TO RULE</span></div>
+    <h2 class="h-lg" data-en="Half a century of a growing cloud" data-ru="Полвека растущего облака">Half a century of a growing cloud</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Space is big, but the useful orbits are not — and in them, every piece left behind is a hazard for centuries." data-ru="Космос велик, но полезные орбиты — нет, и на них каждый оставленный обломок опасен веками.">The useful orbits are not big.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — REFERENCES -->
+<section id="ch6" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 06</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var MU = 398600.4418, RE = 6378.137, RHO_AL = 2700, J_PER_G = 40;               // 40 J/g: ODQN 13-2 [3]
+// approximate mean densities, 1976 U.S. Standard Atmosphere (kg/m³) — log-interpolated
+var DENS = [[200,2.541e-10],[250,6.073e-11],[300,1.916e-11],[350,6.98e-12],[400,2.803e-12],[450,1.184e-12],[500,5.215e-13],[600,1.137e-13],[700,3.07e-14],[800,1.136e-14],[900,5.759e-15],[1000,3.561e-15],[1100,2.4e-15]];
+function rho(h){ if(h <= DENS[0][0]) return DENS[0][1]*Math.exp((DENS[0][0] - h)/37); for(var i = 1; i < DENS.length; i++){ if(h <= DENS[i][0]){ var a = DENS[i - 1], b = DENS[i], f = (h - a[0])/(b[0] - a[0]); return Math.exp(Math.log(a[1]) + f*(Math.log(b[1]) - Math.log(a[1]))); } } return DENS[DENS.length - 1][1]; }
+function vCirc(hKm){ return Math.sqrt(MU/(RE + hKm)); }                            // km/s
+function impact(dCm, angDeg, hKm){ var r = dCm/200, m = RHO_AL*4/3*Math.PI*r*r*r, v = 2*vCirc(hKm)*Math.sin(angDeg*Math.PI/360)*1000, E = 0.5*m*v*v; return {m:m, v:v, E:E, shatter:E/J_PER_G/1000}; }
+function lifetime(hKm, B, f){                                                     // years, integrate down to 150 km
+  var h = hKm, t = 0;
+  while(h > 150){ var a = (RE + h)*1000, dadt = B*rho(h)*f*Math.sqrt(MU*1e9*a), dh = h > 400 ? 2 : 0.5; t += dh*1000/dadt; h -= dh; if(t > 3.2e11) return Infinity; }
+  return t/(365.25*86400);
+}
+
+/* ============ CH2 — IMPACT ============ */
+var iD = document.getElementById('iD'), iA = document.getElementById('iA'), iH = document.getElementById('iH');
+function eStr(E){ return E >= 1e9 ? fmt(E/1e9, 1) + T(' GJ',' ГДж') : E >= 1e6 ? fmt(E/1e6, 1) + T(' MJ',' МДж') : E >= 1e3 ? fmt(E/1e3, 1) + T(' kJ',' кДж') : fmt(E, 0) + T(' J',' Дж'); }
+function mStr(kg){ return kg >= 1000 ? fmt(kg/1000, 1) + T(' t',' т') : kg >= 1 ? fmt(kg, 1) + T(' kg',' кг') : fmt(kg*1000, kg*1000 < 1 ? 3 : 1) + T(' g',' г'); }
+function renderImp(){
+  var d = Math.pow(10, +iD.value), ang = +iA.value, h = +iH.value, I = impact(d, ang, h);
+  document.getElementById('iDVal').textContent = d < 1 ? fmt(d*10, 1) + T(' mm',' мм') : fmt(d, 1) + T(' cm',' см');
+  document.getElementById('iAVal').textContent = ang + '°';
+  document.getElementById('iHVal').textContent = fmtInt(h) + T(' km',' км');
+  var svg = document.getElementById('impSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 22, B = 230;
+  function X(lg){ return L + (lg + 1)/2*(R - L); }
+  function Y(E){ return B - (Math.log10(Math.max(E, 0.1)) + 1)/9*(B - Tp); }     // 0.1 J … 100 MJ
+  [1,1e3,1e6,1e8].forEach(function(e){ ns('line', {x1:L, y1:Y(e), x2:R, y2:Y(e), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(e) + 3, eStr(e), 'svg-small', 'end'); });
+  [0.1,0.3,1,3,10].forEach(function(c){ txt(svg, X(Math.log10(c)), B + 14, c < 1 ? (c*10) + ' mm' : c + ' cm', 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('fragment diameter (log)','диаметр обломка (лог.)'), 'svg-small', 'end'); txt(svg, L, 13, T('impact energy (log)','энергия удара (лог.)'), 'svg-small');
+  [[1, T('to shatter 1 kg','чтобы разбить 1 кг')], [100, T('… 100 kg','… 100 кг')], [1000, T('… 1 t','… 1 т')]].forEach(function(t){ var e = t[0]*J_PER_G*1000; ns('line', {x1:L, y1:Y(e), x2:R, y2:Y(e), stroke:'#b5452a', 'stroke-dasharray':'3 3', opacity:0.6}, svg); txt(svg, L + 4, Y(e) - 4, t[1], 'svg-small'); });
+  var dd = ''; for(var lg = -1; lg <= 1.0001; lg += 0.02){ dd += (dd ? 'L' : 'M') + X(lg).toFixed(1) + ' ' + Y(impact(Math.pow(10, lg), ang, h).E).toFixed(1); }
+  ns('path', {d:dd, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(+iD.value), cy:Y(I.E), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('impReadout'), [
+    [T('FRAGMENT MASS','МАССА ОБЛОМКА'), mStr(I.m)],
+    [T('IMPACT SPEED','СКОРОСТЬ УДАРА'), fmt(I.v/1000, 2) + T(' km/s',' км/с')],
+    [T('ENERGY','ЭНЕРГИЯ'), eStr(I.E)],
+    [T('CAN SHATTER UP TO (40 J/g)','МОЖЕТ РАЗБИТЬ ДО (40 Дж/г)'), mStr(I.shatter)]
+  ]);
+  hud1.textContent = eStr(I.E);
+  document.getElementById('impStatus').innerHTML = I.shatter >= 100
+    ? T('<b>Catastrophic:</b> enough to break up a whole small satellite, adding hundreds of new fragments.','<b>Катастрофа:</b> хватит, чтобы разрушить целый небольшой спутник и добавить сотни новых обломков.')
+    : I.m < 1e-3 ? T('Too small to track, but enough to pit a window or puncture an unshielded line — the ISS carries shields against particles like this.','Слишком мал, чтобы отслеживать, но способен выбить кратер в иллюминаторе или пробить незащищённую магистраль; на МКС есть экраны от таких частиц.')
+    : T('Lethal to whatever part of a spacecraft it hits, even if it cannot shatter the whole thing.','Смертельно для той части аппарата, в которую попадёт, даже если не разрушит его целиком.');
+}
+[iD, iA, iH].forEach(function(el){ el.addEventListener('input', renderImp); });
+
+/* ============ CH3 — LIFETIME ============ */
+var lH = document.getElementById('lH'), lB = document.getElementById('lB'), sunF = 1;
+function yStr(y){ return !isFinite(y) || y > 1e4 ? T('> 10,000 years','> 10 000 лет') : y >= 100 ? fmtInt(y) + T(' years',' лет') : y >= 1 ? fmt(y, 1) + T(' years',' лет') : fmtInt(y*365.25) + T(' days',' сут'); }
+function renderLife(){
+  var h = +lH.value, B = Math.pow(10, +lB.value), Y0 = lifetime(h, B, sunF);
+  document.getElementById('lHVal').textContent = fmtInt(h) + T(' km',' км');
+  document.getElementById('lBVal').textContent = fmt(B, 3) + T(' m²/kg',' м²/кг');
+  var svg = document.getElementById('lifeSvg'); svg.innerHTML = '';
+  var L = 72, R = 465, Tp = 22, B2 = 250;
+  function X(hh){ return L + (hh - 250)/750*(R - L); }
+  function Y(y){ return B2 - (Math.log10(Math.max(y, 0.01)) + 2)/6*(B2 - Tp); }   // 0.01 … 10,000 yr
+  [[0.01,'4 d'],[0.1,'1 mo'],[1,'1 yr'],[10,'10 yr'],[100,'100 yr'],[1000,'1,000 yr'],[10000,'10,000 yr']].forEach(function(t){ ns('line', {x1:L, y1:Y(t[0]), x2:R, y2:Y(t[0]), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(t[0]) + 3, t[1], 'svg-small', 'end'); });
+  [250,400,600,800,1000].forEach(function(hh){ txt(svg, X(hh), B2 + 14, hh, 'svg-small', 'middle'); });
+  txt(svg, R, B2 + 28, T('starting altitude, km','начальная высота, км'), 'svg-small', 'end'); txt(svg, L, 13, T('time to re-enter (log)','время до входа в атмосферу (лог.)'), 'svg-small');
+  // NASA statement bands [1]
+  ns('rect', {x:X(250), y:Y(10), width:X(600) - X(250), height:Y(1) - Y(10), fill:'#2f5aa1', opacity:0.08}, svg); txt(svg, X(260), Y(10) - 4, T('NASA: < 600 km → several years','NASA: < 600 км → несколько лет'), 'svg-small');
+  ns('rect', {x:X(790), y:Y(1000), width:X(810) - X(790), height:Y(100) - Y(1000), fill:'#2f5aa1', opacity:0.2}, svg); txt(svg, X(780), Y(1000) - 4, T('800 km → centuries','800 км → века'), 'svg-small', 'end');
+  var d = ''; for(var hh = 250; hh <= 1000; hh += 10){ var y = lifetime(hh, B, sunF); d += (d ? 'L' : 'M') + X(hh).toFixed(1) + ' ' + Y(Math.min(1e4, isFinite(y) ? y : 1e4)).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(h), cy:Y(Math.min(1e4, isFinite(Y0) ? Y0 : 1e4)), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('lifeReadout'), [
+    [T('TIME TO RE-ENTER','ВРЕМЯ ДО ВХОДА'), yStr(Y0)],
+    [T('AIR DENSITY HERE','ПЛОТНОСТЬ ВОЗДУХА'), (rho(h)*sunF).toExponential(1) + T(' kg/m³',' кг/м³')],
+    [T('INITIAL DECAY','НАЧАЛЬНОЕ СНИЖЕНИЕ'), fmt(B*rho(h)*sunF*Math.sqrt(MU*1e9*(RE + h)*1000)*365.25*86400/1000, 2) + T(' km/yr',' км/год')],
+    [T('MEETS FCC 5-YEAR RULE ON ITS OWN?','УКЛАДЫВАЕТСЯ В 5 ЛЕТ FCC САМО?'), Y0 <= 5 ? T('yes','да') : T('no — needs a deorbit burn','нет — нужен импульс схода')]
+  ]);
+  hud2.textContent = yStr(Y0);
+  document.getElementById('lifeStatus').innerHTML = T('A typical intact satellite has about 0.01 m²/kg; a thin panel or a fragment of foil much more. Above about 600 km, natural decay alone cannot meet a five-year deadline.','У типичного целого спутника около 0,01 м²/кг; у тонкой панели или клочка фольги — намного больше. Выше примерно 600 км одного естественного торможения не хватает, чтобы уложиться в пять лет.');
+}
+[lH, lB].forEach(function(el){ el.addEventListener('input', renderLife); });
+Array.prototype.forEach.call(document.querySelectorAll('#lSun .btn'), function(btn){ btn.addEventListener('click', function(){ sunF = +this.getAttribute('data-f'); pressGroup(this.parentNode, this); renderLife(); }); });
+
+/* ============ CH5 — TIMELINE ============ */
+var TIMELINE = [
+  ['1978', 'Kessler and Cour-Palais publish “Collision frequency of artificial satellites: the creation of a debris belt” [4].', 'Кесслер и Кур-Пале публикуют статью «Частота столкновений искусственных спутников: образование пояса обломков» [4].'],
+  ['2007', '<b>11 January:</b> anti-satellite test destroys Fengyun-1C at about 850 km; 1,613 fragments tracked by 31 March [2].', '<b>11 января:</b> противоспутниковое испытание уничтожает «Фэнъюнь-1C» на высоте около 850 км; к 31 марта отслеживается 1613 обломков [2].'],
+  ['2009', '<b>10 February:</b> Iridium 33 and Cosmos 2251 collide at 790 km and more than 11 km/s; 823 fragments catalogued by end of March [3].', '<b>10 февраля:</b> Iridium 33 и «Космос-2251» сталкиваются на высоте 790 км на скорости более 11 км/с; к концу марта каталогизировано 823 обломка [3].'],
+  ['2022', '<b>January:</b> more than 9,000 tonnes in orbit [1]. <b>29 September:</b> FCC adopts the five-year deorbit rule [5].', '<b>Январь:</b> на орбите более 9000 тонн [1]. <b>29 сентября:</b> FCC принимает правило пяти лет [5].']
+];
+
+/* ============ CH6 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA Orbital Debris Program Office, “Frequently Asked Questions”', url:'https://orbitaldebris.jsc.nasa.gov/faq/', note:{en:'> 25,000 objects > 10 cm, ~500,000 of 1–10 cm, > 100 million > 1 mm, > 9,000 t (January 2022); 7–8 km/s, average impact ~10 km/s, up to ~15; lifetimes: several years below 600 km, centuries at 800 km, a thousand years or more above 1,000 km.', ru:'> 25 000 объектов > 10 см, ~500 000 размером 1–10 см, > 100 млн > 1 мм, > 9000 т (январь 2022); 7–8 км/с, средняя скорость удара ~10 км/с, до ~15; сроки: несколько лет ниже 600 км, века на 800 км, тысяча лет и больше выше 1000 км.'}},
+  {title:'NASA ODPO (2007), Orbital Debris Quarterly News 11(2), “Chinese Anti-satellite Test Creates Most Severe Orbital Debris Cloud in History”', url:'https://orbitaldebris.jsc.nasa.gov/quarterly-news/pdfs/odqnv11i2.pdf', note:{en:'Fengyun-1C, 960 kg, 845 × 865 km, 98.6°, struck 11 January 2007; debris from 200 to > 4,000 km; 1,613 fragments tracked by 31 March 2007.', ru:'«Фэнъюнь-1C», 960 кг, 845 × 865 км, 98,6°, поражён 11 января 2007; обломки от 200 до > 4000 км; к 31 марта 2007 отслеживалось 1613 обломков.'}},
+  {title:'NASA ODPO (2009), Orbital Debris Quarterly News 13(2), “Satellite Collision Leaves Significant Debris Clouds”', url:'https://orbitaldebris.jsc.nasa.gov/quarterly-news/pdfs/odqnv13i2.pdf', note:{en:'Iridium 33 (560 kg) and Cosmos 2251 (~900 kg), 10 February 2009, 16:56 GMT, 790 km, > 11 km/s; 823 catalogued by end of March; fragmentation tests at ~40 J/g.', ru:'Iridium 33 (560 кг) и «Космос-2251» (~900 кг), 10 февраля 2009, 16:56 GMT, 790 км, > 11 км/с; к концу марта 823 в каталоге; испытания на разрушение при ~40 Дж/г.'}},
+  {title:'D. J. Kessler, B. G. Cour-Palais (1978), “Collision frequency of artificial satellites: The creation of a debris belt”, Journal of Geophysical Research 83, 2637–2646', url:'https://doi.org/10.1029/JA083iA06p02637', note:{en:'Collision frequency rising with the square of the population; the possibility of a self-sustaining debris belt.', ru:'Частота столкновений растёт как квадрат численности; возможность самоподдерживающегося пояса обломков.'}},
+  {title:'FCC (2022), “FCC Adopts New ‘5-Year Rule’ for Deorbiting Satellites”', url:'https://docs.fcc.gov/public/attachments/DOC-387720A1.pdf', note:{en:'Satellites ending missions in or passing through LEO (below 2,000 km) must be disposed of as soon as practicable and no later than five years after mission completion; replaces the 25-year guideline.', ru:'Спутники, завершающие миссию на низкой орбите (ниже 2000 км) или проходящие через неё, должны утилизироваться как можно скорее и не позднее пяти лет после завершения миссии; заменяет 25-летний ориентир.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderImp();
+  renderLife();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__debris = {impact:impact, lifetime:lifetime, rho:rho, vCirc:vCirc};
+
+})();
+</script>
+</body>
+</html>
