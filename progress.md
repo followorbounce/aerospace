@@ -70,3 +70,13 @@
 - Homepage aero shader: +4 missions (first N1, Stardust return, first Falcon 9 landing, Super Heavy catch) → 80; card says 63. Future-dated missions deliberately not added (the panel shows "N days ago").
 - Wave 3 tooling: ~/.cache/aero-src/w3/ (same scripts as w2; sources in src/, src2/, src3/).
 - Not verified: real-device touch on the new sliders.
+
+## 2026-10-09 — Wave 4 (done, 63 → 68 guides)
+- **New category** `orbit` — "Earth Orbit & Applications" / "Околоземная орбита и её применение" (before `stations`): NAVIGATOR, SUNSYNC, DEBRIS. SUIT is in Human Spaceflight; SAIL in Future Exploration.
+- **NAVIGATOR** (`navigator-gps.html`): 2-D pseudorange fix with/without solving for the receiver clock (Gauss–Newton), relativity per altitude (Ashby 2003: 4.4647e-10, 38.6 µs/day, factory 10.22999999543 MHz, zero at a ≈ 9,545 km — all reproduced), flat-sky DOP. 10 checks.
+- **SUNSYNC** (`sunsync-earth-observation.html`): J2 sun-synchronous inclination reproduces Landsat 9 (98.21 vs 98.2), Sentinel-2 (98.54 vs 98.62), Landsat 1 (99.11 vs 99.2) within 0.1°, periods within 0.5 min; swath → revisit estimate (Sentinel-2 10 d exact, Landsat 15 vs real 16); diffraction-limited GSD. 10 checks.
+- **DEBRIS** (`debris-space-junk.html`): impact energy vs fragment size and crossing angle with the ODQN 40 J/g shattering threshold; drag-decay lifetime from approximate US Std 1976 densities (NASA's 1976 PDF is a scan — values used are the standard table, flagged as approximate) matching NASA ODPO's "several years below 600 km / centuries at 800 / ≥ 1,000 years above 1,000 km"; Fengyun-1C, Iridium–Cosmos, Kessler 1978, FCC 5-year rule. 10 checks.
+- **SUIT** (`suit-spacesuits-eva.html`): suit pressure vs R (11.6/P), 360-min single-compartment prebreathe; the Shuttle staged protocol (60 min O₂, 12 h at 10.2/26.5 %, 75 min) gives R = 1.652 vs NASA's 1.65 limit; ISS campout capped at 8 h 40 min. 8 checks.
+- **SAIL** (`sail-solar-sails.html`): 2S/c = 9.08 µN/m²; IKAROS 196 m² with η·cos²α ≈ 0.63 reproduces JAXA's measured 1.12 mN; 35.26° tacking optimum; 1/r² Δv accumulation; LightSail 2 (+2 km apogee in 4 days, +7.2 km in a month), ACS3, IKAROS ops ended 15 May 2025. 7 checks.
+- Homepage aero shader +5 missions (Landsat 1, NAVSTAR 1, first Shuttle EVA, Iridium–Cosmos, IKAROS — UTC 2010-05-20) → 85; card 68.
+- Tooling in ~/.cache/aero-src/w4/ (copy `ffa/` profile into a new wave dir or shot.sh fails).
