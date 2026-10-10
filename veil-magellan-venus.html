@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEIL — MAGELLAN'S RADAR MAP OF VENUS / ПОКРОВ — РАДИОЛОКАЦИОННАЯ КАРТА ВЕНЕРЫ «МАГЕЛЛАНА»</title>
+<meta name="description" content="An interactive field guide to NASA's Magellan: how a 3.7 m dish and synthetic-aperture radar at 12.6 cm saw through Venus's clouds at 120–300 m resolution, how 243-day cycles mapped 98% of the planet strip by strip, what roughly 940 scattered craters say about a surface only about half a billion years old, and how Magellan became the first spacecraft to aerobrake into a new orbit at another planet.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/veil-magellan-venus">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VEIL — MAGELLAN'S RADAR MAP OF VENUS / ПОКРОВ — РАДИОЛОКАЦИОННАЯ КАРТА ВЕНЕРЫ «МАГЕЛЛАНА»">
+<meta property="og:description" content="12.6 cm radar, 120–300 m pixels, 98% of Venus in 25 km strips, and the first planetary aerobraking: Magellan, interactive and sourced from JPL's own guides.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/veil-magellan-venus">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* VEIL: 44 px touch targets for buttons and sliders (iPhone guideline), as in SCORCH/BELT */
+.btn{min-height:44px; min-width:44px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+/* small SVG labels: darker than the shared #7a7a74 for AA contrast on white and on the tan fills */
+.svg-small{fill:#55554f;}
+@media (pointer:coarse){
+  .btn{padding:10px 14px; font-size:12px;}
+  input[type=range]{background:transparent; margin:4px 0;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">VEIL — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE VEILED PLANET</span></div>
+  <div class="hud-row"><span class="hud-label">ALTITUDE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">RESOLUTION</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE VEILED PLANET">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — VENUS, 98% MAPPED THROUGH THE CLOUDS" data-ru="РИС. 00 — ВЕНЕРА, 98% КАРТЫ СКВОЗЬ ОБЛАКА">FIG. 00 — VENUS, 98% MAPPED THROUGH THE CLOUDS</span></span>
+        <span>12.6 cm · 3.7 m · 120–300 m</span>
+      </div>
+      <h1><span data-en="VEIL" data-ru="ПОКРОВ">VEIL</span><br><em data-en="MAGELLAN'S RADAR MAP OF VENUS" data-ru="РАДИОЛОКАЦИОННАЯ КАРТА ВЕНЕРЫ «МАГЕЛЛАНА»">MAGELLAN'S RADAR MAP OF VENUS</em></h1>
+      <p class="sub lede" data-en="From orbit, cameras see Venus's ground only as a blurred glow of heat leaking through an unbroken deck of sulphuric-acid cloud. Between 1990 and 1994 NASA's Magellan mapped 98% of the planet sharply anyway — with radar, from echoes, strip by strip. Seven chapters and four instruments: follow one radar pulse to the surface and back, lay down the mapping strips as Venus turns underneath, throw craters at a planet to see what a young surface looks like, and dip a spacecraft into the atmosphere to reshape its orbit." data-ru="С орбиты камеры видят поверхность Венеры лишь как размытое тепловое свечение сквозь сплошной слой облаков из серной кислоты. И всё же в 1990–1994 годах «Магеллан» NASA чётко нанёс на карту 98% планеты — радиолокатором, по эхо-сигналам, полоса за полосой. Семь глав и четыре прибора: проследите один радиоимпульс до поверхности и обратно, уложите полосы съёмки, пока Венера поворачивается внизу, разбросайте кратеры по планете и посмотрите, как выглядит молодая поверхность, и опустите аппарат в атмосферу, чтобы изменить его орбиту.">From orbit, cameras see Venus's ground only as a blurred glow.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY RADAR -->
+<section id="ch1" class="section" data-phase="THE VEILED PLANET">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 07</span> — <span data-en="WHY RADAR" data-ru="ПОЧЕМУ РАДИОЛОКАТОР">WHY RADAR</span></div>
+    <h2 class="h-lg" data-en="Light bounces off the clouds; 12.6 cm waves walk through" data-ru="Свет отражается от облаков, волны 12,6 см проходят насквозь">Light bounces off the clouds; 12.6 cm waves walk through</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Venus is wrapped in cloud and haze from about 30 to 90 km up [13], over a surface at <b>737 K</b> under <b>92 bar</b> of carbon dioxide [5]. The main cloud droplets, three-quarters sulphuric acid, are about a micrometre in size [13] — comparable to the wavelength of visible light, the size that scatters light most strongly, so from outside the planet looks like a featureless pale ball. Magellan's radar worked at <b>12.6 cm (2.385 GHz)</b> [4]. Measured against that wavelength a droplet is tiny: its size parameter 2πa/λ drops from about 11 in green light to 0.00005, and Rayleigh scattering, which grows as (a/λ)⁴, all but vanishes. To 12.6 cm waves the clouds are nearly transparent. Light is not completely shut out: near 1 µm the clouds scatter but hardly absorb, and Venus Express, Akatsuki and Parker Solar Probe have all photographed the night-side surface glowing with its own heat [15][19]. But the clouds blur that glow to features about 50 km across [19] — enough to tell hot lowlands from cooler highlands, not enough for a map." data-ru="Венера окутана облаками и дымкой примерно от 30 до 90 км над поверхностью [13], а сама поверхность раскалена до <b>737 К</b> под давлением <b>92 бар</b> углекислого газа [5]. Основные капли облаков, на три четверти из серной кислоты, имеют размер около микрометра [13] — сравнимый с длиной волны видимого света, то есть как раз такой, который рассеивает свет сильнее всего, поэтому снаружи планета выглядит гладким бледным шаром. Радиолокатор «Магеллана» работал на волне <b>12,6 см (2,385 ГГц)</b> [4]. По сравнению с этой длиной волны капля ничтожна: её параметр размера 2πa/λ падает примерно с 11 в зелёном свете до 0,00005, а рэлеевское рассеяние, растущее как (a/λ)⁴, почти исчезает. Для волн 12,6 см облака почти прозрачны. Свет при этом не перекрыт полностью: около 1 мкм облака рассеивают, но почти не поглощают, и «Венера-экспресс», «Акацуки» и Parker Solar Probe фотографировали ночную поверхность, светящуюся собственным теплом [15][19]. Но облака размывают это свечение до деталей около 50 км [19] — достаточно, чтобы отличить горячие низменности от более холодных возвышенностей, но мало для карты.">Clouds scatter light; 12.6 cm passes through.</p>
+      <p class="body-col" data-en="Radar had been tried before. The US <b>Pioneer Venus Orbiter</b> (1978) mapped 92% of the surface, but its smallest visible features were 50–140 km across. The Soviet <b>Venera 15 and 16</b> (1983) imaged about a quarter of the planet, the northern part, at 1.2–2.4 km, and found coronae, tesserae and craters [3][4]. Magellan was designed to do far better everywhere: about <b>120–300 m</b> [1]. For the surface seen up close, by the Venera and Vega landers and balloons, see <a href='/aerospace/furnace-venera-vega'>FURNACE</a>; this guide stays in orbit." data-ru="Радиолокацию пробовали и раньше. Американский <b>Pioneer Venus Orbiter</b> (1978) снял 92% поверхности, но самые мелкие различимые детали у него были 50–140 км. Советские <b>«Венера-15» и «Венера-16»</b> (1983) отсняли около четверти планеты, её северную часть, с разрешением 1,2–2,4 км и обнаружили венцы, тессеры и кратеры [3][4]. «Магеллан» проектировали, чтобы видеть гораздо лучше и везде: около <b>120–300 м</b> [1]. О поверхности вблизи — с посадочных аппаратов и аэростатов «Венер» и «Вег» — см. справочник <a href='/aerospace/furnace-venera-vega'>ПЕЧЬ</a>; этот остаётся на орбите.">Pioneer Venus 50–140 km; Venera 15/16 1.2–2.4 km; Magellan 120–300 m.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="rSvg" class="sim-svg" viewBox="0 0 480 250" role="img" aria-label="Resolution of Venus radar maps, from Pioneer Venus to VERITAS, on a logarithmic scale" data-aria-en="Resolution of Venus radar maps, from Pioneer Venus to VERITAS, on a logarithmic scale" data-aria-ru="Разрешение радиолокационных карт Венеры от Pioneer Venus до VERITAS, логарифмическая шкала"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Wavelength" data-aria-en="Wavelength" data-aria-ru="Длина волны" id="rPre">
+          <button class="btn" data-l="0.55e-6" aria-pressed="false" data-en="GREEN LIGHT" data-ru="ЗЕЛЁНЫЙ СВЕТ">GREEN LIGHT</button>
+          <button class="btn" data-l="1.01e-6" aria-pressed="false" data-en="NEAR-IR WINDOW 1.0 µm" data-ru="ОКНО БЛИЖНЕГО ИК 1,0 мкм">NEAR-IR WINDOW 1.0 µm</button>
+          <button class="btn active" data-l="0.126" aria-pressed="true">12.6 CM</button>
+        </div>
+        <div class="readout-grid" id="rReadout"></div>
+        <div class="status" id="rStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Left: smallest resolvable feature of each map [1][3][10]. Right panel: size parameter x = 2πa/λ for a cloud droplet of radius 1 µm and the Rayleigh (a/λ)⁴ scaling relative to 12.6 cm. The Rayleigh formula holds only for x ≪ 1; in visible light the droplets scatter in the Mie regime, which is stronger still. Absorption by sulphuric-acid vapour, which does weaken microwaves somewhat, is not modelled." data-ru="Слева — наименьшая различимая деталь каждой карты [1][3][10]. Справа — параметр размера x = 2πa/λ для капли облака радиусом 1 мкм и рэлеевский закон (a/λ)⁴ относительно 12,6 см. Формула Рэлея верна только при x ≪ 1; в видимом свете капли рассеивают в режиме Ми, ещё сильнее. Поглощение парами серной кислоты, которое несколько ослабляет и радиоволны, не моделируется.">Resolution ladder and droplet size parameter.</p>
+  </div>
+</section>
+
+<!-- CH2 — SAR -->
+<section id="ch2" class="section" data-phase="ECHOES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 07</span> — <span data-en="SYNTHETIC-APERTURE RADAR" data-ru="РАДИОЛОКАТОР С СИНТЕЗИРОВАННОЙ АПЕРТУРОЙ">SYNTHETIC-APERTURE RADAR</span></div>
+    <h2 class="h-lg" data-en="A 3.7 m dish that sees like a kilometre-long one" data-ru="Антенна 3,7 м, видящая как километровая">A 3.7 m dish that sees like a kilometre-long one</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A dish 3.7 m across at 12.6 cm has a beam about λ/D ≈ 2° wide — Magellan's measured beam was 2.1° × 2.5° [4]. From a few hundred kilometres up, that beam lights a patch more than ten kilometres long. On its own the dish could never see a 120 m feature. Radar solves the two directions separately. <b>Across the track</b> (range), the echo's arrival time tells distance: Magellan sent 26.5 µs pulses swept over 2.26 MHz, which after processing separate echoes 88 m apart in slant range [4]. On the ground that becomes 88 m ÷ sin(incidence angle)." data-ru="Антенна диаметром 3,7 м на волне 12,6 см даёт луч шириной около λ/D ≈ 2° — измеренный луч «Магеллана» был 2,1° × 2,5° [4]. С высоты в несколько сотен километров такой луч освещает пятно длиной больше десяти километров. Сама по себе антенна никогда не увидела бы деталь в 120 м. Радиолокатор решает задачу отдельно для двух направлений. <b>Поперёк трассы</b> (по дальности) расстояние даёт время прихода эха: «Магеллан» посылал импульсы по 26,5 мкс с линейной частотной модуляцией (ЛЧМ) в полосе 2,26 МГц, что после обработки разделяет эхо-сигналы через 88 м по наклонной дальности [4]. На поверхности это превращается в 88 м ÷ sin(угла падения).">Range: 88 m slant resolution.</p>
+      <p class="body-col" data-en="<b>Along the track</b> (azimuth), the trick is the Doppler shift. As the spacecraft flies past a point, its echo first rises in pitch, then falls, like a passing train whistle. Recording hundreds of echoes and sorting them by Doppler on Earth is equivalent to a far longer antenna — a <b>synthetic aperture</b> a few hundred metres to over a kilometre long, built from the echoes collected as the spacecraft flies on [3]. Magellan's images reached 120 m along track. In principle a longer aperture could have done better still, but Magellan's radar worked in short bursts to save data, and spent the rest of its Doppler bandwidth on at least four independent looks to tame the grainy speckle of radar [3][4]. Pick a latitude below to follow one mapping pass of the first cycle." data-ru="<b>Вдоль трассы</b> (по азимуту) выручает эффект Доплера. Когда аппарат пролетает над точкой, её эхо сначала повышает тон, затем понижает, как гудок проходящего поезда. Записав сотни эхо-сигналов и рассортировав их по доплеровскому сдвигу на Земле, получают эквивалент гораздо более длинной антенны — <b>синтезированную апертуру</b> длиной от сотен метров до километра с лишним, собранную из эхо-сигналов на пролёте [3]. Снимки «Магеллана» достигали 120 м вдоль трассы. В принципе более длинная апертура дала бы ещё лучше, но радиолокатор «Магеллана» работал короткими пачками импульсов ради экономии данных, а остаток доплеровской полосы тратил на усреднение минимум по четырём независимым «взглядам» (некогерентным накоплениям), чтобы приглушить зернистый спекл-шум радиолокатора [3][4]. Выберите ниже широту и пройдите по одному витку съёмки первого цикла.">Azimuth: Doppler, 120 m.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="RADAR GEOMETRY" data-ru="ГЕОМЕТРИЯ РАДИОЛОКАЦИИ">RADAR GEOMETRY</div>
+      <div class="eq-body">t = 2ρ/c &nbsp;·&nbsp; δ<sub>ground</sub> = 88 m / sin θ &nbsp;·&nbsp; L<sub>beam</sub> ≈ ρ·λ/D &nbsp;·&nbsp; L<sub>synth</sub> ≈ ρ·λ/(2·δ<sub>az</sub>)</div>
+      <div class="eq-note" data-en="ρ = slant range from spacecraft to the imaged point, θ = incidence angle at the surface, λ = 12.6 cm, D = 3.7 m, δ_az = 120 m [4]. The ideal range resolution c/2B for 2.26 MHz is 66 m; the published effective value, 88 m, includes processing losses." data-ru="ρ — наклонная дальность от аппарата до снимаемой точки, θ — угол падения у поверхности, λ = 12,6 см, D = 3,7 м, δ_az = 120 м [4]. Идеальное разрешение по дальности c/2B для 2,26 МГц — 66 м; опубликованное эффективное значение 88 м учитывает потери при обработке.">t = 2ρ/c; 88 m / sin θ.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="gSvg" class="sim-svg" viewBox="0 0 480 280" role="img" aria-label="Magellan mapping geometry at the chosen latitude: altitude, look direction and the radar footprint" data-aria-en="Magellan mapping geometry at the chosen latitude: altitude, look direction and the radar footprint" data-aria-ru="Геометрия съёмки «Магеллана» на выбранной широте: высота, направление взгляда и пятно радиолокатора"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset latitude" data-aria-en="Preset latitude" data-aria-ru="Предустановленная широта" id="gPre">
+          <button class="btn" data-v="90" aria-pressed="false" data-en="NORTH POLE" data-ru="СЕВЕРНЫЙ ПОЛЮС">NORTH POLE</button>
+          <button class="btn active" data-v="10" aria-pressed="true" data-en="PERIAPSIS" data-ru="ПЕРИЦЕНТР">PERIAPSIS</button>
+          <button class="btn" data-v="-75" aria-pressed="false">75° S</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="gLat" data-en="LATITUDE (CYCLE 1)" data-ru="ШИРОТА (ЦИКЛ 1)">LATITUDE (CYCLE 1)</label><span class="v" id="gLatVal">—</span></div>
+          <input id="gLat" type="range" min="-75" max="90" step="0.5" value="10">
+        </div>
+        <div class="readout-grid" id="gReadout"></div>
+        <div class="status" id="gStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Incidence angles: the Cycle 1 profile, Table 4-1 of [4], interpolated. Altitude: the mapping orbit of Table 1-1 [4] (periapsis 289 km at 9.5° N, apoapsis 8,458 km) as a two-body ellipse, taking latitude as the angle from periapsis along the 85.5° orbit — it gives 2,237 km over the north pole against the guide's “about 2,000” and 2,454 km at 75° S against “2,400 near 74° S” [3]. Slant range uses a spherical Venus of radius 6,051.8 km [5]." data-ru="Углы падения — профиль цикла 1, табл. 4-1 из [4], с интерполяцией. Высота — съёмочная орбита из табл. 1-1 [4] (перицентр 289 км на 9,5° с. ш., апоцентр 8458 км) как кеплеровский эллипс; широта принята равной углу от перицентра вдоль орбиты с наклоном 85,5°. Это даёт 2237 км над северным полюсом против «около 2000» в справочнике и 2454 км на 75° ю. ш. против «2400 около 74° ю. ш.» [3]. Наклонная дальность — для сферической Венеры радиусом 6051,8 км [5].">Model assumptions.</p>
+  </div>
+</section>
+
+<!-- CH3 — MAPPING -->
+<section id="ch3" class="section" data-phase="STRIP BY STRIP">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 07</span> — <span data-en="243-DAY CYCLES" data-ru="ЦИКЛЫ ПО 243 СУТКИ">243-DAY CYCLES</span></div>
+    <h2 class="h-lg" data-en="Let the planet turn underneath" data-ru="Планета поворачивается под орбитой">Let the planet turn underneath</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Magellan's near-polar orbit stayed almost fixed in space while Venus turned slowly beneath it — once every <b>243 days</b>, backwards [5]. Each orbit the radar recorded a strip about <b>25 km wide and 16,000 km long</b> from the north pole to the far south, then turned the dish to Earth to play the tapes back [3]. In 3.26 hours Venus turns by only about 21 km at the equator, so each new strip slightly overlaps the last; the guide quotes an average overlap of about 5 km [3]. One turn of the planet takes about 1,790 orbits: one complete cycle of strips [4]." data-ru="Почти полярная орбита «Магеллана» оставалась почти неподвижной в пространстве, а Венера медленно поворачивалась под ней — один оборот за <b>243 суток</b>, в обратную сторону [5]. На каждом витке радиолокатор записывал полосу шириной около <b>25 км и длиной 16 000 км</b> от северного полюса далеко на юг, а затем поворачивал антенну к Земле, чтобы передать записи [3]. За 3,26 часа Венера поворачивается на экваторе всего примерно на 21 км, поэтому каждая новая полоса немного перекрывает предыдущую; справочник указывает среднее перекрытие около 5 км [3]. Один оборот планеты занимает около 1790 витков — это полный цикл полос [4].">25 km strips; 21 km shift per orbit.</p>
+      <p class="body-col" data-en="The first cycle, from 15 September 1990 to 15 May 1991, covered <b>83.7%</b> of the surface — a 70% map had been the goal. The gaps came from the south pole, which the left-looking radar could not see, and from superior conjunction, when Venus passed behind the Sun as seen from Earth and 110 of the 1,790 orbits returned nothing [4]. A second cycle, looking right, raised coverage to <b>96%</b> by 15 January 1992, and a third, at new angles for stereo, to <b>98%</b> by 13 September 1992 [1][2]. In all, Magellan returned about 1,200 gigabits — more than all earlier NASA planetary missions combined [1]." data-ru="Первый цикл, с 15 сентября 1990 по 15 мая 1991 года, охватил <b>83,7%</b> поверхности — а целью была карта 70%. Пропуски дали южный полюс, недоступный радиолокатору, смотревшему влево, и верхнее соединение, когда Венера с Земли была за Солнцем и 110 из 1790 витков не дали данных [4]. Второй цикл, со взглядом вправо, поднял охват до <b>96%</b> к 15 января 1992 года, а третий, под новыми углами для стереосъёмки, — до <b>98%</b> к 13 сентября 1992 года [1][2]. Всего «Магеллан» передал около 1200 гигабит — больше, чем все предыдущие планетные миссии NASA вместе [1].">83.7%, 96%, 98%.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="mSvg" class="sim-svg" viewBox="0 0 480 280" role="img" aria-label="Successive radar strips at the chosen latitude and how much they overlap" data-aria-en="Successive radar strips at the chosen latitude and how much they overlap" data-aria-ru="Последовательные полосы радиолокационной съёмки на выбранной широте и их перекрытие"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="mLat" data-en="LATITUDE" data-ru="ШИРОТА">LATITUDE</label><span class="v" id="mLatVal">—</span></div>
+          <input id="mLat" type="range" min="0" max="85" step="1" value="0">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="mP" data-en="ORBIT PERIOD" data-ru="ПЕРИОД ОБРАЩЕНИЯ">ORBIT PERIOD</label><span class="v" id="mPVal">—</span></div>
+          <input id="mP" type="range" min="1.5" max="6" step="0.01" value="3.26">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="mW" data-en="STRIP WIDTH" data-ru="ШИРИНА ПОЛОСЫ">STRIP WIDTH</label><span class="v" id="mWVal">—</span></div>
+          <input id="mW" type="range" min="10" max="40" step="0.5" value="25">
+        </div>
+        <div class="readout-grid" id="mReadout"></div>
+        <div class="status" id="mStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Strip spacing = 2πR·cos(latitude)·P/T, with T = 5,832.6 h, Venus's sidereal rotation [5], and P = 3.259 h, the mapping period [4]. Real strip widths varied along each pass; 25 km is the guide's typical value [3]. The bars show the coverage reached by each cycle [1]." data-ru="Шаг полос = 2πR·cos(широты)·P/T, где T = 5832,6 ч — звёздный период вращения Венеры [5], P = 3,259 ч — период съёмочной орбиты [4]. Реальная ширина полосы менялась вдоль витка; 25 км — типичное значение из справочника [3]. Столбцы показывают охват после каждого цикла [1].">Strip spacing formula.</p>
+  </div>
+</section>
+
+<!-- CH4 — CRATERS -->
+<section id="ch4" class="section" data-phase="A YOUNG SURFACE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 07</span> — <span data-en="WHAT THE MAP SHOWED" data-ru="ЧТО ПОКАЗАЛА КАРТА">WHAT THE MAP SHOWED</span></div>
+    <h2 class="h-lg" data-en="Too few craters, scattered at random" data-ru="Слишком мало кратеров, разбросанных случайно">Too few craters, scattered at random</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The map showed a world of volcanoes: at least <b>85%</b> of the surface is covered by volcanic flows, with long lava channels and flat pancake-shaped domes, but no sign of continental drift [1]. Most striking were the impact craters. By orbit 2578, with 89% of Venus mapped, Schaber and colleagues had catalogued <b>842</b>, from 1.5 to 280 km across [8]; with about 98% mapped the catalogue grew to <b>912</b> [16]. That is very few for a whole planet, and small ones are especially rare: the thick atmosphere filters out small impactors before they reach the ground [8]." data-ru="Карта показала мир вулканов: не менее <b>85%</b> поверхности покрыто вулканическими потоками, есть длинные лавовые каналы и плоские «блинообразные» купола, но нет следов дрейфа континентов [1]. Сильнее всего поразили ударные кратеры. К витку 2578, когда было отснято 89% Венеры, Шабер с коллегами каталогизировали <b>842</b> кратера поперечником от 1,5 до 280 км [8]; когда было отснято около 98%, каталог вырос до <b>912</b> [16]. Для целой планеты это очень мало, а мелких особенно немного: плотная атмосфера отсеивает небольшие тела ещё до удара о поверхность [8].">842 craters on 89% of the surface.</p>
+      <p class="body-col" data-en="Two facts made the craters a puzzle. Their positions are statistically indistinguishable from <b>random</b> — the hypothesis of complete spatial randomness cannot be rejected [9] — and most are pristine: 62% untouched, only <b>4%</b> partly flooded by lava [8]. Counting them against the expected rate of impacts gives an average surface age of only about <b>0.5 billion years</b> [8][9], roughly a tenth of the age of the Solar System. One reading is that most of Venus was resurfaced within a geologically short time and has been quieter since; another is steady patchy resurfacing — Phillips and colleagues modelled both end members [9]. The puzzle is that steady patchy resurfacing should leave many half-buried craters and regions of clearly different age, and few are seen. The debate continues, and the age itself rests on an estimated population of Venus-crossing asteroids [8]; a later review puts the average nearer 0.75 billion years [18]. Throw the craters yourself:" data-ru="Два факта превратили кратеры в загадку. Их расположение статистически неотличимо от <b>случайного</b> — гипотезу полной пространственной случайности отвергнуть нельзя [9], — и большинство из них свежие: 62% нетронуты, лишь <b>4%</b> частично залиты лавой [8]. Сравнение их числа с ожидаемой частотой ударов даёт средний возраст поверхности всего около <b>0,5 миллиарда лет</b> [8][9] — примерно десятую часть возраста Солнечной системы. Одно толкование: большая часть Венеры обновилась за геологически короткое время и с тех пор спокойнее; другое — непрерывное обновление по участкам; Филлипс с коллегами смоделировали оба крайних случая [9]. Загадка в том, что непрерывное обновление по участкам должно было бы оставить много полузасыпанных кратеров и районы явно разного возраста, а их почти нет. Спор продолжается, а сам возраст опирается на оценку численности астероидов, пересекающих орбиту Венеры [8]; более поздний обзор называет среднее значение ближе к 0,75 млрд лет [18]. Разбросайте кратеры сами:">Random, pristine, about 0.5 billion years.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="kSvg" class="sim-svg" viewBox="0 0 480 280" role="img" aria-label="Equal-area map of Venus with 912 randomly placed craters and a counting band" data-aria-en="Equal-area map of Venus with 912 randomly placed craters and a counting band" data-aria-ru="Равновеликая карта Венеры с 912 случайно размещёнными кратерами и полосой подсчёта"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Crater throw" data-aria-en="Crater throw" data-aria-ru="Бросок кратеров" id="kPre">
+          <button class="btn" id="kThrow" data-en="THROW AGAIN" data-ru="БРОСИТЬ СНОВА">THROW AGAIN</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="kF" data-en="COUNTING BAND, SHARE OF SURFACE" data-ru="ПОЛОСА ПОДСЧЁТА, ДОЛЯ ПОВЕРХНОСТИ">COUNTING BAND, SHARE OF SURFACE</label><span class="v" id="kFVal">—</span></div>
+          <input id="kF" type="range" min="0.01" max="0.5" step="0.01" value="0.1">
+        </div>
+        <div class="readout-grid" id="kReadout"></div>
+        <div class="status" id="kStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="912 craters, the catalogue size at ~98% coverage [16], placed uniformly on a sphere and drawn in an equal-area projection, so equal areas get equal numbers on average. With the total fixed, a band holding a share f of the surface and an expected N craters scatters by about ±√(N(1−f)) (≈ ±√N for a narrow band); real Venus craters pass tests of this kind [9]. This is an illustration of randomness, not a reproduction of Magellan's crater positions." data-ru="912 кратеров — объём каталога при охвате ~98% [16], — равномерно размещённых на сфере и показанных в равновеликой проекции, так что равные площади в среднем получают равное число. При фиксированном общем числе полоса с долей поверхности f и ожидаемым числом N разбросана примерно на ±√(N(1−f)) (≈ ±√N для узкой полосы); реальные кратеры Венеры проходят подобные проверки [9]. Это иллюстрация случайности, а не воспроизведение положений кратеров по данным «Магеллана».">Illustration only.</p>
+  </div>
+</section>
+
+<!-- CH5 — AEROBRAKING -->
+<section id="ch5" class="section" data-phase="AEROBRAKING">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 07</span> — <span data-en="SURFING THE ATMOSPHERE" data-ru="СЁРФИНГ ПО АТМОСФЕРЕ">SURFING THE ATMOSPHERE</span></div>
+    <h2 class="h-lg" data-en="The first aerobraking at another planet" data-ru="Первое аэроторможение у другой планеты">The first aerobraking at another planet</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Imaging needed a long elliptical orbit; mapping Venus's <b>gravity</b> needed a low, nearly circular one, because the pull of buried mass is only felt up close. Lowering the high point from 8,467 km to 541 km would take about <b>1.2 km/s</b> of braking. Even the full 132.5 kg of hydrazine loaded at launch [3] would have covered only about a quarter of that, and what was left on board by 1993 was at least ten times too little [6]. So in May 1993 the controllers lowered the low point to about 140 km, into the top of the atmosphere [17], and let drag do the work, pass after pass. Magellan had never been designed to enter an atmosphere [7]." data-ru="Для съёмки нужна была вытянутая эллиптическая орбита, а для карты <b>гравитационного поля</b> Венеры — низкая, почти круговая: притяжение скрытых масс заметно только вблизи. Чтобы опустить апоцентр с 8467 до 541 км, нужно торможение около <b>1,2 км/с</b>. Даже всех 132,5 кг гидразина, залитых при запуске [3], хватило бы лишь примерно на четверть, а оставшегося на борту к 1993 году топлива было по меньшей мере в десять раз меньше нужного [6]. Поэтому в мае 1993 года специалисты по управлению полётом опустили перицентр примерно до 140 км, в верхние слои атмосферы [17], и позволили сопротивлению воздуха делать работу, виток за витком. «Магеллан» вовсе не был рассчитан на вход в атмосферу [7].">1.2 km/s by drag, not propellant.</p>
+      <p class="body-col" data-en="In <b>70 days</b>, ending on 3 August 1993, more than 700 passes through the atmosphere shrank the orbit to <b>541 × 197 km</b> — the high point fell by nearly 8,000 km using little propellant [6][7]. It was the first time a spacecraft had used aerobraking to substantially reshape its orbit at another planet [7]. Mars Global Surveyor later did the same at Mars [14], and ESA's EnVision plans 11 months of it at Venus [11]. The gravity cycles from the new orbit ran until 13 October 1994, when Magellan was sent deeper into the atmosphere to measure it, and was lost [1]." data-ru="За <b>70 суток</b>, к 3 августа 1993 года, более 700 проходов через атмосферу сжали орбиту до <b>541 × 197 км</b> — апоцентр опустился почти на 8000 км при малом расходе топлива [6][7]. Впервые космический аппарат с помощью аэроторможения существенно изменил форму своей орбиты у другой планеты [7]. Позже то же самое у Марса проделал Mars Global Surveyor [14], а EnVision ЕКА планирует 11 месяцев аэроторможения у Венеры [11]. Гравиметрические циклы с новой орбиты продолжались до 13 октября 1994 года, когда «Магеллан» направили глубже в атмосферу для её измерения, и связь с ним была потеряна [1].">70 days, 700+ passes, 541 × 197 km.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="aSvg" class="sim-svg" viewBox="0 0 480 280" role="img" aria-label="Orbit before and after aerobraking, and the high point of the orbit falling day by day" data-aria-en="Orbit before and after aerobraking, and the high point of the orbit falling day by day" data-aria-ru="Орбита до и после аэроторможения и снижение апоцентра день за днём"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="aDv" data-en="DRAG Δv PER PASS" data-ru="ТОРМОЖЕНИЕ Δv ЗА ПРОХОД">DRAG Δv PER PASS</label><span class="v" id="aDvVal">—</span></div>
+          <input id="aDv" type="range" min="0.5" max="5" step="0.01" value="1.6">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="aM" data-en="SPACECRAFT MASS (ASSUMED)" data-ru="МАССА АППАРАТА (ДОПУЩЕНИЕ)">SPACECRAFT MASS (ASSUMED)</label><span class="v" id="aMVal">—</span></div>
+          <input id="aM" type="range" min="1000" max="1400" step="10" value="1100">
+        </div>
+        <div class="readout-grid" id="aReadout"></div>
+        <div class="status" id="aStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: the low point held at 197 km (the final value [6]) and the same small speed loss at every pass, applied at periapsis; real drag varied pass to pass and the controllers trimmed the low point with thrusters. In reality the drag passes were flown at about 140 km [17] and the low point was raised to 197 km at the end; holding it at 197 km changes the total Δv by about 1 m/s. The propulsive comparison uses the rocket equation with a monopropellant-hydrazine Isp of 220 s and an in-orbit mass of about 1,100 kg, both assumptions: 3,453 kg at launch [3] minus the 2,146 kg Star 48B orbit-insertion motor [3] and some hydrazine used en route." data-ru="Модель: перицентр удерживается на 197 км (итоговое значение [6]), и на каждом проходе в перицентре теряется одна и та же небольшая скорость; реальное торможение менялось от прохода к проходу, а перицентр подправляли двигателями. На деле торможение шло на высоте около 140 км [17], а в конце перицентр подняли до 197 км; если держать его на 197 км, суммарное Δv меняется примерно на 1 м/с. Сравнение с двигательным вариантом — по формуле Циолковского с удельным импульсом однокомпонентного гидразина 220 с и массой на орбите около 1100 кг, оба значения — допущения: 3453 кг при запуске [3] минус 2146 кг твердотопливного двигателя Star 48B для выхода на орбиту [3] и часть гидразина, израсходованная в полёте.">Model assumptions.</p>
+  </div>
+</section>
+
+<!-- CH6 — LEGACY -->
+<section id="ch6" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 07</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="Still the map of Venus, thirty years on" data-ru="Всё ещё карта Венеры — тридцать лет спустя">Still the map of Venus, thirty years on</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Magellan was the first planetary spacecraft launched from a Space Shuttle, and the first US deep-space launch in almost eleven years; its bus was assembled from spares of Voyager, Galileo, Ulysses and Mariner 9 [1][3]. More than three decades later its images, altimetry and gravity are still the global reference for Venus: in 2023 Herrick and Hensley found a volcanic vent of about 2.2 km² that changed shape in the eight months between two Magellan images — evidence, they argue, of ongoing volcanism [12]." data-ru="«Магеллан» стал первым планетным аппаратом, запущенным с шаттла, и первым за почти одиннадцать лет запуском США в дальний космос; его служебный модуль собрали из запасных частей «Вояджера», «Галилео», «Улисса» и «Маринера-9» [1][3]. Спустя более трёх десятилетий его снимки, высотометрия и гравиметрия всё ещё служат глобальной основой для изучения Венеры: в 2023 году Херрик и Хенсли нашли вулканическое жерло площадью около 2,2 км², изменившее форму за восемь месяцев между двумя снимками «Магеллана», — по их мнению, свидетельство продолжающегося вулканизма [12].">The global reference, still.</p>
+      <p class="body-col" data-en="The next maps are planned with radar again. NASA's <b>VERITAS</b> would map at about 30 m per pixel, at least three times sharper, with launch no earlier than 2031 and its future uncertain [10]; ESA's <b>EnVision</b> plans to launch in November 2031 [11]. Until they fly, Magellan's strips are the map." data-ru="Следующие карты снова планируют делать радиолокатором. <b>VERITAS</b> NASA должен снимать с разрешением около 30 м на пиксель, минимум втрое резче, запуск не ранее 2031 года, будущее миссии под вопросом [10]; <b>EnVision</b> ЕКА планирует запуск в ноябре 2031 года [11]. Пока они не полетели, картой Венеры остаются полосы «Магеллана».">VERITAS and EnVision.</p>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="From orbit, light shows us only the blur of Venus. Its sharp map we have only heard, as an echo." data-ru="С орбиты свет показывает нам лишь размытую Венеру. Её чёткую карту мы только слышали — как эхо.">From orbit, light shows us only the blur of Venus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — REFERENCES -->
+<section id="ch7" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 07</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var R_V = 6051.8, GM_V = 324860, T_ROT = 5832.6;                        // km, km³/s², sidereal rotation in hours [5]
+var LAMBDA = 0.126, D_ANT = 3.7, BW = 2.26e6, DR_SLANT = 88, D_AZ = 120;  // m, m, Hz, m, m [4]
+var ALT_P = 289, ALT_A = 8458, LAT_P = 9.5, P_MAP = 3.259;              // mapping orbit, Table 1-1 [4]
+var G0 = 9.80665, ISP_N2H4 = 220;                                        // Isp is an assumption for monopropellant hydrazine
+/* Cycle 1 incidence-angle profile, Table 4-1 of [4]: [latitude, degrees] */
+var INC1 = [[90,16.5],[85,18.5],[80,20.2],[75,22.0],[70,23.9],[65,26.0],[60,28.3],[55,30.8],[50,33.3],[45,35.8],[40,38.1],[35,40.3],[30,42.1],[25,43.6],[20,44.8],[15,45.5],[10,45.7],[5,45.6],[0,44.9],[-5,43.8],[-10,42.3],[-15,40.4],[-20,38.1],[-25,35.5],[-30,32.8],[-35,30.1],[-40,27.5],[-45,25.1],[-50,23.1],[-55,21.6],[-60,20.5],[-65,19.7],[-70,18.5],[-75,16.3]];
+var D2R = Math.PI/180;
+
+function incidence(lat){
+  for(var i = 0; i < INC1.length - 1; i++){
+    var a = INC1[i], b = INC1[i + 1];
+    if(lat <= a[0] && lat >= b[0]) return a[1] + (b[1] - a[1])*(a[0] - lat)/(a[0] - b[0]);
+  }
+  return lat > 90 ? INC1[0][1] : INC1[INC1.length - 1][1];
+}
+function period(rp, ra){ var a = (rp + ra)/2; return 2*Math.PI*Math.sqrt(a*a*a/GM_V); }   // seconds
+function altitude(lat){
+  var rp = R_V + ALT_P, ra = R_V + ALT_A, a = (rp + ra)/2, e = (ra - rp)/(ra + rp);
+  return a*(1 - e*e)/(1 + e*Math.cos((lat - LAT_P)*D2R)) - R_V;
+}
+/* Spherical geometry: incidence θ at the surface, look angle φ from nadir, central angle γ = θ − φ. */
+function geometry(lat){
+  var h = altitude(lat), th = incidence(lat)*D2R, rs = R_V + h;
+  var phi = Math.asin(R_V*Math.sin(th)/rs), gam = th - phi;
+  var rho = Math.sqrt(rs*rs + R_V*R_V - 2*R_V*rs*Math.cos(gam));                           // km
+  return {h:h, theta:th/D2R, phi:phi/D2R, gamma:gam/D2R, rho:rho,
+    delay:2*rho/299792.458*1000,                                                              // ms
+    beam:rho*LAMBDA/D_ANT,                                                                    // km, real-aperture footprint along track
+    synth:rho*1000*LAMBDA/(2*D_AZ)/1000,                                                      // km, synthetic aperture for 120 m
+    ground:DR_SLANT/Math.sin(th)};                                                            // m
+}
+function spacing(lat, Ph){ return 2*Math.PI*R_V*Math.cos(lat*D2R)*Ph/T_ROT; }                  // km between successive strips
+function sizeParam(a, lam){ return 2*Math.PI*a/lam; }
+/* Aerobraking: periapsis held at 197 km, the same speed loss dv (m/s) at every pass. */
+var RP_AB = R_V + 197, RA0 = R_V + 8467, RA1 = R_V + 541;
+function vPeri(ra){ return Math.sqrt(GM_V*2*ra/(RP_AB*(RP_AB + ra))); }
+function aerobrake(dv){
+  var ra = RA0, t = 0, n = 0, hist = [[0, ra - R_V]];
+  while(ra > RA1 && n < 20000){
+    t += period(RP_AB, ra);
+    var v = vPeri(ra) - dv/1000, a = 1/(2/RP_AB - v*v/GM_V);
+    ra = 2*a - RP_AB; n++;
+    if(n % 5 === 0 || ra <= RA1) hist.push([t/86400, Math.max(ra, RA1) - R_V]);
+  }
+  return {passes:n, days:t/86400, hist:hist};
+}
+function dvPropulsive(){ return (vPeri(RA0) - vPeri(RA1))*1000; }                          // m/s
+function propellant(m0, dv, isp){ return m0*(1 - Math.exp(-dv/(G0*isp))); }
+function dvFromProp(m0, mp, isp){ return G0*isp*Math.log(m0/(m0 - mp)); }
+/* Craters: deterministic generator, uniform on the sphere (z = sin latitude uniform). */
+var N_CRATERS = 912;                                                     // catalogue at ~98% coverage [16]
+function mulberry(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0)/4294967296; }; }
+function craters(n, seed){ var r = mulberry(seed), out = []; for(var i = 0; i < n; i++) out.push([r()*360, r()*2 - 1]); return out; }
+function bandSd(n, f){ return Math.sqrt(n*f*(1 - f)); }          // binomial: the total is fixed
+function countBand(list, f){ var c = 0; list.forEach(function(p){ if(Math.abs(p[1]) < f) c++; }); return c; }
+
+/* ============ CH1 — RESOLUTION LADDER + DROPLETS ============ */
+var LADDER = [
+  ['Pioneer Venus', 'Pioneer Venus', 50000, 140000, '1978'],
+  ['Venera 15/16', '«Венера-15/16»', 1200, 2400, '1983'],
+  ['Magellan', '«Магеллан»', 120, 300, '1990'],
+  ['VERITAS', 'VERITAS', 30, 30, '2031+']
+];
+var rLam = 0.126;
+function renderR(){
+  var svg = document.getElementById('rSvg'); svg.innerHTML = '';
+  var L = 130, R = 465, lo = 10, hi = 200000;
+  function X(m){ return L + (Math.log10(m) - Math.log10(lo))/(Math.log10(hi) - Math.log10(lo))*(R - L); }
+  [10, 100, 1000, 10000, 100000].forEach(function(m){
+    ns('line', {x1:X(m), y1:24, x2:X(m), y2:214, stroke:'#e4e4de'}, svg);
+    txt(svg, X(m), 230, m >= 1000 ? fmtInt(m/1000) + T(' km',' км') : m + T(' m',' м'), 'svg-small', 'middle');
+  });
+  txt(svg, R, 246, T('smallest visible feature (log scale)','наименьшая различимая деталь (логарифмическая шкала)'), 'svg-small', 'end');
+  LADDER.forEach(function(r, i){
+    var y = 40 + i*46;
+    txt(svg, 8, y + 4, T(r[0], r[1]), 'svg-label');
+    txt(svg, 8, y + 18, r[4], 'svg-small');
+    var x1 = X(r[2]), x2 = Math.max(X(r[3]), x1 + 6);
+    ns('rect', {x:x1, y:y - 8, width:x2 - x1, height:16, fill: i === 2 ? '#b5452a' : '#8a8a82', rx:2}, svg);
+  });
+  var a = 1e-6, x = sizeParam(a, rLam), rel = Math.pow(0.126/rLam, 4);
+  cells(document.getElementById('rReadout'), [
+    [T('WAVELENGTH','ДЛИНА ВОЛНЫ'), rLam >= 0.01 ? fmt(rLam*100, 1) + T(' cm',' см') : fmt(rLam*1e6, 2) + T(' µm',' мкм')],
+    [T('SIZE PARAMETER 2πa/λ','ПАРАМЕТР РАЗМЕРА 2πa/λ'), x < 0.01 ? x.toExponential(1).replace('.', T('.', ',')) : fmt(x, 1)],
+    [T('RAYLEIGH (a/λ)⁴ vs 12.6 cm','РЭЛЕЙ (a/λ)⁴ ОТНОСИТЕЛЬНО 12,6 см'), rel < 10 ? fmt(rel, 0) + '×' : '10' + supNum(Math.round(Math.log10(rel))) + '×', true]
+  ]);
+  document.getElementById('rStatus').innerHTML = x > 1
+    ? (rLam > 1e-6 ? T('Scattered over and over but hardly absorbed: the surface\'s heat glow leaks through, blurred to tens of kilometres — too coarse for a map.','Свет многократно рассеивается, но почти не поглощается: тепловое свечение поверхности просачивается наружу, размытое до десятков километров, — для карты слишком грубо.')
+       : T('The droplet is as large as the wave or larger: sunlight is scattered over and over, and the clouds show only themselves.','Капля не меньше длины волны: солнечный свет рассеивается снова и снова, и видны только сами облака.'))
+    : T('The droplet is a speck compared with the wave: scattering is negligible, and the radar sees the ground.','Капля — пылинка по сравнению с волной: рассеяние ничтожно, и радиолокатор видит грунт.');
+}
+function supNum(n){ var s = '⁰¹²³⁴⁵⁶⁷⁸⁹'; return String(n).split('').map(function(c){ return s[+c]; }).join(''); }
+Array.prototype.forEach.call(document.querySelectorAll('#rPre .btn'), function(btn){
+  btn.addEventListener('click', function(){ rLam = +this.getAttribute('data-l'); pressGroup(this.parentNode, this); renderR(); });
+});
+
+/* ============ CH2 — SAR GEOMETRY ============ */
+var gLat = document.getElementById('gLat');
+function latStr(l){ return fmt(Math.abs(l), Math.abs(l) % 1 ? 1 : 0) + '° ' + (l >= 0 ? T('N','с. ш.') : T('S','ю. ш.')); }
+function renderG(){
+  var lat = +gLat.value, g = geometry(lat);
+  document.getElementById('gLatVal').textContent = latStr(lat);
+  var svg = document.getElementById('gSvg'); svg.innerHTML = '';
+  var s = 0.085, cx = 150, top = 255, cy = top + R_V*s;
+  ns('circle', {cx:cx, cy:cy, r:R_V*s, fill:'#efe7d4', stroke:'#a8741a'}, svg);
+  var sy = top - g.h*s, gm = g.gamma*D2R;
+  var px = cx + R_V*s*Math.sin(gm), py = cy - R_V*s*Math.cos(gm);
+  ns('line', {x1:cx, y1:sy, x2:cx, y2:top, stroke:'#8a8a82', 'stroke-dasharray':'3 3'}, svg);
+  ns('line', {x1:cx, y1:sy, x2:px, y2:py, stroke:'#2f5aa1', 'stroke-width':2}, svg);
+  ns('rect', {x:cx - 6, y:sy - 5, width:12, height:10, fill:'#0b0b0c'}, svg);
+  ns('circle', {cx:px, cy:py, r:4, fill:'#b5452a'}, svg);
+  txt(svg, cx - 10, sy - 10, fmtInt(g.h) + T(' km',' км'), 'svg-small', 'end');
+  txt(svg, (cx + px)/2 + 8, (sy + py)/2, 'ρ = ' + fmtInt(g.rho) + T(' km',' км'), 'svg-small');
+  txt(svg, cx + 6, top - 4, T('nadir','надир'), 'svg-small');
+  // footprint comparison bars, to scale against each other
+  var bx = 300, by = 60, kmPx = 140/Math.max(20, g.beam);
+  txt(svg, bx, by - 22, T('along-track size, to scale','размер вдоль трассы, в масштабе'), 'svg-small');
+  ns('rect', {x:bx, y:by, width:g.beam*kmPx, height:14, fill:'#8a8a82'}, svg);
+  txt(svg, bx, by + 28, T('real 3.7 m dish: ','реальная антенна 3,7 м: ') + fmt(g.beam, 1) + T(' km',' км'), 'svg-small');
+  ns('rect', {x:bx, y:by + 44, width:Math.max(1.5, D_AZ/1000*kmPx), height:14, fill:'#b5452a'}, svg);
+  txt(svg, bx, by + 72, T('SAR resolution cell: 120 m','элемент разрешения РСА: 120 м'), 'svg-small');
+  // echo timing
+  var tb = 190, tw = 160, tmax = 30;
+  txt(svg, bx, tb - 12, T('echo round trip, ms','время эха туда и обратно, мс'), 'svg-small');
+  ns('line', {x1:bx, y1:tb, x2:bx + tw, y2:tb, stroke:'#e4e4de', 'stroke-width':6}, svg);
+  ns('line', {x1:bx, y1:tb, x2:bx + Math.min(1, g.delay/tmax)*tw, y2:tb, stroke:'#2f5aa1', 'stroke-width':6}, svg);
+  txt(svg, bx, tb + 18, '0', 'svg-small'); txt(svg, bx + tw, tb + 18, tmax, 'svg-small', 'end');
+  cells(document.getElementById('gReadout'), [
+    [T('ALTITUDE','ВЫСОТА'), fmtInt(g.h) + T(' km',' км')],
+    [T('INCIDENCE ANGLE','УГОЛ ПАДЕНИЯ'), fmt(g.theta, 1) + '°'],
+    [T('SLANT RANGE','НАКЛОННАЯ ДАЛЬНОСТЬ'), fmtInt(g.rho) + T(' km',' км')],
+    [T('ECHO DELAY','ЗАДЕРЖКА ЭХА'), fmt(g.delay, 2) + T(' ms',' мс')],
+    [T('REAL-APERTURE FOOTPRINT','ПЯТНО РЕАЛЬНОЙ АПЕРТУРЫ'), fmt(g.beam, 1) + T(' km',' км')],
+    [T('SYNTHETIC APERTURE NEEDED','НУЖНАЯ СИНТЕЗИРОВАННАЯ АПЕРТУРА'), fmt(g.synth*1000, 0) + T(' m',' м')],
+    [T('GROUND-RANGE RESOLUTION','РАЗРЕШЕНИЕ ПО ДАЛЬНОСТИ НА ГРУНТЕ'), fmtInt(g.ground) + T(' m',' м')],
+    [T('ALONG-TRACK RESOLUTION','РАЗРЕШЕНИЕ ВДОЛЬ ТРАССЫ'), '120' + T(' m',' м')]
+  ]);
+  hud1.textContent = fmtInt(g.h) + T(' km',' км'); hud2.textContent = fmtInt(g.ground) + T(' m',' м');
+  document.getElementById('gStatus').innerHTML = g.theta > 40
+    ? T('Near periapsis the spacecraft is low, so it can look farther off to the side (a larger, more oblique incidence angle): the best ground resolution of the pass.','У перицентра аппарат низко и может смотреть дальше вбок (больший, более пологий угол падения): лучшее разрешение на грунте за виток.')
+    : T('High above the poles the echo is weak, so the dish looks closer to straight down; a small incidence angle stretches each 88 m range cell over more ground.','Высоко над полюсами эхо слабое, и антенна смотрит ближе к отвесу; малый угол падения растягивает каждый 88-метровый элемент дальности на больший участок грунта.');
+}
+gLat.addEventListener('input', function(){ pressGroup(document.getElementById('gPre'), null); renderG(); });
+Array.prototype.forEach.call(document.querySelectorAll('#gPre .btn'), function(btn){
+  btn.addEventListener('click', function(){ gLat.value = this.getAttribute('data-v'); pressGroup(this.parentNode, this); renderG(); });
+});
+
+/* ============ CH3 — MAPPING STRIPS ============ */
+var mLat = document.getElementById('mLat'), mP = document.getElementById('mP'), mW = document.getElementById('mW');
+var CYCLES = [[1, 83.7, '15.05.1991'], [2, 96, '15.01.1992'], [3, 98, '13.09.1992']];
+function renderM(){
+  var lat = +mLat.value, P = +mP.value, W = +mW.value, sp = spacing(lat, P), gap = sp - W;
+  document.getElementById('mLatVal').textContent = fmt(lat, 0) + '°';
+  document.getElementById('mPVal').textContent = fmt(P, 2) + T(' h',' ч');
+  document.getElementById('mWVal').textContent = fmt(W, 1) + T(' km',' км');
+  var svg = document.getElementById('mSvg'); svg.innerHTML = '';
+  var x0 = 20, y0 = 30, h = 120, k = 1.3;
+  txt(svg, x0, y0 - 10, T('8 successive strips, west to east, to scale','8 полос подряд, с запада на восток, в масштабе'), 'svg-small');
+  for(var i = 0; i < 8; i++){
+    var x = x0 + i*sp*k;
+    if(x > 470) break;
+    ns('rect', {x:x, y:y0 + (i % 2)*6, width:Math.min(W*k, 470 - x), height:h, fill:'#2f5aa1', 'fill-opacity':0.28, stroke:'#2f5aa1', 'stroke-width':0.6}, svg);
+    if(gap > 0 && x + W*k < 470) ns('rect', {x:x + W*k, y:y0 + h + 10, width:Math.min(gap*k, 470 - x - W*k), height:5, fill:'#b5452a'}, svg);
+  }
+  ns('line', {x1:x0, y1:y0 + h + 24, x2:x0 + 50*k, y2:y0 + h + 24, stroke:'#0b0b0c'}, svg);
+  txt(svg, x0, y0 + h + 38, '50' + T(' km',' км'), 'svg-small');
+  // coverage per cycle
+  var cb = 222;
+  txt(svg, 150, cb - 12, T('surface mapped after each cycle [1]','отснято поверхности после каждого цикла [1]'), 'svg-small');
+  CYCLES.forEach(function(c, j){
+    var y = cb + j*16;
+    txt(svg, 150, y + 9, T('cycle ','цикл ') + c[0], 'svg-small');
+    ns('rect', {x:205, y:y, width:240, height:10, fill:'#e4e4de'}, svg);
+    ns('rect', {x:205, y:y, width:240*c[1]/100, height:10, fill:'#b5452a'}, svg);
+    txt(svg, 450, y + 9, fmt(c[1], c[1] % 1 ? 1 : 0) + '%', 'svg-small');
+  });
+  cells(document.getElementById('mReadout'), [
+    [T('VENUS TURNS PER ORBIT','ПОВОРОТ ВЕНЕРЫ ЗА ВИТОК'), fmt(360*P/T_ROT, 3) + '°'],
+    [T('STRIP SPACING HERE','ШАГ ПОЛОС ЗДЕСЬ'), fmt(sp, 1) + T(' km',' км')],
+    [gap > 0 ? T('GAP BETWEEN STRIPS','ЗАЗОР МЕЖДУ ПОЛОСАМИ') : T('OVERLAP','ПЕРЕКРЫТИЕ'), fmt(Math.abs(gap), 1) + T(' km',' км')],
+    [T('ORBITS PER 243-DAY CYCLE','ВИТКОВ ЗА ЦИКЛ 243 СУТ'), fmtInt(T_ROT/P)]
+  ]);
+  document.getElementById('mStatus').innerHTML = gap > 0
+    ? T('Gaps: the planet turns more than one strip width per orbit, and stripes of Venus are never seen. A shorter orbit or a wider strip would close them.','Зазоры: за виток планета поворачивается больше чем на ширину полосы, и часть Венеры так и не попадает в кадр. Закрыть их можно более коротким периодом или более широкой полосой.')
+    : (lat > 60 ? T('Near the pole the strips converge and pile up: each place is imaged many times over.','У полюса полосы сходятся и наслаиваются: каждое место снимается многократно.')
+                : T('Each strip overlaps the last — continuous coverage, as Magellan flew it.','Каждая полоса перекрывает предыдущую — непрерывное покрытие, как летал «Магеллан».'));
+}
+[mLat, mP, mW].forEach(function(el){ el.addEventListener('input', renderM); });
+
+/* ============ CH4 — CRATERS ============ */
+var kF = document.getElementById('kF'), kSeed = 1990, kList = craters(N_CRATERS, kSeed);
+function renderK(){
+  var f = +kF.value, n = countBand(kList, f), exp = N_CRATERS*f, sd = bandSd(N_CRATERS, f), z = (n - exp)/sd;
+  document.getElementById('kFVal').textContent = fmt(f*100, 0) + '%';
+  var svg = document.getElementById('kSvg'); svg.innerHTML = '';
+  var x0 = 20, y0 = 20, w = 440, h = 200;
+  ns('rect', {x:x0, y:y0, width:w, height:h, fill:'#efe7d4', stroke:'#a8741a'}, svg);
+  ns('rect', {x:x0, y:y0 + h*(1 - f)/2, width:w, height:h*f, fill:'#2f5aa1', 'fill-opacity':0.18, stroke:'#2f5aa1'}, svg);
+  kList.forEach(function(p){ ns('circle', {cx:x0 + p[0]/360*w, cy:y0 + (1 - p[1])/2*h, r:1.4, fill: Math.abs(p[1]) < f ? '#b5452a' : '#0b0b0c'}, svg); });
+  txt(svg, x0, y0 + h + 16, T('equal-area map: north at top, equator in the middle','равновеликая карта: север сверху, экватор посередине'), 'svg-small');
+  txt(svg, x0 + w, y0 + h + 32, fmtInt(N_CRATERS) + T(' craters, random',' кратеров, случайно'), 'svg-small', 'end');
+  var lat = Math.asin(f)/D2R;
+  cells(document.getElementById('kReadout'), [
+    [T('BAND','ПОЛОСА'), '±' + fmt(lat, 1) + '°'],
+    [T('EXPECTED','ОЖИДАЕТСЯ'), fmt(exp, 0) + ' ± ' + fmt(sd, 0)],
+    [T('COUNTED','НАСЧИТАНО'), fmtInt(n)],
+    [T('DENSITY, PER MILLION km²','ПЛОТНОСТЬ НА МИЛЛИОН км²'), fmt(N_CRATERS/(4*Math.PI*R_V*R_V)*1e6, 2)]
+  ]);
+  document.getElementById('kStatus').innerHTML = Math.abs(z) < 2
+    ? T('Within about two standard deviations of the expected count — what pure chance looks like.','В пределах примерно двух стандартных отклонений от ожидаемого — так выглядит чистая случайность.')
+    : T('More than two standard deviations off — it happens by chance about one time in twenty. Throw again.','Отклонение больше двух стандартных — случайно так бывает примерно в одном случае из двадцати. Бросьте снова.');
+}
+kF.addEventListener('input', renderK);
+document.getElementById('kThrow').addEventListener('click', function(){ kSeed += 1; kList = craters(N_CRATERS, kSeed); renderK(); });
+
+/* ============ CH5 — AEROBRAKING ============ */
+var aDv = document.getElementById('aDv'), aM = document.getElementById('aM');
+function renderA(){
+  var dv = +aDv.value, m0 = +aM.value, r = aerobrake(dv), DV = dvPropulsive(), mp = propellant(m0, DV, ISP_N2H4);
+  document.getElementById('aDvVal').textContent = fmt(dv, 2) + T(' m/s',' м/с');
+  document.getElementById('aMVal').textContent = fmtInt(m0) + T(' kg',' кг');
+  var svg = document.getElementById('aSvg'); svg.innerHTML = '';
+  // orbits to scale, Venus at the focus
+  var s = 0.0085, fx = 165, fy = 140;
+  function ell(ra, col, wd){
+    var a = (RP_AB + ra)/2, c = a - RP_AB, b = Math.sqrt(a*a - c*c);
+    ns('ellipse', {cx:fx - c*s, cy:fy, rx:a*s, ry:b*s, fill:'none', stroke:col, 'stroke-width':wd}, svg);
+  }
+  ns('circle', {cx:fx, cy:fy, r:R_V*s, fill:'#efe7d4', stroke:'#a8741a'}, svg);
+  ell(RA0, '#8a8a82', 1.2); ell(RA1, '#b5452a', 2);
+  txt(svg, 8, 20, T('before: 8,467 km high point','до: апоцентр 8467 км'), 'svg-small');
+  txt(svg, 8, 262, T('after: 541 × 197 km','после: 541 × 197 км'), 'svg-small');
+  // apoapsis vs day
+  var L = 270, R = 468, Tp = 30, B = 230, dmax = Math.max(80, Math.ceil(r.days/20)*20);
+  function X(d){ return L + d/dmax*(R - L); }
+  function Y(h){ return B - h/9000*(B - Tp); }
+  [0, 3000, 6000, 9000].forEach(function(h){ ns('line', {x1:L, y1:Y(h), x2:R, y2:Y(h), stroke:'#e4e4de'}, svg); txt(svg, L - 4, Y(h) + 3, fmtInt(h), 'svg-small', 'end'); });
+  [0, dmax/2, dmax].forEach(function(d){ txt(svg, X(d), B + 14, fmtInt(d), 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('days','сутки'), 'svg-small', 'end'); txt(svg, L - 30, 18, T('high point, km','апоцентр, км'), 'svg-small');
+  if(70 <= dmax){ ns('line', {x1:X(70), y1:Tp, x2:X(70), y2:B, stroke:'#2f5aa1', 'stroke-dasharray':'3 3'}, svg); txt(svg, X(70) + 3, Tp + 10, T('70 days, 1993','70 суток, 1993'), 'svg-small'); }
+  var d = ''; r.hist.forEach(function(p, i){ d += (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); });
+  ns('path', {d:d, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  cells(document.getElementById('aReadout'), [
+    [T('PASSES THROUGH THE AIR','ПРОХОДОВ ЧЕРЕЗ АТМОСФЕРУ'), fmtInt(r.passes)],
+    [T('DURATION','ДЛИТЕЛЬНОСТЬ'), fmt(r.days, 0) + T(' days',' сут')],
+    [T('TOTAL Δv REMOVED','ВСЕГО ПОГАШЕНО Δv'), fmt(DV/1000, 2) + T(' km/s',' км/с')],
+    [T('FINAL PERIOD','ИТОГОВЫЙ ПЕРИОД'), fmt(period(RP_AB, RA1)/60, 1) + T(' min',' мин')],
+    [T('HYDRAZINE TO DO IT WITH THRUSTERS','ГИДРАЗИНА ДЛЯ ДВИГАТЕЛЕЙ'), fmtInt(mp) + T(' kg',' кг')],
+    [T('HYDRAZINE AT LAUNCH (MUCH SPENT BY 1993)','ГИДРАЗИНА ПРИ ЗАПУСКЕ (К 1993 Г. БОЛЬШАЯ ЧАСТЬ ИЗРАСХОДОВАНА)'), T('132.5 kg','132,5 кг'), true],
+    [T('Δv THAT FULL LOAD COULD GIVE','Δv ОТ ВСЕГО ЗАПАСА'), fmtInt(dvFromProp(m0, 132.5, ISP_N2H4)) + T(' m/s',' м/с') + ' (' + fmt(dvFromProp(m0, 132.5, ISP_N2H4)/DV*100, 0) + T('% of what was needed)','% от нужного)'), true]
+  ]);
+  document.getElementById('aStatus').innerHTML = Math.abs(r.days - 70) < 6
+    ? T('About 1.6 m/s per pass reproduces the real campaign: 70 days and more than 700 passes [6][7].','Около 1,6 м/с за проход воспроизводят реальную кампанию: 70 суток и более 700 проходов [6][7].')
+    : r.days > 70 ? T('Gentler passes are safer for the hardware but take longer.','Более мягкие проходы безопаснее для аппарата, но занимают больше времени.')
+    : T('Deeper dips finish sooner but heat and load a spacecraft never built for it.','Более глубокие погружения быстрее, но нагревают и нагружают аппарат, не созданный для этого.');
+}
+[aDv, aM].forEach(function(el){ el.addEventListener('input', renderA); });
+
+/* ============ CH6 — TIMELINE ============ */
+var TIMELINE = [
+  ['1978', 'Pioneer Venus Orbiter maps 92% of Venus by radar at 50–140 km [3].', 'Pioneer Venus Orbiter снимает радиолокатором 92% Венеры с разрешением 50–140 км [3].'],
+  ['1983', 'Venera 15 and 16 image about a quarter of the planet at 1.2–2.4 km [3].', '«Венера-15» и «Венера-16» снимают около четверти планеты с разрешением 1,2–2,4 км [3].'],
+  ['1989', '<b>4 May:</b> Magellan launched from Space Shuttle Atlantis (STS-30) [1].', '<b>4 мая:</b> запуск «Магеллана» с шаттла «Атлантис» (STS-30) [1].'],
+  ['1990', '<b>10 August:</b> Venus orbit, 297 × 8,463 km at 85.5°; <b>15 September:</b> mapping begins [1].', '<b>10 августа:</b> выход на орбиту Венеры, 297 × 8463 км, наклон 85,5°; <b>15 сентября:</b> начало съёмки [1].'],
+  ['1991', '<b>15 May:</b> Cycle 1 ends, 83.7% mapped [1].', '<b>15 мая:</b> конец цикла 1, отснято 83,7% [1].'],
+  ['1992', '<b>15 January:</b> Cycle 2, 96%; <b>13 September:</b> Cycle 3 (stereo), 98% [1].', '<b>15 января:</b> цикл 2, 96%; <b>13 сентября:</b> цикл 3 (стерео), 98% [1].'],
+  ['1993', '<b>25 May – 3 August:</b> 70 days of aerobraking, dipping to about 140 km, to a 541 × 197 km orbit for gravity mapping [6][17].', '<b>25 мая – 3 августа:</b> 70 суток аэроторможения с погружением примерно до 140 км, до орбиты 541 × 197 км для гравиметрии [6][17].'],
+  ['1994', '<b>13 October:</b> sent into the atmosphere to gather aerodynamic data; contact lost [1].', '<b>13 октября:</b> направлен в атмосферу для сбора аэродинамических данных; связь потеряна [1].'],
+  ['2023', 'A vent that changed shape between two Magellan images points to active volcanism [12].', 'Жерло, изменившее форму между двумя снимками «Магеллана», указывает на действующий вулканизм [12].'],
+  ['2031', 'Planned: ESA\'s EnVision (November) [11]; NASA\'s VERITAS no earlier than 2031 [10].', 'В планах: EnVision ЕКА (ноябрь) [11]; VERITAS NASA — не ранее 2031 года [10].']
+];
+
+/* ============ CH7 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'A. A. Siddiqi (2018), Beyond Earth: A Chronicle of Deep Space Exploration, 1958–2016, NASA SP-2018-4041, entry 173 “Magellan”', url:'https://www.nasa.gov/wp-content/uploads/2018/09/beyond-earth-tagged.pdf', note:{en:'Launch 4 May 1989 on STS-30R; Venus orbit 10 August 1990, 297 × 8,463 km at 85.5°; designed to map 70% at 120–300 m; cycles to 83.7%, 96%, 98%; 1,200 Gbit returned; aerobraking in summer 1993; contact lost 13 October 1994; at least 85% volcanic flows; first deep-space probe launched by the Shuttle; bus from Voyager, Galileo, Ulysses and Mariner 9 spares.', ru:'Запуск 4 мая 1989 на STS-30R; орбита Венеры 10 августа 1990, 297 × 8463 км, 85,5°; проект — 70% поверхности при 120–300 м; циклы до 83,7%, 96%, 98%; передано 1200 Гбит; аэроторможение летом 1993; связь потеряна 13 октября 1994; не менее 85% — вулканические потоки; первый зонд, запущенный с шаттла; модуль из запчастей «Вояджера», «Галилео», «Улисса» и «Маринера-9».'}},
+  {title:'NASA Science, “Magellan” mission page', url:'https://science.nasa.gov/mission/magellan/', note:{en:'Mission summary: mapping cycles and coverage, resolution 120–300 m, first spacecraft to image the entire surface of Venus.', ru:'Обзор миссии: циклы съёмки и охват, разрешение 120–300 м, первый аппарат, отснявший всю поверхность Венеры.'}},
+  {title:'C. Young (ed.) (1990), The Magellan Venus Explorer\'s Guide, JPL Publication 90-24', url:'https://ntrs.nasa.gov/citations/19900019276', note:{en:'Pioneer Venus 92% at 50–140 km; Venera 15/16 about 25% at 1.2–2.4 km; 3,453 kg in the Shuttle bay; 132.5 kg hydrazine; Star 48B 2,146 kg; SAR principle and at least four looks; 25 km × 16,000 km strips, ~5 km overlap; mapping-pass altitudes.', ru:'Pioneer Venus — 92% при 50–140 км; «Венера-15/16» — около 25% при 1,2–2,4 км; 3453 кг в отсеке шаттла; 132,5 кг гидразина; Star 48B 2146 кг; принцип РСА и не менее четырёх «взглядов»; полосы 25 × 16 000 км, перекрытие ~5 км; высоты на съёмочном витке.'}},
+  {title:'J. P. Ford, J. J. Plaut, C. M. Weitz, T. G. Farr, D. A. Senske, E. R. Stofan, G. Michaels, T. J. Parker (1993), Guide to Magellan Image Interpretation, JPL Publication 93-24', url:'https://ntrs.nasa.gov/citations/19940013181', note:{en:'Table 1-1: 12.6 cm, 2.385 GHz, 2.26 MHz, 26.5 µs, beam 2.1° × 2.5°, 88 m slant range, 120 m along track; orbit 289 km periapsis at 9.5° N, 85.5°, 3.259 h. Table 4-1: incidence angles by latitude. Superior conjunction cost 110 of 1,790 orbits in Cycle 1; Cycle 2 right-looking.', ru:'Табл. 1-1: 12,6 см, 2,385 ГГц, 2,26 МГц, 26,5 мкс, луч 2,1° × 2,5°, 88 м по наклонной дальности, 120 м вдоль трассы; перицентр 289 км на 9,5° с. ш., 85,5°, 3,259 ч. Табл. 4-1: углы падения по широтам. Верхнее соединение отняло 110 из 1790 витков цикла 1; в цикле 2 — взгляд вправо.'}},
+  {title:'NASA Goddard, “Venus Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html', note:{en:'Mean radius 6,051.8 km; GM 0.32486 × 10⁶ km³/s²; sidereal rotation −5,832.6 h; surface 92 bar, 737 K.', ru:'Средний радиус 6051,8 км; GM 0,32486 × 10⁶ км³/с²; звёздный период вращения −5832,6 ч; у поверхности 92 бар, 737 К.'}},
+  {title:'D. G. Griffith, R. S. Saunders, D. T. Lyons (1993), “The Magellan Venus Mapping Mission: Aerobraking Operations”', url:'https://ntrs.nasa.gov/citations/20210004680', note:{en:'70-day aerobraking ending 3 August 1993; apoapsis 8,467 → 541 km; final orbit 541 × 197 km; on-board propellant at least an order of magnitude too small to circularize propulsively.', ru:'70 суток аэроторможения, окончание 3 августа 1993; апоцентр 8467 → 541 км; итоговая орбита 541 × 197 км; бортового топлива как минимум на порядок меньше, чем нужно для скругления двигателями.'}},
+  {title:'D. Doody (1994), “Aerobraking the Magellan Spacecraft in Venus Orbit”', url:'https://ntrs.nasa.gov/citations/20060038314', note:{en:'A spacecraft not designed for atmospheric entry flew more than 700 periapsis passes; first to use aerobraking to significantly alter its orbit at another planet; apoapsis lowered by nearly 8,000 km.', ru:'Аппарат, не рассчитанный на вход в атмосферу, совершил более 700 проходов перицентра; первое применение аэроторможения для существенного изменения орбиты у другой планеты; апоцентр понижен почти на 8000 км.'}},
+  {title:'G. G. Schaber et al. (1992), “Geology and distribution of impact craters on Venus: What are they telling us?”, JGR Planets 97(E8)', url:'https://doi.org/10.1029/92JE01246', note:{en:'842 craters, 1.5–280 km, on 89% of the surface through orbit 2578; highly uniform distribution; average age about 0.5 Ga; 62% pristine, 4% embayed by lava; small craters depleted by atmospheric filtering.', ru:'842 кратера, 1,5–280 км, на 89% поверхности к витку 2578; очень равномерное распределение; средний возраст около 0,5 млрд лет; 62% свежих, 4% залиты лавой; мелкие кратеры отсеяны атмосферой.'}},
+  {title:'R. J. Phillips et al. (1992), “Impact craters and Venus resurfacing history”, JGR Planets 97(E10)', url:'https://doi.org/10.1029/92JE01696', note:{en:'Complete spatial randomness of crater locations cannot be rejected; catastrophic-resurfacing age ~500 Ma; equilibrium-resurfacing end member.', ru:'Гипотезу полной пространственной случайности кратеров отвергнуть нельзя; возраст при катастрофическом обновлении ~500 млн лет; модель равновесного обновления как крайний случай.'}},
+  {title:'The Planetary Society, “VERITAS, NASA\'s Venus mapper”', url:'https://www.planetary.org/space-missions/veritas', note:{en:'Radar mapping at 30 m per pixel, at least three times sharper than Magellan; launch no earlier than 2031; mission flagged as in danger.', ru:'Радиолокационная съёмка 30 м на пиксель, минимум втрое резче «Магеллана»; запуск не ранее 2031; миссия под угрозой.'}},
+  {title:'ESA, “EnVision”', url:'https://www.esa.int/Science_Exploration/Space_Science/Envision', note:{en:'Planned launch November 2031; 11 months of aerobraking to reach the science orbit.', ru:'Запуск запланирован на ноябрь 2031; 11 месяцев аэроторможения до научной орбиты.'}},
+  {title:'R. R. Herrick, S. Hensley (2023), “Surface changes observed on a Venusian volcano during the Magellan mission”, Science 379', url:'https://doi.org/10.1126/science.abm7735', note:{en:'A ~2.2 km² vent changed shape in the 8 months between two Magellan images; interpreted as ongoing volcanism.', ru:'Жерло площадью ~2,2 км² изменило форму за 8 месяцев между двумя снимками «Магеллана»; истолковано как продолжающийся вулканизм.'}},
+  {title:'Royal Belgian Institute for Space Aeronomy (BIRA-IASB), “Venus atmosphere: a stable cloud layer covers the planet”', url:'https://bira-iasb.be/en/encyclopedia/venus-atmosphere-stable-cloud-layer-covers-planet', note:{en:'Clouds and hazes from 30 to 90 km; particle modes of about 0.1, 1 and 10 µm; droplets 75% sulphuric acid, 25% water.', ru:'Облака и дымки от 30 до 90 км; моды частиц около 0,1, 1 и 10 мкм; капли — 75% серной кислоты, 25% воды.'}},
+  {title:'D. T. Lyons (1999), “Aerobraking at Venus and Mars: A Comparison of the Magellan and Mars Global Surveyor Aerobraking Phases”', url:'https://ntrs.nasa.gov/citations/20210002999', note:{en:'Both spacecraft aerobraked from elliptical initial orbits to nearly circular final orbits.', ru:'Оба аппарата аэроторможением перешли с эллиптических начальных орбит на почти круговые.'}},
+  {title:'B. E. Wood et al. (2022), “Parker Solar Probe Imaging of the Night Side of Venus”, Geophysical Research Letters 49', url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC9286398/', note:{en:'WISPR imaged thermal emission from the night-side surface in July 2020 and February 2021, below 0.8 µm; consistent with earlier observations at 1 µm, cooler highlands appear fainter.', ru:'WISPR снял тепловое излучение ночной поверхности в июле 2020 и феврале 2021 года на волнах короче 0,8 мкм; в согласии с прежними наблюдениями на 1 мкм более холодные возвышенности выглядят тусклее.'}},
+  {title:'J. F. Russell, G. G. Schaber (1993), “Named Venusian craters”, LPSC XXIV abstract', url:'https://ntrs.nasa.gov/citations/19940016252', note:{en:'The crater database, from about 98% coverage, expanded to 912 craters of 1.5–280 km.', ru:'База данных кратеров по охвату около 98% расширена до 912 кратеров поперечником 1,5–280 км.'}},
+  {title:'JPL (1993), “JPL explains successful aerobraking experiment”, news release, 10 August 1993', url:'https://www.jpl.nasa.gov/news/jpl-explains-successful-aerobraking-experiment/', note:{en:'Periapsis lowered to about 140 km, skimming the upper atmosphere; orbit changed from 3 h 15 min to a nearly circular 94-minute orbit.', ru:'Перицентр опущен примерно до 140 км, в верхние слои атмосферы; орбита изменилась с 3 ч 15 мин на почти круговую с периодом 94 минуты.'}},
+  {title:'S. R. Kane et al. (2019), “Venus as a Laboratory for Exoplanetary Science”, JGR Planets 124 (arXiv:1908.02783)', url:'https://arxiv.org/abs/1908.02783', note:{en:'Only ~1,000 impact craters are preserved, giving an average surface age of ~750 Ma (citing Schaber et al. 1992; McKinnon et al. 1997).', ru:'Сохранилось лишь ~1000 ударных кратеров, что даёт средний возраст поверхности ~750 млн лет (по Schaber et al. 1992; McKinnon et al. 1997).'}},
+  {title:'ESA (2007), “Venus surface as seen by the VMC”', url:'https://www.esa.int/ESA_Multimedia/Images/2007/11/Venus_surface_as_seen_by_the_VMC', note:{en:'Venus Express camera images of the surface in the 1 µm window; atmospheric blurring limits spatial resolution to about 50 km.', ru:'Снимки поверхности камерой «Венеры-экспресс» в окне 1 мкм; размытие атмосферой ограничивает разрешение примерно 50 км.'}}
+];
+
+/* Screen readers announce the formatted value shown next to each slider. */
+function valueTexts(){ ['gLat','mLat','mP','mW','kF','aDv','aM'].forEach(function(id){ document.getElementById(id).setAttribute('aria-valuetext', document.getElementById(id + 'Val').textContent); }); }
+document.addEventListener('input', valueTexts); document.addEventListener('click', valueTexts);
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
+  renderR(); renderG(); renderM(); renderK(); renderA();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  valueTexts(); onScroll();
+}
+applyLang('en');
+window.__veil = {incidence:incidence, altitude:altitude, geometry:geometry, period:period, spacing:spacing, sizeParam:sizeParam,
+  aerobrake:aerobrake, dvPropulsive:dvPropulsive, propellant:propellant, craters:craters, countBand:countBand, bandSd:bandSd, dvFromProp:dvFromProp, GM_V:GM_V,
+  N_CRATERS:N_CRATERS, R_V:R_V, T_ROT:T_ROT, BW:BW, LAMBDA:LAMBDA, D_ANT:D_ANT, ALT_P:ALT_P, ALT_A:ALT_A, RP_AB:RP_AB, RA1:RA1};
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+ "slug": "slingshot-gravity-assists",
+ "title_en": "SLINGSHOT — GRAVITY ASSISTS & THE GRAND TOUR",
+ "title_ru": "ПРАЩА — ГРАВИТАЦИОННЫЕ МАНЁВРЫ И «БОЛЬШОЙ ТУР»",
+ "description": "An interactive field guide to gravity assists: why a spacecraft leaves a planet exactly as fast as it arrived yet gains or loses kilometres per second relative to the Sun, the turn-angle formula checked against Cassini's 1999 Earth flyby, why it is not free energy (the planet pays), braking toward Mercury, escaping the Solar System via Jupiter, and Voyager 2's twelve-year Grand Tour versus a thirty-year direct flight.",
+ "og": "Same speed in and out, yet 5.5 km/s gained: gravity assists, the planet that pays, and Voyager 2's Grand Tour — interactive and sourced from NASA, JPL and the flyby literature.",
+ "brand": "SLINGSHOT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE PROBLEM",
+ "hud1": "TURN ANGLE",
+ "hud2": "GAIN"
+}

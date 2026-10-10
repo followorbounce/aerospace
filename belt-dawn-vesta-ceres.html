@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BELT — DAWN AT VESTA &amp; CERES / ПОЯС — DAWN У ВЕСТЫ И ЦЕРЕРЫ</title>
+<meta name="description" content="An interactive field guide to NASA's Dawn: the first spacecraft to orbit two worlds beyond Earth, the protoplanet Vesta and the dwarf planet Ceres. Why 425 kg of xenon did the work of 30 tonnes of rocket fuel, a push as weak as the weight of a few sheets of paper, slow spirals between mapping orbits, Vesta's giant Rheasilvia basin and Ceres's salty bright spots.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/belt-dawn-vesta-ceres">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BELT — DAWN AT VESTA &amp; CERES / ПОЯС — DAWN У ВЕСТЫ И ЦЕРЕРЫ">
+<meta property="og:description" content="11.5 km/s from 425 kg of xenon, 92 mN of thrust, two worlds orbited: NASA's Dawn at Vesta and Ceres, interactive and sourced from NASA, JPL and Dawn's science papers.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/belt-dawn-vesta-ceres">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+.btn[hidden]{display:none;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+@media (pointer:coarse){
+  .btn{min-height:44px; min-width:44px; padding:10px 14px; font-size:12px;}
+  input[type=range]{height:44px; background:transparent; margin:4px 0;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+/* this page's charts take no pointer input: let phones scroll over them; darker small SVG text for AA contrast (~6.4:1) */
+.sim-svg{touch-action:auto;}
+.svg-small{fill:#5f5f59;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">BELT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">TWO WORLDS</span></div>
+  <div class="hud-row"><span class="hud-label">PROPELLANT</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">ORBIT PERIOD</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="TWO WORLDS">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 6 MARCH 2015, CERES" data-ru="РИС. 00 — 6 МАРТА 2015, ЦЕРЕРА">FIG. 00 — 6 MARCH 2015, CERES</span></span>
+        <span>4 VESTA · 1 CERES</span>
+      </div>
+      <h1><span data-en="BELT" data-ru="ПОЯС">BELT</span><br><em data-en="DAWN AT VESTA AND CERES" data-ru="DAWN У ВЕСТЫ И ЦЕРЕРЫ">DAWN AT VESTA AND CERES</em></h1>
+      <p class="sub lede" data-en="The two biggest bodies in the asteroid belt circle the Sun on neighbouring orbits, yet turned out completely different: Vesta, a dry, rocky protoplanet with an iron core, and Ceres, a dark dwarf planet full of ice and salt. NASA's Dawn went into orbit around both, the first spacecraft ever to orbit two worlds beyond Earth. It could only do that because its ion engines got eleven and a half kilometres per second out of 425 kilograms of xenon. Ten chapters and four instruments: the xenon ledger, the gentlest push, the slow spirals between mapping orbits, and the two worlds side by side." data-ru="Два крупнейших тела пояса астероидов обращаются вокруг Солнца по соседним орбитам, но оказались совершенно разными: Веста — сухая каменная протопланета с железным ядром, Церера — тёмная карликовая планета, полная льда и солей. Аппарат NASA Dawn побывал на орбите вокруг обеих — первый в истории аппарат, вышедший на орбиты двух миров за пределами Земли. Это стало возможным только потому, что его ионные двигатели набрали одиннадцать с половиной километров в секунду приращения скорости, израсходовав всего 425 килограммов ксенона. Десять глав и четыре прибора: ксеноновый баланс, самый мягкий толчок, медленные спирали между картографическими орбитами и два мира рядом.">The first spacecraft to orbit two worlds beyond Earth.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY -->
+<section id="ch1" class="section" data-phase="TWO WORLDS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="WHY VESTA AND CERES" data-ru="ПОЧЕМУ ВЕСТА И ЦЕРЕРА">WHY VESTA AND CERES</span></div>
+    <h2 class="h-lg" data-en="Two leftovers from the building of the planets" data-ru="Два остатка со стройки планет">Two leftovers from the building of the planets</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The rocky planets were assembled from smaller bodies, and almost all of those were swallowed or smashed long ago. A few survived in the asteroid belt between Mars and Jupiter. Dawn, the ninth mission of NASA's Discovery Program, was sent to the two largest, to study the conditions at the birth of the Solar System and why two neighbours turned out so differently [1]." data-ru="Каменные планеты собрались из тел поменьше, и почти все они давно поглощены или разбиты. Немногие уцелели в поясе астероидов между Марсом и Юпитером. Dawn, девятую миссию программы NASA Discovery, отправили к двум крупнейшим — изучать условия рождения Солнечной системы и понять, почему два соседа получились такими разными [1].">The rocky planets were assembled from smaller bodies.</p>
+      <p class="body-col" data-en="<b>Vesta</b> was already suspected of being the parent of a family of meteorites, the HEDs (howardites, eucrites, diogenites), which look like lava and deep crust from a body that once melted. <b>Ceres</b> is 1.8 times as wide and far less dense, which hinted at a lot of ice. Each world is a snapshot of one path a young planet could take: hot and dry, or cold and wet [10][12]." data-ru="<b>Весту</b> давно подозревали в том, что она — родительское тело семейства метеоритов HED (говардиты, эвкриты, диогениты), похожих на лаву и глубинную кору тела, которое когда-то плавилось. <b>Церера</b> в 1,8 раза шире и намного менее плотная — намёк на много льда. Каждый из этих миров — снимок одного из путей, по которым могла пойти молодая планета: горячий и сухой или холодный и влажный [10][12].">Vesta and Ceres took different paths.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — SPACECRAFT AND CRUISE -->
+<section id="ch2" class="section" data-phase="CRUISE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE SPACECRAFT, 2007–2011" data-ru="АППАРАТ, 2007–2011">THE SPACECRAFT, 2007–2011</span></div>
+    <h2 class="h-lg" data-en="A small box with 20-metre wings and a tank of xenon" data-ru="Небольшой ящик с 20-метровыми крыльями и баком ксенона">A small box with 20-metre wings and a tank of xenon</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Dawn weighed 1,217.7 kg at launch: 747.1 kg of spacecraft, 425 kg of xenon for the ion engines and 45.6 kg of hydrazine for small steering thrusters. Two solar wings 19.7 m from tip to tip gave 10.3 kW near Earth and were expected to give only 1.3 kW at the end of the mission, 3 AU from the Sun. The three ion engines, 30 cm across and descended from Deep Space 1's, each delivered at most 92 mN at 2.6 kW, at a specific impulse between 1,900 and 3,200 s [2], and only one fired at a time [20]." data-ru="При старте Dawn весил 1217,7 кг: 747,1 кг сам аппарат, 425 кг ксенона для ионных двигателей и 45,6 кг гидразина для маленьких двигателей ориентации. Два солнечных крыла размахом 19,7 м давали 10,3 кВт у Земли и, по расчёту, лишь 1,3 кВт в конце миссии, в 3 а. е. от Солнца. Три ионных двигателя диаметром 30 см, потомки двигателя Deep Space 1, давали не больше 92 мН каждый при 2,6 кВт, с удельным импульсом от 1900 до 3200 с [2]; одновременно работал только один [20].">Dawn weighed 1,217.7 kg at launch.</p>
+      <p class="body-col" data-en="A Delta II Heavy launched it on 27 September 2007. After checkout, the ion engines thrust almost continuously for eleven months to set up a flyby of Mars at 542 km on 17 February 2009, the only big speed change of the trip after launch that the engines did not have to make. Then they thrust again for more than two years. On 16 July 2011 Dawn slipped into orbit around Vesta, the first spacecraft to orbit an object in the main belt [1][3]." data-ru="Ракета Delta II Heavy запустила его 27 сентября 2007 года. После проверки ионные двигатели почти непрерывно работали одиннадцать месяцев, чтобы вывести аппарат к пролёту Марса на высоте 542 км 17 февраля 2009 года — единственному большому изменению скорости после старта, которое не пришлось делать двигателям. Затем они снова работали больше двух лет. 16 июля 2011 года Dawn мягко вышел на орбиту вокруг Весты — первым аппаратом на орбите вокруг объекта главного пояса [1][3].">A Delta II Heavy launched it on 27 September 2007.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — XENON LEDGER -->
+<section id="ch3" class="section" data-phase="XENON">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="INSTRUMENT 1 · THE XENON LEDGER" data-ru="ПРИБОР 1 · КСЕНОНОВЫЙ БАЛАНС">INSTRUMENT 1 · THE XENON LEDGER</span></div>
+    <h2 class="h-lg" data-en="11.49 km/s from 425 kg" data-ru="11,49 км/с из 425 кг">11.49 km/s from 425 kg</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="By the time its engines stopped for good in 2018, Dawn had changed its own speed by a total of 41,360 km/h, about 11.49 km/s, after 5.87 years of firing. No spacecraft had ever done more under its own power. This is not its speed: much of that push went into climbing away from the Sun and into matching the orbits of Vesta and Ceres, then into braking into orbit around them [5]." data-ru="Когда в 2018 году двигатели остановились окончательно, Dawn изменил собственную скорость в сумме на 41 360 км/ч, около 11,49 км/с, после 5,87 года работы. Ни один аппарат до него не сделал больше своими силами. Это не его скорость: большая часть этого толчка ушла на подъём от Солнца, на выравнивание с орбитами Весты и Цереры и на торможение для выхода на орбиту вокруг них [5].">Dawn changed its speed by 11.49 km/s in total.</p>
+      <p class="body-col" data-en="The rocket equation says why that was only possible with ions. The propellant needed grows exponentially with Δv divided by the exhaust speed. Xenon ions leave at about 30 km/s; hot gas from a chemical engine at about 3. Move the sliders, or press the buttons to see Dawn's own milestones: the xenon it had used and the Δv it had gained at Vesta and at Ceres [3][4]." data-ru="Уравнение ракеты объясняет, почему это возможно только на ионах. Нужное количество топлива растёт экспоненциально с отношением Δv к скорости истечения. Ионы ксенона вылетают со скоростью около 30 км/с, горячий газ химического двигателя — около 3. Двигайте ползунки или нажмите кнопки, чтобы увидеть вехи самого Dawn: сколько ксенона он израсходовал и какую Δv набрал у Весты и у Цереры [3][4].">The rocket equation says why.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="TSIOLKOVSKY ROCKET EQUATION" data-ru="УРАВНЕНИЕ ЦИОЛКОВСКОГО">TSIOLKOVSKY ROCKET EQUATION</div>
+      <div class="eq-body">m<sub>prop</sub> = m₀ (1 − e<sup>−Δv / (I<sub>sp</sub> g₀)</sup>) &nbsp;·&nbsp; I<sub>sp</sub> = Δv / (g₀ ln(m₀ / m<sub>f</sub>))</div>
+      <div class="eq-note" data-en="g₀ = 9.80665 m/s². m₀ = 1,217.7 kg, Dawn at launch; its xenon load was 425 kg, leaving 792.7 kg (747.1 kg spacecraft + 45.6 kg hydrazine) [2]. 320 s is a typical value for a good chemical engine, not a Dawn figure. The milestone I<sub>sp</sub> is what the rocket equation implies from the published xenon and Δv. It ignores the hydrazine burned along the way, so for the two dated milestones it is an upper bound; the whole-mission point uses the 425 kg load, not the amount actually consumed, so it is only an estimate." data-ru="g₀ = 9,80665 м/с². m₀ = 1217,7 кг — Dawn при старте; запас ксенона 425 кг, без него остаётся 792,7 кг (747,1 кг аппарат + 45,6 кг гидразина) [2]. 320 с — типичное значение для хорошего химического двигателя, а не параметр Dawn. I<sub>уд</sub> для вех — то, что следует из уравнения ракеты по опубликованным расходу ксенона и Δv. Израсходованный по пути гидразин не учтён, поэтому для двух датированных вех это оценка сверху; для всей миссии взят запас 425 кг, а не фактический расход, поэтому это лишь оценка.">g₀ = 9.80665 m/s².</div>
+    </div>
+    <div class="sim-wrap">
+      <div><svg id="xeSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Propellant needed for a given change of speed, for a chemical engine and for Dawn's ion engines" data-aria-en="Propellant needed for a given change of speed, for a chemical engine and for Dawn's ion engines" data-aria-ru="Топливо, нужное для заданного изменения скорости, для химического двигателя и для ионных двигателей Dawn"></svg>
+      <div class="legend"><span><i style="background:#0b0b0c"></i><span data-en="selected I<sub>sp</sub>" data-ru="выбранный I<sub>уд</sub>">selected I<sub>sp</sub></span></span><span><i style="background:#b5452a"></i><span data-en="chemical, 320 s" data-ru="химический, 320 с">chemical, 320 s</span></span><span><i style="background:#7a7a74"></i><span data-en="ion, 3,100 s" data-ru="ионный, 3100 с">ion, 3,100 s</span></span><span><i style="background:#2f5aa1"></i><span data-en="Dawn milestones, 425 kg load" data-ru="вехи Dawn, запас 425 кг">Dawn milestones, 425 kg load</span></span></div></div>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Milestones" data-aria-en="Milestones" data-aria-ru="Вехи" id="xePreset">
+          <button class="btn" data-m="vesta" aria-pressed="false" data-en="AT VESTA, 2011" data-ru="У ВЕСТЫ, 2011">AT VESTA, 2011</button>
+          <button class="btn" data-m="ceres" aria-pressed="false" data-en="AT CERES, 2016" data-ru="У ЦЕРЕРЫ, 2016">AT CERES, 2016</button>
+          <button class="btn active" data-m="end" aria-pressed="true" data-en="WHOLE MISSION" data-ru="ВСЯ МИССИЯ">WHOLE MISSION</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="xDv" data-en="CHANGE OF SPEED Δv" data-ru="ИЗМЕНЕНИЕ СКОРОСТИ Δv">CHANGE OF SPEED Δv</label><span class="v" id="xDvVal">—</span></div>
+          <input id="xDv" type="range" min="1" max="15" step="0.01" value="11.49">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="xIsp" data-en="SPECIFIC IMPULSE" data-ru="УДЕЛЬНЫЙ ИМПУЛЬС">SPECIFIC IMPULSE</label><span class="v" id="xIspVal">—</span></div>
+          <input id="xIsp" type="range" min="200" max="3500" step="10" value="3100">
+        </div>
+        <div class="readout-grid" id="xeReadout"></div>
+        <div class="status" id="xeStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Milestones: at Vesta orbit capture, about 250 kg of xenon and 6.7 km/s [3]; by June 2016, about 401 kg and just over 11.0 km/s [4]; at the end, 11.49 km/s [5] from a 425 kg load [2]. The ideal line assumes the whole Δv at one constant I<sub>sp</sub>; the real engines worked between 1,900 and 3,200 s, depending on the power available [2]." data-ru="Вехи: при выходе на орбиту Весты — около 250 кг ксенона и 6,7 км/с [3]; к июню 2016 — около 401 кг и чуть больше 11,0 км/с [4]; в конце — 11,49 км/с [5] при запасе 425 кг [2]. Идеальная кривая предполагает всю Δv при одном постоянном I<sub>уд</sub>; реальные двигатели работали в диапазоне от 1900 до 3200 с в зависимости от доступной мощности [2].">Milestones from the Dawn ion-propulsion papers.</p>
+  </div>
+</section>
+
+<!-- CH4 — THE GENTLEST PUSH -->
+<section id="ch4" class="section" data-phase="THRUST">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="INSTRUMENT 2 · THE GENTLEST PUSH" data-ru="ПРИБОР 2 · САМЫЙ МЯГКИЙ ТОЛЧОК">INSTRUMENT 2 · THE GENTLEST PUSH</span></div>
+    <h2 class="h-lg" data-en="The weight of a sheet of paper, for years" data-ru="Вес листа бумаги — годами">The weight of a sheet of paper, for years</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The price of a fast exhaust is a tiny flow. Dawn's mission director Marc Rayman compared the push of one engine to the weight of a single sheet of paper resting on your hand. At the reduced thrust Dawn was using in 2013, he wrote, it would take more than five days to go from zero to 60 mph (97 km/h); averaged over its first 3.6 years of thrusting, Dawn used less than 2.7 milligrams of xenon a second [6]." data-ru="Цена быстрой струи — крошечный расход. Директор миссии Марк Рэйман сравнивал тягу одного двигателя с весом листа бумаги на ладони. При пониженной тяге, на которой Dawn работал в 2013 году, разгон от нуля до 60 миль/ч (97 км/ч), по его словам, занял бы больше пяти дней, а в среднем за первые 3,6 года работы двигателей Dawn расходовал меньше 2,7 миллиграмма ксенона в секунду [6].">The push of a sheet of paper.</p>
+      <p class="body-col" data-en="What makes it work is that the engine never stops. A chemical engine burns for minutes, an ion engine for years: Dawn's ran for 5.87 years in all [5]. Set the thrust and the spacecraft's mass to see the acceleration, how long the run from 0 to 100 km/h takes, and how much speed a day, a month and a year of thrusting add." data-ru="Всё работает потому, что двигатель не выключается. Химический двигатель работает минуты, ионный — годы: двигатели Dawn проработали в сумме 5,87 года [5]. Задайте тягу и массу аппарата, чтобы увидеть ускорение, время разгона от 0 до 100 км/ч и прибавку скорости за день, месяц и год работы.">The engine never stops.</p>
+    </div>
+    <div class="sim-wrap">
+      <div><svg id="thrSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Speed gained against days of continuous thrusting" data-aria-en="Speed gained against days of continuous thrusting" data-aria-ru="Набранная скорость в зависимости от дней непрерывной работы двигателя"></svg>
+      <div class="legend"><span><i style="background:#0b0b0c"></i><span data-en="your setting" data-ru="ваш режим">your setting</span></span><span><i style="background:#7a7a74"></i><span data-en="92 mN at launch mass" data-ru="92 мН при стартовой массе">92 mN at launch mass</span></span><span><i style="background:#2f5aa1"></i><span data-en="100 km/h" data-ru="100 км/ч">100 km/h</span></span></div></div>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="tF" data-en="THRUST" data-ru="ТЯГА">THRUST</label><span class="v" id="tFVal">—</span></div>
+          <input id="tF" type="range" min="10" max="92" step="1" value="92">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="tM" data-en="SPACECRAFT MASS" data-ru="МАССА АППАРАТА">SPACECRAFT MASS</label><span class="v" id="tMVal">—</span></div>
+          <input id="tM" type="range" min="793" max="1218" step="1" value="1218">
+        </div>
+        <div class="readout-grid" id="thrReadout"></div>
+        <div class="status" id="thrStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="92 mN is the most one engine could give, at 2.6 kW [2]. The mass runs from launch (1,218 kg) to the spacecraft with every kilogram of xenon gone (793 kg). Weight equivalents use g₀; a sheet of A4 office paper at 80 g/m² weighs 5.0 g. The model ignores the Sun's gravity: it is the push alone." data-ru="92 мН — максимум одного двигателя при 2,6 кВт [2]. Масса — от стартовой (1218 кг) до аппарата, израсходовавшего весь ксенон (793 кг). Эквивалент веса рассчитан через g₀; лист офисной бумаги A4 плотностью 80 г/м² весит 5,0 г. Модель не учитывает тяготение Солнца: только сам толчок.">92 mN is the most one engine could give.</p>
+  </div>
+</section>
+
+<!-- CH5 — VESTA -->
+<section id="ch5" class="section" data-phase="VESTA">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="VESTA, JULY 2011 – SEPTEMBER 2012" data-ru="ВЕСТА, ИЮЛЬ 2011 – СЕНТЯБРЬ 2012">VESTA, JULY 2011 – SEPTEMBER 2012</span></div>
+    <h2 class="h-lg" data-en="A protoplanet with a core, and a crater nearly as wide as itself" data-ru="Протопланета с ядром и кратер почти во всю её ширину">A protoplanet with a core, and a crater nearly as wide as itself</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Dawn mapped Vesta from three circular orbits: a survey orbit about 2,700 km up, a high-altitude mapping orbit at 680 km (12.3 hours per lap), where it mapped the whole world six times, in colour and in stereo, and a low orbit averaging 210 km (4.3 hours), where it took 13,000 pictures and more than 2.6 million spectra. Vesta's gravity field showed a dense iron core with a radius of about 107–113 km: Vesta had melted and separated like a planet [1][10]." data-ru="Dawn картографировал Весту с трёх круговых орбит: обзорной на высоте около 2700 км, высокой картографической на 680 км (12,3 часа на виток), где он шесть раз отснял весь мир в цвете и стерео, и низкой со средней высотой 210 км (4,3 часа), где он сделал 13 000 снимков и больше 2,6 миллиона спектров. Гравитационное поле Весты показало плотное железное ядро радиусом около 107–113 км: Веста плавилась и расслоилась, как планета [1][10].">Dawn mapped Vesta from three orbits.</p>
+      <p class="body-col" data-en="Its south pole is one huge scar. <b>Rheasilvia</b> is 500 km wide and 19 km deep on a world only about 520 km across, and it half-erased an older 400 km basin, Veneneia. Both are surprisingly young, roughly one to two billion years old. The rock they blasted out made the family of small Vestoid asteroids and the HED meteorites: Vesta has sent more meteorites to Earth than Mars or the Moon [1][11]." data-ru="Её южный полюс — один огромный шрам. <b>Реасильвия</b> шириной 500 км и глубиной 19 км — на мире поперечником всего около 520 км; она наполовину стёрла более древний 400-километровый бассейн Вененея. Оба на удивление молоды — примерно один–два миллиарда лет. Выбитые ими породы дали семейство маленьких астероидов-вестоидов и метеориты HED: Веста прислала на Землю больше метеоритов, чем Марс или Луна [1][11].">Rheasilvia is 500 km wide.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — ORBITS AND SPIRALS -->
+<section id="ch6" class="section" data-phase="SPIRALS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="INSTRUMENT 3 · SPIRALLING BETWEEN MAPS" data-ru="ПРИБОР 3 · ПО СПИРАЛИ МЕЖДУ КАРТАМИ">INSTRUMENT 3 · SPIRALLING BETWEEN MAPS</span></div>
+    <h2 class="h-lg" data-en="Weeks to go down a few hundred kilometres" data-ru="Недели, чтобы спуститься на несколько сотен километров">Weeks to go down a few hundred kilometres</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A chemical spacecraft changes orbit with two short burns. Dawn could not: it pushed gently against its direction of travel and spiralled down for weeks. For a slow spiral between two circular orbits, the Δv is simply the difference between the two orbital speeds (Edelbaum, 1961) [7]. Odd but true: going <i>down</i> makes the spacecraft faster, because a lower orbit is a faster one." data-ru="Аппарат с химическими двигателями меняет орбиту двумя короткими импульсами. Dawn так не мог: он мягко тормозил против направления движения и неделями спускался по спирали. Для медленной спирали между двумя круговыми орбитами Δv — просто разность двух орбитальных скоростей (Эдельбаум, 1961) [7]. Странно, но верно: спускаясь <i>вниз</i>, аппарат ускоряется, потому что низкая орбита быстрее.">Dawn spiralled between orbits.</p>
+      <p class="body-col" data-en="Pick a world and an orbit. The period is computed from Kepler's third law with each body's measured mass [9] and compared with the period NASA published [1]. The spiral Δv is from the previous orbit, and the calendar time is how long the real transfer took. Transfers ran as planned sequences of thrusting broken by coasts for navigation and for communication through the Deep Space Network [8]." data-ru="Выберите мир и орбиту. Период рассчитан по третьему закону Кеплера с измеренной массой тела [9] и сравнён с периодом, опубликованным NASA [1]. Δv спирали — от предыдущей орбиты, а календарное время — сколько занял настоящий переход. Переходы выполнялись по заранее рассчитанным последовательностям работы двигателей, прерываемым пассивными участками для навигации и связи через Сеть дальней космической связи [8].">Pick a world and an orbit.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="CIRCULAR ORBIT AND SLOW SPIRAL" data-ru="КРУГОВАЯ ОРБИТА И МЕДЛЕННАЯ СПИРАЛЬ">CIRCULAR ORBIT AND SLOW SPIRAL</div>
+      <div class="eq-body">v = √(GM / r) &nbsp;·&nbsp; T = 2π √(r³ / GM) &nbsp;·&nbsp; Δv<sub>spiral</sub> ≈ |v₁ − v₂|</div>
+      <div class="eq-note" data-en="r = mean radius + altitude. Each body is treated as a point mass; Vesta especially is lumpy and flattened, so a few per cent of difference from the flown periods is expected. The spiral formula ignores the Sun's pull and the coasts." data-ru="r = средний радиус + высота. Каждое тело считается точечной массой; особенно Веста бугристая и сплюснутая, поэтому расхождение с реальными периодами в несколько процентов ожидаемо. Формула спирали не учитывает притяжение Солнца и пассивные участки.">r = mean radius + altitude.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="orbSvg" class="sim-svg" viewBox="0 0 480 340" role="img" aria-label="Dawn's mapping orbit drawn to scale around Vesta or Ceres" data-aria-en="Dawn's mapping orbit drawn to scale around Vesta or Ceres" data-aria-ru="Картографическая орбита Dawn в масштабе вокруг Весты или Цереры"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="World" data-aria-en="World" data-aria-ru="Мир" id="orbBody">
+          <button class="btn" data-body="vesta" aria-pressed="false" data-en="VESTA" data-ru="ВЕСТА">VESTA</button>
+          <button class="btn active" data-body="ceres" aria-pressed="true" data-en="CERES" data-ru="ЦЕРЕРА">CERES</button>
+        </div>
+        <div class="btn-row" role="group" aria-label="Orbit" data-aria-en="Orbit" data-aria-ru="Орбита" id="orbPick" style="margin-top:10px;">
+          <button class="btn" data-o="rc3" aria-pressed="false">RC3</button>
+          <button class="btn" data-o="survey" aria-pressed="false" data-en="SURVEY" data-ru="ОБЗОР">SURVEY</button>
+          <button class="btn" data-o="hamo" aria-pressed="false">HAMO</button>
+          <button class="btn active" data-o="lamo" aria-pressed="true">LAMO</button>
+        </div>
+        <div class="readout-grid" id="orbReadout"></div>
+        <div class="status" id="orbStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="HAMO and LAMO: high- and low-altitude mapping orbits. RC3: Ceres's first, highest mapping orbit. Altitudes, periods and dates are from NASA's chronicle [1]; Vesta's survey period was not given there and is shown as computed only. The orbit is drawn to scale with its world; the dot laps in one screen second per hour of real time." data-ru="HAMO и LAMO — высокая и низкая картографические орбиты. RC3 — первая, самая высокая картографическая орбита Цереры. Высоты, периоды и даты — из хроники NASA [1]; период обзорной орбиты Весты там не указан и показан только расчётный. Орбита нарисована в масштабе со своим миром; точка движется со скоростью одна секунда на экране за час реального времени.">HAMO and LAMO: high- and low-altitude mapping orbits.</p>
+  </div>
+</section>
+
+<!-- CH7 — CERES -->
+<section id="ch7" class="section" data-phase="CERES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="CERES, MARCH 2015 – NOVEMBER 2018" data-ru="ЦЕРЕРА, МАРТ 2015 – НОЯБРЬ 2018">CERES, MARCH 2015 – NOVEMBER 2018</span></div>
+    <h2 class="h-lg" data-en="A dwarf planet with salt water underneath" data-ru="Карликовая планета с солёной водой в глубине">A dwarf planet with salt water underneath</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Dawn left Vesta on 5 September 2012, having lost a second of its four reaction wheels on the way out, and the team learned to steer with the remaining wheels and hydrazine. On 6 March 2015 it entered orbit around Ceres [19]: the first mission to a dwarf planet, four months before New Horizons reached Pluto [1], and the first spacecraft to orbit two destinations beyond Earth [19]." data-ru="Dawn покинул Весту 5 сентября 2012 года, потеряв на отлёте второй из четырёх маховиков ориентации, и команда научилась управлять аппаратом оставшимися маховиками и гидразином. 6 марта 2015 года он вышел на орбиту вокруг Цереры [19] — первая миссия к карликовой планете, на четыре месяца раньше прилёта New Horizons к Плутону [1], и первый аппарат, побывавший на орбитах двух тел за пределами Земли [19].">On 6 March 2015 Dawn entered orbit around Ceres.</p>
+      <p class="body-col" data-en="The bright spots that had puzzled everyone on approach sit in <b>Occator</b>, a crater 92 km wide, about 20 million years old. They are mostly sodium carbonate, the most concentrated carbonate known beyond Earth on kilometre scales, left behind as salty water reached the surface and froze. Dawn's gravity data point to a reservoir of brine about 40 km down, and some of the deposits are less than 2 million years old [13][14][15]. Gravity and shape show a rocky core under a lighter shell, rich in ice and other volatiles, 70–190 km thick [12]." data-ru="Яркие пятна, озадачившие всех при подлёте, находятся в кратере <b>Оккатор</b> шириной 92 км и возрастом около 20 миллионов лет. В основном это карбонат натрия — самое концентрированное скопление карбонатов километрового масштаба, известное за пределами Земли; он остался, когда солёная вода выходила на поверхность и замерзала. Гравиметрия Dawn указывает на резервуар рассола на глубине около 40 км, а некоторым отложениям меньше 2 миллионов лет [13][14][15]. Гравитационное поле и форма показывают каменное ядро под более лёгкой оболочкой, богатой льдом и другими летучими веществами, толщиной 70–190 км [12].">Occator's bright spots are sodium carbonate.</p>
+    </div>
+    <div class="grid-2" style="margin-top:28px;">
+      <p class="body-col" data-en="In its final months Dawn swooped to less than 35 km above Ceres [15]. On 31 October and 1 November 2018 it missed two scheduled contacts: the hydrazine was gone, and without it Dawn could no longer point its antenna at Earth or its wings at the Sun. It had travelled about 6.9 billion km [16]." data-ru="В последние месяцы Dawn проносился меньше чем в 35 км над Церерой [15]. 31 октября и 1 ноября 2018 года он пропустил два сеанса связи: гидразин кончился, и без него Dawn больше не мог навести антенну на Землю, а крылья — на Солнце. Он пролетел около 6,9 миллиарда километров [16].">Dawn ran out of hydrazine in 2018.</p>
+      <p class="body-col" data-en="It was not crashed on purpose. Ceres may hold conditions of interest for the chemistry that leads to life, so planetary-protection rules required that Dawn not hit it soon. Its final orbit was chosen to last: at least 20 years, with more than 99 % confidence of at least 50 [16]. Dawn is still up there, silent, a satellite of a dwarf planet." data-ru="Его не разбили намеренно. На Церере могут быть условия, интересные для химии, ведущей к жизни, поэтому правила планетарной защиты требовали, чтобы Dawn не упал на неё в ближайшее время. Конечную орбиту выбрали долговечной: не меньше 20 лет, и с уверенностью больше 99 % — не меньше 50 [16]. Dawn всё ещё там — безмолвный спутник карликовой планеты.">Dawn is still in orbit.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — TWO WORLDS COMPARED -->
+<section id="ch8" class="section" data-phase="COMPARE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="INSTRUMENT 4 · TWO WORLDS SIDE BY SIDE" data-ru="ПРИБОР 4 · ДВА МИРА РЯДОМ">INSTRUMENT 4 · TWO WORLDS SIDE BY SIDE</span></div>
+    <h2 class="h-lg" data-en="Same belt, opposite natures" data-ru="Один пояс, противоположные натуры">Same belt, opposite natures</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Dawn weighed both worlds by tracking its own radio signal as their gravity tugged it. Divide the mass by the volume and the difference jumps out: Vesta is about as dense as the Moon; Ceres has less than two-thirds of Vesta's density. Switch layers to see size and gravity, what is inside, and the landmarks that made each famous [9][10][12]." data-ru="Dawn взвесил оба мира, отслеживая собственный радиосигнал, пока их тяготение тянуло аппарат. Разделите массу на объём — и разница бросается в глаза: Веста примерно так же плотна, как Луна, а плотность Цереры — меньше двух третей плотности Весты. Переключайте слои: размер и тяготение, внутреннее строение и достопримечательности, прославившие каждый мир [9][10][12].">Dawn weighed both worlds.</p>
+      <p class="body-col" data-en="Gravity on both is weak but not tiny, and the bigger world is not the weaker one: Ceres pulls a little harder at its surface than Vesta. A standing jump that lifts you half a metre on Earth would lift you about 17 m on Ceres and 19 m on Vesta, and you would hang in the air for about 22–25 seconds. Escape speed is a few hundred metres per second: far beyond any jump." data-ru="Тяготение на обоих слабое, но не ничтожное, и больший мир не значит более слабый: на поверхности Церера притягивает чуть сильнее Весты. Прыжок с места, поднимающий вас на полметра на Земле, на Церере поднял бы примерно на 17 м, а на Весте — на 19 м, и провисели бы в воздухе около 22–25 секунд. Скорость убегания — несколько сотен метров в секунду: далеко за пределами любого прыжка.">Gravity on both is weak but not tiny.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="cmpSvg" class="sim-svg" viewBox="0 0 480 320" role="img" aria-label="Vesta and Ceres drawn to scale with their interiors and landmarks" data-aria-en="Vesta and Ceres drawn to scale with their interiors and landmarks" data-aria-ru="Веста и Церера в одном масштабе, с внутренним строением и достопримечательностями"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Layer" data-aria-en="Layer" data-aria-ru="Слой" id="cmpLayer">
+          <button class="btn active" data-l="size" aria-pressed="true" data-en="SIZE" data-ru="РАЗМЕР">SIZE</button>
+          <button class="btn" data-l="inside" aria-pressed="false" data-en="INSIDE" data-ru="ВНУТРИ">INSIDE</button>
+          <button class="btn" data-l="marks" aria-pressed="false" data-en="LANDMARKS" data-ru="ОБЪЕКТЫ">LANDMARKS</button>
+        </div>
+        <div class="btn-row" role="group" aria-label="Scale" data-aria-en="Scale" data-aria-ru="Масштаб" id="cmpMoon" style="margin-top:10px;">
+          <button class="btn active" data-moon="0" aria-pressed="true" data-en="TWO WORLDS" data-ru="ДВА МИРА">TWO WORLDS</button>
+          <button class="btn" data-moon="1" aria-pressed="false" data-en="WITH THE MOON" data-ru="С ЛУНОЙ">WITH THE MOON</button>
+        </div>
+        <div class="readout-grid" id="cmpReadout"></div>
+        <div class="status" id="cmpStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Mass from GM (Vesta 17.288 km³/s², Ceres 62.628 km³/s²) and mean diameters 522.8 and 939.4 km [9]; spheres of equal volume. Vesta's core radius 107–113 km [10]; Ceres's shell 70–190 km thick over a core of 2,460–2,900 kg/m³ [12]. The Moon from NASA's fact sheet [17]. Jump heights assume the same take-off speed as a 0.5 m jump on Earth." data-ru="Масса по GM (Веста 17,288 км³/с², Церера 62,628 км³/с²) и средние диаметры 522,8 и 939,4 км [9]; шары равного объёма. Радиус ядра Весты 107–113 км [10]; оболочка Цереры толщиной 70–190 км над ядром плотностью 2460–2900 кг/м³ [12]. Луна — по справочнику NASA [17]. Высота прыжка — при той же начальной скорости, что и прыжок на 0,5 м на Земле.">Mass from GM and mean diameters.</p>
+  </div>
+</section>
+
+<!-- CH9 — LEGACY -->
+<section id="ch9" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="ELEVEN YEARS IN SPACE" data-ru="ОДИННАДЦАТЬ ЛЕТ В КОСМОСЕ">ELEVEN YEARS IN SPACE</span></div>
+    <h2 class="h-lg" data-en="The first truly interplanetary spaceship" data-ru="Первый по-настоящему межпланетный корабль">The first truly interplanetary spaceship</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Every earlier deep-space probe had either flown past its targets or orbited just one of them. Dawn arrived, stayed, mapped, left, and did it all again somewhere else, because its engines could keep changing its orbit for years. NASA calls it its first truly interplanetary spaceship [18]." data-ru="Все прежние межпланетные зонды либо пролетали мимо целей, либо выходили на орбиту только одной из них. Dawn прилетел, остался, составил карты, улетел — и сделал всё это ещё раз в другом месте, потому что его двигатели годами могли менять орбиту. NASA называет его своим первым по-настоящему межпланетным кораблём [18].">Dawn arrived, stayed, mapped, left, and did it all again somewhere else.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — REFERENCES -->
+<section id="ch10" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var G0 = 9.80665, G_N = 6.6743e-11;
+var M_LAUNCH = 1217.7, M_DRY = 747.1, M_XE = 425, M_N2H4 = 45.6;   // kg, NSSDC [2]
+var M_NOXE = M_DRY + M_N2H4;                                        // 792.7 kg: Dawn with every kg of xenon gone
+var F_MAX = 0.092;                                                  // N, one engine at 2.6 kW [2]
+var DV_END = 41360/3600;                                            // km/s, 41,360 km/h [5]
+var ISP_CHEM = 320, ISP_ION = 3100;                                 // s; 320 typical chemical, 3,100 Dawn nominal [1]
+var MILESTONES = {
+  vesta: {dv:6.7,    xe:250, en:'At Vesta orbit capture, July 2011', ru:'Выход на орбиту Весты, июль 2011'},       // [3]
+  ceres: {dv:11.0,   xe:401, en:'At Ceres, June 2016',               ru:'У Цереры, июнь 2016'},                     // [4]
+  end:   {dv:DV_END, xe:M_XE, en:'Whole mission, 2007–2018',         ru:'Вся миссия, 2007–2018'}                    // [5], load [2]
+};
+/* GM and mean diameters from JPL SBDB [9]; equal-volume spheres */
+var BODIES = {
+  vesta: {en:'Vesta', ru:'Веста', GM:17.2882844e9, R:522.77e3/2, rhoPub:3460},
+  ceres: {en:'Ceres', ru:'Церера', GM:62.6284e9,   R:939.4e3/2,  rhoPub:2162},
+  moon:  {en:'Moon',  ru:'Луна',  GM:4900e9,       R:1737.4e3,   rhoPub:3344}   // NASA fact sheet [17]
+};
+/* Mapping orbits: altitude km, published period h, real transfer from the previous orbit in days — all [1] */
+var ORBITS = {
+  vesta: [
+    {id:'survey', alt:2700, pubH:null,   days:null},
+    {id:'hamo',   alt:680,  pubH:12.3,   days:null},
+    {id:'lamo',   alt:210,  pubH:4.3,    days:36}     // 2 Nov → 8 Dec 2011
+  ],
+  ceres: [
+    {id:'rc3',    alt:13600, pubH:null,  days:null},
+    {id:'survey', alt:4400,  pubH:3.1*24, days:25},   // 9 May → 3 Jun 2015
+    {id:'hamo',   alt:1470,  pubH:19,    days:44},    // 30 Jun → 13 Aug 2015
+    {id:'lamo',   alt:385,   pubH:5.4,   days:45}     // 23 Oct → 7 Dec 2015
+  ]
+};
+var ORBIT_NAMES = {rc3:['RC3','RC3'], survey:['Survey','Обзорная'], hamo:['HAMO','HAMO'], lamo:['LAMO','LAMO']};
+var ORBIT_FROM_RU = {rc3:'RC3', survey:'обзорной', hamo:'HAMO', lamo:'LAMO'};   // genitive after «от»
+
+function propNeeded(dvKms, isp, m0){ return m0*(1 - Math.exp(-dvKms*1000/(isp*G0))); }     // propellant burned from a fixed starting mass
+function deliverNeeded(dvKms, isp, mf){ return mf*(Math.exp(dvKms*1000/(isp*G0)) - 1); }  // propellant to give a fixed final mass the Δv
+function impliedIsp(dvKms, xe){ return dvKms*1000/(G0*Math.log(M_LAUNCH/(M_LAUNCH - xe))); }
+function push(FmN, m){ var F = FmN/1000, a = F/m; return {a:a, grams:F/G0*1000, daysTo100:(100/3.6)/a/86400, perDay:a*86400, perYear:a*86400*365.25/1000}; }
+function body(key){ var b = BODIES[key], V = 4/3*Math.PI*Math.pow(b.R, 3), M = b.GM/G_N; return {M:M, rho:M/V, g:b.GM/(b.R*b.R), vesc:Math.sqrt(2*b.GM/b.R), R:b.R}; }
+function orbit(key, altKm){ var b = BODIES[key], r = b.R + altKm*1000, v = Math.sqrt(b.GM/r); return {r:r, v:v, T:2*Math.PI*Math.sqrt(r*r*r/b.GM)}; }
+function spiralDv(key, alt1, alt2){ return Math.abs(orbit(key, alt2).v - orbit(key, alt1).v); }
+function jump(key, hEarth){ return hEarth*G0/body(key).g; }
+function airtime(key, hEarth){ return 2*Math.sqrt(2*jump(key, hEarth)/body(key).g); }
+var SHEET_G = 0.210*0.297*80;                                       // A4 at 80 g/m² = 4.99 g
+
+/* ============ CH3 — XENON LEDGER ============ */
+var xDv = document.getElementById('xDv'), xIsp = document.getElementById('xIsp'), xeMile = 'end';
+function renderXe(){
+  var dv = +xDv.value, isp = +xIsp.value, p = propNeeded(dv, isp, M_LAUNCH), pc = propNeeded(dv, ISP_CHEM, M_LAUNCH), dc = deliverNeeded(dv, ISP_CHEM, M_NOXE);
+  document.getElementById('xDvVal').textContent = fmt(dv, 2) + T(' km/s',' км/с');
+  document.getElementById('xIspVal').textContent = fmtInt(isp) + T(' s',' с');
+  var svg = document.getElementById('xeSvg'); svg.innerHTML = '';
+  var L = 60, R = 465, Tp = 24, B = 252;
+  function X(v){ return L + v/15*(R - L); }
+  function Y(kg){ return B - (Math.log10(Math.max(kg, 10)) - 1)/2.2*(B - Tp); }   // 10 kg … ~1.6 t
+  [10,30,100,300,1000].forEach(function(k){ ns('line', {x1:L, y1:Y(k), x2:R, y2:Y(k), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(k) + 3, fmtInt(k) + T(' kg',' кг'), 'svg-small', 'end'); });
+  [0,3,6,9,12,15].forEach(function(v){ txt(svg, X(v), B + 14, v, 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('change of speed Δv, km/s','изменение скорости Δv, км/с'), 'svg-small', 'end');
+  txt(svg, L, 14, T('propellant burned from Dawn’s 1,217.7 kg launch mass, log scale','топливо, сожжённое из стартовых 1217,7 кг Dawn, лог. шкала'), 'svg-small');
+  ns('line', {x1:L, y1:Y(M_LAUNCH), x2:R, y2:Y(M_LAUNCH), stroke:'#0b0b0c', 'stroke-dasharray':'1 3'}, svg);
+  txt(svg, R - 4, Y(M_LAUNCH) - 5, T('the whole spacecraft, 1,217.7 kg','весь аппарат, 1217,7 кг'), 'svg-small', 'end');
+  ns('line', {x1:L, y1:Y(M_XE), x2:R, y2:Y(M_XE), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, R - 4, Y(M_XE) + 13, T('425 kg of xenon on board','425 кг ксенона на борту'), 'svg-small', 'end');
+  function curve(I, stroke, w, dash){
+    var d = '';
+    for(var v = 0.05; v <= 15.0001; v += 0.05){ var k = propNeeded(v, I, M_LAUNCH); d += (d ? 'L' : 'M') + X(v).toFixed(1) + ' ' + Y(k).toFixed(1); }
+    var at = {d:d, fill:'none', stroke:stroke, 'stroke-width':w}; if(dash) at['stroke-dasharray'] = dash; ns('path', at, svg);
+  }
+  curve(ISP_CHEM, '#b5452a', 1.5, '5 3'); curve(ISP_ION, '#7a7a74', 1.5, '2 3'); curve(isp, '#0b0b0c', 2.2);
+  Object.keys(MILESTONES).forEach(function(k){ var m = MILESTONES[k]; ns('rect', {x:X(m.dv) - 3.5, y:Y(m.xe) - 3.5, width:7, height:7, fill:'#2f5aa1'}, svg); });
+  ns('circle', {cx:X(dv), cy:Y(p), r:5, fill:'#b5452a'}, svg);
+  var m = MILESTONES[xeMile], mi = impliedIsp(m.dv, m.xe);
+  cells(document.getElementById('xeReadout'), [
+    [T('PROPELLANT BURNED','СОЖЖЕНО ТОПЛИВА'), fmtInt(p) + T(' kg',' кг')],
+    [T('LEFT OF 1,217.7 kg','ОСТАЁТСЯ ИЗ 1217,7 кг'), fmtInt(M_LAUNCH - p) + T(' kg',' кг')],
+    [T('EXHAUST SPEED','СКОРОСТЬ ИСТЕЧЕНИЯ'), fmt(isp*G0/1000, 1) + T(' km/s',' км/с')],
+    [T('CHEMICAL 320 s, SAME START','ХИМИЯ 320 с, ТОТ ЖЕ СТАРТ'), fmtInt(pc) + T(' kg burned, ',' кг сожжено, ') + fmtInt(M_LAUNCH - pc) + T(' kg left',' кг осталось')],
+    [T('CHEMICAL TO DELIVER 792.7 kg','ХИМИЯ, ЧТОБЫ ДОСТАВИТЬ 792,7 кг'), fmtInt(dc) + T(' kg of propellant = ',' кг топлива = ') + fmt(dc/M_LAUNCH, 1) + T('× Dawn’s launch mass','× стартовой массы Dawn'), true],
+    [T('MILESTONE: ','ВЕХА: ') + T(m.en, m.ru), fmt(m.dv, 2) + T(' km/s, ',' км/с, ') + fmtInt(m.xe) + T(' kg Xe → I',' кг Xe → I') + '<sub>sp</sub> ' + (xeMile === 'end' ? '≈ ' : '≤ ') + fmtInt(mi) + T(' s',' с'), true]
+  ]);
+  hud1.textContent = fmtInt(p) + T(' kg',' кг');
+  document.getElementById('xeStatus').innerHTML = p <= M_XE
+    ? T('<b>Fits in Dawn’s tank:</b> ','<b>Помещается в бак Dawn:</b> ') + fmtInt(p) + T(' kg of 425. A chemical engine starting from the same 1,217.7 kg would burn ',' кг из 425. Химический двигатель с той же стартовой массой сжёг бы ') + fmtInt(pc) + T(' kg and leave only ',' кг и оставил бы всего ') + fmtInt(M_LAUNCH - pc) + T(' kg of spacecraft.',' кг аппарата.')
+    : T('<b>More than Dawn carried:</b> ','<b>Больше, чем вёз Dawn:</b> ') + fmtInt(p) + T(' kg, against 425 kg of xenon on board. Raise the specific impulse, or ask for less Δv.',' кг против 425 кг ксенона на борту. Поднимите удельный импульс или уменьшите Δv.');
+}
+[xDv, xIsp].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById('xePreset'), null); renderXe(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#xePreset .btn'), function(btn){
+  btn.addEventListener('click', function(){
+    xeMile = this.getAttribute('data-m'); var m = MILESTONES[xeMile];
+    xDv.value = m.dv.toFixed(2); xIsp.value = Math.round(impliedIsp(m.dv, m.xe)/10)*10;
+    pressGroup(this.parentNode, this); renderXe();
+  });
+});
+
+/* ============ CH4 — THE GENTLEST PUSH ============ */
+var tF = document.getElementById('tF'), tM = document.getElementById('tM');
+function renderThrust(){
+  var F = +tF.value, m = +tM.value, P = push(F, m), P0 = push(92, M_LAUNCH);
+  document.getElementById('tFVal').textContent = fmtInt(F) + T(' mN',' мН');
+  document.getElementById('tMVal').textContent = fmtInt(m) + T(' kg',' кг');
+  var svg = document.getElementById('thrSvg'); svg.innerHTML = '';
+  var L = 56, R = 465, Tp = 24, B = 250, dmax = 30, vmax = 300;
+  function X(d){ return L + d/dmax*(R - L); }
+  function Y(v){ return B - Math.min(v, vmax)/vmax*(B - Tp); }
+  [0,50,100,150,200,250,300].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 3, v, 'svg-small', 'end'); });
+  [0,5,10,15,20,25,30].forEach(function(d){ txt(svg, X(d), B + 14, d, 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('days of continuous thrust','дни непрерывной работы'), 'svg-small', 'end');
+  txt(svg, L, 14, T('speed gained, m/s','набранная скорость, м/с'), 'svg-small');
+  ns('line', {x1:L, y1:Y(100/3.6), x2:R, y2:Y(100/3.6), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, R - 4, Y(100/3.6) - 5, T('100 km/h','100 км/ч'), 'svg-small', 'end');
+  ns('line', {x1:X(0), y1:Y(0), x2:X(dmax), y2:Y(P0.perDay*dmax), stroke:'#7a7a74', 'stroke-dasharray':'2 3'}, svg);
+  var dEnd = Math.min(dmax, vmax/P.perDay);
+  ns('line', {x1:X(0), y1:Y(0), x2:X(dEnd), y2:Y(P.perDay*dEnd), stroke:'#0b0b0c', 'stroke-width':2.2}, svg);
+  if(P.daysTo100 <= dmax) ns('circle', {cx:X(P.daysTo100), cy:Y(100/3.6), r:5, fill:'#b5452a'}, svg);
+  var sheets = P.grams/SHEET_G;
+  cells(document.getElementById('thrReadout'), [
+    [T('ACCELERATION','УСКОРЕНИЕ'), fmt(P.a*1e6, 0) + T(' µm/s²',' мкм/с²')],
+    [T('SAME AS THE WEIGHT OF','КАК ВЕС'), fmt(P.grams, 1) + T(' g ≈ ',' г ≈ ') + fmt(sheets, 1) + T(' sheets of A4',' листа A4')],
+    [T('0 → 100 km/h','0 → 100 км/ч'), fmt(P.daysTo100, 1) + T(' days',' сут')],
+    [T('Δv PER DAY','Δv ЗА СУТКИ'), fmt(P.perDay, 2) + T(' m/s',' м/с')],
+    [T('Δv PER 30 DAYS','Δv ЗА 30 СУТОК'), fmt(P.perDay*30, 0) + T(' m/s',' м/с')],
+    [T('Δv PER YEAR','Δv ЗА ГОД'), fmt(P.perYear, 2) + T(' km/s',' км/с')]
+  ]);
+  var avg = DV_END*1000/(5.87*365.25*86400);
+  document.getElementById('thrStatus').innerHTML = T('A year at this setting adds ','Год работы в таком режиме добавляет ') + fmt(P.perYear, 2) + T(' km/s. Over the real mission, 11.49 km/s in 5.87 years of firing is an average of ',' км/с. За реальную миссию 11,49 км/с за 5,87 года работы — это в среднем ') + fmt(avg*1e6, 0) + T(' µm/s²: less than full thrust, because far from the Sun there was less power for the engine.',' мкм/с²: меньше полной тяги, потому что вдали от Солнца двигателю доставалось меньше мощности.');
+}
+[tF, tM].forEach(function(el){ el.addEventListener('input', renderThrust); });
+
+/* ============ CH6 — ORBITS AND SPIRALS ============ */
+var orbKey = 'ceres', orbId = 'lamo', orbDot = null, orbAng = 0, orbGeo = null;
+function orbIndex(){ var list = ORBITS[orbKey]; for(var i = 0; i < list.length; i++) if(list[i].id === orbId) return i; return list.length - 1; }
+function renderOrbit(){
+  var list = ORBITS[orbKey], i = orbIndex(), o = list[i], prev = i > 0 ? list[i - 1] : null, b = BODIES[orbKey];
+  Array.prototype.forEach.call(document.querySelectorAll('#orbPick .btn'), function(btn){
+    var ok = list.some(function(x){ return x.id === btn.getAttribute('data-o'); });
+    btn.hidden = !ok; var on = btn.getAttribute('data-o') === orbId; btn.classList.toggle('active', on); btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  var O = orbit(orbKey, o.alt), Op = prev ? orbit(orbKey, prev.alt) : null;
+  var svg = document.getElementById('orbSvg'); svg.innerHTML = '';
+  var cx = 240, cy = 178, outer = Op ? Op.r : O.r, k = 148/outer;
+  ns('circle', {cx:cx, cy:cy, r:Math.max(2, b.R*k), fill:'#d9d6cc', stroke:'#0b0b0c', 'stroke-width':1}, svg);
+  if(Op){
+    ns('circle', {cx:cx, cy:cy, r:Op.r*k, fill:'none', stroke:'#c9c9c1', 'stroke-dasharray':'3 3'}, svg);
+    var d = '', turns = 4;
+    for(var s = 0; s <= 1.0001; s += 0.005){ var rr = (Op.r + (O.r - Op.r)*s)*k, th = -Math.PI/2 + s*turns*2*Math.PI; d += (d ? 'L' : 'M') + (cx + rr*Math.cos(th)).toFixed(1) + ' ' + (cy + rr*Math.sin(th)).toFixed(1); }
+    ns('path', {d:d, fill:'none', stroke:'#2f5aa1', 'stroke-width':1, opacity:0.7}, svg);
+  }
+  ns('circle', {cx:cx, cy:cy, r:O.r*k, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.8}, svg);
+  orbGeo = {cx:cx, cy:cy, r:O.r*k, T:O.T};
+  orbDot = ns('circle', {cx:cx + orbGeo.r*Math.cos(orbAng), cy:cy + orbGeo.r*Math.sin(orbAng), r:4.5, fill:'#b5452a'}, svg);
+  var bar = Math.pow(10, Math.floor(Math.log10(outer/1000))), barPx = bar*1000*k;
+  ns('line', {x1:18, y1:326, x2:18 + barPx, y2:326, stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  txt(svg, 18, 318, fmtInt(bar) + T(' km',' км'), 'svg-small');
+  txt(svg, 18, 16, T(b.en, b.ru) + ' · ' + T(ORBIT_NAMES[o.id][0], ORBIT_NAMES[o.id][1]) + ' · ' + fmtInt(o.alt) + T(' km up',' км над поверхностью'), 'svg-small');
+  if(Op) txt(svg, 18, 30, T('dashed: previous orbit; blue: spiral (schematic, 4 turns)','пунктир — предыдущая орбита; синим — спираль (схема, 4 витка)'), 'svg-small');
+  var Th = O.T/3600, rows = [
+    [T('ORBIT SPEED','ОРБИТАЛЬНАЯ СКОРОСТЬ'), fmtInt(O.v) + T(' m/s',' м/с')],
+    [T('PERIOD (KEPLER)','ПЕРИОД (КЕПЛЕР)'), Th < 48 ? fmt(Th, 1) + T(' h',' ч') : fmt(Th/24, 1) + T(' days',' сут')],
+    [T('PUBLISHED PERIOD','ОПУБЛИКОВАННЫЙ ПЕРИОД'), o.pubH ? (o.pubH < 48 ? fmt(o.pubH, 1) + T(' h',' ч') : fmt(o.pubH/24, 1) + T(' days',' сут')) + ' (' + (Th >= o.pubH ? '+' : '') + fmt((Th/o.pubH - 1)*100, 1) + ' %)' : T('not given [1]','не указан [1]')]
+  ];
+  if(Op){
+    var dv = spiralDv(orbKey, prev.alt, o.alt), fullDays = dv/(F_MAX/M_LAUNCH)/86400;
+    rows.push([T('SPIRAL Δv FROM ','Δv СПИРАЛИ ОТ ') + T(ORBIT_NAMES[prev.id][0], ORBIT_FROM_RU[prev.id]).toUpperCase(), fmt(dv, 0) + T(' m/s',' м/с')]);
+    rows.push([T('AT FULL THRUST (92 mN, 1,218 kg)','НА ПОЛНОЙ ТЯГЕ (92 мН, 1218 кг)'), fmt(fullDays, 1) + T(' days',' сут')]);
+    rows.push([T('REAL TRANSFER','РЕАЛЬНЫЙ ПЕРЕХОД'), o.days ? fmtInt(o.days) + T(' days',' сут') : T('—','—')]);
+  } else {
+    rows.push([T('SPIRAL Δv','Δv СПИРАЛИ'), T('first orbit','первая орбита')]);
+  }
+  cells(document.getElementById('orbReadout'), rows);
+  hud2.textContent = Th < 48 ? fmt(Th, 1) + T(' h',' ч') : fmt(Th/24, 1) + T(' d',' сут');
+  var st;
+  if(Op && o.days){
+    st = T('The spiral needs only ','Спирали нужно всего ') + fmt(spiralDv(orbKey, prev.alt, o.alt), 0) + T(' m/s, yet took ',' м/с, но она заняла ') + fmtInt(o.days) + T(' days: ',' сут: ') + fmt(o.days/(spiralDv(orbKey, prev.alt, o.alt)/(F_MAX/M_LAUNCH)/86400), 1) + T('× longer than full thrust would need even at launch mass. There was far less than full power so far from the Sun, and thrusting paused for navigation and communication [2][8].','× дольше, чем потребовалось бы на полной тяге даже со стартовой массой. Так далеко от Солнца мощности было гораздо меньше полной, а работа двигателей прерывалась для навигации и связи [2][8].');
+  } else if(Op){
+    st = T('Going down to this orbit means speeding up by ','Спуск на эту орбиту означает ускорение на ') + fmt(spiralDv(orbKey, prev.alt, o.alt), 0) + T(' m/s.',' м/с.');
+  } else {
+    st = T('The first mapping orbit at ','Первая картографическая орбита у ') + T(b.en, b.ru) + T(': one lap every ',': один виток за ') + (Th < 48 ? fmt(Th, 1) + T(' hours.',' ч.') : fmt(Th/24, 1) + T(' days.',' сут.'));
+  }
+  document.getElementById('orbStatus').innerHTML = st;
+}
+Array.prototype.forEach.call(document.querySelectorAll('#orbBody .btn'), function(btn){
+  btn.addEventListener('click', function(){ orbKey = this.getAttribute('data-body'); orbId = 'lamo'; pressGroup(this.parentNode, this); renderOrbit(); });
+});
+Array.prototype.forEach.call(document.querySelectorAll('#orbPick .btn'), function(btn){
+  btn.addEventListener('click', function(){ orbId = this.getAttribute('data-o'); renderOrbit(); });
+});
+/* the dot laps at one screen second per real hour */
+if(!reduced()) visibleLoop(document.getElementById('orbSvg'), function(dt){
+  if(!orbDot || !orbGeo) return;
+  orbAng = (orbAng + dt*3600/orbGeo.T*2*Math.PI) % (2*Math.PI);
+  orbDot.setAttribute('cx', (orbGeo.cx + orbGeo.r*Math.cos(orbAng)).toFixed(1));
+  orbDot.setAttribute('cy', (orbGeo.cy + orbGeo.r*Math.sin(orbAng)).toFixed(1));
+});
+
+/* ============ CH8 — TWO WORLDS COMPARED ============ */
+var cmpLayer = 'size', cmpMoon = false;
+function renderCmp(){
+  var svg = document.getElementById('cmpSvg'); svg.innerHTML = '';
+  var keys = cmpMoon ? ['moon','ceres','vesta'] : ['ceres','vesta'], gap = 30, W = 440, base = 268;
+  var total = keys.reduce(function(s, kk){ return s + 2*BODIES[kk].R; }, 0), k = Math.min((W - gap*(keys.length - 1))/total, 230/(2*BODIES[keys[0]].R));
+  var x = 20 + (W - gap*(keys.length - 1) - total*k)/2;
+  keys.forEach(function(kk){
+    var b = BODIES[kk], r = b.R*k, cx = x + r, cy = base - r;
+    ns('circle', {cx:cx, cy:cy, r:r, fill:kk === 'ceres' ? '#bdb9ae' : (kk === 'vesta' ? '#d9d6cc' : '#ecebe6'), stroke:'#0b0b0c', 'stroke-width':1}, svg);
+    if(cmpLayer === 'inside' && kk === 'vesta'){
+      ns('circle', {cx:cx, cy:cy, r:113e3*k, fill:'#7a7a74', opacity:0.35}, svg);
+      ns('circle', {cx:cx, cy:cy, r:107e3*k, fill:'#5a5a55'}, svg);
+      if(r >= 40) txt(svg, cx, cy + 3, T('iron core','железное ядро'), 'svg-small', 'middle').setAttribute('style', 'fill:#fff');
+    }
+    if(cmpLayer === 'inside' && kk === 'ceres'){
+      ns('circle', {cx:cx, cy:cy, r:(b.R - 70e3)*k, fill:'#8a8378', opacity:0.35}, svg);
+      ns('circle', {cx:cx, cy:cy, r:(b.R - 190e3)*k, fill:'#5a5a55'}, svg);
+      if(r >= 40){ txt(svg, cx, cy + 3, T('rocky core','каменное ядро'), 'svg-small', 'middle').setAttribute('style', 'fill:#fff');
+      txt(svg, cx, cy - r + 14, T('shell 70–190 km thick (range of estimates)','оболочка 70–190 км (диапазон оценок)'), 'svg-small', 'middle'); }
+    }
+    if(cmpLayer === 'marks' && kk === 'vesta'){
+      var hc = 250e3/b.R, yy = Math.sqrt(Math.max(0, 1 - hc*hc))*r;
+      var ang = Math.asin(hc);
+      ns('path', {d:'M' + (cx - hc*r).toFixed(1) + ' ' + (cy + yy).toFixed(1) + ' A ' + r.toFixed(1) + ' ' + r.toFixed(1) + ' 0 0 0 ' + (cx + hc*r).toFixed(1) + ' ' + (cy + yy).toFixed(1) + ' Z', fill:'#b5452a', opacity:0.25}, svg);
+      ns('line', {x1:cx - hc*r, y1:cy + yy, x2:cx + hc*r, y2:cy + yy, stroke:'#b5452a', 'stroke-width':1.5}, svg);
+      txt(svg, cx, base + 16, T('Rheasilvia 500 km','Реасильвия 500 км'), 'svg-small', 'middle');
+    }
+    if(cmpLayer === 'marks' && kk === 'ceres'){
+      var oc = 46e3*k, ox = cx + r*0.3, oy = cy - r*0.35;
+      ns('circle', {cx:ox, cy:oy, r:Math.max(oc, 2), fill:'none', stroke:'#0b0b0c', 'stroke-width':1}, svg);
+      ns('circle', {cx:ox, cy:oy, r:Math.max(oc*0.25, 1.5), fill:'#ffffff', stroke:'#2f5aa1', 'stroke-width':0.8}, svg);
+      txt(svg, ox + oc + 4, oy - oc - 2, T('Occator 92 km','Оккатор 92 км'), 'svg-small');
+    }
+    txt(svg, cx, base + (cmpLayer === 'marks' && kk === 'vesta' ? 30 : 16), T(b.en, b.ru) + ' · ' + fmtInt(2*b.R/1000) + T(' km',' км'), 'svg-label', 'middle');
+    x += 2*r + gap;
+  });
+  var V = body('vesta'), C = body('ceres'), Mo = body('moon');
+  function pair(a, c, f){ return f(a) + ' / ' + f(c); }
+  var rows = [
+    [T('MASS, VESTA / CERES','МАССА, ВЕСТА / ЦЕРЕРА'), pair(V, C, function(o){ return fmt(o.M/1e20, 2); }) + T(' × 10²⁰ kg',' × 10²⁰ кг'), true],
+    [T('DENSITY','ПЛОТНОСТЬ'), pair(V, C, function(o){ return fmtInt(o.rho); }) + T(' kg/m³',' кг/м³')],
+    [T('SURFACE GRAVITY','УСКОРЕНИЕ СВОБ. ПАДЕНИЯ'), pair(V, C, function(o){ return fmt(o.g, 3); }) + T(' m/s²',' м/с²')],
+    [T('ESCAPE SPEED','СКОРОСТЬ УБЕГАНИЯ'), pair(V, C, function(o){ return fmtInt(o.vesc); }) + T(' m/s',' м/с')],
+    [T('0.5 m EARTH JUMP','ЗЕМНОЙ ПРЫЖОК 0,5 м'), fmt(jump('vesta', 0.5), 1) + ' / ' + fmt(jump('ceres', 0.5), 1) + T(' m',' м')],
+    [T('TIME IN THE AIR','ВРЕМЯ В ВОЗДУХЕ'), fmt(airtime('vesta', 0.5), 1) + ' / ' + fmt(airtime('ceres', 0.5), 1) + T(' s',' с')]
+  ];
+  if(cmpMoon) rows.push([T('THE MOON','ЛУНА'), fmtInt(Mo.rho) + T(' kg/m³ · ',' кг/м³ · ') + fmt(Mo.g, 2) + T(' m/s² · ',' м/с² · ') + fmtInt(Mo.vesc) + T(' m/s',' м/с'), true]);
+  cells(document.getElementById('cmpReadout'), rows);
+  var st = {
+    size: T('Ceres is 1.8 times as wide and holds 3.6 times the mass, but it is far less dense: ','Церера в 1,8 раза шире и в 3,6 раза массивнее, но гораздо менее плотная: ') + fmtInt(C.rho) + T(' against ',' против ') + fmtInt(V.rho) + T(' kg/m³. The extra size more than makes up for it: Ceres’s surface gravity is a little stronger.',' кг/м³. Размер с лихвой это компенсирует: на поверхности Цереры тяготение чуть сильнее.'),
+    inside: T('Vesta melted early and its iron sank into a core [10]. Ceres separated only partly: rock below, a lighter shell rich in ice above [12].','Веста рано расплавилась, и её железо опустилось в ядро [10]. Церера расслоилась лишь частично: внизу камень, сверху более лёгкая оболочка, богатая льдом [12].'),
+    marks: T('Rheasilvia’s rim spans almost the whole width of Vesta, 19 km deep [11]. Occator is a 92 km crater with the brightest salt deposits on Ceres [15].','Вал Реасильвии охватывает почти всю ширину Весты, её глубина 19 км [11]. Оккатор — 92-километровый кратер с самыми яркими солевыми отложениями на Церере [15].')
+  };
+  document.getElementById('cmpStatus').innerHTML = st[cmpLayer];
+}
+Array.prototype.forEach.call(document.querySelectorAll('#cmpLayer .btn'), function(btn){
+  btn.addEventListener('click', function(){ cmpLayer = this.getAttribute('data-l'); pressGroup(this.parentNode, this); renderCmp(); });
+});
+Array.prototype.forEach.call(document.querySelectorAll('#cmpMoon .btn'), function(btn){
+  btn.addEventListener('click', function(){ cmpMoon = this.getAttribute('data-moon') === '1'; pressGroup(this.parentNode, this); renderCmp(); });
+});
+
+/* ============ CH9 — TIMELINE ============ */
+var TIMELINE = [
+  ['2007', '<b>27 September:</b> launch on a Delta II Heavy from Cape Canaveral. <b>17 December:</b> long-term ion cruise begins.', '<b>27 сентября:</b> старт на Delta II Heavy с мыса Канаверал. <b>17 декабря:</b> начало долгого полёта на ионной тяге.'],
+  ['2009', '<b>17 February:</b> Mars flyby at 542 km.', '<b>17 февраля:</b> пролёт Марса на высоте 542 км.'],
+  ['2010', '<b>17 June:</b> the first of four reaction wheels fails.', '<b>17 июня:</b> отказ первого из четырёх маховиков.'],
+  ['2011', '<b>16 July:</b> in orbit around Vesta, the first spacecraft to orbit a main-belt object.', '<b>16 июля:</b> на орбите вокруг Весты — первый аппарат на орбите объекта главного пояса.'],
+  ['2012', '<b>8 August:</b> second wheel fails. <b>5 September:</b> Dawn leaves Vesta for Ceres.', '<b>8 августа:</b> отказ второго маховика. <b>5 сентября:</b> Dawn покидает Весту и летит к Церере.'],
+  ['2015', '<b>6 March:</b> in orbit around Ceres, the first mission to a dwarf planet. <b>December:</b> low mapping orbit, 385 km.', '<b>6 марта:</b> на орбите вокруг Цереры — первая миссия к карликовой планете. <b>Декабрь:</b> низкая картографическая орбита, 385 км.'],
+  ['2016', '<b>30 June:</b> end of the primary mission; the first of two extensions follows.', '<b>30 июня:</b> конец основной миссии; затем первое из двух продлений.'],
+  ['2018', '<b>June:</b> the ion engines fire for the last time — 5.87 years in all, 11.49 km/s. Final orbit dips below 35 km. <b>31 October – 1 November:</b> hydrazine exhausted, mission over.', '<b>Июнь:</b> последнее включение ионных двигателей — всего 5,87 года работы, 11,49 км/с. Конечная орбита опускается ниже 35 км. <b>31 октября – 1 ноября:</b> гидразин исчерпан, миссия окончена.'],
+  ['2020', '<b>10 August:</b> Dawn data reveal deep brine under Occator.', '<b>10 августа:</b> данные Dawn указывают на глубокий рассол под Оккатором.'],
+  ['2038 →', 'Dawn stays in orbit around Ceres at least until 2038, and with more than 99 % confidence until 2068.', 'Dawn остаётся на орбите Цереры не меньше чем до 2038 года, а с уверенностью больше 99 % — до 2068-го.']
+];
+
+/* ============ CH10 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'A. A. Siddiqi (2018), Beyond Earth: A Chronicle of Deep Space Exploration, 1958–2016, NASA SP-2018-4041, pp. 253–256', url:'https://www.nasa.gov/wp-content/uploads/2018/09/beyond-earth-tagged.pdf', note:{en:'Dawn: launch mass, Delta II Heavy, ion cruise dates, Mars flyby at 542 km, Vesta and Ceres orbit insertions, every mapping-orbit altitude and period, transfer dates, reaction-wheel failures, Rheasilvia and Veneneia, 13,000 Vesta images. It gives Ceres orbit entry as 00:39 UT on 7 March 2015; JPL [19] gives 6 March, used here.', ru:'Dawn: стартовая масса, Delta II Heavy, даты полёта на ионной тяге, пролёт Марса на 542 км, выходы на орбиты Весты и Цереры, высоты и периоды всех картографических орбит, даты переходов, отказы маховиков, Реасильвия и Вененея, 13 000 снимков Весты. Выход на орбиту Цереры здесь датирован 00:39 UT 7 марта 2015 года; JPL [19] даёт 6 марта — эта дата и использована.'}},
+  {title:'NASA NSSDCA Master Catalog, Dawn (2007-043A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-043A', note:{en:'Dry mass 747.1 kg, launch mass 1,217.7 kg, 425 kg xenon, 45.6 kg hydrazine; solar arrays 19.7 m, 10.3 kW at 1 AU and 1.3 kW at 3 AU; 92 mN per engine at 2.6 kW, I<sub>sp</sub> 3,200–1,900 s.', ru:'Сухая масса 747,1 кг, стартовая 1217,7 кг, 425 кг ксенона, 45,6 кг гидразина; солнечные батареи 19,7 м, 10,3 кВт на 1 а. е. и 1,3 кВт на 3 а. е.; 92 мН на двигатель при 2,6 кВт, I<sub>уд</sub> 3200–1900 с.'}},
+  {title:'C. E. Garner, M. D. Rayman, J. R. Brophy, S. C. Mikes (2011), “In-Flight Operation of the Dawn Ion Propulsion System Through Orbit Capture at Vesta”, NASA NTRS 20150008816', url:'https://ntrs.nasa.gov/citations/20150008816', note:{en:'To Vesta orbit capture: about 23,400 h of operation, about 250 kg of xenon, about 6.7 km/s; the Mars flyby is the only needed velocity change after launch not made by the ion engines.', ru:'До выхода на орбиту Весты: около 23 400 ч работы, около 250 кг ксенона, около 6,7 км/с; пролёт Марса — единственное нужное изменение скорости после старта, сделанное не ионными двигателями.'}},
+  {title:'C. E. Garner, M. D. Rayman (2016), “In-Flight Operation of the Dawn Ion Propulsion System Through the Low Altitude Mapping Orbit at Ceres”, NASA NTRS 20190002063', url:'https://ntrs.nasa.gov/citations/20190002063', note:{en:'By June 2016: about 48,458 h of operation, about 401 kg of xenon, over 11.0 km/s; LAMO at a mean altitude of about 385 km; primary mission to end 30 June 2016.', ru:'К июню 2016: около 48 458 ч работы, около 401 кг ксенона, больше 11,0 км/с; LAMO на средней высоте около 385 км; основная миссия заканчивается 30 июня 2016.'}},
+  {title:'NASA JPL (28 June 2018), “Dawn’s Engines Complete Firing, Science Continues”', url:'https://www.jpl.nasa.gov/news/dawns-engines-complete-firing-science-continues/', note:{en:'Record total firing time of 5.87 years and record total effective velocity change of 25,700 mph (41,360 km/h).', ru:'Рекордное суммарное время работы 5,87 года и рекордное суммарное изменение скорости 25 700 миль/ч (41 360 км/ч).'}},
+  {title:'M. D. Rayman (2013), “Dawn Journal: Breaking Velocity Records”, The Planetary Society', url:'https://www.planetary.org/articles/20130702-dawn-journal-breaking-velocity-records', note:{en:'The push of an ion engine compared to a sheet of paper in your hand; at the reduced thrust of mid-2013, more than five days from zero to 60 mph; an average of less than 2.7 mg of xenon per second over the first 3.6 years of thrusting.', ru:'Тяга ионного двигателя сравнивается с листом бумаги на ладони; при пониженной тяге середины 2013 года — больше пяти дней от нуля до 60 миль/ч; в среднем меньше 2,7 мг ксенона в секунду за первые 3,6 года работы двигателей.'}},
+  {title:'T. N. Edelbaum (1961), “Propulsion Requirements for Controllable Satellites”, ARS Journal 31 (8), 1079–1089', url:'https://doi.org/10.2514/8.5723', note:{en:'The low-thrust result used here: a slow spiral between coplanar circular orbits costs the difference of the two circular speeds.', ru:'Использованный здесь результат для малой тяги: медленная спираль между компланарными круговыми орбитами стоит разности двух круговых скоростей.'}},
+  {title:'D. Han (2012), “Orbit Transfers for Dawn’s Vesta Operations: Navigation and Mission Design Experience”, NASA NTRS 20150004633', url:'https://ntrs.nasa.gov/citations/20150004633', note:{en:'How the transfers between Vesta mapping orbits were planned: thrust sequences, orbit determination between them, and Deep Space Network coverage.', ru:'Как планировались переходы между картографическими орбитами Весты: последовательности работы двигателей, определение орбиты между ними и сеансы Сети дальней космической связи.'}},
+  {title:'NASA JPL Small-Body Database: 4 Vesta and 1 Ceres', url:'https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=1', note:{en:'Vesta: GM 17.2882844 km³/s², mean diameter 522.77 km, density 3.460 g/cm³ (Park et al. 2025). Ceres: GM 62.6284 km³/s², diameter 939.4 km, density 2.162 g/cm³ (Park et al. 2016). Look up Vesta with sstr=4.', ru:'Веста: GM 17,2882844 км³/с², средний диаметр 522,77 км, плотность 3,460 г/см³ (Park et al. 2025). Церера: GM 62,6284 км³/с², диаметр 939,4 км, плотность 2,162 г/см³ (Park et al. 2016). Весту можно найти по sstr=4.'}},
+  {title:'C. T. Russell et al. (2012), “Dawn at Vesta: Testing the Protoplanetary Paradigm”, Science 336, 684–686', url:'https://doi.org/10.1126/science.1219381', note:{en:'Vesta is a differentiated protoplanet and the parent body of the HED meteorites; core radius 107–113 km.', ru:'Веста — дифференцированная протопланета и родительское тело метеоритов HED; радиус ядра 107–113 км.'}},
+  {title:'P. Schenk et al. (2012), “The Geologically Recent Giant Impact Basins at Vesta’s South Pole”, Science 336, 694–697', url:'https://doi.org/10.1126/science.1223272', note:{en:'Rheasilvia 500 km wide and 19 km deep, overlapping the 400 km Veneneia; both roughly 1–2 billion years old; source of the Vestoids and HED meteorites.', ru:'Реасильвия шириной 500 км и глубиной 19 км перекрывает 400-километровую Вененею; обоим примерно 1–2 млрд лет; источник вестоидов и метеоритов HED.'}},
+  {title:'R. S. Park et al. (2016), “A partially differentiated interior for (1) Ceres deduced from its gravity field and shape”, Nature 537, 515–517', url:'https://doi.org/10.1038/nature18955', note:{en:'Ceres in hydrostatic equilibrium; rocky core of 2,460–2,900 kg/m³ under a volatile-rich shell 70–190 km thick.', ru:'Церера в гидростатическом равновесии; каменное ядро плотностью 2460–2900 кг/м³ под оболочкой, богатой летучими веществами, толщиной 70–190 км.'}},
+  {title:'M. C. De Sanctis et al. (2016), “Bright carbonate deposits as evidence of aqueous alteration on (1) Ceres”, Nature 536, 54–57', url:'https://doi.org/10.1038/nature18290', note:{en:'Occator’s bright areas are rich in sodium carbonate, the most concentrated known extraterrestrial carbonate on kilometre scales; residue of crystallised brines.', ru:'Яркие области Оккатора богаты карбонатом натрия — самое концентрированное известное внеземное скопление карбонатов километрового масштаба; остаток кристаллизации рассолов.'}},
+  {title:'C. A. Raymond et al. (2020), “Impact-driven mobilization of deep crustal brines on dwarf planet Ceres”, Nature Astronomy 4, 741–747', url:'https://doi.org/10.1038/s41550-020-1168-2', note:{en:'Gravity and geology of Occator point to a deep brine reservoir feeding the bright deposits.', ru:'Гравиметрия и геология Оккатора указывают на глубокий резервуар рассола, питающий яркие отложения.'}},
+  {title:'NASA JPL (10 August 2020), “Mystery Solved: Bright Areas on Ceres Come From Salty Water Below”', url:'https://www.jpl.nasa.gov/news/mystery-solved-bright-areas-on-ceres-come-from-salty-water-below/', note:{en:'Occator 92 km wide, about 20 million years old; brine reservoir about 40 km deep and hundreds of km wide; some deposits under 2 million years old; Dawn below 35 km at the end.', ru:'Оккатор шириной 92 км, возрастом около 20 млн лет; резервуар рассола на глубине около 40 км и шириной в сотни километров; некоторым отложениям меньше 2 млн лет; в конце Dawn опускался ниже 35 км.'}},
+  {title:'NASA JPL (1 November 2018), “NASA’s Dawn Mission to Asteroid Belt Comes to End”', url:'https://www.jpl.nasa.gov/news/nasas-dawn-mission-to-asteroid-belt-comes-to-end/', note:{en:'Missed contacts on 31 October and 1 November 2018, out of hydrazine; orbit to last at least 20 years, with more than 99 % confidence at least 50; planetary protection; about 6.9 billion km travelled.', ru:'Пропущенные сеансы 31 октября и 1 ноября 2018, гидразин исчерпан; орбита продержится не меньше 20 лет, с уверенностью больше 99 % — не меньше 50; планетарная защита; пройдено около 6,9 млрд км.'}},
+  {title:'NASA NSSDCA, Moon Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html', note:{en:'GM 0.00490 × 10⁶ km³/s², mean radius 1,737.4 km, density 3,344 kg/m³, surface gravity 1.62 m/s², escape speed 2.38 km/s.', ru:'GM 0,00490 × 10⁶ км³/с², средний радиус 1737,4 км, плотность 3344 кг/м³, ускорение свободного падения 1,62 м/с², скорость убегания 2,38 км/с.'}},
+  {title:'NASA Science, Dawn mission page', url:'https://science.nasa.gov/mission/dawn/', note:{en:'“NASA’s first truly interplanetary spaceship”, with extended stays at two very different extraterrestrial bodies.', ru:'«Первый по-настоящему межпланетный корабль NASA», надолго задержавшийся у двух очень разных внеземных тел.'}},
+  {title:'NASA JPL (6 March 2015), “NASA Spacecraft Becomes First to Orbit a Dwarf Planet”', url:'https://www.jpl.nasa.gov/news/nasa-spacecraft-becomes-first-to-orbit-a-dwarf-planet/', note:{en:'Captured by Ceres at about 4:39 a.m. PST on Friday 6 March 2015 (12:39 UTC); the first mission to orbit two extraterrestrial targets.', ru:'Захват Церерой около 4:39 по тихоокеанскому времени в пятницу 6 марта 2015 года (12:39 UTC); первая миссия, вышедшая на орбиты двух внеземных целей.'}},
+  {title:'M. D. Rayman (2008), “Dawn Journal: Cruising Past Mars’ Orbit”, The Planetary Society', url:'https://www.planetary.org/articles/1529', note:{en:'“The spacecraft is outfitted with three ion thrusters but will never use more than one at a time.”', ru:'«Аппарат оснащён тремя ионными двигателями, но никогда не использует больше одного одновременно».'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  Array.prototype.forEach.call(document.querySelectorAll('[data-aria-en]'), function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
+  renderXe();
+  renderThrust();
+  renderOrbit();
+  renderCmp();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__belt = {propNeeded:propNeeded, deliverNeeded:deliverNeeded, airtime:airtime, impliedIsp:impliedIsp, push:push, body:body, orbit:orbit, spiralDv:spiralDv, jump:jump, ORBITS:ORBITS, BODIES:BODIES, MILESTONES:MILESTONES,
+  M_LAUNCH:M_LAUNCH, M_DRY:M_DRY, M_XE:M_XE, M_N2H4:M_N2H4, M_NOXE:M_NOXE, DV_END:DV_END, ISP_CHEM:ISP_CHEM, ISP_ION:ISP_ION, F_MAX:F_MAX, SHEET_G:SHEET_G};
+
+})();
+</script>
+</body>
+</html>

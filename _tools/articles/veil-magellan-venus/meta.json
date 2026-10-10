@@ -1,0 +1,11 @@
+{
+ "slug": "veil-magellan-venus",
+ "title_en": "VEIL — MAGELLAN'S RADAR MAP OF VENUS",
+ "title_ru": "ПОКРОВ — РАДИОЛОКАЦИОННАЯ КАРТА ВЕНЕРЫ «МАГЕЛЛАНА»",
+ "description": "An interactive field guide to NASA's Magellan: how a 3.7 m dish and synthetic-aperture radar at 12.6 cm saw through Venus's clouds at 120–300 m resolution, how 243-day cycles mapped 98% of the planet strip by strip, what roughly 940 scattered craters say about a surface only about half a billion years old, and how Magellan became the first spacecraft to aerobrake into a new orbit at another planet.",
+ "og": "12.6 cm radar, 120–300 m pixels, 98% of Venus in 25 km strips, and the first planetary aerobraking: Magellan, interactive and sourced from JPL's own guides.",
+ "brand": "VEIL — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE VEILED PLANET",
+ "hud1": "ALTITUDE",
+ "hud2": "RESOLUTION"
+}

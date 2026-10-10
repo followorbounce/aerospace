@@ -1,0 +1,13 @@
+.btn[hidden]{display:none;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+@media (pointer:coarse){
+  .btn{min-height:44px; min-width:44px; padding:10px 14px; font-size:12px;}
+  input[type=range]{height:44px; background:transparent; margin:4px 0;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+/* this page's charts take no pointer input: let phones scroll over them; darker small SVG text for AA contrast (~6.4:1) */
+.sim-svg{touch-action:auto;}
+.svg-small{fill:#5f5f59;}

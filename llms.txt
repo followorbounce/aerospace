@@ -36,6 +36,8 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [Cassini-Huygens at Saturn](https://followorbounce.github.io/aerospace/finale-cassini-huygens): the Cassini-Huygens mission to Saturn and Titan.
 - [Venera & Vega](https://followorbounce.github.io/aerospace/furnace-venera-vega): the Soviet exploration of Venus 1967–85 — descent through the Venus International Reference Atmosphere with a terminal-velocity model that reproduces Venera 11's 53-minute fall, a pressure-sphere designer (strength vs buckling, NASA SP-8032 knockdown), Venera 4's crushing, Venera 7's 23 minutes from the surface, the first pictures (Venera 9), survival times of every lander (Venera 13: 127 min), and the Vega balloons at 54 km.
 - [Juno at Jupiter](https://followorbounce.github.io/aerospace/polar-juno-jupiter): NASA's Juno — first solar-powered Jupiter orbiter; the 8.1 million × 4,200 km polar capture orbit and the cancelled 14-day burn (vis-viva), Doppler gravity science showing 3,000 km-deep jets, polar cyclone clusters, and Ganymede/Europa/Io flybys
+- [Mercury: MESSENGER & BepiColombo](https://followorbounce.github.io/aerospace/scorch-mercury-messenger-bepicolombo): Why orbiting Mercury costs more than leaving the Solar System (Hohmann + capture calculator), Mariner 10 and Colombo's gravity assists, MESSENGER's six flybys and 0.86 km/s capture, sunshade thermal model, the 3:2 spin–orbit resonance animated (176-day solar day, retrograde Sun), polar ice, and BepiColombo's arrival planned for 21 November 2026.
+- [Magellan's Radar Map of Venus](https://followorbounce.github.io/aerospace/veil-magellan-venus): NASA's Magellan (1989–1994): synthetic-aperture radar at 12.6 cm mapping 98% of Venus at 120–300 m, 243-day mapping cycles, randomly scattered craters and a young surface, and the first aerobraking at another planet; interactive radar geometry, strip-coverage, crater and aerobraking models.
 
 ## The Sun & Small Bodies
 
@@ -43,6 +45,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [Rosetta & Philae](https://followorbounce.github.io/aerospace/comet-rosetta-philae): ESA's Rosetta mission to comet 67P — ten years of flybys and hibernation (solar power vs distance), orbiting a 10¹³ kg nucleus at ~15 cm/s (point-mass orbit calculator from Pätzold et al. 2016), Philae's three touchdowns where escape speed is ~0.9 m/s (bounce-height calculator), and the findings: D/H three times Earth's oceans, primordial O₂, glycine and phosphorus.
 - [Hayabusa & OSIRIS-REx](https://followorbounce.github.io/aerospace/sample-hayabusa-osiris-rex): asteroid sample return — Hayabusa's crippled trip home from Itokawa, Hayabusa2's artificial crater on Ryugu, OSIRIS-REx sinking into Bennu; rocket equation, rubble-pile gravity and re-entry energy interactives
 - [DART & Planetary Defence](https://followorbounce.github.io/aerospace/impact-dart-planetary-defence): NASA's DART kinetic-impact test on Dimorphos — impact energy vs asteroid size (Chelyabinsk), momentum enhancement β and the −33 min period change, warning time vs deflection (3Δv·t), ESA's Hera follow-up
+- [Dawn at Vesta & Ceres](https://followorbounce.github.io/aerospace/belt-dawn-vesta-ceres): Dawn's ion engines and the first spacecraft to orbit two destinations beyond Earth: rocket-equation ledger (11.49 km/s from 425 kg of xenon vs ~30 t chemical), thrust-and-mass push calculator, Kepler periods and Edelbaum spirals for every Vesta/Ceres mapping orbit checked against NASA, Vesta vs Ceres scale/interior/landmarks (Rheasilvia, Occator brines).
 
 ## Moon Exploration
 
@@ -93,6 +96,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [Dragonfly Mission](https://followorbounce.github.io/aerospace/rotor-dragonfly-titan): NASA's Dragonfly rotorcraft mission to Saturn's moon Titan.
 - [Interstellar Probe Concept](https://followorbounce.github.io/aerospace/beyond-interstellar-probe): a proposed, purpose-built successor to Voyager's interstellar mission.
 - [Solar Sails](https://followorbounce.github.io/aerospace/sail-solar-sails): solar sails — radiation pressure 2S/c = 9.08 µN/m², IKAROS (1.12 mN measured), LightSail 2 orbit raising, the 35.26° tacking angle, 1/r² and accumulated Δv, NASA ACS3
+- [Uranus & Neptune: the Ice Giants](https://followorbounce.github.io/aerospace/tilt-uranus-neptune): Uranus's 98° tilt and 42-year polar days, sunlight and data rates at 19–30 AU, Voyager 2's 1986 and 1989 flybys (Great Dark Spot, Triton's plumes), Hohmann vs faster transfers, and the proposed Uranus Orbiter and Probe's status as of October 2026.
 
 ## Rockets & Engineering
 
@@ -110,6 +114,7 @@ Machine-readable index of every page: https://followorbounce.github.io/aerospace
 - [The Physics of Spaceflight](https://followorbounce.github.io/aerospace/physics-of-spaceflight): the rocket equation, orbital mechanics, and a Δv map of the Solar System, ending with the engines from chemical rockets to fusion drives.
 - [Physical Computing](https://followorbounce.github.io/aerospace/cascade-physical-computing): from a voltage crossing a threshold to a switching transistor, logic, memory, clocks, and CPU instructions, up through Arduino, ESP32, Raspberry Pi, FPGAs, and ASICs.
 - [The Mathematics of Music](https://followorbounce.github.io/aerospace/mathematics-of-music): pressure waves, frequency, string harmonics, equal temperament, and Fourier analysis, connected to radio modulation, the Deep Space Network, pulsars, and orbital resonance — with a playable keyboard, string and harmonic simulators, and a frequency-to-note calculator.
+- [Gravity Assists & the Grand Tour](https://followorbounce.github.io/aerospace/slingshot-gravity-assists): How gravity assists work: same speed relative to the planet, kilometres per second gained or lost relative to the Sun, why the planet pays, braking toward Mercury, escaping via Jupiter, and Voyager 2's 12-year Grand Tour vs a 30-year direct flight; checked against Cassini's 1999 Earth flyby.
 
 ## Space & Time
 

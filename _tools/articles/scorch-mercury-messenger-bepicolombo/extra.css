@@ -1,0 +1,4 @@
+/* SCORCH: 44 px touch targets for buttons and sliders (iPhone guideline) */
+.btn{min-height:44px; min-width:44px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.day-ctl{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}

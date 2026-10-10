@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TILT — URANUS &amp; NEPTUNE, THE ICE GIANTS / НАКЛОН — УРАН И НЕПТУН, ЛЕДЯНЫЕ ГИГАНТЫ</title>
+<meta name="description" content="An interactive field guide to the ice giants: Uranus tipped 98° on its side with 42-year polar days, sunlight 369 times weaker than at Earth, Voyager 2's only visits in 1986 and 1989 and the data rates the Deep Space Network had to rebuild itself to reach, Neptune's Great Dark Spot and Triton's geysers, why getting there takes 16 years without a Jupiter swing-by, and where the proposed Uranus Orbiter and Probe stands in October 2026.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/tilt-uranus-neptune">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TILT — URANUS &amp; NEPTUNE, THE ICE GIANTS / НАКЛОН — УРАН И НЕПТУН, ЛЕДЯНЫЕ ГИГАНТЫ">
+<meta property="og:description" content="98° of tilt, 42-year polar days, 21.6 kbit/s from Neptune and a 16-year Hohmann transfer: Uranus and Neptune, Voyager 2 and the Uranus Orbiter and Probe, interactive and sourced from NASA, JPL and the Decadal Survey.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/tilt-uranus-neptune">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* TILT: 44 px touch targets (iPhone guideline), darker small SVG labels for contrast */
+.btn{min-height:44px; min-width:44px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+.svg-small{fill:#5f5f59;}
+.svg-halo{paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round;}
+@media (pointer:coarse){
+  .btn{min-height:44px; min-width:44px; padding:10px 14px; font-size:12px;}
+  input[type=range]{height:44px; background:transparent; margin:4px 0;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">TILT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">SIDEWAYS WORLD</span></div>
+  <div class="hud-row"><span class="hud-label">SUNLIGHT</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">FLIGHT TIME</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="SIDEWAYS WORLD">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — URANUS 97.77°, NEPTUNE 28.32°" data-ru="РИС. 00 — УРАН 97,77°, НЕПТУН 28,32°">FIG. 00 — URANUS 97.77°, NEPTUNE 28.32°</span></span>
+        <span>19.2 AU · 30.2 AU</span>
+      </div>
+      <h1><span data-en="TILT" data-ru="НАКЛОН">TILT</span><br><em data-en="URANUS &amp; NEPTUNE, THE ICE GIANTS" data-ru="УРАН И НЕПТУН, ЛЕДЯНЫЕ ГИГАНТЫ">URANUS &amp; NEPTUNE, THE ICE GIANTS</em></h1>
+      <p class="sub lede" data-en="Two planets about four times the width of Earth, so far out that sunlight there is hundreds of times weaker — and only one spacecraft has ever been to either. Voyager 2 flew past Uranus in January 1986 and Neptune in August 1989, a few hours of close-up data each. Eight chapters and four instruments: follow the Sun across Uranus's sky through its 84-year year, see why the ice giants need nuclear power and giant radio dishes, and plan the long trip out — then read where the proposed Uranus Orbiter and Probe, NASA's candidate next visit, stands today." data-ru="Две планеты примерно вчетверо шире Земли, настолько далёкие, что солнечный свет там в сотни раз слабее, — и к каждой летал лишь один аппарат. «Вояджер-2» пролетел мимо Урана в январе 1986 года и мимо Нептуна в августе 1989 года, получив у каждого по нескольку часов съёмки вблизи. Восемь глав и четыре прибора: проследите за Солнцем на небе Урана в течение его 84-летнего года, посмотрите, почему ледяным гигантам нужны ядерные источники энергии и огромные радиоантенны, спланируйте долгий перелёт — и узнайте, на каком этапе сегодня предлагаемая миссия Uranus Orbiter and Probe.">Two planets about four times the width of Earth.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — SEASONS -->
+<section id="ch1" class="section" data-phase="SIDEWAYS WORLD">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 08</span> — <span data-en="A PLANET ON ITS SIDE" data-ru="ПЛАНЕТА НА БОКУ">A PLANET ON ITS SIDE</span></div>
+    <h2 class="h-lg" data-en="Forty-two years of daylight at the pole" data-ru="Сорок два года полярного дня">Forty-two years of daylight at the pole</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Earth's axis leans 23.44° from upright; Neptune's leans 28.32°, so its seasons work much like ours, only each lasts about 41 years of its 165-year orbit [2]. Uranus is the odd one: its axis is tipped <b>97.77°</b>, so it rolls around the Sun on its side [1][3]. Once per 84-year orbit each pole points almost straight at the Sun, and half an orbit later straight away from it." data-ru="Ось Земли отклонена от вертикали на 23,44°; ось Нептуна — на 28,32°, поэтому его времена года устроены почти как наши, только каждое длится около 41 года из 165-летнего оборота [2]. Уран — исключение: его ось наклонена на <b>97,77°</b>, и он катится вокруг Солнца на боку [1][3]. Раз за 84-летний оборот каждый полюс смотрит почти прямо на Солнце, а через пол-оборота — прямо от него.">Uranus: 97.77°.</p>
+      <p class="body-col" data-en="At the pole itself the Sun stays up for half the orbit — <b>42 years</b> — and then sets for 42; NASA describes each pole's deepest stretch — the quarter-orbit around solstice when the pole points most directly away from the Sun — as a 21-year dark winter [3]. Averaged over a whole orbit, Uranus's poles get <b>more</b> sunlight than its equator, the reverse of Earth (this happens for any tilt above about 54°). Voyager 2 arrived in 1986, about a quarter-orbit before the December 2007 equinox [19], so one pole was facing the Sun." data-ru="На самом полюсе Солнце не заходит половину оборота — <b>42 года</b>, — а затем на 42 года скрывается; NASA называет самую глубокую часть этого периода — четверть оборота вокруг солнцестояния, когда полюс обращён от Солнца сильнее всего, — 21-летней тёмной зимой [3]. В среднем за оборот полюса Урана получают <b>больше</b> солнечного света, чем экватор, — в отличие от Земли (так бывает при любом наклоне больше примерно 54°). «Вояджер-2» прибыл в 1986 году, примерно за четверть оборота до равноденствия в декабре 2007 года [19], поэтому один полюс смотрел на Солнце.">Poles get more light than the equator.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="DAILY-MEAN SUNLIGHT AT LATITUDE φ" data-ru="СРЕДНЕСУТОЧНАЯ ОСВЕЩЁННОСТЬ НА ШИРОТЕ φ">DAILY-MEAN SUNLIGHT AT LATITUDE φ</div>
+      <div class="eq-body">Q = (S/π)(H₀ sinφ sinδ + cosφ cosδ sinH₀) &nbsp;·&nbsp; cosH₀ = −tanφ tanδ &nbsp;·&nbsp; sinδ = sinε sinλ</div>
+      <div class="eq-note" data-en="S is the sunlight at the planet's distance (Uranus 3.69 W/m², Neptune 1.508 W/m², Earth 1,361 W/m² [1][2]); δ is the Sun's declination, ε the axial tilt and λ the planet's position along its orbit since the equinox. The model takes the orbit as a circle, so seasons advance evenly; Uranus's real orbit (e = 0.047) moves sunlight up and down by about ±10 %." data-ru="S — солнечная освещённость на расстоянии планеты (Уран 3,69 Вт/м², Нептун 1,508 Вт/м², Земля 1361 Вт/м² [1][2]); δ — склонение Солнца, ε — наклон оси, λ — положение планеты на орбите от равноденствия. Модель считает орбиту окружностью, поэтому сезоны сменяются равномерно; реальная орбита Урана (e = 0,047) меняет освещённость примерно на ±10 %.">Circular-orbit model.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="seaSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Daily-mean sunlight at the chosen latitude through one orbit"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Planet" id="seaPre">
+          <button class="btn active" data-p="U" aria-pressed="true" data-en="URANUS" data-ru="УРАН">URANUS</button>
+          <button class="btn" data-p="N" aria-pressed="false" data-en="NEPTUNE" data-ru="НЕПТУН">NEPTUNE</button>
+          <button class="btn" data-p="E" aria-pressed="false" data-en="EARTH" data-ru="ЗЕМЛЯ">EARTH</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="seaLat" data-en="LATITUDE φ" data-ru="ШИРОТА φ">LATITUDE φ</label><span class="v" id="seaLatVal">—</span></div>
+          <input id="seaLat" type="range" min="0" max="90" step="1" value="60">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="seaT" data-en="TIME SINCE EQUINOX" data-ru="ВРЕМЯ ПОСЛЕ РАВНОДЕНСТВИЯ">TIME SINCE EQUINOX</label><span class="v" id="seaTVal">—</span></div>
+          <input id="seaT" type="range" min="0" max="1" step="0.0025" value="0.25">
+        </div>
+        <div class="readout-grid" id="seaReadout"></div>
+        <div class="status" id="seaStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Latitude is in the hemisphere that turns towards the Sun first after the equinox. Uranus's 17-hour day is averaged out; the curve is sunlight at the top of the atmosphere, not temperature — deep in its atmosphere Uranus's weather changes far more slowly than the sunlight does." data-ru="Широта отсчитывается в полушарии, которое после равноденствия первым поворачивается к Солнцу. 17-часовые сутки Урана усреднены; кривая — освещённость на верхней границе атмосферы, а не температура: глубже в атмосфере погода Урана меняется гораздо медленнее, чем освещённость.">Model notes.</p>
+  </div>
+</section>
+
+<!-- CH2 — FAR AND DIM -->
+<section id="ch2" class="section" data-phase="FAR AND DIM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 08</span> — <span data-en="SUNLIGHT AND SIGNAL FALL AS 1/r²" data-ru="СВЕТ И СИГНАЛ ПАДАЮТ КАК 1/r²">SUNLIGHT AND SIGNAL FALL AS 1/r²</span></div>
+    <h2 class="h-lg" data-en="Too dim for solar panels, too far for a quick reply" data-ru="Слишком темно для солнечных батарей, слишком далеко для быстрого ответа">Too dim for solar panels, too far for a quick reply</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Uranus orbits at 19.2 times Earth's distance from the Sun and Neptune at 30.2 [1][2]. Sunlight falls off as the inverse square of distance: <b>3.69 W/m²</b> at Uranus is 1/369 of what reaches Earth, and <b>1.508 W/m²</b> at Neptune is 1/902 — NASA puts it as Earth's light being about 900 times brighter [4]. Panels big enough to run a spacecraft there would cover hundreds of square metres, which is why every mission to the ice giants carries radioisotope power." data-ru="Уран обращается в 19,2 раза дальше от Солнца, чем Земля, Нептун — в 30,2 раза [1][2]. Солнечный свет ослабевает обратно пропорционально квадрату расстояния: <b>3,69 Вт/м²</b> у Урана — это 1/369 земного, а <b>1,508 Вт/м²</b> у Нептуна — 1/902; NASA формулирует это так: свет на Земле примерно в 900 раз ярче [4]. Солнечные батареи, способные питать аппарат там, заняли бы сотни квадратных метров, поэтому все миссии к ледяным гигантам несут радиоизотопные источники.">1/369 and 1/902 of Earth's sunlight.</p>
+      <p class="body-col" data-en="The radio signal home weakens the same way. With the ground antennas of 1979–81, Voyager 2's 115.2 kbit/s from Jupiter would have shrunk to about 9,000 bit/s at Uranus and 3,200 at Neptune. Instead the Deep Space Network learned to combine several antennas — Australia's Parkes telescope for both encounters — and, for Neptune, grew its 64 m dishes to 70 m and added the 27 dishes of the Very Large Array; Voyager returned up to <b>29,900 bit/s</b> from Uranus and <b>21,600 bit/s</b> from Neptune [6]." data-ru="Радиосигнал к Земле ослабевает так же. С наземными антеннами 1979–1981 годов 115,2 кбит/с, которые «Вояджер-2» передавал от Юпитера, сократились бы примерно до 9000 бит/с у Урана и 3200 у Нептуна. Вместо этого Сеть дальней космической связи научилась объединять несколько антенн — австралийский телескоп в Парксе использовался при обеих встречах, — а к Нептуну увеличила свои 64-метровые антенны до 70 м и подключила 27 антенн Very Large Array; «Вояджер» передавал до <b>29 900 бит/с</b> от Урана и <b>21 600 бит/с</b> от Нептуна [6].">29,900 and 21,600 bit/s achieved.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="farSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Voyager 2 data rates at each planet: expected with the 1979–81 ground system and achieved maximum"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Distance preset" id="farPre">
+          <button class="btn" data-r="1" aria-pressed="false" data-en="EARTH" data-ru="ЗЕМЛЯ">EARTH</button>
+          <button class="btn" data-r="5.2" aria-pressed="false" data-en="JUPITER" data-ru="ЮПИТЕР">JUPITER</button>
+          <button class="btn active" data-r="19.165" aria-pressed="true" data-en="URANUS" data-ru="УРАН">URANUS</button>
+          <button class="btn" data-r="30.181" aria-pressed="false" data-en="NEPTUNE" data-ru="НЕПТУН">NEPTUNE</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="farR" data-en="DISTANCE FROM THE SUN" data-ru="РАССТОЯНИЕ ОТ СОЛНЦА">DISTANCE FROM THE SUN</label><span class="v" id="farRVal">—</span></div>
+          <input id="farR" type="range" min="1" max="40" step="0.005" value="19.165">
+        </div>
+        <div class="readout-grid" id="farReadout"></div>
+        <div class="status" id="farStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Panel area assumes 30 %-efficient cells, pointed at the Sun, and 350 W — the end-of-mission power planned for the Uranus Orbiter (chapter 06) [13]. Light time uses the distance from the Sun; Earth's own position changes it by up to ±8 minutes." data-ru="Площадь батарей рассчитана для элементов с КПД 30 %, направленных на Солнце, и мощности 350 Вт — запланированной мощности Uranus Orbiter в конце миссии (глава 06) [13]. Время прохождения света взято по расстоянию от Солнца; положение самой Земли меняет его на величину до ±8 минут.">Assumptions.</p>
+  </div>
+</section>
+
+<!-- CH3 — URANUS 1986 -->
+<section id="ch3" class="section" data-phase="URANUS 1986">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 08</span> — <span data-en="VOYAGER 2 AT URANUS, 24 JANUARY 1986" data-ru="«ВОЯДЖЕР-2» У УРАНА, 24 ЯНВАРЯ 1986">VOYAGER 2 AT URANUS, 24 JANUARY 1986</span></div>
+    <h2 class="h-lg" data-en="Six hours that wrote the textbook" data-ru="Шесть часов, по которым написан учебник">Six hours that wrote the textbook</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Launched on 20 August 1977, Voyager 2 reached Uranus eight and a half years later, after swing-bys of Jupiter and Saturn. At 17:59 UT on 24 January 1986 it passed <b>81,500 km</b> above the cloud tops — the first and still the only visit [5]. Much of the key data came in about six hours [19]. It found <b>10 new moons</b>, <b>2 new rings</b> and a magnetic field tilted nearly 60° from the spin axis and offset from the planet's centre [3][5]." data-ru="Запущенный 20 августа 1977 года, «Вояджер-2» достиг Урана через восемь с половиной лет после пролётов Юпитера и Сатурна. В 17:59 UT 24 января 1986 года он прошёл в <b>81 500 км</b> над облаками — первый и до сих пор единственный визит [5]. Основная часть ключевых данных была получена примерно за шесть часов [19]. Он открыл <b>10 новых спутников</b>, <b>2 новых кольца</b> и магнитное поле, наклонённое почти на 60° к оси вращения и смещённое от центра планеты [3][5].">81,500 km, 10 moons, 2 rings.</p>
+      <p class="body-col" data-en="It may have caught Uranus on an unusual day. A 2024 re-analysis found that a burst of solar wind had squeezed the magnetosphere just before the flyby: “The spacecraft saw Uranus in conditions that only occur about 4% of the time,” said JPL's Jamie Jasinski [7]. Everything since has come from telescopes — in 2025 the James Webb Space Telescope found a 29th moon, about 10 km across, too small for Voyager to see [11]." data-ru="Возможно, он застал Уран в необычный день. Повторный анализ 2024 года показал, что незадолго до пролёта порыв солнечного ветра сжал магнитосферу: «Аппарат увидел Уран в условиях, которые бывают лишь около 4 % времени», — сказал Джейми Ясински из JPL [7]. Всё, что известно с тех пор, получено телескопами: в 2025 году космический телескоп «Джеймс Уэбб» нашёл 29-й спутник диаметром около 10 км — слишком маленький, чтобы его увидел «Вояджер» [11].">An unusual day; Webb's 29th moon.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="encSvg" class="sim-svg" viewBox="0 0 480 320" role="img" aria-label="Voyager 2's closest approach drawn to scale with the planet and a moon's orbit"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Encounter" id="encPre">
+          <button class="btn active" data-p="U" aria-pressed="true" data-en="URANUS 1986" data-ru="УРАН 1986">URANUS 1986</button>
+          <button class="btn" data-p="N" aria-pressed="false" data-en="NEPTUNE 1989" data-ru="НЕПТУН 1989">NEPTUNE 1989</button>
+        </div>
+        <div class="readout-grid" id="encReadout"></div>
+        <div class="status" id="encStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Drawn to scale from the planet's equatorial radius, the published closest-approach altitude and the moon's orbital radius [1][2][5][16][17]. The flyby path is schematic: only its closest point is to scale; the moon dot is enlarged." data-ru="Масштаб соблюдён по экваториальному радиусу планеты, опубликованной высоте наибольшего сближения и радиусу орбиты спутника [1][2][5][16][17]. Траектория пролёта схематична: в масштабе только точка наибольшего сближения; точка спутника увеличена.">Scale notes.</p>
+  </div>
+</section>
+
+<!-- CH4 — NEPTUNE 1989 -->
+<section id="ch4" class="section" data-phase="NEPTUNE 1989">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 08</span> — <span data-en="VOYAGER 2 AT NEPTUNE, 25 AUGUST 1989" data-ru="«ВОЯДЖЕР-2» У НЕПТУНА, 25 АВГУСТА 1989">VOYAGER 2 AT NEPTUNE, 25 AUGUST 1989</span></div>
+    <h2 class="h-lg" data-en="The closest pass of the whole Grand Tour" data-ru="Самый близкий пролёт за весь «Большой тур»">The closest pass of the whole Grand Tour</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Twelve years after launch, at 03:56 UT on 25 August 1989, Voyager 2 skimmed about <b>4,800 km</b> over the cloud tops near Neptune's north pole — the closest of its four planetary flybys [5]. Its winds turned out to be about three times as fast as Jupiter's, driving clouds of frozen methane at more than 2,000 km/h, and a storm in its southern hemisphere large enough to hold the whole Earth: the <b>Great Dark Spot</b> [4]. When the Hubble Space Telescope looked in 1994, it was gone [10]." data-ru="Через двенадцать лет после старта, в 03:56 UT 25 августа 1989 года, «Вояджер-2» прошёл примерно в <b>4800 км</b> над облаками у северного полюса Нептуна — ближе, чем к любой другой из четырёх планет [5]. Ветры там оказались примерно втрое быстрее юпитерианских: облака замёрзшего метана несутся со скоростью более 2000 км/ч, а в южном полушарии бушевал шторм, в котором поместилась бы вся Земля, — <b>Большое тёмное пятно</b> [4]. Когда в 1994 году на Нептун посмотрел космический телескоп «Хаббл», пятна уже не было [10].">4,800 km; Great Dark Spot gone by 1994.</p>
+      <p class="body-col" data-en="Its big moon <b>Triton</b>, 2,700 km across, circles Neptune backwards — the only large moon in the Solar System to do so — and is thought to be a captured Kuiper Belt object [9]. Voyager 2 measured its surface at −235 °C [9], yet it was active: dark plumes rose as columns about <b>8 km</b> high and trailed clouds more than 100 km downwind, probably nitrogen gas venting through sunlit ice [8]." data-ru="Его крупный спутник <b>Тритон</b> диаметром 2700 км обращается вокруг Нептуна в обратную сторону — единственный такой крупный спутник в Солнечной системе — и, вероятно, является захваченным объектом пояса Койпера [9]. «Вояджер-2» измерил температуру его поверхности: −235 °C [9], и всё же он оказался активен: тёмные шлейфы поднимались столбами на высоту около <b>8 км</b> и тянули облака более чем на 100 км по ветру — вероятно, это азот, прорывающийся сквозь освещённый Солнцем лёд [8].">Triton: retrograde, −235 °C, 8 km plumes.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="TWO VISITS, ONE SPACECRAFT" data-ru="ДВА ВИЗИТА, ОДИН АППАРАТ">TWO VISITS, ONE SPACECRAFT</div>
+      <div class="eq-body" data-en="Uranus: 8.4 years after launch, 81,500 km · Neptune: 12.0 years, about 4,800 km" data-ru="Уран: 8,4 года после старта, 81 500 км · Нептун: 12,0 года, около 4800 км">Uranus: 8.4 years after launch, 81,500 km · Neptune: 12.0 years, about 4,800 km</div>
+      <div class="eq-note" data-en="Flight times computed from the launch (20 August 1977) and encounter dates [5]. Both relied on gravity assists from Jupiter and Saturn; a direct transfer to Uranus would take 16 years (chapter 05)." data-ru="Время полёта вычислено по датам старта (20 августа 1977) и встреч [5]. Оба полёта опирались на гравитационные манёвры у Юпитера и Сатурна; прямой перелёт к Урану занял бы 16 лет (глава 05).">Computed from dates.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — GETTING THERE -->
+<section id="ch5" class="section" data-phase="GETTING THERE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 08</span> — <span data-en="THE LONG WAY OUT" data-ru="ДОЛГИЙ ПУТЬ НАРУЖУ">THE LONG WAY OUT</span></div>
+    <h2 class="h-lg" data-en="Sixteen years the cheap way" data-ru="Шестнадцать лет — экономным путём">Sixteen years the cheap way</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The least-energy path from Earth to Uranus is a <b>Hohmann transfer</b>: half an ellipse that touches Earth's orbit and Uranus's. It takes about <b>16 years</b> and needs 11.3 km/s left over after escaping Earth's gravity (the hyperbolic excess speed v∞) — a launch energy C3 of about 127 km²/s². Neptune that way takes nearly 31 years. The Decadal Survey's 2021 concept study cut the Uranus trip to about 13 years by swinging past Jupiter, with launch in 2031–2032 [12][13]." data-ru="Путь с наименьшими затратами энергии от Земли к Урану — <b>гомановский перелёт</b>: половина эллипса, касающегося орбит Земли и Урана. Он занимает около <b>16 лет</b> и требует, чтобы после ухода из поля тяготения Земли оставалось 11,3 км/с (гиперболический избыток скорости v∞), — энергии запуска C3 около 127 км²/с². К Нептуну так лететь почти 31 год. Концептуальное исследование 2021 года для Десятилетнего обзора сокращало полёт к Урану примерно до 13 лет за счёт пролёта Юпитера при старте в 2031–2032 годах [12][13].">Hohmann: 16 years, C3 ≈ 127.</p>
+      <p class="body-col" data-en="That window is closing. A 2026 study by the mission's concept team notes that Jupiter will not be in a suitable position for launches after 2033 and through 2044, and that a 2031–2032 launch is ruled out by current funding [13]. Without Jupiter, the options are to launch faster — a bigger rocket such as Starship, which might cut the trip to about 10 years — or to add a stage with solar-electric propulsion (SEP), at about 12–14 years [13]. Try it: near the minimum the trip time is very sensitive — a tenth of a km/s more at departure saves about four and a half years — but a faster departure also arrives faster, and the faster you arrive, the bigger the braking burn needed to be captured into orbit." data-ru="Это окно закрывается. Исследование команды концепции миссии 2026 года отмечает, что Юпитер не будет в подходящем положении для запусков после 2033 года и вплоть до 2044 года, а старт в 2031–2032 годах исключён нынешним финансированием [13]. Без Юпитера остаётся стартовать быстрее — на более мощной ракете вроде Starship, что может сократить полёт примерно до 10 лет, — или добавить ступень с солнечной электроракетной двигательной установкой (СЭДУ), примерно 12–14 лет [13]. Попробуйте: вблизи минимума время полёта очень чувствительно к скорости старта — лишняя десятая км/с при старте экономит около четырёх с половиной лет, — но более быстрый старт означает и более быстрое прибытие, а чем выше скорость прибытия, тем больше тормозной импульс, нужный для выхода на орбиту.">No Jupiter 2033–2044.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="trSvg" class="sim-svg" viewBox="0 0 480 360" role="img" aria-label="Transfer orbit from Earth to the chosen planet for the chosen departure speed"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Target" id="trPre">
+          <button class="btn active" data-p="U" aria-pressed="true" data-en="TO URANUS" data-ru="К УРАНУ">TO URANUS</button>
+          <button class="btn" data-p="N" aria-pressed="false" data-en="TO NEPTUNE" data-ru="К НЕПТУНУ">TO NEPTUNE</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="trV" data-en="SPEED LEFT AFTER ESCAPE v∞" data-ru="ИЗБЫТОК СКОРОСТИ ПОСЛЕ УХОДА ОТ ЗЕМЛИ v∞">SPEED LEFT AFTER ESCAPE v∞</label><span class="v" id="trVVal">—</span></div>
+          <input id="trV" type="range" min="10.5" max="25" step="0.01" value="11.28">
+        </div>
+        <div class="readout-grid" id="trReadout"></div>
+        <div class="status" id="trStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="A two-body model: the Sun's gravity only, circular coplanar planetary orbits, departure along Earth's direction of motion, no gravity assists. The capture burn assumes a burn at 1.3 planet radii into an orbit that only just stays bound (a parabola-to-bound minimum). Flight time is the time from Earth's orbit to the planet's orbital distance, from Kepler's equation in closed form for elliptic and hyperbolic paths (checked against a step-by-step numerical integration)." data-ru="Задача двух тел: только притяжение Солнца, круговые орбиты планет в одной плоскости, старт по направлению движения Земли, без гравитационных манёвров. Тормозной импульс — минимальный, для захвата на едва замкнутую орбиту при импульсе на расстоянии 1,3 радиуса планеты. Время полёта — от орбиты Земли до расстояния орбиты планеты, по уравнению Кеплера в замкнутой форме для эллиптических и гиперболических траекторий (проверено пошаговым численным интегрированием).">Two-body model.</p>
+  </div>
+</section>
+
+<!-- CH6 — UOP -->
+<section id="ch6" class="section" data-phase="NEXT VISIT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 08</span> — <span data-en="THE URANUS ORBITER AND PROBE" data-ru="URANUS ORBITER AND PROBE">THE URANUS ORBITER AND PROBE</span></div>
+    <h2 class="h-lg" data-en="Top priority, not yet a project" data-ru="Высший приоритет, но ещё не проект">Top priority, not yet a project</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The US National Academies' Decadal Survey for planetary science, <i>Origins, Worlds, and Life</i>, released on 19 April 2022 [20], named a <b>Uranus Orbiter and Probe</b> the highest-priority new flagship mission for 2023–2032 [12][13]. The idea: drop a probe into the atmosphere to measure what Uranus is made of, then spend years in orbit touring the rings and the five large moons, some of which may be geologically active [7]." data-ru="Десятилетний обзор планетологии Национальных академий США <i>Origins, Worlds, and Life</i>, опубликованный 19 апреля 2022 года [20], назвал <b>Uranus Orbiter and Probe</b> (орбитальный аппарат и зонд для Урана) самой приоритетной новой флагманской миссией на 2023–2032 годы [12][13]. Замысел: сбросить зонд в атмосферу, чтобы измерить, из чего состоит Уран, а затем годами облетать на орбите кольца и пять крупных спутников, некоторые из которых, возможно, геологически активны [7].">Decadal: highest priority.</p>
+      <p class="body-col" data-en="<b>Status, October 2026:</b> the White House's FY2026 budget proposed delaying the mission indefinitely; Congress instead gave it <b>$10 million</b> for formulation in the spending bill it passed in January 2026 [14]. The FY2027 request asked for nothing; the House Appropriations Committee's report of May 2026 backs it without a dollar figure [15], and since 1 October NASA has been running on a continuing resolution at FY2026 levels through 11 December 2026 [18]. NASA has not started it as a formal project. The concept team now studies launches in 2035–2040, after a project start no earlier than 2027 [13]." data-ru="<b>Статус на октябрь 2026 года:</b> проект бюджета Белого дома на 2026 финансовый год предлагал отложить миссию на неопределённый срок; Конгресс вместо этого выделил <b>10 млн долларов</b> на предварительную проработку в законе о расходах, принятом в январе 2026 года [14]. Запрос на 2027 финансовый год не предусматривал ничего; доклад комитета по ассигнованиям Палаты представителей от мая 2026 года поддерживает её без указания суммы [15], а с 1 октября NASA работает по временному закону о финансировании на уровне 2026 года до 11 декабря 2026 года [18]. Официально NASA пока не начало миссию как проект. Команда концепции теперь рассматривает запуски в 2035–2040 годах после начала проекта не ранее 2027 года [13].">Status, October 2026.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE 2026 CONCEPT, IN NUMBERS [13]" data-ru="КОНЦЕПЦИЯ 2026 ГОДА В ЦИФРАХ [13]">THE 2026 CONCEPT, IN NUMBERS [13]</div>
+      <div class="eq-body" data-en="2 Next Gen RTGs · 350 W at end of mission · ~34-day orbits · 4-year moon tour · 19.5 kbit/s Ka-band · probe entry ≤ 50 g" data-ru="2 РИТЭГа Next Gen · 350 Вт в конце миссии · витки ~34 суток · 4-летний облёт спутников · 19,5 кбит/с в Ka-диапазоне · вход зонда ≤ 50 g">2 Next Gen RTGs · 350 W at end of mission · ~34-day orbits · 4-year moon tour · 19.5 kbit/s Ka-band · probe entry ≤ 50 g</div>
+      <div class="eq-note" data-en="Simon et al. (2026): the 2021 concept study for the Decadal Survey used three RTGs (about 530 W at end of mission); the update uses two Next Gen RTGs (350 W), returns 13–15 Gbit of data per orbit through a single 34 m antenna, and lowers the probe's peak entry deceleration from 110 g to 50 g." data-ru="Simon и др. (2026): концептуальное исследование 2021 года для Десятилетнего обзора использовало три РИТЭГа (около 530 Вт в конце миссии); обновлённое — два РИТЭГа Next Gen (350 Вт), передаёт 13–15 Гбит данных за виток через одну 34-метровую антенну и снижает пиковую перегрузку зонда при входе со 110 g до 50 g.">Concept details.</div>
+    </div>
+    <p class="note" data-en="Status as of 9 October 2026. Re-check after 11 December 2026, when the stopgap funding runs out, and once the FY2027 appropriation is final." data-ru="Статус на 9 октября 2026 года. Проверить снова после 11 декабря 2026 года, когда истечёт временное финансирование, и после окончательного принятия бюджета на 2027 финансовый год.">Status as of 9 October 2026.</p>
+  </div>
+</section>
+
+<!-- CH7 — LEGACY -->
+<section id="ch7" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 08</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="One flyby each, forty years of questions" data-ru="По одному пролёту — и сорок лет вопросов">One flyby each, forty years of questions</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Almost everything in the textbooks about Uranus and Neptune comes from a few hours of one spacecraft passing by — on what may have been an unusual day." data-ru="Почти всё, что написано в учебниках об Уране и Нептуне, получено за несколько часов пролёта одного аппарата — возможно, в необычный день.">A few hours of one spacecraft.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — REFERENCES -->
+<section id="ch8" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 08</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var GM_SUN = 1.32712440018e11, AU_KM = 1.495978707e8, YEAR_S = 365.25*86400, LIGHT_S_PER_AU = 499.004784;
+var S_EARTH = 1361;                                              // W/m² at 1 AU [1]
+/* Planets: tilt ε (deg), sidereal period (Julian years, from NSSDC days / 365.25), sunlight S (W/m²), semimajor axis (AU) [1][2] */
+var PLANETS = {
+  U:{eps:97.77, P:30685.4/365.25, S:3.69, a:2867.043e6/AU_KM, GM:5.7940e6, R:25559},
+  N:{eps:28.32, P:60189.018/365.25, S:1.508, a:4514.953e6/AU_KM, GM:6.8351e6, R:24764},
+  E:{eps:23.44, P:1, S:1361, a:1}
+};
+
+/* Daily-mean top-of-atmosphere sunlight at latitude φ for solar declination δ. */
+function insol(latDeg, decRad, S){
+  var p = latDeg*Math.PI/180, x = -Math.tan(p)*Math.tan(decRad), H;
+  if(x >= 1) return 0;                                           // polar night
+  H = x <= -1 ? Math.PI : Math.acos(x);                          // polar day: H₀ = π
+  return Math.max(0, S/Math.PI*(H*Math.sin(p)*Math.sin(decRad) + Math.cos(p)*Math.cos(decRad)*Math.sin(H)));
+}
+/* Declination after a fraction f of the orbit since the equinox (circular orbit, even pace). */
+function decl(f, epsDeg){ return Math.asin(Math.sin(epsDeg*Math.PI/180)*Math.sin(2*Math.PI*f)); }
+/* Length of continuous polar day at latitude φ (same length as the polar night), in the planet's years × P. */
+function polarDay(latDeg, epsDeg, P){
+  var x = Math.cos(latDeg*Math.PI/180)/Math.abs(Math.sin(epsDeg*Math.PI/180));
+  return x >= 1 ? 0 : P*(Math.PI - 2*Math.asin(x))/(2*Math.PI);
+}
+function annualMean(latDeg, epsDeg, S){
+  var n = 720, s = 0; for(var i = 0; i < n; i++) s += insol(latDeg, decl((i + 0.5)/n, epsDeg), S); return s/n;
+}
+
+/* Two-body transfer from Earth's orbit (1 AU, departing along Earth's motion) out to rTarget AU. */
+function transfer(vinf, rTargetAU){
+  var r1 = AU_KM, r2 = rTargetAU*AU_KM, vE = Math.sqrt(GM_SUN/r1), v0 = vE + vinf;
+  var e = r1*v0*v0/GM_SUN - 1, h = r1*v0, p = h*h/GM_SUN, out = {e:e, vE:vE, v0:v0, C3:vinf*vinf, p:p};
+  if(Math.abs(e - 1) < 1e-9) e = 1 + 1e-9;
+  if(e < 1){
+    var a = r1/(1 - e); out.a = a; out.aphelion = a*(1 + e)/AU_KM;
+    if(a*(1 + e) < r2){ out.reach = false; return out; }
+    var E = Math.acos(Math.min(1, Math.max(-1, (1 - r2/a)/e)));
+    out.tof = Math.sqrt(a*a*a/GM_SUN)*(E - e*Math.sin(E))/YEAR_S;
+  } else {
+    var A = r1/(e - 1); out.a = -A;
+    var F = Math.acosh((r2/A + 1)/e);
+    out.tof = Math.sqrt(A*A*A/GM_SUN)*(e*Math.sinh(F) - F)/YEAR_S;
+  }
+  out.reach = true;
+  var v = Math.sqrt(GM_SUN*(2/r2 - 1/out.a)), vt = h/r2, vr = Math.sqrt(Math.max(0, v*v - vt*vt)), vP = Math.sqrt(GM_SUN/r2);
+  out.vArr = v; out.vinfArr = Math.sqrt((vt - vP)*(vt - vP) + vr*vr);
+  out.nuArr = Math.acos(Math.min(1, Math.max(-1, (p/r2 - 1)/e)));
+  return out;
+}
+/* Smallest capture burn: at periapsis r_p, from the arrival hyperbola down to an orbit that only just stays bound.
+   Oberth effect: it is much smaller than v∞ and grows more slowly than v∞. */
+function captureDv(vinf, GM, rp){ var ve2 = 2*GM/rp; return Math.sqrt(vinf*vinf + ve2) - Math.sqrt(ve2); }
+var CAPTURE_RP = 1.3;                                             // periapsis in planet radii (assumed)
+function hohmannVinf(rTargetAU){ var r1 = AU_KM, r2 = rTargetAU*AU_KM; return Math.sqrt(GM_SUN/r1)*(Math.sqrt(2*r2/(r1 + r2)) - 1); }
+
+/* Voyager 2 data rates (bit/s): expected with the 1979–81 ground system vs achieved maximum [6] */
+var RATES = [
+  {k:'J', en:'Jupiter', ru:'Юпитер', exp:115200, ach:115200},
+  {k:'S', en:'Saturn', ru:'Сатурн', exp:29000, ach:44800},
+  {k:'U', en:'Uranus', ru:'Уран', exp:9000, ach:29900},
+  {k:'N', en:'Neptune', ru:'Нептун', exp:3200, ach:21600}
+];
+function panelArea(rAU, watts, eff){ return watts/(S_EARTH/(rAU*rAU)*eff); }
+function lightHours(rAU){ return rAU*LIGHT_S_PER_AU/3600; }
+
+/* Encounter geometry (km) [1][2][5][16][17] */
+var ENC = {
+  U:{R:25559, alt:81500, moonA:129900, moonR:235, moonEn:'Miranda', moonRu:'Миранда', date:'1986-01-24 17:59 UT'},
+  N:{R:24764, alt:4800, moonA:354760, moonR:1353, moonEn:'Triton', moonRu:'Тритон', date:'1989-08-25 03:56 UT'}
+};
+
+/* ============ CH1 — SEASONS ============ */
+var seaP = 'U', seaLat = document.getElementById('seaLat'), seaT = document.getElementById('seaT');
+function yrsStr(y){ return y >= 2 ? fmt(y, 1) + T(' years',' года') : fmtInt(y*365.25) + T(' days',' сут'); }
+function renderSea(){
+  var P = PLANETS[seaP], lat = +seaLat.value, f = +seaT.value, d = decl(f, P.eps), q = insol(lat, d, P.S);
+  document.getElementById('seaLatVal').textContent = fmtInt(lat) + '°';
+  document.getElementById('seaTVal').textContent = yrsStr(f*P.P) + ' (' + fmtInt(f*100) + ' %)';
+  var svg = document.getElementById('seaSvg'); svg.innerHTML = ''; svg.setAttribute('aria-label', T('Daily-mean sunlight at the chosen latitude through one orbit','Среднесуточная освещённость на выбранной широте за один оборот'));
+  var L = 56, R = 465, Tp = 26, B = 250, n = 360, qs = [], qmax = 0, i;
+  for(i = 0; i <= n; i++){ qs.push(insol(lat, decl(i/n, P.eps), P.S)); qmax = Math.max(qmax, qs[i]); }
+  var top = P.S*Math.abs(Math.sin(P.eps*Math.PI/180))*1.08;      // fixed per planet: the pole at solstice is the brightest day
+  function X(fr){ return L + fr*(R - L); }
+  function Y(v){ return B - v/top*(B - Tp); }
+  for(i = 0; i <= 4; i++){ var v = top*i/4; ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 3, fmt(v, P.S < 10 ? 2 : 0), 'svg-small', 'end'); }
+  // night shading where q = 0
+  for(i = 0; i < n; i++) if(qs[i] === 0 && qs[i + 1] === 0) ns('rect', {x:X(i/n), y:Tp, width:(R - L)/n + 0.5, height:B - Tp, fill:'#0b0b0c', opacity:0.08}, svg);
+  [0, 0.25, 0.5, 0.75, 1].forEach(function(fr){ txt(svg, X(fr), B + 14, fmt(fr*P.P, P.P < 2 ? 2 : 0), 'svg-small', 'middle'); });
+  txt(svg, R, B + 30, T('years since equinox','лет после равноденствия'), 'svg-small', 'end');
+  txt(svg, L, 14, T('daily-mean sunlight, W/m²','среднесуточная освещённость, Вт/м²'), 'svg-small');
+  var dpath = ''; for(i = 0; i <= n; i++) dpath += (i ? 'L' : 'M') + X(i/n).toFixed(1) + ' ' + Y(qs[i]).toFixed(1);
+  ns('path', {d:dpath, fill:'none', stroke:'#a8741a', 'stroke-width':2}, svg);
+  var am = annualMean(lat, P.eps, P.S);
+  ns('line', {x1:L, y1:Y(am), x2:R, y2:Y(am), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, R - 4, Y(am) - 4, T('orbit average','среднее за оборот'), 'svg-small', 'end');
+  ns('line', {x1:X(f), y1:Tp, x2:X(f), y2:B, stroke:'#0b0b0c', 'stroke-dasharray':'2 3'}, svg);
+  ns('circle', {cx:X(f), cy:Y(q), r:5, fill:'#b5452a'}, svg);
+  var pd = polarDay(lat, P.eps, P.P), am0 = annualMean(0, P.eps, P.S), am90 = annualMean(90, P.eps, P.S);
+  cells(document.getElementById('seaReadout'), [
+    [T('SUNLIGHT NOW','ОСВЕЩЁННОСТЬ СЕЙЧАС'), fmt(q, P.S < 10 ? 3 : 0) + T(' W/m²',' Вт/м²')],
+    [T('SUN\'S DECLINATION','СКЛОНЕНИЕ СОЛНЦА'), fmt(d*180/Math.PI, 1) + '°'],
+    [T('CONTINUOUS DAY (AND NIGHT)','НЕПРЕРЫВНЫЙ ДЕНЬ (И НОЧЬ)'), pd > 0 ? yrsStr(pd) : T('none','нет')],
+    [T('POLE vs EQUATOR, ORBIT AVERAGE','ПОЛЮС К ЭКВАТОРУ, СРЕДНЕЕ ЗА ОБОРОТ'), fmt(am90/am0, 2) + ' ×']
+  ]);
+  hud1.textContent = fmt(q, P.S < 10 ? 2 : 0) + T(' W/m²',' Вт/м²');
+  var xh = -Math.tan(lat*Math.PI/180)*Math.tan(d);
+  document.getElementById('seaStatus').innerHTML = xh >= 1
+    ? T('Polar night: here it lasts ','Полярная ночь: здесь она длится ') + yrsStr(pd) + '.'
+    : xh <= -1 ? T('Polar day: the Sun circles the sky without setting, for ','Полярный день: Солнце ходит по небу, не заходя, ') + yrsStr(pd) + '.'
+    : T('Ordinary days and nights at this point in the orbit.','В этой точке орбиты — обычная смена дня и ночи.');
+}
+seaLat.addEventListener('input', renderSea); seaT.addEventListener('input', renderSea);
+Array.prototype.forEach.call(document.querySelectorAll('#seaPre .btn'), function(btn){ btn.addEventListener('click', function(){ seaP = this.getAttribute('data-p'); pressGroup(this.parentNode, this); renderSea(); }); });
+
+/* ============ CH2 — FAR AND DIM ============ */
+var farR = document.getElementById('farR');
+function renderFar(){
+  var r = +farR.value, S = S_EARTH/(r*r);
+  document.getElementById('farRVal').textContent = fmt(r, r < 10 ? 2 : 1) + T(' AU',' а.е.');
+  var svg = document.getElementById('farSvg'); svg.innerHTML = ''; svg.setAttribute('aria-label', T('Voyager 2 data rates at each planet: expected with the 1979–81 ground system and achieved maximum','Скорости передачи «Вояджера-2» у каждой планеты: ожидаемые с наземными средствами 1979–1981 гг. и достигнутый максимум'));
+  var L = 70, R = 465, Tp = 34, B = 236, lmin = 3, lmax = Math.log10(200000);
+  function Y(v){ return B - (Math.log10(v) - lmin)/(lmax - lmin)*(B - Tp); }
+  [1000, 10000, 100000].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 3, fmtInt(v), 'svg-small', 'end'); });
+  txt(svg, L, 14, T('Voyager 2 data rate, bit/s (log scale) [6]','скорость передачи «Вояджера-2», бит/с (лог. шкала) [6]'), 'svg-small');
+  var w = (R - L)/RATES.length;
+  RATES.forEach(function(q, i){
+    var xc = L + (i + 0.5)*w;                                      // dots on a log axis (bar length would mean nothing here)
+    ns('line', {x1:xc, y1:Y(q.exp), x2:xc, y2:Y(q.ach), stroke:'#8f8f88', 'stroke-width':1.5}, svg);
+    ns('circle', {cx:xc, cy:Y(q.exp), r:5, fill:'#fff', stroke:'#77776f', 'stroke-width':2}, svg);
+    ns('circle', {cx:xc, cy:Y(q.ach), r:5, fill:'#2f5aa1'}, svg);
+    txt(svg, xc, B + 14, T(q.en, q.ru), 'svg-small', 'middle');
+    if(q.ach > q.exp) txt(svg, xc + 9, (Y(q.ach) + Y(q.exp))/2 + 3, '×' + fmt(q.ach/q.exp, 1), 'svg-small');
+  });
+  ns('circle', {cx:L + 5, cy:B + 31, r:4.5, fill:'#fff', stroke:'#77776f', 'stroke-width':2}, svg); txt(svg, L + 14, B + 35, T('expected with the 1979–81 ground system [6]','ожидалось с наземными средствами 1979–1981 гг. [6]'), 'svg-small');
+  ns('circle', {cx:L + 5, cy:B + 47, r:4.5, fill:'#2f5aa1'}, svg); txt(svg, L + 14, B + 51, T('achieved maximum (arraying, upgrades) [6]','достигнутый максимум (объединение антенн, модернизация) [6]'), 'svg-small');
+  cells(document.getElementById('farReadout'), [
+    [T('SUNLIGHT','ОСВЕЩЁННОСТЬ'), fmt(S, S < 10 ? 2 : 0) + T(' W/m²',' Вт/м²')],
+    [T('vs. EARTH','ОТНОСИТЕЛЬНО ЗЕМЛИ'), r < 1.01 ? '1' : '1/' + fmtInt(r*r)],
+    [T('PANELS FOR 350 W','БАТАРЕИ НА 350 Вт'), fmt(panelArea(r, 350, 0.3), r < 3 ? 1 : 0) + T(' m²',' м²')],
+    [T('LIGHT TIME, ONE WAY','ВРЕМЯ ПРОХОЖДЕНИЯ СИГНАЛА В ОДНУ СТОРОНУ'), lightHours(r) < 1 ? fmt(lightHours(r)*60, 1) + T(' min',' мин') : fmt(lightHours(r), 2) + T(' h',' ч')]
+  ]);
+  document.getElementById('farStatus').innerHTML = r > 15
+    ? T('A question sent from Earth gets its answer back after ','Вопрос, отправленный с Земли, получит ответ через ') + fmt(2*lightHours(r), 1) + T(' hours at the earliest — far too late to steer a fast flyby from the ground.',' ч в лучшем случае — слишком поздно, чтобы управлять быстрым пролётом с Земли.')
+    : T('Sunlight is still strong enough here for large solar arrays.','Здесь солнечного света ещё хватает для больших солнечных батарей.');
+}
+farR.addEventListener('input', function(){ pressGroup(document.getElementById('farPre'), null); renderFar(); });
+Array.prototype.forEach.call(document.querySelectorAll('#farPre .btn'), function(btn){ btn.addEventListener('click', function(){ farR.value = this.getAttribute('data-r'); pressGroup(this.parentNode, this); renderFar(); }); });
+
+/* ============ CH3 — ENCOUNTER TO SCALE ============ */
+var encP = 'U';
+function renderEnc(){
+  var g = ENC[encP], svg = document.getElementById('encSvg'); svg.innerHTML = ''; svg.setAttribute('aria-label', T('Voyager 2\'s closest approach drawn to scale with the planet and a moon\'s orbit','Наибольшее сближение «Вояджера-2» в масштабе с планетой и орбитой спутника'));
+  var cx = 200, cy = 160, sc = 140/g.moonA, rp = g.R*sc, rca = (g.R + g.alt)*sc;
+  ns('circle', {cx:cx, cy:cy, r:g.moonA*sc, fill:'none', stroke:'#8a8a82', 'stroke-dasharray':'3 3'}, svg);
+  ns('circle', {cx:cx + g.moonA*sc*Math.cos(-0.6), cy:cy + g.moonA*sc*Math.sin(-0.6), r:Math.max(2.5, g.moonR*sc), fill:'#8a8a82'}, svg);
+  txt(svg, cx + g.moonA*sc*Math.cos(-0.6) + 8, cy + g.moonA*sc*Math.sin(-0.6), T(g.moonEn, g.moonRu), 'svg-small');
+  ns('circle', {cx:cx, cy:cy, r:rp, fill: encP === 'U' ? '#bfe0e0' : '#9db7e6', stroke:'#0b0b0c'}, svg);
+  // schematic flyby path, tangent to the closest-approach circle
+  ns('line', {x1:cx - 190, y1:cy - rca, x2:cx + 250, y2:cy - rca, stroke:'#b5452a', 'stroke-width':1.8}, svg);
+  ns('circle', {cx:cx, cy:cy - rca, r:4, fill:'#b5452a'}, svg);
+  ns('line', {x1:cx, y1:cy, x2:cx, y2:cy - rca, stroke:'#b5452a', 'stroke-dasharray':'2 2'}, svg);
+  txt(svg, cx + 8, cy - rca - 12, T('Voyager 2, closest approach','«Вояджер-2», наибольшее сближение'), 'svg-small svg-halo');
+  txt(svg, 10, 312, T('to scale: planet, closest approach, moon orbit','в масштабе: планета, сближение, орбита спутника'), 'svg-small');
+  var dc = g.R + g.alt;
+  cells(document.getElementById('encReadout'), [
+    [T('DATE','ДАТА'), g.date],
+    [T('ABOVE THE CLOUDS','НАД ОБЛАКАМИ'), fmtInt(g.alt) + T(' km',' км')],
+    [T('FROM THE CENTRE','ОТ ЦЕНТРА'), fmt(dc/g.R, 2) + T(' planet radii',' радиуса планеты')],
+    [T('MOON ORBIT','ОРБИТА СПУТНИКА'), fmtInt(g.moonA) + T(' km',' км')]
+  ]);
+  document.getElementById('encStatus').innerHTML = dc < g.moonA
+    ? (encP === 'U' ? T('Voyager passed inside Miranda\'s orbit, about 4 planet radii from the centre.','«Вояджер» прошёл внутри орбиты Миранды, примерно в 4 радиусах планеты от центра.')
+                    : T('Just above the cloud tops: the closest of Voyager 2\'s four planetary flybys.','Над самыми облаками: ближайший из четырёх планетных пролётов «Вояджера-2».'))
+    : '';
+}
+Array.prototype.forEach.call(document.querySelectorAll('#encPre .btn'), function(btn){ btn.addEventListener('click', function(){ encP = this.getAttribute('data-p'); pressGroup(this.parentNode, this); renderEnc(); }); });
+
+/* ============ CH5 — TRANSFER ============ */
+var trP = 'U', trV = document.getElementById('trV');
+function renderTr(){
+  var P = PLANETS[trP], vinf = +trV.value, hv = hohmannVinf(P.a);
+  if(Math.abs(vinf - hv) < 0.006) vinf = hv + 1e-7;            // the slider's 0.01 steps snap onto the exact Hohmann speed
+  var t = transfer(vinf, P.a);
+  document.getElementById('trVVal').textContent = fmt(vinf, 2) + T(' km/s',' км/с');
+  var svg = document.getElementById('trSvg'); svg.innerHTML = ''; svg.setAttribute('aria-label', T('Transfer orbit from Earth to the chosen planet for the chosen departure speed','Траектория перелёта от Земли к выбранной планете при выбранной скорости старта'));
+  var cx = 240, cy = 190, sc = 160/(P.a*1.04);
+  ns('circle', {cx:cx, cy:cy, r:P.a*sc, fill:'none', stroke:'#8a8a82'}, svg);
+  ns('circle', {cx:cx, cy:cy, r:5.2*sc, fill:'none', stroke:'#e4e4de', 'stroke-dasharray':'3 3'}, svg);
+  ns('circle', {cx:cx, cy:cy, r:Math.max(2, sc), fill:'none', stroke:'#2f5aa1'}, svg);
+  ns('circle', {cx:cx, cy:cy, r:3, fill:'#a8741a'}, svg);
+  txt(svg, cx + 5.2*sc*0.72, cy + 5.2*sc*0.72 + 10, T('Jupiter\'s orbit','орбита Юпитера'), 'svg-small');
+  txt(svg, cx - P.a*sc, cy + P.a*sc + 14, T(trP === 'U' ? 'Uranus\'s orbit' : 'Neptune\'s orbit', trP === 'U' ? 'орбита Урана' : 'орбита Нептуна'), 'svg-small');
+  // path: r(ν) = p/(1 + e cos ν), departing at ν = 0 on the +x axis, moving counter-clockwise (up on screen)
+  var nuEnd = t.reach ? t.nuArr : Math.PI, d = '';
+  for(var i = 0; i <= 200; i++){ var nu = nuEnd*i/200, rr = t.p/(1 + t.e*Math.cos(nu))/AU_KM; d += (i ? 'L' : 'M') + (cx + rr*sc*Math.cos(nu)).toFixed(1) + ' ' + (cy - rr*sc*Math.sin(nu)).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  if(t.reach){ var ra = P.a; ns('circle', {cx:cx + ra*sc*Math.cos(nuEnd), cy:cy - ra*sc*Math.sin(nuEnd), r:5, fill:'#b5452a'}, svg); }
+  var rows = [[T('LAUNCH ENERGY C3','ЭНЕРГИЯ ЗАПУСКА C3'), fmtInt(t.C3) + T(' km²/s²',' км²/с²')]];
+  if(t.reach){
+    rows.push([T('FLIGHT TIME','ВРЕМЯ ПОЛЁТА'), fmt(t.tof, 1) + T(' years',' года')]);
+    rows.push([T('ARRIVAL SPEED vs PLANET','СКОРОСТЬ ОТНОСИТЕЛЬНО ПЛАНЕТЫ'), fmt(t.vinfArr, 1) + T(' km/s',' км/с')]);
+    rows.push([T('SMALLEST CAPTURE BURN','МИНИМАЛЬНЫЙ ТОРМОЗНОЙ ИМПУЛЬС'), fmt(captureDv(t.vinfArr, P.GM, CAPTURE_RP*P.R), 2) + T(' km/s',' км/с')]);
+    rows.push([T('PATH','ТРАЕКТОРИЯ'), t.e < 1 ? T('ellipse, e = ','эллипс, e = ') + fmt(t.e, 3) : T('escapes the Sun, e = ','уходит от Солнца, e = ') + fmt(t.e, 3)]);
+    hud2.textContent = fmt(t.tof, 1) + T(' yr',' года');
+  } else {
+    rows.push([T('HIGHEST POINT','ДАЛЬНЯЯ ТОЧКА'), fmt(t.aphelion, 1) + T(' AU',' а.е.')]);
+    rows.push([T('NEEDED AT LEAST','НУЖНО НЕ МЕНЕЕ'), fmt(hv, 2) + T(' km/s',' км/с')]);
+    hud2.textContent = '—';
+  }
+  cells(document.getElementById('trReadout'), rows);
+  document.getElementById('trStatus').innerHTML = !t.reach
+    ? T('Falls short: the orbit turns back before reaching the planet.','Не хватает: орбита разворачивается, не дойдя до планеты.')
+    : Math.abs(vinf - hv) < 0.006 ? T('About the Hohmann minimum: the slowest, cheapest way there.','Около гомановского минимума: самый медленный и дешёвый путь.')
+    : T('Faster than Hohmann: ','Быстрее гомановского: ') + fmt(transfer(hv + 1e-7, P.a).tof - t.tof, 1) + T(' years saved, but ',' года экономии, но прибытие на ') + fmt(t.vinfArr - transfer(hv + 1e-7, P.a).vinfArr, 1) + T(' km/s faster on arrival (more braking needed to enter orbit: ',' км/с быстрее (нужно сильнее тормозить для выхода на орбиту: ') + fmt(captureDv(t.vinfArr, P.GM, CAPTURE_RP*P.R), 2) + T(' vs ',' вместо ') + fmt(captureDv(transfer(hv + 1e-7, P.a).vinfArr, P.GM, CAPTURE_RP*P.R), 2) + T(' km/s).',' км/с).');
+}
+trV.addEventListener('input', renderTr);
+Array.prototype.forEach.call(document.querySelectorAll('#trPre .btn'), function(btn){ btn.addEventListener('click', function(){ trP = this.getAttribute('data-p'); trV.value = (Math.ceil(hohmannVinf(PLANETS[trP].a)*100)/100).toFixed(2); pressGroup(this.parentNode, this); renderTr(); }); });
+
+/* ============ CH7 — TIMELINE ============ */
+var TIMELINE = [
+  ['1977', '<b>20 August:</b> Voyager 2 launched from Cape Canaveral [5].', '<b>20 августа:</b> запуск «Вояджера-2» с мыса Канаверал [5].'],
+  ['1986', '<b>24 January:</b> Voyager 2 passes 81,500 km above Uranus: 10 new moons, 2 new rings, a tilted, off-centre magnetic field [5].', '<b>24 января:</b> «Вояджер-2» проходит в 81 500 км над Ураном: 10 новых спутников, 2 новых кольца, наклонённое и смещённое магнитное поле [5].'],
+  ['1989', '<b>25 August:</b> Voyager 2 passes about 4,800 km over the cloud tops near Neptune\'s north pole; the Great Dark Spot and Triton\'s plumes are seen [4][5][8].', '<b>25 августа:</b> «Вояджер-2» проходит примерно в 4800 км над облаками у северного полюса Нептуна; замечены Большое тёмное пятно и шлейфы Тритона [4][5][8].'],
+  ['1994', 'Hubble images show the Great Dark Spot has vanished [10].', 'Снимки «Хаббла» показывают, что Большое тёмное пятно исчезло [10].'],
+  ['2007', '<b>December:</b> Uranus passes equinox; the whole planet is lit as the Sun crosses its equator [19].', '<b>Декабрь:</b> Уран проходит равноденствие; Солнце пересекает экватор и освещает всю планету [19].'],
+  ['2022', '<b>April:</b> the planetary Decadal Survey (2023–2032) ranks a Uranus Orbiter and Probe the top new flagship [12][20].', '<b>Апрель:</b> Десятилетний обзор планетологии (2023–2032) ставит Uranus Orbiter and Probe на первое место среди новых флагманских миссий [12][20].'],
+  ['2024', '<b>November:</b> re-analysis shows Voyager met Uranus during a rare solar-wind squeeze [7].', '<b>Ноябрь:</b> повторный анализ показывает, что «Вояджер» встретил Уран во время редкого сжатия солнечным ветром [7].'],
+  ['2025', '<b>August:</b> Webb\'s 29th Uranian moon, found in images taken on 2 February, is announced [11].', '<b>Август:</b> объявлено об открытии «Уэббом» 29-го спутника Урана по снимкам от 2 февраля [11].'],
+  ['2026', '<b>January:</b> Congress funds mission formulation with $10 million [14]. <b>June:</b> concept update moves launch to 2035–2040 [13]. <b>September:</b> stopgap funding through 11 December [18].', '<b>Январь:</b> Конгресс выделяет 10 млн долларов на проработку миссии [14]. <b>Июнь:</b> обновлённая концепция переносит запуск на 2035–2040 годы [13]. <b>Сентябрь:</b> временное финансирование до 11 декабря [18].']
+];
+
+/* ============ CH8 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA NSSDC, “Uranus Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/uranusfact.html', note:{en:'Semimajor axis 2,867.043 × 10⁶ km; sidereal period 30,685.4 days; obliquity 97.77°; solar irradiance 3.69 W/m²; equatorial radius 25,559 km; e = 0.0469.', ru:'Большая полуось 2867,043 × 10⁶ км; сидерический период 30 685,4 сут; наклон оси 97,77°; солнечная освещённость 3,69 Вт/м²; экваториальный радиус 25 559 км; e = 0,0469.'}},
+  {title:'NASA NSSDC, “Neptune Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html', note:{en:'Semimajor axis 4,514.953 × 10⁶ km; sidereal period 60,189.018 days; obliquity 28.32°; solar irradiance 1.508 W/m²; equatorial radius 24,764 km.', ru:'Большая полуось 4514,953 × 10⁶ км; сидерический период 60 189,018 сут; наклон оси 28,32°; солнечная освещённость 1,508 Вт/м²; экваториальный радиус 24 764 км.'}},
+  {title:'NASA Science, “Uranus: Facts”', url:'https://science.nasa.gov/uranus/facts/', note:{en:'Tilt 97.77°; 84-year orbit; each pole has a 21-year dark winter; magnetic axis tilted nearly 60° from the rotation axis.', ru:'Наклон 97,77°; оборот 84 года; на каждом полюсе 21-летняя тёмная зима; магнитная ось наклонена почти на 60° к оси вращения.'}},
+  {title:'NASA Science, “Neptune: Facts”', url:'https://science.nasa.gov/neptune/facts/', note:{en:'Winds over 1,200 mph (about 2,000 km/h); the 1989 Great Dark Spot was large enough to contain Earth; Earth\'s sunlight about 900 times brighter.', ru:'Ветры более 1200 миль/ч (около 2000 км/ч); Большое тёмное пятно 1989 года вместило бы Землю; свет на Земле примерно в 900 раз ярче.'}},
+  {title:'NASA Science, “Voyager 2”', url:'https://science.nasa.gov/mission/voyager/voyager-2/', note:{en:'Launch 20 Aug 1977; Uranus closest approach 24 Jan 1986, 17:59 UT, 81,500 km, 10 new moons, 2 new rings; Neptune 25 Aug 1989, 03:56 UT, about 4,800 km, the closest of its four flybys.', ru:'Старт 20 авг. 1977; наибольшее сближение с Ураном 24 янв. 1986, 17:59 UT, 81 500 км, 10 новых спутников, 2 новых кольца; Нептун 25 авг. 1989, 03:56 UT, около 4800 км — ближайший из четырёх пролётов.'}},
+  {title:'R. Ludwig, J. Taylor (2002), “Voyager Telecommunications”, DESCANSO Design and Performance Summary Series, JPL', url:'https://descanso.jpl.nasa.gov/DPSummary/Descanso4--Voyager_new.pdf', note:{en:'Table 6-1: expected vs achieved maximum rates — Jupiter 115,200; Saturn ~29,000 / 44,800; Uranus ~9,000 / 29,900; Neptune ~3,200 / 21,600 bit/s; 64 → 70 m upgrade, Parkes and VLA arraying.', ru:'Табл. 6-1: ожидаемые и достигнутые максимальные скорости — Юпитер 115 200; Сатурн ~29 000 / 44 800; Уран ~9000 / 29 900; Нептун ~3200 / 21 600 бит/с; модернизация 64 → 70 м, объединение с Парксом и VLA.'}},
+  {title:'NASA JPL (2024), “Mining Old Data From NASA\'s Voyager 2 Solves Several Uranus Mysteries”, 11 November 2024', url:'https://www.jpl.nasa.gov/news/mining-old-data-from-nasas-voyager-2-solves-several-uranus-mysteries/', note:{en:'A solar wind event compressed the magnetosphere just before the flyby; “conditions that only occur about 4% of the time” (J. Jasinski, Nature Astronomy); moons may be geologically active.', ru:'Событие солнечного ветра сжало магнитосферу перед пролётом; «условия, которые бывают лишь около 4 % времени» (Дж. Ясински, Nature Astronomy); спутники могут быть геологически активны.'}},
+  {title:'L. A. Soderblom et al. (1990), “Triton\'s geyser-like plumes: Discovery and basic characterization”, Science 250, 410–415', url:'https://pubs.usgs.gov/publication/70015940', note:{en:'At least four active plumes; the two best documented rise as columns to about 8 km, with clouds trailing more than 100 km downwind.', ru:'Не менее четырёх активных шлейфов; два лучше всего изученных поднимаются столбами примерно на 8 км, облака тянутся по ветру более чем на 100 км.'}},
+  {title:'NASA Science, “Triton”', url:'https://science.nasa.gov/neptune/moons/triton/', note:{en:'Diameter 2,700 km; the only large moon orbiting opposite to its planet\'s rotation; probably a captured Kuiper Belt object; Voyager 2 measured −235 °C and found active geysers.', ru:'Диаметр 2700 км; единственный крупный спутник, обращающийся против вращения планеты; вероятно, захваченный объект пояса Койпера; «Вояджер-2» измерил −235 °C и нашёл активные гейзеры.'}},
+  {title:'NASA Science, “Hubble Tracks the Lifecycle of Giant Storms on Neptune”', url:'https://science.nasa.gov/missions/hubble/hubble-tracks-the-lifecycle-of-giant-storms-on-neptune/', note:{en:'Hubble images in 1994 showed that the Great Dark Spot and a second dark spot seen by Voyager 2 had vanished.', ru:'Снимки «Хаббла» 1994 года показали, что Большое тёмное пятно и второе тёмное пятно, увиденные «Вояджером-2», исчезли.'}},
+  {title:'NASA Science (2025), “New Moon Discovered Orbiting Uranus Using NASA\'s Webb Telescope”, 19 August 2025', url:'https://science.nasa.gov/blogs/webb/2025/08/19/new-moon-discovered-orbiting-uranus-using-nasas-webb-telescope/', note:{en:'S/2025 U1, seen on 2 February 2025, about 10 km across, brings the known count to 29; likely too small for Voyager 2.', ru:'S/2025 U1, замечен 2 февраля 2025 года, около 10 км в поперечнике, доводит число известных спутников до 29; вероятно, слишком мал для «Вояджера-2».'}},
+  {title:'National Academies of Sciences, Engineering, and Medicine (2023), “Origins, Worlds, and Life: A Decadal Strategy for Planetary Science and Astrobiology 2023–2032”', url:'https://nap.nationalacademies.org/catalog/26522/origins-worlds-and-life-a-decadal-strategy-for-planetary-science-and-astrobiology-2023-2032', note:{en:'The planetary Decadal Survey; released 19 April 2022 (NAP catalogue year 2023); its 2021 Uranus Orbiter and Probe concept study assumed a 2031–2032 launch with a Jupiter gravity assist and about 13 years of flight.', ru:'Десятилетний обзор планетологии; опубликован 19 апреля 2022 года (в каталоге NAP — 2023); концептуальное исследование Uranus Orbiter and Probe 2021 года предполагало старт в 2031–2032 годах с гравитационным манёвром у Юпитера и около 13 лет полёта.'}},
+  {title:'A. A. Simon et al. (2026), “Uranus Orbiter and Probe: Mission Challenges and Concept Updates Since the Origins, Worlds, and Life Decadal Survey”, Planetary Science Journal 7, 143', url:'https://doi.org/10.3847/PSJ/ae680c', note:{en:'Highest-priority new flagship; no Jupiter alignment for launches after 2033 through 2044; Hohmann ~16–17 yr, SEP ~12–14 yr, Starship as few as 10 yr; launches 2035–2040 after a project start no earlier than 2027; two Next Gen RTGs, 350 W end of mission (2021: three RTGs, ~708 W at launch, ~530 W end of mission); 19.5 kbit/s Ka; 13–15 Gbit per ~34-day orbit; probe entry 50 g (was 110 g).', ru:'Высший приоритет среди новых флагманских миссий; Юпитер не в нужном положении для запусков после 2033 г. и до 2044 г.; Гоман ~16–17 лет, СЭДУ ~12–14 лет, Starship — от 10 лет; запуски 2035–2040 после начала проекта не ранее 2027 г.; два РИТЭГа Next Gen, 350 Вт в конце миссии (2021: три РИТЭГа, ~708 Вт при старте, ~530 Вт в конце миссии); 19,5 кбит/с в Ka; 13–15 Гбит за виток ~34 сут; перегрузка зонда 50 g (было 110 g).'}},
+  {title:'The Planetary Society (2026), “You just saved NASA\'s budget”, 15 January 2026', url:'https://www.planetary.org/articles/advocacy-success-fy2026-nasa-budget', note:{en:'FY2026 table: Uranus Orbiter & Probe — White House request “Delayed Indefinitely”, enacted $10.0 million.', ru:'Таблица 2026 ф. г.: Uranus Orbiter & Probe — запрос Белого дома «отложено на неопределённый срок», принято 10,0 млн долларов.'}},
+  {title:'The Planetary Society (2026), “House Appropriators advance key NASA funding bill”, 14 May 2026', url:'https://www.planetary.org/articles/house-appropriators-advance-key-nasa-funding-bill', note:{en:'FY2027: request $0.0; House bill “Supported” with no amount set aside; the mission “was first funded in the minibus that passed in January”.', ru:'2027 ф. г.: запрос 0,0; законопроект Палаты — «поддержано» без выделенной суммы; миссия «впервые получила финансирование в пакете, принятом в январе».'}},
+  {title:'NASA NSSDC, “Uranian Satellite Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/uraniansatfact.html', note:{en:'Miranda: semimajor axis 129,900 km, radius about 235 km.', ru:'Миранда: большая полуось 129 900 км, радиус около 235 км.'}},
+  {title:'NASA NSSDC, “Neptunian Satellite Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptuniansatfact.html', note:{en:'Triton: semimajor axis 354,760 km, radius 1,353.4 km, inclination 157.3° (retrograde).', ru:'Тритон: большая полуось 354 760 км, радиус 1353,4 км, наклонение 157,3° (обратное движение).'}},
+  {title:'SpacePolicyOnline (2026), “House Clears FY2027 CR, Now to the President”, updated 3 September 2026', url:'https://spacepolicyonline.com/news/house-clears-fy2027-cr-now-to-the-president/', note:{en:'Continuing resolution through 11 December 2026, signed 2 September; keeps NASA at its FY2026 level of $24.4 billion.', ru:'Временный закон о финансировании до 11 декабря 2026, подписан 2 сентября; сохраняет NASA на уровне 2026 ф. г. — 24,4 млрд долларов.'}},
+  {title:'NASA Science, “Uranus: Exploration”', url:'https://science.nasa.gov/uranus/exploration/', note:{en:'Voyager 2 gathered much of its key data in about six hours; Uranus reached equinox in December 2007.', ru:'«Вояджер-2» собрал основную часть ключевых данных примерно за шесть часов; Уран прошёл равноденствие в декабре 2007 года.'}},
+  {title:'SpacePolicyOnline (2022), “Decadal Survey: After Europa and Mars Sample Return — Uranus”, 19 April 2022', url:'https://spacepolicyonline.com/news/decadal-survey-after-europa-and-mars-sample-return-uranus/', note:{en:'The planetary Decadal Survey was released on 19 April 2022 and ranked the Uranus Orbiter and Probe as the next flagship.', ru:'Десятилетний обзор планетологии опубликован 19 апреля 2022 года и поставил Uranus Orbiter and Probe следующей флагманской миссией.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderSea(); renderFar(); renderEnc(); renderTr();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__tilt = {captureDv:captureDv, CAPTURE_RP:CAPTURE_RP, insol:insol, decl:decl, polarDay:polarDay, annualMean:annualMean, transfer:transfer, hohmannVinf:hohmannVinf,
+  panelArea:panelArea, lightHours:lightHours, PLANETS:PLANETS, RATES:RATES, ENC:ENC, GM_SUN:GM_SUN, AU_KM:AU_KM, YEAR_S:YEAR_S};
+
+})();
+</script>
+</body>
+</html>

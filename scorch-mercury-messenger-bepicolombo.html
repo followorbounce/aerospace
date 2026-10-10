@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCORCH — MERCURY: MESSENGER &amp; BEPICOLOMBO / ЗНОЙ — МЕРКУРИЙ: MESSENGER И BEPICOLOMBO</title>
+<meta name="description" content="An interactive field guide to Mercury: why orbiting the innermost planet costs more than leaving the Solar System, Mariner 10 and Giuseppe Colombo's gravity-assist idea, MESSENGER's six flybys and 0.86 km/s capture in 2011, its ceramic sunshade, the 3:2 spin–orbit resonance that makes a Mercury day last 176 Earth days, polar ice, and ESA–JAXA's BepiColombo, due to enter orbit on 21 November 2026.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/scorch-mercury-messenger-bepicolombo">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SCORCH — MERCURY: MESSENGER &amp; BEPICOLOMBO / ЗНОЙ — МЕРКУРИЙ: MESSENGER И BEPICOLOMBO">
+<meta property="og:description" content="13.9 km/s to orbit Mercury, a sunshade at 370 °C, and a day two years long: MESSENGER and BepiColombo, interactive and sourced from NASA, APL and ESA.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/scorch-mercury-messenger-bepicolombo">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* SCORCH: 44 px touch targets for buttons and sliders (iPhone guideline) */
+.btn{min-height:44px; min-width:44px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.day-ctl{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">SCORCH — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">MERCURY</span></div>
+  <div class="hud-row"><span class="hud-label">SUNLIGHT</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">Δv</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="MERCURY">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 18 MARCH 2011, 00:45 UTC" data-ru="РИС. 00 — 18 МАРТА 2011, 00:45 UTC">FIG. 00 — 18 MARCH 2011, 00:45 UTC</span></span>
+        <span>0.387 AU · 47.36 km/s</span>
+      </div>
+      <h1><span data-en="SCORCH" data-ru="ЗНОЙ">SCORCH</span><br><em data-en="MERCURY: MESSENGER AND BEPICOLOMBO" data-ru="МЕРКУРИЙ: MESSENGER И BEPICOLOMBO">MERCURY: MESSENGER AND BEPICOLOMBO</em></h1>
+      <p class="sub lede" data-en="Mercury is the closest planet to the Sun and, of all the rocky planets, the least explored. It is not far away — it is too fast. Only one spacecraft has ever orbited it: NASA's MESSENGER, which needed six flybys and six and a half years to slow down enough to stay. A second, the European–Japanese BepiColombo, is due to arrive on 21 November 2026. Nine chapters and four instruments: work out why stopping at Mercury costs more than leaving the Solar System, see how steeply the braking burn grows with arrival speed, heat a sunshade in sunlight nearly eleven times stronger than on Earth, and watch a day that lasts two of Mercury's years." data-ru="Меркурий — ближайшая к Солнцу планета и наименее изученная из планет земной группы. Дело не в расстоянии, а в скорости. Вокруг него летал лишь один аппарат — MESSENGER NASA, которому понадобились шесть пролётов и шесть с половиной лет, чтобы затормозить и остаться. Второй, европейско-японский BepiColombo, должен прибыть 21 ноября 2026 года. Девять глав и четыре прибора: выясните, почему остановиться у Меркурия дороже, чем покинуть Солнечную систему, посмотрите, как круто растёт тормозной импульс со скоростью прибытия, нагрейте солнцезащитный экран в свете, который почти в одиннадцать раз сильнее земного, и посмотрите на сутки длиной в два меркурианских года.">Mercury is the closest planet to the Sun and the least explored rocky planet.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — WHY IT IS HARD -->
+<section id="ch1" class="section" data-phase="Δv">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 09</span> — <span data-en="THE HARDEST PLANET TO STOP AT" data-ru="САМАЯ ТРУДНАЯ ПЛАНЕТА ДЛЯ ОСТАНОВКИ">THE HARDEST PLANET TO STOP AT</span></div>
+    <h2 class="h-lg" data-en="Falling toward the Sun only makes you faster" data-ru="Падение к Солнцу только разгоняет">Falling toward the Sun only makes you faster</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Mercury circles the Sun at an average <b>0.387 AU</b> and <b>47.36 km/s</b>, against Earth's 29.78 km/s [1][2]. A spacecraft leaving Earth first has to shed speed relative to the Sun so that its orbit dips inward. Then, as it falls toward the Sun, it speeds up again, like a car rolling downhill, and arrives at Mercury's orbit far faster than Mercury itself. All that extra speed has to be removed before the planet's weak gravity can hold on to it [3]." data-ru="Меркурий обращается вокруг Солнца в среднем на расстоянии <b>0,387 а.е.</b> со скоростью <b>47,36 км/с</b> — против 29,78 км/с у Земли [1][2]. Аппарат, покидающий Землю, сначала должен сбросить скорость относительно Солнца, чтобы его орбита опустилась внутрь. Затем, падая к Солнцу, он снова разгоняется, как машина под горку, и приходит к орбите Меркурия гораздо быстрее самой планеты. Весь этот избыток нужно погасить, прежде чем слабое тяготение Меркурия сможет его удержать [3].">A spacecraft falling toward the Sun arrives far faster than Mercury.</p>
+      <p class="body-col" data-en="The chart adds up the bill for the cheapest direct route, a Hohmann transfer, to four planets: the speed change at Earth's distance to start the transfer, plus the smallest braking burn that lets the planet capture the spacecraft at 200 km altitude. Mercury's total, about <b>13.9 km/s</b>, is more than the 12.3 km/s needed to leave the Solar System altogether. ESA puts it this way: reaching Mercury orbit needs more energy than sending a mission to Pluto [4]. (That comparison assumes a different Pluto mission; by this chart's simple rules a Pluto orbiter would cost slightly more, about 14.5 km/s.)" data-ru="Диаграмма складывает счёт за самый дешёвый прямой путь — гомановский перелёт — к четырём планетам: изменение скорости на расстоянии Земли для начала перелёта плюс минимальный тормозной импульс, при котором планета захватит аппарат на высоте 200 км. Итог для Меркурия — около <b>13,9 км/с</b>, больше, чем 12,3 км/с, нужных, чтобы вовсе покинуть Солнечную систему. В ЕКА говорят так: выход на орбиту Меркурия требует больше энергии, чем полёт к Плутону [4]. (Это сравнение предполагает иной профиль полёта к Плутону; по простым правилам этой диаграммы орбитальный аппарат у Плутона обошёлся бы чуть дороже — около 14,5 км/с.)">Mercury's total is about 13.9 km/s.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="HOHMANN TRANSFER + MINIMUM CAPTURE" data-ru="ГОМАНОВСКИЙ ПЕРЕЛЁТ + МИНИМАЛЬНЫЙ ЗАХВАТ">HOHMANN TRANSFER + MINIMUM CAPTURE</div>
+      <div class="eq-body">a = (r<sub>⊕</sub> + r<sub>p</sub>)/2 &nbsp;·&nbsp; v = √(μ<sub>☉</sub>(2/r − 1/a)) &nbsp;·&nbsp; v<sub>∞</sub> = |v<sub>transfer</sub> − v<sub>planet</sub>| &nbsp;·&nbsp; Δv<sub>capture</sub> = √(v<sub>∞</sub>² + 2μ/r) − √(2μ/r)</div>
+      <div class="eq-note" data-en="Circular, coplanar orbits at each planet's mean distance; μ☉ = 132,712 × 10⁶ km³/s² [5]; planetary GM and radii from NASA fact sheets [1][6]. The cost of climbing out of Earth's own gravity is not included, nor are flybys — this is the price without tricks." data-ru="Круговые компланарные орбиты на среднем расстоянии каждой планеты; μ☉ = 132 712 × 10⁶ км³/с² [5]; GM и радиусы планет — из справочных листов NASA [1][6]. Цена выхода из поля тяготения самой Земли не учтена, как и пролёты: это цена без уловок.">Circular, coplanar orbits.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="dvSvg" class="sim-svg" viewBox="0 0 480 330" role="img" aria-label="Bar chart: speed change to start a Hohmann transfer plus minimum capture speed change, for Venus, Mars, Mercury and Jupiter"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Destination" id="dvPick"></div>
+        <div class="readout-grid" id="dvReadout"></div>
+        <div class="status" id="dvStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — MARINER 10 -->
+<section id="ch2" class="section" data-phase="MARINER 10">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 09</span> — <span data-en="THE FIRST VISITOR" data-ru="ПЕРВЫЙ ГОСТЬ">THE FIRST VISITOR</span></div>
+    <h2 class="h-lg" data-en="Mariner 10 and Colombo's billiard shot" data-ru="«Маринер-10» и бильярдный удар Коломбо">Mariner 10 and Colombo's billiard shot</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="NASA's <b>Mariner 10</b>, launched on 3 November 1973, was the first spacecraft to use one planet's gravity to reach another: it passed Venus on 5 February 1974 and was bent onto a path to Mercury [7]. It flew past Mercury on 29 March 1974 at 703 km, found a weak magnetic field and a cratered, Moon-like surface, and measured night temperatures of −183 °C and day temperatures of 187 °C [7]." data-ru="<b>«Маринер-10»</b> NASA, запущенный 3 ноября 1973 года, первым использовал тяготение одной планеты, чтобы добраться до другой: 5 февраля 1974 года он прошёл мимо Венеры и был направлен к Меркурию [7]. 29 марта 1974 года он пролетел в 703 км от Меркурия, обнаружил слабое магнитное поле и изрытую кратерами, похожую на Луну поверхность и измерил ночные температуры −183 °C и дневные 187 °C [7].">Mariner 10 used Venus to reach Mercury in 1974.</p>
+      <p class="body-col" data-en="Giuseppe “Bepi” Colombo of the University of Padua saw that Mariner 10 could be put on a solar orbit of <b>176 days</b>, exactly two Mercury years, so that it would meet the planet again and again [8]. It did, on 21 September 1974 and on 16 March 1975 at 327 km [7]. There was a catch, explained by the same Colombo: each time, Mercury showed the same sunlit face, so only about 40–45% of the planet was mapped [8]. The reason is in Chapter 5. Mariner 10 was the last visitor for more than 30 years [7]." data-ru="Джузеппе «Бепи» Коломбо из Падуанского университета понял, что «Маринер-10» можно вывести на солнечную орбиту с периодом <b>176 суток</b> — ровно два меркурианских года, — чтобы он встречал планету снова и снова [8]. Так и вышло: 21 сентября 1974 года и 16 марта 1975 года, на расстоянии 327 км [7]. Но был подвох, который объяснил тот же Коломбо: каждый раз Меркурий поворачивался к аппарату одной и той же освещённой стороной, и удалось заснять лишь 40–45% планеты [8]. Почему — в главе 5. «Маринер-10» оставался последним гостем более 30 лет [7].">Colombo found a 176-day orbit that returned Mariner 10 to Mercury twice more.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — MESSENGER -->
+<section id="ch3" class="section" data-phase="MESSENGER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 09</span> — <span data-en="SIX FLYBYS AND ONE BURN" data-ru="ШЕСТЬ ПРОЛЁТОВ И ОДНО ВКЛЮЧЕНИЕ">SIX FLYBYS AND ONE BURN</span></div>
+    <h2 class="h-lg" data-en="MESSENGER: six and a half years of braking" data-ru="MESSENGER: шесть с половиной лет торможения">MESSENGER: six and a half years of braking</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="<b>MESSENGER</b> (MErcury Surface, Space ENvironment, GEochemistry, and Ranging) left Cape Canaveral on 3 August 2004 on a Delta II, weighing 1,107.9 kg [7]. More than half of that, about <b>600 kg</b> or 54%, was propellant [9]. Thrusters alone could never cancel 9.6 km/s, so it flew past Earth once (2 August 2005), Venus twice (24 October 2006, 5 June 2007) and Mercury three times (14 January 2008, 6 October 2008, 29 September 2009); each pass took a little more of its speed relative to Mercury [7][10]." data-ru="<b>MESSENGER</b> (MErcury Surface, Space ENvironment, GEochemistry, and Ranging — «поверхность, космическая среда, геохимия и дальнометрия Меркурия») стартовал с мыса Канаверал 3 августа 2004 года на «Дельте II» с массой 1107,9 кг [7]. Больше половины — около <b>600 кг</b>, или 54%, — составляло топливо [9]. Двигатели сами по себе никогда не погасили бы 9,6 км/с, поэтому он пролетел мимо Земли один раз (2 августа 2005), мимо Венеры дважды (24 октября 2006, 5 июня 2007) и мимо Меркурия трижды (14 января 2008, 6 октября 2008, 29 сентября 2009); каждый пролёт отнимал часть его скорости относительно Меркурия [7][10].">MESSENGER flew past Earth once, Venus twice and Mercury three times.</p>
+      <p class="body-col" data-en="On 18 March 2011 at 00:45 UTC its main thruster fired for 15 minutes and slowed it by just over <b>0.86 km/s</b>, using about 31% of its launch propellant; it became the first spacecraft to orbit Mercury, on a 12-hour orbit dipping to about 200 km [10][11]. Run the calculator backwards from those figures and the six flybys, helped by five smaller deep-space burns totalling about 1.04 km/s [12], had cut the arrival speed from 9.6 km/s to roughly <b>2.3 km/s</b>. Move the slider to see how steeply the braking burn grows with arrival speed." data-ru="18 марта 2011 года в 00:45 UTC его главный двигатель проработал 15 минут и затормозил аппарат чуть более чем на <b>0,86 км/с</b>, израсходовав около 31% стартового запаса топлива; MESSENGER стал первым искусственным спутником Меркурия, на 12-часовой орбите с нижней точкой около 200 км [10][11]. Если пересчитать назад от этих цифр, шесть пролётов вместе с пятью небольшими манёврами в дальнем космосе, в сумме около 1,04 км/с [12], снизили скорость прибытия с 9,6 км/с примерно до <b>2,3 км/с</b>. Двигайте ползунок, чтобы увидеть, как круто растёт тормозной импульс со скоростью прибытия.">On 18 March 2011 a 0.86 km/s burn put MESSENGER into orbit.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="BRAKING INTO MESSENGER'S 12-HOUR ORBIT" data-ru="ТОРМОЖЕНИЕ НА 12-ЧАСОВУЮ ОРБИТУ MESSENGER">BRAKING INTO MESSENGER'S 12-HOUR ORBIT</div>
+      <div class="eq-body">a = (μ T²/4π²)<sup>1/3</sup> &nbsp;·&nbsp; v<sub>p</sub> = √(μ(2/r<sub>p</sub> − 1/a)) &nbsp;·&nbsp; Δv = √(v<sub>∞</sub>² + 2μ/r<sub>p</sub>) − v<sub>p</sub></div>
+      <div class="eq-note" data-en="μ = 22,032 km³/s², R = 2,439.7 km [1]; T = 12 h, low point 200 km [11]. Kepler's third law then puts the high point near 15,200 km. A single impulsive burn at the low point is assumed." data-ru="μ = 22 032 км³/с², R = 2439,7 км [1]; T = 12 ч, нижняя точка 200 км [11]. Третий закон Кеплера тогда даёт верхнюю точку около 15 200 км. Предполагается один мгновенный импульс в нижней точке.">μ = 22,032 km³/s².</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="capSvg" class="sim-svg" viewBox="0 0 480 330" role="img" aria-label="Braking speed change needed to enter MESSENGER's orbit, against arrival speed"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="capV" data-en="ARRIVAL SPEED v∞" data-ru="СКОРОСТЬ ПРИБЫТИЯ v∞">ARRIVAL SPEED v∞</label><span class="v" id="capVVal">—</span></div>
+          <input id="capV" type="range" min="0.5" max="10" step="0.01" value="2.27">
+        </div>
+        <div class="btn-row" role="group" aria-label="Arrival presets" id="capPre"></div>
+        <div class="readout-grid" id="capReadout"></div>
+        <div class="status" id="capStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — HEAT -->
+<section id="ch4" class="section" data-phase="SUNSHADE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 09</span> — <span data-en="THE SUNSHADE" data-ru="СОЛНЦЕЗАЩИТНЫЙ ЭКРАН">THE SUNSHADE</span></div>
+    <h2 class="h-lg" data-en="370 °C in front, room temperature behind" data-ru="370 °C спереди, комнатная температура позади">370 °C in front, room temperature behind</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Sunlight at Earth delivers 1,361 W per square metre [2]. It grows as one over the distance squared, so at Mercury's mean distance it is <b>6.7 times</b> stronger [1], and because Mercury's orbit is stretched — 46.0 million km at perihelion, 69.8 million at aphelion [1] — it swings between about 4.6 and <b>10.6 times</b> Earth's value. The planet's sunlit ground reaches 590–725 K, up to about 450 °C [1]." data-ru="Солнечный свет у Земли даёт 1361 Вт на квадратный метр [2]. Он обратно пропорционален квадрату расстояния, поэтому на среднем расстоянии Меркурия он в <b>6,7 раза</b> сильнее [1], а так как орбита Меркурия вытянута — 46,0 млн км в перигелии и 69,8 млн км в афелии [1], — он в 4,6–<b>10,6</b> раза сильнее земного. Освещённый грунт планеты нагревается до 590–725 К, то есть примерно до 450 °C [1].">Sunlight at Mercury is 4.6–10.6 times Earth's.</p>
+      <p class="body-col" data-en="MESSENGER hid behind a <b>2.5 × 2 m</b> sunshade of ceramic cloth wrapped around layers of plastic insulation. Its front was predicted to reach <b>370 °C</b> with Mercury closest to the Sun, while the spacecraft behind it was designed to run at about 20 °C; radiators and one-way heat pipes dumped the rest, and the orbit limited time over the planet's hottest ground [9]. In the model below, a plate settles where it radiates as much as it absorbs; the ratio of absorbed sunlight (α) to emitted heat (ε) sets the result." data-ru="MESSENGER прятался за солнцезащитным экраном <b>2,5 × 2 м</b> из керамической ткани, обёрнутой вокруг слоёв пластиковой изоляции. Его лицевая сторона, по расчётам, должна была нагреваться до <b>370 °C</b>, когда Меркурий ближе всего к Солнцу, а аппарат за ней был рассчитан на работу примерно при 20 °C; остальное тепло сбрасывали радиаторы и односторонние тепловые трубы, а орбита ограничивала время над самыми горячими районами планеты [9]. В модели ниже пластина приходит к температуре, при которой излучает столько же, сколько поглощает; результат задаёт отношение поглощения солнечного света (α) к излучению тепла (ε).">MESSENGER's sunshade was predicted to reach 370 °C.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="EQUILIBRIUM TEMPERATURE OF A SUNLIT PLATE" data-ru="РАВНОВЕСНАЯ ТЕМПЕРАТУРА ОСВЕЩЁННОЙ ПЛАСТИНЫ">EQUILIBRIUM TEMPERATURE OF A SUNLIT PLATE</div>
+      <div class="eq-body">S(r) = S<sub>⊕</sub> (1 AU / r)² &nbsp;·&nbsp; α S = ε σ T⁴ &nbsp;⇒&nbsp; T = (α S / ε σ)<sup>1/4</sup></div>
+      <div class="eq-note" data-en="A flat plate facing the Sun, radiating only from its front (perfectly insulated behind); σ = 5.670 × 10⁻⁸ W/(m²·K⁴). Real shades also lose heat from the back and edges, so they run somewhat cooler than this." data-ru="Плоская пластина, обращённая к Солнцу и излучающая только лицевой стороной (сзади идеально изолирована); σ = 5,670 × 10⁻⁸ Вт/(м²·К⁴). Настоящие экраны теряют тепло и тыльной стороной, и краями, поэтому они несколько холоднее.">A flat plate facing the Sun.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="heatSvg" class="sim-svg" viewBox="0 0 480 330" role="img" aria-label="Plate temperature against distance from the Sun, with Mercury's orbit marked"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="hR" data-en="DISTANCE FROM THE SUN" data-ru="РАССТОЯНИЕ ОТ СОЛНЦА">DISTANCE FROM THE SUN</label><span class="v" id="hRVal">—</span></div>
+          <input id="hR" type="range" min="0.25" max="1.05" step="0.001" value="0.3075">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="hAE" data-en="ABSORB / EMIT RATIO α/ε" data-ru="ОТНОШЕНИЕ ПОГЛОЩЕНИЯ К ИЗЛУЧЕНИЮ α/ε">ABSORB / EMIT RATIO α/ε</label><span class="v" id="hAEVal">—</span></div>
+          <input id="hAE" type="range" min="0.1" max="1.5" step="0.01" value="1">
+        </div>
+        <div class="readout-grid" id="heatReadout"></div>
+        <div class="status" id="heatStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — 3:2 -->
+<section id="ch5" class="section" data-phase="3:2">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 09</span> — <span data-en="THE 3:2 SPIN–ORBIT RESONANCE" data-ru="СПИН-ОРБИТАЛЬНЫЙ РЕЗОНАНС 3:2">THE 3:2 SPIN–ORBIT RESONANCE</span></div>
+    <h2 class="h-lg" data-en="A day that lasts two years" data-ru="Сутки длиной в два года">A day that lasts two years</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Until 1965 the textbook answer was that Mercury kept one face to the Sun, as the Moon does to Earth. In April 1965 the Arecibo radio telescope bounced radar off it and found a spin period of about <b>59 ± 5 days</b> [13]. Months later Colombo pointed out that 58.65 days is exactly <b>two-thirds</b> of Mercury's 88-day year: the planet turns three times for every two trips around the Sun [14]. Today's value is 1,407.6 hours, or 58.65 days [1]." data-ru="До 1965 года в учебниках писали, что Меркурий всегда повёрнут к Солнцу одной стороной, как Луна к Земле. В апреле 1965 года радиотелескоп Аресибо отразил от него радиолокационный сигнал и получил период вращения около <b>59 ± 5 суток</b> [13]. Через несколько месяцев Коломбо заметил, что 58,65 суток — ровно <b>две трети</b> 88-суточного года Меркурия: планета делает три оборота за два витка вокруг Солнца [14]. Современное значение — 1407,6 часа, или 58,65 суток [1].">Mercury spins three times for every two orbits.</p>
+      <p class="body-col" data-en="Put the two motions together and noon comes back only every <b>176 Earth days</b>: one Mercury day lasts two Mercury years [1]. That is why Mariner 10, returning every two Mercury years, always found the same face lit [8]. And because Mercury moves fastest near perihelion, for about eight Earth days around each perihelion its motion around the Sun outruns its spin, and seen from the ground the Sun stops and briefly goes backwards. Press play and watch the red marker." data-ru="Сложите два движения — и полдень повторяется лишь каждые <b>176 земных суток</b>: одни меркурианские сутки длятся два меркурианских года [1]. Поэтому «Маринер-10», возвращавшийся каждые два меркурианских года, всегда видел освещённой одну и ту же сторону [8]. А так как вблизи перигелия Меркурий движется быстрее всего, примерно на восемь земных суток у каждого перигелия его движение вокруг Солнца обгоняет вращение, и с поверхности видно, как Солнце останавливается и ненадолго идёт назад. Нажмите «пуск» и следите за красной меткой.">A Mercury day lasts 176 Earth days.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="SOLAR DAY FROM SPIN AND ORBIT" data-ru="СОЛНЕЧНЫЕ СУТКИ ИЗ ВРАЩЕНИЯ И ОБРАЩЕНИЯ">SOLAR DAY FROM SPIN AND ORBIT</div>
+      <div class="eq-body">1/T<sub>solar</sub> = 1/T<sub>spin</sub> − 1/T<sub>orbit</sub> &nbsp;·&nbsp; T<sub>spin</sub> = ⅔ T<sub>orbit</sub> &nbsp;⇒&nbsp; T<sub>solar</sub> = 2 T<sub>orbit</sub></div>
+      <div class="eq-note" data-en="T_orbit = 87.969 days, e = 0.2056 [1]. The orbit is solved with Kepler's equation; the spin is uniform." data-ru="T_обращ = 87,969 сут, e = 0,2056 [1]. Орбита рассчитывается по уравнению Кеплера; вращение равномерное.">T_orbit = 87.969 days.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="daySvg" class="sim-svg" viewBox="0 0 480 360" role="img" aria-label="Mercury orbiting the Sun while spinning three times per two orbits; a red marker shows one place on the surface"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="dayT" data-en="EARTH DAYS ELAPSED" data-ru="ПРОШЛО ЗЕМНЫХ СУТОК">EARTH DAYS ELAPSED</label><span class="v" id="dayTVal">—</span></div>
+          <input id="dayT" type="range" min="0" max="351.9" step="0.1" value="0">
+        </div>
+        <div class="btn-row day-ctl">
+          <button class="btn" id="dayPlay" aria-pressed="false" data-en="▶ PLAY" data-ru="▶ ПУСК">▶ PLAY</button>
+          <button class="btn" id="dayReset" data-en="RESET" data-ru="СБРОС">RESET</button>
+        </div>
+        <div class="readout-grid" id="dayReadout"></div>
+        <div class="status" id="dayStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — DISCOVERIES -->
+<section id="ch6" class="section" data-phase="ICE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 09</span> — <span data-en="WHAT MESSENGER FOUND" data-ru="ЧТО НАШЁЛ MESSENGER">WHAT MESSENGER FOUND</span></div>
+    <h2 class="h-lg" data-en="Ice on the planet nearest the Sun" data-ru="Лёд на ближайшей к Солнцу планете">Ice on the planet nearest the Sun</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Mercury's axis is tilted only about <b>0.034°</b> [1], so the floors of craters near its poles never see the Sun. There, in the cold, MESSENGER's neutron spectrometer found the hydrogen signature of <b>water ice</b> near the north pole [15]. NASA calls the polar deposits dominantly water ice [10]." data-ru="Ось Меркурия наклонена всего примерно на <b>0,034°</b> [1], поэтому дно кратеров у полюсов никогда не видит Солнца. Там, в холоде, нейтронный спектрометр MESSENGER обнаружил водородную сигнатуру <b>водяного льда</b> у северного полюса [15]. NASA называет полярные отложения преимущественно водяным льдом [10].">MESSENGER found water ice in permanently shadowed polar craters.</p>
+      <p class="body-col" data-en="It also found magnesium and calcium on the night side, water in the thin exosphere, evidence of old volcanism, and a magnetic field whose centre sits well north of the planet's centre [7]. It mapped the whole surface, and by February 2014 had taken its 200,000th orbital image, against an original expectation of at least 1,000 [7]. In its second extension it was deliberately lowered to orbits as low as 25 km for close-up science; then, out of propellant, on <b>30 April 2015</b> at 19:26 UTC it struck the surface at about 14,080 km/h near the crater Janáček [7][10]." data-ru="Он также нашёл магний и кальций на ночной стороне, воду в тонкой экзосфере, следы древнего вулканизма и магнитное поле, центр которого заметно смещён к северу от центра планеты [7]. Он картировал всю поверхность и к февралю 2014 года сделал 200-тысячный снимок с орбиты, хотя изначально рассчитывали как минимум на 1000 [7]. Во втором продлении его намеренно опустили на орбиты высотой всего 25 км ради съёмки вблизи; затем, израсходовав топливо, <b>30 апреля 2015 года</b> в 19:26 UTC он врезался в поверхность со скоростью около 14 080 км/ч у кратера Яначек [7][10].">MESSENGER ended by impact on 30 April 2015.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — BEPICOLOMBO -->
+<section id="ch7" class="section" data-phase="BEPICOLOMBO">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 09</span> — <span data-en="TWO ORBITERS, NINE FLYBYS" data-ru="ДВА ОРБИТАЛЬНЫХ АППАРАТА, ДЕВЯТЬ ПРОЛЁТОВ">TWO ORBITERS, NINE FLYBYS</span></div>
+    <h2 class="h-lg" data-en="BepiColombo: the long way round" data-ru="BepiColombo: долгий путь">BepiColombo: the long way round</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Named after Colombo, <b>BepiColombo</b> launched on an Ariane 5 on 20 October 2018: a 4,100 kg stack of ESA's Mercury Planetary Orbiter (<b>MPO</b>, 1,230 kg), JAXA's Mercury Magnetospheric Orbiter <b>Mio</b> (255 kg), a sunshield for Mio, and ESA's Mercury Transfer Module, whose ion engines did the braking that MESSENGER did with flybys and fuel [16]. It still needed nine flybys: Earth once, Venus twice and Mercury six times [16]." data-ru="<b>BepiColombo</b>, названный в честь Коломбо, стартовал на «Ариане-5» 20 октября 2018 года: связка массой 4100 кг из орбитального аппарата ЕКА <b>MPO</b> (1230 кг), магнитосферного аппарата JAXA <b>Mio</b> (255 кг), солнцезащитного экрана для Mio и перелётного модуля ЕКА, чьи ионные двигатели выполняли торможение, которое MESSENGER делал пролётами и топливом [16]. И всё же понадобилось девять пролётов: Земли — один, Венеры — два и Меркурия — шесть [16].">BepiColombo launched in 2018: two orbiters and an ion-driven transfer module.</p>
+      <p class="body-col" data-en="In April 2024 unexpected currents between the transfer module's solar arrays and its power unit left the ion engines unable to deliver the thrust needed to arrive in December 2025. ESA's flight dynamics team found a new route, starting with the fourth Mercury flyby on 4 September 2024 at about 165 km, that arrives in November 2026 with lower thrust [17]. The module separated on 3 September 2026, and a 24 September burn of 11.4 m/s refined the aim. <b>As of 9 October 2026, orbit insertion is planned for 21 November 2026</b>, the two orbiters are to separate on 9–10 December, and science starts in April 2027 [18]. Mio's final orbit will be 590 × 11,640 km, MPO's 480 × 1,500 km [4] — by Kepler's third law, about 9.3 and 2.4 hours per lap." data-ru="В апреле 2024 года неожиданные токи между солнечными батареями перелётного модуля и блоком питания лишили ионные двигатели тяги, нужной для прибытия в декабре 2025 года. Специалисты ЕКА по баллистике нашли новый маршрут, начавшийся с четвёртого пролёта Меркурия 4 сентября 2024 года на высоте около 165 км, — с прибытием в ноябре 2026 года при меньшей тяге [17]. Модуль отделился 3 сентября 2026 года, а импульс 24 сентября величиной 11,4 м/с уточнил прицел. <b>По состоянию на 9 октября 2026 года выход на орбиту запланирован на 21 ноября 2026 года</b>, разделение двух аппаратов — на 9–10 декабря, начало научной работы — на апрель 2027 года [18]. Конечная орбита Mio — 590 × 11 640 км, MPO — 480 × 1500 км [4]; по третьему закону Кеплера это примерно 9,3 и 2,4 часа на виток.">Orbit insertion is planned for 21 November 2026.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="cmp-table" id="flybyTable"></table>
+    </div>
+    <p class="fig-cap" data-en="Dates: Beyond Earth [7], NASA [10], ESA [16]; BepiColombo's second Venus flyby (closest approach 10 August 2021, 13:51 UTC, 552 km) from JAXA [19] — ESA's factsheet lists 11 August." data-ru="Даты: Beyond Earth [7], NASA [10], ЕКА [16]; второй пролёт Венеры аппаратом BepiColombo (наибольшее сближение 10 августа 2021 года, 13:51 UTC, 552 км) — по данным JAXA [19]; в справочном листе ЕКА указано 11 августа.">Dates: Beyond Earth, NASA, ESA, JAXA.</p>
+  </div>
+</section>
+
+<!-- CH8 — LEGACY -->
+<section id="ch8" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 09</span> — <span data-en="LEGACY: FIFTY YEARS OF SLOWING DOWN" data-ru="НАСЛЕДИЕ: ПОЛВЕКА ТОРМОЖЕНИЯ">LEGACY: FIFTY YEARS OF SLOWING DOWN</span></div>
+    <h2 class="h-lg" data-en="From a radar echo to two orbiters" data-ru="От радарного эха — к двум орбитальным аппаратам">From a radar echo to two orbiters</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="The hard part of going to Mercury is not getting there. It is stopping." data-ru="Самое трудное в полёте к Меркурию — не долететь, а остановиться.">The hard part is stopping.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — REFERENCES -->
+<section id="ch9" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 09</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS [1][2][5][6] ============ */
+var MU_S = 132712e6, AU = 149597870.7, R_EARTH_ORBIT = 149.598e6, S_EARTH = 1361, SIGMA = 5.670374e-8;
+var MU_ME = 22032, R_ME = 2439.7, T_ORBIT = 87.969, T_SPIN = 1407.6/24, ECC = 0.2056, A_ME = 57.909e6, Q_ME = 46.000e6, Q2_ME = 69.818e6;
+var PLANETS = [
+  {k:'venus', en:'Venus', ru:'Венера', r:108.210e6, mu:324860, R:6051.8},
+  {k:'mars', en:'Mars', ru:'Марс', r:227.956e6, mu:42828, R:3389.5},
+  {k:'mercury', en:'Mercury', ru:'Меркурий', r:A_ME, mu:MU_ME, R:R_ME},
+  {k:'jupiter', en:'Jupiter', ru:'Юпитер', r:778.479e6, mu:126.687e6, R:69911}
+];
+var CAPTURE_ALT = 200;
+
+/* ============ CH1 — HOHMANN + MINIMUM CAPTURE ============ */
+function hohmann(r2, mu, R){
+  var r1 = R_EARTH_ORBIT, a = (r1 + r2)/2;
+  var dep = Math.abs(Math.sqrt(MU_S*(2/r1 - 1/a)) - Math.sqrt(MU_S/r1));
+  var arr = Math.abs(Math.sqrt(MU_S/r2) - Math.sqrt(MU_S*(2/r2 - 1/a)));
+  var rp = R + CAPTURE_ALT, vesc = Math.sqrt(2*mu/rp), cap = Math.sqrt(arr*arr + vesc*vesc) - vesc;
+  return {dep:dep, arr:arr, days:Math.PI*Math.sqrt(a*a*a/MU_S)/86400, cap:cap, total:dep + cap};
+}
+var DV_ESCAPE = Math.sqrt(2*MU_S/R_EARTH_ORBIT) - Math.sqrt(MU_S/R_EARTH_ORBIT);
+var dvSel = 'mercury';
+function renderDv(){
+  var pick = document.getElementById('dvPick'); pick.innerHTML = '';
+  PLANETS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'btn' + (p.k === dvSel ? ' active' : ''); b.setAttribute('aria-pressed', p.k === dvSel ? 'true' : 'false');
+    b.textContent = T(p.en, p.ru).toUpperCase();
+    b.addEventListener('click', function(){ dvSel = p.k; renderDv(); });
+    pick.appendChild(b);
+  });
+  var svg = document.getElementById('dvSvg'); svg.innerHTML = '';
+  var L = 96, R = 462, Tp = 34, rowH = 58, vMax = 16;
+  function X(v){ return L + v/vMax*(R - L); }
+  [0,4,8,12,16].forEach(function(v){ ns('line', {x1:X(v), y1:Tp - 8, x2:X(v), y2:Tp + rowH*PLANETS.length, stroke:'#e4e4de'}, svg); txt(svg, X(v), Tp + rowH*PLANETS.length + 14, v, 'svg-small', 'middle'); });
+  txt(svg, R, Tp + rowH*PLANETS.length + 28, T('km/s, heliocentric departure + capture','км/с, гелиоцентрический старт + захват'), 'svg-small', 'end');
+  PLANETS.forEach(function(p, i){
+    var H = hohmann(p.r, p.mu, p.R), y = Tp + i*rowH, sel = p.k === dvSel;
+    txt(svg, L - 10, y + 20, T(p.en, p.ru), sel ? 'svg-label' : 'svg-small', 'end');
+    ns('rect', {x:L, y:y + 8, width:Math.max(1, X(H.dep) - L), height:18, fill:'#0b0b0c', opacity: sel ? 1 : 0.55}, svg);
+    ns('rect', {x:X(H.dep), y:y + 8, width:Math.max(1, X(H.total) - X(H.dep)), height:18, fill:'#b5452a', opacity: sel ? 1 : 0.55}, svg);
+    txt(svg, X(H.total) + 6, y + 21, fmt(H.total, 1), 'svg-small');
+  });
+  ns('line', {x1:X(DV_ESCAPE), y1:Tp - 8, x2:X(DV_ESCAPE), y2:Tp + rowH*PLANETS.length, stroke:'#2f5aa1', 'stroke-dasharray':'3 3'}, svg);
+  txt(svg, X(DV_ESCAPE) - 4, Tp + rowH*PLANETS.length - 6, T('leave the Solar System: ','покинуть Солнечную систему: ') + fmt(DV_ESCAPE, 1), 'svg-small', 'end');
+  ns('rect', {x:L, y:4, width:10, height:8, fill:'#0b0b0c'}, svg); txt(svg, L + 14, 12, T('start the transfer','начать перелёт'), 'svg-small');
+  ns('rect', {x:L + 130, y:4, width:10, height:8, fill:'#b5452a'}, svg); txt(svg, L + 144, 12, T('brake to be captured','затормозить для захвата'), 'svg-small');
+  var p = PLANETS.filter(function(q){ return q.k === dvSel; })[0], H = hohmann(p.r, p.mu, p.R);
+  cells(document.getElementById('dvReadout'), [
+    [T('START OF TRANSFER','НАЧАЛО ПЕРЕЛЁТА'), fmt(H.dep, 2) + T(' km/s',' км/с')],
+    [T('TRANSFER TIME','ВРЕМЯ ПЕРЕЛЁТА'), fmtInt(H.days) + T(' days',' сут')],
+    [T('ARRIVAL SPEED v∞','СКОРОСТЬ ПРИБЫТИЯ v∞'), fmt(H.arr, 2) + T(' km/s',' км/с')],
+    [T('MINIMUM CAPTURE','МИНИМАЛЬНЫЙ ЗАХВАТ'), fmt(H.cap, 2) + T(' km/s',' км/с')],
+    [T('TOTAL','ИТОГО'), fmt(H.total, 2) + T(' km/s',' км/с'), true]
+  ]);
+  hud2.textContent = fmt(H.total, 1) + T(' km/s',' км/с');
+  document.getElementById('dvStatus').innerHTML = p.k === 'mercury'
+    ? T('Mercury\'s small mass is the problem: its escape speed at 200 km is only ','Беда в малой массе Меркурия: вторая космическая на высоте 200 км — всего ') + fmt(Math.sqrt(2*MU_ME/(R_ME + CAPTURE_ALT)), 2) + T(' km/s, so almost all of the ',' км/с, поэтому почти все ') + fmt(H.arr, 1) + T(' km/s of arrival speed has to be burned off.',' км/с скорости прибытия приходится гасить.')
+    : (p.k === 'jupiter'
+      ? T('Jupiter\'s huge gravity makes capture almost free; the cost is in getting there.','Огромное тяготение Юпитера делает захват почти бесплатным; дорого — долететь.')
+      : T('Cheap at both ends: modest speed changes and a planet heavy enough to help with the braking.','Дёшево с обеих сторон: скромные изменения скорости и планета, достаточно массивная, чтобы помочь затормозить.'));
+}
+
+/* ============ CH3 — CAPTURE INTO MESSENGER'S ORBIT ============ */
+var MESS_T = 12*3600, MESS_RP = R_ME + 200;
+var MESS_A = Math.pow(MU_ME*MESS_T*MESS_T/(4*Math.PI*Math.PI), 1/3), MESS_RA = 2*MESS_A - MESS_RP;
+var MESS_VP = Math.sqrt(MU_ME*(2/MESS_RP - 1/MESS_A)), MESS_VESC = Math.sqrt(2*MU_ME/MESS_RP), MOI_DV = 0.862;
+function capture(vinf){ return Math.sqrt(vinf*vinf + MESS_VESC*MESS_VESC) - MESS_VP; }
+function captureCirc(vinf){ return Math.sqrt(vinf*vinf + MESS_VESC*MESS_VESC) - Math.sqrt(MU_ME/MESS_RP); }
+function vinfFromBurn(dv){ var vh = MESS_VP + dv; return Math.sqrt(vh*vh - MESS_VESC*MESS_VESC); }
+function orbitPeriodH(periAlt, apoAlt){ var a = (2*R_ME + periAlt + apoAlt)/2; return 2*Math.PI*Math.sqrt(a*a*a/MU_ME)/3600; }
+var VINF_MESS = vinfFromBurn(MOI_DV), VINF_HOH = hohmann(A_ME, MU_ME, R_ME).arr;
+var capV = document.getElementById('capV');
+function renderCap(){
+  var v = +capV.value, dv = capture(v), dvc = captureCirc(v);
+  document.getElementById('capVVal').textContent = fmt(v, 2) + T(' km/s',' км/с');
+  capV.setAttribute('aria-valuetext', fmt(v, 2) + T(' km/s',' км/с'));
+  var pre = document.getElementById('capPre'); pre.innerHTML = '';
+  [[VINF_HOH, T('NO FLYBYS (HOHMANN)','БЕЗ ПРОЛЁТОВ (ГОМАН)')], [VINF_MESS, T('MESSENGER AFTER ITS FLYBYS','MESSENGER ПОСЛЕ ПРОЛЁТОВ')]].forEach(function(q){
+    var on = Math.abs(v - q[0]) < 0.006, b = document.createElement('button'); b.className = 'btn' + (on ? ' active' : ''); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.textContent = q[1]; b.addEventListener('click', function(){ capV.value = q[0].toFixed(2); renderCap(); }); pre.appendChild(b);
+  });
+  var svg = document.getElementById('capSvg'); svg.innerHTML = '';
+  var L = 50, R = 465, Tp = 20, B = 280, vMax = 10, dMax = 8;
+  function X(x){ return L + x/vMax*(R - L); }
+  function Y(y){ return B - y/dMax*(B - Tp); }
+  [0,2,4,6,8].forEach(function(y){ ns('line', {x1:L, y1:Y(y), x2:R, y2:Y(y), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(y) + 3, y, 'svg-small', 'end'); });
+  [0,2,4,6,8,10].forEach(function(x){ txt(svg, X(x), B + 14, x, 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('arrival speed v∞, km/s','скорость прибытия v∞, км/с'), 'svg-small', 'end'); txt(svg, L, 12, T('braking Δv, km/s','тормозной Δv, км/с'), 'svg-small');
+  var d1 = '', d2 = '';
+  for(var x = 0; x <= vMax + 1e-9; x += 0.1){ d1 += (x === 0 ? 'M' : 'L') + X(x).toFixed(1) + ' ' + Y(capture(x)).toFixed(1); d2 += (x === 0 ? 'M' : 'L') + X(x).toFixed(1) + ' ' + Y(captureCirc(x)).toFixed(1); }
+  ns('path', {d:d2, fill:'none', stroke:'#2f5aa1', 'stroke-width':1.5, 'stroke-dasharray':'5 3'}, svg);
+  ns('path', {d:d1, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  txt(svg, X(5.6), Y(captureCirc(5.6)) - 10, T('circular, 200 km','круговая, 200 км'), 'svg-small', 'end');
+  txt(svg, X(6.4), Y(capture(6.4)) + 18, T('12-hour orbit','12-часовая орбита'), 'svg-small', 'start');
+  [[VINF_MESS, 'MESSENGER'], [VINF_HOH, T('Hohmann','Гоман')]].forEach(function(m){ ns('line', {x1:X(m[0]), y1:Tp, x2:X(m[0]), y2:B, stroke:'#c9c9c1', 'stroke-dasharray':'2 3'}, svg); txt(svg, X(m[0]) - 4, Tp + 10, m[1], 'svg-small', 'end'); });
+  ns('circle', {cx:X(v), cy:Y(dv), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('capReadout'), [
+    [T('BURN INTO 12-H ORBIT','ИМПУЛЬС НА 12-Ч ОРБИТУ'), fmt(dv, 2) + T(' km/s',' км/с')],
+    [T('BURN INTO 200 KM CIRCLE','ИМПУЛЬС НА КРУГ 200 КМ'), fmt(dvc, 2) + T(' km/s',' км/с')],
+    [T('SPEED AT 200 KM','СКОРОСТЬ НА 200 КМ'), fmt(Math.sqrt(v*v + MESS_VESC*MESS_VESC), 2) + T(' km/s',' км/с')],
+    [T('VERSUS MESSENGER\'S 0.862','ОТНОСИТЕЛЬНО 0,862 У MESSENGER'), '×' + fmt(dv/MOI_DV, 1)]
+  ]);
+  hud2.textContent = fmt(dv, 2) + T(' km/s',' км/с');
+  document.getElementById('capStatus').innerHTML = v > 6
+    ? T('Without flybys the burn alone would need about ','Без пролётов один только импульс потребовал бы около ') + fmt(capture(VINF_HOH), 1) + T(' km/s — almost eight times MESSENGER\'s actual 0.862 km/s burn, far more than its propellant could supply.',' км/с — почти в восемь раз больше реального импульса MESSENGER 0,862 км/с и гораздо больше, чем позволял его запас топлива.')
+    : T('MESSENGER\'s 0.862 km/s burn [11] implies it arrived at about ','Импульс MESSENGER 0,862 км/с [11] означает, что он прибыл со скоростью около ') + fmt(VINF_MESS, 2) + T(' km/s; the high point of a 12-hour orbit with a 200 km low point is ',' км/с; верхняя точка 12-часовой орбиты с нижней точкой 200 км — ') + fmtInt(MESS_RA - R_ME) + T(' km.',' км.');
+}
+capV.addEventListener('input', renderCap);
+
+/* ============ CH4 — SUNSHADE TEMPERATURE ============ */
+var hR = document.getElementById('hR'), hAE = document.getElementById('hAE');
+var SHADE_C = 370, GROUND_MAX_K = 725;
+function plateT(rAU, ae){ var S = S_EARTH/(rAU*rAU); return {S:S, T:Math.pow(ae*S/SIGMA, 0.25)}; }
+function renderHeat(){
+  var r = +hR.value, ae = +hAE.value, H = plateT(r, ae);
+  document.getElementById('hRVal').textContent = fmt(r, 3) + T(' AU',' а.е.') + ' · ' + fmt(r*AU/1e6, 1) + T(' million km',' млн км');
+  document.getElementById('hAEVal').textContent = fmt(ae, 2);
+  hR.setAttribute('aria-valuetext', fmt(r, 3) + T(' AU',' а.е.')); hAE.setAttribute('aria-valuetext', fmt(ae, 2));
+  var svg = document.getElementById('heatSvg'); svg.innerHTML = '';
+  var L = 50, R = 465, Tp = 20, B = 280, x0 = 0.25, x1 = 1.05, tMax = 700;
+  function X(x){ return L + (x - x0)/(x1 - x0)*(R - L); }
+  function Y(c){ return B - c/tMax*(B - Tp); }
+  [0,100,200,300,400,500,600,700].forEach(function(c){ ns('line', {x1:L, y1:Y(c), x2:R, y2:Y(c), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(c) + 3, c, 'svg-small', 'end'); });
+  [0.3,0.5,0.7,0.9].forEach(function(x){ txt(svg, X(x), B + 14, fmt(x, 1), 'svg-small', 'middle'); });
+  txt(svg, R, B + 28, T('distance from the Sun, AU','расстояние от Солнца, а.е.'), 'svg-small', 'end'); txt(svg, L, 12, T('plate temperature, °C','температура пластины, °C'), 'svg-small');
+  ns('rect', {x:X(Q_ME/AU), y:Tp, width:X(Q2_ME/AU) - X(Q_ME/AU), height:B - Tp, fill:'#b5452a', opacity:0.08}, svg);
+  txt(svg, (X(Q_ME/AU) + X(Q2_ME/AU))/2, B - 6, T('Mercury\'s orbit','орбита Меркурия'), 'svg-small', 'middle');
+  [[0.723, T('Venus','Венера')], [1.0, T('Earth','Земля')]].forEach(function(m){ ns('line', {x1:X(m[0]), y1:Tp, x2:X(m[0]), y2:B, stroke:'#c9c9c1', 'stroke-dasharray':'2 3'}, svg); txt(svg, X(m[0]) + 3, B - 6, m[1], 'svg-small'); });
+  ns('line', {x1:L, y1:Y(SHADE_C), x2:R, y2:Y(SHADE_C), stroke:'#b5452a', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, R - 4, Y(SHADE_C) - 5, T('MESSENGER shade, predicted 370 °C [9]','экран MESSENGER, расчёт 370 °C [9]'), 'svg-small', 'end');
+  ns('line', {x1:L, y1:Y(GROUND_MAX_K - 273.15), x2:R, y2:Y(GROUND_MAX_K - 273.15), stroke:'#2f5aa1', 'stroke-dasharray':'2 3'}, svg);
+  txt(svg, R - 4, Y(GROUND_MAX_K - 273.15) - 5, T('hottest Mercury ground, 725 K [1]','самый горячий грунт Меркурия, 725 К [1]'), 'svg-small', 'end');
+  var d = '';
+  for(var x = x0; x <= x1 + 1e-9; x += 0.005){ d += (x === x0 ? 'M' : 'L') + X(x).toFixed(1) + ' ' + Math.max(Tp, Y(plateT(x, ae).T - 273.15)).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('circle', {cx:X(r), cy:Math.max(Tp, Y(H.T - 273.15)), r:5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('heatReadout'), [
+    [T('SUNLIGHT','СОЛНЕЧНЫЙ ПОТОК'), fmtInt(H.S) + T(' W/m²',' Вт/м²')],
+    [T('TIMES EARTH\'S','РАЗ БОЛЬШЕ ЗЕМНОГО'), '×' + fmt(H.S/S_EARTH, 2)],
+    [T('PLATE TEMPERATURE','ТЕМПЕРАТУРА ПЛАСТИНЫ'), fmtInt(H.T - 273.15) + ' °C'],
+    [T('IN KELVIN','В КЕЛЬВИНАХ'), fmtInt(H.T) + ' K']
+  ]);
+  hud1.textContent = '×' + fmt(H.S/S_EARTH, 1);
+  document.getElementById('heatStatus').innerHTML = ae > 0.9 && r < 0.48
+    ? T('A dark plate at Mercury\'s distance gets about as hot as Mercury\'s own sunlit ground. Lower α/ε — a whiter, more emissive surface — to see what a ceramic shade buys.','Тёмная пластина на расстоянии Меркурия нагревается примерно как освещённый грунт самой планеты. Уменьшите α/ε — более белая и сильнее излучающая поверхность, — чтобы увидеть, что даёт керамический экран.')
+    : T('Halving α/ε lowers the absolute temperature by a factor of 2^¼ ≈ 1.19; moving from aphelion to perihelion raises it by √(69.8/46.0) ≈ 1.23.','Уменьшение α/ε вдвое снижает абсолютную температуру в 2^¼ ≈ 1,19 раза; переход из афелия в перигелий повышает её в √(69,8/46,0) ≈ 1,23 раза.');
+}
+[hR, hAE].forEach(function(el){ el.addEventListener('input', renderHeat); });
+
+/* ============ CH5 — 3:2 SPIN–ORBIT ============ */
+var N_ORB = 2*Math.PI/T_ORBIT, W_SPIN = 2*Math.PI/T_SPIN;
+var SOLAR_DAY = 1/(1/T_SPIN - 1/T_ORBIT);
+function keplerE(M, e){ var lo = M - e, hi = M + e; for(var i = 0; i < 60; i++){ var mid = (lo + hi)/2; if(mid - e*Math.sin(mid) < M) lo = mid; else hi = mid; } return (lo + hi)/2; }
+function mercuryAt(t){
+  var M = ((N_ORB*t) % (2*Math.PI) + 2*Math.PI) % (2*Math.PI), E = keplerE(M, ECC);
+  var nu = 2*Math.atan2(Math.sqrt(1 + ECC)*Math.sin(E/2), Math.sqrt(1 - ECC)*Math.cos(E/2)), r = A_ME*(1 - ECC*Math.cos(E));
+  var spin = Math.PI + W_SPIN*t;                      // the marker faces the Sun at t = 0 (perihelion noon)
+  var hour = ((spin - (nu + Math.PI)) % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);   // 0 = local noon
+  var nuRate = N_ORB*Math.pow(1 + ECC*Math.cos(nu), 2)/Math.pow(1 - ECC*ECC, 1.5);
+  return {nu:nu, r:r, spin:spin, hour:hour, retro:nuRate > W_SPIN, nuRate:nuRate};
+}
+function retroDays(){
+  var lo = 0, hi = Math.PI;
+  for(var i = 0; i < 60; i++){ var m = (lo + hi)/2; if(N_ORB*Math.pow(1 + ECC*Math.cos(m), 2)/Math.pow(1 - ECC*ECC, 1.5) > W_SPIN) lo = m; else hi = m; }
+  var E = 2*Math.atan(Math.sqrt((1 - ECC)/(1 + ECC))*Math.tan(lo/2)), M = E - ECC*Math.sin(E);
+  return 2*M/N_ORB;
+}
+var dayT = document.getElementById('dayT'), dayPlay = document.getElementById('dayPlay'), dayOn = false, dayEls = null;
+function clockStr(h){ var hrs = (h/(2*Math.PI)*24 + 12) % 24, hh = Math.floor(hrs), mm = Math.floor((hrs - hh)*60); return (hh < 10 ? '0' : '') + hh + ':' + (mm < 10 ? '0' : '') + mm; }
+function partOfDay(h){
+  var d = h/(2*Math.PI);
+  if(d < 0.02 || d > 0.98) return T('noon','полдень');
+  if(d < 0.23) return T('afternoon','после полудня');
+  if(d < 0.27) return T('sunset','закат');
+  if(d < 0.73) return T('night','ночь');
+  if(d < 0.77) return T('sunrise','восход');
+  return T('morning','утро');
+}
+function buildDay(){
+  var svg = document.getElementById('daySvg'); svg.innerHTML = '';
+  var sc = 150/A_ME, cx = 270, cy = 175, b = A_ME*Math.sqrt(1 - ECC*ECC);
+  ns('ellipse', {cx:cx - A_ME*ECC*sc, cy:cy, rx:A_ME*sc, ry:b*sc, fill:'none', stroke:'#c9c9c1', 'stroke-width':1.2}, svg);
+  ns('circle', {cx:cx, cy:cy, r:12, fill:'#e0a020'}, svg);
+  txt(svg, cx + Q_ME*sc + 6, cy + 4, T('perihelion','перигелий'), 'svg-small');
+  txt(svg, cx - Q2_ME*sc - 6, cy + 4, T('aphelion','афелий'), 'svg-small', 'end');
+  txt(svg, 12, 18, T('Mercury enlarged; orbit to scale','Меркурий увеличен; орбита в масштабе'), 'svg-small');
+  var g = ns('g', {}, svg);
+  var night = ns('path', {fill:'#0b0b0c', opacity:0.75}, g);
+  ns('circle', {cx:0, cy:0, r:20, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.2}, g);
+  var mark = ns('line', {x1:0, y1:0, x2:20, y2:0, stroke:'#b5452a', 'stroke-width':2.5}, g);
+  var dot = ns('circle', {cx:20, cy:0, r:4.5, fill:'#b5452a', stroke:'#fff', 'stroke-width':1.2}, g);
+  dayEls = {svg:svg, sc:sc, cx:cx, cy:cy, g:g, night:night, mark:mark, dot:dot};
+}
+function drawDay(){
+  if(!dayEls) buildDay();
+  var t = +dayT.value, S = mercuryAt(t), E = dayEls;
+  var x = E.cx + S.r*Math.cos(S.nu)*E.sc, y = E.cy - S.r*Math.sin(S.nu)*E.sc;
+  E.g.setAttribute('transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ')');
+  var sunDir = Math.atan2(E.cy - y, E.cx - x), a1 = sunDir + Math.PI/2, a2 = sunDir - Math.PI/2;
+  E.night.setAttribute('d', 'M' + (20*Math.cos(a1)).toFixed(2) + ' ' + (20*Math.sin(a1)).toFixed(2) + ' A20 20 0 0 1 ' + (20*Math.cos(a2)).toFixed(2) + ' ' + (20*Math.sin(a2)).toFixed(2) + ' Z');
+  var mx = 20*Math.cos(-S.spin), my = 20*Math.sin(-S.spin);
+  E.mark.setAttribute('x2', mx.toFixed(2)); E.mark.setAttribute('y2', my.toFixed(2));
+  E.dot.setAttribute('cx', mx.toFixed(2)); E.dot.setAttribute('cy', my.toFixed(2));
+  document.getElementById('dayTVal').textContent = fmt(t, 1) + T(' days',' сут');
+  cells(document.getElementById('dayReadout'), [
+    [T('ORBITS OF THE SUN','ВИТКОВ ВОКРУГ СОЛНЦА'), fmt(t/T_ORBIT, 2)],
+    [T('TURNS ON ITS AXIS','ОБОРОТОВ ВОКРУГ ОСИ'), fmt(t/T_SPIN, 2)],
+    [T('LOCAL SOLAR TIME','МЕСТНОЕ СОЛНЕЧНОЕ ВРЕМЯ'), clockStr(S.hour)],
+    [T('AT THE RED MARKER','У КРАСНОЙ МЕТКИ'), partOfDay(S.hour)],
+    [T('SOLAR DAYS COMPLETED','ПРОШЛО СОЛНЕЧНЫХ СУТОК'), fmt(t/SOLAR_DAY, 2), true]
+  ]);
+  var dayMsg = S.retro
+    ? T('<b>Near perihelion:</b> Mercury is moving around the Sun faster than it spins, so the Sun drifts backwards in the sky — for about ','<b>Возле перигелия:</b> Меркурий движется вокруг Солнца быстрее, чем вращается, и Солнце смещается по небу назад — примерно ') + fmt(retroDays(), 0) + T(' Earth days each orbit.',' земных суток на каждом витке.')
+    : T('A Mercury day (noon to noon) lasts ','Меркурианские сутки (от полудня до полудня) длятся ') + fmt(SOLAR_DAY, 1) + T(' Earth days = 2 orbits = 3 turns.',' земных суток = 2 витка = 3 оборота.');
+  var st = document.getElementById('dayStatus'); if(st.innerHTML !== dayMsg) st.innerHTML = dayMsg;
+  dayT.setAttribute('aria-valuetext', fmt(t, 1) + T(' Earth days',' земных суток'));
+}
+dayT.addEventListener('input', drawDay);
+function setPlay(on){ dayOn = on; dayPlay.setAttribute('aria-pressed', on ? 'true' : 'false'); dayPlay.classList.toggle('active', on); dayPlay.innerHTML = on ? T('❚❚ PAUSE','❚❚ ПАУЗА') : T('▶ PLAY','▶ ПУСК'); }
+dayPlay.addEventListener('click', function(){ setPlay(!dayOn); });
+document.getElementById('dayReset').addEventListener('click', function(){ setPlay(false); dayT.value = 0; drawDay(); });
+visibleLoop(document.getElementById('daySvg'), function(dt){
+  if(!dayOn) return;
+  var max = +dayT.max, v = +dayT.value + dt*SOLAR_DAY/(reduced() ? 40 : 16);
+  dayT.value = (v > max ? v - max : v).toFixed(1); drawDay();
+});
+
+/* ============ CH7 — FLYBY TABLE [7][10][16] ============ */
+function renderFlybys(){
+  var rows = [
+    [T('Launch','Старт'), T('3 Aug 2004, Delta II','3 авг 2004, «Дельта II»'), T('20 Oct 2018, Ariane 5','20 окт 2018, «Ариан-5»')],
+    [T('Earth flybys','Пролёты Земли'), T('2 Aug 2005','2 авг 2005'), T('10 Apr 2020','10 апр 2020')],
+    [T('Venus flybys','Пролёты Венеры'), T('24 Oct 2006 · 5 Jun 2007','24 окт 2006 · 5 июн 2007'), T('15 Oct 2020 · 10 Aug 2021','15 окт 2020 · 10 авг 2021')],
+    [T('Mercury flybys','Пролёты Меркурия'), T('14 Jan 2008 · 6 Oct 2008 · 29 Sep 2009','14 янв 2008 · 6 окт 2008 · 29 сен 2009'), T('1 Oct 2021 · 23 Jun 2022 · 19 Jun 2023 · 4 Sep 2024 · 1 Dec 2024 · 8 Jan 2025','1 окт 2021 · 23 июн 2022 · 19 июн 2023 · 4 сен 2024 · 1 дек 2024 · 8 янв 2025')],
+    [T('Braking','Торможение'), T('flybys + 0.862 km/s chemical burn','пролёты + химический импульс 0,862 км/с'), T('flybys + ion engines, then chemical thrusters','пролёты + ионные двигатели, затем химические')],
+    [T('Mercury orbit','Орбита Меркурия'), T('18 Mar 2011','18 мар 2011'), T('21 Nov 2026 (planned)','21 ноя 2026 (план)')]
+  ];
+  var h = '<thead><tr><th></th><th>MESSENGER</th><th>BepiColombo</th></tr></thead><tbody>';
+  rows.forEach(function(r){ h += '<tr><th scope="row">' + r[0] + '</th><td>' + r[1] + '</td><td>' + r[2] + '</td></tr>'; });
+  document.getElementById('flybyTable').innerHTML = h + '</tbody>';
+}
+
+/* ============ CH8 — TIMELINE ============ */
+var TIMELINE = [
+  ['1965', '<b>April:</b> Arecibo radar measures Mercury\'s spin at about 59 ± 5 days. <b>November:</b> Giuseppe Colombo shows it is two-thirds of the year — the 3:2 resonance.', '<b>Апрель:</b> радар Аресибо измеряет период вращения Меркурия — около 59 ± 5 суток. <b>Ноябрь:</b> Джузеппе Коломбо показывает, что это две трети года, — резонанс 3:2.'],
+  ['1974–75', 'Mariner 10: Venus gravity assist, then three Mercury flybys (29 March 1974, 21 September 1974, 16 March 1975).', '«Маринер-10»: гравитационный манёвр у Венеры, затем три пролёта Меркурия (29 марта 1974, 21 сентября 1974, 16 марта 1975).'],
+  ['2004', '<b>3 August:</b> MESSENGER launches.', '<b>3 августа:</b> старт MESSENGER.'],
+  ['2008–09', 'MESSENGER\'s three Mercury flybys.', 'Три пролёта Меркурия аппаратом MESSENGER.'],
+  ['2011', '<b>18 March:</b> MESSENGER becomes the first Mercury orbiter.', '<b>18 марта:</b> MESSENGER становится первым искусственным спутником Меркурия.'],
+  ['2013', '<b>January:</b> MESSENGER results on water ice in the north polar craters published.', '<b>Январь:</b> опубликованы данные MESSENGER о водяном льде в северных полярных кратерах.'],
+  ['2015', '<b>30 April:</b> out of propellant, MESSENGER strikes Mercury.', '<b>30 апреля:</b> исчерпав топливо, MESSENGER падает на Меркурий.'],
+  ['2018', '<b>20 October:</b> BepiColombo launches.', '<b>20 октября:</b> старт BepiColombo.'],
+  ['2021–25', 'BepiColombo\'s six Mercury flybys; in 2024 a power fault forces a new route.', 'Шесть пролётов Меркурия аппаратом BepiColombo; в 2024 году сбой питания вынуждает сменить маршрут.'],
+  ['2026', '<b>3 September:</b> transfer module separates. <b>21 November (planned):</b> orbit insertion.', '<b>3 сентября:</b> отделение перелётного модуля. <b>21 ноября (план):</b> выход на орбиту.'],
+  ['2027', '<b>April (planned):</b> BepiColombo science operations begin.', '<b>Апрель (план):</b> начало научной работы BepiColombo.']
+];
+
+/* ============ CH9 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA, Mercury Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html', note:{en:'GM 22,032 km³/s², mean radius 2,439.7 km; semi-major axis 57.909, perihelion 46.000, aphelion 69.818 million km; e = 0.2056; 47.36 km/s; orbit 87.969 d; spin 1,407.6 h; day 4,222.6 h; irradiance 6.674 × Earth; surface 590–725 K sunward; obliquity 0.034°.', ru:'GM 22 032 км³/с², средний радиус 2439,7 км; большая полуось 57,909, перигелий 46,000, афелий 69,818 млн км; e = 0,2056; 47,36 км/с; год 87,969 сут; вращение 1407,6 ч; сутки 4222,6 ч; освещённость в 6,674 раза больше земной; поверхность 590–725 К на дневной стороне; наклон оси 0,034°.'}},
+  {title:'NASA, Earth Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html', note:{en:'Semi-major axis 149.598 million km; mean orbital velocity 29.78 km/s; solar irradiance 1,361 W/m².', ru:'Большая полуось 149,598 млн км; средняя орбитальная скорость 29,78 км/с; солнечная постоянная 1361 Вт/м².'}},
+  {title:'ESA, “Why does it take so long to get to Mercury?”', url:'https://www.esa.int/Science_Exploration/Space_Science/BepiColombo/Why_does_it_take_so_long_to_get_to_Mercury', note:{en:'Falling toward the Sun speeds a spacecraft up; the excess must be shed by flybys because thrusters alone would need too much propellant; Colombo\'s 1970 idea for Mariner 10.', ru:'Падение к Солнцу разгоняет аппарат; избыток гасят пролётами, так как одним двигателям понадобилось бы слишком много топлива; идея Коломбо 1970 года для «Маринера-10».'}},
+  {title:'ESA, “Journey to Mercury”', url:'https://www.esa.int/Science_Exploration/Space_Science/BepiColombo/Journey_to_Mercury', note:{en:'Reaching Mercury orbit needs more energy than a mission to Pluto; final orbits: Mio 590 × 11,640 km, MPO 480 × 1,500 km.', ru:'Выход на орбиту Меркурия требует больше энергии, чем полёт к Плутону; конечные орбиты: Mio 590 × 11 640 км, MPO 480 × 1500 км.'}},
+  {title:'NASA, Sun Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html', note:{en:'GM = 132,712 × 10⁶ km³/s².', ru:'GM = 132 712 × 10⁶ км³/с².'}},
+  {title:'NASA, Planetary Fact Sheets (Venus, Mars, Jupiter)', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/', note:{en:'GM, mean radius and semi-major axis used for the comparison planets.', ru:'GM, средний радиус и большая полуось для планет сравнения.'}},
+  {title:'A. A. Siddiqi (2018), Beyond Earth: A Chronicle of Deep Space Exploration, 1958–2016, NASA SP-2018-4041', url:'https://www.nasa.gov/wp-content/uploads/2018/09/beyond-earth-tagged.pdf', note:{en:'Mariner 10 (entry 144): launch, Venus gravity assist, three Mercury flybys, −183/187 °C. MESSENGER (entry 206): 1,107.9 kg, launch 3 August 2004, all six flyby dates, orbit 18 March 2011 00:45 UT, discoveries, 25 km orbits, impact 30 April 2015 at about 14,080 km/h.', ru:'«Маринер-10» (статья 144): запуск, манёвр у Венеры, три пролёта Меркурия, −183/187 °C. MESSENGER (статья 206): 1107,9 кг, старт 3 августа 2004, даты всех шести пролётов, орбита 18 марта 2011 в 00:45 UT, открытия, орбиты высотой 25 км, падение 30 апреля 2015 со скоростью около 14 080 км/ч.'}},
+  {title:'NASA History (2019), “45 Years Ago: Mariner 10 First to Explore Mercury”', url:'https://www.nasa.gov/history/45-years-ago-mariner-10-first-to-explore-mercury/', note:{en:'Colombo\'s 176-day re-encounter orbit, twice Mercury\'s year; the 3:2 resonance meant the same hemisphere was lit each time, so only about 40–45% was imaged.', ru:'Орбита Коломбо с повторными встречами каждые 176 суток — дважды за год Меркурия; из-за резонанса 3:2 каждый раз освещалось одно и то же полушарие, и снято было лишь 40–45%.'}},
+  {title:'JHU/APL, MESSENGER: “Spacecraft and Instruments”', url:'https://messenger.jhuapl.edu/About/Spacecraft-and-Instruments.html', note:{en:'About 600 kg of propellant, 54% of launch mass; 2.5 × 2 m ceramic-fabric sunshade, front predicted to reach 370 °C, spacecraft behind near 20 °C; radiators and diode heat pipes.', ru:'Около 600 кг топлива — 54% стартовой массы; солнцезащитный экран 2,5 × 2 м из керамической ткани, лицевая сторона — до 370 °C по расчёту, аппарат за ним — около 20 °C; радиаторы и диодные тепловые трубы.'}},
+  {title:'NASA Science, MESSENGER mission page', url:'https://science.nasa.gov/mission/messenger/', note:{en:'Mission summary, flyby dates, orbit insertion, discoveries including polar deposits that are dominantly water ice, and the 30 April 2015 impact.', ru:'Сводка миссии, даты пролётов, выход на орбиту, открытия, включая полярные отложения преимущественно из водяного льда, и падение 30 апреля 2015.'}},
+  {title:'JHU/APL, MESSENGER: “Orbit Insertion & Station Keeping”', url:'https://messenger.jhuapl.edu/About/stationkeeping.html', note:{en:'15-minute burn on 17 March 2011 EDT (18 March UTC), just over 0.86 km/s, about 31% of the launch propellant; 12-hour orbit; minimum altitude kept near 200 km; later 8-hour orbit of 278 × 10,314 km.', ru:'15-минутное включение 17 марта 2011 по EDT (18 марта по UTC), чуть более 0,86 км/с, около 31% стартового топлива; 12-часовая орбита; минимальная высота около 200 км; позже 8-часовая орбита 278 × 10 314 км.'}},
+  {title:'JHU/APL, MESSENGER: “Mission Design”', url:'https://messenger.jhuapl.edu/About/Mission-Design.html', note:{en:'Deep-space manoeuvres DSM-1 to DSM-5: 315.6, 227.4, 72.2, 222.1 + 24.7 and 177.75 m/s (≈ 1.04 km/s in all).', ru:'Манёвры в дальнем космосе DSM-1 — DSM-5: 315,6, 227,4, 72,2, 222,1 + 24,7 и 177,75 м/с (всего ≈ 1,04 км/с).'}},
+  {title:'G. H. Pettengill & R. B. Dyce (1965), “A Radar Determination of the Rotation of the Planet Mercury”, Nature 206, 1240', url:'https://doi.org/10.1038/2061240a0', note:{en:'Arecibo radar observations, April 1965; rotation period about 59 ± 5 days.', ru:'Радарные наблюдения в Аресибо, апрель 1965; период вращения около 59 ± 5 суток.'}},
+  {title:'G. Colombo (1965), “Rotational Period of the Planet Mercury”, Nature 208, 575', url:'https://doi.org/10.1038/208575a0', note:{en:'Proposes a uniform rotation of 58.65 days, two-thirds of the orbital period.', ru:'Предлагает равномерное вращение с периодом 58,65 суток — две трети орбитального периода.'}},
+  {title:'D. J. Lawrence et al. (2013), “Evidence for Water Ice Near Mercury\'s North Pole from MESSENGER Neutron Spectrometer Measurements”, Science 339, 292–296', url:'https://doi.org/10.1126/science.1229953', note:{en:'Hydrogen-rich deposits in permanently shadowed polar craters, consistent with water ice.', ru:'Богатые водородом отложения в вечно затенённых полярных кратерах, согласующиеся с водяным льдом.'}},
+  {title:'ESA, BepiColombo factsheet', url:'https://www.esa.int/Science_Exploration/Space_Science/BepiColombo/BepiColombo_factsheet', note:{en:'Launch 20 October 2018 on Ariane 5; 4,100 kg; MPO 1,230 kg, Mio 255 kg; ESA and JAXA roles; all nine flyby dates; milestones to April 2027.', ru:'Старт 20 октября 2018 на «Ариане-5»; 4100 кг; MPO 1230 кг, Mio 255 кг; роли ЕКА и JAXA; даты всех девяти пролётов; этапы до апреля 2027.'}},
+  {title:'ESA (2024), “Fourth Mercury flyby begins BepiColombo\'s new trajectory”', url:'https://www.esa.int/Science_Exploration/Space_Science/BepiColombo/Fourth_Mercury_flyby_begins_BepiColombo_s_new_trajectory', note:{en:'April 2024 power fault in the transfer module; new route with arrival in November 2026; fourth flyby 4 September 2024 at about 165 km.', ru:'Сбой питания перелётного модуля в апреле 2024; новый маршрут с прибытием в ноябре 2026; четвёртый пролёт 4 сентября 2024 на высоте около 165 км.'}},
+  {title:'ESA, “Latest updates: BepiColombo\'s arrival at Mercury” (checked 9 October 2026)', url:'https://www.esa.int/Science_Exploration/Space_Science/BepiColombo/Latest_updates_BepiColombo_s_arrival_at_Mercury', note:{en:'Transfer module separation 3 September 2026; 11.4 m/s correction on 24 September; orbit insertion 21 November 2026; MPO–Mio separation 9–10 December; science from April 2027.', ru:'Отделение перелётного модуля 3 сентября 2026; коррекция 11,4 м/с 24 сентября; выход на орбиту 21 ноября 2026; разделение MPO и Mio 9–10 декабря; научная работа с апреля 2027.'}},
+  {title:'JAXA ISAS (2021), “The BepiColombo spacecraft completes the Venus swing-bys and finally approaches Mercury”', url:'https://www.isas.jaxa.jp/en/topics/002748.html', note:{en:'Second Venus swing-by: closest approach 10 August 2021, 22:51:53 JST (13:51 UTC), at 552 km altitude.', ru:'Второй пролёт Венеры: наибольшее сближение 10 августа 2021 года в 22:51:53 по японскому времени (13:51 UTC) на высоте 552 км.'}}
+];
+
+/* ============ ACCESSIBLE NAMES (EN/RU) ============ */
+var ARIA = [
+  ['dvSvg', 'Bar chart: speed change to start a Hohmann transfer plus minimum capture speed change, for Venus, Mars, Mercury and Jupiter', 'Диаграмма: изменение скорости для начала гомановского перелёта и минимальный импульс захвата для Венеры, Марса, Меркурия и Юпитера'],
+  ['dvPick', 'Destination', 'Цель'],
+  ['capSvg', 'Braking speed change needed to enter MESSENGER\'s orbit, against arrival speed', 'Тормозной импульс для выхода на орбиту MESSENGER в зависимости от скорости прибытия'],
+  ['capPre', 'Arrival presets', 'Готовые варианты прибытия'],
+  ['heatSvg', 'Plate temperature against distance from the Sun, with Mercury\'s orbit marked', 'Температура пластины в зависимости от расстояния до Солнца, с отмеченной орбитой Меркурия'],
+  ['daySvg', 'Mercury orbiting the Sun while spinning three times per two orbits; a red marker shows one place on the surface', 'Меркурий обращается вокруг Солнца, делая три оборота за два витка; красная метка — одна точка на поверхности']
+];
+function renderAria(){ ARIA.forEach(function(a){ var el = document.getElementById(a[0]); if(el) el.setAttribute('aria-label', T(a[1], a[2])); }); }
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderAria();
+  renderDv();
+  renderCap();
+  renderHeat();
+  drawDay(); setPlay(dayOn);
+  renderFlybys();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+var DSM_MS = [315.6, 227.4, 72.2, 222.1, 24.7, 177.75];   // APL Mission Design [12]
+window.__scorch = {DSM_MS:DSM_MS, hohmann:hohmann, DV_ESCAPE:DV_ESCAPE, PLANETS:PLANETS, capture:capture, captureCirc:captureCirc, vinfFromBurn:vinfFromBurn, MESS_RA:MESS_RA, R_ME:R_ME, MU_ME:MU_ME, orbitPeriodH:orbitPeriodH,
+  plateT:plateT, SOLAR_DAY:SOLAR_DAY, T_SPIN:T_SPIN, T_ORBIT:T_ORBIT, mercuryAt:mercuryAt, retroDays:retroDays, Q_ME:Q_ME, Q2_ME:Q2_ME, A_ME:A_ME, AU:AU};
+
+})();
+</script>
+</body>
+</html>

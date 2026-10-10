@@ -47,7 +47,9 @@
         { "slug": "umbrella-galileo-jupiter", "codename": "UMBRELLA", "label": { "en": "Galileo at Jupiter", "ru": "«Галилео» у Юпитера" } },
         { "slug": "finale-cassini-huygens", "codename": "FINALE", "label": { "en": "Cassini-Huygens at Saturn", "ru": "«Кассини-Гюйгенс» у Сатурна" } },
         { "slug": "furnace-venera-vega", "codename": "FURNACE", "label": { "en": "Venera & Vega", "ru": "«Венера» и «Вега»" } },
-        { "slug": "polar-juno-jupiter", "codename": "POLAR", "label": { "en": "Juno at Jupiter", "ru": "«Юнона» у Юпитера" } }
+        { "slug": "polar-juno-jupiter", "codename": "POLAR", "label": { "en": "Juno at Jupiter", "ru": "«Юнона» у Юпитера" } },
+        { "slug": "scorch-mercury-messenger-bepicolombo", "codename": "SCORCH", "label": { "en": "Mercury: MESSENGER & BepiColombo", "ru": "Меркурий: MESSENGER и BepiColombo" } },
+        { "slug": "veil-magellan-venus", "codename": "VEIL", "label": { "en": "Magellan's Radar Map of Venus", "ru": "Радиолокационная карта Венеры «Магеллана»" } }
       ]
     },
     {
@@ -57,7 +59,8 @@
         { "slug": "corona-parker-solar-orbiter", "codename": "CORONA", "label": { "en": "Parker Solar Probe & Solar Orbiter", "ru": "Parker Solar Probe и Solar Orbiter" } },
         { "slug": "comet-rosetta-philae", "codename": "COMET", "label": { "en": "Rosetta & Philae", "ru": "«Розетта» и «Филы»" } },
         { "slug": "sample-hayabusa-osiris-rex", "codename": "SAMPLE", "label": { "en": "Hayabusa & OSIRIS-REx", "ru": "«Хаябуса» и OSIRIS-REx" } },
-        { "slug": "impact-dart-planetary-defence", "codename": "IMPACT", "label": { "en": "DART & Planetary Defence", "ru": "DART и планетарная защита" } }
+        { "slug": "impact-dart-planetary-defence", "codename": "IMPACT", "label": { "en": "DART & Planetary Defence", "ru": "DART и планетарная защита" } },
+        { "slug": "belt-dawn-vesta-ceres", "codename": "BELT", "label": { "en": "Dawn at Vesta & Ceres", "ru": "Dawn у Весты и Цереры" } }
       ]
     },
     {
@@ -122,7 +125,8 @@
         { "slug": "flyby-europa-clipper", "codename": "FLYBY", "label": { "en": "Europa Clipper", "ru": "«Европа Клипер»" } },
         { "slug": "rotor-dragonfly-titan", "codename": "ROTOR", "label": { "en": "Dragonfly Mission", "ru": "Миссия Dragonfly" } },
         { "slug": "beyond-interstellar-probe", "codename": "BEYOND", "label": { "en": "Interstellar Probe Concept", "ru": "Концепция межзвёздного зонда" } },
-        { "slug": "sail-solar-sails", "codename": "SAIL", "label": { "en": "Solar Sails", "ru": "Солнечные паруса" } }
+        { "slug": "sail-solar-sails", "codename": "SAIL", "label": { "en": "Solar Sails", "ru": "Солнечные паруса" } },
+        { "slug": "tilt-uranus-neptune", "codename": "TILT", "label": { "en": "Uranus & Neptune: the Ice Giants", "ru": "Уран и Нептун: ледяные гиганты" } }
       ]
     },
     {
@@ -145,7 +149,8 @@
         { "slug": "lagrange-points", "codename": "EQUILIBRIUM", "label": { "en": "Lagrange Points", "ru": "Точки Лагранжа" } },
         { "slug": "physics-of-spaceflight", "codename": "IMPULSE", "label": { "en": "The Physics of Spaceflight", "ru": "Физика космического полёта" } },
         { "slug": "cascade-physical-computing", "codename": "CASCADE", "label": { "en": "Physical Computing", "ru": "Физика вычислений" } },
-        { "slug": "mathematics-of-music", "codename": "RESONANCE", "label": { "en": "The Mathematics of Music", "ru": "Математика музыки" } }
+        { "slug": "mathematics-of-music", "codename": "RESONANCE", "label": { "en": "The Mathematics of Music", "ru": "Математика музыки" } },
+        { "slug": "slingshot-gravity-assists", "codename": "SLINGSHOT", "label": { "en": "Gravity Assists & the Grand Tour", "ru": "Гравитационные манёвры и «Большой тур»" } }
       ],
       "planned": [
         { "label": { "en": "Texas Instruments", "ru": "Texas Instruments" } },

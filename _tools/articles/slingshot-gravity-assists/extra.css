@@ -1,0 +1,5 @@
+/* touch targets: 44 px buttons and slider hit areas */
+.btn{min-height:44px; padding:10px 12px;}
+input[type=range]{height:28px; background:linear-gradient(var(--ink), var(--ink)) center / 100% 2px no-repeat;}
+/* SVG small text: ≥ 4.5:1 on white and a little larger, since it scales down with the figure on phones */
+.svg-small{fill:#5f5f59; font-size:10.5px;}

@@ -51,3 +51,7 @@ never edit the sitemap by hand. Also update the homepage aero-shader card count/
 - Screenshots must go through the local server (file:// silently breaks CSS custom properties). Don't kill or
   drive the desktop's own Firefox; `shot.sh` uses a throwaway profile and `--screenshot` only.
 - `#hero` is `min-height:100svh`; `shot.sh` overrides that in a temporary copy so tall captures work.
+- The lede's "N chapters" counts **every** numbered chapter, LEGACY and REFERENCES included (all generated guides
+  do this). Older hand-made pages used a different count; don't copy theirs.
+- Each guide's folder keeps `NOTES.md` (purpose, assumptions, sources per number, unverified items) and, from
+  Wave 5 on, `REVIEW.md` (the independent review panel's verdicts) plus a "Response to review" section in NOTES.
