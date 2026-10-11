@@ -19,7 +19,15 @@ setTimeout(() => {
   const body = fs.readFileSync(file, 'utf8');
   const cites = [...body.matchAll(/\[(\d+)\]/g)].map(m => +m[1]).filter(n => n < 100);
   const refs = w.document.querySelectorAll('#refList .ref-item').length;
-  console.log(JSON.stringify({errors, missingRu: miss, maxCite: Math.max(...cites), refs, timeline: w.document.querySelectorAll('#timeline .tl').length}));
+  // classes used in the rendered page that no stylesheet (assets/site.css + the page's <style>) mentions
+  const css = fs.readFileSync(require('path').join(__dirname, '..', 'assets', 'site.css'), 'utf8') + [...w.document.querySelectorAll('style')].map(x => x.textContent).join('\n');
+  const used = new Set(); w.document.querySelectorAll('[class]').forEach(e => { const c = e.getAttribute('class'); if(typeof c === 'string') c.split(/\s+/).forEach(k => k && used.add(k)); });
+  const watch = ['readout', 'readout-cell', 'rl', 'ctl', 'ctl-row', 'btn', 'btn-row', 'sim-wrap', 'sim-svg', 'eq-box', 'status', 'note'];
+  const unstyled = [...used].filter(k => watch.includes(k) && !new RegExp('\\.' + k.replace(/-/g, '\\-') + '(?![\\w-])').test(css));
+  // a stray " inside a bilingual attribute ends it early; the leftover words become empty attributes on the element
+  const BOOL = new Set(['hidden','disabled','checked','open','defer','async','selected','readonly','multiple','novalidate','autofocus','required']);
+  const brokenAttrs = [...w.document.querySelectorAll('[data-en]')].filter(e => [...e.attributes].some(a => a.value === '' && !BOOL.has(a.name) && !/^(data-|aria-)/.test(a.name))).length;
+  console.log(JSON.stringify({errors, brokenAttrs, missingRu: miss, maxCite: Math.max(...cites), refs, timeline: w.document.querySelectorAll('#timeline .tl').length, unstyled}));
   if(process.argv[4]) require(require('path').resolve(process.argv[4]))(w, w[hook]);
   setTimeout(() => process.exit(0), 300);
 }, 600);

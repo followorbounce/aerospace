@@ -55,3 +55,9 @@ never edit the sitemap by hand. Also update the homepage aero-shader card count/
   do this). Older hand-made pages used a different count; don't copy theirs.
 - Each guide's folder keeps `NOTES.md` (purpose, assumptions, sources per number, unverified items) and, from
   Wave 5 on, `REVIEW.md` (the independent review panel's verdicts) plus a "Response to review" section in NOTES.
+
+## Hand-made pages with tests (Track B, 2026-10)
+
+Older guides are upgraded **in place** (their HTML stays the source of truth). When one gains computed interactives,
+its script exposes `window.__<name>` and `_tools/handmade/<slug>/` holds `checks.js`, `NOTES.md` and `REVIEW.md`.
+`check-all.sh` runs the jsdom smoke test + checks on those pages too (no rebuild/drift step).
