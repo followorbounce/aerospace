@@ -27,7 +27,7 @@
   --white:#ffffff;
   --line:#c9c9c1;
   --line-strong:#0b0b0c;
-  --mid:#7a7a74;
+  --mid:#63635d;
   --hatch: repeating-linear-gradient(135deg, var(--ink) 0, var(--ink) 1px, transparent 1px, transparent 7px);
 
   --font-display:'IBM Plex Sans Condensed', sans-serif;
@@ -61,7 +61,7 @@
 .sim-viewport{width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto;}
 .sim-controls{margin-top:20px;}
 .sim-controls input[type=range]{
-  width:100%; appearance:none; height:2px; background:var(--ink); outline:none; margin:18px 0 8px;
+  width:100%; appearance:none; -webkit-appearance:none; height:28px; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat; outline:none; margin:8px 0 4px;
 }
 .sim-controls input[type=range]::-webkit-slider-thumb{
   appearance:none; width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer;
@@ -103,7 +103,7 @@
 .orbit-stat .v{font-family:var(--font-display); font-size:1.7rem;}
 .orbit-stat .l{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em;}
 select{
-  font-family:var(--font-mono); font-size:13px; padding:10px; border:1px solid var(--ink); background:var(--white); width:100%;
+  font-family:var(--font-mono); font-size:16px; min-height:44px; padding:10px; border:1px solid var(--ink); background:var(--white); width:100%;
 }
 .flyover-result{margin-top:14px; font-family:var(--font-mono); font-size:13px; padding:12px; border:1px dashed var(--ink);}
 .exp-card.open .exp-body{max-height:600px;}
@@ -126,6 +126,48 @@ select{
 .legacy-item svg{height:70px; margin:0 auto 12px;}
 .legacy-item .ly-name{font-family:var(--font-display); font-size:0.95rem;}
 .legacy-item .ly-note{font-size:12px; color:var(--mid); margin-top:6px;}
+/* ---- Track B (2026-10): instrument styles copied from PARABOLA, plus touch-target / focus / motion fixes ---- */
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:28px; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat; outline:none; margin:8px 0 4px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:4px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer; min-height:44px;}
+.btn:hover{border-color:var(--ink);}
+.btn.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.sub-h{margin-top:64px;}
+.svg-label{font-family:var(--font-mono); font-size:11px; fill:var(--ink);}
+.svg-small{font-family:var(--font-mono); font-size:10px; fill:#4a4a46;}
+.tab-btn,.stage-btn{min-height:44px;}
+.tab-btn:focus-visible,.stage-btn:focus-visible,.module-chip:focus-visible,.mt-hit:focus-visible,.exp-head:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.module-chip{display:inline-flex; align-items:center; min-height:44px; cursor:pointer; color:var(--ink);}
+.hotspot:focus{outline:none;}
+.hotspot:focus-visible rect{stroke-width:3;}
+.mt-hit{background:none; border:none; padding:0; margin-top:-17px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer;}
+.mt-year{pointer-events:none;}
+.exp-head{cursor:pointer;}
+@media (prefers-reduced-motion: reduce){.float-obj{animation:none !important;}}
+.sim-ticks{position:relative; height:16px; font-family:var(--font-mono); font-size:13px;}
+.sim-ticks span{position:absolute; top:0; transform:translateX(-50%);}
+.sim-ticks span:first-child{transform:none;}
+.sim-ticks span:last-child{transform:translateX(-100%);}
+.exp-head h4{margin:0;}
+.exp-btn{background:none; border:none; padding:0; font:inherit; color:inherit; text-align:left; min-height:44px; cursor:pointer;}
+.exp-btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+#langtoggle button{min-height:44px;}
 </style>
 <script src="/aerospace/assets/site.js" defer></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
@@ -174,24 +216,24 @@ select{
 <!-- ============================================================ CHAPTER 1 — EARTH & ORBIT ============================================================ -->
 <section id="ch1" class="section" data-phase="SUBORBITAL TEST" data-alt="—" data-vel="VARIABLE">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="EARTH AND ORBIT" data-ru="ЗЕМЛЯ И ОРБИТА">EARTH AND ORBIT</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.01 / 11</span> — <span data-en="EARTH AND ORBIT" data-ru="ЗЕМЛЯ И ОРБИТА">EARTH AND ORBIT</span></div>
     <h2 class="h-lg" data-en="Falling and missing the ground" data-ru="Падать — и промахиваться мимо земли">Falling and missing the ground</h2>
     <div class="grid-2">
       <div class="body-col">
         <p style="margin-bottom:16px;" data-en="Every satellite, station, and spacecraft in orbit is falling. Gravity never releases its grip. What keeps them from hitting the ground is not an absence of gravity — it is sideways speed." data-ru="Любой спутник, станция или космический аппарат на орбите — падает. Гравитация никогда не отпускает его. То, что удерживает их от падения на Землю, — не отсутствие гравитации, а горизонтальная скорость.">Every satellite, station, and spacecraft in orbit is falling. Gravity never releases its grip. What keeps them from hitting the ground is not an absence of gravity — it is sideways speed.</p>
         <p style="margin-bottom:16px;" data-en="Isaac Newton described it with a thought experiment: fire a cannonball fast enough, horizontally, from a tall enough mountain, and the curve of its fall will match the curve of the Earth falling away beneath it. It never lands. It orbits." data-ru="Исаак Ньютон описал это мысленным экспериментом: выстрелите пушечным ядром достаточно быстро, горизонтально, с достаточно высокой горы — и кривизна его падения совпадёт с кривизной уходящей из-под него Земли. Оно никогда не приземлится. Оно выйдет на орбиту.">Isaac Newton described it with a thought experiment: fire a cannonball fast enough, horizontally, from a tall enough mountain, and the curve of its fall will match the curve of the Earth falling away beneath it. It never lands. It orbits.</p>
-        <p data-en="Adjust the launch speed below and watch the same cannonball find three different fates." data-ru="Измените начальную скорость на панели справа и посмотрите, как одно и то же ядро находит три разные судьбы.">Adjust the launch speed below and watch the same cannonball find three different fates.</p>
+        <p data-en="Adjust the launch speed and watch the same cannonball find three different fates. The curves are true orbits around a point-mass Earth, fired from the top of an imaginary mountain 100 km high; as in Newton's drawing, air is ignored. Up there a circular orbit takes 7.84 km/s and escape 11.09 km/s, a little less than the surface values in the next chapter." data-ru="Измените начальную скорость и посмотрите, как одно и то же ядро находит три разные судьбы. Кривые — настоящие орбиты вокруг Земли как точечной массы; ядро выпущено с вершины воображаемой горы высотой 100 км; как и у Ньютона, воздух не учитывается. Там для круговой орбиты нужно 7,84 км/с, а для ухода — 11,09 км/с, чуть меньше значений у поверхности из следующей главы.">Adjust the launch speed and watch the same cannonball find three different fates. The curves are true orbits around a point-mass Earth, fired from the top of an imaginary mountain 100 km high; as in Newton's drawing, air is ignored. Up there a circular orbit takes 7.84 km/s and escape 11.09 km/s, a little less than the surface values in the next chapter.</p>
       </div>
       <div class="sim-panel corner-frame">
         <div class="sim-viewport">
-          <svg id="newtonSvg" viewBox="0 0 400 400" width="100%" height="100%"></svg>
+          <svg id="newtonSvg" viewBox="0 0 400 400" width="100%" height="100%" role="img" aria-label="Path of a cannonball fired horizontally from a 100 km mountain, drawn to scale around the Earth" data-aria-en="Path of a cannonball fired horizontally from a 100 km mountain, drawn to scale around the Earth" data-aria-ru="Траектория ядра, выпущенного горизонтально с горы высотой 100 км, в масштабе вокруг Земли"></svg>
         </div>
         <div class="sim-controls">
-          <div class="sim-readout"><span class="mono" data-en="LAUNCH VELOCITY" data-ru="СКОРОСТЬ ЗАПУСКА">LAUNCH VELOCITY</span><span class="mono" id="newtonVal">7.90 KM/S</span></div>
-          <input id="newtonSlider" type="range" min="4" max="13" step="0.05" value="7.9">
-          <div class="sim-readout mono"><span>4</span><span>7.9</span><span>11.2</span><span>13</span></div>
+          <div class="sim-readout"><label for="newtonSlider" class="mono" data-en="LAUNCH VELOCITY" data-ru="СКОРОСТЬ ЗАПУСКА">LAUNCH VELOCITY</label><span class="mono" id="newtonVal">7.85 KM/S</span></div>
+          <input id="newtonSlider" type="range" min="4" max="13" step="0.05" value="7.85">
+          <div class="sim-ticks mono" aria-hidden="true"><span style="left:0%">4</span><span style="left:42.7%">7.84</span><span style="left:78.8%">11.09</span><span style="left:100%">13</span></div>
         </div>
-        <div class="sim-verdict" id="newtonVerdict"></div>
+        <div class="sim-verdict" id="newtonVerdict" aria-live="polite"></div>
       </div>
     </div>
   </div>
@@ -200,15 +242,15 @@ select{
 <!-- ============================================================ CHAPTER 2 — THREE COSMIC VELOCITIES ============================================================ -->
 <section id="ch2" class="section" data-phase="VELOCITY THRESHOLDS" data-alt="—" data-vel="7.9 / 11.2 / 16.6">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE THREE COSMIC VELOCITIES" data-ru="ТРИ КОСМИЧЕСКИЕ СКОРОСТИ">THE THREE COSMIC VELOCITIES</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.02 / 11</span> — <span data-en="THE THREE COSMIC VELOCITIES" data-ru="ТРИ КОСМИЧЕСКИЕ СКОРОСТИ">THE THREE COSMIC VELOCITIES</span></div>
     <h2 class="h-lg" data-en="Three thresholds, three destinies" data-ru="Три порога — три судьбы">Three thresholds, three destinies</h2>
-    <p class="lede" style="margin-bottom:40px;" data-en="Soviet and Russian spaceflight literature names three critical speeds. Each one is the minimum required to escape one gravitational well and fall into the next." data-ru="В советской и российской космонавтике выделяют три критические скорости. Каждая — это минимум, необходимый, чтобы вырваться из одного гравитационного колодца и упасть в следующий.">Soviet and Russian spaceflight literature names three critical speeds. Each one is the minimum required to escape one gravitational well and fall into the next.</p>
+    <p class="lede" style="margin-bottom:40px;" data-en="Soviet and Russian spaceflight literature names three critical speeds. Each is a threshold: to orbit Earth, to escape it, and to escape the Sun." data-ru="В советской и российской космонавтике выделяют три критические скорости. Каждая — порог: выйти на орбиту Земли, покинуть Землю и покинуть Солнечную систему.">Soviet and Russian spaceflight literature names three critical speeds. Each is a threshold: to orbit Earth, to escape it, and to escape the Sun.</p>
     <div class="grid-3">
       <div class="velocity-card">
         <span class="vnum" data-en="FIRST COSMIC VELOCITY" data-ru="ПЕРВАЯ КОСМИЧЕСКАЯ СКОРОСТЬ">FIRST COSMIC VELOCITY</span>
         <span class="vval">7.9 KM/S</span>
         <svg viewBox="0 0 200 160"><circle cx="100" cy="80" r="14" fill="#0b0b0c"/><circle cx="100" cy="80" r="55" fill="none" stroke="#0b0b0c" stroke-width="1.4"/><circle cx="155" cy="80" r="3" fill="#0b0b0c"/></svg>
-        <p data-en="The minimum horizontal speed for a stable circular orbit just above the atmosphere. Below it, an object falls back to Earth." data-ru="Минимальная горизонтальная скорость для устойчивой круговой орбиты чуть выше атмосферы. Ниже этого порога объект падает обратно на Землю.">The minimum horizontal speed for a stable circular orbit just above the atmosphere. Below it, an object falls back to Earth.</p>
+        <p data-en="The speed of a circular orbit skimming the surface, if there were no air. Below it, an object falls back to Earth. Higher up it is less: 7.66 km/s at the ISS's 415 km." data-ru="Скорость круговой орбиты у самой поверхности, если бы не было воздуха. Ниже этого порога объект падает обратно на Землю. Чем выше, тем она меньше: на высоте МКС, 415 км, — 7,66 км/с.">The speed of a circular orbit skimming the surface, if there were no air. Below it, an object falls back to Earth. Higher up it is less: 7.66 km/s at the ISS's 415 km.</p>
       </div>
       <div class="velocity-card">
         <span class="vnum" data-en="SECOND COSMIC VELOCITY" data-ru="ВТОРАЯ КОСМИЧЕСКАЯ СКОРОСТЬ">SECOND COSMIC VELOCITY</span>
@@ -220,26 +262,26 @@ select{
         <span class="vnum" data-en="THIRD COSMIC VELOCITY" data-ru="ТРЕТЬЯ КОСМИЧЕСКАЯ СКОРОСТЬ">THIRD COSMIC VELOCITY</span>
         <span class="vval">16.6 KM/S</span>
         <svg viewBox="0 0 200 160"><circle cx="100" cy="80" r="6" fill="#0b0b0c"/><circle cx="40" cy="80" r="10" fill="#0b0b0c"/><path d="M40 80 C 20 30, 140 10, 190 40" fill="none" stroke="#0b0b0c" stroke-width="1.4"/><circle cx="188" cy="38" r="3" fill="#0b0b0c"/></svg>
-        <p data-en="Measured relative to Earth, for a launch near the surface aimed along Earth's orbital motion, this is what's needed to leave the Solar System entirely. Relative to the Sun that is about 42.1 km/s; Earth's own 29.8 km/s orbital speed supplies the rest. Voyager and Pioneer reached solar escape only with a gravity assist from Jupiter." data-ru="Отсчитывается относительно Земли — при старте у поверхности по направлению орбитального движения Земли; это скорость, необходимая, чтобы полностью покинуть Солнечную систему. Относительно Солнца это около 42,1 км/с — остальные 29,8 км/с даёт орбитальное движение самой Земли. «Вояджеры» и «Пионеры» набрали скорость ухода из Солнечной системы лишь благодаря гравитационному манёвру у Юпитера.">Measured relative to Earth, for a launch near the surface aimed along Earth's orbital motion, this is what's needed to leave the Solar System entirely. Relative to the Sun that is about 42.1 km/s; Earth's own 29.8 km/s orbital speed supplies the rest. Voyager and Pioneer reached solar escape only with a gravity assist from Jupiter.</p>
+        <p data-en="Measured relative to Earth, for a launch near the surface aimed along Earth's orbital motion, this is what's needed to leave the Solar System entirely. At Earth's distance, escaping the Sun takes 42.1 km/s; Earth's own 29.8 km/s orbital speed supplies most of it, so a craft must leave Earth's gravity with 12.3 km/s to spare — and that takes √(12.3² + 11.2²) ≈ 16.6 km/s at launch. Pioneer and Voyager reached solar escape only with a gravity assist from Jupiter (see <a href='/aerospace/slingshot-gravity-assists'>SLINGSHOT</a>)." data-ru="Отсчитывается относительно Земли — при старте у поверхности по направлению орбитального движения Земли; это скорость, необходимая, чтобы полностью покинуть Солнечную систему. На расстоянии Земли для ухода от Солнца нужно 42,1 км/с; бо́льшую часть даёт орбитальная скорость самой Земли, 29,8 км/с, поэтому аппарат должен уйти из поля тяготения Земли с запасом 12,3 км/с — а для этого при старте нужно √(12,3² + 11,2²) ≈ 16,6 км/с. «Пионеры» и «Вояджеры» набрали скорость ухода из Солнечной системы лишь благодаря гравитационному манёвру у Юпитера (см. <a href='/aerospace/slingshot-gravity-assists'>ПРАЩА</a>).">Measured relative to Earth, for a launch near the surface aimed along Earth's orbital motion, this is what's needed to leave the Solar System entirely. At Earth's distance, escaping the Sun takes 42.1 km/s; Earth's own 29.8 km/s orbital speed supplies most of it, so a craft must leave Earth's gravity with 12.3 km/s to spare — and that takes √(12.3² + 11.2²) ≈ 16.6 km/s at launch. Pioneer and Voyager reached solar escape only with a gravity assist from Jupiter (see <a href='/aerospace/slingshot-gravity-assists'>SLINGSHOT</a>).</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ CHAPTER 3 — ISS SCHEMATIC ============================================================ -->
-<section id="ch3" class="section" data-phase="ISS ORBIT" data-alt="~400 KM" data-vel="7.66 KM/S">
+<section id="ch3" class="section" data-phase="ISS ORBIT" data-alt="~415 KM" data-vel="7.66 KM/S">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="INTERNATIONAL SPACE STATION" data-ru="МЕЖДУНАРОДНАЯ КОСМИЧЕСКАЯ СТАНЦИЯ">INTERNATIONAL SPACE STATION</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.03 / 11</span> — <span data-en="INTERNATIONAL SPACE STATION" data-ru="МЕЖДУНАРОДНАЯ КОСМИЧЕСКАЯ СТАНЦИЯ">INTERNATIONAL SPACE STATION</span></div>
     <h2 class="h-lg" data-en="Humanity's largest orbital laboratory" data-ru="Крупнейшая орбитальная лаборатория человечества">Humanity's largest orbital laboratory</h2>
     <div class="grid-2" style="margin-bottom:48px;">
-      <p class="body-col" data-en="Assembly began in 1998 when the Russian module Zarya and the American node Unity docked in orbit. Fifteen more major elements followed over more than a decade, built by five space agencies representing 15 nations — the largest cooperative engineering project ever flown." data-ru="Сборка началась в 1998 году, когда российский модуль «Заря» состыковался с американским узловым модулем Unity. За следующие десять с лишним лет к станции добавили ещё пятнадцать крупных элементов — их строили пять космических агентств, представляющих 15 стран. Это крупнейший совместный инженерный проект, когда-либо летавший в космос.">Assembly began in 1998 when the Russian module Zarya and the American node Unity docked in orbit. Fifteen more major elements followed over more than a decade, built by five space agencies representing 15 nations — the largest cooperative engineering project ever flown.</p>
+      <p class="body-col" data-en="Assembly began in 1998, when the Russian module Zarya and the American node Unity were joined in orbit. More modules, trusses and solar arrays followed for more than a decade, built and run by a partnership of five space agencies from 15 countries [1]. It has been crewed without a break since November 2000 [1], and it circles about 415 km up, in an orbit tilted 51.6° to the equator [2]." data-ru="Сборка началась в 1998 году, когда на орбите соединили российский модуль «Заря» и американский узловой модуль Unity. Больше десяти лет к ним добавлялись новые модули, фермы и солнечные батареи; станцию построили и эксплуатируют пять космических агентств из 15 стран [1]. Экипаж живёт на ней без перерыва с ноября 2000 года [1], а летает она примерно в 415 км над Землёй по орбите с наклонением 51,6° к экватору [2].">Assembly began in 1998, when the Russian module Zarya and the American node Unity were joined in orbit. More modules, trusses and solar arrays followed for more than a decade, built and run by a partnership of five space agencies from 15 countries [1]. It has been crewed without a break since November 2000 [1], and it circles about 415 km up, in an orbit tilted 51.6° to the equator [2].</p>
       <div class="orbit-stats" style="margin-top:0;">
-        <div class="orbit-stat"><div class="v">419 t</div><div class="l" data-en="MASS" data-ru="МАССА">MASS</div></div>
-        <div class="orbit-stat"><div class="v">109 m</div><div class="l" data-en="TRUSS SPAN" data-ru="РАЗМАХ ФЕРМЫ">TRUSS SPAN</div></div>
-        <div class="orbit-stat"><div class="v">51.6°</div><div class="l" data-en="INCLINATION" data-ru="НАКЛОНЕНИЕ">INCLINATION</div></div>
-        <div class="orbit-stat"><div class="v">7–8</div><div class="l" data-en="CREW" data-ru="ЭКИПАЖ">CREW</div></div>
-        <div class="orbit-stat"><div class="v">~215 kW</div><div class="l" data-en="SOLAR POWER" data-ru="СОЛНЕЧНАЯ ЭНЕРГИЯ">SOLAR POWER</div></div>
-        <div class="orbit-stat"><div class="v">16</div><div class="l" data-en="PRESSURISED MODULES" data-ru="ГЕРМООТСЕКОВ">PRESSURISED MODULES</div></div>
+        <div class="orbit-stat"><div class="v" data-en="420 t" data-ru="420 т">420 t</div><div class="l" data-en="MASS [1]" data-ru="МАССА [1]">MASS [1]</div></div>
+        <div class="orbit-stat"><div class="v" data-en="109 m" data-ru="109 м">109 m</div><div class="l" data-en="END TO END [1]" data-ru="ДЛИНА [1]">END TO END [1]</div></div>
+        <div class="orbit-stat"><div class="v" data-en="51.6°" data-ru="51,6°">51.6°</div><div class="l" data-en="INCLINATION [2]" data-ru="НАКЛОНЕНИЕ [2]">INCLINATION [2]</div></div>
+        <div class="orbit-stat"><div class="v">7</div><div class="l" data-en="USUAL CREW [1]" data-ru="ОБЫЧНЫЙ ЭКИПАЖ [1]">USUAL CREW [1]</div></div>
+        <div class="orbit-stat"><div class="v" data-en="75–90 kW" data-ru="75–90 кВт">75–90 kW</div><div class="l" data-en="SOLAR POWER [1]" data-ru="МОЩНОСТЬ СОЛНЕЧНЫХ БАТАРЕЙ [1]">SOLAR POWER [1]</div></div>
+        <div class="orbit-stat"><div class="v" data-en="1,005 m³" data-ru="1 005 м³">1,005 m³</div><div class="l" data-en="PRESSURISED VOLUME [1]" data-ru="ГЕРМООБЪЁМ [1]">PRESSURISED VOLUME [1]</div></div>
       </div>
     </div>
     <p class="fig-num" style="margin-bottom:14px;" data-en="FIG. 3.1 — SCHEMATIC MODULE MAP (NOT TO SCALE). SELECT A MODULE." data-ru="РИС. 3.1 — СХЕМА МОДУЛЕЙ (НЕ В МАСШТАБЕ). ВЫБЕРИТЕ МОДУЛЬ.">FIG. 3.1 — SCHEMATIC MODULE MAP (NOT TO SCALE). SELECT A MODULE.</p>
@@ -251,46 +293,63 @@ select{
 </section>
 
 <!-- ============================================================ CHAPTER 4 — LIFE ABOARD ============================================================ -->
-<section id="ch4" class="section" data-phase="ISS ORBIT" data-alt="~400 KM" data-vel="7.66 KM/S">
+<section id="ch4" class="section" data-phase="ISS ORBIT" data-alt="~415 KM" data-vel="7.66 KM/S">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="LIFE ABOARD ISS" data-ru="ЖИЗНЬ НА БОРТУ МКС">LIFE ABOARD ISS</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.04 / 11</span> — <span data-en="LIFE ABOARD ISS" data-ru="ЖИЗНЬ НА БОРТУ МКС">LIFE ABOARD ISS</span></div>
     <h2 class="h-lg" data-en="A day with no up or down" data-ru="День без верха и низа">A day with no up or down</h2>
-    <p class="lede" style="margin-bottom:32px;" data-en="The station runs on Greenwich Mean Time, regardless of the sixteen sunrises its crew sees each day. Select a phase of the schedule." data-ru="Станция живёт по Гринвичу — независимо от шестнадцати восходов, которые видит экипаж за сутки. Выберите фазу распорядка дня.">The station runs on Greenwich Mean Time, regardless of the sixteen sunrises its crew sees each day. Select a phase of the schedule.</p>
-    <div class="tabs" id="lifeTabs"></div>
+    <p class="lede" style="margin-bottom:32px;" data-en="The station runs on Greenwich Mean Time, regardless of the roughly sixteen sunrises its crew sees each day. Select a phase of the schedule." data-ru="Станция живёт по Гринвичу — независимо от примерно шестнадцати восходов, которые видит экипаж за сутки. Выберите фазу распорядка дня.">The station runs on Greenwich Mean Time, regardless of the roughly sixteen sunrises its crew sees each day. Select a phase of the schedule.</p>
+    <div class="tabs" id="lifeTabs" role="group" aria-label="Daily schedule" data-aria-en="Daily schedule" data-aria-ru="Распорядок дня"></div>
     <div id="lifePanels"></div>
   </div>
 </section>
 
 <!-- ============================================================ CHAPTER 5 — ORBIT DYNAMICS ============================================================ -->
-<section id="ch5" class="section" data-phase="ISS ORBIT" data-alt="~400 KM" data-vel="7.66 KM/S">
+<section id="ch5" class="section" data-phase="ISS ORBIT" data-alt="~415 KM" data-vel="7.66 KM/S">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="ORBIT DYNAMICS" data-ru="ОРБИТАЛЬНАЯ ДИНАМИКА">ORBIT DYNAMICS</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.05 / 11</span> — <span data-en="ORBIT DYNAMICS" data-ru="ОРБИТАЛЬНАЯ ДИНАМИКА">ORBIT DYNAMICS</span></div>
     <h2 class="h-lg" data-en="Sixteen sunrises a day" data-ru="Шестнадцать восходов в сутки">Sixteen sunrises a day</h2>
     <div class="grid-2">
       <div>
         <div class="globe-wrap">
-          <svg id="globeSvg" class="globe-svg" viewBox="0 0 300 300"></svg>
+          <svg id="globeSvg" class="globe-svg" viewBox="0 0 300 300" aria-hidden="true"></svg>
         </div>
         <div class="orbit-stats">
-          <div class="orbit-stat"><div class="v">92.68</div><div class="l" data-en="MIN / ORBIT" data-ru="МИН / ВИТОК">MIN / ORBIT</div></div>
-          <div class="orbit-stat"><div class="v">~15.5</div><div class="l" data-en="ORBITS / DAY" data-ru="ВИТКОВ / СУТКИ">ORBITS / DAY</div></div>
-          <div class="orbit-stat"><div class="v">27,600</div><div class="l" data-en="KM/H GROUND TRACK" data-ru="КМ/Ч ПО ТРАССЕ">KM/H GROUND TRACK</div></div>
+          <div class="orbit-stat"><div class="v" id="st415T">92.9</div><div class="l" data-en="MIN / ORBIT" data-ru="МИН / ВИТОК">MIN / ORBIT</div></div>
+          <div class="orbit-stat"><div class="v" id="st415N">15.5</div><div class="l" data-en="ORBITS / DAY" data-ru="ВИТКОВ / СУТКИ">ORBITS / DAY</div></div>
+          <div class="orbit-stat"><div class="v" id="st415V">27,580</div><div class="l" data-en="KM/H ORBITAL SPEED" data-ru="КМ/Ч, ОРБИТАЛЬНАЯ СКОРОСТЬ">KM/H ORBITAL SPEED</div></div>
         </div>
       </div>
       <div>
-        <p class="body-col" style="margin-bottom:20px;" data-en="Because the ISS orbits roughly once every 93 minutes while Earth turns underneath it, its ground track shifts west with every pass. A location isn't overflown at the same time twice in a row, and how often it's crossed at all depends on latitude — the station never flies over the poles." data-ru="Поскольку МКС делает виток примерно за 93 минуты, а Земля тем временем вращается под ней, наземная трасса станции смещается к западу с каждым витком. Одна и та же точка не пролетается в одно и то же время дважды подряд, а то, как часто она вообще попадает под трассу, зависит от широты — станция никогда не пролетает над полюсами.">Because the ISS orbits roughly once every 93 minutes while Earth turns underneath it, its ground track shifts west with every pass. A location isn't overflown at the same time twice in a row, and how often it's crossed at all depends on latitude — the station never flies over the poles.</p>
-        <label class="fig-num" for="citySelect" data-en="ESTIMATE FLYOVER FREQUENCY" data-ru="ОЦЕНИТЬ ЧАСТОТУ ПРОЛЁТОВ">ESTIMATE FLYOVER FREQUENCY</label>
+        <p class="body-col" style="margin-bottom:20px;" data-en="At about 415 km [2] the ISS laps the planet once every 93 minutes while Earth turns underneath it, so its ground track shifts west with every pass. The track never goes beyond 51.6° north or south, but the station can be seen from farther than that: from 415 km up it clears 10° above the horizon for anyone within about 1,400 km of the point below it. Pick a city to count the passes." data-ru="На высоте около 415 км [2] МКС делает виток за 93 минуты, а Земля тем временем вращается под ней, поэтому наземная трасса смещается к западу с каждым витком. Трасса никогда не уходит дальше 51,6° северной или южной широты, но видна станция и дальше: с высоты 415 км она поднимается выше 10° над горизонтом для всех, кто находится в пределах примерно 1 400 км от точки под ней. Выберите город, чтобы посчитать пролёты.">At about 415 km [2] the ISS laps the planet once every 93 minutes while Earth turns underneath it, so its ground track shifts west with every pass. The track never goes beyond 51.6° north or south, but the station can be seen from farther than that: from 415 km up it clears 10° above the horizon for anyone within about 1,400 km of the point below it. Pick a city to count the passes.</p>
+        <label class="fig-num" for="citySelect" data-en="PASSES OVER A CITY" data-ru="ПРОЛЁТЫ НАД ГОРОДОМ">PASSES OVER A CITY</label>
         <select id="citySelect" style="margin-top:8px;"></select>
-        <div class="flyover-result" id="flyoverResult"></div>
+        <div class="readout-grid" id="flyReadout"></div>
+        <div class="status" id="flyoverResult" aria-live="polite"></div>
+        <p class="note" data-en="Model: circular orbit at 415 km and 51.6° [2], spherical Earth; passes counted when the station climbs above 10° elevation, day or night, averaged over every starting position of the orbit. Only passes with the station sunlit against a dark sky can be seen by eye." data-ru="Модель: круговая орбита 415 км с наклонением 51,6° [2], Земля — шар; пролёт засчитывается, когда станция поднимается выше 10° над горизонтом, днём или ночью, с усреднением по всем начальным положениям орбиты. Глазом видны лишь пролёты, когда станция освещена Солнцем, а небо тёмное.">Model: circular orbit at 415 km and 51.6° [2], spherical Earth; passes counted when the station climbs above 10° elevation, day or night, averaged over every starting position of the orbit. Only passes with the station sunlit against a dark sky can be seen by eye.</p>
+      </div>
+    </div>
+    <h3 class="h-md sub-h" data-en="Why the crew floats" data-ru="Почему экипаж парит">Why the crew floats</h3>
+    <p class="body-col" style="margin-top:12px;" data-en="A common answer is that there is no gravity up there. There is: at the station's height Earth still pulls with about 90 percent of its surface strength [4]. The crew floats because the station and everything in it are falling together around the Earth — the cannonball of Chapter 1. Slide the altitude and watch what changes, and what doesn't." data-ru="Часто говорят, что наверху нет гравитации. Это не так: на высоте станции притяжение Земли составляет около 90 процентов от того, что у поверхности [4]. Экипаж парит, потому что станция и всё, что в ней, вместе падают вокруг Земли, — как ядро из главы 1. Меняйте высоту и смотрите, что меняется, а что нет.">A common answer is that there is no gravity up there. There is: at the station's height Earth still pulls with about 90 percent of its surface strength [4]. The crew floats because the station and everything in it are falling together around the Earth — the cannonball of Chapter 1. Slide the altitude and watch what changes, and what doesn't.</p>
+    <div class="sim-wrap">
+      <div>
+        <svg id="altSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="The orbit drawn to scale around the Earth, and a bar comparing gravity at that height with gravity at the surface" data-aria-en="The orbit drawn to scale around the Earth, and a bar comparing gravity at that height with gravity at the surface" data-aria-ru="Орбита в масштабе вокруг Земли и столбики: сила тяжести на этой высоте по сравнению с поверхностью"></svg>
+        <p class="note" data-en="Model: circular orbit around a spherical Earth (R = 6,378 km, GM = 398,600 km³/s²), no air. Laps per day counts orbits in 24 hours; the number of sunrises is almost the same. A person standing on a tower this tall would weigh the share shown; aboard the station a scale reads zero because it falls with them." data-ru="Модель: круговая орбита вокруг шарообразной Земли (R = 6 378 км, GM = 398 600 км³/с²), без воздуха. «Витков в сутки» — число оборотов за 24 часа; восходов почти столько же. Человек на башне такой высоты весил бы указанную долю; на станции весы показывают ноль, потому что падают вместе с ним.">Model: circular orbit around a spherical Earth (R = 6,378 km, GM = 398,600 km³/s²), no air. Laps per day counts orbits in 24 hours; the number of sunrises is almost the same. A person standing on a tower this tall would weigh the share shown; aboard the station a scale reads zero because it falls with them.</p>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="ctl"><div class="ctl-row"><label for="altSlider" data-en="ALTITUDE" data-ru="ВЫСОТА">ALTITUDE</label><span class="v" id="altVal">415 km</span></div>
+          <input id="altSlider" type="range" min="150" max="2000" step="5" value="415"></div>
+        <div class="btn-row" id="altBtns" role="group" aria-label="Altitude presets" data-aria-en="Altitude presets" data-aria-ru="Готовые высоты"></div>
+        <div class="readout-grid" id="altReadout"></div>
+        <div class="status" id="altStatus" aria-live="polite"></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ CHAPTER 6 — SCIENCE ============================================================ -->
-<section id="ch6" class="section" data-phase="ISS ORBIT" data-alt="~400 KM" data-vel="7.66 KM/S">
+<section id="ch6" class="section" data-phase="ISS ORBIT" data-alt="~415 KM" data-vel="7.66 KM/S">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="SCIENCE AND PURPOSE" data-ru="НАУКА И НАЗНАЧЕНИЕ">SCIENCE AND PURPOSE</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.06 / 11</span> — <span data-en="SCIENCE AND PURPOSE" data-ru="НАУКА И НАЗНАЧЕНИЕ">SCIENCE AND PURPOSE</span></div>
     <h2 class="h-lg" data-en="Why a laboratory in freefall" data-ru="Зачем лаборатория в состоянии невесомости">Why a laboratory in freefall</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="Microgravity removes one variable — weight — that every experiment on Earth has to work around. That makes the ISS a testbed for medicine, materials, and the technology that will carry humans further." data-ru="Микрогравитация убирает одну переменную — вес, — с которой приходится считаться в любом эксперименте на Земле. Это делает МКС испытательным полигоном для медицины, материаловедения и технологий, которые понесут человека дальше.">Microgravity removes one variable — weight — that every experiment on Earth has to work around. That makes the ISS a testbed for medicine, materials, and the technology that will carry humans further.</p>
     <div id="expList" style="margin-top:24px;"></div>
@@ -300,9 +359,9 @@ select{
 <!-- ============================================================ CHAPTER 7 — MIR TIMELINE ============================================================ -->
 <section id="ch7" class="section" data-phase="MIR 1986–2001" data-alt="~350–400 KM" data-vel="7.7 KM/S">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="MIR SPACE STATION" data-ru="ОРБИТАЛЬНАЯ СТАНЦИЯ «МИР»">MIR SPACE STATION</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.07 / 11</span> — <span data-en="MIR SPACE STATION" data-ru="ОРБИТАЛЬНАЯ СТАНЦИЯ «МИР»">MIR SPACE STATION</span></div>
     <h2 class="h-lg" data-en="The legendary predecessor" data-ru="Легендарная предшественница">The legendary predecessor</h2>
-    <p class="lede" style="margin-bottom:8px;" data-en="Mir — Russian for both 'peace' and 'world' — orbited for fifteen years, twice its planned lifetime, and hosted 28 long-duration crews from twelve countries. Scrub through the timeline." data-ru="«Мир» — станция, чьё название означает и «покой», и «вселенную», — провела на орбите пятнадцать лет, вдвое дольше запланированного срока, и приняла 28 долговременных экспедиций из двенадцати стран. Пролистайте хронологию.">Mir — Russian for both 'peace' and 'world' — orbited for fifteen years, twice its planned lifetime, and hosted 28 long-duration crews from twelve countries. Scrub through the timeline.</p>
+    <p class="lede" style="margin-bottom:8px;" data-en="Mir — Russian for both 'peace' and 'world' — orbited for fifteen years, three times the five it was designed for [9]. It hosted 28 long-duration expeditions and, in all, 125 cosmonauts and astronauts from 12 countries [10]. Scrub through the timeline." data-ru="Название «Мир» значит и «мир» как отсутствие войны, и «мир» как весь свет (по-английски — peace и world). Станция провела на орбите пятнадцать лет, втрое дольше расчётных пяти [9]. Она приняла 28 долговременных экспедиций, а всего — 125 космонавтов и астронавтов из 12 стран [10]. Пролистайте хронологию.">Mir — Russian for both 'peace' and 'world' — orbited for fifteen years, three times the five it was designed for [9]. It hosted 28 long-duration expeditions and, in all, 125 cosmonauts and astronauts from 12 countries [10]. Scrub through the timeline.</p>
     <div class="mir-timeline">
       <div class="mt-track"></div>
       <div class="mt-events" id="mtEvents"></div>
@@ -314,9 +373,9 @@ select{
 <!-- ============================================================ CHAPTER 8 — INSIDE MIR ============================================================ -->
 <section id="ch8" class="section" data-phase="MIR 1986–2001" data-alt="~350–400 KM" data-vel="7.7 KM/S">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="INSIDE MIR" data-ru="ВНУТРИ «МИРА»">INSIDE MIR</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.08 / 11</span> — <span data-en="INSIDE MIR" data-ru="ВНУТРИ «МИРА»">INSIDE MIR</span></div>
     <h2 class="h-lg" data-en="A station built one module at a time" data-ru="Станция, собранная модуль за модулем">A station built one module at a time</h2>
-    <p class="lede" style="margin-bottom:28px;" data-en="Mir pioneered the principle every later station would copy: a small core, expanded module by module until it became six pressurised compartments docked around a single node. Select one." data-ru="«Мир» первым воплотил принцип, который позже переняла каждая станция: небольшой базовый блок, расширяемый модуль за модулем — пока не получились шесть гермоотсеков, состыкованных вокруг одного узла. Выберите модуль.">Mir pioneered the principle every later station would copy: a small core, expanded module by module until it became six pressurised compartments docked around a single node. Select one.</p>
+    <p class="lede" style="margin-bottom:28px;" data-en="Mir pioneered the principle every later station would copy: a small core, expanded module by module — five research modules added between 1987 and 1996 [11], most of them docked around a node at the core's front end. Select one." data-ru="«Мир» первым воплотил принцип, который позже переняла каждая станция: небольшой базовый блок, расширяемый модуль за модулем, — пять исследовательских модулей, добавленных с 1987 по 1996 год [11], бо́льшая часть из них — вокруг узла в передней части базового блока. Выберите модуль.">Mir pioneered the principle every later station would copy: a small core, expanded module by module — five research modules added between 1987 and 1996 [11], most of them docked around a node at the core's front end. Select one.</p>
     <div class="schematic-wrap">
       <svg id="mirSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
       <div class="module-panel corner-frame" id="mirPanel"></div>
@@ -325,15 +384,52 @@ select{
 </section>
 
 <!-- ============================================================ CHAPTER 9 — DEORBIT ============================================================ -->
-<section id="ch9" class="section" data-phase="REENTRY SEQUENCE" data-alt="400 → 0 KM" data-vel="7.7 → 0 KM/S">
+<section id="ch9" class="section" data-phase="REENTRY SEQUENCE" data-alt="340 → 0 KM" data-vel="7.7 → 0 KM/S">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="MIR'S FINAL JOURNEY" data-ru="ПОСЛЕДНИЙ ПОЛЁТ «МИРА»">MIR'S FINAL JOURNEY</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.09 / 11</span> — <span data-en="MIR'S FINAL JOURNEY" data-ru="ПОСЛЕДНИЙ ПОЛЁТ «МИРА»">MIR'S FINAL JOURNEY</span></div>
     <h2 class="h-lg" data-en="A controlled ending" data-ru="Управляемое завершение">A controlled ending</h2>
-    <p class="body-col" style="margin-bottom:32px;" data-en="By 1999, Mir's systems were failing faster than crews could repair them, and its Russian operators could no longer fund the station alongside their new commitment to ISS. Rather than let an uncontrolled reentry scatter debris unpredictably, engineers planned a precise, deliberate descent. Step through the sequence." data-ru="К 1999 году системы «Мира» выходили из строя быстрее, чем экипажи успевали их чинить, а российские операторы больше не могли содержать станцию параллельно с новыми обязательствами по МКС. Вместо того чтобы допустить неуправляемый вход в атмосферу с непредсказуемым рассеиванием обломков, инженеры спланировали точный, намеренный спуск. Пройдите по этапам.">By 1999, Mir's systems were failing faster than crews could repair them, and its Russian operators could no longer fund the station alongside their new commitment to ISS. Rather than let an uncontrolled reentry scatter debris unpredictably, engineers planned a precise, deliberate descent. Step through the sequence.</p>
+    <p class="body-col" style="margin-bottom:32px;" data-en="By the autumn of 2000 every effort to find money to keep Mir flying had failed, and RKK Energia and the Russian government decided to bring it down [11][12]. Rather than let 135 tonnes of hardware [11] re-enter wherever drag happened to take it, controllers planned a deliberate descent into the South Pacific. Step through the sequence." data-ru="К осени 2000 года все попытки найти деньги на продолжение полёта «Мира» провалились, и РКК «Энергия» и российское правительство приняли решение свести станцию с орбиты [11][12]. Чтобы 135 тонн конструкций [11] не вошли в атмосферу там, куда их случайно приведёт торможение, специалисты по управлению полётом спланировали намеренный спуск в южную часть Тихого океана. Пройдите по этапам.">By the autumn of 2000 every effort to find money to keep Mir flying had failed, and RKK Energia and the Russian government decided to bring it down [11][12]. Rather than let 135 tonnes of hardware [11] re-enter wherever drag happened to take it, controllers planned a deliberate descent into the South Pacific. Step through the sequence.</p>
     <div class="deorbit-stage corner-frame">
-      <svg id="deorbitSvg" class="deorbit-svg" viewBox="0 0 400 300"></svg>
-      <div class="deorbit-controls" id="deorbitControls"></div>
-      <div class="deorbit-caption" id="deorbitCaption"></div>
+      <svg id="deorbitSvg" class="deorbit-svg" viewBox="0 0 400 300" aria-hidden="true"></svg>
+      <div class="deorbit-controls" id="deorbitControls" role="group" aria-label="Deorbit stages" data-aria-en="Deorbit stages" data-aria-ru="Этапы спуска"></div>
+      <div class="deorbit-caption" id="deorbitCaption" aria-live="polite"></div>
+    </div>
+
+    <h3 class="h-md sub-h" data-en="The braking burns, by the numbers" data-ru="Тормозные импульсы в цифрах">The braking burns, by the numbers</h3>
+    <p class="body-col" style="margin-top:12px;" data-en="A braking burn at the high point of an orbit lowers the opposite, low point. The calculator finds the smallest burn that does it — fired exactly at the high point, all at once — and compares it with what Mir's Progress actually flew [11]. The real burns cost more because they also had to place the low point, and the debris, over the target zone." data-ru="Тормозной импульс в высшей точке орбиты опускает противоположную, низшую точку. Калькулятор находит наименьший такой импульс — мгновенный, ровно в высшей точке — и сравнивает его с тем, что на самом деле выполнил пристыкованный к «Миру» «Прогресс» [11]. Настоящие импульсы обошлись дороже: им нужно было ещё и поставить низшую точку, а с ней и обломки, над районом падения.">A braking burn at the high point of an orbit lowers the opposite, low point. The calculator finds the smallest burn that does it — fired exactly at the high point, all at once — and compares it with what Mir's Progress actually flew [11]. The real burns cost more because they also had to place the low point, and the debris, over the target zone.</p>
+    <div class="sim-wrap">
+      <div>
+        <svg id="burnSvg" class="sim-svg" viewBox="0 0 480 280" role="img" aria-label="Altitude around one orbit before and after the burn, with the height where breakup begins" data-aria-en="Altitude around one orbit before and after the burn, with the height where breakup begins" data-aria-ru="Высота на протяжении одного витка до и после импульса и высота, на которой начинается разрушение"></svg>
+        <p class="note" data-en="Model: two-body Kepler orbits around a spherical Earth, altitudes above 6,378 km, one instantaneous burn along the direction of motion at the high point. Mir's orbits and burn sizes are ESA's reconstruction of 23 March 2001 [11]; the 110–100 km breakup height is from the pre-entry plan [12]." data-ru="Модель: кеплеровы орбиты вокруг шарообразной Земли, высоты отсчитаны от 6 378 км, один мгновенный импульс вдоль скорости в высшей точке. Орбиты и импульсы «Мира» — реконструкция ЕКА для 23 марта 2001 года [11]; высота начала разрушения 110–100 км — из плана спуска [12].">Model: two-body Kepler orbits around a spherical Earth, altitudes above 6,378 km, one instantaneous burn along the direction of motion at the high point. Mir's orbits and burn sizes are ESA's reconstruction of 23 March 2001 [11]; the 110–100 km breakup height is from the pre-entry plan [12].</p>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" id="burnBtns" role="group" aria-label="Burn presets" data-aria-en="Burn presets" data-aria-ru="Готовые варианты"></div>
+        <div class="ctl"><div class="ctl-row"><label for="burnHa" data-en="HIGH POINT (APOGEE)" data-ru="ВЫСШАЯ ТОЧКА (АПОГЕЙ)">HIGH POINT (APOGEE)</label><span class="v" id="burnHaVal">213 km</span></div>
+          <input id="burnHa" type="range" min="150" max="500" step="0.1" value="213.2"></div>
+        <div class="ctl"><div class="ctl-row"><label for="burnHp" data-en="LOW POINT NOW (PERIGEE)" data-ru="НИЗШАЯ ТОЧКА СЕЙЧАС (ПЕРИГЕЙ)">LOW POINT NOW (PERIGEE)</label><span class="v" id="burnHpVal">156 km</span></div>
+          <input id="burnHp" type="range" min="60" max="500" step="0.1" value="156.1"></div>
+        <div class="ctl"><div class="ctl-row"><label for="burnHt" data-en="LOW POINT AFTER THE BURN" data-ru="НИЗШАЯ ТОЧКА ПОСЛЕ ИМПУЛЬСА">LOW POINT AFTER THE BURN</label><span class="v" id="burnHtVal">80 km</span></div>
+          <input id="burnHt" type="range" min="0" max="500" step="0.1" value="80"></div>
+        <div class="readout-grid" id="burnReadout"></div>
+        <div class="status" id="burnStatus" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <h3 class="h-md sub-h" data-en="The ISS will end the same way" data-ru="МКС завершит работу так же">The ISS will end the same way</h3>
+    <p class="body-col" style="margin-top:12px;" data-en="Status as of 10 October 2026: the United States, Japan, Canada and ESA's member states have committed to operating the station through 2030 [13]. Russia, committed only through 2028 until then, agreed in July 2026 talks with NASA to support operations through 2030 as well; NASA confirmed the account [14]. Congress has directed NASA to keep the station running through at least 30 September 2030 [2]. In June 2024 NASA chose SpaceX to build the US Deorbit Vehicle, a contract worth up to $843 million, to push the station down into a remote stretch of ocean [13]." data-ru="Положение на 10 октября 2026 года: США, Япония, Канада и страны ЕКА обязались эксплуатировать станцию до 2030 года [13]. Россия, до этого обязавшаяся лишь до 2028-го, в июле 2026 года на переговорах с NASA согласилась поддерживать работу станции тоже до 2030 года; NASA подтвердило эти сведения [14]. Конгресс обязал NASA поддерживать работу станции как минимум до 30 сентября 2030 года [2]. В июне 2024 года NASA поручила SpaceX построить американский корабль для сведения станции с орбиты (US Deorbit Vehicle); контракт стоит до 843 млн долларов, а задача корабля — направить станцию в безлюдный район океана [13].">Status as of 10 October 2026: the United States, Japan, Canada and ESA's member states have committed to operating the station through 2030 [13]. Russia, committed only through 2028 until then, agreed in July 2026 talks with NASA to support operations through 2030 as well; NASA confirmed the account [14]. Congress has directed NASA to keep the station running through at least 30 September 2030 [2]. In June 2024 NASA chose SpaceX to build the US Deorbit Vehicle, a contract worth up to $843 million, to push the station down into a remote stretch of ocean [13].</p>
+    <p class="body-col" style="margin-top:16px;" data-en="Why not park it higher instead? At about 415 km the station would fall within one to two years without reboosts [2]. NASA estimated that raising it to an orbit lasting 100 years would take 120–140 m/s, and to one lasting more than 10,000 years 760 m/s, against 57 m/s for a controlled deorbit [15]. Higher orbits are also more crowded: the expected time between penetrating debris impacts drops from about 51 years at 415 km to under 4 years at 800 km [2] (see <a href='/aerospace/debris-space-junk'>DEBRIS</a>)." data-ru="Почему бы не поднять её повыше? На высоте около 415 км без подъёмов орбиты станция упала бы за один-два года [2]. По оценке NASA, подъём на орбиту, где станция продержится 100 лет, стоит 120–140 м/с, а на орбиту, где она продержится больше 10 000 лет, — 760 м/с, тогда как управляемый спуск — 57 м/с [15]. К тому же выше теснее: ожидаемое время между пробивающими ударами обломков сокращается примерно с 51 года на высоте 415 км до менее чем 4 лет на 800 км [2] (см. <a href='/aerospace/debris-space-junk'>ОБЛОМКИ</a>).">Why not park it higher instead? At about 415 km the station would fall within one to two years without reboosts [2]. NASA estimated that raising it to an orbit lasting 100 years would take 120–140 m/s, and to one lasting more than 10,000 years 760 m/s, against 57 m/s for a controlled deorbit [15]. Higher orbits are also more crowded: the expected time between penetrating debris impacts drops from about 51 years at 415 km to under 4 years at 800 km [2] (see <a href='/aerospace/debris-space-junk'>DEBRIS</a>).</p>
+    <div class="sim-wrap">
+      <div>
+        <svg id="boostSvg" class="sim-svg" viewBox="0 0 480 220" role="img" aria-label="Bar chart: speed change for a controlled deorbit compared with raising the station to the chosen altitude" data-aria-en="Bar chart: speed change for a controlled deorbit compared with raising the station to the chosen altitude" data-aria-ru="Столбчатая диаграмма: изменение скорости для управляемого спуска и для подъёма станции на выбранную высоту"></svg>
+        <p class="note" data-en="Model: two-burn Hohmann transfer between circular orbits starting at 415 km, no drag. NASA does not state the altitudes behind its 100-year and 10,000-year figures; matching them to 633–670 km and 2,000 km is this model's inference." data-ru="Модель: двухимпульсный гомановский переход между круговыми орбитами с 415 км, без сопротивления воздуха. NASA не называет высоты, к которым относятся её оценки на 100 и 10 000 лет; сопоставление с 633–670 км и 2 000 км — вывод этой модели.">Model: two-burn Hohmann transfer between circular orbits starting at 415 km, no drag. NASA does not state the altitudes behind its 100-year and 10,000-year figures; matching them to 633–670 km and 2,000 km is this model's inference.</p>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="ctl"><div class="ctl-row"><label for="boostH" data-en="RAISE THE STATION TO" data-ru="ПОДНЯТЬ СТАНЦИЮ НА">RAISE THE STATION TO</label><span class="v" id="boostVal">2,000 km</span></div>
+          <input id="boostH" type="range" min="420" max="3000" step="5" value="2000"></div>
+        <div class="btn-row" id="boostBtns" role="group" aria-label="Altitude presets" data-aria-en="Altitude presets" data-aria-ru="Готовые высоты"></div>
+        <div class="readout-grid" id="boostReadout"></div>
+        <div class="status" id="boostStatus" aria-live="polite"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -343,7 +439,7 @@ select{
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
     <h2 class="h-lg" data-en="From Salyut to whatever comes next" data-ru="От «Салюта» — к тому, что дальше">From Salyut to whatever comes next</h2>
-    <p class="lede" style="margin-bottom:8px;" data-en="Every station is an argument for the next one. Fifty-five years of continuous, overlapping design lineage sit between the first crewed station and the ones now being planned for the Moon and beyond." data-ru="Каждая станция — довод в пользу следующей. Пятьдесят пять лет непрерывной, перетекающей друг в друга инженерной традиции отделяют первую пилотируемую станцию от тех, что сейчас проектируют для окололунного пространства и дальше.">Every station is an argument for the next one. Fifty-five years of continuous, overlapping design lineage sit between the first crewed station and the ones now being planned for the Moon and beyond.</p>
+    <p class="lede" style="margin-bottom:8px;" data-en="Every station is an argument for the next one. Fifty-five years of continuous, overlapping design lineage sit between the first crewed station and the ones now being planned for low orbit, the Moon and beyond. For the stations in between, see <a href='/aerospace/salute-salyut-program'>SALUTE</a> and <a href='/aerospace/palace-tiangong-station'>PALACE</a>." data-ru="Каждая станция — довод в пользу следующей. Пятьдесят пять лет непрерывной, перетекающей друг в друга инженерной традиции отделяют первую пилотируемую станцию от тех, что сейчас проектируют для низкой орбиты, окололунного пространства и дальше. О станциях между ними — в справочниках <a href='/aerospace/salute-salyut-program'>«Салют»</a> и <a href='/aerospace/palace-tiangong-station'>«Тяньгун»</a>.">Every station is an argument for the next one. Fifty-five years of continuous, overlapping design lineage sit between the first crewed station and the ones now being planned for low orbit, the Moon and beyond. For the stations in between, see <a href='/aerospace/salute-salyut-program'>SALUTE</a> and <a href='/aerospace/palace-tiangong-station'>PALACE</a>.</p>
     <div class="legacy-row" id="legacyRow"></div>
   </div>
 </section>
@@ -383,13 +479,115 @@ function applyLang(l){
   });
   document.querySelectorAll('#langtoggle button').forEach(function(b){
     b.classList.toggle('active', b.dataset.lang===l);
+    b.setAttribute('aria-pressed', b.dataset.lang===l ? 'true' : 'false');
+  });
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){
+    el.setAttribute('aria-label', el.getAttribute('data-aria-'+l));
   });
   renderLifeTabs(); renderExperiments(); renderMirTimeline(); renderDeorbit(); renderLegacy(); renderRefs();
   renderISS(); renderMir(); populateCities();
+  renderNewton(); renderStats415(); renderAlt(); renderBurn(); renderBoost();
 }
 document.querySelectorAll('#langtoggle button').forEach(function(b){
   b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
 });
+
+/* ============================================================
+   SHARED PHYSICS + FORMATTING (Track B, 2026-10)
+   Two-body Kepler orbits around a spherical Earth.
+   ============================================================ */
+var MU_E = 398600.4418, R_E = 6378.137, G0 = 9.80665, SIDEREAL_DAY = 86164.0905;
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function fmt(n, d){
+  var s = Math.abs(n).toFixed(d);
+  var parts = s.split('.'); parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? '\u00a0' : ',');
+  s = parts.join(lang === 'ru' ? ',' : '.');
+  return (n < 0 ? '\u2212' : '') + s;
+}
+function vCirc(h){ return Math.sqrt(MU_E/(R_E + h)); }
+function vEsc(h){ return Math.sqrt(2*MU_E/(R_E + h)); }
+function orbit(h){
+  var r = R_E + h, v = vCirc(h), Tsec = 2*Math.PI*Math.sqrt(r*r*r/MU_E), gFrac = (R_E/r)*(R_E/r);
+  return {v:v, kmh:v*3600, periodMin:Tsec/60, lapsPerDay:86400/Tsec, gFrac:gFrac,
+          fallPerSecond_m: v*v/(2*r)*1000};   /* drop below the straight line in 1 s = g_local/2 */
+}
+/* speed at the high point (apogee) of an orbit with altitudes ha, hp */
+function vApogee(ha, hp){ var ra = R_E + ha, rp = R_E + hp; return Math.sqrt(MU_E*(2/ra - 2/(ra + rp))); }
+/* smallest single burn, at apogee, that moves perigee from hp to hpNew (m/s) */
+function deorbitDv(ha, hp, hpNew){ return (vApogee(ha, hp) - vApogee(ha, hpNew))*1000; }
+function periodMin(ha, hp){ var a = R_E + (ha + hp)/2; return 2*Math.PI*Math.sqrt(a*a*a/MU_E)/60; }
+/* two-burn Hohmann transfer between circular orbits (m/s) */
+function hohmann(h1, h2){
+  var r1 = R_E + h1, r2 = R_E + h2, a = (r1 + r2)/2;
+  var dv1 = Math.sqrt(MU_E*(2/r1 - 1/a)) - Math.sqrt(MU_E/r1), dv2 = Math.sqrt(MU_E/r2) - Math.sqrt(MU_E*(2/r2 - 1/a));
+  return {dv1:dv1*1000, dv2:dv2*1000, total:(dv1 + dv2)*1000};
+}
+/* Newton's cannonball: horizontal launch at altitude h with speed v (km/s) */
+function newton(v, h){
+  if(h === undefined) h = 100;
+  var r0 = R_E + h, vc = vCirc(h), k = (v/vc)*(v/vc), p = r0*k, e = Math.abs(k - 1);
+  var o = {vc:vc, ve:vEsc(h), e:e, p:p, r0:r0, k:k};
+  /* theta = angle travelled from the launch point; launch is perigee if k >= 1, apogee if k < 1 */
+  o.r = function(th){ return k >= 1 ? p/(1 + e*Math.cos(th)) : p/(1 - e*Math.cos(th)); };
+  if(k < 1 && p/(1 + e) < R_E){
+    var th = Math.acos((1 - p/R_E)/e), a = p/(1 - e*e), n = Math.sqrt(MU_E/(a*a*a));
+    var nu = Math.PI + th, E = Math.atan2(Math.sqrt(1 - e*e)*Math.sin(nu), e + Math.cos(nu));
+    if(E < 0) E += 2*Math.PI;
+    var M = E - e*Math.sin(E);
+    o.type = 'sub'; o.impactAngle = th; o.rangeKm = R_E*th; o.flightMin = (M - Math.PI)/n/60;
+  } else if(k < 2 - 1e-9){
+    var aa = p/(1 - e*e);
+    o.type = Math.abs(v - vc) < 0.026 ? 'circ' : 'ell';
+    o.a = aa; o.apoAlt = (k >= 1 ? p/(1 - e) : r0) - R_E; o.periAlt = (k >= 1 ? r0 : p/(1 + e)) - R_E;
+    o.periodMin = 2*Math.PI*Math.sqrt(aa*aa*aa/MU_E)/60;
+  } else {
+    o.type = 'esc'; o.vinf = Math.sqrt(Math.max(0, v*v - o.ve*o.ve));
+  }
+  return o;
+}
+/* ISS passes over an observer: elevation geometry and a day-long ground-track simulation */
+var ISS_H = 415, ISS_INC = 51.6;
+function horizonAngle(h, elDeg){            /* Earth-central angle out to where the station is elDeg above the horizon */
+  var el = elDeg*Math.PI/180;
+  return Math.PI/2 - el - Math.asin(R_E*Math.cos(el)/(R_E + h));
+}
+function elevationAt(theta, h){             /* elevation (deg) of the station seen from a central angle theta away */
+  return Math.atan2(Math.cos(theta) - R_E/(R_E + h), Math.sin(theta))*180/Math.PI;
+}
+function maxElevation(latDeg, h, incDeg){
+  var gap = Math.max(0, Math.abs(latDeg) - incDeg)*Math.PI/180;
+  return elevationAt(gap, h);
+}
+/* share of time the station is above elDeg, from the latitude distribution of the ground track (longitudes uniform) */
+function timeInViewShare(latDeg, h, incDeg, elDeg){
+  var rho = horizonAngle(h, elDeg), i = incDeg*Math.PI/180, lo = latDeg*Math.PI/180, N = 3600, sum = 0;
+  for(var k = 0; k < N; k++){
+    var u = (k + 0.5)/N*2*Math.PI, phi = Math.asin(Math.sin(i)*Math.sin(u));
+    var c = (Math.cos(rho) - Math.sin(phi)*Math.sin(lo))/(Math.cos(phi)*Math.cos(lo));
+    sum += c >= 1 ? 0 : (c <= -1 ? 1 : Math.acos(c)/Math.PI);
+  }
+  return sum/N;
+}
+/* simulate one day of ground track for 36 starting node longitudes; count entries into view */
+function passesPerDay(latDeg, h, incDeg, elDeg){
+  var rho = horizonAngle(h, elDeg), cr = Math.cos(rho), i = incDeg*Math.PI/180, lo = latDeg*Math.PI/180;
+  var n = 2*Math.PI/(orbit(h).periodMin*60), we = 2*Math.PI/SIDEREAL_DAY, dt = 10, steps = Math.round(86400/dt);
+  var K = 36, passes = 0, inView = 0;
+  for(var j = 0; j < K; j++){
+    var node = j/K*2*Math.PI, was = false;
+    for(var s2 = 0; s2 <= steps; s2++){
+      var t = s2*dt, u = n*t;
+      var phi = Math.asin(Math.sin(i)*Math.sin(u));
+      var lam = Math.atan2(Math.cos(i)*Math.sin(u), Math.cos(u)) + node - we*t;
+      var cosd = Math.sin(phi)*Math.sin(lo) + Math.cos(phi)*Math.cos(lo)*Math.cos(lam);
+      var is = cosd >= cr;
+      if(is && !was && s2 > 0) passes++;
+      if(is && s2 < steps) inView++;
+      was = is;
+    }
+  }
+  return {passes:passes/K, minutesInView:inView*dt/K/60, share:inView/(K*steps)};
+}
 
 /* ============================================================ SCROLL PROGRESS + HUD ============================================================ */
 var progressEl = document.getElementById('progress');
@@ -414,71 +612,41 @@ document.addEventListener('scroll', onScroll, {passive:true});
 onScroll();
 
 /* ============================================================
-   CHAPTER 1 — NEWTON'S CANNONBALL SIM
+   CHAPTER 1 — NEWTON'S CANNONBALL: true Kepler conics from a 100 km mountain
    ============================================================ */
-(function(){
-  var svg = document.getElementById('newtonSvg');
-  var slider = document.getElementById('newtonSlider');
-  var val = document.getElementById('newtonVal');
-  var verdict = document.getElementById('newtonVerdict');
-  var cx=200, cy=200, R=70;
-
-  function ns(tag,attrs){
-    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
-    for(var k in attrs) el.setAttribute(k, attrs[k]);
-    return el;
+var newtonSlider = document.getElementById('newtonSlider');
+function renderNewton(){
+  var svg = document.getElementById('newtonSvg'), val = document.getElementById('newtonVal'), verdict = document.getElementById('newtonVerdict');
+  var v = parseFloat(newtonSlider.value), o = newton(v, 100), cx = 200, cy = 200, R = 70, sc = R/R_E;
+  val.textContent = fmt(v, 2) + T(' KM/S', ' КМ/С');
+  newtonSlider.setAttribute('aria-valuetext', fmt(v, 2) + T(' km/s', ' км/с'));
+  svg.innerHTML = '';
+  svg.appendChild(ns2('circle', {cx:cx, cy:cy, r:R, fill:'#d9d9d2', stroke:'#0b0b0c', 'stroke-width':1}));
+  /* the mountain, exaggerated so it can be seen */
+  svg.appendChild(ns2('path', {d:'M '+(cx-7)+' '+(cy-R+1)+' L '+cx+' '+(cy-R-6)+' L '+(cx+7)+' '+(cy-R+1)+' Z', fill:'#0b0b0c'}));
+  var thMax = o.type === 'sub' ? o.impactAngle : (o.type === 'esc' ? Math.acos(-1/o.e) - 0.02 : 2*Math.PI);
+  var d = '', N = 400, last = null;
+  for(var k = 0; k <= N; k++){
+    var th = thMax*k/N, r = o.r(th);
+    if(!(r > 0) || (o.type === 'esc' && r*sc > 600)) break;
+    var x = cx + r*sc*Math.sin(th), y = cy - r*sc*Math.cos(th);
+    d += (k ? ' L ' : 'M ') + x.toFixed(1) + ' ' + y.toFixed(1); last = [x, y];
   }
-
-  function draw(v){
-    svg.innerHTML='';
-    // earth
-    svg.appendChild(ns('circle',{cx:cx,cy:cy,r:R,fill:'#0b0b0c'}));
-    svg.appendChild(ns('circle',{cx:cx,cy:cy,r:R+34,fill:'none',stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 4'}));
-    var launchY = cy-R-2;
-
-    if(v < 7.9){
-      // ballistic arc that intersects earth
-      var frac = (v-4)/(7.9-4); // 0..1
-      var apexOffset = 20+frac*90;
-      var landX = cx + (30+frac*70);
-      var path = 'M '+cx+' '+launchY+' Q '+(cx+apexOffset)+' '+(launchY-40*frac-10)+' '+landX+' '+(cy-Math.sqrt(Math.max(0,R*R-(landX-cx)*(landX-cx))));
-      svg.appendChild(ns('path',{d:path, fill:'none', stroke:'#0b0b0c','stroke-width':1.6}));
-      svg.appendChild(ns('circle',{cx:landX, cy:(cy-Math.sqrt(Math.max(0,R*R-(landX-cx)*(landX-cx)))), r:4, fill:'#0b0b0c'}));
-      verdict.innerHTML = lang==='en' ? 'SUBORBITAL — trajectory intersects the surface. The cannonball lands.' : 'СУБОРБИТАЛЬНАЯ ТРАЕКТОРИЯ — пересекает поверхность. Ядро падает на землю.';
-    } else if(v < 11.15){
-      // elliptical orbit, eccentricity grows with v
-      // Horizontal launch at radius rp makes the launch point the perigee:
-      // vis-viva gives e = (v/v_circ)^2 - 1 and a = rp/(1-e). Earth's centre
-      // is the lower focus; the apogee (opposite side) grows with v and
-      // leaves the frame above ~10 km/s. (Fixed 2026-10-02: the old drawing
-      // kept a fixed and slid the ellipse sideways, so its perigee dipped
-      // inside the Earth for v > ~9 km/s.)
-      var rp = R+2;
-      var e = Math.max(0, Math.min(0.995, (v/7.9)*(v/7.9) - 1));
-      var a = rp/(1-e);
-      var b = a*Math.sqrt(1-e*e);
-      svg.appendChild(ns('ellipse',{cx:cx, cy:cy+a*e, rx:b, ry:a, fill:'none', stroke:'#0b0b0c','stroke-width':1.6}));
-      svg.appendChild(ns('circle',{cx:cx, cy:Math.min(396, cy+rp*(1+e)/(1-e)), r:4, fill:'#0b0b0c'}));
-      verdict.innerHTML = (v>7.85 && v<7.95) ?
-        (lang==='en' ? 'CIRCULAR ORBIT — first cosmic velocity. Stable, closed loop.' : 'КРУГОВАЯ ОРБИТА — первая космическая скорость. Устойчивый замкнутый виток.') :
-        (lang==='en' ? 'ELLIPTICAL ORBIT — bound to Earth, but the orbit is no longer circular.' : 'ЭЛЛИПТИЧЕСКАЯ ОРБИТА — аппарат всё ещё связан с Землёй, но орбита уже не круговая.');
-    } else {
-      var frac2 = Math.min(1,(v-11.15)/(13-11.15));
-      var curve = 60-frac2*40;
-      svg.appendChild(ns('path',{d:'M '+cx+' '+launchY+' Q '+(cx+120)+' '+(launchY-curve)+' 390 '+(launchY-curve-30-frac2*40), fill:'none', stroke:'#0b0b0c','stroke-width':1.6}));
-      svg.appendChild(ns('circle',{cx:388, cy:(launchY-curve-30-frac2*40), r:4, fill:'#0b0b0c'}));
-      verdict.innerHTML = lang==='en' ? 'ESCAPE — exceeds second cosmic velocity. Leaves Earth\'s gravity well entirely.' : 'УХОД — превышена вторая космическая скорость. Аппарат полностью покидает гравитационный колодец Земли.';
-    }
-    svg.appendChild(ns('circle',{cx:cx, cy:launchY, r:3.5, fill:'#0b0b0c'}));
-  }
-  slider.addEventListener('input', function(){
-    var v = parseFloat(slider.value);
-    val.textContent = v.toFixed(2)+' KM/S';
-    draw(v);
-  });
-  val.textContent = '7.90 KM/S';
-  draw(7.9);
-})();
+  svg.appendChild(ns2('path', {d:d, fill:'none', stroke:'#2f5aa1', 'stroke-width':2.4}));
+  if(o.type === 'sub' && last) svg.appendChild(ns2('circle', {cx:last[0], cy:last[1], r:4, fill:'#b5452a'}));
+  svg.appendChild(ns2('circle', {cx:cx, cy:cy - o.r0*sc, r:3.5, fill:'#0b0b0c'}));
+  var txt;
+  if(o.type === 'sub') txt = T('SUBORBITAL — the path dips into the ground ' + fmt(o.rangeKm, 0) + ' km away, after ' + fmt(o.flightMin, 1) + ' min. The cannonball lands.',
+                              'СУБОРБИТАЛЬНАЯ ТРАЕКТОРИЯ — путь уходит в землю в ' + fmt(o.rangeKm, 0) + ' км от горы, через ' + fmt(o.flightMin, 1) + ' мин. Ядро падает.');
+  else if(o.type === 'circ') txt = T('CIRCULAR ORBIT — ' + fmt(o.vc, 2) + ' km/s at 100 km: one lap every ' + fmt(o.periodMin, 1) + ' min.',
+                                     'КРУГОВАЯ ОРБИТА — ' + fmt(o.vc, 2) + ' км/с на высоте 100 км: виток за ' + fmt(o.periodMin, 1) + ' мин.');
+  else if(o.type === 'ell') txt = T('ELLIPTICAL ORBIT — still bound to Earth: high point ' + fmt(o.apoAlt, 0) + ' km, low point ' + fmt(o.periAlt, 0) + ' km, one lap every ' + fmt(o.periodMin/60, 2) + ' h.',
+                                    'ЭЛЛИПТИЧЕСКАЯ ОРБИТА — ядро всё ещё связано с Землёй: высшая точка ' + fmt(o.apoAlt, 0) + ' км, низшая ' + fmt(o.periAlt, 0) + ' км, виток за ' + fmt(o.periodMin/60, 2) + ' ч.');
+  else txt = T('ESCAPE — at ' + fmt(o.ve, 2) + ' km/s or more it never returns; this one leaves Earth with ' + fmt(o.vinf, 2) + ' km/s to spare.',
+               'УХОД — при ' + fmt(o.ve, 2) + ' км/с и больше ядро не возвращается; это ядро уходит от Земли с запасом ' + fmt(o.vinf, 2) + ' км/с.');
+  verdict.textContent = txt;
+}
+newtonSlider.addEventListener('input', renderNewton);
 
 /* ============================================================
    CHAPTER 3 & 8 — MODULE SCHEMATIC EXPLORER (shared builder)
@@ -488,8 +656,8 @@ var ISS_MODULES = [
    dEn:'The first ISS element, launched 1998. A Russian-built, US-funded control module that provided initial power, propulsion and steering before the rest of the station existed.',
    dRu:'Первый элемент МКС, запущен в 1998 году. Построенный в России и профинансированный США модуль обеспечивал энергоснабжение, двигательную установку и управление, пока остальной станции ещё не существовало.'},
   {id:'zvezda', en:'Zvezda', ru:'Звезда', cEn:'Russia', cRu:'Россия', x:180, y:150, w:110, h:34,
-   dEn:'The station\'s early living quarters and life-support core, docked in 2000. Descended directly from Mir\'s design lineage — it began life as a backup Mir core module.',
-   dRu:'Ранний жилой отсек и ядро систем жизнеобеспечения станции, состыкован в 2000 году. Прямой потомок «Мира» — изначально строился как резервный базовый блок для этой станции.'},
+   dEn:'The station\'s early living quarters and life-support core, docked in 2000. Its design comes straight from Mir\'s core module.',
+   dRu:'Ранний жилой отсек и ядро систем жизнеобеспечения станции, состыкован в 2000 году. Его конструкция прямо унаследована от базового блока «Мира».'},
   {id:'unity', en:'Unity (Node 1)', ru:'Unity (узел 1)', cEn:'United States', cRu:'США', x:300, y:150, w:70, h:34,
    dEn:'A connecting node, the first US-built element, docked in 1998 to Zarya. Provides six berthing ports linking modules on either side of the station.',
    dRu:'Соединительный узел, первый построенный в США элемент, состыкован с «Зарёй» в 1998 году. Имеет шесть стыковочных портов, связывающих модули по обе стороны станции.'},
@@ -502,9 +670,12 @@ var ISS_MODULES = [
   {id:'kibo', en:'Kibo', ru:'Кибо', cEn:'JAXA / Japan', cRu:'JAXA / Япония', x:580, y:150, w:110, h:34,
    dEn:'Japan\'s laboratory, the largest single module on ISS, includes an external exposed facility for experiments directly open to space.',
    dRu:'Японская лаборатория — крупнейший отдельный модуль МКС. Имеет внешнюю открытую платформу для экспериментов, напрямую подверженных воздействию космоса.'},
-  {id:'cupola', en:'Cupola', ru:'Купола', cEn:'ESA, on US segment', cRu:'ЕКА, на американском сегменте', x:300, y:210, w:60, h:34,
+  {id:'cupola', en:'Cupola', ru:'Купол', cEn:'ESA, on US segment', cRu:'ЕКА, на американском сегменте', x:300, y:210, w:60, h:34,
    dEn:'A seven-windowed observation dome added in 2010, used for Earth observation, photography, and operating the station\'s robotic arm.',
-   dRu:'Купол с семью иллюминаторами, добавлен в 2010 году. Используется для наблюдения за Землёй, фотосъёмки и управления роботизированным манипулятором станции.'}
+   dRu:'Купол с семью иллюминаторами, добавлен в 2010 году. Используется для наблюдения за Землёй, фотосъёмки и управления роботизированным манипулятором станции.'},
+  {id:'canadarm2', en:'Canadarm2', ru:'Canadarm2', cEn:'CSA / Canada', cRu:'ККА / Канада', x:400, y:210, w:110, h:34,
+   dEn:'The station\'s 17 m robotic arm, installed in 2001. It catches visiting cargo craft and moves hardware and spacewalkers around the outside. (This map stops at 2010; later modules are not shown.)',
+   dRu:'17-метровый манипулятор станции, установлен в 2001 году. Захватывает прибывающие грузовые корабли и перемещает оборудование и космонавтов в открытом космосе. (Схема доведена до 2010 года; более поздние модули не показаны.)'}
 ];
 var MIR_MODULES = [
   {id:'core', en:'Core Module', ru:'Базовый блок', cEn:'Launched 1986', cRu:'Запущен в 1986', x:280, y:150, w:130, h:34,
@@ -520,8 +691,8 @@ var MIR_MODULES = [
    dEn:'A materials-processing and docking module, later modified with androgynous ports that hosted visiting US Space Shuttles.',
    dRu:'Модуль для технологических экспериментов и стыковки, позже дооснащённый андрогинными портами, принимавшими американские шаттлы.'},
   {id:'spektr', en:'Spektr', ru:'Спектр', cEn:'Added 1995', cRu:'Добавлен в 1995', x:180, y:210, w:80, h:34,
-   dEn:'An Earth-and-atmosphere research module, partially depressurised after a 1997 collision with a Progress resupply craft, then sealed off.',
-   dRu:'Модуль для исследований Земли и атмосферы, частично разгерметизированный после столкновения с грузовым кораблём «Прогресс» в 1997 году и затем изолированный от станции.'},
+   dEn:'An Earth-and-atmosphere research module, punctured in a 1997 collision with a Progress resupply craft and then sealed off from the rest of the station.',
+   dRu:'Модуль для исследований Земли и атмосферы; при столкновении с грузовым кораблём «Прогресс» в 1997 году его корпус был пробит, и модуль изолировали от остальной станции.'},
   {id:'priroda', en:'Priroda', ru:'Природа', cEn:'Added 1996', cRu:'Добавлен в 1996', x:420, y:210, w:90, h:34,
    dEn:'The final module — a remote-sensing laboratory for Earth observation, completing the station\'s configuration.',
    dRu:'Последний модуль — лаборатория дистанционного зондирования для наблюдения Земли, завершившая конфигурацию станции.'}
@@ -550,7 +721,7 @@ function buildSchematic(svgId, panelId, modules, trussY){
   });
 
   modules.forEach(function(m){
-    var g = ns2('g',{class:'hotspot', 'data-id':m.id},svg);
+    var g = ns2('g',{class:'hotspot', 'data-id':m.id, tabindex:0, role:'button', 'aria-label':(lang==='en'?m.en:m.ru)},svg);
     ns2('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
     var label = ns2('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
     label.textContent = (lang==='en'?m.en:m.ru);
@@ -558,20 +729,21 @@ function buildSchematic(svgId, panelId, modules, trussY){
     ns2('line',{x1:m.x+m.w/2,y1:m.y,x2:m.x+m.w/2,y2:trussY,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
 
     g.addEventListener('click', function(){ selectModule(svg, panel, modules, m.id); });
+    g.addEventListener('keydown', function(ev){ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); selectModule(svg, panel, modules, m.id); } });
   });
 
   selectModule(svg, panel, modules, modules[0].id);
 }
 
 function selectModule(svg, panel, modules, id){
-  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); h.setAttribute('aria-pressed', h.dataset.id===id ? 'true' : 'false'); });
   var m = modules.filter(function(x){return x.id===id;})[0];
   panel.innerHTML =
     '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'MODULE SELECTED':'ВЫБРАННЫЙ МОДУЛЬ')+'</div>'+
     '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
     '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
     '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
-    '<div class="module-list">'+modules.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+    '<div class="module-list">'+modules.map(function(x){return '<button type="button" class="module-chip'+(x.id===id?' active':'')+'" aria-pressed="'+(x.id===id?'true':'false')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</button>';}).join('')+'</div>';
   panel.querySelectorAll('.module-chip').forEach(function(chip){
     chip.addEventListener('click', function(){ selectModule(svg, panel, modules, chip.dataset.jump); });
   });
@@ -597,8 +769,8 @@ var LIFE = [
    bodyRu:'Основная часть рабочего дня. Экипаж проводит эксперименты, разработанные учёными на Земле, обслуживает системы станции и перемещается между стойками в Destiny, Columbus и «Кибо».',
    objs:['vial','clipboard','glove']},
   {id:'comms', en:'13:00 — Comms', ru:'13:00 — Связь',
-   bodyEn:'Scheduled calls with family, press conferences, and school video links happen through the Ku-band antenna system, with only brief windows of signal each orbit.',
-   bodyRu:'Запланированные звонки семье, пресс-конференции и видеосвязь со школами проходят через антенную систему Ku-диапазона — сигнал доступен лишь короткими окнами на каждом витке.',
+   bodyEn:'Scheduled calls with family, press conferences and school video links go through NASA\'s Tracking and Data Relay Satellites, high above in geostationary orbit, which keep the station in near-continuous contact with the ground [3].',
+   bodyRu:'Запланированные звонки семье, пресс-конференции и видеосвязь со школами идут через спутники-ретрансляторы NASA TDRS на геостационарной орбите, которые обеспечивают станции почти непрерывную связь с Землёй [3].',
    objs:['headset','tablet','cable']},
   {id:'maint', en:'15:00 — Maintenance', ru:'15:00 — Обслуживание',
    bodyEn:'Filters, pumps, and CO2 scrubbers need constant attention. A station this old runs on a rolling schedule of repair, much of it improvised with what\'s on hand.',
@@ -615,12 +787,12 @@ function renderLifeTabs(){
   tabs.innerHTML=''; panels.innerHTML='';
   LIFE.forEach(function(item,i){
     var b = document.createElement('button');
-    b.className='tab-btn'+(i===0?' active':'');
+    b.className='tab-btn'+(i===0?' active':''); b.type='button'; b.setAttribute('aria-pressed', i===0 ? 'true' : 'false');
     b.textContent = (lang==='en'?item.en:item.ru);
     b.addEventListener('click', function(){
-      tabs.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active');});
+      tabs.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active'); x.setAttribute('aria-pressed','false');});
       panels.querySelectorAll('.tab-panel').forEach(function(x){x.classList.remove('active');});
-      b.classList.add('active');
+      b.classList.add('active'); b.setAttribute('aria-pressed','true');
       document.getElementById('lifePanel-'+item.id).classList.add('active');
     });
     tabs.appendChild(b);
@@ -629,7 +801,7 @@ function renderLifeTabs(){
     p.className='tab-panel'+(i===0?' active':'');
     p.id='lifePanel-'+item.id;
     var scene = document.createElement('div');
-    scene.className='float-scene';
+    scene.className='float-scene'; scene.setAttribute('aria-hidden','true');
     item.objs.forEach(function(o,j){
       var s = document.createElement('span');
       s.className='float-obj';
@@ -686,31 +858,43 @@ if(!document.getElementById('floaty-kf')){
 })();
 
 var CITIES = [
-  {en:'Honolulu, USA', ru:'Гонолулу, США', lat:21.3, passesEn:'~1–2 visible passes most evenings when the orbit\'s phasing lines up.', passesRu:'~1–2 видимых пролёта большинством вечеров, когда совпадает фаза орбиты.'},
-  {en:'Moscow, Russia', ru:'Москва, Россия', lat:55.8, passesEn:'Frequent ground-track crossings; visible passes cluster around local sunrise/sunset periods.', passesRu:'Частые пересечения наземной трассы; видимые пролёты группируются около местного восхода и заката.'},
-  {en:'Nairobi, Kenya', ru:'Найроби, Кения', lat:-1.3, passesEn:'Near-equatorial location — crossed on a large share of orbits, though not all are visible.', passesRu:'Приэкваториальное положение — трасса станции проходит рядом на большинстве витков, хотя видны не все.'},
-  {en:'Reykjavík, Iceland', ru:'Рейкьявик, Исландия', lat:64.1, passesEn:'Near the edge of the station\'s reach — the ISS never exceeds 51.6° latitude, so passes are lower and shorter.', passesRu:'На самой границе досягаемости станции — МКС никогда не превышает широту 51,6°, поэтому пролёты ниже над горизонтом и короче.'},
-  {en:'Longyearbyen, Svalbard', ru:'Лонгйир, Шпицберген', lat:78.2, passesEn:'Beyond the station\'s orbital inclination — the ISS never flies overhead here at all.', passesRu:'За пределами орбитального наклонения станции — МКС здесь вообще никогда не пролетает над головой.'},
-  {en:'Singapore', ru:'Сингапур', lat:1.35, passesEn:'Near-equatorial location — crossed on a large share of orbits, though not all are visible.', passesRu:'Приэкваториальное положение — трасса станции проходит рядом на большинстве витков, хотя видны не все.'},
-  {en:'Cape Town, South Africa', ru:'Кейптаун, ЮАР', lat:-33.9, passesEn:'Well within range; visible passes are seasonal, clustering when dawn or dusk aligns with the station\'s orbit.', passesRu:'Хорошо в пределах досягаемости; видимые пролёты сезонны и группируются, когда рассвет или закат совпадает с орбитой станции.'}
+  {en:'Honolulu, USA', ru:'Гонолулу, США', lat:21.3},
+  {en:'Nairobi, Kenya', ru:'Найроби, Кения', lat:-1.3},
+  {en:'Cape Town, South Africa', ru:'Кейптаун, ЮАР', lat:-33.9},
+  {en:'Moscow, Russia', ru:'Москва, Россия', lat:55.8},
+  {en:'Reykjavík, Iceland', ru:'Рейкьявик, Исландия', lat:64.1},
+  {en:'Longyearbyen, Svalbard', ru:'Лонгйир, Шпицберген', lat:78.2}
 ];
+var flyCache = {};
 function populateCities(){
-  var sel = document.getElementById('citySelect');
+  var sel = document.getElementById('citySelect'), cur = sel.value || 0;
   sel.innerHTML='';
   CITIES.forEach(function(c,i){
     var o = document.createElement('option');
     o.value=i; o.textContent = (lang==='en'?c.en:c.ru);
     sel.appendChild(o);
   });
+  sel.value = cur;
   updateFlyover();
 }
 function updateFlyover(){
   var sel = document.getElementById('citySelect');
   var c = CITIES[sel.value||0];
-  var result = document.getElementById('flyoverResult');
-  var within = Math.abs(c.lat) <= 51.6;
-  var label = lang==='en' ? 'LATITUDE '+c.lat.toFixed(1)+'° — ' : 'ШИРОТА '+c.lat.toFixed(1)+'° — ';
-  result.textContent = label + (within ? (lang==='en'?c.passesEn:c.passesRu) : (lang==='en'?c.passesEn:c.passesRu));
+  if(!flyCache[c.lat]) flyCache[c.lat] = passesPerDay(c.lat, ISS_H, ISS_INC, 10);
+  var f = flyCache[c.lat], elMax = maxElevation(c.lat, ISS_H, ISS_INC), overhead = Math.abs(c.lat) <= ISS_INC;
+  var latTxt = fmt(Math.abs(c.lat), 1) + '° ' + (c.lat >= 0 ? T('N','с. ш.') : T('S','ю. ш.'));
+  document.getElementById('flyReadout').innerHTML = [
+    [T('LATITUDE','ШИРОТА'), latTxt],
+    [T('PASSES ABOVE 10° PER DAY','ПРОЛЁТОВ ВЫШЕ 10° В СУТКИ'), f.passes < 0.05 ? '0' : fmt(f.passes, 1)],
+    [T('MINUTES ABOVE 10° PER DAY','МИНУТ ВЫШЕ 10° В СУТКИ'), fmt(f.minutesInView, 0)],
+    [T('HIGHEST IN YOUR SKY','МАКС. ВЫСОТА НАД ГОРИЗОНТОМ'), elMax <= 0 ? T('never rises','не восходит') : fmt(elMax, elMax < 15 ? 1 : 0) + '°']
+  ].map(function(r){ return '<div class="readout-cell"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>'; }).join('');
+  var msg;
+  if(elMax <= 0) msg = T('Beyond reach: from ' + latTxt + ' the ISS never even rises above the horizon.', 'Вне досягаемости: с широты ' + latTxt + ' МКС не поднимается даже над горизонтом.');
+  else if(elMax < 10) msg = T('The station only skims the horizon here, never climbing above 10°.', 'Здесь станция лишь скользит у горизонта и не поднимается выше 10°.');
+  else if(!overhead) msg = T('The ground track never reaches ' + latTxt + ', so the ISS never passes overhead — but it still climbs to about ' + fmt(elMax, 0) + '° above the horizon.', 'Трасса не доходит до широты ' + latTxt + ', поэтому МКС никогда не проходит над головой, но поднимается примерно на ' + fmt(elMax, 0) + '° над горизонтом.');
+  else msg = T('Within the track: the ISS can pass straight overhead here. Passes come every day, in runs on consecutive orbits about 90 minutes apart; the ones you can see by eye (station sunlit, sky dark) come and go over a few weeks as the lighting shifts.', 'В пределах трассы: здесь МКС может пройти прямо над головой. Пролёты бывают каждый день, сериями на соседних витках с интервалом около 90 минут; видимые глазом (станция освещена, небо тёмное) появляются и пропадают на несколько недель вместе со сменой освещения.');
+  document.getElementById('flyoverResult').textContent = msg;
 }
 document.getElementById('citySelect').addEventListener('change', updateFlyover);
 
@@ -720,24 +904,24 @@ document.getElementById('citySelect').addEventListener('change', updateFlyover);
 var EXPERIMENTS = [
   {en:'Twins Study', ru:'Исследование близнецов',
    objEn:'How does a year in space change the human body?', objRu:'Как год в космосе меняет человеческое тело?',
-   methEn:'Astronaut Scott Kelly spent 340 days on ISS while his identical twin, Mark, stayed on Earth; both were studied identically.', methRu:'Астронавт Скотт Келли провёл на МКС 340 дней, пока его однояйцевый близнец Марк оставался на Земле; обоих обследовали по одинаковому протоколу.',
-   resEn:'Measurable changes in gene expression, gut microbiome, and telomere length — most reversed within months of return.', resRu:'Измеримые изменения в экспрессии генов, микробиоме кишечника и длине теломер — большинство обратилось вспять в течение месяцев после возвращения.',
-   impEn:'Directly informs health protocols for multi-year Mars transit crews.', impRu:'Напрямую влияет на протоколы охраны здоровья для многолетних марсианских экспедиций.'},
+   methEn:'Astronaut Scott Kelly spent 340 days on ISS while his identical twin, Mark, stayed on Earth; both were studied the same way [5].', methRu:'Астронавт Скотт Келли провёл на МКС 340 дней, пока его однояйцевый близнец Марк оставался на Земле; обоих обследовали по одинаковому протоколу [5].',
+   resEn:'Gene expression and telomere length changed in flight. Most measures returned to normal within six months of landing, but a small share of immune and DNA-repair genes had not [5].', resRu:'В полёте изменились экспрессия генов и длина теломер. Большинство показателей вернулось к норме в течение шести месяцев после посадки, но небольшая часть генов, связанных с иммунитетом и репарацией ДНК, — нет [5].',
+   impEn:'Informs health planning for future multi-year Mars missions.', impRu:'Учитывается при планировании охраны здоровья в будущих многолетних марсианских экспедициях.'},
   {en:'Protein Crystal Growth', ru:'Выращивание белковых кристаллов',
    objEn:'Can microgravity grow purer crystals for drug design?', objRu:'Может ли невесомость выращивать более чистые кристаллы для разработки лекарств?',
    methEn:'Protein solutions crystallise slowly in freefall, undisturbed by the convection and sedimentation gravity causes on Earth.', methRu:'Белковые растворы медленно кристаллизуются в невесомости, не потревоженные конвекцией и осаждением, которые вызывает гравитация на Земле.',
-   resEn:'Larger, more ordered crystals than typically achievable on the ground, revealing finer structural detail.', resRu:'Более крупные и упорядоченные кристаллы, чем обычно достижимо на Земле, раскрывающие более тонкие детали структуры.',
-   impEn:'Used in the design of treatments for cancer, Parkinson\'s, and muscular dystrophy.', impRu:'Используется при разработке методов лечения рака, болезни Паркинсона и мышечной дистрофии.'},
+   resEn:'Space-grown crystals tend to be larger and more orderly, which can reveal finer structural detail [6].', resRu:'Кристаллы, выращенные в космосе, обычно крупнее и упорядоченнее, что помогает увидеть более тонкие детали структуры [6].',
+   impEn:'Projects have included Merck\'s work on uniform crystals of the cancer drug Keytruda, for an easier-to-inject formulation, and LRRK2, a protein linked to Parkinson\'s — aimed at better drugs, not yet proven treatments [6].', impRu:'Среди проектов — работа Merck над однородными кристаллами противоракового препарата Keytruda (для более удобной инъекционной формы) и белок LRRK2, связанный с болезнью Паркинсона; цель — более совершенные лекарства, а не уже доказанные методы лечения [6].'},
   {en:'Combustion in Microgravity', ru:'Горение в невесомости',
    objEn:'How does fire behave without buoyancy-driven convection?', objRu:'Как ведёт себя огонь без конвекции, вызванной плавучестью?',
-   methEn:'Small, controlled flames are burned inside sealed chambers and recorded on high-speed camera.', methRu:'Небольшие контролируемые пламена сжигаются внутри герметичных камер и снимаются высокоскоростной камерой.',
-   resEn:'Flames form cool, spherical "cool diffusion flames" that cannot exist under Earth gravity.', resRu:'Пламя принимает форму холодных сферических «холодных диффузионных пламён», которые не могут существовать в земной гравитации.',
-   impEn:'Improves fire-safety design for spacecraft and informs more efficient combustion engines on Earth.', impRu:'Совершенствует противопожарную безопасность космических аппаратов и помогает создавать более эффективные двигатели внутреннего сгорания на Земле.'},
-  {en:'Earth Observation — ECOSTRESS-class instruments', ru:'Наблюдение Земли — приборы класса ECOSTRESS',
+   methEn:'Fuel droplets are lit inside a sealed chamber and recorded on high-speed camera [7].', methRu:'В герметичной камере поджигают капли топлива и снимают их высокоскоростной камерой [7].',
+   resEn:'Without gravity the flame forms a ball. In the FLEX runs the visible flame went out, yet the leftover fuel kept burning in a faint "cool flame" at about 200–540 °C (400–1,000 °F) — something the researchers had not expected [7].', resRu:'Без тяжести пламя принимает форму шара. В опытах FLEX видимое пламя гасло, но остатки топлива продолжали гореть слабым «холодным пламенем» при температуре около 200–540 °C — этого исследователи не ожидали [7].',
+   impEn:'Cool-flame chemistry could help design cleaner, cooler-running engines, and the results feed into spacecraft fire safety [7].', impRu:'Химия холодного пламени может помочь создать более чистые двигатели с меньшей температурой горения, а результаты учитываются в пожарной безопасности космических аппаратов [7].'},
+  {en:'Earth Observation — ECOSTRESS', ru:'Наблюдение Земли — ECOSTRESS',
    objEn:'How do plants respond to drought stress at a global scale?', objRu:'Как растения реагируют на засуху в глобальном масштабе?',
-   methEn:'External sensors mounted on the truss measure plant temperature and water use across the planet\'s surface.', methRu:'Внешние датчики, установленные на ферме станции, измеряют температуру растений и расход воды по всей поверхности планеты.',
-   resEn:'High-resolution maps of agricultural water stress, updated continuously as the station orbits.', resRu:'Карты водного стресса сельскохозяйственных культур высокого разрешения, непрерывно обновляемые по мере движения станции по орбите.',
-   impEn:'Feeds directly into drought early-warning systems used by farmers and water managers.', impRu:'Напрямую питает системы раннего предупреждения о засухе, которыми пользуются фермеры и водные хозяйства.'}
+   methEn:'A thermal camera installed on Kibo\'s exposed platform in July 2018 measures plant temperature: plants short of water close their pores and warm up [8].', methRu:'Тепловизор, установленный на открытой платформе модуля «Кибо» в июле 2018 года, измеряет температуру растений: при нехватке воды они закрывают устьица и нагреваются [8].',
+   resEn:'Maps of how much water plants use, about 70 m across per pixel, taken at different times of day thanks to the station\'s orbit [8].', resRu:'Карты расхода воды растениями с разрешением около 70 м, снятые в разное время суток благодаря орбите станции [8].',
+   impEn:'Shows how crops and forests respond to drought through the day, where other satellites see each spot at the same hour [8].', impRu:'Показывает, как посевы и леса переносят засуху в течение дня, тогда как другие спутники видят каждую точку в один и тот же час [8].'}
 ];
 function renderExperiments(){
   var wrap = document.getElementById('expList');
@@ -746,16 +930,20 @@ function renderExperiments(){
     var card = document.createElement('div');
     card.className='exp-card'+(i===0?' open':'');
     card.innerHTML =
-      '<div class="exp-head"><h4>'+(lang==='en'?e.en:e.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div>'+
-      '<div class="exp-body"><div class="exp-grid">'+
+      '<div class="exp-head"><h4><button type="button" class="exp-btn" aria-expanded="'+(i===0?'true':'false')+'" aria-controls="expBody-'+i+'">'+(lang==='en'?e.en:e.ru)+'</button></h4><span class="exp-toggle" aria-hidden="true">'+(i===0?'−':'+')+'</span></div>'+
+      '<div class="exp-body" id="expBody-'+i+'"'+(i===0?'':' hidden')+'><div class="exp-grid">'+
         '<div><div class="lbl">'+(lang==='en'?'OBJECTIVE':'ЦЕЛЬ')+'</div>'+(lang==='en'?e.objEn:e.objRu)+'</div>'+
         '<div><div class="lbl">'+(lang==='en'?'METHOD':'МЕТОД')+'</div>'+(lang==='en'?e.methEn:e.methRu)+'</div>'+
         '<div><div class="lbl">'+(lang==='en'?'RESULT':'РЕЗУЛЬТАТ')+'</div>'+(lang==='en'?e.resEn:e.resRu)+'</div>'+
         '<div><div class="lbl">'+(lang==='en'?'IMPACT':'ЗНАЧЕНИЕ')+'</div>'+(lang==='en'?e.impEn:e.impRu)+'</div>'+
       '</div></div>';
-    card.querySelector('.exp-head').addEventListener('click', function(){
+    var head = card.querySelector('.exp-head'), btn = card.querySelector('.exp-btn'), body = card.querySelector('.exp-body');
+    head.addEventListener('click', function(){
       card.classList.toggle('open');
-      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+      var open = card.classList.contains('open');
+      card.querySelector('.exp-toggle').textContent = open ? '−' : '+';
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      body.hidden = !open;
     });
     wrap.appendChild(card);
   });
@@ -765,19 +953,20 @@ function renderExperiments(){
    CHAPTER 7 — MIR TIMELINE
    ============================================================ */
 var MIR_EVENTS = [
-  {y:1986, crisis:false, tEn:'Launch', tRu:'Запуск', dEn:'The core module launches from Baikonur on February 20, beginning what was meant to be a five-year mission.', dRu:'20 февраля с Байконура запускается базовый блок — начало миссии, изначально рассчитанной на пять лет.'},
+  {y:1986, crisis:false, tEn:'Launch', tRu:'Запуск', dEn:'The core module launches from Baikonur on 19 February 1986 (20 February, Moscow time), designed for five years in orbit [9][10].', dRu:'19 февраля 1986 года (20 февраля по московскому времени) с Байконура стартует базовый блок, рассчитанный на пять лет работы на орбите [9][10].'},
   {y:1987, crisis:false, tEn:'Kvant docks', tRu:'Стыковка «Кванта»', dEn:'The first expansion module adds astrophysics instruments, beginning Mir\'s long career as a modular, growing station.', dRu:'Первый модуль расширения добавляет астрофизические приборы, открывая долгую историю «Мира» как модульной, растущей станции.'},
   {y:1989, crisis:false, tEn:'Kvant-2 docks', tRu:'Стыковка «Кванта-2»', dEn:'A spacewalk airlock and life-support systems arrive, extending the crew\'s independence from resupply.', dRu:'Прибывает шлюзовая камера для выходов в открытый космос и системы жизнеобеспечения, расширяющие автономность экипажа от снабжения.'},
   {y:1990, crisis:false, tEn:'Kristall docks', tRu:'Стыковка «Кристалла»', dEn:'A materials-science module arrives, later fitted with docking ports built to receive the US Space Shuttle.', dRu:'Прибывает модуль для технологических экспериментов, позже дооснащённый портами для приёма американских шаттлов.'},
   {y:1995, crisis:false, tEn:'Shuttle-Mir begins', tRu:'Начало программы «Шаттл — Мир»', dEn:'Spektr docks and US Space Shuttles begin regular visits, the first sustained US–Russian cooperation in orbit — a direct rehearsal for ISS.', dRu:'Стыкуется «Спектр», и американские шаттлы начинают регулярные визиты — первое устойчивое американо-российское сотрудничество на орбите, прямая репетиция МКС.'},
+  {y:1996, crisis:false, tEn:'Priroda docks', tRu:'Стыковка «Природы»', dEn:'The last research module, an Earth-observation laboratory, completes Mir\'s configuration [11].', dRu:'Последний исследовательский модуль — лаборатория дистанционного зондирования Земли — завершает конфигурацию «Мира» [11].'},
   {y:1997, crisis:true, tEn:'Fire, then collision', tRu:'Пожар, затем столкновение', dEn:'A solid-fuel oxygen candle catches fire in February, filling the station with smoke. In June, an unpiloted Progress cargo craft collides with Spektr during a docking test, puncturing the module and forcing an emergency seal-off.', dRu:'В феврале загорается твердотопливная кислородная шашка, заполнив станцию дымом. В июне беспилотный грузовой корабль «Прогресс» во время испытания ручной стыковки сталкивается со «Спектром», пробивает его корпус и вынуждает экстренно изолировать модуль.'},
-  {y:1998, crisis:false, tEn:'Priroda docks', tRu:'Стыковка «Природы»', dEn:'The sixth and final module completes Mir\'s configuration, an Earth-observation laboratory.', dRu:'Шестой и последний модуль завершает конфигурацию «Мира» — лаборатория дистанционного зондирования Земли.'},
-  {y:2000, crisis:false, tEn:'Last crew departs', tRu:'Последний экипаж покидает станцию', dEn:'Funding for Mir dries up as Russia commits fully to ISS. The final resident crew leaves in June.', dRu:'Финансирование «Мира» иссякает по мере того, как Россия полностью переключается на МКС. В июне станцию покидает последний постоянный экипаж.'},
-  {y:2001, crisis:true, tEn:'Deorbit', tRu:'Сведение с орбиты', dEn:'On March 23, engine burns from a docked Progress spacecraft steer Mir into a controlled reentry over the South Pacific.', dRu:'23 марта двигатели пристыкованного корабля «Прогресс» направляют «Мир» на управляемый вход в атмосферу над южной частью Тихого океана.'}
+  {y:1999, crisis:false, tEn:'Ten years crewed', tRu:'Десять лет с экипажем', dEn:'In August, ten years of uninterrupted habitation end; they had begun in September 1989. Only the ISS would beat that record, in October 2010 [10].', dRu:'В августе заканчиваются десять лет непрерывного пребывания экипажей, начавшиеся в сентябре 1989 года. Этот рекорд побьёт только МКС, в октябре 2010 года [10].'},
+  {y:2001, crisis:true, tEn:'Deorbit', tRu:'Сведение с орбиты', dEn:'On 23 March three burns by the docked Progress M1-5 cargo ship bring Mir down into the South Pacific [11].', dRu:'23 марта три включения двигателей пристыкованного грузового корабля «Прогресс М1-5» сводят «Мир» в южную часть Тихого океана [11].'}
 ];
 function renderMirTimeline(){
   var events = document.getElementById('mtEvents');
   var detail = document.getElementById('mtDetail');
+  detail.setAttribute('aria-live','polite');
   events.innerHTML='';
   MIR_EVENTS.forEach(function(ev,i){
     var wrap = document.createElement('div');
@@ -785,16 +974,21 @@ function renderMirTimeline(){
     wrap.style.flex='1';
     wrap.style.display='flex';
     wrap.style.justifyContent='center';
-    var dot = document.createElement('div');
+    var hit = document.createElement('button');
+    hit.type='button'; hit.className='mt-hit';
+    hit.setAttribute('aria-label', ev.y+' — '+(lang==='en'?ev.tEn:ev.tRu));
+    var dot = document.createElement('span');
     dot.className='mt-dot'+(ev.crisis?' crisis':'')+(i===0?' active':'');
+    hit.appendChild(dot);
     var yr = document.createElement('div');
-    yr.className='mt-year'; yr.textContent=ev.y;
-    wrap.appendChild(dot); wrap.appendChild(yr);
-    dot.addEventListener('click', function(){ selectMirEvent(i); });
+    yr.className='mt-year'; yr.textContent=ev.y; yr.setAttribute('aria-hidden','true');
+    wrap.appendChild(hit); wrap.appendChild(yr);
+    hit.addEventListener('click', function(){ selectMirEvent(i); });
     events.appendChild(wrap);
   });
   function selectMirEvent(i){
     events.querySelectorAll('.mt-dot').forEach(function(d,j){ d.classList.toggle('active', j===i); });
+    events.querySelectorAll('.mt-hit').forEach(function(b,j){ b.setAttribute('aria-pressed', j===i ? 'true' : 'false'); });
     var ev = MIR_EVENTS[i];
     detail.innerHTML = '<div class="mt-y">'+ev.y+'</div><div class="mt-t">'+(ev.crisis?(lang==='en'?'⚠ CRISIS EVENT':'⚠ АВАРИЙНОЕ СОБЫТИЕ'):(lang==='en'?'MILESTONE':'ВЕХА'))+' — '+(lang==='en'?ev.tEn:ev.tRu)+'</div><p style="font-size:14.5px;">'+(lang==='en'?ev.dEn:ev.dRu)+'</p>';
   }
@@ -805,24 +999,24 @@ function renderMirTimeline(){
    CHAPTER 9 — DEORBIT SEQUENCE
    ============================================================ */
 var DEORBIT_STAGES = [
-  {tEn:'01 — Stable orbit', tRu:'01 — Устойчивая орбита', cEn:'Mir circles at roughly 350–400 km, systems ageing but crewed and functioning.', cRu:'«Мир» движется по орбите на высоте примерно 350–400 км, системы стареют, но станция обитаема и функционирует.'},
-  {tEn:'02 — Orbit lowered', tRu:'02 — Снижение орбиты', cEn:'Ground controllers use natural atmospheric drag and small burns to gradually lower the station\'s altitude over its final weeks.', cRu:'Наземные операторы используют естественное торможение атмосферой и небольшие включения двигателей, чтобы постепенно снижать высоту станции в её последние недели.'},
-  {tEn:'03 — Deorbit burn', tRu:'03 — Тормозной импульс', cEn:'A docked Progress cargo craft fires its engines in three planned burns, committing Mir to reentry over an uninhabited stretch of ocean.', cRu:'Пристыкованный грузовой корабль «Прогресс» выполняет три запланированных включения двигателей, направляя «Мир» на вход в атмосферу над необитаемым участком океана.'},
-  {tEn:'04 — Breakup', tRu:'04 — Разрушение', cEn:'Atmospheric heating and stress fracture the 137-tonne structure into hundreds of pieces starting around 100 km altitude.', cRu:'Аэродинамический нагрev и нагрузки разрушают 137-тонную конструкцию на сотни фрагментов начиная примерно со 100 км высоты.'},
-  {tEn:'05 — Descent to the Pacific', tRu:'05 — Спуск в Тихий океан', cEn:'Surviving fragments fall into the South Pacific Ocean spacecraft cemetery near Point Nemo, the farthest point from any land.', cRu:'Уцелевшие фрагменты падают в «кладбище космических аппаратов» в южной части Тихого океана, вблизи точки Немо — самой удалённой от суши точки планеты.'}
+  {tEn:'01 — Ageing orbit', tRu:'01 — Стареющая орбита', cEn:'At the end of 2000 Mir flew about 300–340 km up, sinking a little every day under air drag [11].', cRu:'В конце 2000 года «Мир» летал на высоте около 300–340 км и каждый день немного снижался из-за сопротивления воздуха [11].'},
+  {tEn:'02 — Drag does the work', tRu:'02 — Работает торможение', cEn:'Controllers let drag lower the station for free, waiting until its orbit had sunk to about 220 km [11].', cRu:'Управление полётом позволило атмосфере бесплатно снижать станцию и ждало, пока орбита опустится примерно до 220 км [11].'},
+  {tEn:'03 — Three burns', tRu:'03 — Три импульса', cEn:'On 23 March the docked Progress M1-5 fired three times: −9.3 m/s and −10.4 m/s with its thrusters, then −28 m/s with its main engine, dropping the low point of the orbit to about 80 km [11].', cRu:'23 марта пристыкованный «Прогресс М1-5» включал двигатели трижды: −9,3 и −10,4 м/с двигателями причаливания и ориентации, затем −28 м/с основным двигателем, опустив низшую точку орбиты примерно до 80 км [11].'},
+  {tEn:'04 — Breakup', tRu:'04 — Разрушение', cEn:'Heating tore the 135-tonne station apart [11]: the first pieces were expected to break off at 110–100 km and the main structure at 90–70 km [12].', cRu:'Нагрев разорвал 135-тонную станцию [11]: первые элементы должны были отделиться на высоте 110–100 км, а основная конструкция — разрушиться на 90–70 км [12].'},
+  {tEn:'05 — Into the Pacific', tRu:'05 — В Тихий океан', cEn:'Surviving fragments fell into the South Pacific. ESA\'s reconstruction put the impact near 40° S, 160° W, inside a footprint of about ±2,500 km along the track [11].', cRu:'Уцелевшие обломки упали в южную часть Тихого океана. По реконструкции ЕКА, место падения — около 40° ю. ш., 160° з. д., в пределах зоны около ±2 500 км вдоль трассы [11].'}
 ];
 function renderDeorbit(){
   var controls = document.getElementById('deorbitControls');
   controls.innerHTML='';
   DEORBIT_STAGES.forEach(function(s,i){
     var b = document.createElement('button');
-    b.className='stage-btn'+(i===0?' active':'');
+    b.className='stage-btn'+(i===0?' active':''); b.type='button'; b.setAttribute('aria-pressed', i===0 ? 'true' : 'false');
     b.textContent = (lang==='en'?s.tEn:s.tRu);
     b.addEventListener('click', function(){ showStage(i); });
     controls.appendChild(b);
   });
   function showStage(i){
-    controls.querySelectorAll('.stage-btn').forEach(function(b,j){ b.classList.toggle('active', j===i); });
+    controls.querySelectorAll('.stage-btn').forEach(function(b,j){ b.classList.toggle('active', j===i); b.setAttribute('aria-pressed', j===i ? 'true' : 'false'); });
     document.getElementById('deorbitCaption').textContent = (lang==='en'?DEORBIT_STAGES[i].cEn:DEORBIT_STAGES[i].cRu);
     drawDeorbitStage(i);
   }
@@ -866,7 +1060,7 @@ function drawDeorbitStage(stage){
     }
     svg.appendChild(ns2('circle',{cx:200,cy:250,r:4,fill:'#0b0b0c'}));
     var ptext = ns2('text',{x:200,y:270,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':'10'},svg);
-    ptext.textContent = (lang==='en'?'POINT NEMO — SPACECRAFT CEMETERY':'ТОЧКА НЕМО — «КЛАДБИЩЕ» АППАРАТОВ');
+    ptext.textContent = (lang==='en'?'SOUTH PACIFIC — 40° S, 160° W':'ЮГ ТИХОГО ОКЕАНА — 40° Ю. Ш., 160° З. Д.');
     // small dots as debris field
     [[-30,-15],[20,-20],[-10,10],[35,5],[10,-25]].forEach(function(p){
       svg.appendChild(ns2('circle',{cx:200+p[0],cy:250+p[1],r:2,fill:'#0b0b0c'}));
@@ -882,7 +1076,7 @@ var LEGACY = [
   {y:'1973', en:'Skylab', ru:'Skylab', noteEn:'First US station', noteRu:'Первая станция США', h:26},
   {y:'1986', en:'Mir', ru:'Мир', noteEn:'Modular pioneer', noteRu:'Пионер модульности', h:40},
   {y:'1998', en:'ISS', ru:'МКС', noteEn:'International assembly begins', noteRu:'Начало международной сборки', h:60},
-  {y:'2030s+', en:'Gateway &amp; beyond', ru:'Gateway и далее', noteEn:'Lunar-orbit outposts', noteRu:'Форпосты на окололунной орбите', h:34}
+  {y:'2030s', en:'Commercial stations', ru:'Коммерческие станции', noteEn:'NASA plans to move to commercially owned destinations [13]', noteRu:'NASA планирует перейти на коммерческие станции [13]', h:34}
 ];
 function renderLegacy(){
   var row = document.getElementById('legacyRow');
@@ -901,30 +1095,21 @@ function renderLegacy(){
 
 /* ============ REFERENCES ============ */
 var REFERENCES = [
-  {
-    "title": "International Space Station",
-    "url": "https://www.nasa.gov/international-space-station/",
-    "note": {
-      "en": "NASA. Station overview, partner agencies, and current crew and vehicle operations.",
-      "ru": "NASA. Обзор станции, агентства-партнёры и текущие операции с экипажами и кораблями."
-    }
-  },
-  {
-    "title": "International Space Station",
-    "url": "https://en.wikipedia.org/wiki/International_Space_Station",
-    "note": {
-      "en": "Wikipedia. Assembly history since 1998, module list, and continuous-occupation record since November 2000.",
-      "ru": "Википедия. История сборки с 1998 года, список модулей и рекорд непрерывного пребывания экипажа с ноября 2000 года."
-    }
-  },
-  {
-    "title": "Mir",
-    "url": "https://en.wikipedia.org/wiki/Mir",
-    "note": {
-      "en": "Wikipedia. Mir's 1986-2001 operational history, modular assembly, and 2001 controlled deorbit into the Pacific.",
-      "ru": "Википедия. История эксплуатации «Мира» в 1986-2001 годах, модульная сборка и управляемый сход с орбиты в Тихий океан в 2001 году."
-    }
-  }
+  {"title": "NASA — International Space Station Facts and Figures", "url": "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/", "note": {"en": "Mass 419,725 kg, 109 m end to end, 75–90 kW from eight solar arrays, 1,005 m³ pressurised volume, a crew of seven, five agencies from 15 countries, crewed since November 2000.", "ru": "Масса 419 725 кг, длина 109 м, 75–90 кВт от восьми солнечных батарей, гермообъём 1 005 м³, экипаж из семи человек, пять агентств из 15 стран, экипажи на борту с ноября 2000 года."}},
+  {"title": "NASA (2024) — International Space Station Deorbit Analysis Summary", "url": "https://www.nasa.gov/wp-content/uploads/2024/06/iss-deorbit-analysis-summary.pdf", "note": {"en": "Altitude about 415 km, mass over 430,000 kg, 51.6° inclination, one to two years of orbital life without reboosts, debris-impact risk vs altitude (about 51 years between penetrating impacts at 415 km, under 4 at 800 km), operations through at least 30 September 2030.", "ru": "Высота около 415 км, масса более 430 000 кг, наклонение 51,6°, без подъёмов орбиты — один-два года жизни, риск ударов обломков в зависимости от высоты (около 51 года между пробивающими ударами на 415 км, менее 4 лет на 800 км), работа как минимум до 30 сентября 2030 года."}},
+  {"title": "NASA (2025) — Tracking and Data Relay Satellites (TDRS)", "url": "https://www.nasa.gov/missions/tdrs/tracking-and-data-relay-satellite-tdrs-generations-of-spacecraft", "note": {"en": "Geostationary relays that give the ISS and Hubble near-continuous, high-bandwidth contact with the ground.", "ru": "Геостационарные ретрансляторы, обеспечивающие МКС и «Хабблу» почти непрерывную высокоскоростную связь с Землёй."}},
+  {"title": "NASA — What Is Microgravity? (Grades 5–8)", "url": "https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-microgravity-grades-5-8/", "note": {"en": "At the station's altitude Earth's gravity is about 90 percent of its surface value; objects float because they are in free fall.", "ru": "На высоте станции сила тяжести составляет около 90 процентов от земной; предметы парят, потому что свободно падают."}},
+  {"title": "NASA (2019) — NASA's Landmark Twins Study Reveals Resilience of Human Body in Space (via ScienceDaily)", "url": "https://www.sciencedaily.com/releases/2019/04/190411165113.htm", "note": {"en": "NASA release on the Science paper: Scott Kelly's 340 days on the ISS; telomeres and most gene-expression changes returned to normal within six months, a small share of immune and DNA-repair genes did not.", "ru": "Пресс-релиз NASA о статье в Science: 340 дней Скотта Келли на МКС; теломеры и большинство изменений экспрессии генов вернулись к норме за шесть месяцев, небольшая часть генов иммунитета и репарации ДНК — нет."}},
+  {"title": "ISS National Laboratory — Crystallizing Proteins in Space for Drug Development", "url": "https://www.issnationallab.org/crystallizing-proteins-in-space-for-drug-development/", "note": {"en": "Why space-grown protein crystals tend to be larger and better ordered, and drug projects including Merck's Keytruda and the Parkinson's-linked protein LRRK2.", "ru": "Почему белковые кристаллы, выращенные в космосе, обычно крупнее и упорядоченнее; лекарственные проекты, включая Keytruda компании Merck и связанный с болезнью Паркинсона белок LRRK2."}},
+  {"title": "NASA Scientific Visualization Studio (2012) — Great Balls of Fire (FLEX cool flames)", "url": "https://svs.gsfc.nasa.gov/11318", "note": {"en": "In the FLEX experiment a fuel droplet burns as a ball at 2,200–3,100 °F; after it goes out, leftover fuel can keep burning in a cool flame at 400–1,000 °F — an unexpected result.", "ru": "В эксперименте FLEX капля топлива горит шаром при 2 200–3 100 °F; после того как пламя гаснет, остатки топлива могут продолжать гореть холодным пламенем при 400–1 000 °F — неожиданный результат."}},
+  {"title": "NASA/JPL (2018) — New NASA Mission to Detect Plant Water Use from Space", "url": "https://www.jpl.nasa.gov/news/new-nasa-mission-to-detect-plant-water-use-from-space/", "note": {"en": "ECOSTRESS on Kibo's exposed facility: plant temperature as a sign of water stress, about 70 m resolution, different times of day from the station's orbit.", "ru": "ECOSTRESS на открытой платформе «Кибо»: температура растений как признак нехватки воды, разрешение около 70 м, съёмка в разное время суток благодаря орбите станции."}},
+  {"title": "NASA History (SP-4225) — Mir-25 Weekly Report, week of 6 February 1998", "url": "https://www.nasa.gov/history/SP-4225/documentation/mir-summaries/mir25/wr.htm", "note": {"en": "Shuttle-Mir status report: the station was originally designed to remain in orbit for five years.", "ru": "Отчёт программы «Шаттл — Мир»: изначально станция была рассчитана на пять лет работы на орбите."}},
+  {"title": "NASA (2021) — 35 Years Ago: Launch of Mir Space Station's First Module", "url": "https://www.nasa.gov/history/35-years-ago-launch-of-mir-space-stations-first-module", "note": {"en": "Core module launched 19 February 1986; 28 long-duration expeditions; 125 cosmonauts and astronauts from 12 countries; uninterrupted habitation September 1989 – August 1999.", "ru": "Базовый блок запущен 19 февраля 1986 года; 28 долговременных экспедиций; 125 космонавтов и астронавтов из 12 стран; непрерывное пребывание экипажей с сентября 1989 по август 1999 года."}},
+  {"title": "Klinkrad, H. et al. (2002) — ESOC Activities during the Mir De-orbit. ESA SP-498", "url": "https://adsabs.harvard.edu/pdf/2002ESASP.498...57K", "note": {"en": "Mir's module dates and 135-tonne final mass; the government decision to end the mission; orbit decay from ~340 km to ~220 km; the three burns of 23 March 2001 (−9.27, −10.4 and −28.0 m/s, perigee to about 80 km); reconstructed impact near 40° S, 160° W with a conservative ±2,500 km along-track footprint.", "ru": "Даты модулей «Мира» и итоговая масса 135 т; решение правительства завершить полёт; снижение орбиты с ~340 до ~220 км; три импульса 23 марта 2001 года (−9,27, −10,4 и −28,0 м/с, перигей около 80 км); реконструированное место падения около 40° ю. ш., 160° з. д. с консервативной зоной ±2 500 км вдоль трассы."}},
+  {"title": "RussianSpaceWeb — Mir mission in 2001", "url": "https://www.russianspaceweb.com/mir_2001.html", "note": {"en": "The 2000 decision to deorbit Mir, and the pre-entry plan: first elements breaking off at 110–100 km, the station disintegrating at 90–70 km.", "ru": "Решение 2000 года свести «Мир» с орбиты и план спуска: отделение первых элементов на высоте 110–100 км, разрушение станции на 90–70 км."}},
+  {"title": "NASA (26 June 2024) — NASA Selects International Space Station US Deorbit Vehicle", "url": "https://www.nasa.gov/news-release/nasa-selects-international-space-station-us-deorbit-vehicle/", "note": {"en": "SpaceX contract worth up to $843 million; ISS operations through 2030 (Russia, at the time of the June 2024 release, through at least 2028); transition to commercially owned destinations.", "ru": "Контракт со SpaceX стоимостью до 843 млн долларов; работа МКС до 2030 года (Россия на момент релиза в июне 2024 года — по меньшей мере до 2028-го); переход на коммерческие станции."}},
+  {"title": "SpacePolicyOnline (16 July 2026) — Russia Agrees to ISS Operations, Seat-Swaps, Through 2030", "url": "https://spacepolicyonline.com/news/russia-agrees-to-iss-operations-seat-swaps-through-2030/", "note": {"en": "Roscosmos head Dmitry Bakanov agreed with NASA Administrator Jared Isaacman at Baikonur that Russia will support ISS operations through 2030 (previously 2028); reported by TASS, and NASA confirmed the account.", "ru": "Глава Роскосмоса Дмитрий Баканов на встрече с администратором NASA Джаредом Айзекманом на Байконуре согласился, что Россия будет поддерживать работу МКС до 2030 года (ранее — до 2028-го); сообщило ТАСС, NASA подтвердило эти сведения."}},
+  {"title": "NASA (2024) — FAQs: The International Space Station Transition Plan", "url": "https://www.nasa.gov/faqs-the-international-space-station-transition-plan/", "note": {"en": "Boosting the ISS to a 100-year orbit would take 120–140 m/s, to a >10,000-year orbit 760 m/s, against 57 m/s for a controlled deorbit.", "ru": "Подъём МКС на орбиту на 100 лет потребовал бы 120–140 м/с, на орбиту более чем на 10 000 лет — 760 м/с, тогда как управляемый спуск — 57 м/с."}}
 ];
 function renderRefs(){
   var wrap = document.getElementById('refList');
@@ -938,6 +1123,186 @@ function renderRefs(){
 }
 
 /* ============================================================
+   CHAPTER 5 — ISS NUMBERS AT 415 KM + "WHY THE CREW FLOATS"
+   ============================================================ */
+function renderStats415(){
+  var o = orbit(ISS_H);
+  document.getElementById('st415T').textContent = fmt(o.periodMin, 1);
+  document.getElementById('st415N').textContent = fmt(o.lapsPerDay, 1);
+  document.getElementById('st415V').textContent = fmt(Math.round(o.kmh/10)*10, 0);
+}
+var altSlider = document.getElementById('altSlider');
+var ALT_PRESETS = [
+  {h:415, en:'ISS · 415 KM', ru:'МКС · 415 КМ'},
+  {h:220, en:'MIR\'S LAST WEEKS · 220 KM', ru:'«МИР» В КОНЦЕ · 220 КМ'},
+  {h:2000, en:'2,000 KM', ru:'2 000 КМ'}
+];
+function renderAlt(){
+  var h = parseFloat(altSlider.value), o = orbit(h);
+  document.getElementById('altVal').textContent = fmt(h, 0) + T(' km', ' км');
+  altSlider.setAttribute('aria-valuetext', fmt(h, 0) + T(' km', ' км'));
+  var btns = document.getElementById('altBtns');
+  btns.innerHTML = '';
+  ALT_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'btn' + (Math.abs(h - p.h) < 0.01 ? ' active' : '');
+    b.setAttribute('aria-pressed', Math.abs(h - p.h) < 0.01 ? 'true' : 'false');
+    b.textContent = T(p.en, p.ru);
+    b.addEventListener('click', function(){ altSlider.value = p.h; renderAlt(); });
+    btns.appendChild(b);
+  });
+  var cells = [
+    [T('ORBITAL SPEED','ОРБИТАЛЬНАЯ СКОРОСТЬ'), fmt(o.v, 2) + T(' km/s · ', ' км/с · ') + fmt(Math.round(o.kmh/10)*10, 0) + T(' km/h', ' км/ч')],
+    [T('ONE LAP','ОДИН ВИТОК'), fmt(o.periodMin, 1) + T(' min', ' мин')],
+    [T('LAPS (≈ SUNRISES) PER DAY','ВИТКОВ (≈ ВОСХОДОВ) В СУТКИ'), fmt(o.lapsPerDay, 1)],
+    [T('GRAVITY VS SURFACE','ТЯЖЕСТЬ ОТНОСИТЕЛЬНО ПОВЕРХНОСТИ'), fmt(o.gFrac*100, 1) + ' %'],
+    [T('FALL IN EACH SECOND','ПАДЕНИЕ ЗА СЕКУНДУ'), fmt(o.fallPerSecond_m, 2) + T(' m', ' м')],
+    [T('70 KG ON A TOWER THIS TALL','70 КГ НА БАШНЕ ТАКОЙ ВЫСОТЫ'), fmt(70*o.gFrac, 1) + T(' kg', ' кг')]
+  ];
+  document.getElementById('altReadout').innerHTML = cells.map(function(r){ return '<div class="readout-cell"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>'; }).join('');
+  document.getElementById('altStatus').textContent = T(
+    'At ' + fmt(h, 0) + ' km gravity is still ' + fmt(o.gFrac*100, 0) + ' % of its surface value. In every second the station falls ' + fmt(o.fallPerSecond_m, 1) + ' m toward Earth — and the curved surface drops away by the same amount. That endless fall is weightlessness.',
+    'На высоте ' + fmt(h, 0) + ' км сила тяжести всё ещё ' + fmt(o.gFrac*100, 0) + ' % от земной. Каждую секунду станция падает к Земле на ' + fmt(o.fallPerSecond_m, 1) + ' м — и изогнутая поверхность уходит вниз ровно на столько же. Это бесконечное падение и есть невесомость.');
+  /* drawing: Earth and orbit to scale, plus gravity bars */
+  var svg = document.getElementById('altSvg'); svg.innerHTML = '';
+  var cx = 150, cy = 150, R = 95, sc = R/R_E, rr = (R_E + h)*sc;
+  ns2('circle', {cx:cx, cy:cy, r:R, fill:'#0b0b0c'}, svg);
+  ns2('circle', {cx:cx, cy:cy, r:rr, fill:'none', stroke:'#2f5aa1', 'stroke-width':1.6, 'stroke-dasharray':'4 3'}, svg);
+  ns2('circle', {cx:cx, cy:cy - rr, r:4, fill:'#2f5aa1'}, svg);
+  var t1 = ns2('text', {x:cx, y:292, 'text-anchor':'middle', 'class':'svg-small'}, svg); t1.textContent = T('orbit to scale', 'орбита в масштабе');
+  var base = 260, top = 40, bw = 44;
+  [[310, 1, T('surface','поверхность'), '#7a7a74'], [390, o.gFrac, fmt(h, 0) + T(' km', ' км'), '#2f5aa1']].forEach(function(b){
+    var hh = (base - top)*b[1];
+    ns2('rect', {x:b[0], y:base - hh, width:bw, height:hh, fill:b[3]}, svg);
+    var l = ns2('text', {x:b[0] + bw/2, y:base + 16, 'text-anchor':'middle', 'class':'svg-small'}, svg); l.textContent = b[2];
+    var v = ns2('text', {x:b[0] + bw/2, y:base - hh - 6, 'text-anchor':'middle', 'class':'svg-label'}, svg); v.textContent = fmt(b[1]*100, 0) + ' %';
+  });
+  var gl = ns2('text', {x:372, y:22, 'text-anchor':'middle', 'class':'svg-small'}, svg); gl.textContent = T('gravity', 'сила тяжести');
+}
+altSlider.addEventListener('input', renderAlt);
+
+/* ============================================================
+   CHAPTER 9 — DEORBIT BURN CALCULATOR + BOOST VS DEORBIT
+   ============================================================ */
+var BURN_PRESETS = [   /* ESA's reconstruction of 23 March 2001 [11]: pre-burn orbit, post-burn perigee, flown dv */
+  {id:'m1', en:'MIR BURN 1', ru:'«МИР»: ИМПУЛЬС 1', ha:221.1, hp:207.0, ht:188.0, flown:9.27},
+  {id:'m2', en:'MIR BURN 2', ru:'«МИР»: ИМПУЛЬС 2', ha:213.5, hp:188.0, ht:156.1, flown:10.4},
+  {id:'m3', en:'MIR BURN 3', ru:'«МИР»: ИМПУЛЬС 3', ha:213.2, hp:156.1, ht:80.0, flown:28.0},
+  {id:'iss', en:'ISS FROM 415 KM', ru:'МКС С 415 КМ', ha:415, hp:415, ht:50, flown:null}
+];
+var burnPreset = 'm3';
+var burnHa = document.getElementById('burnHa'), burnHp = document.getElementById('burnHp'), burnHt = document.getElementById('burnHt');
+function setBurnPreset(p){ burnPreset = p.id; burnHa.value = p.ha; burnHp.value = p.hp; burnHt.value = p.ht; renderBurn(); }
+function renderBurn(){
+  var ha = parseFloat(burnHa.value), hp = Math.min(parseFloat(burnHp.value), ha), ht = Math.min(parseFloat(burnHt.value), hp);
+  burnHp.value = hp; burnHt.value = ht;
+  var pre = BURN_PRESETS.filter(function(p){ return p.id === burnPreset; })[0];
+  if(pre && (Math.abs(pre.ha - ha) > 0.05 || Math.abs(pre.hp - hp) > 0.05 || Math.abs(pre.ht - ht) > 0.05)){ burnPreset = null; pre = null; }
+  var dv = deorbitDv(ha, hp, ht);
+  [['burnHaVal', burnHa, ha], ['burnHpVal', burnHp, hp], ['burnHtVal', burnHt, ht]].forEach(function(x){
+    document.getElementById(x[0]).textContent = fmt(x[2], 1) + T(' km', ' км');
+    x[1].setAttribute('aria-valuetext', fmt(x[2], 1) + T(' km', ' км'));
+  });
+  var btns = document.getElementById('burnBtns'); btns.innerHTML = '';
+  BURN_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'btn' + (p.id === burnPreset ? ' active' : '');
+    b.setAttribute('aria-pressed', p.id === burnPreset ? 'true' : 'false');
+    b.textContent = T(p.en, p.ru);
+    b.addEventListener('click', function(){ setBurnPreset(p); });
+    btns.appendChild(b);
+  });
+  var cells = [
+    [T('SMALLEST BURN (AT APOGEE)','НАИМЕНЬШИЙ ИМПУЛЬС (В АПОГЕЕ)'), fmt(dv, 1) + T(' m/s', ' м/с')],
+    [T('MIR ACTUALLY FLEW','«МИР» НА САМОМ ДЕЛЕ'), pre && pre.flown ? fmt(pre.flown, 2) + T(' m/s', ' м/с') : '—'],
+    [T('ORBIT AFTER','ОРБИТА ПОСЛЕ'), fmt(ha, 0) + ' × ' + fmt(ht, 0) + T(' km', ' км')],
+    [T('ONE LAP BEFORE → AFTER','ВИТОК ДО → ПОСЛЕ'), fmt(periodMin(ha, hp), 1) + ' → ' + fmt(periodMin(ha, ht), 1) + T(' min', ' мин')]
+  ];
+  document.getElementById('burnReadout').innerHTML = cells.map(function(r){ return '<div class="readout-cell"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>'; }).join('');
+  var msg;
+  if(pre && pre.flown) msg = T('Ideal ' + fmt(dv, 1) + ' m/s; the Progress fired ' + fmt(pre.flown, 2) + ' m/s, ' + fmt((pre.flown/dv - 1)*100, 0) + ' % more. The real burns were not fired exactly at the high point: they also had to put the low point, and the debris, over the target zone [11].',
+                               'В идеале ' + fmt(dv, 1) + ' м/с; «Прогресс» выдал импульс ' + fmt(pre.flown, 2) + ' м/с, на ' + fmt((pre.flown/dv - 1)*100, 0) + ' % больше. Настоящие импульсы выполнялись не точно в высшей точке: им нужно было ещё и поставить низшую точку, а с ней и обломки, над районом падения [11].');
+  else if(pre) msg = T('From a 415 km circle, one burn to a 50 km low point would cost ' + fmt(dv, 0) + ' m/s. NASA plans to let drag lower the station first; its estimate for the controlled deorbit is 57 m/s [15] — in this model that matches a final burn from a circle about 241 km up.',
+                       'С круговой орбиты 415 км один импульс до низшей точки 50 км стоил бы ' + fmt(dv, 0) + ' м/с. NASA собирается сначала дать атмосфере снизить станцию; её оценка для управляемого спуска — 57 м/с [15], что в этой модели соответствует последнему импульсу с круговой орбиты около 241 км.');
+  else msg = T('Lowering the low point from ' + fmt(hp, 0) + ' to ' + fmt(ht, 0) + ' km costs at least ' + fmt(dv, 1) + ' m/s.', 'Чтобы опустить низшую точку с ' + fmt(hp, 0) + ' до ' + fmt(ht, 0) + ' км, нужно не меньше ' + fmt(dv, 1) + ' м/с.');
+  document.getElementById('burnStatus').textContent = msg;
+  /* altitude around one orbit (0° = high point) before and after */
+  var svg = document.getElementById('burnSvg'); svg.innerHTML = '';
+  var x0 = 50, x1 = 465, y0 = 245, y1 = 30, hmax = Math.max(250, Math.ceil(ha/50)*50);
+  function X(deg){ return x0 + (x1 - x0)*deg/360; }
+  function Y(h){ return y0 - (y0 - y1)*h/hmax; }
+  for(var g = 0; g <= hmax; g += hmax/5){
+    ns2('line', {x1:x0, y1:Y(g), x2:x1, y2:Y(g), stroke:'#e2e2dc', 'stroke-width':1}, svg);
+    var tl = ns2('text', {x:x0 - 6, y:Y(g) + 3, 'text-anchor':'end', 'class':'svg-small'}, svg); tl.textContent = fmt(g, 0);
+  }
+  [0, 90, 180, 270, 360].forEach(function(dg){ var tl = ns2('text', {x:X(dg), y:y0 + 16, 'text-anchor':'middle', 'class':'svg-small'}, svg); tl.textContent = dg + '°'; });
+  var xl = ns2('text', {x:(x0 + x1)/2, y:y0 + 32, 'text-anchor':'middle', 'class':'svg-small'}, svg); xl.textContent = T('angle around the orbit from the high point', 'угол вдоль орбиты от высшей точки');
+  var yl = ns2('text', {x:x0, y:12, 'class':'svg-small'}, svg); yl.textContent = T('altitude, km', 'высота, км');
+  ns2('rect', {x:x0, y:Y(110), width:x1 - x0, height:Y(0) - Y(110), fill:'#b5452a', opacity:0.08}, svg);
+  var bl = ns2('text', {x:x0 + 6, y:Y(0) - 6, 'class':'svg-small'}, svg); bl.textContent = T('below 110 km: breakup [12]', 'ниже 110 км: разрушение [12]');
+  function path(hpX, col, w, dash){
+    var ra = R_E + ha, rp = R_E + hpX, e = (ra - rp)/(ra + rp), a = (ra + rp)/2, d = '';
+    for(var k = 0; k <= 180; k++){
+      var deg = k*2, nu = Math.PI + deg*Math.PI/180, r = a*(1 - e*e)/(1 + e*Math.cos(nu));
+      d += (k ? ' L ' : 'M ') + X(deg).toFixed(1) + ' ' + Y(Math.max(0, r - R_E)).toFixed(1);
+    }
+    var at = {d:d, fill:'none', stroke:col, 'stroke-width':w}; if(dash) at['stroke-dasharray'] = dash;
+    ns2('path', at, svg);
+  }
+  path(hp, '#7a7a74', 1.6, '4 3');
+  path(ht, '#2f5aa1', 2);
+  var lg1 = ns2('text', {x:x1, y:12, 'text-anchor':'end', 'class':'svg-small'}, svg); lg1.textContent = T('dashed grey: before · blue: after', 'серый пунктир: до · синий: после');
+}
+[burnHa, burnHp, burnHt].forEach(function(el){ el.addEventListener('input', renderBurn); });
+
+var boostH = document.getElementById('boostH');
+var BOOST_PRESETS = [{h:650, en:'650 KM', ru:'650 КМ'}, {h:2000, en:'2,000 KM', ru:'2 000 КМ'}];
+var DEORBIT_NASA = 57;
+function renderBoost(){
+  var h = parseFloat(boostH.value), b = hohmann(ISS_H, h);
+  document.getElementById('boostVal').textContent = fmt(h, 0) + T(' km', ' км');
+  boostH.setAttribute('aria-valuetext', fmt(h, 0) + T(' km', ' км'));
+  var btns = document.getElementById('boostBtns'); btns.innerHTML = '';
+  BOOST_PRESETS.forEach(function(p){
+    var bt = document.createElement('button'); bt.type = 'button'; bt.className = 'btn' + (Math.abs(h - p.h) < 0.01 ? ' active' : '');
+    bt.setAttribute('aria-pressed', Math.abs(h - p.h) < 0.01 ? 'true' : 'false');
+    bt.textContent = T(p.en, p.ru);
+    bt.addEventListener('click', function(){ boostH.value = p.h; renderBoost(); });
+    btns.appendChild(bt);
+  });
+  var cells = [
+    [T('BURN 1 · RAISE THE HIGH POINT','ИМПУЛЬС 1 · ПОДНЯТЬ АПОГЕЙ'), fmt(b.dv1, 1) + T(' m/s', ' м/с')],
+    [T('BURN 2 · ROUND OFF THE ORBIT','ИМПУЛЬС 2 · СКРУГЛИТЬ ОРБИТУ'), fmt(b.dv2, 1) + T(' m/s', ' м/с')],
+    [T('TOTAL','ВСЕГО'), fmt(b.total, 0) + T(' m/s', ' м/с')],
+    [T('× THE 57 m/s DEORBIT','× 57 м/с НА СПУСК'), '× ' + fmt(b.total/DEORBIT_NASA, 1)]
+  ];
+  document.getElementById('boostReadout').innerHTML = cells.map(function(r){ return '<div class="readout-cell"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>'; }).join('');
+  var msg;
+  if(Math.abs(h - 2000) < 0.01) msg = T('NASA puts an orbit lasting more than 10,000 years at 760 m/s [15] — exactly what a two-burn transfer to 2,000 km costs here.', 'По оценке NASA, орбита больше чем на 10 000 лет стоит 760 м/с [15] — ровно столько здесь стоит двухимпульсный переход на 2 000 км.');
+  else if(b.total >= 120 && b.total <= 140) msg = T('Inside NASA\'s 120–140 m/s for a 100-year orbit [15]; in this model that range covers about 633–670 km.', 'В пределах оценки NASA 120–140 м/с для орбиты на 100 лет [15]; в этой модели это примерно 633–670 км.');
+  else if(b.total < DEORBIT_NASA) msg = T('Raising the station to ' + fmt(h, 0) + ' km takes ' + fmt(b.total, 0) + ' m/s — only ' + fmt(b.total/DEORBIT_NASA, 1) + ' of NASA\'s 57 m/s for bringing it down [15], but such a low orbit still decays within years.', 'Подъём станции на ' + fmt(h, 0) + ' км стоит ' + fmt(b.total, 0) + ' м/с — лишь ' + fmt(b.total/DEORBIT_NASA, 1) + ' от 57 м/с на спуск по оценке NASA [15], но и на такой орбите станция за годы снизится.');
+  else msg = T('Raising the station to ' + fmt(h, 0) + ' km takes ' + fmt(b.total, 0) + ' m/s, ' + fmt(b.total/DEORBIT_NASA, 1) + ' times NASA\'s 57 m/s for bringing it down [15].', 'Подъём станции на ' + fmt(h, 0) + ' км стоит ' + fmt(b.total, 0) + ' м/с — в ' + fmt(b.total/DEORBIT_NASA, 1) + ' раза больше, чем 57 м/с на спуск по оценке NASA [15].');
+  document.getElementById('boostStatus').textContent = msg;
+  var svg = document.getElementById('boostSvg'); svg.innerHTML = '';
+  var x0 = 150, x1 = 455, vmax = 1200;
+  function X(v){ return x0 + (x1 - x0)*Math.min(v, vmax)/vmax; }
+  for(var g = 0; g <= vmax; g += 300){
+    ns2('line', {x1:X(g), y1:30, x2:X(g), y2:180, stroke:'#e2e2dc', 'stroke-width':1}, svg);
+    var tl = ns2('text', {x:X(g), y:196, 'text-anchor':'middle', 'class':'svg-small'}, svg); tl.textContent = fmt(g, 0);
+  }
+  var ax = ns2('text', {x:(x0 + x1)/2, y:212, 'text-anchor':'middle', 'class':'svg-small'}, svg); ax.textContent = T('speed change, m/s', 'изменение скорости, м/с');
+  [[60, DEORBIT_NASA, T('deorbit (NASA)', 'спуск (NASA)'), '#b5452a'], [120, b.total, T('raise to ', 'подъём на ') + fmt(h, 0) + T(' km', ' км'), '#2f5aa1']].forEach(function(r){
+    ns2('rect', {x:x0, y:r[0], width:X(r[1]) - x0, height:34, fill:r[3]}, svg);
+    var l = ns2('text', {x:x0 - 8, y:r[0] + 21, 'text-anchor':'end', 'class':'svg-label'}, svg); l.textContent = r[2];
+    var v = ns2('text', {x:X(r[1]) + 6, y:r[0] + 21, 'class':'svg-label'}, svg); v.textContent = fmt(r[1], 0);
+  });
+}
+boostH.addEventListener('input', renderBoost);
+
+window.__iss = {MU_E:MU_E, R_E:R_E, vCirc:vCirc, vEsc:vEsc, orbit:orbit, newton:newton, vApogee:vApogee, deorbitDv:deorbitDv,
+  periodMin:periodMin, hohmann:hohmann, horizonAngle:horizonAngle, elevationAt:elevationAt, maxElevation:maxElevation,
+  timeInViewShare:timeInViewShare, passesPerDay:passesPerDay, BURN_PRESETS:BURN_PRESETS, CITIES:CITIES,
+  setBurnPreset:setBurnPreset, renderAlt:renderAlt, renderBoost:renderBoost};
+
+/* ============================================================
    INITIAL RENDER
    ============================================================ */
 renderLifeTabs();
@@ -945,9 +1310,11 @@ renderExperiments();
 renderMirTimeline();
 renderDeorbit();
 renderLegacy(); renderRefs();
+document.querySelectorAll('#langtoggle button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.lang===lang ? 'true' : 'false'); });
 renderISS();
 renderMir();
 populateCities();
+renderNewton(); renderStats415(); renderAlt(); renderBurn(); renderBoost();
 
 })();
 </script>

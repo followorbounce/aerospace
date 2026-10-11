@@ -382,6 +382,13 @@ input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px
 </main>
 
 <script>
+/* Browsers round a slider's value to its step; keep the exact value a preset set until the user moves the slider. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
 (function(){
 "use strict";
 var lang = 'en';

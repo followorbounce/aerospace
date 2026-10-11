@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CAMPAIGN — THE ARTEMIS PROGRAM / ПРОГРАММА ARTEMIS</title>
-<meta name="description" content="A long, referenced field guide to NASA's Artemis program — SLS, Orion, the Artemis Accords, and every mission from Artemis I onward.">
+<title>CAMPAIGN — THE ARTEMIS PROGRAM / КАМПАНИЯ — ПРОГРАММА ARTEMIS</title>
+<meta name="description" content="A referenced field guide to NASA's Artemis program as of October 2026 — SLS, Orion, the Artemis Accords (76 signatories), Artemis II's record flight, the 2026 restructuring, and two instruments for checking the numbers.">
 <link rel="canonical" href="https://followorbounce.github.io/aerospace/campaign-artemis-program">
 <meta name="theme-color" content="#f6f6f2">
 <link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CAMPAIGN — THE ARTEMIS PROGRAM / ПРОГРАММА ARTEMIS">
-<meta property="og:description" content="A long, referenced field guide to NASA's Artemis program — SLS, Orion, the Artemis Accords, and every mission from Artemis I onward.">
+<meta property="og:description" content="A referenced field guide to NASA's Artemis program as of October 2026 — SLS, Orion, the Artemis Accords (76 signatories), Artemis II's record flight, the 2026 restructuring, and two instruments for checking the numbers.">
 <meta property="og:url" content="https://followorbounce.github.io/aerospace/campaign-artemis-program">
 <meta property="og:site_name" content="Aerospace Knowledge Hub">
 <meta property="og:locale" content="en_US">
@@ -34,7 +34,37 @@ sup{font-size:0.65em; vertical-align:super;}
 .ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
 .ref-url a{color:inherit;}
 .ref-note{font-size:12.5px; color:var(--mid); margin-top:6px; line-height:1.5;}
-.cite{font-family:var(--font-mono); font-size:11px; color:var(--mid); vertical-align:super; margin-left:1px;}
+.cite{font-family:var(--font-mono); font-size:11px; color:#5f5f59; vertical-align:super; margin-left:1px;}
+.cite a,.body-col a,.lede a,.note a{color:inherit;}
+/* instruments (rules as in parabola-mirrors-and-dishes.html, with 44 px touch targets and AA-contrast small text) */
+.inst-kicker{font-family:var(--font-mono); font-size:11px; color:#5f5f59; letter-spacing:0.08em; margin-top:40px; margin-bottom:10px;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:20px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-svg text{font-family:var(--font-mono); font-size:10px; fill:#4a4a45;}
+@media (max-width:520px){.sim-svg text{font-size:14px;}}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:44px; background:transparent; outline:none; margin:2px 0; cursor:pointer;}
+input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:22px; height:22px; margin-top:-10px; background:var(--ink); border-radius:50%; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:18px; height:18px; background:var(--ink); border-radius:50%; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 12px; min-height:44px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn:focus-visible,.module-chip:focus-visible,.hotspot:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.module-chip{min-height:44px; display:inline-flex; align-items:center; cursor:pointer;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:#5f5f59; display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:#5f5f59; margin-top:12px; line-height:1.55; max-width:760px;}
 </style>
 <script src="/aerospace/assets/site.js" defer></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
@@ -69,7 +99,7 @@ sup{font-size:0.65em; vertical-align:super;}
         <span data-en="2017 → PRESENT" data-ru="2017 → НАСТОЯЩЕЕ ВРЕМЯ">2017 → PRESENT</span>
       </div>
       <h1><span data-en="CAMPAIGN" data-ru="КАМПАНИЯ">CAMPAIGN</span><br><em data-en="A REFERENCED FIELD GUIDE TO THE ARTEMIS PROGRAM" data-ru="СПРАВОЧНИК ПО ПРОГРАММЕ ARTEMIS СО ССЫЛКАМИ НА ИСТОЧНИКИ">A REFERENCED FIELD GUIDE TO THE ARTEMIS PROGRAM</em></h1>
-      <p class="sub lede" data-en="A long-form guide to the rocket, the capsule, the international treaty, and every numbered mission that make up Artemis — including the real, still-unfolding course correction NASA announced in 2026. Every factual claim is numbered and sourced at the end. Scroll to begin." data-ru="Подробный справочник о ракете, капсуле, международном договоре и всех пронумерованных миссиях, из которых состоит Artemis, — включая реальную, всё ещё разворачивающуюся корректировку курса, объявленную NASA в 2026 году. Каждое фактическое утверждение пронумеровано и снабжено источником в конце. Пролистайте вниз, чтобы начать.">A long-form guide to the rocket, the capsule, the international treaty, and every numbered mission that make up Artemis — including the real, still-unfolding course correction NASA announced in 2026. Every factual claim is numbered and sourced at the end. Scroll to begin.</p>
+      <p class="sub lede" data-en="A long-form guide to the rocket, the capsule, the international agreement, and every numbered mission that make up Artemis — including the course correction NASA announced in February and March 2026. Every factual claim is numbered and sourced at the end, and every status statement is dated: this guide reflects NASA’s published plans as of 10 October 2026. Two instruments let you check the numbers yourself. Scroll to begin." data-ru="Подробный справочник о ракете, капсуле, международном соглашении и всех пронумерованных миссиях, из которых состоит Artemis, — включая корректировку курса, объявленную NASA в феврале и марте 2026 года. Каждое фактическое утверждение пронумеровано и снабжено источником в конце, а каждое утверждение о статусе датировано: справочник отражает опубликованные планы NASA на 10 октября 2026 года. Два прибора позволяют проверить цифры самостоятельно. Пролистайте вниз, чтобы начать.">A long-form guide to the rocket, the capsule, the international agreement, and every numbered mission that make up Artemis — including the course correction NASA announced in February and March 2026. Every factual claim is numbered and sourced at the end, and every status statement is dated: this guide reflects NASA’s published plans as of 10 October 2026. Two instruments let you check the numbers yourself. Scroll to begin.</p>
       <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
     </div>
   </div>
@@ -78,28 +108,47 @@ sup{font-size:0.65em; vertical-align:super;}
 <!-- CH1 -->
 <section id="ch1" class="section" data-phase="WHAT ARTEMIS IS" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.01 / 12</span> — <span data-en="WHAT ARTEMIS ACTUALLY IS" data-ru="ЧТО ТАКОЕ ARTEMIS НА САМОМ ДЕЛЕ">WHAT ARTEMIS ACTUALLY IS</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.01 / 13</span> — <span data-en="WHAT ARTEMIS ACTUALLY IS" data-ru="ЧТО ТАКОЕ ARTEMIS НА САМОМ ДЕЛЕ">WHAT ARTEMIS ACTUALLY IS</span></div>
     <h2 class="h-lg" data-en="Four kinds of hardware, run by more than one organisation" data-ru="Четыре вида техники, управляемые не одной организацией">Four kinds of hardware, run by more than one organisation</h2>
     <div class="grid-2">
-      <p class="body-col" data-en="Artemis is NASA's umbrella name for returning humans to the Moon and eventually reaching Mars, built around four main pieces of hardware: the SLS rocket, the Orion crew capsule, commercially built Human Landing Systems, and lunar surface infrastructure.<sup class='cite'>[1]</sup> Unlike Apollo, where NASA contracted aerospace firms to build to its own designs, Artemis leans on companies and international space agencies as genuine partners with their own stake in the outcome.<sup class='cite'>[4]</sup>" data-ru="Artemis — это общее название программы NASA по возвращению людей на Луну и в перспективе достижению Марса, построенной вокруг четырёх основных видов техники: ракеты SLS, пилотируемой капсулы «Орион», коммерческих посадочных систем и лунной поверхностной инфраструктуры.<sup class='cite'>[1]</sup> В отличие от «Аполлона», где NASA заказывало аэрокосмическим фирмам постройку по собственным проектам, Artemis опирается на компании и международные космические агентства как на настоящих партнёров с собственной заинтересованностью в результате.<sup class='cite'>[4]</sup>">Artemis is NASA's umbrella name for returning humans to the Moon and eventually reaching Mars, built around four main pieces of hardware: the SLS rocket, the Orion crew capsule, commercially built Human Landing Systems, and lunar surface infrastructure.<sup class="cite">[1]</sup> Unlike Apollo, where NASA contracted aerospace firms to build to its own designs, Artemis leans on companies and international space agencies as genuine partners with their own stake in the outcome.<sup class="cite">[4]</sup></p>
-      <p class="body-col" data-en="The program's logo shows an &quot;A&quot; bridging Earth and Moon, with a red line tracing the path spacecraft travel between them — a deliberate signal that the goal was never a rerun of Apollo, but a permanent, reusable presence.<sup class='cite'>[4]</sup>" data-ru="Логотип программы изображает букву «A», соединяющую Землю и Луну, с красной линией, обозначающей путь аппаратов между ними, — намеренный сигнал того, что цель никогда не заключалась в повторении «Аполлона», а в постоянном, многократно используемом присутствии.<sup class='cite'>[4]</sup>">The program's logo shows an "A" bridging Earth and Moon, with a red line tracing the path spacecraft travel between them — a deliberate signal that the goal was never a rerun of Apollo, but a permanent, reusable presence.<sup class="cite">[4]</sup></p>
+      <p class="body-col" data-en="Artemis is NASA’s umbrella name for returning humans to the Moon and eventually reaching Mars, built around four main pieces of hardware: the SLS rocket, the Orion crew capsule, commercially built Human Landing Systems, and lunar surface infrastructure.<sup class='cite'>[1]</sup> Unlike Apollo, where NASA contracted aerospace firms to build to its own designs, Artemis leans on companies and international space agencies as genuine partners with their own stake in the outcome.<sup class='cite'>[2]</sup>" data-ru="Artemis — это общее название программы NASA по возвращению людей на Луну и в перспективе достижению Марса, построенной вокруг четырёх основных видов техники: ракеты SLS, пилотируемой капсулы «Орион», коммерческих посадочных систем и лунной поверхностной инфраструктуры.<sup class='cite'>[1]</sup> В отличие от «Аполлона», где NASA заказывало аэрокосмическим фирмам постройку по собственным проектам, Artemis опирается на компании и международные космические агентства как на настоящих партнёров с собственной заинтересованностью в результате.<sup class='cite'>[2]</sup>">Artemis is NASA’s umbrella name for returning humans to the Moon and eventually reaching Mars, built around four main pieces of hardware: the SLS rocket, the Orion crew capsule, commercially built Human Landing Systems, and lunar surface infrastructure.<sup class="cite">[1]</sup> Unlike Apollo, where NASA contracted aerospace firms to build to its own designs, Artemis leans on companies and international space agencies as genuine partners with their own stake in the outcome.<sup class="cite">[2]</sup></p>
+      <p class="body-col" data-en="The program’s logo shows an “A” bridging Earth and Moon, with a red line tracing the path spacecraft travel between them — a deliberate signal that the goal was never a rerun of Apollo, but a permanent, reusable presence.<sup class='cite'>[2]</sup>" data-ru="Логотип программы изображает букву «A», соединяющую Землю и Луну, с красной линией, обозначающей путь аппаратов между ними, — намеренный сигнал того, что цель никогда не заключалась в повторении «Аполлона», а в постоянном, многократно используемом присутствии.<sup class='cite'>[2]</sup>">The program’s logo shows an “A” bridging Earth and Moon, with a red line tracing the path spacecraft travel between them — a deliberate signal that the goal was never a rerun of Apollo, but a permanent, reusable presence.<sup class="cite">[2]</sup></p>
     </div>
   </div>
 </section>
 
 <!-- CH2 -->
-<section id="ch2" class="section" data-phase="THE ARTEMIS ACCORDS" data-alt="—" data-vel="70 SIGNATORIES">
+<section id="ch2" class="section" data-phase="THE ARTEMIS ACCORDS" data-alt="—" data-vel="76 SIGNATORIES">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.02 / 12</span> — <span data-en="THE ARTEMIS ACCORDS" data-ru="СОГЛАШЕНИЯ ARTEMIS">THE ARTEMIS ACCORDS</span></div>
-    <h2 class="h-lg" data-en="A non-binding treaty that keeps gaining signatures" data-ru="Необязывающий договор, число подписавших который продолжает расти">A non-binding treaty that keeps gaining signatures</h2>
+    <div class="eyebrow"><span class="fig-num">CH.02 / 13</span> — <span data-en="THE ARTEMIS ACCORDS" data-ru="СОГЛАШЕНИЯ ARTEMIS">THE ARTEMIS ACCORDS</span></div>
+    <h2 class="h-lg" data-en="A non-binding agreement that keeps gaining signatories" data-ru="Необязывающие соглашения, к которым присоединяется всё больше стран">A non-binding agreement that keeps gaining signatories</h2>
     <div class="grid-2">
-      <p class="body-col" data-en="Established October 13, 2020 by the U.S. State Department and NASA together with seven founding partners — Australia, Canada, Italy, Japan, Luxembourg, the UAE, and the UK — the Artemis Accords are a non-binding set of principles extending the 1967 Outer Space Treaty into the era of crewed lunar return.<sup class='cite'>[3]</sup>" data-ru="Учреждённые 13 октября 2020 года Государственным департаментом США и NASA совместно с семью странами-основательницами — Австралией, Канадой, Италией, Японией, Люксембургом, ОАЭ и Великобританией, — Соглашения Artemis представляют собой необязывающий свод принципов, распространяющий Договор о космосе 1967 года на эпоху пилотируемого возвращения на Луну.<sup class='cite'>[3]</sup>">Established October 13, 2020 by the U.S. State Department and NASA together with seven founding partners — Australia, Canada, Italy, Japan, Luxembourg, the UAE, and the UK — the Artemis Accords are a non-binding set of principles extending the 1967 Outer Space Treaty into the era of crewed lunar return.<sup class="cite">[3]</sup></p>
-      <p class="body-col" data-en="The ten core principles include peaceful purposes only, public transparency about national plans, mutual emergency assistance, interoperable technical standards, and mitigation of orbital debris.<sup class='cite'>[4]</sup> Mauritius became the 70th signatory on July 17, 2026, continuing a signing pace of roughly one new country every few weeks.<sup class='cite'>[3]</sup>" data-ru="Десять ключевых принципов включают исключительно мирные цели, публичную прозрачность национальных планов, взаимную помощь в чрезвычайных ситуациях, совместимые технические стандарты и снижение орбитального мусора.<sup class='cite'>[4]</sup> Маврикий стал 70-м подписантом 17 июля 2026 года, продолжая темп присоединения примерно по одной новой стране каждые несколько недель.<sup class='cite'>[3]</sup>">The ten core principles include peaceful purposes only, public transparency about national plans, mutual emergency assistance, interoperable technical standards, and mitigation of orbital debris.<sup class="cite">[4]</sup> Mauritius became the 70th signatory on July 17, 2026, continuing a signing pace of roughly one new country every few weeks.<sup class="cite">[3]</sup></p>
+      <p class="body-col" data-en="The Artemis Accords were established on 13 October 2020, when the United States and seven other founding nations — Australia, Canada, Italy, Japan, Luxembourg, the UAE and the UK — signed a non-binding set of principles that builds on the 1967 Outer Space Treaty for the era of crewed lunar return.<sup class='cite'>[3]</sup>" data-ru="Соглашения Artemis были учреждены 13 октября 2020 года, когда США и ещё семь стран-основательниц — Австралия, Канада, Италия, Япония, Люксембург, ОАЭ и Великобритания — подписали необязывающий свод принципов, развивающий Договор о космосе 1967 года применительно к эпохе пилотируемого возвращения на Луну.<sup class='cite'>[3]</sup>">The Artemis Accords were established on 13 October 2020, when the United States and seven other founding nations — Australia, Canada, Italy, Japan, Luxembourg, the UAE and the UK — signed a non-binding set of principles that builds on the 1967 Outer Space Treaty for the era of crewed lunar return.<sup class="cite">[3]</sup></p>
+      <p class="body-col" data-en="The ten core principles include peaceful purposes only, public transparency about national plans, mutual emergency assistance, interoperable technical standards, and mitigation of orbital debris.<sup class='cite'>[2]</sup> Signings have accelerated: 26 nations by June 2023,<sup class='cite'>[4]</sup> 50 by December 2024,<sup class='cite'>[5]</sup> 59 by October 2025<sup class='cite'>[3]</sup> and 67 by the Lima workshop in May 2026.<sup class='cite'>[6]</sup> Mauritius became the 70th on 17 July 2026<sup class='cite'>[7]</sup> and Albania the 73rd on 21 September 2026.<sup class='cite'>[8]</sup> As of 10 October 2026 the latest count NASA has announced is 76, after San Marino signed on 25 September 2026.<sup class='cite'>[9]</sup>" data-ru="Десять ключевых принципов включают исключительно мирные цели, публичную прозрачность национальных планов, взаимную помощь в чрезвычайных ситуациях, совместимые технические стандарты и снижение орбитального мусора.<sup class='cite'>[2]</sup> Присоединение ускоряется: 26 стран к июню 2023 года,<sup class='cite'>[4]</sup> 50 — к декабрю 2024-го,<sup class='cite'>[5]</sup> 59 — к октябрю 2025-го<sup class='cite'>[3]</sup> и 67 — к семинару в Лиме в мае 2026-го.<sup class='cite'>[6]</sup> Маврикий стал 70-м 17 июля 2026 года,<sup class='cite'>[7]</sup> Албания — 73-й 21 сентября 2026 года.<sup class='cite'>[8]</sup> По состоянию на 10 октября 2026 года последнее объявленное NASA число — 76: 25 сентября 2026 года соглашения подписало Сан-Марино.<sup class='cite'>[9]</sup>">The ten core principles include peaceful purposes only, public transparency about national plans, mutual emergency assistance, interoperable technical standards, and mitigation of orbital debris.<sup class="cite">[2]</sup> Signings have accelerated: 26 nations by June 2023,<sup class="cite">[4]</sup> 50 by December 2024,<sup class="cite">[5]</sup> 59 by October 2025<sup class="cite">[3]</sup> and 67 by the Lima workshop in May 2026.<sup class="cite">[6]</sup> Mauritius became the 70th on 17 July 2026<sup class="cite">[7]</sup> and Albania the 73rd on 21 September 2026.<sup class="cite">[8]</sup> As of 10 October 2026 the latest count NASA has announced is 76, after San Marino signed on 25 September 2026.<sup class="cite">[9]</sup></p>
     </div>
     <div class="grid-3">
-      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">7</div><div class="fig-num" data-en="FOUNDING NATIONS, 2020" data-ru="СТРАН-ОСНОВАТЕЛЬНИЦ, 2020">FOUNDING NATIONS, 2020</div></div>
-      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">70</div><div class="fig-num" data-en="SIGNATORIES AS OF JUL 2026" data-ru="ПОДПИСАНТОВ НА ИЮЛЬ 2026">SIGNATORIES AS OF JUL 2026</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">8</div><div class="fig-num" data-en="FOUNDING NATIONS, 2020 (WITH THE US)" data-ru="СТРАН-ОСНОВАТЕЛЬНИЦ, 2020 (С США)">FOUNDING NATIONS, 2020 (WITH THE US)</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">76</div><div class="fig-num" data-en="SIGNATORIES AS OF 25 SEP 2026" data-ru="ПОДПИСАНТОВ НА 25 СЕНТ. 2026">SIGNATORIES AS OF 25 SEP 2026</div></div>
       <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.4rem;">10</div><div class="fig-num" data-en="CORE PRINCIPLES" data-ru="КЛЮЧЕВЫХ ПРИНЦИПОВ">CORE PRINCIPLES</div></div>
+    </div>
+    <div class="inst-kicker" data-en="INSTRUMENT · HOW FAST THE ACCORDS GREW" data-ru="ПРИБОР · КАК БЫСТРО РОСЛИ СОГЛАШЕНИЯ">INSTRUMENT · HOW FAST THE ACCORDS GREW</div>
+    <p class="body-col" style="max-width:680px;" data-en="Each dot below is a count NASA itself published, on the date it was reached. Pick any two of them to see how many nations joined in between and the average pace; nothing is projected forward." data-ru="Каждая точка ниже — число, которое опубликовало само NASA, на дату, когда оно было достигнуто. Выберите любые две, чтобы увидеть, сколько стран присоединилось между ними и каков средний темп; ничего не экстраполируется вперёд.">Each dot below is a count NASA itself published, on the date it was reached. Pick any two of them to see how many nations joined in between and the average pace; nothing is projected forward.</p>
+    <div class="sim-wrap">
+      <div>
+        <svg id="accSvg" class="sim-svg" viewBox="0 0 480 270" role="img" aria-label="Step chart: Artemis Accords signatories over time, from 8 in October 2020 to 76 in September 2026" data-aria-en="Step chart: Artemis Accords signatories over time, from 8 in October 2020 to 76 in September 2026" data-aria-ru="Ступенчатый график: число подписантов Соглашений Artemis во времени — от 8 в октябре 2020 года до 76 в сентябре 2026 года"></svg>
+        <p class="note" data-en="Counts and dates from NASA releases [3]–[9]. Lines between dots are drawn flat until the next published count, because individual signing dates in between are not shown." data-ru="Числа и даты — из релизов NASA [3]–[9]. Между точками линия идёт горизонтально до следующего опубликованного числа, поскольку отдельные даты подписания между ними не показаны.">Counts and dates from NASA releases [3]–[9]. Lines between dots are drawn flat until the next published count, because individual signing dates in between are not shown.</p>
+      </div>
+      <div class="sim-panel">
+        <div class="ctl"><div class="ctl-row"><label for="accFrom" data-en="FROM" data-ru="ОТ">FROM</label><span class="v" id="accFromV">—</span></div><input type="range" id="accFrom" min="0" max="7" step="1" value="0"></div>
+        <div class="ctl"><div class="ctl-row"><label for="accTo" data-en="TO" data-ru="ДО">TO</label><span class="v" id="accToV">—</span></div><input type="range" id="accTo" min="0" max="7" step="1" value="7"></div>
+        <div class="btn-row" role="group" id="accPresets" aria-label="Presets" data-aria-en="Presets" data-aria-ru="Предустановки">
+          <button type="button" class="btn" data-a="0" data-b="7" data-en="WHOLE HISTORY" data-ru="ВСЯ ИСТОРИЯ">WHOLE HISTORY</button>
+          <button type="button" class="btn" data-a="0" data-b="2" data-en="TO DEC 2024" data-ru="ДО ДЕК. 2024">TO DEC 2024</button>
+          <button type="button" class="btn" data-a="3" data-b="7" data-en="SINCE OCT 2025" data-ru="С ОКТЯБРЯ 2025">SINCE OCT 2025</button>
+        </div>
+        <div class="readout-grid" id="accReadout"></div>
+        <div class="status" id="accStatus" aria-live="polite"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -107,18 +156,18 @@ sup{font-size:0.65em; vertical-align:super;}
 <!-- CH3 -->
 <section id="ch3" class="section" data-phase="THE SPACE LAUNCH SYSTEM" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.03 / 12</span> — <span data-en="THE SPACE LAUNCH SYSTEM" data-ru="РАКЕТА-НОСИТЕЛЬ SLS">THE SPACE LAUNCH SYSTEM</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.03 / 13</span> — <span data-en="THE SPACE LAUNCH SYSTEM" data-ru="РАКЕТА-НОСИТЕЛЬ SLS">THE SPACE LAUNCH SYSTEM</span></div>
     <h2 class="h-lg" data-en="The only rocket that can do the whole job in one launch" data-ru="Единственная ракета, способная выполнить всю задачу за один запуск">The only rocket that can do the whole job in one launch</h2>
-    <p class="lede" style="margin-bottom:0;" data-en="NASA describes SLS as offering more payload mass, volume, and departure energy than any other single rocket flying today, and as the only vehicle currently able to send Orion, astronauts, and cargo directly to the Moon in a single launch.<sup class='cite'>[1]</sup> It forms, together with Orion, the backbone of every crewed Artemis mission flown so far.<sup class='cite'>[1]</sup>" data-ru="NASA описывает SLS как ракету, обеспечивающую больше полезной массы, объёма и энергии отлёта, чем любая другая современная ракета, и как единственный на сегодня аппарат, способный доставить «Орион», астронавтов и груз прямо к Луне за один запуск.<sup class='cite'>[1]</sup> Вместе с «Орионом» она составляет основу каждой пилотируемой миссии Artemis, выполненной на сегодняшний день.<sup class='cite'>[1]</sup>">NASA describes SLS as offering more payload mass, volume, and departure energy than any other single rocket flying today, and as the only vehicle currently able to send Orion, astronauts, and cargo directly to the Moon in a single launch.<sup class="cite">[1]</sup> It forms, together with Orion, the backbone of every crewed Artemis mission flown so far.<sup class="cite">[1]</sup></p>
+    <p class="lede" style="margin-bottom:0;" data-en="NASA describes SLS as offering more payload mass, volume, and departure energy than any other single rocket flying today, and as the only vehicle currently able to send Orion, astronauts, and cargo directly to the Moon in a single launch.<sup class='cite'>[1]</sup> It forms, together with Orion, the backbone of every crewed Artemis mission flown so far. In February 2026 NASA said it would standardize SLS from Artemis IV: the interim upper stage used on the first missions is to be replaced by a new second stage (options still being assessed), and NASA no longer plans to use the more powerful Exploration Upper Stage or a second mobile launcher, both of which had been delayed.<sup class='cite'>[10]</sup><sup class='cite'>[11]</sup>" data-ru="NASA описывает SLS как ракету, обеспечивающую больше полезной массы, объёма и энергии отлёта, чем любая другая современная ракета, и как единственный на сегодня аппарат, способный доставить «Орион», астронавтов и груз прямо к Луне за один запуск.<sup class='cite'>[1]</sup> Вместе с «Орионом» она составляет основу каждой пилотируемой миссии Artemis, выполненной на сегодняшний день. В феврале 2026 года NASA заявило, что стандартизирует SLS начиная с Artemis IV: временную верхнюю ступень первых миссий заменит новая вторая ступень (варианты ещё изучаются), а от более мощной ступени Exploration Upper Stage и второй мобильной пусковой башни, разработка которых затянулась, NASA отказывается.<sup class='cite'>[10]</sup><sup class='cite'>[11]</sup>">NASA describes SLS as offering more payload mass, volume, and departure energy than any other single rocket flying today, and as the only vehicle currently able to send Orion, astronauts, and cargo directly to the Moon in a single launch.<sup class="cite">[1]</sup> It forms, together with Orion, the backbone of every crewed Artemis mission flown so far. In February 2026 NASA said it would standardize SLS from Artemis IV: the interim upper stage used on the first missions is to be replaced by a new second stage (options still being assessed), and NASA no longer plans to use the more powerful Exploration Upper Stage or a second mobile launcher, both of which had been delayed.<sup class="cite">[10]</sup><sup class="cite">[11]</sup></p>
   </div>
 </section>
 
 <!-- CH4 -->
 <section id="ch4" class="section" data-phase="ORION — THE CREW VEHICLE" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.04 / 12</span> — <span data-en="ORION: THE CREW VEHICLE" data-ru="«ОРИОН»: ПИЛОТИРУЕМЫЙ КОРАБЛЬ">ORION: THE CREW VEHICLE</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.04 / 13</span> — <span data-en="ORION: THE CREW VEHICLE" data-ru="«ОРИОН»: ПИЛОТИРУЕМЫЙ КОРАБЛЬ">ORION: THE CREW VEHICLE</span></div>
     <h2 class="h-lg" data-en="Built to carry, sustain, and bring a crew home" data-ru="Построен, чтобы нести, поддерживать и вернуть экипаж домой">Built to carry, sustain, and bring a crew home</h2>
-    <p class="lede" style="margin-bottom:28px;" data-en="Orion is the exploration vehicle that carries and sustains the crew on Artemis missions and returns them safely to Earth, launching atop SLS on every crewed flight.<sup class='cite'>[2]</sup> Select a component." data-ru="«Орион» — исследовательский корабль, несущий и поддерживающий жизнь экипажа в миссиях Artemis и безопасно возвращающий его на Землю, запускаясь на вершине SLS в каждом пилотируемом полёте.<sup class='cite'>[2]</sup> Выберите компонент.">Orion is the exploration vehicle that carries and sustains the crew on Artemis missions and returns them safely to Earth, launching atop SLS on every crewed flight.<sup class="cite">[2]</sup> Select a component.</p>
+    <p class="lede" style="margin-bottom:28px;" data-en="Orion is the exploration vehicle that carries and sustains the crew on Artemis missions and returns them safely to Earth, launching atop SLS on every crewed flight.<sup class='cite'>[12]</sup> Select a component." data-ru="«Орион» — исследовательский корабль, несущий и поддерживающий жизнь экипажа в миссиях Artemis и безопасно возвращающий его на Землю; в каждом пилотируемом полёте он стартует на SLS.<sup class='cite'>[12]</sup> Выберите компонент.">Orion is the exploration vehicle that carries and sustains the crew on Artemis missions and returns them safely to Earth, launching atop SLS on every crewed flight.<sup class="cite">[12]</sup> Select a component.</p>
     <div class="schematic-wrap">
       <svg id="orionSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
       <div class="module-panel corner-frame" id="orionPanel"></div>
@@ -129,20 +178,38 @@ sup{font-size:0.65em; vertical-align:super;}
 <!-- CH5 -->
 <section id="ch5" class="section" data-phase="ARTEMIS I" data-alt="LUNAR ORBIT" data-vel="UNCREWED">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.05 / 12</span> — <span data-en="ARTEMIS I: THE UNCREWED PROOF" data-ru="ARTEMIS I: БЕСПИЛОТНОЕ ДОКАЗАТЕЛЬСТВО">ARTEMIS I: THE UNCREWED PROOF</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.05 / 13</span> — <span data-en="ARTEMIS I: THE UNCREWED PROOF" data-ru="ARTEMIS I: БЕСПИЛОТНОЕ ДОКАЗАТЕЛЬСТВО">ARTEMIS I: THE UNCREWED PROOF</span></div>
     <h2 class="h-lg" data-en="November 2022 — no crew, but every system tested for one" data-ru="Ноябрь 2022 года — без экипажа, но с проверкой всех систем ради него">November 2022 — no crew, but every system tested for one</h2>
-    <p class="lede" style="margin-bottom:0;" data-en="Artemis I sent an uncrewed Orion around the Moon and back, validating the SLS rocket and Orion's heat shield under real re-entry conditions before any astronaut would fly aboard them.<sup class='cite'>[4]</sup>" data-ru="Artemis I отправил беспилотный «Орион» вокруг Луны и обратно, подтвердив работоспособность ракеты SLS и теплового экрана «Ориона» в реальных условиях входа в атмосферу — прежде чем на его борту полетит хоть один астронавт.<sup class='cite'>[4]</sup>">Artemis I sent an uncrewed Orion around the Moon and back, validating the SLS rocket and Orion's heat shield under real re-entry conditions before any astronaut would fly aboard them.<sup class="cite">[4]</sup></p>
+    <p class="lede" style="margin-bottom:0;" data-en="Artemis I sent an uncrewed Orion around the Moon and back, validating the SLS rocket and Orion’s heat shield under real re-entry conditions before any astronaut would fly aboard them.<sup class='cite'>[2]</sup> The heat shield came back with more char loss than expected; how that was handled for the crewed flight is in the next chapter, and the physics of it in <a href='/aerospace/entry-heat-shields'>ENTRY</a>." data-ru="Artemis I отправил беспилотный «Орион» вокруг Луны и обратно, проверив ракету SLS и тепловой экран «Ориона» в реальных условиях входа в атмосферу — прежде чем на его борту полетит хоть один астронавт.<sup class='cite'>[2]</sup> Тепловой экран вернулся с бо́льшей потерей обугленного слоя, чем ожидалось; как это учли в пилотируемом полёте — в следующей главе, а физика процесса — в справочнике <a href='/aerospace/entry-heat-shields'>ВХОД</a>.">Artemis I sent an uncrewed Orion around the Moon and back, validating the SLS rocket and Orion’s heat shield under real re-entry conditions before any astronaut would fly aboard them.<sup class="cite">[2]</sup> The heat shield came back with more char loss than expected; how that was handled for the crewed flight is in the next chapter, and the physics of it in <a href="/aerospace/entry-heat-shields">ENTRY</a>.</p>
   </div>
 </section>
 
 <!-- CH6 -->
-<section id="ch6" class="section" data-phase="ARTEMIS II" data-alt="~406,770 KM" data-vel="CREWED">
+<section id="ch6" class="section" data-phase="ARTEMIS II" data-alt="406,771 KM" data-vel="CREWED">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.06 / 12</span> — <span data-en="ARTEMIS II: THE FIRST CREW" data-ru="ARTEMIS II: ПЕРВЫЙ ЭКИПАЖ">ARTEMIS II: THE FIRST CREW</span></div>
-    <h2 class="h-lg" data-en="Farther from Earth than any human in fifty years" data-ru="Дальше от Земли, чем любой человек за пятьдесят лет">Farther from Earth than any human in fifty years</h2>
+    <div class="eyebrow"><span class="fig-num">CH.06 / 13</span> — <span data-en="ARTEMIS II: THE FIRST CREW" data-ru="ARTEMIS II: ПЕРВЫЙ ЭКИПАЖ">ARTEMIS II: THE FIRST CREW</span></div>
+    <h2 class="h-lg" data-en="Farther from Earth than any human before" data-ru="Дальше от Земли, чем кто-либо из людей до них">Farther from Earth than any human before</h2>
     <div class="grid-2">
-      <p class="body-col" data-en="Artemis II launched April 1, 2026, carrying NASA astronauts Reid Wiseman, Victor Glover, and Christina Koch, together with CSA astronaut Jeremy Hansen, on a free-return trajectory around the Moon — the first crewed flight of both Orion and SLS.<sup class='cite'>[1][5]</sup>" data-ru="Artemis II стартовал 1 апреля 2026 года с астронавтами NASA Ридом Уайзманом, Виктором Гловером и Кристиной Кох, а также астронавтом ККА Джереми Хансеном на борту, по траектории свободного возврата вокруг Луны — первый пилотируемый полёт и «Ориона», и SLS.<sup class='cite'>[1][5]</sup>">Artemis II launched April 1, 2026, carrying NASA astronauts Reid Wiseman, Victor Glover, and Christina Koch, together with CSA astronaut Jeremy Hansen, on a free-return trajectory around the Moon — the first crewed flight of both Orion and SLS.<sup class="cite">[1][5]</sup></p>
-      <p class="body-col" data-en="Over roughly nine to ten days, the crew travelled about 406,770 km from Earth — a new record for the greatest distance humans have travelled from home — before splashing down in the Pacific on April 11, 2026.<sup class='cite'>[1][5]</sup>" data-ru="За примерно девять-десять суток экипаж удалился от Земли примерно на 406 770 км — новый рекорд наибольшего расстояния, на которое когда-либо удалялся человек от дома, — прежде чем приводниться в Тихом океане 11 апреля 2026 года.<sup class='cite'>[1][5]</sup>">Over roughly nine to ten days, the crew travelled about 406,770 km from Earth — a new record for the greatest distance humans have travelled from home — before splashing down in the Pacific on April 11, 2026.<sup class="cite">[1][5]</sup></p>
+      <p class="body-col" data-en="Artemis II launched at 6:35 p.m. EDT on 1 April 2026 from Launch Pad 39B, carrying NASA astronauts Reid Wiseman (commander), Victor Glover (pilot) and Christina Koch, with CSA astronaut Jeremy Hansen — the first crewed flight of both Orion and SLS.<sup class='cite'>[13]</sup> On 6 April, at 12:56 p.m. CDT, the crew passed Apollo 13’s 1970 record of 248,655 miles (400,171 km) from Earth; they swung 4,067 miles (6,545 km) above the lunar surface and reached about 252,756 miles (406,771 km) — farther from Earth than any humans before them.<sup class='cite'>[14]</sup>" data-ru="Artemis II стартовал в 18:35 по восточному летнему времени США 1 апреля 2026 года со стартового комплекса 39B; на борту — астронавты NASA Рид Уайзман (командир), Виктор Гловер (пилот) и Кристина Кох, а также астронавт ККА Джереми Хансен. Это первый пилотируемый полёт и «Ориона», и SLS.<sup class='cite'>[13]</sup> 6 апреля в 12:56 по центральному летнему времени экипаж превзошёл рекорд «Аполлона-13» 1970 года — 248 655 миль (400 171 км) от Земли; корабль прошёл в 4067 милях (6545 км) над поверхностью Луны и удалился примерно на 252 756 миль (406 771 км) — дальше от Земли, чем кто-либо из людей до них.<sup class='cite'>[14]</sup>">Artemis II launched at 6:35 p.m. EDT on 1 April 2026 from Launch Pad 39B, carrying NASA astronauts Reid Wiseman (commander), Victor Glover (pilot) and Christina Koch, with CSA astronaut Jeremy Hansen — the first crewed flight of both Orion and SLS.<sup class="cite">[13]</sup> On 6 April, at 12:56 p.m. CDT, the crew passed Apollo 13’s 1970 record of 248,655 miles (400,171 km) from Earth; they swung 4,067 miles (6,545 km) above the lunar surface and reached about 252,756 miles (406,771 km) — farther from Earth than any humans before them.<sup class="cite">[14]</sup></p>
+      <p class="body-col" data-en="Orion splashed down off San Diego at 5:07 p.m. PDT on 10 April 2026, after nearly ten days and 695,081 miles (about 1.12 million km) flown.<sup class='cite'>[13]</sup> After the Artemis I heat-shield findings, NASA had decided in December 2024 to fly the existing heat shield with changes to Orion’s trajectory as it enters the atmosphere;<sup class='cite'>[15]</sup> first inspections after splashdown found char loss far smaller than on Artemis I, with detailed analysis continuing.<sup class='cite'>[16]</sup>" data-ru="«Орион» приводнился у Сан-Диего в 17:07 по тихоокеанскому летнему времени 10 апреля 2026 года — почти через десять суток и 695 081 милю (около 1,12 млн км) пути.<sup class='cite'>[13]</sup> После выводов по тепловому экрану Artemis I NASA в декабре 2024 года решило лететь с прежним экраном, изменив траекторию «Ориона» при входе в атмосферу;<sup class='cite'>[15]</sup> первые осмотры после приводнения показали, что потеря обугленного слоя намного меньше, чем на Artemis I; подробный анализ продолжается.<sup class='cite'>[16]</sup>">Orion splashed down off San Diego at 5:07 p.m. PDT on 10 April 2026, after nearly ten days and 695,081 miles (about 1.12 million km) flown.<sup class="cite">[13]</sup> After the Artemis I heat-shield findings, NASA had decided in December 2024 to fly the existing heat shield with changes to Orion’s trajectory as it enters the atmosphere;<sup class="cite">[15]</sup> first inspections after splashdown found char loss far smaller than on Artemis I, with detailed analysis continuing.<sup class="cite">[16]</sup></p>
+    </div>
+    <div class="inst-kicker" data-en="INSTRUMENT · HOW FAR, AND HOW LONG A REPLY TAKES" data-ru="ПРИБОР · КАК ДАЛЕКО И СКОЛЬКО ИДЁТ ОТВЕТ">INSTRUMENT · HOW FAR, AND HOW LONG A REPLY TAKES</div>
+    <p class="body-col" style="max-width:680px;" data-en="Slide the spacecraft out from Earth or pick a marker. The page converts the distance (1 mile = 1.609344 km exactly), compares it with the Moon’s average distance and the two records, and computes how long a radio signal takes each way at the speed of light." data-ru="Сдвиньте корабль от Земли или выберите отметку. Страница пересчитывает расстояние (1 миля = 1,609344 км точно), сравнивает его со средним расстоянием до Луны и двумя рекордами и вычисляет, сколько радиосигнал идёт в одну сторону со скоростью света.">Slide the spacecraft out from Earth or pick a marker. The page converts the distance (1 mile = 1.609344 km exactly), compares it with the Moon’s average distance and the two records, and computes how long a radio signal takes each way at the speed of light.</p>
+    <div class="sim-wrap">
+      <div>
+        <svg id="distSvg" class="sim-svg" viewBox="0 0 480 200" role="img" aria-label="Distance from Earth on a linear scale, with the Moon's average distance, the Apollo 13 record and the Artemis II maximum" data-aria-en="Distance from Earth on a linear scale, with the Moon's average distance, the Apollo 13 record and the Artemis II maximum" data-aria-ru="Расстояние от Земли в линейном масштабе: среднее расстояние до Луны, рекорд «Аполлона-13» и максимум Artemis II"></svg>
+        <p class="note" data-en="Linear scale from Earth’s centre, 0–420,000 km. Moon: mean distance 384,400 km [17]. Records: Apollo 13 248,655 mi and Artemis II about 252,756 mi [14]. Light speed 299,792.458 km/s, exact [18]; mile 1.609344 km, exact [19]. NASA does not state whether its record distances are measured from Earth’s centre or surface (a difference of about 6,371 km). Light time is for the straight-line distance; the real link also passes through ground-station and relay equipment." data-ru="Линейная шкала от центра Земли, 0–420 000 км. Луна: среднее расстояние 384 400 км [17]. Рекорды: «Аполлон-13» — 248 655 миль, Artemis II — около 252 756 миль [14]. Скорость света 299 792,458 км/с, точно [18]; миля — 1,609344 км, точно [19]. Время прохождения света — для прямого расстояния; реальная линия связи проходит ещё и через аппаратуру наземных станций и ретрансляторов. NASA не уточняет, отсчитываются ли рекордные расстояния от центра Земли или от её поверхности (разница около 6371 км).">Linear scale from Earth’s centre, 0–420,000 km. Moon: mean distance 384,400 km [17]. Records: Apollo 13 248,655 mi and Artemis II about 252,756 mi [14]. Light speed 299,792.458 km/s, exact [18]; mile 1.609344 km, exact [19]. NASA does not state whether its record distances are measured from Earth’s centre or surface (a difference of about 6,371 km). Light time is for the straight-line distance; the real link also passes through ground-station and relay equipment.</p>
+      </div>
+      <div class="sim-panel">
+        <div class="btn-row" role="group" id="distPresets" aria-label="Markers" data-aria-en="Markers" data-aria-ru="Отметки">
+          <button type="button" class="btn" data-km="384400" data-en="MOON, MEAN" data-ru="ЛУНА, СРЕДНЕЕ">MOON, MEAN</button>
+          <button type="button" class="btn" data-mi="248655" data-en="APOLLO 13, 1970" data-ru="«АПОЛЛОН-13», 1970">APOLLO 13, 1970</button>
+          <button type="button" class="btn active" data-mi="252756" data-en="ARTEMIS II, 2026" data-ru="ARTEMIS II, 2026">ARTEMIS II, 2026</button>
+        </div>
+        <div class="ctl"><div class="ctl-row"><label for="distKm" data-en="DISTANCE FROM EARTH" data-ru="РАССТОЯНИЕ ОТ ЗЕМЛИ">DISTANCE FROM EARTH</label><span class="v" id="distKmV">—</span></div><input type="range" id="distKm" min="0" max="420000" step="1" value="406771"></div>
+        <div class="readout-grid" id="distReadout"></div>
+        <div class="status" id="distStatus" aria-live="polite"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -150,55 +217,65 @@ sup{font-size:0.65em; vertical-align:super;}
 <!-- CH7 -->
 <section id="ch7" class="section" data-phase="THE FEBRUARY 2026 PIVOT" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.07 / 12</span> — <span data-en="THE FEBRUARY 2026 COURSE CORRECTION" data-ru="КОРРЕКТИРОВКА КУРСА В ФЕВРАЛЕ 2026">THE FEBRUARY 2026 COURSE CORRECTION</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.07 / 13</span> — <span data-en="THE FEBRUARY 2026 COURSE CORRECTION" data-ru="КОРРЕКТИРОВКА КУРСА В ФЕВРАЛЕ 2026">THE FEBRUARY 2026 COURSE CORRECTION</span></div>
     <h2 class="h-lg" data-en="Rebuilding the sequence around a lander that wasn't ready" data-ru="Перестройка последовательности вокруг посадочного модуля, который не был готов">Rebuilding the sequence around a lander that wasn't ready</h2>
-    <div class="notice" data-en="This chapter concerns a restructuring announced in February–March 2026, very recent at the time of writing. Treat mission dates as current plans, not fixed facts." data-ru="Эта глава касается реструктуризации, объявленной в феврале — марте 2026 года, — совсем недавней на момент написания. Воспринимайте даты миссий как текущие планы, а не окончательные факты.">This chapter concerns a restructuring announced in February–March 2026, very recent at the time of writing. Treat mission dates as current plans, not fixed facts.</div>
-    <p class="lede" style="margin-bottom:0;" data-en="With commercial landers not yet ready for a crewed lunar landing, NASA announced in February 2026 that Artemis III would be rescoped from a Moon landing into a crewed Earth-orbit test of both Human Landing System designs, with Artemis IV becoming the first crewed lunar surface landing instead.<sup class='cite'>[6][7]</sup> Gateway, the planned lunar-orbit station, was paused in its original form the following month as NASA redirected funding toward a faster, surface-first architecture.<sup class='cite'>[6]</sup>" data-ru="Поскольку коммерческие посадочные модули ещё не были готовы к пилотируемой посадке на Луну, в феврале 2026 года NASA объявило, что Artemis III будет пересмотрена из лунной посадки в пилотируемое испытание обеих конструкций посадочных систем на околоземной орбите, а первой пилотируемой посадкой на поверхность Луны станет вместо этого Artemis IV.<sup class='cite'>[6][7]</sup> Gateway, планируемая окололунная станция, была приостановлена в своём первоначальном виде месяцем позже, когда NASA перенаправило финансирование на более быструю архитектуру с приоритетом поверхности.<sup class='cite'>[6]</sup>">With commercial landers not yet ready for a crewed lunar landing, NASA announced in February 2026 that Artemis III would be rescoped from a Moon landing into a crewed Earth-orbit test of both Human Landing System designs, with Artemis IV becoming the first crewed lunar surface landing instead.<sup class="cite">[6][7]</sup> Gateway, the planned lunar-orbit station, was paused in its original form the following month as NASA redirected funding toward a faster, surface-first architecture.<sup class="cite">[6]</sup></p>
+    <div class="notice" data-en="Status as of 10 October 2026. The plans below are NASA’s published intentions, not flown missions; they have changed before." data-ru="Статус на 10 октября 2026 года. Ниже — опубликованные намерения NASA, а не выполненные миссии; они уже менялись.">Status as of 10 October 2026. The plans below are NASA’s published intentions, not flown missions; they have changed before.</div>
+    <p class="lede" style="margin-bottom:0;" data-en="On 27 February 2026 NASA announced that it would fly Artemis missions more often, standardize SLS, and add a new crewed mission in 2027 to test systems in Earth orbit before landing: Artemis III became a low-Earth-orbit rendezvous and docking test with one or both commercial landers, and Artemis IV, targeted for early 2028, became the first landing.<sup class='cite'>[10]</sup> On 24 March 2026 NASA said it intends to pause Gateway “in its current form” and shift to infrastructure for sustained surface operations — a Moon Base — repurposing applicable equipment.<sup class='cite'>[20]</sup> NASA’s Inspector General counts four Artemis systems NASA has announced plans to cancel or repurpose — the Exploration Upper Stage, its Universal Stage Adapter, Mobile Launcher 2 and Gateway’s HALO module — with a combined current contract value of $5.9 billion.<sup class='cite'>[11]</sup>" data-ru="27 февраля 2026 года NASA объявило, что будет летать по программе Artemis чаще, стандартизирует SLS и добавит в 2027 году новую пилотируемую миссию для проверки систем на околоземной орбите перед посадкой: Artemis III стала испытанием сближения и стыковки с одним или обоими коммерческими посадочными модулями на низкой околоземной орбите, а Artemis IV, намеченная на начало 2028 года, — первой посадкой.<sup class='cite'>[10]</sup> 24 марта 2026 года NASA заявило о намерении приостановить Gateway «в её нынешнем виде» и переключиться на инфраструктуру для длительной работы на поверхности — Лунную базу, — используя пригодное оборудование.<sup class='cite'>[20]</sup> Генеральный инспектор NASA насчитывает четыре системы Artemis, которые NASA объявило намерение отменить или перепрофилировать, — разгонную ступень Exploration Upper Stage, её переходник Universal Stage Adapter, мобильную пусковую башню ML-2 и модуль HALO станции Gateway — с общей текущей стоимостью контрактов 5,9 млрд долларов.<sup class='cite'>[11]</sup>">On 27 February 2026 NASA announced that it would fly Artemis missions more often, standardize SLS, and add a new crewed mission in 2027 to test systems in Earth orbit before landing: Artemis III became a low-Earth-orbit rendezvous and docking test with one or both commercial landers, and Artemis IV, targeted for early 2028, became the first landing.<sup class="cite">[10]</sup> On 24 March 2026 NASA said it intends to pause Gateway “in its current form” and shift to infrastructure for sustained surface operations — a Moon Base — repurposing applicable equipment.<sup class="cite">[20]</sup> NASA’s Inspector General counts four Artemis systems NASA has announced plans to cancel or repurpose — the Exploration Upper Stage, its Universal Stage Adapter, Mobile Launcher 2 and Gateway’s HALO module — with a combined current contract value of $5.9 billion.<sup class="cite">[11]</sup></p>
   </div>
 </section>
 
 <!-- CH8 -->
-<section id="ch8" class="section" data-phase="ARTEMIS III (REVISED)" data-alt="LOW EARTH ORBIT" data-vel="LATE 2027">
+<section id="ch8" class="section" data-phase="ARTEMIS III (REVISED)" data-alt="LOW EARTH ORBIT" data-vel="2027 TARGET">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.08 / 12</span> — <span data-en="ARTEMIS III (REVISED): REHEARSING IN EARTH ORBIT" data-ru="ARTEMIS III (ПЕРЕСМОТРЕНА): РЕПЕТИЦИЯ НА ОКОЛОЗЕМНОЙ ОРБИТЕ">ARTEMIS III (REVISED): REHEARSING IN EARTH ORBIT</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.08 / 13</span> — <span data-en="ARTEMIS III (REVISED): REHEARSING IN EARTH ORBIT" data-ru="ARTEMIS III (ПЕРЕСМОТРЕНА): РЕПЕТИЦИЯ НА ОКОЛОЗЕМНОЙ ОРБИТЕ">ARTEMIS III (REVISED): REHEARSING IN EARTH ORBIT</span></div>
     <h2 class="h-lg" data-en="A four-person crew, two competing landers, one rehearsal" data-ru="Экипаж из четырёх человек, два конкурирующих модуля, одна репетиция">A four-person crew, two competing landers, one rehearsal</h2>
-    <p class="lede" style="margin-bottom:0;" data-en="As redefined, Artemis III will launch a four-person crew aboard Orion to Earth orbit to rehearse rendezvous and docking with test articles of both SpaceX's Starship HLS and Blue Origin's Blue Moon, reducing risk before either lander is trusted with a crewed lunar landing on Artemis IV.<sup class='cite'>[7]</sup> NASA has targeted the mission for late 2027.<sup class='cite'>[8]</sup>" data-ru="В пересмотренном виде Artemis III отправит экипаж из четырёх человек на «Орионе» на околоземную орбиту для отработки сближения и стыковки с испытательными образцами и Starship HLS от SpaceX, и Blue Moon от Blue Origin, снижая риски перед тем, как какому-либо из модулей доверят пилотируемую посадку на Луну в рамках Artemis IV.<sup class='cite'>[7]</sup> NASA наметило миссию на конец 2027 года.<sup class='cite'>[8]</sup>">As redefined, Artemis III will launch a four-person crew aboard Orion to Earth orbit to rehearse rendezvous and docking with test articles of both SpaceX's Starship HLS and Blue Origin's Blue Moon, reducing risk before either lander is trusted with a crewed lunar landing on Artemis IV.<sup class="cite">[7]</sup> NASA has targeted the mission for late 2027.<sup class="cite">[8]</sup></p>
+    <p class="lede" style="margin-bottom:0;" data-en="As redefined, Artemis III will launch four astronauts on SLS and Orion to low Earth orbit, where Orion’s European service module circularizes the orbit; Orion then docks with a test version of Blue Origin’s Blue Moon Mark 2 for about two days, and afterwards with a SpaceX Starship pathfinder for about a day, before returning to a Pacific splashdown after roughly two weeks.<sup class='cite'>[21]</sup><sup class='cite'>[22]</sup> On 9 June 2026 NASA named the crew — Randy Bresnik (commander), ESA’s Luca Parmitano (pilot), Andre Douglas and Frank Rubio — and targeted the flight for 2027; a spacer replaces the upper stage, which an Earth-orbit mission does not need.<sup class='cite'>[22]</sup>" data-ru="В новом облике Artemis III доставит четырёх астронавтов на SLS и «Орионе» на низкую околоземную орбиту, где европейский служебный модуль переводит «Орион» на круговую орбиту; затем «Орион» примерно на двое суток состыкуется с испытательным образцом Blue Moon Mark 2 компании Blue Origin, а после — примерно на сутки с прототипом Starship компании SpaceX и примерно через две недели приводнится в Тихом океане.<sup class='cite'>[21]</sup><sup class='cite'>[22]</sup> 9 июня 2026 года NASA назвало экипаж — Рэнди Брезник (командир), Лука Пармитано из ЕКА (пилот), Андре Дуглас и Фрэнк Рубио — и наметило полёт на 2027 год; вместо разгонной ступени, не нужной для околоземной миссии, устанавливается проставка.<sup class='cite'>[22]</sup>">As redefined, Artemis III will launch four astronauts on SLS and Orion to low Earth orbit, where Orion’s European service module circularizes the orbit; Orion then docks with a test version of Blue Origin’s Blue Moon Mark 2 for about two days, and afterwards with a SpaceX Starship pathfinder for about a day, before returning to a Pacific splashdown after roughly two weeks.<sup class="cite">[21]</sup><sup class="cite">[22]</sup> On 9 June 2026 NASA named the crew — Randy Bresnik (commander), ESA’s Luca Parmitano (pilot), Andre Douglas and Frank Rubio — and targeted the flight for 2027; a spacer replaces the upper stage, which an Earth-orbit mission does not need.<sup class="cite">[22]</sup></p>
   </div>
 </section>
 
 <!-- CH9 -->
-<section id="ch9" class="section" data-phase="ARTEMIS IV" data-alt="LUNAR SOUTH POLE" data-vel="2028 TARGET">
+<section id="ch9" class="section" data-phase="ARTEMIS IV" data-alt="LUNAR SOUTH POLE" data-vel="EARLY 2028 TARGET">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.09 / 12</span> — <span data-en="ARTEMIS IV: THE RETURN TO THE SURFACE" data-ru="ARTEMIS IV: ВОЗВРАЩЕНИЕ НА ПОВЕРХНОСТЬ">ARTEMIS IV: THE RETURN TO THE SURFACE</span></div>
-    <h2 class="h-lg" data-en="Now the mission carrying Apollo's old title" data-ru="Теперь именно эта миссия несёт прежний титул «Аполлона»">Now the mission carrying Apollo's old title</h2>
-    <p class="lede" style="margin-bottom:0;" data-en="Under the revised sequence, Artemis IV is now expected to be the first crewed Moon landing since Apollo 17, targeting the lunar south pole no earlier than 2028 — a title Artemis III would originally have held.<sup class='cite'>[6][8]</sup>" data-ru="Согласно пересмотренной последовательности, теперь ожидается, что именно Artemis IV станет первой пилотируемой посадкой на Луну со времён «Аполлона-17», нацеленной на южный полюс Луны не ранее 2028 года, — титул, который изначально должна была носить Artemis III.<sup class='cite'>[6][8]</sup>">Under the revised sequence, Artemis IV is now expected to be the first crewed Moon landing since Apollo 17, targeting the lunar south pole no earlier than 2028 — a title Artemis III would originally have held.<sup class="cite">[6][8]</sup></p>
+    <div class="eyebrow"><span class="fig-num">CH.09 / 13</span> — <span data-en="ARTEMIS IV: THE RETURN TO THE SURFACE" data-ru="ARTEMIS IV: ВОЗВРАЩЕНИЕ НА ПОВЕРХНОСТЬ">ARTEMIS IV: THE RETURN TO THE SURFACE</span></div>
+    <h2 class="h-lg" data-en="Now the first landing since Apollo 17" data-ru="Теперь — первая посадка со времён «Аполлона-17»">Now the first landing since Apollo 17</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Under the revised sequence, Artemis IV is planned as the first crewed Moon landing since Apollo 17 and the first crewed mission to the lunar south pole, targeted for early 2028 — the title Artemis III originally held.<sup class='cite'>[10]</sup><sup class='cite'>[22]</sup> The crewed flights to the surface then follow the cadence in Chapter 12. For how Apollo did it, see <a href='/aerospace/tranquility-apollo-program'>TRANQUILITY</a>." data-ru="Согласно пересмотренной последовательности, Artemis IV планируется как первая пилотируемая посадка на Луну со времён «Аполлона-17» и первая пилотируемая миссия к южному полюсу Луны, намеченная на начало 2028 года, — титул, который изначально носила Artemis III.<sup class='cite'>[10]</sup><sup class='cite'>[22]</sup> Дальнейшие полёты к поверхности следуют графику из главы 12. Как это делал «Аполлон» — в справочнике <a href='/aerospace/tranquility-apollo-program'>СПОКОЙСТВИЕ</a>.">Under the revised sequence, Artemis IV is planned as the first crewed Moon landing since Apollo 17 and the first crewed mission to the lunar south pole, targeted for early 2028 — the title Artemis III originally held.<sup class="cite">[10]</sup><sup class="cite">[22]</sup> The crewed flights to the surface then follow the cadence in Chapter 12. For how Apollo did it, see <a href="/aerospace/tranquility-apollo-program">TRANQUILITY</a>.</p>
   </div>
 </section>
 
 <!-- CH10 -->
 <section id="ch10" class="section" data-phase="THE LANDERS" data-alt="—" data-vel="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.10 / 12</span> — <span data-en="THE LANDERS: STARSHIP HLS &amp; BLUE MOON" data-ru="ПОСАДОЧНЫЕ МОДУЛИ: STARSHIP HLS И BLUE MOON">THE LANDERS: STARSHIP HLS &amp; BLUE MOON</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.10 / 13</span> — <span data-en="THE LANDERS: STARSHIP HLS &amp; BLUE MOON" data-ru="ПОСАДОЧНЫЕ МОДУЛИ: STARSHIP HLS И BLUE MOON">THE LANDERS: STARSHIP HLS &amp; BLUE MOON</span></div>
     <h2 class="h-lg" data-en="Two competing designs, deliberately, not one" data-ru="Два конкурирующих проекта намеренно, а не один">Two competing designs, deliberately, not one</h2>
-    <p class="lede" style="margin-bottom:0;" data-en="Artemis architecture deliberately funds two parallel Human Landing System providers — SpaceX's Starship HLS and Blue Origin's Blue Moon — contracted alongside SLS and Orion, a hedge against exactly the kind of schedule slip that triggered the February 2026 restructuring.<sup class='cite'>[6][7]</sup>" data-ru="Архитектура Artemis намеренно финансирует двух параллельных поставщиков посадочных систем — Starship HLS от SpaceX и Blue Moon от Blue Origin, — законтрактованных наряду с SLS и «Орионом», страховку именно от того рода срыва графика, что вызвал реструктуризацию февраля 2026 года.<sup class='cite'>[6][7]</sup>">Artemis architecture deliberately funds two parallel Human Landing System providers — SpaceX's Starship HLS and Blue Origin's Blue Moon — contracted alongside SLS and Orion, a hedge against exactly the kind of schedule slip that triggered the February 2026 restructuring.<sup class="cite">[6][7]</sup></p>
+    <p class="lede" style="margin-bottom:0;" data-en="Artemis funds two Human Landing System providers — SpaceX’s Starship HLS and Blue Origin’s Blue Moon. NASA says lander readiness will decide which one carries the first crew down.<sup class='cite'>[10]</sup> As of 10 October 2026, neither has carried people; Artemis III is designed to test both in Earth orbit first, with crews entering at least one lander test article if decisions still pending allow it.<sup class='cite'>[21]</sup> Starship’s booster recovery and reuse are covered in <a href='/aerospace/return-reusable-rockets'>RETURN</a>." data-ru="Artemis финансирует двух поставщиков посадочных систем — Starship HLS от SpaceX и Blue Moon от Blue Origin. По словам NASA, какой из них первым доставит экипаж на поверхность, решит готовность модулей.<sup class='cite'>[10]</sup> На 10 октября 2026 года ни один из них ещё не перевозил людей; Artemis III задумана так, чтобы сначала испытать оба на околоземной орбите, а экипаж, если позволят ещё не принятые решения, войдёт хотя бы в один испытательный образец.<sup class='cite'>[21]</sup> О возвращении и повторном использовании ускорителя Starship — в справочнике <a href='/aerospace/return-reusable-rockets'>ВОЗВРАТ</a>.">Artemis funds two Human Landing System providers — SpaceX’s Starship HLS and Blue Origin’s Blue Moon. NASA says lander readiness will decide which one carries the first crew down.<sup class="cite">[10]</sup> As of 10 October 2026, neither has carried people; Artemis III is designed to test both in Earth orbit first, with crews entering at least one lander test article if decisions still pending allow it.<sup class="cite">[21]</sup> Starship’s booster recovery and reuse are covered in <a href="/aerospace/return-reusable-rockets">RETURN</a>.</p>
   </div>
 </section>
 
 <!-- CH11 -->
-<section id="ch11" class="section" data-phase="GATEWAY'S PAUSE" data-alt="—" data-vel="PAUSED MAR 2026">
+<section id="ch11" class="section" data-phase="GATEWAY'S PAUSE" data-alt="—" data-vel="PAUSE ANNOUNCED 24 MAR 2026">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.11 / 12</span> — <span data-en="GATEWAY'S PAUSE AND THE SHIFT TO A SURFACE BASE" data-ru="ПРИОСТАНОВКА GATEWAY И ПЕРЕХОД К ПОВЕРХНОСТНОЙ БАЗЕ">GATEWAY'S PAUSE AND THE SHIFT TO A SURFACE BASE</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.11 / 13</span> — <span data-en="GATEWAY’S PAUSE AND THE SHIFT TO A SURFACE BASE" data-ru="ПРИОСТАНОВКА GATEWAY И ПЕРЕХОД К ПОВЕРХНОСТНОЙ БАЗЕ">GATEWAY’S PAUSE AND THE SHIFT TO A SURFACE BASE</span></div>
     <h2 class="h-lg" data-en="A station redirected before it ever flew" data-ru="Станция, перенаправленная ещё до полёта">A station redirected before it ever flew</h2>
-    <p class="lede" style="margin-bottom:0;" data-en="The planned lunar-orbit station Gateway, with hardware already built, was paused in March 2026 as NASA shifted its architecture toward a faster surface base — a decision covered in depth in this guide's companion piece on Gateway.<sup class='cite'>[6]</sup>" data-ru="Планируемая окололунная станция Gateway, для которой уже было построено оборудование, была приостановлена в марте 2026 года, когда NASA сместило архитектуру в сторону более быстрой поверхностной базы, — решение, подробно разобранное в отдельном материале этого справочника, посвящённом Gateway.<sup class='cite'>[6]</sup>">The planned lunar-orbit station Gateway, with hardware already built, was paused in March 2026 as NASA shifted its architecture toward a faster surface base — a decision covered in depth in this guide's companion piece on Gateway.<sup class="cite">[6]</sup></p>
+    <p class="lede" style="margin-bottom:0;" data-en="Gateway, the planned lunar-orbit station, was to be the staging point for landings. In April 2026 NASA issued a stop-work order on its HALO habitation module, whose contract had grown to $1.9 billion while the builder worked to fix corrosion in the primary structure; as of the Inspector General’s June 2026 memo, decisions on reusing the hardware were not final.<sup class='cite'>[11]</sup> In August 2026 NASA said power and avionics hardware developed for HALO is being repurposed for Northrop Grumman technology payloads bound for the lunar surface.<sup class='cite'>[23]</sup> The full story is in <a href='/aerospace/the-lunar-gateway'>HALO</a>; the surface base it gave way to is in <a href='/aerospace/horizon-artemis-base-camp'>HORIZON</a>." data-ru="Gateway, планируемая окололунная станция, должна была стать пересадочным пунктом для посадок. В апреле 2026 года NASA приостановило работы по её жилому модулю HALO: стоимость контракта выросла до 1,9 млрд долларов, а изготовитель устранял коррозию основной конструкции; по состоянию на июньскую (2026) записку Генерального инспектора решения о повторном использовании оборудования окончательно не приняты.<sup class='cite'>[11]</sup> В августе 2026 года NASA сообщило, что силовая электроника и авионика, созданные для HALO, перепрофилируются для технологических грузов Northrop Grumman, отправляемых на поверхность Луны.<sup class='cite'>[23]</sup> Подробно — в справочнике <a href='/aerospace/the-lunar-gateway'>ХАЛО</a>; о поверхностной базе, уступившей ей место, — в <a href='/aerospace/horizon-artemis-base-camp'>ГОРИЗОНТЕ</a>.">Gateway, the planned lunar-orbit station, was to be the staging point for landings. In April 2026 NASA issued a stop-work order on its HALO habitation module, whose contract had grown to $1.9 billion while the builder worked to fix corrosion in the primary structure; as of the Inspector General’s June 2026 memo, decisions on reusing the hardware were not final.<sup class="cite">[11]</sup> In August 2026 NASA said power and avionics hardware developed for HALO is being repurposed for Northrop Grumman technology payloads bound for the lunar surface.<sup class="cite">[23]</sup> The full story is in <a href="/aerospace/the-lunar-gateway">HALO</a>; the surface base it gave way to is in <a href="/aerospace/horizon-artemis-base-camp">HORIZON</a>.</p>
   </div>
 </section>
 
-<!-- CH12 — REFERENCES -->
-<section id="ch12" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+<!-- CH12 — WHAT COMES NEXT -->
+<section id="ch12" class="section" data-phase="WHAT COMES NEXT" data-alt="—" data-vel="AS OF 10 OCT 2026">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.12 / 12</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.12 / 13</span> — <span data-en="WHAT COMES NEXT" data-ru="ЧТО ДАЛЬШЕ">WHAT COMES NEXT</span></div>
+    <h2 class="h-lg" data-en="A plan measured in months, not a legacy yet" data-ru="План, измеряемый месяцами, — наследием ему ещё рано быть">A plan measured in months, not a legacy yet</h2>
+    <p class="lede" data-en="Artemis is still in progress, so this guide ends with NASA’s stated plan rather than a legacy chapter. As of 10 October 2026: Artemis III in 2027 tests the landers in Earth orbit; Artemis IV targets the first south-pole landing in early 2028; Artemis V follows in late 2028, when NASA expects to begin building its Moon Base.<sup class='cite'>[10]</sup> NASA’s February plan foresaw about one mission a year after that; its March plan says it is initially targeting crewed landings every six months beyond Artemis V, with up to 30 robotic landings starting in 2027.<sup class='cite'>[20]</sup> Commercial cargo landers for the first Moon Base phase, which runs through 2029, are being prepared now.<sup class='cite'>[23]</sup>" data-ru="Artemis ещё продолжается, поэтому справочник завершается заявленным планом NASA, а не главой о наследии. На 10 октября 2026 года: Artemis III в 2027 году испытывает посадочные модули на околоземной орбите; Artemis IV нацелена на первую посадку у южного полюса в начале 2028 года; Artemis V следует в конце 2028 года, когда NASA рассчитывает начать строительство Лунной базы.<sup class='cite'>[10]</sup> Февральский план NASA предусматривал после этого примерно одну миссию в год; мартовский план говорит, что после Artemis V NASA поначалу нацеливается на пилотируемые посадки каждые полгода, а с 2027 года — на до 30 беспилотных посадок.<sup class='cite'>[20]</sup> Коммерческие грузовые посадочные модули для первого этапа Лунной базы, который продлится до 2029 года, уже готовятся.<sup class='cite'>[23]</sup>">Artemis is still in progress, so this guide ends with NASA’s stated plan rather than a legacy chapter. As of 10 October 2026: Artemis III in 2027 tests the landers in Earth orbit; Artemis IV targets the first south-pole landing in early 2028; Artemis V follows in late 2028, when NASA expects to begin building its Moon Base.<sup class="cite">[10]</sup> NASA’s February plan foresaw about one mission a year after that; its March plan says it is initially targeting crewed landings every six months beyond Artemis V, with up to 30 robotic landings starting in 2027.<sup class="cite">[20]</sup> Commercial cargo landers for the first Moon Base phase, which runs through 2029, are being prepared now.<sup class="cite">[23]</sup></p>
+    <p class="note" data-en="How the cadence fits together: SLS and Orion carry the crew from Earth (see <a href='/aerospace/thrust-saturn-v-n1'>THRUST</a> for the last time a rocket did this job alone), a commercial lander does the descent and ascent, and Orion brings the crew home through the atmosphere (<a href='/aerospace/entry-heat-shields'>ENTRY</a>)." data-ru="Как складывается график: SLS и «Орион» доставляют экипаж от Земли (как в последний раз ракета делала эту работу одна — см. <a href='/aerospace/thrust-saturn-v-n1'>ТЯГА</a>), коммерческий модуль выполняет спуск и взлёт, а «Орион» возвращает экипаж домой через атмосферу (<a href='/aerospace/entry-heat-shields'>ВХОД</a>).">How the cadence fits together: SLS and Orion carry the crew from Earth (see <a href="/aerospace/thrust-saturn-v-n1">THRUST</a> for the last time a rocket did this job alone), a commercial lander does the descent and ascent, and Orion brings the crew home through the atmosphere (<a href="/aerospace/entry-heat-shields">ENTRY</a>).</p>
+  </div>
+</section>
+
+<!-- CH13 — REFERENCES -->
+<section id="ch13" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.13 / 13</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
     <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
-    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below, current as of the dates noted." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже, актуальным на указанные даты.">Bracketed numbers in the text above correspond to the sources below, current as of the dates noted.</p>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below. Every URL was checked on 10–11 October 2026." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже. Все ссылки проверены 10–11 октября 2026 года.">Bracketed numbers in the text above correspond to the sources below. Every URL was checked on 10–11 October 2026.</p>
     <div class="ref-list" id="refList"></div>
   </div>
 </section>
@@ -207,7 +284,7 @@ sup{font-size:0.65em; vertical-align:super;}
 
 <footer>
   <span data-en="CAMPAIGN — A FIELD GUIDE TO THE ARTEMIS PROGRAM" data-ru="CAMPAIGN — ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ ARTEMIS">CAMPAIGN — A FIELD GUIDE TO THE ARTEMIS PROGRAM</span>
-  <span data-en="ILLUSTRATIVE — REFLECTS PUBLICLY REPORTED STATUS AS OF MID-2026, SUBJECT TO CHANGE" data-ru="ОРИЕНТИРОВОЧНО — ОТРАЖАЕТ ПУБЛИЧНО ИЗВЕСТНЫЙ СТАТУС ПО СОСТОЯНИЮ НА СЕРЕДИНУ 2026 ГОДА, ВОЗМОЖНЫ ИЗМЕНЕНИЯ">ILLUSTRATIVE — REFLECTS PUBLICLY REPORTED STATUS AS OF MID-2026, SUBJECT TO CHANGE</span>
+  <span data-en="REFLECTS NASA’S PUBLISHED STATUS AS OF 10 OCTOBER 2026 — PLANS MAY CHANGE" data-ru="ОТРАЖАЕТ ОПУБЛИКОВАННЫЙ СТАТУС NASA НА 10 ОКТЯБРЯ 2026 ГОДА — ПЛАНЫ МОГУТ ИЗМЕНИТЬСЯ">REFLECTS NASA’S PUBLISHED STATUS AS OF 10 OCTOBER 2026 — PLANS MAY CHANGE</span>
 </footer>
 
 <script>
@@ -227,6 +304,7 @@ function applyLang(l){
     var v = el.getAttribute('data-'+l);
     if(v!==null) el.innerHTML = v;
   });
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-'+l)); });
   document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
   renderAll();
 }
@@ -270,7 +348,7 @@ function renderOrion(){
   ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
   ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
   ORION_PARTS.forEach(function(m){
-    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    var g = ns('g',{class:'hotspot','data-id':m.id,tabindex:'0',role:'button','aria-label':(lang==='en'?m.en:m.ru)},svg);
     ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
     var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
     label.textContent = (lang==='en'?m.en:m.ru);
@@ -280,7 +358,8 @@ function renderOrion(){
   selectPart(svg, panel, ORION_PARTS, ORION_PARTS[0].id);
 }
 function selectPart(svg, panel, parts, id){
-  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); h.setAttribute('aria-pressed', h.dataset.id===id ? 'true' : 'false'); });
+  var hadFocus = document.activeElement && document.activeElement.classList && document.activeElement.classList.contains('module-chip');
   var m = parts.filter(function(x){return x.id===id;})[0];
   panel.innerHTML =
     '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
@@ -289,19 +368,38 @@ function selectPart(svg, panel, parts, id){
     '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
     '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
   panel.querySelectorAll('.module-chip').forEach(function(chip){
+    /* the panel is rebuilt on every selection, so restore keyboard access here (site.js only stamps once) */
+    chip.setAttribute('tabindex', '0'); chip.setAttribute('role', 'button');
+    chip.setAttribute('aria-pressed', chip.dataset.jump === id ? 'true' : 'false');
     chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
   });
+  if(hadFocus){ var again = panel.querySelector('.module-chip[data-jump="'+id+'"]'); if(again) again.focus(); }
 }
 
 var REFERENCES = [
-  {title:'Moon to Mars | NASA\'s Artemis Program', url:'https://www.nasa.gov/humans-in-space/artemis/', note:{en:'NASA. Program overview, SLS description, Artemis II summary. Accessed 2026.', ru:'NASA. Обзор программы, описание SLS, сводка Artemis II. По состоянию на 2026 год.'}},
-  {title:'Orion Spacecraft', url:'https://www.nasa.gov/humans-in-space/orion-spacecraft/', note:{en:'NASA. Orion spacecraft overview and role in Artemis missions.', ru:'NASA. Обзор корабля «Орион» и его роли в миссиях Artemis.'}},
-  {title:'Artemis Accords', url:'https://www.state.gov/bureau-of-oceans-and-international-environmental-and-scientific-affairs/artemis-accords', note:{en:'U.S. Department of State. Founding date, principles, and full signatory list as of July 2026.', ru:'Госдепартамент США. Дата основания, принципы и полный список подписантов на июль 2026 года.'}},
-  {title:'What is the Artemis Program?', url:'https://airandspace.si.edu/stories/editorial/what-artemis-program', note:{en:'Smithsonian National Air and Space Museum. Program goals, Accords principles, signatory count as of January 2026.', ru:'Смитсоновский национальный музей авиации и космонавтики. Цели программы, принципы соглашений, число подписантов на январь 2026 года.'}},
-  {title:'Artemis II: NASA\'s First Crewed Lunar Flyby in 50 Years', url:'https://www.nasa.gov/mission/artemis-ii/', note:{en:'NASA. Artemis II mission page, crew, timeline, and science objectives.', ru:'NASA. Страница миссии Artemis II, экипаж, график и научные задачи.'}},
-  {title:'Artemis Programme: NASA Moon Missions Tracker Hub', url:'https://issinfo.net/artemis', note:{en:'Independent mission tracker. Artemis II flight details (launch/splashdown dates, distance) and summary of the 2026 architecture changes.', ru:'Независимый трекер миссий. Детали полёта Artemis II (даты старта и приводнения, расстояние) и сводка изменений архитектуры 2026 года.'}},
-  {title:'NASA Outlines Preliminary Artemis III Mission Plans', url:'https://www.nasa.gov/missions/artemis/artemis-3/nasa-outlines-preliminary-artemis-iii-mission-plans/', note:{en:'NASA. Official description of Artemis III\'s revised scope as an Earth-orbit lander test.', ru:'NASA. Официальное описание пересмотренного облика Artemis III как испытания посадочного модуля на околоземной орбите.'}},
-  {title:'Artemis 3 Launch Date & Moon Landing Countdown Tracker', url:'https://spaceinformer.com/artemis-3-launch-tracker-moon-landing/', note:{en:'Independent tracker. Artemis III target date (late 2027) and Artemis IV landing target (2028).', ru:'Независимый трекер. Целевая дата Artemis III (конец 2027) и цель посадки Artemis IV (2028).'}}
+  {title:'Moon to Mars | NASA\'s Artemis Program', url:'https://www.nasa.gov/humans-in-space/artemis/', note:{en:'NASA. Program overview; SLS described as the only rocket able to send Orion, crew and cargo to the Moon in one launch.', ru:'NASA. Обзор программы; SLS описана как единственная ракета, способная отправить «Орион», экипаж и груз к Луне за один запуск.'}},
+  {title:'What is the Artemis Program?', url:'https://airandspace.si.edu/stories/editorial/what-artemis-program', note:{en:'Smithsonian National Air and Space Museum. Program goals and partners, the logo, the Accords principles, Artemis I.', ru:'Смитсоновский национальный музей авиации и космонавтики. Цели и партнёры программы, логотип, принципы соглашений, Artemis I.'}},
+  {title:'NASA Celebrates Five Years of Artemis Accords, Welcomes 3 New Nations (20 Nov 2025)', url:'https://www.nasa.gov/organizations/oiir/artemis-accords/nasa-celebrates-five-years-of-artemis-accords-welcomes-3-new-nations/', note:{en:'NASA. Founded 13 Oct 2020 by the US and seven other nations; Hungary, Malaysia and the Philippines bring the total to 59 (Malaysia and the Philippines announced 26 Oct 2025).', ru:'NASA. Основаны 13 октября 2020 года США и ещё семью странами; Венгрия, Малайзия и Филиппины доводят число до 59 (о Малайзии и Филиппинах объявлено 26 октября 2025 года).'}},
+  {title:'NASA Welcomes Ecuador as 26th Artemis Accords Signatory (21 Jun 2023)', url:'https://www.nasa.gov/news-release/nasa-welcomes-ecuador-as-26th-artemis-accords-signatory/', note:{en:'NASA. 26 signatories on 21 June 2023.', ru:'NASA. 26 подписантов на 21 июня 2023 года.'}},
+  {title:'Artemis Accords Reach 50 Signatories as NASA Welcomes Panama, Austria (11 Dec 2024)', url:'https://www.nasa.gov/news-release/artemis-accords-reach-50-signatories-as-nasa-welcomes-panama-austria/', note:{en:'NASA. 50 signatories on 11 December 2024.', ru:'NASA. 50 подписантов на 11 декабря 2024 года.'}},
+  {title:'NASA Joins Artemis Accords Workshop as Global Signings Rise (21 May 2026)', url:'https://www.nasa.gov/news-release/nasa-joins-artemis-accords-workshop-as-global-signings-rise/', note:{en:'NASA. Six signings ahead of the Lima workshop of 13–14 May 2026 bring the total to 67.', ru:'NASA. Шесть подписаний перед семинаром в Лиме 13–14 мая 2026 года доводят число до 67.'}},
+  {title:'NASA Welcomes Mauritius as 70th Artemis Accords Signatory', url:'https://www.nasa.gov/organizations/oiir/artemis-accords/nasa-welcomes-mauritius-as-70th-artemis-accords-signatory/', note:{en:'NASA. Signed 17 July 2026 in Ébène.', ru:'NASA. Подписано 17 июля 2026 года в Эбене.'}},
+  {title:'NASA Welcomes Albania as Newest Artemis Accords Signatory', url:'https://www.nasa.gov/organizations/oiir/nasa-welcomes-albania-as-newest-artemis-accords-signatory/', note:{en:'NASA. 73rd signatory, 21 September 2026, at NASA Headquarters.', ru:'NASA. 73-й подписант, 21 сентября 2026 года, в штаб-квартире NASA.'}},
+  {title:'NASA Welcomes San Marino Signing the Artemis Accords (25 Sep 2026)', url:'https://www.nasa.gov/organizations/oiir/nasa-welcomes-san-marino-signing-the-artemis-accords/', note:{en:'NASA. 76th signatory, 25 September 2026, in Rimini; the latest count announced as of 10 Oct 2026.', ru:'NASA. 76-й подписант, 25 сентября 2026 года, в Римини; последнее объявленное число на 10 октября 2026 года.'}},
+  {title:'NASA Strengthens Artemis: Adds Mission, Refines Overall Architecture (3 Mar 2026)', url:'https://www.nasa.gov/directorates/esdmd/nasa-strengthens-artemis-adds-mission-refines-overall-architecture/', note:{en:'NASA. The 27 Feb 2026 changes: Artemis III as a 2027 low-Earth-orbit test, Artemis IV landing in early 2028, Artemis V by late 2028, SLS standardized from Artemis IV, no Exploration Upper Stage or Mobile Launcher 2.', ru:'NASA. Изменения 27 февраля 2026 года: Artemis III — испытание на низкой околоземной орбите в 2027 году, посадка Artemis IV в начале 2028-го, Artemis V к концу 2028-го, стандартизация SLS с Artemis IV, отказ от Exploration Upper Stage и ML-2.'}},
+  {title:'NASA OIG, Interim Memorandum ML-26-002: Canceled or Repurposed Artemis Campaign Systems (24 Jun 2026)', url:'https://oig.nasa.gov/wp-content/uploads/2026/06/interim-memo-ml-26-002-nasas-management-of-programs-and-projects-after-mission-termination-artemis-campaign-systems.pdf', note:{en:'NASA Office of Inspector General. EUS, USA, ML-2 and HALO: $5.9 billion combined; HALO stop-work order April 2026 at $1.9 billion, corrosion in its primary structure; reuse decisions not final.', ru:'Управление генерального инспектора NASA. EUS, USA, ML-2 и HALO — 5,9 млрд долларов в сумме; остановка работ по HALO в апреле 2026 года при 1,9 млрд долларов, коррозия основной конструкции; решения о повторном использовании не окончательны.'}},
+  {title:'Orion Spacecraft', url:'https://www.nasa.gov/humans-in-space/orion-spacecraft/', note:{en:'NASA. Orion overview and its role in Artemis missions.', ru:'NASA. Обзор корабля «Орион» и его роли в миссиях Artemis.'}},
+  {title:'NASA Welcomes Record-Setting Artemis II Moonfarers Back to Earth (10 Apr 2026, updated 7 May 2026)', url:'https://www.nasa.gov/news-release/nasa-welcomes-record-setting-artemis-ii-moonfarers-back-to-earth/', note:{en:'NASA. Launch 6:35 p.m. EDT 1 April 2026; splashdown 5:07 p.m. PDT 10 April 2026 off San Diego; crew and roles; 695,081 miles flown.', ru:'NASA. Старт 1 апреля 2026 года в 18:35 EDT; приводнение 10 апреля 2026 года в 17:07 PDT у Сан-Диего; экипаж и роли; 695 081 миля пути.'}},
+  {title:'NASA\'s Artemis II Crew Eclipses Record for Farthest Human Spaceflight (6 Apr 2026)', url:'https://www.nasa.gov/news-release/nasas-artemis-ii-crew-eclipses-record-for-farthest-human-spaceflight/', note:{en:'NASA. Apollo 13 record of 248,655 miles passed at 12:56 p.m. CDT on 6 April; farthest point about 252,756 miles; closest approach about 4,067 miles above the Moon.', ru:'NASA. Рекорд «Аполлона-13» в 248 655 миль превзойдён 6 апреля в 12:56 CDT; наибольшее удаление около 252 756 миль; минимальное расстояние около 4067 миль над Луной.'}},
+  {title:'NASA Shares Orion Heat Shield Findings, Updates Artemis Moon Missions (5 Dec 2024)', url:'https://www.nasa.gov/news-release/nasa-shares-orion-heat-shield-findings-updates-artemis-moon-missions/', note:{en:'NASA, 5 Dec 2024. The Artemis II heat shield can keep the crew safe with changes to Orion\'s trajectory as it enters Earth\'s atmosphere.', ru:'NASA, 5 декабря 2024 года. Тепловой экран Artemis II обеспечит безопасность экипажа при изменённой траектории «Ориона» на входе в атмосферу.'}},
+  {title:'NASA on Track for Future Missions with Initial Artemis II Assessments (20 Apr 2026)', url:'https://www.nasa.gov/missions/nasa-on-track-for-future-missions-with-initial-artemis-ii-assessments/', note:{en:'NASA. Heat shield performed as expected, char loss far smaller than on Artemis I; further analysis at Marshall.', ru:'NASA. Тепловой экран отработал штатно, потеря обугленного слоя намного меньше, чем на Artemis I; дальнейший анализ в Центре Маршалла.'}},
+  {title:'Moon Fact Sheet (NASA NSSDC)', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html', note:{en:'Semimajor axis of the Moon\'s orbit 384,400 km; mean radius 1,737.4 km.', ru:'Большая полуось орбиты Луны 384 400 км; средний радиус 1737,4 км.'}},
+  {title:'Speed of light in vacuum (CODATA, NIST)', url:'https://physics.nist.gov/cgi-bin/cuu/Value?c', note:{en:'c = 299,792,458 m/s, exact.', ru:'c = 299 792 458 м/с, точно.'}},
+  {title:'NIST Guide to the SI, Appendix B: Conversion Factors (SP 811)', url:'https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8', note:{en:'International mile = 1.609344 km, exact.', ru:'Международная миля = 1,609344 км, точно.'}},
+  {title:'NASA Unveils Initiatives to Achieve America\'s National Space Policy (24 Mar 2026)', url:'https://www.nasa.gov/news-release/nasa-unveils-initiatives-to-achieve-americas-national-space-policy/', note:{en:'NASA. Intends to pause Gateway in its current form and build a phased Moon Base; landings initially every six months beyond Artemis V; up to 30 robotic landings from 2027.', ru:'NASA. Намерение приостановить Gateway в нынешнем виде и строить Лунную базу поэтапно; посадки поначалу каждые полгода после Artemis V; до 30 беспилотных посадок с 2027 года.'}},
+  {title:'NASA Outlines Preliminary Artemis III Mission Plans (13 May 2026)', url:'https://www.nasa.gov/missions/artemis/artemis-3/nasa-outlines-preliminary-artemis-iii-mission-plans/', note:{en:'NASA. Low-Earth-orbit test with Starship and Blue Moon Mark 2 pathfinders; the service module circularizes the orbit; some decisions still pending.', ru:'NASA. Испытание на низкой околоземной орбите с прототипами Starship и Blue Moon Mark 2; служебный модуль переводит «Орион» на круговую орбиту; часть решений ещё не принята.'}},
+  {title:'NASA Marches Toward Artemis III Mission in 2027, Names Crew Members (9 Jun 2026)', url:'https://www.nasa.gov/news-release/nasa-marches-toward-artemis-iii-mission-in-2027-names-crew-members/', note:{en:'NASA. Crew Bresnik, Parmitano (ESA), Douglas, Rubio; about two days docked to Blue Moon, about one to Starship; about two weeks in space; spacer replaces the upper stage; Artemis IV targeted for 2028.', ru:'NASA. Экипаж: Брезник, Пармитано (ЕКА), Дуглас, Рубио; около двух суток в стыковке с Blue Moon, около суток — со Starship; около двух недель в космосе; проставка вместо разгонной ступени; Artemis IV — на 2028 год.'}},
+  {title:'NASA Provides Updates on Moon Base Cargo Landers, Tech Demonstrations (4 Aug 2026)', url:'https://www.nasa.gov/missions/moon-base/nasa-provides-updates-on-moon-base-cargo-landers-tech-demonstrations/', note:{en:'NASA. Northrop Grumman payloads build on HALO power and avionics hardware now being repurposed; Moon Base Phase I runs through 2029.', ru:'NASA. Грузы Northrop Grumman используют силовую электронику и авионику HALO, которые теперь перепрофилируются; первый этап Лунной базы продлится до 2029 года.'}}
 ];
 function renderRefs(){
   var wrap = document.getElementById('refList');
@@ -314,8 +412,154 @@ function renderRefs(){
   });
 }
 
+
+/* ============ INSTRUMENTS ============ */
+var MI_KM = 1.609344, C_KM_S = 299792.458, MOON_KM = 384400;
+function miToKm(mi){ return mi*MI_KM; }
+function kmToMi(km){ return km/MI_KM; }
+function lightTime(km){ return km/C_KM_S; }
+function fmt(n, d){ var s = n.toFixed(d); if(lang==='ru') s = s.replace('.', ','); return s.replace('-', '−'); }
+function fmtInt(n){ n = Math.round(n); var s = Math.abs(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang==='ru' ? '\u00a0' : ','); return (n<0?'−':'')+s; }
+function T(en, ru){ return lang==='en' ? en : ru; }
+function cells(el, rows){ el.innerHTML = rows.map(function(r){ return '<div class="readout-cell'+(r[2]?' wide':'')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>'; }).join(''); }
+function txt(parent, x, y, s, anchor, extra){ var t = ns('text', Object.assign({x:x, y:y, 'text-anchor':anchor||'start'}, extra||{}), parent); t.textContent = s; return t; }
+
+/* Accords: counts NASA published, on the date each was reached [3]-[9] */
+var ACC = [
+  {d:'2020-10-13', n:8,  en:'Founded', ru:'Основание'},
+  {d:'2023-06-21', n:26, en:'Ecuador, 26th', ru:'Эквадор, 26-й'},
+  {d:'2024-12-11', n:50, en:'Panama, Austria: 50', ru:'Панама, Австрия: 50'},
+  {d:'2025-10-26', n:59, en:'Malaysia, Philippines: 59', ru:'Малайзия, Филиппины: 59'},
+  {d:'2026-05-13', n:67, en:'Lima workshop: 67', ru:'Семинар в Лиме: 67'},
+  {d:'2026-07-17', n:70, en:'Mauritius, 70th', ru:'Маврикий, 70-й'},
+  {d:'2026-09-21', n:73, en:'Albania, 73rd', ru:'Албания, 73-й'},
+  {d:'2026-09-25', n:76, en:'San Marino, 76th', ru:'Сан-Марино, 76-й'}
+];
+var MIN_DAYS = 180;
+var MON_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var MON_RU = ['янв.','февр.','марта','апр.','мая','июня','июля','авг.','сент.','окт.','нояб.','дек.'];
+function dayNum(s){ var p = s.split('-'); return Date.UTC(+p[0], +p[1]-1, +p[2])/864e5; }
+function dateLabel(s){ var p = s.split('-'); return (+p[2])+' '+(lang==='en'?MON_EN:MON_RU)[+p[1]-1]+' '+p[0]; }
+function accordsRate(i, j){
+  var a = ACC[Math.min(i,j)], b = ACC[Math.max(i,j)];
+  var days = dayNum(b.d) - dayNum(a.d), added = b.n - a.n, years = days/365.25;
+  /* below MIN_DAYS a per-year figure would read as a projection, so none is given */
+  return {added:added, days:days, years:years, perYear: days >= MIN_DAYS ? added/years : 0, daysPer: added > 0 ? days/added : 0, annualised: days >= MIN_DAYS};
+}
+function drawAcc(i, j){
+  var svg = document.getElementById('accSvg'); svg.innerHTML = '';
+  var x0 = 46, x1 = 466, y0 = 236, y1 = 22, d0 = dayNum('2020-07-01'), d1 = dayNum('2027-01-01');
+  function X(d){ return x0 + (dayNum(d)-d0)/(d1-d0)*(x1-x0); } function Y(n){ return y0 - n/80*(y0-y1); }
+  for(var n = 0; n <= 80; n += 20){ ns('line', {x1:x0, y1:Y(n), x2:x1, y2:Y(n), stroke:'#e2e2dc'}, svg); txt(svg, x0-6, Y(n)+3, String(n), 'end'); }
+  for(var y = 2021; y <= 2026; y++){ var xx = X(y+'-01-01'); ns('line', {x1:xx, y1:y0, x2:xx, y2:y0+4, stroke:'#0b0b0c'}, svg); txt(svg, xx, y0+16, String(y), 'middle'); }
+  ns('line', {x1:x0, y1:y0, x2:x1, y2:y0, stroke:'#0b0b0c'}, svg);
+  txt(svg, x0, 14, T('signatories (published counts)', 'подписанты (опубликованные числа)'));
+  var lo = Math.min(i,j), hi = Math.max(i,j), dpath = '';
+  ACC.forEach(function(p, k){ dpath += (k ? 'H'+X(p.d).toFixed(1)+'V' : 'M'+X(p.d).toFixed(1)+',') + Y(p.n).toFixed(1); });
+  ns('path', {d:dpath, fill:'none', stroke:'#7a7a74', 'stroke-width':1.5}, svg);
+  var seg = ''; for(var k = lo; k <= hi; k++){ seg += (k > lo ? 'H'+X(ACC[k].d).toFixed(1)+'V' : 'M'+X(ACC[k].d).toFixed(1)+',') + Y(ACC[k].n).toFixed(1); }
+  ns('path', {d:seg, fill:'none', stroke:'#2f5aa1', 'stroke-width':3}, svg);
+  ACC.forEach(function(p, k){ ns('circle', {cx:X(p.d), cy:Y(p.n), r:(k===lo||k===hi)?5:3.2, fill:(k>=lo&&k<=hi)?'#2f5aa1':'#ffffff', stroke:'#0b0b0c', 'stroke-width':1.2}, svg); });
+}
+function renderAcc(){
+  var fi = document.getElementById('accFrom'), ti = document.getElementById('accTo');
+  var i = +fi.value, j = +ti.value, a = ACC[Math.min(i,j)], b = ACC[Math.max(i,j)], r = accordsRate(i, j);
+  document.getElementById('accFromV').textContent = dateLabel(ACC[i].d)+' · '+ACC[i].n;
+  document.getElementById('accToV').textContent = dateLabel(ACC[j].d)+' · '+ACC[j].n;
+  fi.setAttribute('aria-valuetext', dateLabel(ACC[i].d)+', '+ACC[i].n+' '+T('signatories','подписантов'));
+  ti.setAttribute('aria-valuetext', dateLabel(ACC[j].d)+', '+ACC[j].n+' '+T('signatories','подписантов'));
+  cells(document.getElementById('accReadout'), [
+    [T('FROM','ОТ'), (lang==='en'?a.en:a.ru)],
+    [T('TO','ДО'), (lang==='en'?b.en:b.ru)],
+    [T('NATIONS ADDED','ДОБАВИЛОСЬ СТРАН'), fmtInt(r.added)],
+    [T('TIME BETWEEN','ПРОШЛО ВРЕМЕНИ'), fmtInt(r.days)+T(' days',' сут') + ' · ' + fmt(r.years, 2)+T(' years',' лет')],
+    [T('AVERAGE PER YEAR','В СРЕДНЕМ ЗА ГОД'), r.annualised ? fmt(r.perYear, 1) : '—'],
+    [T('DAYS PER NEW SIGNATORY','СУТОК НА НОВОГО ПОДПИСАНТА'), r.added > 0 ? fmt(r.daysPer, 0) : '—']
+  ]);
+  drawAcc(i, j);
+}
+function accStatusText(){
+  var i = +document.getElementById('accFrom').value, j = +document.getElementById('accTo').value, r = accordsRate(i, j);
+  if(r.added <= 0) return T('Pick two different points.', 'Выберите две разные точки.');
+  var s = T('Between these two published counts, a new nation joined on average every '+fmt(r.daysPer,0)+' days.', 'Между этими двумя опубликованными числами новая страна присоединялась в среднем раз в '+fmt(r.daysPer,0)+' сут.');
+  if(!r.annualised) s += ' ' + T('Too short a span to annualise.', 'Слишком короткий промежуток для пересчёта на год.');
+  return s;
+}
+function updateAccStatus(){ document.getElementById('accStatus').textContent = accStatusText(); }
+
+/* Distance and light time [14][16]-[18] */
+var DIST_MARK = [
+  {km:MOON_KM, en:'Moon, mean', ru:'Луна, среднее'},
+  {km:miToKm(248655), en:'Apollo 13', ru:'«Аполлон-13»'},
+  {km:miToKm(252756), en:'Artemis II', ru:'Artemis II'}
+];
+function renderDist(){
+  var inp = document.getElementById('distKm'), km = +inp.value, lt = lightTime(km);
+  var rec13 = DIST_MARK[1].km, rec2 = DIST_MARK[2].km;
+  document.getElementById('distKmV').textContent = fmtInt(km)+T(' km',' км');
+  inp.setAttribute('aria-valuetext', fmtInt(km)+T(' kilometres',' километров'));
+  cells(document.getElementById('distReadout'), [
+    [T('KILOMETRES','КИЛОМЕТРЫ'), fmtInt(km)],
+    [T('MILES','МИЛИ'), fmtInt(kmToMi(km))],
+    [T('LIGHT TIME, ONE WAY','СВЕТ В ОДНУ СТОРОНУ'), fmt(lt, 3)+T(' s',' с')],
+    [T('QUESTION AND ANSWER','ВОПРОС И ОТВЕТ'), fmt(2*lt, 2)+T(' s',' с')],
+    [T('VS THE MOON’S MEAN DISTANCE (APPROX.)','ОТНОСИТЕЛЬНО СРЕДНЕГО РАССТОЯНИЯ ДО ЛУНЫ (ПРИБЛ.)'), (Math.round(km - MOON_KM) >= 0 ? '+' : '')+fmtInt(km - MOON_KM)+T(' km',' км'), 1],
+    [T('VS APOLLO 13 RECORD','ОТНОСИТЕЛЬНО РЕКОРДА «АПОЛЛОНА-13»'), (Math.round(km - rec13) >= 0 ? '+' : '')+fmtInt(km - rec13)+T(' km',' км'), 1]
+  ]);
+  drawDist(km, lt);
+}
+function distStatusText(){
+  var km = +document.getElementById('distKm').value, lt = lightTime(km), rec13 = DIST_MARK[1].km, rec2 = DIST_MARK[2].km, msg;
+  if(km > rec2 + 50) msg = T('Farther than any human has been.', 'Дальше, чем был кто-либо из людей.');
+  else if(km >= rec2 - 50) msg = T('Artemis II’s farthest point: '+fmtInt(km - rec13)+' km beyond Apollo 13’s 1970 record.', 'Наибольшее удаление Artemis II: на '+fmtInt(km - rec13)+' км дальше рекорда «Аполлона-13» 1970 года.');
+  else if(km >= rec13) msg = T('Past Apollo 13’s record, short of Artemis II’s.', 'Дальше рекорда «Аполлона-13», но ближе рекорда Artemis II.');
+  else msg = T('A radio reply from here takes '+fmt(2*lt,2)+' s — fast enough to talk, too slow to fly the ship by joystick from Earth.', 'Ответ по радио отсюда идёт '+fmt(2*lt,2)+' с — достаточно быстро для разговора, но слишком медленно, чтобы пилотировать корабль с Земли.');
+  return msg;
+}
+function updateDistStatus(){ document.getElementById('distStatus').textContent = distStatusText(); }
+function drawDist(km, lt){
+  var svg = document.getElementById('distSvg'); svg.innerHTML = '';
+  var x0 = 30, x1 = 460, ya = 120;
+  function X(v){ return x0 + v/420000*(x1-x0); }
+  ns('line', {x1:x0, y1:ya, x2:x1, y2:ya, stroke:'#0b0b0c'}, svg);
+  for(var v = 0; v <= 400000; v += 100000){ ns('line', {x1:X(v), y1:ya, x2:X(v), y2:ya+5, stroke:'#0b0b0c'}, svg); txt(svg, X(v), ya+18, fmtInt(v/1000), 'middle'); }
+  txt(svg, x1, ya+34, T('thousand km from Earth’s centre','тыс. км от центра Земли'), 'end');
+  ns('circle', {cx:x0, cy:ya, r:7, fill:'#2f5aa1'}, svg); txt(svg, x0, ya-14, T('Earth','Земля'), 'middle');
+  DIST_MARK.forEach(function(m, k){
+    var xx = X(m.km), yl = [52, 72, 92][k];
+    ns('line', {x1:xx, y1:yl+4, x2:xx, y2:ya, stroke:'#9a9a94', 'stroke-dasharray':'2 3'}, svg);
+    txt(svg, xx - 4, yl, (lang==='en'?m.en:m.ru), 'end');
+  });
+  ns('circle', {cx:X(MOON_KM), cy:ya, r:4, fill:'#c9c9c1', stroke:'#0b0b0c'}, svg);
+  var cx = X(Math.min(km, 420000));
+  ns('path', {d:'M'+cx+','+(ya-10)+' l-6,-10 h12 z', fill:'#b5452a'}, svg);
+  txt(svg, x0, 182, T('one-way light time: ','свет в одну сторону: ')+fmt(lt,3)+T(' s',' с'));
+}
+function initInstruments(){
+  ['accFrom','accTo'].forEach(function(id){ var el = document.getElementById(id); el.addEventListener('input', renderAcc); el.addEventListener('change', updateAccStatus); });
+  document.querySelectorAll('#accPresets .btn').forEach(function(b){ b.setAttribute('aria-pressed', 'false'); });
+  document.querySelectorAll('#accPresets .btn').forEach(function(b){ b.addEventListener('click', function(){
+    document.getElementById('accFrom').value = b.dataset.a; document.getElementById('accTo').value = b.dataset.b;
+    document.querySelectorAll('#accPresets .btn').forEach(function(x){ x.classList.toggle('active', x===b); x.setAttribute('aria-pressed', x===b ? 'true' : 'false'); });
+    renderAcc(); updateAccStatus(); }); });
+  var dk = document.getElementById('distKm');
+  dk.addEventListener('input', function(){
+    document.querySelectorAll('#distPresets .btn').forEach(function(x){ x.classList.remove('active'); x.setAttribute('aria-pressed','false'); });
+    renderDist(); });
+  dk.addEventListener('change', updateDistStatus);
+  document.querySelectorAll('#distPresets .btn').forEach(function(b){ b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false'); b.addEventListener('click', function(){
+    var km = b.dataset.km ? +b.dataset.km : miToKm(+b.dataset.mi);
+    document.getElementById('distKm').value = Math.round(km);
+    document.querySelectorAll('#distPresets .btn').forEach(function(x){ x.classList.toggle('active', x===b); x.setAttribute('aria-pressed', x===b ? 'true' : 'false'); });
+    renderDist(); updateDistStatus(); }); });
+}
+initInstruments();
+window.__artemis = {miToKm:miToKm, kmToMi:kmToMi, lightTime:lightTime, accordsRate:accordsRate, ACC:ACC, DIST_MARK:DIST_MARK, MOON_KM:MOON_KM, MIN_DAYS:MIN_DAYS};
+
 function renderAll(){
   renderOrion();
+  renderAcc(); updateAccStatus();
+  renderDist(); updateDistStatus();
   renderRefs();
 }
 renderAll();

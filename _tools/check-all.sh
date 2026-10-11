@@ -11,7 +11,7 @@ for s in "${slugs[@]}"; do
     H=$D/handmade/$s; hook=$(grep -o 'window\.__[A-Za-z0-9_]* *=' "$REPO/$s.html" | head -1 | sed 's/window\.//; s/ *=//')
     out=$(cd "$D" && node test.js "$REPO/$s.html" "$hook" "$H/checks.js" 2>&1)
     echo "== $s (hand-made)"; echo "$out" | sed 's/^/   /'
-    echo "$out" | head -1 | grep -q '"errors":\[\],"brokenAttrs":0,"missingRu":0' || bad=1
+    echo "$out" | head -1 | grep -q '"errors":\[\],"brokenAttrs":0,"offStep":\[\],"missingRu":0' || bad=1
     echo "$out" | grep -q '^FAIL' && bad=1
     echo "$out" | head -1 | grep -q '"unstyled":\[\]' || { echo "   UNSTYLED classes above have no CSS rule"; bad=1; }
     continue
@@ -22,7 +22,7 @@ for s in "${slugs[@]}"; do
   hook=$(grep -o 'window\.__[A-Za-z0-9_]* *=' "$A/script.js" | head -1 | sed 's/window\.//; s/ *=//')
   out=$(cd "$D" && node test.js "$TMP/$s.html" "$hook" "$A/checks.js" 2>&1)
   echo "== $s"; echo "$out" | sed 's/^/   /'
-  echo "$out" | head -1 | grep -q '"errors":\[\],"brokenAttrs":0,"missingRu":0' || bad=1
+  echo "$out" | head -1 | grep -q '"errors":\[\],"brokenAttrs":0,"offStep":\[\],"missingRu":0' || bad=1
   echo "$out" | grep -q '^FAIL' && bad=1
   echo "$out" | head -1 | grep -q '"unstyled":\[\]' || { echo "   UNSTYLED classes above have no CSS rule"; bad=1; }
 done
