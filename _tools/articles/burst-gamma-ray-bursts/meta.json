@@ -1,0 +1,11 @@
+{
+ "slug": "burst-gamma-ray-bursts",
+ "title_en": "BURST — GAMMA-RAY BURSTS: SWIFT & FERMI",
+ "title_ru": "ВСПЫШКА — ГАММА-ВСПЛЕСКИ: SWIFT И FERMI",
+ "description": "An interactive field guide to gamma-ray bursts: the flashes Vela satellites caught while watching for nuclear tests, the BATSE sky map that showed they come from everywhere, two families of bursts in 4,391 real Fermi durations, how Swift's coded mask and Fermi's detectors catch them, the brightest burst ever recorded (GRB 221009A, about 10^55 erg if it shone in all directions), why jets change that number, and Swift's last orbits in October 2026.",
+ "og": "4,391 real Fermi burst durations, 10^55 erg from GRB 221009A, a burst 13 billion years old and Swift's final orbits: gamma-ray bursts, interactive and sourced from NASA, Los Alamos and the discovery papers.",
+ "brand": "BURST — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "FLASH",
+ "hud1": "DISTANCE",
+ "hud2": "ENERGY"
+}

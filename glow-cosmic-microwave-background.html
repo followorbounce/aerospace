@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOW — THE COSMIC MICROWAVE BACKGROUND / СВЕЧЕНИЕ — РЕЛИКТОВОЕ ИЗЛУЧЕНИЕ</title>
+<meta name="description" content="An interactive field guide to the cosmic microwave background: the 3.5 K hiss Penzias and Wilson could not get rid of in 1965, COBE's perfect 2.725 K blackbody and the first 30-microkelvin ripples, our 370 km/s motion written across the sky as a 3.36 mK dipole, WMAP's and Planck's sharper maps and the first acoustic peak at ℓ ≈ 220, and how a picture of the universe 370,000 years after the Big Bang pins its age to 13.8 billion years.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/glow-cosmic-microwave-background">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GLOW — THE COSMIC MICROWAVE BACKGROUND / СВЕЧЕНИЕ — РЕЛИКТОВОЕ ИЗЛУЧЕНИЕ">
+<meta property="og:description" content="2.72548 K, a 3.36 mK dipole, 1-in-100,000 ripples and a first peak at ℓ ≈ 220: the cosmic microwave background from Penzias &amp; Wilson to COBE, WMAP and Planck, interactive and checked against the FIRAS spectrum and Planck 2018.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/glow-cosmic-microwave-background">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* GLOW: 44 px touch targets, readable small SVG text, the sky-patch canvas */
+.btn{min-height:44px; min-width:44px; padding:10px 12px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+.svg-small{fill:#5f5f59; font-size:10.5px;}
+.svg-halo{paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round;}
+.sky-wrap{border:1px solid var(--ink); background:var(--white); padding:12px; display:flex; flex-direction:column; gap:10px;}
+.sky-wrap canvas{width:100%; height:auto; aspect-ratio:1/1; image-rendering:pixelated; display:block; border:1px solid #c9c9c1;}
+.sky-legend{display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:11px; color:#5f5f59;}
+.sky-bar{height:10px; background:linear-gradient(90deg,#2f5aa1,#ffffff,#b5452a); border:1px solid #c9c9c1;}
+@media (max-width:520px){ .svg-small{font-size:14px;} .svg-label{font-size:14px;} }
+@media (pointer:coarse){
+  input[type=range]{background:transparent;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">GLOW — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">FIRST LIGHT</span></div>
+  <div class="hud-row"><span class="hud-label">TEMPERATURE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">AGE THEN</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="FIRST LIGHT">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 2.72548 K, EVERY DIRECTION" data-ru="РИС. 00 — 2,72548 К, В ЛЮБОМ НАПРАВЛЕНИИ">FIG. 00 — 2.72548 K, EVERY DIRECTION</span></span>
+        <span>z ≈ 1090 · 13.8 Gyr</span>
+      </div>
+      <h1><span data-en="GLOW" data-ru="СВЕЧЕНИЕ">GLOW</span><br><em data-en="THE COSMIC MICROWAVE BACKGROUND" data-ru="РЕЛИКТОВОЕ ИЗЛУЧЕНИЕ">THE COSMIC MICROWAVE BACKGROUND</em></h1>
+      <p class="sub lede" data-en="Point a radio telescope at any empty patch of sky and it picks up a faint microwave glow, the same in every direction to one part in a thousand — and, once our own motion is taken out, to one part in a hundred thousand. It is the oldest light there is: released when the universe was about 370,000 years old and cool enough, at about 3,000 K, to let light travel freely. Eight chapters and four instruments: hear the hiss two radio astronomers could not get rid of in 1965, fit COBE's measured spectrum with a single temperature, run the universe's thermometer back in time, find our own motion written across the sky, and watch three spacecraft — COBE, WMAP and Planck — bring the ripples into focus." data-ru="Направьте радиотелескоп на любой пустой участок неба — и он уловит слабое микроволновое свечение, одинаковое во всех направлениях с точностью до одной тысячной, а если вычесть наше собственное движение, — до одной стотысячной. Это самый старый свет из существующих: он был испущен, когда Вселенной было около 370 000 лет и она остыла примерно до 3000 К — достаточно, чтобы свет смог свободно распространяться. Восемь глав и четыре прибора: услышьте шум, от которого в 1965 году не могли избавиться два радиоастронома, опишите измеренный COBE спектр одной-единственной температурой, отмотайте назад термометр Вселенной, найдите на небе след нашего собственного движения и посмотрите, как три аппарата — COBE, WMAP и «Планк» — наводят резкость на рябь.">Point a radio telescope at any empty patch of sky.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE HISS -->
+<section id="ch1" class="section" data-phase="THE HISS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 08</span> — <span data-en="HOLMDEL, NEW JERSEY, 1964–65" data-ru="ХОЛМДЕЛ, НЬЮ-ДЖЕРСИ, 1964–1965">HOLMDEL, NEW JERSEY, 1964–65</span></div>
+    <h2 class="h-lg" data-en="A noise that came from everywhere" data-ru="Шум, который шёл отовсюду">A noise that came from everywhere</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Arno Penzias and Robert Wilson of Bell Labs were using a 20-foot horn-reflector antenna at Crawford Hill, New Jersey. Measured at 4,080 MHz (a wavelength of 7.35 cm), its noise came out about <b>3.5 K</b> higher than everything they could account for — and the excess was, in their words, “isotropic, unpolarized, and free from seasonal variations” between July 1964 and April 1965 [1]." data-ru="Арно Пензиас и Роберт Вильсон из Bell Labs работали с 20-футовой рупорно-параболической антенной в Кроуфорд-Хилле (Нью-Джерси). На частоте 4080 МГц (длина волны 7,35 см) её шум оказался примерно на <b>3,5 К</b> выше всего, что они могли объяснить, — и этот избыток, по их словам, был «изотропным, неполяризованным и свободным от сезонных колебаний» с июля 1964 по апрель 1965 года [1].">Penzias and Wilson measured about 3.5 K of excess noise [1].</p>
+      <p class="body-col" data-en="Nearby, at Princeton University, Robert Dicke, Jim Peebles, Peter Roll and David Wilkinson were building a receiver to look for exactly this: the cooled-down light of a hot, dense early universe. Their letter explaining the signal ran in the same issue of the <i>Astrophysical Journal</i> as the measurement [2]. The idea was older. In the late 1940s Ralph Alpher and Robert Herman, building on George Gamow's work, estimated that the Big Bang's leftover radiation should now be a few kelvin; and in 1964 the Soviet cosmologists Andrei Doroshkevich and Igor Novikov pointed out that it should show up as microwaves — naming the Bell Labs horn at Crawford Hill as the best instrument to find it [19]. Penzias and Wilson shared half of the 1978 Nobel Prize in Physics “for their discovery of cosmic microwave background radiation” (the other half went to Pyotr Kapitsa) [3]." data-ru="Неподалёку, в Принстонском университете, Роберт Дикке, Джим Пиблс, Питер Ролл и Дэвид Уилкинсон как раз строили приёмник, чтобы найти именно это — остывший свет горячей и плотной ранней Вселенной. Их письмо с объяснением сигнала вышло в том же номере <i>Astrophysical Journal</i>, что и измерение [2]. Сама идея была старше. В конце 1940-х годов Ральф Алфер и Роберт Херман, развивая работы Георгия Гамова, оценили, что остаточное излучение Большого взрыва сегодня должно иметь температуру в несколько кельвинов, а в 1964 году советские космологи Андрей Дорошкевич и Игорь Новиков указали, что его можно обнаружить в микроволновом диапазоне, — и назвали лучшим инструментом для этого рупорную антенну Bell Labs в Кроуфорд-Хилле [19]. Пензиас и Вильсон разделили половину Нобелевской премии по физике 1978 года «за открытие реликтового микроволнового излучения» (другая половина — Петру Капице) [3].">Dicke's group explained it [2]; predicted earlier [19]; Nobel 1978 [3].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE WAVELENGTH THEY LISTENED AT" data-ru="ДЛИНА ВОЛНЫ, НА КОТОРОЙ ОНИ СЛУШАЛИ">THE WAVELENGTH THEY LISTENED AT</div>
+      <div class="eq-body">λ = c / ν = 299 792 458 m/s ÷ 4.080 × 10⁹ Hz = 7.35 cm</div>
+      <div class="eq-note" data-en="A single frequency, far down the long-wavelength side of the spectrum, gave one temperature with a large error bar. Proving the glow was the leftover heat of the Big Bang needed its whole spectrum — chapter 2." data-ru="Одна частота далеко на длинноволновом склоне спектра дала одну температуру с большой погрешностью. Чтобы доказать, что это свечение — остаточное тепло Большого взрыва, требовался весь спектр — глава 2.">One frequency, one temperature.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — BLACKBODY -->
+<section id="ch2" class="section" data-phase="BLACKBODY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 08</span> — <span data-en="COBE / FIRAS, 1989–90" data-ru="COBE / FIRAS, 1989–1990">COBE / FIRAS, 1989–90</span></div>
+    <h2 class="h-lg" data-en="One temperature fits every point" data-ru="Одна температура описывает каждую точку">One temperature fits every point</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="NASA's Cosmic Background Explorer, COBE, was launched on 18 November 1989 [18]. Its FIRAS instrument compared the sky, frequency by frequency, with an on-board reference blackbody — a perfect absorber at a known temperature. Over 43 frequencies from 68 to 640 GHz, the sky matched a single blackbody: the deviations are less than <b>50 parts per million</b> of the peak brightness [5][6]." data-ru="Космический аппарат NASA COBE (Cosmic Background Explorer) был запущен 18 ноября 1989 года [18]. Его прибор FIRAS сравнивал небо, частота за частотой, с бортовым эталонным абсолютно чёрным телом — идеальным поглотителем известной температуры. На 43 частотах от 68 до 640 ГГц небо совпало с одним-единственным абсолютно чёрным телом: отклонения меньше <b>50 миллионных долей</b> от яркости в максимуме [5][6].">FIRAS: deviations under 50 ppm [5][6].</p>
+      <p class="body-col" data-en="A blackbody spectrum is what light looks like after it has been absorbed and re-emitted so many times that it settles into equilibrium with matter. Only a universe that was once hot, dense and opaque throughout produces such a perfect, uniform one, which is why this curve settled the argument for the Big Bang. The best combined value of today's temperature is <b>2.72548 ± 0.00057 K</b> [7]; John Mather and George Smoot of COBE shared the 2006 Nobel Prize “for their discovery of the blackbody form and anisotropy” of the background [8]." data-ru="Спектр абсолютно чёрного тела — это то, как выглядит свет, многократно поглощённый и испущенный заново, пока он не пришёл в равновесие с веществом. Такой идеальный и одинаковый во всех направлениях спектр даёт только Вселенная, которая когда-то вся была горячей, плотной и непрозрачной, — поэтому эта кривая и решила спор в пользу Большого взрыва. Лучшая сводная оценка сегодняшней температуры — <b>2,72548 ± 0,00057 К</b> [7]; Джон Мазер и Джордж Смут из команды COBE разделили Нобелевскую премию 2006 года «за открытие формы спектра абсолютно чёрного тела и анизотропии» реликтового микроволнового излучения [8].">T0 = 2.72548 K [7]; Nobel 2006 [8].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="PLANCK'S LAW AND ITS PEAK" data-ru="ЗАКОН ПЛАНКА И ЕГО МАКСИМУМ">PLANCK'S LAW AND ITS PEAK</div>
+      <div class="eq-body">I(ν) = (2hν³/c²) / (e^(hν/kT) − 1) &nbsp;·&nbsp; ν_peak = 2.8214 kT/h &nbsp;·&nbsp; n_γ = 16πζ(3)(kT/hc)³</div>
+      <div class="eq-note" data-en="h, k and c are exact SI constants [15]. FIRAS reported frequency as wavenumber in cm⁻¹ (1 cm⁻¹ = 29.98 GHz) and brightness in MJy/sr (10⁻²⁰ W m⁻² Hz⁻¹ sr⁻¹). The peak per unit frequency (160 GHz) is not at the same place as the peak per unit wavelength (1.06 mm, Wien's law) — the <a href='/aerospace/james-webb-space-telescope.html'>James Webb guide</a> explains Wien's law for warmer bodies." data-ru="h, k и c — точные константы СИ [15]. FIRAS указывал частоту в волновых числах, см⁻¹ (1 см⁻¹ = 29,98 ГГц), а яркость — в МЯн/ср (10⁻²⁰ Вт·м⁻²·Гц⁻¹·ср⁻¹). Максимум на единицу частоты (160 ГГц) не совпадает с максимумом на единицу длины волны (1,06 мм, закон Вина) — о законе Вина для тёплых тел рассказывает <a href='/aerospace/james-webb-space-telescope.html'>справочник о «Джеймсе Уэббе»</a>.">Units and peaks.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="bbSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Blackbody brightness against frequency for the chosen temperature, with the 43 COBE FIRAS measurements" data-aria-en="Blackbody brightness against frequency for the chosen temperature, with the 43 COBE FIRAS measurements" data-aria-ru="Яркость абсолютно чёрного тела в зависимости от частоты при выбранной температуре и 43 измерения FIRAS на COBE"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Temperature presets" data-aria-en="Temperature presets" data-aria-ru="Готовые значения температуры" id="bbPre">
+          <button class="btn active" data-t="2.72548" aria-pressed="true" data-en="ALL MEASUREMENTS 2.72548 K" data-ru="ВСЕ ИЗМЕРЕНИЯ 2,72548 К">ALL MEASUREMENTS 2.72548 K</button>
+          <button class="btn" data-t="2.725" aria-pressed="false" data-en="FIRAS SCALE 2.725 K" data-ru="ШКАЛА FIRAS 2,725 К">FIRAS SCALE 2.725 K</button>
+          <button class="btn" data-t="3.5" aria-pressed="false" data-en="PENZIAS &amp; WILSON 3.5 K" data-ru="ПЕНЗИАС И ВИЛЬСОН 3,5 К">PENZIAS &amp; WILSON 3.5 K</button>
+          <button class="btn" data-t="2.5" aria-pressed="false" data-en="TOO COLD 2.5 K" data-ru="СЛИШКОМ ХОЛОДНО 2,5 К">TOO COLD 2.5 K</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="bbT" data-en="TEMPERATURE" data-ru="ТЕМПЕРАТУРА">TEMPERATURE</label><span class="v" id="bbTVal">—</span></div>
+          <input id="bbT" type="range" min="2" max="4" step="0.00001" value="2.72548">
+        </div>
+        <div class="readout-grid" id="bbReadout"></div>
+        <div class="status" id="bbStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Points: COBE/FIRAS monopole spectrum (Fixsen et al. 1996, Table 4, as served by NASA's LAMBDA archive) [5]. Their 1σ error bars, 14–282 kJy/sr, are less than a pixel tall at this scale, far smaller than the dots. “Misfit” is the root-mean-square difference between the curve and the 43 points, each weighted by its error bar as FIRAS did. The table is built on FIRAS's own absolute calibration (2.725 K; Fixsen &amp; Mather 2002), so the misfit is smallest there — about 19 kJy/sr, just under 50 parts per million of the peak; at the combined 2.72548 K it is 174 kJy/sr, still under 0.05 %." data-ru="Точки: спектр монополя COBE/FIRAS (Fixsen и др., 1996, табл. 4, в архиве NASA LAMBDA) [5]. Их погрешности 1σ, 14–282 кЯн/ср, в этом масштабе меньше пикселя — намного меньше самих точек. «Расхождение» — среднеквадратичная разница между кривой и 43 точками, где каждая точка взвешена по своей погрешности, как это делала команда FIRAS. Таблица построена на собственной абсолютной калибровке FIRAS (2,725 К; Fixsen и Mather, 2002), поэтому расхождение минимально именно там — около 19 кЯн/ср, чуть меньше 50 миллионных долей от максимума; при сводных 2,72548 К оно составляет 174 кЯн/ср — всё ещё меньше 0,05 %.">FIRAS points [5].</p>
+  </div>
+</section>
+
+<!-- CH3 — COOLING -->
+<section id="ch3" class="section" data-phase="COOLING">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 08</span> — <span data-en="T = T₀ (1 + z)" data-ru="T = T₀ (1 + z)">T = T₀ (1 + z)</span></div>
+    <h2 class="h-lg" data-en="A thermometer that runs back in time" data-ru="Термометр, который идёт назад во времени">A thermometer that runs back in time</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="As space expands, every wavelength in the glow stretches by the same factor, 1 + z, and a stretched blackbody is still a blackbody — just colder by that factor. So the temperature at any earlier moment is simply <b>T₀ (1 + z)</b>. Planck's 2018 analysis puts the moment the light last scattered at <b>z = 1089.92 ± 0.25</b> [11]: the universe was then about <b>2,970 K</b> and roughly 1,090 times smaller across." data-ru="По мере расширения пространства каждая длина волны в этом свечении растягивается в одно и то же число раз, 1 + z, а растянутое излучение абсолютно чёрного тела остаётся таким же — только холоднее во столько же раз. Поэтому температура в любой более ранний момент равна просто <b>T₀ (1 + z)</b>. Анализ «Планка» 2018 года относит момент последнего рассеяния света к <b>z = 1089,92 ± 0,25</b> [11]: Вселенная тогда имела температуру около <b>2970 К</b> и была примерно в 1090 раз меньше.">z* = 1089.92 [11] → about 2,970 K.</p>
+      <p class="body-col" data-en="While the universe was hotter than about 3,000 K, hydrogen stayed ionized, and free electrons scattered light so often that the universe was opaque, like the inside of a cloud. Once electrons and protons combined into atoms, the light flew free — that last-scattering surface is what all three spacecraft photographed. How long after the Big Bang? Running the expansion back with Planck's measured densities gives about <b>370,000 years</b> (often rounded to 380,000; the exact figure depends on the model and on how “last scattering” is defined), against a present age of <b>13.797 ± 0.023 billion years</b> [11]." data-ru="Пока Вселенная была горячее примерно 3000 К, водород оставался ионизованным, и свободные электроны рассеивали свет так часто, что Вселенная была непрозрачной, как внутренность облака. Когда электроны и протоны объединились в атомы, свет полетел свободно — именно эту поверхность последнего рассеяния и сфотографировали все три аппарата. Через сколько после Большого взрыва? Если прокрутить расширение назад с измеренными «Планком» плотностями, получится около <b>370 000 лет</b> (часто округляют до 380 000 — точная цифра зависит от модели и от того, что считать моментом последнего рассеяния) при нынешнем возрасте <b>13,797 ± 0,023 млрд лет</b> [11].">About 370,000 years; age today 13.797 Gyr [11].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="AGE AT REDSHIFT z (FLAT ΛCDM, PLANCK 2018)" data-ru="ВОЗРАСТ ПРИ КРАСНОМ СМЕЩЕНИИ z (ПЛОСКАЯ ΛCDM, «ПЛАНК» 2018)">AGE AT REDSHIFT z (FLAT ΛCDM, PLANCK 2018)</div>
+      <div class="eq-body">t(z) = ∫₀^(1/(1+z)) da / (a H₀ √(Ωm a⁻³ + Ωr a⁻⁴ + ΩΛ))</div>
+      <div class="eq-note" data-en="H₀ = 67.36 km/s/Mpc and Ωm = 0.3153 [11]; Ωr from T₀ = 2.72548 K with three massless neutrino species (N_eff = 3.046); ΩΛ = 1 − Ωm − Ωr. Neutrino masses are ignored, so today's age comes out at 13.795 billion years instead of Planck's 13.797. Radiation matters at early times: without it the age at recombination would come out about 30 % too long." data-ru="H₀ = 67,36 км/с/Мпк и Ωm = 0,3153 [11]; Ωr — из T₀ = 2,72548 К с тремя безмассовыми сортами нейтрино (N_eff = 3,046); ΩΛ = 1 − Ωm − Ωr. Массы нейтрино не учтены, поэтому сегодняшний возраст получается 13,795 млрд лет вместо 13,797 у «Планка». В ранние эпохи важно излучение: без него возраст в момент рекомбинации получился бы примерно на 30 % больше.">Model notes.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="cvSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Temperature of the cosmic background against the age of the universe, both on logarithmic scales" data-aria-en="Temperature of the cosmic background against the age of the universe, both on logarithmic scales" data-aria-ru="Температура реликтового излучения в зависимости от возраста Вселенной, обе оси логарифмические"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Moments" data-aria-en="Moments" data-aria-ru="Моменты" id="cvPre">
+          <button class="btn" data-z="0" aria-pressed="false" data-en="TODAY" data-ru="СЕГОДНЯ">TODAY</button>
+          <button class="btn" data-z="14.18" aria-pressed="false" data-en="JADES-GS-z14-0 z 14.18" data-ru="JADES-GS-z14-0 z 14,18">JADES-GS-z14-0 z 14.18</button>
+          <button class="btn active" data-z="1089.92" aria-pressed="true" data-en="LAST SCATTERING" data-ru="ПОСЛЕДНЕЕ РАССЕЯНИЕ">LAST SCATTERING</button>
+          <button class="btn" data-z="3402" aria-pressed="false" data-en="MATTER = RADIATION" data-ru="ВЕЩЕСТВО = ИЗЛУЧЕНИЕ">MATTER = RADIATION</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="cvZ" data-en="REDSHIFT, log₁₀(1 + z)" data-ru="КРАСНОЕ СМЕЩЕНИЕ, log₁₀(1 + z)">REDSHIFT, log₁₀(1 + z)</label><span class="v" id="cvZVal">—</span></div>
+          <input id="cvZ" type="range" min="0" max="3.6" step="0.001" value="3.03779">
+        </div>
+        <div class="readout-grid" id="cvReadout"></div>
+        <div class="status" id="cvStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="z = 14.18 is JADES-GS-z14-0, a galaxy described in the <a href='/aerospace/james-webb-space-telescope.html'>James Webb guide</a> (the record has since passed to MoM-z14 at z = 14.44); z = 3402 is when matter and radiation had equal densities (Planck 2018) [11]. The curve is the model above, integrated numerically; it is a straight line on log axes only where one ingredient — radiation, then matter — dominates." data-ru="z = 14,18 — галактика JADES-GS-z14-0 из <a href='/aerospace/james-webb-space-telescope.html'>справочника о «Джеймсе Уэббе»</a> (с тех пор рекорд перешёл к MoM-z14 с z = 14,44); z = 3402 — момент, когда плотности вещества и излучения сравнялись («Планк» 2018) [11]. Кривая — модель выше, проинтегрированная численно; прямой линией в логарифмических осях она идёт только там, где преобладает что-то одно — сначала излучение, потом вещество.">Presets.</p>
+  </div>
+</section>
+
+<!-- CH4 — RIPPLES AND MOTION -->
+<section id="ch4" class="section" data-phase="ANISOTROPY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 08</span> — <span data-en="COBE / DMR, 1992" data-ru="COBE / DMR, 1992">COBE / DMR, 1992</span></div>
+    <h2 class="h-lg" data-en="One part in a thousand, then one in a hundred thousand" data-ru="Одна тысячная, а потом одна стотысячная">One part in a thousand, then one in a hundred thousand</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The glow is not quite the same in every direction. The biggest difference is our own motion: the Sun moves at <b>369.82 ± 0.11 km/s</b> relative to the background, so the sky ahead of us looks warmer and the sky behind cooler — a <b>dipole</b> of <b>3.362 mK</b>, about one part in 800 [10]. COBE's Differential Microwave Radiometers, comparing pairs of directions 60° apart with 7°-wide beams at 31.5, 53 and 90 GHz [4], mapped it precisely. Before COBE, the Soviet RELIKT-1 experiment on the Prognoz 9 satellite (launched 1 July 1983) mapped the sky at 37 GHz and measured the dipole; a 1992 analysis of its data reported a large-scale anisotropy of 17–95 µK at 90 % confidence [20]." data-ru="Свечение не вполне одинаково во всех направлениях. Самое большое различие вызвано нашим собственным движением: Солнце движется относительно фона со скоростью <b>369,82 ± 0,11 км/с</b>, поэтому небо впереди кажется теплее, а позади — холоднее; это <b>диполь</b> в <b>3,362 мK</b>, примерно одна восьмисотая [10]. Дифференциальные микроволновые радиометры COBE (DMR), сравнивавшие пары направлений в 60° друг от друга лучами шириной 7° на частотах 31,5, 53 и 90 ГГц [4], измерили его точно. Ещё до COBE советский эксперимент «Реликт-1» на спутнике «Прогноз-9» (запущен 1 июля 1983 года) картографировал небо на 37 ГГц и измерил диполь; анализ его данных 1992 года сообщил о крупномасштабной анизотропии 17–95 мкК при доверительной вероятности 90 % [20].">Dipole 3.362 mK from 369.82 km/s [10]; DMR [4]; RELIKT-1 [20].</p>
+      <p class="body-col" data-en="With the dipole and our galaxy's glow removed, what is left are the seeds of all cosmic structure: spots warmer and cooler by about <b>30 µK</b> on 10° scales, roughly <b>one part in 100,000</b>, announced by the COBE team in 1992 [9]. Gravity pulled matter into the slightly denser regions for the next 13.8 billion years. A one-in-100,000 bump is hard to picture — try it on something familiar with the second set of buttons." data-ru="Если убрать диполь и свечение нашей Галактики, остаются зародыши всей крупномасштабной структуры: пятна теплее и холоднее примерно на <b>30 мкК</b> на масштабах 10°, около <b>одной стотысячной</b>; команда COBE объявила о них в 1992 году [9]. Следующие 13,8 млрд лет гравитация стягивала вещество в чуть более плотные области. Неровность в одну стотысячную трудно представить — примерьте её на что-нибудь знакомое второй группой кнопок.">30 µK, one part in 100,000 [9].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE DOPPLER DIPOLE" data-ru="ДОПЛЕРОВСКИЙ ДИПОЛЬ">THE DOPPLER DIPOLE</div>
+      <div class="eq-body">T(θ) = T₀ / (γ (1 − β cos θ)) &nbsp;·&nbsp; β = v/c &nbsp;·&nbsp; ΔT ≈ T₀ β</div>
+      <div class="eq-note" data-en="θ is the angle from the direction of motion; γ = 1/√(1 − β²). To first order the hottest point is T₀β warmer and the coldest T₀β cooler. Planck's dipole: 3,362.08 ± 0.99 µK towards Galactic longitude 264.021°, latitude 48.253° [10]." data-ru="θ — угол от направления движения; γ = 1/√(1 − β²). В первом порядке самая тёплая точка теплее на T₀β, самая холодная — холоднее на столько же. Диполь по «Планку»: 3362,08 ± 0,99 мкК в направлении галактической долготы 264,021° и широты 48,253° [10].">Planck's dipole [10].</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="dpSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Sky temperature against angle from the direction of motion, showing the dipole and the size of the 30 microkelvin ripples" data-aria-en="Sky temperature against angle from the direction of motion, showing the dipole and the size of the 30 microkelvin ripples" data-aria-ru="Температура неба в зависимости от угла к направлению движения: диполь и размер ряби в 30 микрокельвинов"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Speed presets" data-aria-en="Speed presets" data-aria-ru="Готовые значения скорости" id="dpPre">
+          <button class="btn active" data-v="369.82" aria-pressed="true" data-en="THE SUN 369.82 km/s" data-ru="СОЛНЦЕ 369,82 км/с">THE SUN 369.82 km/s</button>
+          <button class="btn" data-v="0" aria-pressed="false" data-en="AT REST" data-ru="В ПОКОЕ">AT REST</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="dpV" data-en="SPEED THROUGH THE BACKGROUND" data-ru="СКОРОСТЬ ОТНОСИТЕЛЬНО ФОНА">SPEED THROUGH THE BACKGROUND</label><span class="v" id="dpVVal">—</span></div>
+          <input id="dpV" type="range" min="0" max="1000" step="0.01" value="369.82">
+        </div>
+        <div class="btn-row" role="group" aria-label="Scale one part in 100,000 onto" data-aria-en="Scale one part in 100,000 onto" data-aria-ru="Перенести одну стотысячную на" id="dpObj">
+          <button class="btn active" data-s="1" aria-pressed="true" data-en="1 m RULER" data-ru="ЛИНЕЙКА 1 м">1 m RULER</button>
+          <button class="btn" data-s="12742000" aria-pressed="false" data-en="EARTH'S DIAMETER" data-ru="ДИАМЕТР ЗЕМЛИ">EARTH'S DIAMETER</button>
+          <button class="btn" data-s="384400000" aria-pressed="false" data-en="EARTH–MOON" data-ru="ЗЕМЛЯ–ЛУНА">EARTH–MOON</button>
+        </div>
+        <div class="readout-grid" id="dpReadout"></div>
+        <div class="status" id="dpStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="The ripple band is drawn at ±30 µK around the curve, to the same vertical scale as the dipole — thinner than a pixel, which is the point. “Bump” scales the chosen length by 30 µK ÷ 2.72548 K = 1.10 × 10⁻⁵. Earth's mean diameter 12,742 km and the mean Earth–Moon distance 384,400 km are NASA values [16]." data-ru="Полоса ряби нарисована на ±30 мкК вокруг кривой в том же вертикальном масштабе, что и диполь, — она тоньше пикселя, в этом и суть. «Неровность» — выбранная длина, умноженная на 30 мкК ÷ 2,72548 К = 1,10 × 10⁻⁵. Средний диаметр Земли 12 742 км и среднее расстояние Земля–Луна 384 400 км — значения NASA [16].">Notes.</p>
+  </div>
+</section>
+
+<!-- CH5 — SHARPER MAPS -->
+<section id="ch5" class="section" data-phase="SHARPER MAPS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 08</span> — <span data-en="COBE 7°, WMAP 13′, PLANCK 5′" data-ru="COBE 7°, WMAP 13′, «ПЛАНК» 5′">COBE 7°, WMAP 13′, PLANCK 5′</span></div>
+    <h2 class="h-lg" data-en="Bringing the ripples into focus" data-ru="Как рябь навели на резкость">Bringing the ripples into focus</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="COBE's 7° beams showed that the ripples exist but blurred anything smaller than about 13 Moon widths. NASA's <b>WMAP</b>, launched on 30 June 2001 to the Sun–Earth L2 point, mapped the whole sky with beams about 0.2° wide — 13 arcminutes at its sharpest — and returned science data until 19 August 2010 [12][13]. It found the strongest ripples on a scale of about a degree: the <b>first acoustic peak</b>, at multipole <b>ℓ = 220.1 ± 0.8</b> — a multipole ℓ means features roughly 180°/ℓ across, so about 0.8° [14]. The mission is named after David Wilkinson of the 1965 Princeton group [12]." data-ru="Лучи COBE шириной 7° показали, что рябь существует, но размывали всё мельче примерно 13 видимых диаметров Луны. Аппарат NASA <b>WMAP</b>, запущенный 30 июня 2001 года в точку L2 системы Солнце–Земля, картографировал всё небо лучами шириной около 0,2° — 13 угловых минут в лучшем канале — и передавал научные данные до 19 августа 2010 года [12][13]. Он обнаружил, что сильнее всего рябь на масштабе около градуса: это <b>первый акустический пик</b> на мультиполе <b>ℓ = 220,1 ± 0,8</b> — мультиполь ℓ соответствует деталям размером примерно 180°/ℓ, то есть около 0,8° [14]. Миссия названа в честь Дэвида Уилкинсона из принстонской группы 1965 года [12].">WMAP: 13′, first peak at ℓ = 220.1 [12][13][14].</p>
+      <p class="body-col" data-en="ESA's <b>Planck</b> [17], launched on 14 May 2009, scanned the sky from 12 August 2009 — in all nine bands from 30 to 857 GHz until January 2012, and in its three lowest until 23 October 2013 — with beams of about <b>5 arcminutes</b> in its main CMB channels (4.90′ at 217 GHz; down to 4.2′ in the 857 GHz dust channel) [10]. The first peak's spots, about 0.8° wide, are about one and a half Moon widths. Pick a mission below to see the same patch of simulated sky through its beam." data-ru="Аппарат ЕКА <b>«Планк»</b> [17], запущенный 14 мая 2009 года, сканировал небо с 12 августа 2009 года — во всех девяти диапазонах от 30 до 857 ГГц до января 2012 года, а в трёх нижних — до 23 октября 2013 года, — с лучами около <b>5 угловых минут</b> в основных каналах для реликтового излучения (4,90′ на 217 ГГц; до 4,2′ в канале пыли 857 ГГц) [10]. Пятна первого пика размером около 0,8° — это примерно полтора видимых диаметра Луны. Выберите миссию ниже, чтобы увидеть один и тот же участок смоделированного неба через её луч.">Planck: about 5′ [10][17].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="WHAT A BEAM DOES TO EACH SCALE" data-ru="ЧТО ЛУЧ ДЕЛАЕТ С КАЖДЫМ МАСШТАБОМ">WHAT A BEAM DOES TO EACH SCALE</div>
+      <div class="eq-body">B_ℓ = exp(−ℓ(ℓ+1) σ² / 2) &nbsp;·&nbsp; σ = FWHM / √(8 ln 2) &nbsp;·&nbsp; θ ≈ 180° / ℓ</div>
+      <div class="eq-note" data-en="A Gaussian beam multiplies the ripples at multipole ℓ by B_ℓ: scales much larger than the beam pass through, smaller ones are wiped out. The Moon's mean apparent width, 0.52°, follows from its 3,474.8 km diameter at 384,400 km [16]." data-ru="Гауссов луч (луч — диаграмма направленности антенны) умножает рябь на мультиполе ℓ на B_ℓ: масштабы намного больше луча проходят, меньшие стираются. Средний видимый диаметр Луны, 0,52°, следует из её диаметра 3474,8 км на расстоянии 384 400 км [16].">Gaussian beam.</div>
+    </div>
+    <div class="sim-wrap">
+      <div class="sky-wrap">
+        <canvas id="skyCv" width="128" height="128" role="img" aria-label="A 10 by 10 degree patch of simulated microwave sky seen through the chosen beam" data-aria-en="A 10 by 10 degree patch of simulated microwave sky seen through the chosen beam" data-aria-ru="Участок смоделированного микроволнового неба 10 на 10 градусов, видимый через выбранный луч"></canvas>
+        <div class="sky-bar" aria-hidden="true"></div>
+        <div class="sky-legend" aria-hidden="true"><span>−250 µK</span><span id="skyMid">10° × 10°</span><span>+250 µK</span></div>
+        <svg id="psSvg" class="sim-svg" viewBox="0 0 480 220" role="img" aria-label="Ripple strength against multipole, before and after the chosen beam" data-aria-en="Ripple strength against multipole, before and after the chosen beam" data-aria-ru="Сила ряби в зависимости от мультиполя до и после выбранного луча"></svg>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Beam" data-aria-en="Beam" data-aria-ru="Луч" id="skPre">
+          <button class="btn" data-b="420" aria-pressed="false" data-en="COBE 7°" data-ru="COBE 7°">COBE 7°</button>
+          <button class="btn" data-b="13" aria-pressed="false" data-en="WMAP 13′" data-ru="WMAP 13′">WMAP 13′</button>
+          <button class="btn active" data-b="5" aria-pressed="true" data-en="PLANCK 5′" data-ru="«ПЛАНК» 5′">PLANCK 5′</button>
+          <button class="btn" data-b="0" aria-pressed="false" data-en="NO BEAM" data-ru="БЕЗ ЛУЧА">NO BEAM</button>
+        </div>
+        <div class="readout-grid" id="skReadout"></div>
+        <div class="status" id="skStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Not the real sky: a random field generated (with a fixed seed) to have the ripple strengths in the chart. Dots are WMAP's measured first peak (220.1, 74.7 µK), first trough (411.7, 41.0 µK) and second peak (546, 48.8 µK) [14]; the curve between and beyond them, and the low-ℓ plateau near 30 µK, are a smooth illustrative interpolation, not a fit. A 10° patch holds only scales smaller than itself (ℓ ≳ 36); the low-ℓ plateau on the chart is not in the picture. Pixels are 4.7′ across, so Planck's 5′ beam is close to the pixel limit here. Same colour scale for every beam." data-ru="Это не настоящее небо: случайное поле, сгенерированное (с фиксированным начальным значением генератора случайных чисел) так, чтобы сила ряби была как на графике. Точки — измеренные WMAP первый пик (220,1; 74,7 мкК), первый провал (411,7; 41,0 мкК) и второй пик (546; 48,8 мкК) [14]; кривая между ними и за ними, а также плато около 30 мкК при малых ℓ — гладкая иллюстративная интерполяция, а не подгонка. Участок 10° содержит только масштабы меньше себя (ℓ ≳ 36); плато при малых ℓ на графике в картинку не попадает. Пиксель — 4,7′, поэтому луч «Планка» шириной 5′ здесь близок к пределу разрешения картинки. Цветовая шкала для всех лучей одна.">Simulated sky, not the real one.</p>
+  </div>
+</section>
+
+<!-- CH6 — WHAT THE SPOTS TELL US -->
+<section id="ch6" class="section" data-phase="SIX NUMBERS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 08</span> — <span data-en="PLANCK 2018" data-ru="«ПЛАНК» 2018">PLANCK 2018</span></div>
+    <h2 class="h-lg" data-en="A billion pixels, six numbers" data-ru="Миллиард пикселей — шесть чисел">A billion pixels, six numbers</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The peaks are sound waves. Before last scattering, light and charged matter moved together as a hot fluid, and pressure waves rang through it; the largest wave that had time to compress once sets the size of the first peak. Planck measured that angle, θ* ≈ 0.5965°, to <b>0.03 %</b> (the first peak itself appears at a slightly larger angle, ℓ ≈ 220 or about 0.8°, because of how the waves were caught mid-oscillation), and its legacy paper counts <b>18 peaks</b> in its temperature and polarisation spectra [10][11]. Because the physical size of that wave is known from physics, its apparent size tells us the geometry of space: combined with galaxy surveys, the curvature is ΩK = 0.001 ± 0.002 — flat within the errors [11]." data-ru="Пики — это звуковые волны. До последнего рассеяния свет и заряженное вещество двигались вместе как горячая жидкость, и в ней распространялись волны давления; самая большая волна, успевшая один раз сжаться, задаёт размер первого пика. «Планк» измерил этот угол, θ* ≈ 0,5965°, с точностью <b>0,03 %</b> (сам первый пик виден под чуть большим углом — ℓ ≈ 220, около 0,8°, — потому что волны «застали» в середине колебания), а итоговая статья миссии насчитывает <b>18 пиков</b> в спектрах температуры и поляризации [10][11]. Поскольку физический размер этой волны известен из физики, её видимый размер говорит о геометрии пространства: вместе с обзорами галактик кривизна составляет ΩK = 0,001 ± 0,002 — в пределах погрешностей пространство плоское [11].">θ* to 0.03 %; 18 peaks [10][11].</p>
+      <p class="body-col" data-en="A six-parameter model fits it all, from “over a billion map pixels” [10]: baryon density Ωb h² = 0.0224, dark matter Ωc h² = 0.120, and — under that model — a Hubble constant of <b>67.4 ± 0.5 km/s/Mpc</b>, matter making up <b>31.5 %</b> of the total and an age of 13.8 billion years [11]. Planck's own summary flags the main open question: its value of the Hubble constant is in tension with local measurements of the expansion, “which prefer a higher value” [11]. Planck's data alone cannot say which side is off; the question is still open." data-ru="Модель с шестью параметрами описывает всё это — «более миллиарда пикселей карты» [10]: плотность барионов Ωb h² = 0,0224, тёмной материи Ωc h² = 0,120 и — в рамках этой модели — постоянная Хаббла <b>67,4 ± 0,5 км/с/Мпк</b>, доля вещества <b>31,5 %</b> и возраст 13,8 млрд лет [11]. В собственном резюме «Планка» указан главный открытый вопрос: его значение постоянной Хаббла расходится с локальными измерениями расширения, «которые предпочитают более высокое значение» [11]. Одни данные «Планка» не позволяют сказать, какая из сторон ошибается; вопрос остаётся открытым.">Six parameters; H0 tension [10][11].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE ACOUSTIC SCALE" data-ru="АКУСТИЧЕСКИЙ МАСШТАБ">THE ACOUSTIC SCALE</div>
+      <div class="eq-body" data-en="θ* = r* / D_M &nbsp;·&nbsp; r* = 144.43 Mpc &nbsp;·&nbsp; 100 θ* = 1.0411 ± 0.0003 (θ* in radians)" data-ru="θ* = r* / D_M &nbsp;·&nbsp; r* = 144,43 Мпк &nbsp;·&nbsp; 100 θ* = 1,0411 ± 0,0003 (θ* в радианах)">θ* = r* / D_M &nbsp;·&nbsp; r* = 144.43 Mpc &nbsp;·&nbsp; 100 θ* = 1.0411 ± 0.0003 (θ* in radians)</div>
+      <div class="eq-note" data-en="r* is how far a sound wave could travel by last scattering (comoving, 144.43 ± 0.26 Mpc), D_M the distance to the last-scattering surface; values from Planck 2018, TT,TE,EE+lowE+lensing [11]." data-ru="r* — расстояние, которое звуковая волна успела пройти к моменту последнего рассеяния (в сопутствующих координатах, 144,43 ± 0,26 Мпк), D_M — расстояние до поверхности последнего рассеяния; значения «Планка» 2018, TT,TE,EE+lowE+lensing [11].">Planck 2018 values [11].</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — LEGACY -->
+<section id="ch7" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 08</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">LEGACY</span></div>
+    <h2 class="h-lg" data-en="From a hiss in a horn to a precision science" data-ru="От шума в рупоре к точной науке">From a hiss in a horn to a precision science</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="The same 3-kelvin glow that two radio astronomers once suspected was a fault in their antenna now fixes the age, contents and shape of the universe to about one percent." data-ru="То самое свечение в 3 кельвина, которое два радиоастронома когда-то принимали за неисправность своей антенны, теперь определяет возраст, состав и форму Вселенной примерно с точностью до процента.">The same 3-kelvin glow.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — REFERENCES -->
+<section id="ch8" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 08</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* Browsers round a slider's value to its step, so a preset such as log10(196) would read back as 2.29 (195 m²).
+   Each range input keeps the exact value it was given until the user moves it. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var H_PL = 6.62607015e-34, K_B = 1.380649e-23, C_SI = 299792458;   // exact SI values [15]
+var ZETA3 = 1.2020569031595942, WIEN_B = 2.897771955e-3, X_NU = 2.821439372122079;
+var T0 = 2.72548;                                                   // Fixsen 2009 [7]
+var YEAR_S = 3.15576e7, MPC_KM = 3.0856775814913673e19;
+/* Planck 2018, TT,TE,EE+lowE+lensing [11]; radiation from T0 with N_eff = 3.046 massless neutrinos */
+var COSMO = (function(){
+  var h = 0.6736, Om = 0.3153, Neff = 3.046;
+  var Og = 2.4728e-5*Math.pow(T0/2.7255, 4)/(h*h);                 // photons: Ωγ h² = 2.4728e-5 at 2.7255 K
+  var Or = Og*(1 + 0.22711*Neff);                                   // + neutrinos: (7/8)(4/11)^(4/3) N_eff
+  return {h:h, H0:h*100/MPC_KM, Om:Om, Or:Or, OL:1 - Om - Or, zStar:1089.92, zEq:3402, age:13.797};
+})();
+
+/* COBE/FIRAS monopole: [wavenumber cm⁻¹, brightness MJy/sr (2.725 K blackbody + residual), residual kJy/sr, 1σ kJy/sr] [5] */
+var FIRAS = [
+  [2.27,200.723,5,14],[2.72,249.508,9,19],[3.18,293.024,15,25],[3.63,327.770,4,23],[4.08,354.081,19,22],
+  [4.54,372.079,-30,21],[4.99,381.493,-30,18],[5.45,383.478,-10,18],[5.90,378.901,32,16],[6.35,368.833,4,14],
+  [6.81,354.063,-2,13],[7.26,336.278,13,12],[7.71,316.076,-22,11],[8.17,293.924,8,10],[8.62,271.432,8,11],
+  [9.08,248.239,-21,12],[9.53,225.940,9,14],[9.98,204.327,12,16],[10.44,183.262,11,18],[10.89,163.830,-29,22],
+  [11.34,145.750,-46,22],[11.80,128.835,58,23],[12.25,113.568,6,23],[12.71,99.451,-6,23],[13.16,87.036,6,22],
+  [13.61,75.876,-17,21],[14.07,65.766,6,20],[14.52,57.008,26,19],[14.97,49.223,-12,19],[15.43,42.267,-19,19],
+  [15.88,36.352,8,21],[16.34,31.062,7,23],[16.79,26.580,14,26],[17.24,22.644,-33,28],[17.70,19.255,6,30],
+  [18.15,16.391,26,32],[18.61,13.811,-26,33],[19.06,11.716,-6,35],[19.51,9.921,8,41],[19.97,8.364,26,55],
+  [20.42,7.087,57,88],[20.87,5.801,-116,155],[21.33,4.523,-432,282]
+];
+
+/* Planck's law, I(ν) in MJy/sr for wavenumber ν in cm⁻¹ */
+function planckMJy(nuCm, T){
+  var nu = nuCm*100*C_SI;
+  return 2*H_PL*nu*nu*nu/(C_SI*C_SI)/(Math.exp(H_PL*nu/(K_B*T)) - 1)/1e-20;
+}
+function nuPeakGHz(T){ return X_NU*K_B*T/H_PL/1e9; }
+function wienMM(T){ return WIEN_B/T*1e3; }
+function photonsPerCm3(T){ var x = K_B*T/(H_PL*C_SI); return 16*Math.PI*ZETA3*x*x*x/1e6; }
+/* root-mean-square difference between the curve and the 43 FIRAS points, each weighted by 1/σ² as FIRAS did, kJy/sr */
+function misfit(T){
+  var s = 0, w = 0; FIRAS.forEach(function(p){ var d = (planckMJy(p[0], T) - p[1])*1000; s += d*d/(p[3]*p[3]); w += 1/(p[3]*p[3]); }); return Math.sqrt(s/w);
+}
+var FIRAS_ERR = 20;                                                 // typical weighted error, kJy/sr (≈ 50 ppm of the peak)
+var PEAK_KJY = 383670;                                              // peak brightness of the 2.725 K curve, kJy/sr
+/* local digit grouping: in Russian, four-digit numbers stay unspaced, as in the body text */
+function num(n){ var s = fmtInt(n); return (lang === 'ru' && Math.abs(n) < 10000) ? s.replace(/\s/g, '') : s; }
+function bestFitT(){
+  var a = 2.6, b = 2.9, g = (Math.sqrt(5) - 1)/2;                  // golden-section search
+  for(var i = 0; i < 80; i++){ var c = b - g*(b - a), d = a + g*(b - a); if(misfit(c) < misfit(d)) b = d; else a = c; }
+  return (a + b)/2;
+}
+
+/* Age of a flat universe at redshift z, years: t = (1/H0) ∫0^a a' da' / √(Ωm a' + Ωr + ΩΛ a'⁴) (Simpson) */
+function ageAt(z, noRadiation){
+  var Or = noRadiation ? 0 : COSMO.Or, OL = noRadiation ? 1 - COSMO.Om : COSMO.OL;
+  var am = 1/(1 + z), n = 4000, hh = am/n, s = 0;
+  function f(a){ return a === 0 ? 0 : a/Math.sqrt(COSMO.Om*a + Or + OL*a*a*a*a); }
+  for(var i = 0; i <= n; i++){ var w = (i === 0 || i === n) ? 1 : (i % 2 ? 4 : 2); s += w*f(i*hh); }
+  return s*hh/3/COSMO.H0/YEAR_S;
+}
+function tempAt(z){ return T0*(1 + z); }
+
+/* Doppler dipole */
+function skyT(thetaDeg, vKms){
+  var b = vKms/(C_SI/1000), g = 1/Math.sqrt(1 - b*b);
+  return T0/(g*(1 - b*Math.cos(thetaDeg*Math.PI/180)));
+}
+function dipoleMK(vKms){ return T0*vKms/(C_SI/1000)*1000; }
+var RIPPLE_UK = 30;                                                 // COBE DMR, 10° smoothing [9]
+
+/* Ripple strength ΔT_ℓ = √(ℓ(ℓ+1)C_ℓ/2π) in µK. Anchors: WMAP peak/trough/peak [14]; the rest is illustrative. */
+var PEAKS = [[220.1,74.7],[411.7,41.0],[546,48.8]];
+var SPEC = [[2,30],[20,32],[60,40],[120,56],[220.1,74.7],[300,62],[411.7,41.0],[546,48.8],[680,38],[810,40],[1000,28],[1400,16],[2000,7],[3000,2]];
+function dTl(l){
+  if(l <= SPEC[0][0]) return SPEC[0][1];
+  for(var i = 1; i < SPEC.length; i++){
+    if(l <= SPEC[i][0]){
+      var a = SPEC[i - 1], b = SPEC[i], u = (Math.log(l) - Math.log(a[0]))/(Math.log(b[0]) - Math.log(a[0]));
+      var w = (1 - Math.cos(Math.PI*u))/2;                        // smooth (cosine) step between anchors
+      return a[1] + (b[1] - a[1])*w;
+    }
+  }
+  return SPEC[SPEC.length - 1][1];
+}
+function beamSigmaRad(fwhmArcmin){ return fwhmArcmin/60*Math.PI/180/Math.sqrt(8*Math.LN2); }
+function beamB(l, fwhmArcmin){ if(!fwhmArcmin) return 1; var s = beamSigmaRad(fwhmArcmin); return Math.exp(-l*(l + 1)*s*s/2); }
+function lHalf(fwhmArcmin){ var s = beamSigmaRad(fwhmArcmin); return (-1 + Math.sqrt(1 + 8*Math.LN2/(s*s)))/2; }
+var MOON_DEG = 3474.8/384400*180/Math.PI;                           // NASA Moon fact sheet [16]
+
+/* ============ SKY PATCH: flat-sky Gaussian random field, 128², 10° × 10° ============ */
+var NPIX = 128, PATCH_DEG = 10, PATCH_RAD = PATCH_DEG*Math.PI/180;
+function fft1(re, im, inv){                                         // in-place radix-2
+  var n = re.length, i, j, k, len;
+  for(i = 1, j = 0; i < n; i++){ var bit = n >> 1; for(; j & bit; bit >>= 1) j ^= bit; j ^= bit; if(i < j){ var t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; } }
+  for(len = 2; len <= n; len <<= 1){
+    var ang = 2*Math.PI/len*(inv ? 1 : -1), wr = Math.cos(ang), wi = Math.sin(ang);
+    for(i = 0; i < n; i += len){ var cr = 1, ci = 0;
+      for(k = 0; k < len/2; k++){
+        var ur = re[i + k], ui = im[i + k], vr = re[i + k + len/2]*cr - im[i + k + len/2]*ci, vi = re[i + k + len/2]*ci + im[i + k + len/2]*cr;
+        re[i + k] = ur + vr; im[i + k] = ui + vi; re[i + k + len/2] = ur - vr; im[i + k + len/2] = ui - vi;
+        var nr = cr*wr - ci*wi; ci = cr*wi + ci*wr; cr = nr;
+      }
+    }
+  }
+}
+function fft2(re, im, inv){
+  var n = NPIX, r = new Float64Array(n), q = new Float64Array(n), x, y;
+  for(y = 0; y < n; y++){ for(x = 0; x < n; x++){ r[x] = re[y*n + x]; q[x] = im[y*n + x]; } fft1(r, q, inv); for(x = 0; x < n; x++){ re[y*n + x] = r[x]; im[y*n + x] = q[x]; } }
+  for(x = 0; x < n; x++){ for(y = 0; y < n; y++){ r[y] = re[y*n + x]; q[y] = im[y*n + x]; } fft1(r, q, inv); for(y = 0; y < n; y++){ re[y*n + x] = r[y]; im[y*n + x] = q[y]; } }
+}
+function modeL(x, y){ var fx = x <= NPIX/2 ? x : x - NPIX, fy = y <= NPIX/2 ? y : y - NPIX; return 2*Math.PI*Math.sqrt(fx*fx + fy*fy)/PATCH_RAD; }
+function cl(l){ var d = dTl(l); return 2*Math.PI*d*d/(l*(l + 1)); }   // µK²
+/* white noise (fixed seed) → Fourier space, shaped by √C_ℓ: a_k = W_k · N√(C_ℓ/A) / N² */
+var SKY_K = (function(){
+  var n = NPIX*NPIX, re = new Float64Array(n), im = new Float64Array(n), seed = 20261011;
+  function rnd(){ seed = (seed + 0x6D2B79F5) | 0; var t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return (((t ^ (t >>> 14)) >>> 0) + 0.5)/4294967296; }   /* mulberry32 */
+  for(var i = 0; i < n; i += 2){ var u = rnd(), v = rnd(), r = Math.sqrt(-2*Math.log(u)); re[i] = r*Math.cos(2*Math.PI*v); re[i + 1] = r*Math.sin(2*Math.PI*v); }
+  fft2(re, im, false);
+  var A = PATCH_RAD*PATCH_RAD;
+  for(var y = 0; y < NPIX; y++) for(var x = 0; x < NPIX; x++){
+    var k = y*NPIX + x, l = modeL(x, y), f = l === 0 ? 0 : NPIX*Math.sqrt(cl(l)/A)/n;
+    re[k] *= f; im[k] *= f;
+  }
+  return {re:re, im:im};
+})();
+/* expected pixel variance through a beam: Σ_k C_ℓ B_ℓ² / A */
+function expectedVar(fwhm){
+  var s = 0, A = PATCH_RAD*PATCH_RAD;
+  for(var y = 0; y < NPIX; y++) for(var x = 0; x < NPIX; x++){ var l = modeL(x, y); if(l > 0){ var b = beamB(l, fwhm); s += cl(l)*b*b/A; } }
+  return s;
+}
+function skyMap(fwhm){
+  var n = NPIX*NPIX, re = new Float64Array(SKY_K.re), im = new Float64Array(SKY_K.im);
+  for(var y = 0; y < NPIX; y++) for(var x = 0; x < NPIX; x++){ var k = y*NPIX + x, b = beamB(modeL(x, y), fwhm); re[k] *= b; im[k] *= b; }
+  fft2(re, im, true);
+  return re;                                                        // inverse without 1/N²: a_k already carries it
+}
+function rms(arr){ var s = 0; for(var i = 0; i < arr.length; i++) s += arr[i]*arr[i]; return Math.sqrt(s/arr.length); }
+
+/* ============ CH2 — BLACKBODY ============ */
+var FIT_T = bestFitT();
+var bbT = document.getElementById('bbT');
+function renderBB(){
+  var tK = +bbT.value;
+  document.getElementById('bbTVal').textContent = fmt(tK, 5) + T(' K',' К'); bbT.setAttribute('aria-valuetext', document.getElementById('bbTVal').textContent);
+  var svg = document.getElementById('bbSvg'); svg.innerHTML = ''; svg.setAttribute('aria-label', T(svg.getAttribute('data-aria-en'), svg.getAttribute('data-aria-ru')));
+  var L = 54, R = 465, Tp = 24, B = 256, xmax = 22, ymax = 600;
+  function X(v){ return L + v/xmax*(R - L); } function Y(v){ return B - Math.min(v, ymax)/ymax*(B - Tp); }
+  [0, 100, 200, 300, 400, 500, 600].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, fmtInt(v), 'svg-small', 'end'); });
+  [0, 5, 10, 15, 20].forEach(function(v){ ns('line', {x1:X(v), y1:B, x2:X(v), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(v), B + 16, v + T(' cm⁻¹',' см⁻¹'), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 14, T('brightness, MJy/sr','яркость, МЯн/ср'), 'svg-small');
+  txt(svg, R, B + 32, T('frequency (1 cm⁻¹ = 29.98 GHz)','частота (1 см⁻¹ = 29,98 ГГц)'), 'svg-small', 'end');
+  var d = '';
+  for(var i = 1; i <= 220; i++){ var nu = i/220*xmax; d += (i === 1 ? 'M' : 'L') + X(nu).toFixed(1) + ',' + Y(planckMJy(nu, tK)).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  FIRAS.forEach(function(p){ ns('circle', {cx:X(p[0]), cy:Y(p[1]), r:2.6, fill:'#2f5aa1'}, svg); });
+  var np = nuPeakGHz(tK)/29.9792458;
+  ns('line', {x1:X(np), y1:Tp, x2:X(np), y2:B, stroke:'#0b0b0c', 'stroke-dasharray':'2 3'}, svg);
+  txt(svg, X(np) + 5, Tp + 10, T('peak ','максимум ') + fmt(nuPeakGHz(tK), 1) + T(' GHz',' ГГц'), 'svg-small svg-halo');
+  ns('circle', {cx:R - 150, cy:Tp + 30, r:3, fill:'#2f5aa1'}, svg); txt(svg, R - 142, Tp + 34, T('COBE/FIRAS [5]','COBE/FIRAS [5]'), 'svg-small');
+  ns('line', {x1:R - 156, y1:Tp + 48, x2:R - 144, y2:Tp + 48, stroke:'#b5452a', 'stroke-width':2}, svg); txt(svg, R - 142, Tp + 52, T('blackbody at ','чёрное тело при ') + fmt(tK, 3) + T(' K',' К'), 'svg-small');
+  var m = misfit(tK);
+  cells(document.getElementById('bbReadout'), [
+    [T('PEAK FREQUENCY','МАКСИМУМ ПО ЧАСТОТЕ'), fmt(nuPeakGHz(tK), 1) + T(' GHz',' ГГц')],
+    [T('WIEN PEAK (WAVELENGTH)','МАКСИМУМ ВИНА (ДЛИНА ВОЛНЫ)'), fmt(wienMM(tK), 3) + T(' mm',' мм')],
+    [T('PHOTONS PER cm³','ФОТОНОВ НА СМ³'), fmt(photonsPerCm3(tK), 1)],
+    [T('MISFIT TO FIRAS (RMS)','РАСХОЖДЕНИЕ С FIRAS (СКО)'), (m < 1000 ? fmt(m, 0) + T(' kJy/sr',' кЯн/ср') : fmt(m/1000, 1) + T(' MJy/sr',' МЯн/ср'))]
+  ]);
+  hud1.textContent = fmt(tK, 3) + T(' K',' К');
+  var best = FIT_T, mb = misfit(best);
+  document.getElementById('bbStatus').innerHTML = m < 1.5*mb
+    ? T('The curve runs through every point: the misfit is ','Кривая проходит через каждую точку: расхождение — ') + fmt(m/PEAK_KJY*100, 3) + T(' % (',' % (') + fmt(m/PEAK_KJY*1e6, 0) + T(' parts per million) of the peak brightness. FIRAS\'s own calibration puts the best fit at ',' миллионных долей) яркости в максимуме. По собственной калибровке FIRAS наилучшее значение — ') + fmt(best, 4) + T(' K [5].',' К [5].')
+    : m < 500 ? T('Still a superb fit (','По-прежнему превосходное совпадение (') + fmt(m/PEAK_KJY*100, 3) + T(' % of the peak). This is ',' % от максимума). Это на ') + fmt(Math.abs(tK - best)*1000, 2) + T(' mK from FIRAS\'s own 2.725 K scale — inside its absolute uncertainty; recalibrated against WMAP, FIRAS gives 2.7260 ± 0.0013 K [7].',' мК отличается от собственной шкалы FIRAS 2,725 К — в пределах её абсолютной погрешности; после перекалибровки по WMAP FIRAS даёт 2,7260 ± 0,0013 К [7].')
+    : Math.abs(tK - best) < 0.015
+      ? T('Off by ','Отклонение ') + fmt(Math.abs(tK - best)*1000, 0) + T(' mK — by eye the curve still passes close, but the misfit is now ',' мК — на глаз кривая ещё проходит рядом, но расхождение уже в ') + fmtInt(Math.round(m/FIRAS_ERR)) + T(' times FIRAS\'s typical error bar: the data reject it. Only one temperature fits all 43 at once.',' раз больше типичной погрешности FIRAS: данные её отвергают. Все 43 точки сразу описывает только одна температура.')
+      : T('Off by ','Отклонение ') + fmt(Math.abs(tK - best)*1000, 0) + T(' mK — the points no longer sit on the curve. Only one temperature fits all 43 at once.',' мК — точки больше не ложатся на кривую. Все 43 точки сразу описывает только одна температура.');
+}
+bbT.addEventListener('input', function(){ pressGroup(document.getElementById('bbPre'), null); renderBB(); });
+Array.prototype.forEach.call(document.querySelectorAll('#bbPre .btn'), function(btn){ btn.addEventListener('click', function(){ bbT.value = this.getAttribute('data-t'); pressGroup(this.parentNode, this); renderBB(); }); });
+
+/* ============ CH3 — COOLING ============ */
+var cvZ = document.getElementById('cvZ');
+cvZ.value = Math.log10(1 + COSMO.zStar);                         /* start exactly at last scattering */
+var CURVE = (function(){ var pts = []; for(var i = 0; i <= 120; i++){ var u = 3.6*i/120, z = Math.pow(10, u) - 1; pts.push([z, ageAt(z), tempAt(z)]); } return pts; })();
+function ageStr(y){
+  if(y >= 1e9) return fmt(y/1e9, 3) + T(' billion years',' млрд лет');
+  if(y >= 1e6) return fmt(y/1e6, 0) + T(' million years',' млн лет');
+  return num(Math.round(y/1000)*1000) + T(' years',' лет');
+}
+function renderCV(){
+  var u = +cvZ.value, z = Math.pow(10, u) - 1, t = ageAt(z), Tz = tempAt(z);
+  document.getElementById('cvZVal').textContent = 'z = ' + (z < 100 ? fmt(z, 2) : num(Math.round(z)));
+  cvZ.setAttribute('aria-valuetext', document.getElementById('cvZVal').textContent + ', ' + ageStr(t));
+  var svg = document.getElementById('cvSvg'); svg.innerHTML = ''; svg.setAttribute('aria-label', T(svg.getAttribute('data-aria-en'), svg.getAttribute('data-aria-ru')));
+  var L = 54, R = 465, Tp = 24, B = 256, xa = 4, xb = 10.3, ya = 0, yb = 4;
+  function X(age){ return L + (Math.log10(age) - xa)/(xb - xa)*(R - L); } function Y(T){ return B - (Math.log10(T) - ya)/(yb - ya)*(B - Tp); }
+  [1, 10, 100, 1000, 10000].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, num(v), 'svg-small', 'end'); });
+  [[1e4,'10⁴'],[1e5,'10⁵'],[1e6,'10⁶'],[1e7,'10⁷'],[1e8,'10⁸'],[1e9,'10⁹'],[1e10,'10¹⁰']].forEach(function(p){ ns('line', {x1:X(p[0]), y1:B, x2:X(p[0]), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(p[0]), B + 16, p[1], 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 14, T('temperature, K (log)','температура, К (лог.)'), 'svg-small');
+  txt(svg, R, B + 32, T('age of the universe, years (log)','возраст Вселенной, лет (лог.)'), 'svg-small', 'end');
+  ns('rect', {x:L, y:Tp, width:R - L, height:Y(3000) - Tp, fill:'#f3e3dd'}, svg);
+  txt(svg, R - 4, Tp + 12, T('hotter than ~3,000 K: opaque','горячее ~3000 К: непрозрачно'), 'svg-small', 'end');
+  var d = ''; CURVE.forEach(function(p, i){ if(p[1] < Math.pow(10, xa)) return; d += (d ? 'L' : 'M') + X(p[1]).toFixed(1) + ',' + Y(p[2]).toFixed(1); });
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.8}, svg);
+  if(t >= Math.pow(10, xa)) ns('circle', {cx:X(t), cy:Y(Tz), r:5.5, fill:'#b5452a'}, svg);
+  cells(document.getElementById('cvReadout'), [
+    [T('TEMPERATURE THEN','ТЕМПЕРАТУРА ТОГДА'), (Tz >= 100 ? num(Math.round(Tz)) : fmt(Tz, Tz < 10 ? 3 : 1)) + T(' K',' К')],
+    [T('AGE THEN','ВОЗРАСТ ТОГДА'), ageStr(t)],
+    [T('SHARE OF TODAY\'S AGE','ДОЛЯ НЫНЕШНЕГО ВОЗРАСТА'), (t/ageAt(0)*100 < 0.1 ? fmt(t/ageAt(0)*100, 4) : fmt(t/ageAt(0)*100, 1)) + ' %'],
+    [T('SIZE vs TODAY','РАЗМЕР ПО СРАВНЕНИЮ С СЕГОДНЯ'), '1/' + fmt(1 + z, z < 10 ? 2 : 0)]
+  ]);
+  hud1.textContent = (Tz >= 100 ? num(Math.round(Tz)) : fmt(Tz, 2)) + T(' K',' К'); hud2.textContent = ageStr(t);
+  document.getElementById('cvStatus').innerHTML = Tz >= 3000
+    ? T('Still opaque: at this temperature hydrogen is ionized and light keeps scattering off free electrons.','Ещё непрозрачно: при такой температуре водород ионизован и свет продолжает рассеиваться на свободных электронах.')
+    : z > 1000 ? T('About the moment of last scattering: the light we see as the microwave background sets off here.','Примерно момент последнего рассеяния: отсюда отправляется свет, который мы видим как реликтовое излучение.')
+    : T('Transparent: the background light is travelling freely and cooling as space stretches.','Прозрачно: реликтовый свет летит свободно и остывает по мере растяжения пространства.');
+}
+cvZ.addEventListener('input', function(){ pressGroup(document.getElementById('cvPre'), null); renderCV(); });
+Array.prototype.forEach.call(document.querySelectorAll('#cvPre .btn'), function(btn){ btn.addEventListener('click', function(){ cvZ.value = Math.log10(1 + +this.getAttribute('data-z')); pressGroup(this.parentNode, this); renderCV(); }); });
+
+/* ============ CH4 — DIPOLE AND RIPPLES ============ */
+var dpV = document.getElementById('dpV'), dpS = 1;
+function lenStr(m){
+  if(m >= 1000) return fmt(m/1000, 1) + T(' km',' км');
+  if(m >= 1) return fmt(m, 0) + T(' m',' м');
+  if(m >= 1e-3) return fmt(m*1000, 1) + T(' mm',' мм');
+  return fmt(m*1e6, 0) + T(' µm',' мкм');
+}
+function renderDP(){
+  var v = +dpV.value, dm = dipoleMK(v);
+  document.getElementById('dpVVal').textContent = fmt(v, 2) + T(' km/s',' км/с'); dpV.setAttribute('aria-valuetext', document.getElementById('dpVVal').textContent);
+  var svg = document.getElementById('dpSvg'); svg.innerHTML = ''; svg.setAttribute('aria-label', T(svg.getAttribute('data-aria-en'), svg.getAttribute('data-aria-ru')));
+  var L = 64, R = 465, Tp = 24, B = 256, span = 10;                // ±10 mK around T0
+  function X(th){ return L + th/180*(R - L); } function Y(mK){ return (Tp + B)/2 - mK/span*(B - Tp)/2; }
+  [-10, -5, 0, 5, 10].forEach(function(v2){ ns('line', {x1:L, y1:Y(v2), x2:R, y2:Y(v2), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v2) + 4, (v2 > 0 ? '+' : '') + fmt(v2, 0), 'svg-small', 'end'); });
+  [0, 45, 90, 135, 180].forEach(function(th){ ns('line', {x1:X(th), y1:B, x2:X(th), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(th), B + 16, th + '°', 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 14, T('sky temperature − 2.72548 K, mK','температура неба − 2,72548 К, мК'), 'svg-small');
+  txt(svg, R, B + 32, T('angle from the direction of motion','угол к направлению движения'), 'svg-small', 'end');
+  var top = '', bot = '', mid = '';
+  for(var i = 0; i <= 90; i++){ var th = i*2, y = (skyT(th, v) - T0)*1000; mid += (i ? 'L' : 'M') + X(th).toFixed(1) + ',' + Y(y).toFixed(2); top += (i ? 'L' : 'M') + X(th).toFixed(1) + ',' + Y(y + RIPPLE_UK/1000).toFixed(2); bot = 'L' + X(th).toFixed(1) + ',' + Y(y - RIPPLE_UK/1000).toFixed(2) + bot; }
+  ns('path', {d:top + bot + 'Z', fill:'#2f5aa1', opacity:0.35}, svg);
+  ns('path', {d:mid, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  txt(svg, X(4), Y((skyT(0, v) - T0)*1000) - 10, T('ahead: warmer','впереди: теплее'), 'svg-small svg-halo');
+  txt(svg, X(176), Y((skyT(180, v) - T0)*1000) + 18, T('behind: cooler','позади: холоднее'), 'svg-small svg-halo', 'end');
+  var bump = dpS*RIPPLE_UK*1e-6/T0;
+  cells(document.getElementById('dpReadout'), [
+    [T('HOTTEST POINT','САМАЯ ТЁПЛАЯ ТОЧКА'), '+' + fmt((skyT(0, v) - T0)*1000, 3) + T(' mK',' мК')],
+    [T('COLDEST POINT','САМАЯ ХОЛОДНАЯ ТОЧКА'), (v > 0 ? '−' : '') + fmt(Math.abs(skyT(180, v) - T0)*1000, 3) + T(' mK',' мК')],
+    [T('DIPOLE ÷ T₀','ДИПОЛЬ ÷ T₀'), v > 0 ? T('1 part in ','1/') + num(Math.round(1/(dm/1000/T0))) : '—'],
+    [T('RIPPLES (30 µK) ON THIS LENGTH','РЯБЬ (30 мкК) НА ЭТОЙ ДЛИНЕ'), lenStr(bump)]
+  ]);
+  document.getElementById('dpStatus').innerHTML = v === 0
+    ? T('At rest relative to the background the dipole vanishes; only the ±30 µK ripples remain — a band thinner than a pixel on this scale, which is the point.','В покое относительно фона диполь исчезает; остаётся только рябь ±30 мкК — полоса тоньше пикселя в этом масштабе, в этом и суть.')
+    : T('At ','При ') + fmt(v, 2) + T(' km/s the dipole (',' км/с диполь (') + fmt(dm, 3) + T(' mK) is about ',' мК) примерно в ') + num(Math.round(dm*1000/RIPPLE_UK)) + T(' times bigger than the ripples it has to be removed to reveal.',' раз больше ряби, которую под ним нужно разглядеть.');
+}
+dpV.addEventListener('input', function(){ pressGroup(document.getElementById('dpPre'), null); renderDP(); });
+Array.prototype.forEach.call(document.querySelectorAll('#dpPre .btn'), function(btn){ btn.addEventListener('click', function(){ dpV.value = this.getAttribute('data-v'); pressGroup(this.parentNode, this); renderDP(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#dpObj .btn'), function(btn){ btn.addEventListener('click', function(){ dpS = +this.getAttribute('data-s'); pressGroup(this.parentNode, this); renderDP(); }); });
+
+/* ============ CH5 — SKY PATCH ============ */
+var skB = 5, SKY_CACHE = {};
+function renderSK(){
+  if(!SKY_CACHE[skB]) SKY_CACHE[skB] = skyMap(skB);
+  var map = SKY_CACHE[skB], cv = document.getElementById('skyCv'), ctx = cv.getContext && cv.getContext('2d');
+  cv.setAttribute('aria-label', T(cv.getAttribute('data-aria-en'), cv.getAttribute('data-aria-ru')));
+  if(ctx && ctx.createImageData){
+    var img = ctx.createImageData(NPIX, NPIX), px = img.data;
+    for(var i = 0; i < map.length; i++){
+      var u = Math.max(-1, Math.min(1, map[i]/250)), r, g, b;
+      if(u >= 0){ r = 255 + (181 - 255)*u; g = 255 + (69 - 255)*u; b = 255 + (42 - 255)*u; } else { r = 255 + (47 - 255)*-u; g = 255 + (90 - 255)*-u; b = 255 + (161 - 255)*-u; }
+      px[4*i] = r; px[4*i + 1] = g; px[4*i + 2] = b; px[4*i + 3] = 255;
+    }
+    if(ctx.putImageData) ctx.putImageData(img, 0, 0);
+  }
+  /* spectrum chart */
+  var svg = document.getElementById('psSvg'); svg.innerHTML = ''; svg.setAttribute('aria-label', T(svg.getAttribute('data-aria-en'), svg.getAttribute('data-aria-ru')));
+  var L = 44, R = 465, Tp = 22, Bt = 186, la = Math.log10(2), lb = Math.log10(2500), ymax = 90;
+  function X(l){ return L + (Math.log10(l) - la)/(lb - la)*(R - L); } function Y(v){ return Bt - v/ymax*(Bt - Tp); }
+  [0, 30, 60, 90].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, v, 'svg-small', 'end'); });
+  [2, 10, 100, 1000].forEach(function(l){ ns('line', {x1:X(l), y1:Bt, x2:X(l), y2:Bt + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(l), Bt + 15, 'ℓ = ' + l, 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:Bt, x2:R, y2:Bt, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 12, T('ripple strength ΔT_ℓ, µK','сила ряби ΔT_ℓ, мкК'), 'svg-small');
+  txt(svg, L, Bt + 30, T('multipole ℓ (log; ≈ 180°/ℓ)','мультиполь ℓ (лог.; ≈ 180°/ℓ)'), 'svg-small');
+  var d0 = '', d1 = '';
+  for(var i2 = 0; i2 <= 200; i2++){ var l = Math.pow(10, la + (lb - la)*i2/200); d0 += (i2 ? 'L' : 'M') + X(l).toFixed(1) + ',' + Y(dTl(l)).toFixed(1); d1 += (i2 ? 'L' : 'M') + X(l).toFixed(1) + ',' + Y(dTl(l)*beamB(l, skB)).toFixed(1); }
+  ns('path', {d:d0, fill:'none', stroke:'#8f8f88', 'stroke-width':1.4, 'stroke-dasharray':'4 3'}, svg);
+  ns('path', {d:d1, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  PEAKS.forEach(function(p){ ns('circle', {cx:X(p[0]), cy:Y(p[1]), r:4, fill:'#2f5aa1'}, svg); });
+  txt(svg, X(220.1) + 6, Y(74.7) - 6, T('WMAP peak, ℓ 220 [14]','пик WMAP, ℓ 220 [14]'), 'svg-small svg-halo');
+  ns('line', {x1:R - 168, y1:Bt + 26, x2:R - 154, y2:Bt + 26, stroke:'#8f8f88', 'stroke-dasharray':'4 3', 'stroke-width':1.4}, svg); txt(svg, R - 150, Bt + 30, T('sky','небо'), 'svg-small');
+  ns('line', {x1:R - 110, y1:Bt + 26, x2:R - 96, y2:Bt + 26, stroke:'#b5452a', 'stroke-width':2}, svg); txt(svg, R - 92, Bt + 30, T('after the beam','через луч'), 'svg-small');
+  var sm = rms(map);
+  document.getElementById('skyMid').textContent = T('10° × 10°, rms ','10° × 10°, СКО ') + fmt(sm, 0) + T(' µK',' мкК');
+  cells(document.getElementById('skReadout'), [
+    [T('BEAM WIDTH (FWHM)','ШИРИНА ЛУЧА (FWHM)'), skB ? (skB >= 60 ? fmt(skB/60, 0) + '°' : fmt(skB, 0) + '′') : T('none','нет')],
+    [T('IN MOON WIDTHS','В ДИАМЕТРАХ ЛУНЫ'), skB ? fmt(skB/60/MOON_DEG, skB >= 60 ? 1 : 2) : '—'],
+    [T('FIRST PEAK KEPT (ℓ = 220)','ПЕРВЫЙ ПИК СОХРАНЁН (ℓ = 220)'), fmt(beamB(220.1, skB)*100, skB >= 60 ? 1 : 0) + ' %'],
+    [T('BEAM HALVES THE RIPPLES AT','ЛУЧ ВДВОЕ ОСЛАБЛЯЕТ РЯБЬ ПРИ'), skB ? 'ℓ ≈ ' + num(Math.round(lHalf(skB))) + T(' (≈ ',' (≈ ') + fmt(180/lHalf(skB), 2) + '°)' : '—']
+  ]);
+  document.getElementById('skStatus').innerHTML = skB >= 60
+    ? T('COBE\'s 7° beam smooths this whole 10° patch almost flat (rms ≈ ','Луч COBE шириной 7° почти полностью выглаживает этот участок 10° (СКО ≈ ') + fmt(sm, 0) + T(' µK). The ~30 µK ripples COBE did detect are swells 10° across and larger — bigger than this patch. At ℓ = 220 nothing survives.',' мкК). Рябь около 30 мкК, которую COBE действительно обнаружил, — это волны размером 10° и больше, крупнее всего участка. На ℓ = 220 не остаётся ничего.')
+    : skB ? T('The degree-sized spots of the first peak come through; the beam only softens the smallest scales.','Пятна размером в градус — первый пик — проходят; луч лишь сглаживает самые мелкие масштабы.')
+    : T('The simulated sky with nothing in the way, at this picture\'s 4.7′ pixel size.','Смоделированное небо без всяких помех, при размере пикселя этой картинки 4,7′.');
+}
+Array.prototype.forEach.call(document.querySelectorAll('#skPre .btn'), function(btn){ btn.addEventListener('click', function(){ skB = +this.getAttribute('data-b'); pressGroup(this.parentNode, this); renderSK(); }); });
+
+/* ============ CH7 — LEGACY ============ */
+var TIMELINE = [
+  ['1948–49', 'Ralph Alpher and Robert Herman, following George Gamow, predict that the Big Bang left a relic glow now a few kelvin warm [19].', 'Ральф Алфер и Роберт Херман вслед за Георгием Гамовым предсказывают, что Большой взрыв оставил реликтовое свечение с температурой в несколько кельвинов [19].'],
+  ['1964', 'Andrei Doroshkevich and Igor Novikov point out that the relic radiation should be detectable at microwave wavelengths, naming the Crawford Hill horn as the best instrument [19].', 'Андрей Дорошкевич и Игорь Новиков указывают, что реликтовое излучение можно обнаружить в микроволновом диапазоне, и называют лучшим инструментом рупорную антенну в Кроуфорд-Хилле [19].'],
+  ['1965', 'Penzias and Wilson report about 3.5 K of unexplained antenna noise at 4,080 MHz; Dicke, Peebles, Roll and Wilkinson explain it as the cooled light of the Big Bang [1][2].', 'Пензиас и Вильсон сообщают о необъяснимом шуме антенны около 3,5 К на 4080 МГц; Дикке, Пиблс, Ролл и Уилкинсон объясняют его как остывший свет Большого взрыва [1][2].'],
+  ['1978', 'Half of the Nobel Prize in Physics to Penzias and Wilson [3].', 'Половина Нобелевской премии по физике — Пензиасу и Вильсону [3].'],
+  ['1983', '<b>1 July:</b> Prognoz 9 launched with the Soviet RELIKT-1 experiment, which maps the sky at 37 GHz and measures the dipole [20].', '<b>1 июля:</b> запуск «Прогноза-9» с советским экспериментом «Реликт-1», который картографирует небо на 37 ГГц и измеряет диполь [20].'],
+  ['1989', '<b>18 November:</b> COBE launched [18].', '<b>18 ноября:</b> запуск COBE [18].'],
+  ['1992', 'COBE\'s DMR team announces ripples of about 30 µK — one part in 100,000 [9].', 'Команда DMR на COBE объявляет о ряби около 30 мкК — одной стотысячной [9].'],
+  ['1996', 'Full FIRAS analysis: deviations from a blackbody below 50 parts per million of the peak [6].', 'Полный анализ FIRAS: отклонения от абсолютно чёрного тела меньше 50 миллионных долей максимума [6].'],
+  ['2001', '<b>30 June:</b> WMAP launched towards the Sun–Earth L2 point [12].', '<b>30 июня:</b> запуск WMAP к точке L2 системы Солнце–Земля [12].'],
+  ['2003', 'WMAP pins the first acoustic peak at ℓ = 220.1 ± 0.8 [14].', 'WMAP определяет положение первого акустического пика: ℓ = 220,1 ± 0,8 [14].'],
+  ['2006', 'Nobel Prize in Physics to John Mather and George Smoot [8].', 'Нобелевская премия по физике — Джону Мазеру и Джорджу Смуту [8].'],
+  ['2009', '<b>14 May:</b> Planck launched [10]. A review of all measurements gives T₀ = 2.72548 ± 0.00057 K [7].', '<b>14 мая:</b> запуск «Планка» [10]. Сводка всех измерений даёт T₀ = 2,72548 ± 0,00057 К [7].'],
+  ['2010', '<b>19 August:</b> WMAP ends science observations [12].', '<b>19 августа:</b> WMAP завершает научные наблюдения [12].'],
+  ['2012', '<b>January:</b> Planck\'s coolant runs out; the six HFI bands stop, the three LFI bands continue [10].', '<b>Январь:</b> на «Планке» заканчивается хладагент; шесть диапазонов HFI прекращают работу, три диапазона LFI продолжают [10].'],
+  ['2013', '<b>23 October:</b> Planck stops scanning the sky in its three lowest bands [10].', '<b>23 октября:</b> «Планк» прекращает сканирование неба в трёх нижних диапазонах [10].'],
+  ['2018', 'Planck\'s final release: six-parameter ΛCDM fits the maps; age 13.797 ± 0.023 billion years [10][11].', 'Итоговый выпуск «Планка»: шестипараметрическая модель ΛCDM описывает карты; возраст 13,797 ± 0,023 млрд лет [10][11].']
+];
+
+/* ============ CH8 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'A. A. Penzias, R. W. Wilson (1965), “A Measurement of Excess Antenna Temperature at 4080 Mc/s”, Astrophysical Journal 142, 419–421', url:'https://articles.adsabs.harvard.edu/pdf/1965ApJ...142..419P', note:{en:'About 3.5 K above expectation at 4,080 MHz with the 20-foot horn-reflector at Crawford Hill; “isotropic, unpolarized, and free from seasonal variations (July, 1964 – April, 1965)”.', ru:'Около 3,5 К сверх ожидаемого на 4080 МГц с 20-футовой рупорно-параболической антенной в Кроуфорд-Хилле; «изотропный, неполяризованный и свободный от сезонных колебаний (июль 1964 — апрель 1965)».'}},
+  {title:'R. H. Dicke, P. J. E. Peebles, P. G. Roll, D. T. Wilkinson (1965), “Cosmic Black-Body Radiation”, Astrophysical Journal 142, 414–419', url:'https://articles.adsabs.harvard.edu/pdf/1965ApJ...142..414D', note:{en:'The companion letter in the same issue interpreting the excess as relic radiation from a hot early universe.', ru:'Сопутствующее письмо в том же номере, объясняющее избыток как реликтовое излучение горячей ранней Вселенной.'}},
+  {title:'The Nobel Prize in Physics 1978 — Summary', url:'https://www.nobelprize.org/prizes/physics/1978/summary/', note:{en:'Half to Penzias and Wilson “for their discovery of cosmic microwave background radiation”; the other half to Pyotr Kapitsa.', ru:'Половина премии — Пензиасу и Вильсону «за открытие реликтового микроволнового излучения»; другая половина — Петру Капице.'}},
+  {title:'NASA LAMBDA, “The COBE Differential Microwave Radiometers (DMR)”', url:'https://lambda.gsfc.nasa.gov/product/cobe/about_dmr.html', note:{en:'Six radiometers at 31.5, 53 and 90 GHz; each compares two directions 60° apart; 7° FWHM beams.', ru:'Шесть радиометров на 31,5, 53 и 90 ГГц; каждый сравнивает два направления в 60° друг от друга; лучи 7° (FWHM).'}},
+  {title:'NASA LAMBDA, “COBE/FIRAS CMB monopole spectrum” (Fixsen et al. 1996, Table 4), firas_monopole_spec_v1.txt', url:'https://lambda.gsfc.nasa.gov/data/cobe/firas/monopole_spec/firas_monopole_spec_v1.txt', note:{en:'43 frequencies from 2.27 to 21.33 cm⁻¹: monopole brightness (2.725 K blackbody + residual), residual and 1σ uncertainty. The 2.725 K absolute scale is from Fixsen & Mather 2002 (ApJ 581, 817), the file\'s second reference. Plotted on this page.', ru:'43 частоты от 2,27 до 21,33 см⁻¹: яркость монополя (чёрное тело 2,725 К + остаток), остаток и погрешность 1σ. Абсолютная шкала 2,725 К — из работы Fixsen и Mather 2002 (ApJ 581, 817), второй ссылки файла. Показаны на этой странице.'}},
+  {title:'D. J. Fixsen et al. (1996), “The Cosmic Microwave Background Spectrum from the Full COBE FIRAS Data Set”, Astrophysical Journal 473, 576', url:'https://arxiv.org/abs/astro-ph/9605054', note:{en:'RMS deviations from a blackbody below 50 parts per million of the peak; T = 2.728 ± 0.004 K (95 %); dipole 3.372 ± 0.007 mK.', ru:'Среднеквадратичные отклонения от чёрного тела меньше 50 миллионных долей максимума; T = 2,728 ± 0,004 К (95 %); диполь 3,372 ± 0,007 мК.'}},
+  {title:'D. J. Fixsen (2009), “The Temperature of the Cosmic Microwave Background”, Astrophysical Journal 707, 916', url:'https://arxiv.org/abs/0911.1955', note:{en:'From all measurements in the literature: T₀ = 2.72548 ± 0.00057 K.', ru:'По всем опубликованным измерениям: T₀ = 2,72548 ± 0,00057 К.'}},
+  {title:'The Nobel Prize in Physics 2006 — Summary', url:'https://www.nobelprize.org/prizes/physics/2006/summary/', note:{en:'John C. Mather and George F. Smoot “for their discovery of the blackbody form and anisotropy of the cosmic microwave background radiation”.', ru:'Джон Мазер и Джордж Смут «за открытие формы спектра абсолютно чёрного тела и анизотропии реликтового микроволнового излучения».'}},
+  {title:'E. L. Wright (1994), “COBE Tutorial and Recent Results”, arXiv:astro-ph/9407056', url:'https://arxiv.org/abs/astro-ph/9407056', note:{en:'The DMR anisotropy, with the monopole and dipole removed and smoothed to about 10°, is 30 µK (Smoot et al. 1992, Bennett et al. 1992 and companions).', ru:'Анизотропия DMR после вычитания монополя и диполя и сглаживания примерно до 10° составляет 30 мкК (Smoot и др. 1992, Bennett и др. 1992 и сопутствующие статьи).'}},
+  {title:'Planck Collaboration (2020), “Planck 2018 results. I. Overview and the cosmological legacy of Planck”, Astronomy & Astrophysics 641, A1', url:'https://arxiv.org/abs/1807.06205', note:{en:'Launch 14 May 2009; scanning 12 Aug 2009 – 23 Oct 2013; nine bands 30–857 GHz; effective beams 32.29′ (30 GHz) to 4.22′ (857 GHz), 4.90′ at 217 GHz; end of the cryogenic (HFI) mission 14 January 2012; dipole 3,362.08 ± 0.99 µK, v = 369.82 ± 0.11 km/s towards (l, b) = (264.021°, 48.253°); 18 peaks; “over a billion map pixels”.', ru:'Запуск 14 мая 2009; сканирование 12 авг. 2009 — 23 окт. 2013; девять диапазонов 30–857 ГГц; эффективные лучи от 32,29′ (30 ГГц) до 4,22′ (857 ГГц), 4,90′ на 217 ГГц; конец криогенной миссии (HFI) — 14 января 2012; диполь 3362,08 ± 0,99 мкК, v = 369,82 ± 0,11 км/с в направлении (l, b) = (264,021°, 48,253°); 18 пиков; «более миллиарда пикселей карты».'}},
+  {title:'Planck Collaboration (2020), “Planck 2018 results. VI. Cosmological parameters”, Astronomy & Astrophysics 641, A6', url:'https://arxiv.org/abs/1807.06209', note:{en:'Table 2 (TT,TE,EE+lowE+lensing): H₀ = 67.36 ± 0.54, Ωm = 0.3153 ± 0.0073, age 13.797 ± 0.023 Gyr, z* = 1089.92 ± 0.25, z_eq = 3402 ± 26, r* = 144.43 ± 0.26 Mpc; abstract (full version): 100θ* = 1.0411 ± 0.0003, ΩK = 0.001 ± 0.002 with BAO, tension with local H₀ measurements.', ru:'Табл. 2 (TT,TE,EE+lowE+lensing): H₀ = 67,36 ± 0,54, Ωm = 0,3153 ± 0,0073, возраст 13,797 ± 0,023 млрд лет, z* = 1089,92 ± 0,25, z_eq = 3402 ± 26, r* = 144,43 ± 0,26 Мпк; аннотация (полная версия): 100θ* = 1,0411 ± 0,0003, ΩK = 0,001 ± 0,002 вместе с BAO, расхождение с локальными измерениями H₀.'}},
+  {title:'NASA, “WMAP Mission Overview”', url:'https://map.gsfc.nasa.gov/mission', note:{en:'Launched 30 June 2001 towards Sun–Earth L2; science data until 19 August 2010; the first fine-resolution (0.2 degree) full-sky map of the microwave sky.', ru:'Запущен 30 июня 2001 года к точке L2 Солнце–Земля; научные данные до 19 августа 2010 года; первая подробная (0,2 градуса) карта всего микроволнового неба.'}},
+  {title:'NASA LAMBDA, “WMAP Products”', url:'https://lambda.gsfc.nasa.gov/product/wmap/current/', note:{en:'A 13 arcminute FWHM full-sky map of the temperature anisotropy; 33 times the angular resolution of COBE DMR.', ru:'Карта анизотропии температуры всего неба с разрешением 13 угловых минут (FWHM); в 33 раза выше углового разрешения COBE DMR.'}},
+  {title:'L. Page et al. (2003), “First Year WMAP Observations: Interpretation of the TT and TE Angular Power Spectrum Peaks”, ApJS 148, 233', url:'https://arxiv.org/abs/astro-ph/0302220', note:{en:'First peak at ℓ = 220.1 ± 0.8, 74.7 ± 0.5 µK; first trough ℓ = 411.7 ± 3.5, 41.0 ± 0.5 µK; second peak ℓ = 546 ± 10, 48.8 ± 0.9 µK.', ru:'Первый пик при ℓ = 220,1 ± 0,8, 74,7 ± 0,5 мкК; первый провал ℓ = 411,7 ± 3,5, 41,0 ± 0,5 мкК; второй пик ℓ = 546 ± 10, 48,8 ± 0,9 мкК.'}},
+  {title:'NIST, “Fundamental Physical Constants”', url:'https://physics.nist.gov/cuu/Constants/index.html', note:{en:'Exact SI values of h, k and c; Wien wavelength displacement constant b = 2.897771955 × 10⁻³ m·K.', ru:'Точные значения h, k и c в СИ; постоянная Вина b = 2,897771955 × 10⁻³ м·К.'}},
+  {title:'NASA NSSDC, “Moon Fact Sheet” (with Earth comparison column)', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html', note:{en:'Moon volumetric mean radius 1,737.4 km (diameter 3,474.8 km); orbit semimajor axis 0.3844 × 10⁶ km (384,400 km); Earth volumetric mean radius 6,371.0 km (diameter 12,742 km).', ru:'Средний объёмный радиус Луны 1737,4 км (диаметр 3474,8 км); большая полуось орбиты 0,3844 × 10⁶ км (384 400 км); средний объёмный радиус Земли 6371,0 км (диаметр 12 742 км).'}},
+  {title:'ESA, “Planck”', url:'https://www.esa.int/Science_Exploration/Space_Science/Planck', note:{en:'ESA\'s Planck mission page.', ru:'Страница миссии «Планк» на сайте ЕКА.'}},
+  {title:'NASA Science, “COBE”', url:'https://science.nasa.gov/mission/cobe/', note:{en:'COBE rocketed into Earth orbit on 18 November 1989.', ru:'COBE выведен на околоземную орбиту 18 ноября 1989 года.'}},
+  {title:'A. A. Penzias (1978), “The Origin of Elements”, Nobel Lecture', url:'https://www.nobelprize.org/uploads/2018/06/penzias-lecture.pdf', note:{en:'Recounts the prediction: Alpher and Herman (1949) traced the relict radiation to “a temperature of a few degrees Kelvin”; Doroshkevich and Novikov (1964) “explicitly focus upon the Bell Laboratories twenty-foot horn reflector at Crawford Hill”.', ru:'История предсказания: Алфер и Херман (1949) оценили температуру реликтового излучения в «несколько градусов Кельвина»; Дорошкевич и Новиков (1964) «прямо указывают на 20-футовую рупорную антенну Bell Laboratories в Кроуфорд-Хилле».'}},
+  {title:'NASA LAMBDA, “The Relikt Experiment”', url:'https://lambda.gsfc.nasa.gov/product/relikt/', note:{en:'Relikt-1 on Prognoz 9, launched 1 July 1983, at 37 GHz: the galactic microwave flux was measured and the CMB dipole observed; a quadrupole between 17 and 95 µK rms at 90 % confidence (Strukov et al. 1992).', ru:'«Реликт-1» на «Прогнозе-9», запущенном 1 июля 1983 года, на 37 ГГц: измерен микроволновый поток Галактики и наблюдён диполь реликтового излучения; квадруполь от 17 до 95 мкК (СКО) при доверительной вероятности 90 % (Strukov и др., 1992).'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderBB(); renderCV(); renderDP(); renderSK();
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__glow = {planckMJy:planckMJy, nuPeakGHz:nuPeakGHz, wienMM:wienMM, photonsPerCm3:photonsPerCm3, misfit:misfit, bestFitT:bestFitT, FIT_T:FIT_T,
+  ageAt:ageAt, tempAt:tempAt, skyT:skyT, dipoleMK:dipoleMK, dTl:dTl, beamB:beamB, lHalf:lHalf, beamSigmaRad:beamSigmaRad, expectedVar:expectedVar,
+  skyMap:skyMap, rms:rms, fft1:fft1, MOON_DEG:MOON_DEG, COSMO:COSMO, FIRAS:FIRAS, T0:T0, PEAKS:PEAKS, RIPPLE_UK:RIPPLE_UK, NPIX:NPIX, PATCH_DEG:PATCH_DEG};
+
+})();
+</script>
+</body>
+</html>

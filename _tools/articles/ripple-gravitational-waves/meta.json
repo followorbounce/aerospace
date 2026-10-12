@@ -1,0 +1,11 @@
+{
+ "slug": "ripple-gravitational-waves",
+ "title_en": "RIPPLE — GRAVITATIONAL WAVES: LIGO, VIRGO, KAGRA & LISA",
+ "title_ru": "РЯБЬ — ГРАВИТАЦИОННЫЕ ВОЛНЫ: LIGO, VIRGO, KAGRA И LISA",
+ "description": "An interactive field guide to gravitational waves: how a strain of 10⁻²¹ moves a 4 km mirror by a few thousandths of a femtometre, the 0.2-second chirp of GW150914 and the chirp mass it gives, 3 solar masses turned into gravitational waves, the Hulse–Taylor pulsar whose orbit shrinks exactly as general relativity predicts, the neutron-star merger GW170817 seen in light 1.7 seconds later, and why LISA's 2.5-million-km arms will hear a different sky.",
+ "og": "h = 10⁻²¹, a 0.2 s chirp, 3 M☉c² radiated and an orbit decaying at −2.40 × 10⁻¹²: gravitational waves from LIGO, Virgo and KAGRA to LISA, interactive and sourced from the LIGO-Virgo-KAGRA papers, ESA and NASA.",
+ "brand": "RIPPLE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "SPACETIME STRETCHES",
+ "hud1": "STRAIN",
+ "hud2": "FREQUENCY"
+}

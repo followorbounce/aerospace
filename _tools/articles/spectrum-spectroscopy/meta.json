@@ -1,0 +1,11 @@
+{
+ "slug": "spectrum-spectroscopy",
+ "title_en": "SPECTRUM — SPECTROSCOPY: WHAT STARLIGHT SAYS",
+ "title_ru": "СПЕКТР — СПЕКТРОСКОПИЯ: О ЧЁМ ГОВОРИТ СВЕТ ЗВЁЗД",
+ "description": "An interactive field guide to spectroscopy: Newton's prism, the dark lines Fraunhofer mapped in sunlight, Kirchhoff and Bunsen's discovery that every element absorbs and emits its own wavelengths, helium found in the Sun before it was found on Earth, the hydrogen ladder from Balmer's formula, Fleming, Maury, Cannon and the 225,300-star Henry Draper Catalogue, Cecilia Payne's 1925 thesis, which showed that spectra differ by temperature and found — and doubted — a hydrogen-dominated Sun, and the 59 m/s Doppler wobble that revealed 51 Pegasi b.",
+ "og": "Match an element's lines to the dark lines in sunlight, climb hydrogen's ladder, take a star's temperature and measure a 59 m/s wobble: spectroscopy, interactive and sourced from NIST, the 1966 solar atlas and primary and historical sources.",
+ "brand": "SPECTRUM — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "PRISM",
+ "hud1": "WAVELENGTH",
+ "hud2": "READING"
+}

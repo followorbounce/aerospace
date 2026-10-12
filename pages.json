@@ -99,7 +99,11 @@
         { "slug": "infrared-spitzer-telescope", "codename": "INFRARED", "label": { "en": "Spitzer Space Telescope", "ru": "Телескоп «Спитцер»" } },
         { "slug": "transit-kepler-telescope", "codename": "TRANSIT", "label": { "en": "Kepler Space Telescope", "ru": "Телескоп «Кеплер»" } },
         { "slug": "parallax-gaia-mission", "codename": "PARALLAX", "label": { "en": "Gaia Mission", "ru": "Миссия «Гайя»" } },
-        { "slug": "parabola-mirrors-and-dishes", "codename": "PARABOLA", "label": { "en": "Parabola: Mirrors, Dishes & the Focus", "ru": "Парабола: зеркала, антенны и фокус" } }
+        { "slug": "parabola-mirrors-and-dishes", "codename": "PARABOLA", "label": { "en": "Parabola: Mirrors, Dishes & the Focus", "ru": "Парабола: зеркала, антенны и фокус" } },
+        { "slug": "glow-cosmic-microwave-background", "codename": "GLOW", "label": { "en": "The Cosmic Microwave Background: COBE, WMAP & Planck", "ru": "Реликтовое излучение: COBE, WMAP и «Планк»" } },
+        { "slug": "dark-euclid-roman", "codename": "DARK", "label": { "en": "Euclid & Roman: Dark Matter and Dark Energy", "ru": "Euclid и Roman: тёмная материя и тёмная энергия" } },
+        { "slug": "ripple-gravitational-waves", "codename": "RIPPLE", "label": { "en": "Gravitational Waves: LIGO, Virgo, KAGRA & LISA", "ru": "Гравитационные волны: LIGO, Virgo, KAGRA и LISA" } },
+        { "slug": "burst-gamma-ray-bursts", "codename": "BURST", "label": { "en": "Gamma-Ray Bursts: Swift & Fermi", "ru": "Гамма-всплески: Swift и Fermi" } }
       ]
     },
     {
@@ -150,7 +154,8 @@
         { "slug": "physics-of-spaceflight", "codename": "IMPULSE", "label": { "en": "The Physics of Spaceflight", "ru": "Физика космического полёта" } },
         { "slug": "cascade-physical-computing", "codename": "CASCADE", "label": { "en": "Physical Computing", "ru": "Физика вычислений" } },
         { "slug": "mathematics-of-music", "codename": "RESONANCE", "label": { "en": "The Mathematics of Music", "ru": "Математика музыки" } },
-        { "slug": "slingshot-gravity-assists", "codename": "SLINGSHOT", "label": { "en": "Gravity Assists & the Grand Tour", "ru": "Гравитационные манёвры и «Большой тур»" } }
+        { "slug": "slingshot-gravity-assists", "codename": "SLINGSHOT", "label": { "en": "Gravity Assists & the Grand Tour", "ru": "Гравитационные манёвры и «Большой тур»" } },
+        { "slug": "spectrum-spectroscopy", "codename": "SPECTRUM", "label": { "en": "Spectroscopy: What Starlight Says", "ru": "Спектроскопия: о чём говорит свет звёзд" } }
       ],
       "planned": [
         { "label": { "en": "Texas Instruments", "ru": "Texas Instruments" } },

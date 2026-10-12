@@ -110,3 +110,14 @@ Owner chose a shortlist (Cloudflare token can't read analytics — needs "Accoun
 - **New test guards** (`_tools/test.js`, enforced by check-all): broken bilingual attributes, shared UI classes without CSS, sliders set off-step without the wrapper (jsdom now rounds like a browser), scrollIntoView stub.
 - Verified after the last edit: check-all ALL OK (593 checks), smoke + node --check over every page, screenshots at 1300/390.
 - Follow-ups: Lagrange page has no references at all; CAMPAIGN's CH.04 Orion diagram is the same weak scattered-box layout Apollo's CH3 had; ISS cannonball Earth disc is small in its panel; Juno/BepiColombo/UOP/Shenzhou statuses need re-checking (dates in the pages).
+
+## 2026-10-12 — Wave 6 (done, 73 → 78 guides)
+Same process as Wave 5: one author team per guide → independent review panel (REVIEW.md, all APPROVE WITH CHANGES, no blocks) → fixes with a check per MUST item → screenshots at 1300/390 → wire.
+- **GLOW** (`glow-cosmic-microwave-background`, telescopes): Planck's law fitted to the 43-point COBE/FIRAS spectrum (error-weighted misfit 49 ppm), T₀(1+z) and age at last scattering, 3.36 mK dipole, simulated sky patch through COBE/WMAP/Planck beams; Alpher & Herman, Doroshkevich & Novikov credited. 56 checks.
+- **DARK** (`dark-euclid-roman`, telescopes): SPARC halo fit to NGC 3198, luminosity-distance calculator (Ω_m = 0 bug fixed), weak-lensing shape noise, Euclid DR1 plan, Roman (WFI on mid-Sep, coronagraph first light 22 Sep 2026). 48 checks.
+- **RIPPLE** (`ripple-gravitational-waves`, telescopes): strain ruler, GW150914 chirp + audio (4-octave-up option for phones), Hulse–Taylor decay, detector bands, GW170817; LISA status incl. ESA's May 2026 replacement-telescope order. 58 checks.
+- **BURST** (`burst-gamma-ray-bursts`, telescopes): isotropy model, 4,391 GBM T90s, coded mask, E_iso from fluence, jet beaming, Swift's decaying orbit. 44 checks.
+- **SPECTRUM** (`spectrum-spectroscopy`, foundations): 1966 solar atlas vs NIST line matcher, Rydberg ladder vs NIST, Boltzmann–Saha Balmer thermometer (20 Pa electron pressure is illustrative), HD class counts (225,300), Payne 1925 abundances, 51 Peg b wobble; Maury, Fleming, Cannon credited. 79 checks.
+- Verified after the last edit: check-all ALL OK over every page (878 PASS lines), node --check on every inline script of the five, internal links resolve.
+- Time-bombs: LVK observing-plan page due an update 15 Oct 2026 (RIPPLE status); Euclid DR1 Nov 2026 (DARK); Roman first science images early 2027; Swift orbit/LINK status (BURST).
+- Homepage card: 73 → 78 guides.

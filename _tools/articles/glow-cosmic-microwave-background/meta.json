@@ -1,0 +1,11 @@
+{
+ "slug": "glow-cosmic-microwave-background",
+ "title_en": "GLOW — THE COSMIC MICROWAVE BACKGROUND",
+ "title_ru": "СВЕЧЕНИЕ — РЕЛИКТОВОЕ ИЗЛУЧЕНИЕ",
+ "description": "An interactive field guide to the cosmic microwave background: the 3.5 K hiss Penzias and Wilson could not get rid of in 1965, COBE's perfect 2.725 K blackbody and the first 30-microkelvin ripples, our 370 km/s motion written across the sky as a 3.36 mK dipole, WMAP's and Planck's sharper maps and the first acoustic peak at ℓ ≈ 220, and how a picture of the universe 370,000 years after the Big Bang pins its age to 13.8 billion years.",
+ "og": "2.72548 K, a 3.36 mK dipole, 1-in-100,000 ripples and a first peak at ℓ ≈ 220: the cosmic microwave background from Penzias & Wilson to COBE, WMAP and Planck, interactive and checked against the FIRAS spectrum and Planck 2018.",
+ "brand": "GLOW — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "FIRST LIGHT",
+ "hud1": "TEMPERATURE",
+ "hud2": "AGE THEN"
+}
