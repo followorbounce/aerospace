@@ -127,3 +127,4 @@ Same process as Wave 5: one author team per guide → independent review panel (
 - Added Russian names and one-liners for all 91 missions, EN/RU UI strings with Russian plurals and genitive month names; switches live with the EN/RU toggle. Monochrome on this site (`--ae-acc` = ink); the homepage keeps its orange accent.
 - Checked: check-all ALL OK; shader frames rendered (via the test hook) for outer-planet, lunar landing, Mars transfer and Mars landing, EN and RU, desktop 1400 and phone 390; homepage widget renders the same from the shared file.
 - Russian mission lines are my translations; worth a native read.
+- Index hero trimmed (owner request): visible "Aerospace Knowledge Hub" headline and the intro paragraph removed (the h1 stays for screen readers/SEO, visually hidden `.vh`); added "← Follow or Bounce" backlink to https://followorbounce.github.io/. Hero is now a compact strip, so Mission of the day sits near the top.
