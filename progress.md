@@ -128,3 +128,6 @@ Same process as Wave 5: one author team per guide → independent review panel (
 - Checked: check-all ALL OK; shader frames rendered (via the test hook) for outer-planet, lunar landing, Mars transfer and Mars landing, EN and RU, desktop 1400 and phone 390; homepage widget renders the same from the shared file.
 - Russian mission lines are my translations; worth a native read.
 - Index hero trimmed (owner request): visible "Aerospace Knowledge Hub" headline and the intro paragraph removed (the h1 stays for screen readers/SEO, visually hidden `.vh`); added "← Follow or Bounce" backlink to https://followorbounce.github.io/. Hero is now a compact strip, so Mission of the day sits near the top.
+
+## 2026-10-15 — Expansion plan
+- Plan for the next phases (search, See also, freshness register, Waves 7–10 to ~98 guides, timeline, glossary, paths, live probe positions) saved at `/home/none/git/roadmaps/aerospace-expansion-2026-10.html` (local, outside this repo). Open decisions D1–D3 are listed there.
