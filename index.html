@@ -35,8 +35,33 @@
 .hub-cat .np .cl{color:var(--mid);}
 .hub-cat li.soon .cn{color:var(--mid);}
 .hub-cat li.ext .cn{color:var(--ink);}
+/* Mission of the day (script: assets/mission-of-day.js, shared with the followorbounce.github.io homepage) */
+#mission-of-day{padding-block:56px;}
+.mod-head{display:flex; justify-content:space-between; align-items:center; gap:12px 24px; flex-wrap:wrap; margin-bottom:16px;}
+.mod-head .eyebrow{margin-bottom:0;}
+.mod-bar{display:flex; gap:8px; flex-wrap:wrap;}
+.mod-seg{display:flex; border:1px solid var(--ink);}
+.mod-seg button{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; background:none; color:var(--ink); border:0; border-left:1px solid var(--ink); padding:7px 12px; min-height:34px;}
+.mod-seg button:first-child{border-left:0;}
+.mod-seg button:hover{text-decoration:underline;}
+.mod-seg button.active{background:var(--ink); color:var(--paper); text-decoration:none;}
+.mod-seg button:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.mod-step button{min-width:36px; font-size:14px;}
+.mod-frame{--ae-acc:#0b0b0c; position:relative; display:grid; grid-template-columns:minmax(0,1fr) 340px; border:1px solid var(--ink); background:var(--white);}
+.mod-frame canvas{display:block; width:100%; height:340px; cursor:ew-resize; touch-action:pan-y;}
+.mod-hint{position:absolute; left:12px; bottom:10px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--mid); pointer-events:none;}
+.mod-info{border-left:1px solid var(--ink); padding:20px 22px; display:flex; flex-direction:column; gap:10px; min-width:0;}
+.mod-when{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid);}
+.mod-name{font-size:1.5rem; line-height:1.1;}
+.mod-what{margin:0; font-size:15px; line-height:1.55; flex:1;}
+.mod-read{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; color:var(--ink); border-top:1px solid var(--line); padding-top:12px;}
+.mod-read:hover,.mod-read:focus-visible{text-decoration:underline;}
+.mod-note{margin-top:10px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--mid);}
+@media(max-width:760px){.mod-frame{grid-template-columns:1fr;} .mod-frame canvas{height:240px;} .mod-info{border-left:0; border-top:1px solid var(--ink);} .mod-hint{bottom:auto; top:10px;}}
+@media(pointer:coarse){.mod-seg button{min-height:44px; padding-inline:14px;}}
 </style>
 <script src="/aerospace/assets/site.js" defer></script>
+<script src="/aerospace/assets/mission-of-day.js" defer></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
 </head>
 
@@ -59,6 +84,38 @@
     <div class="eyebrow"><span class="fig-num">INDEX</span> — <span data-en="A FIELD LIBRARY OF SPACEFLIGHT" data-ru="ПОЛЕВАЯ БИБЛИОТЕКА КОСМОНАВТИКИ">A FIELD LIBRARY OF SPACEFLIGHT</span></div>
     <h1 class="h-lg" data-en="Aerospace Knowledge Hub" data-ru="Аэрокосмический справочник">Aerospace Knowledge Hub</h1>
     <p class="lede" data-en="An independent, bilingual collection of interactive technical field guides — one long-form page per mission or idea, hand-built with inline diagrams and no third-party code. Choose a thread below. Entries marked SOON are planned but not yet written." data-ru="Независимая двуязычная коллекция интерактивных технических путеводителей — одна большая страница на миссию или идею, собранная вручную со встроенными схемами и без стороннего кода. Выберите тему ниже. Пункты с пометкой СКОРО запланированы, но ещё не написаны.">An independent, bilingual collection of interactive technical field guides — one long-form page per mission or idea, hand-built with inline diagrams and no third-party code. Choose a thread below. Entries marked SOON are planned but not yet written.</p>
+  </div>
+</section>
+
+<section class="section" id="mission-of-day" aria-labelledby="ae-h">
+  <div class="section-inner">
+    <div class="mod-head">
+      <div class="eyebrow" id="ae-h" data-en="MISSION OF THE DAY" data-ru="МИССИЯ ДНЯ">MISSION OF THE DAY</div>
+      <div class="mod-bar">
+        <div class="mod-seg" id="ae-eras" role="group" aria-label="Choose a period">
+          <button type="button" class="active" data-era="today" aria-pressed="true" data-en="Today" data-ru="Сегодня">Today</button>
+          <button type="button" data-era="0" aria-pressed="false">1957&ndash;75</button>
+          <button type="button" data-era="1" aria-pressed="false">1976&ndash;99</button>
+          <button type="button" data-era="2" aria-pressed="false" data-en="2000–now" data-ru="2000–сейчас">2000&ndash;now</button>
+        </div>
+        <div class="mod-seg mod-step">
+          <button type="button" id="ae-prev" aria-label="Previous mission">&lsaquo;</button>
+          <button type="button" id="ae-next" aria-label="Next mission">&rsaquo;</button>
+        </div>
+      </div>
+    </div>
+    <div class="mod-frame" id="ae-frame">
+      <canvas id="ae-cv" role="img" aria-label="Animated trajectory of the selected mission"></canvas>
+      <div class="mod-hint" id="ae-hint"></div>
+      <div class="mod-info" aria-live="polite">
+        <div class="mod-when" id="ae-when">&nbsp;</div>
+        <h2 class="mod-name" id="ae-name">&nbsp;</h2>
+        <p class="mod-what" id="ae-what"></p>
+        <a class="mod-read" id="ae-read" href="/aerospace/">&nbsp;</a>
+      </div>
+    </div>
+    <p class="mod-note" data-en="Trajectories are schematic, not to scale · dates UTC" data-ru="Траектории схематичны, без соблюдения масштаба · даты UTC">Trajectories are schematic, not to scale · dates UTC</p>
+    <noscript><p class="mod-note">Mission of the day needs JavaScript.</p></noscript>
   </div>
 </section>
 

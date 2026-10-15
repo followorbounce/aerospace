@@ -121,3 +121,9 @@ Same process as Wave 5: one author team per guide → independent review panel (
 - Verified after the last edit: check-all ALL OK over every page (878 PASS lines), node --check on every inline script of the five, internal links resolve.
 - Time-bombs: LVK observing-plan page due an update 15 Oct 2026 (RIPPLE status); Euclid DR1 Nov 2026 (DARK); Roman first science images early 2027; Swift orbit/LINK status (BURST).
 - Homepage card: 73 → 78 guides.
+
+## 2026-10-15 — Mission of the day on the index
+- Owner asked for the homepage's "mission of the day" widget on the aerospace index, clean. Moved the script here as the single source (`assets/mission-of-day.js`); the homepage now loads it from `/aerospace/assets/` instead of carrying its own copy (`engine/aero-shader.js` deleted there).
+- Added Russian names and one-liners for all 91 missions, EN/RU UI strings with Russian plurals and genitive month names; switches live with the EN/RU toggle. Monochrome on this site (`--ae-acc` = ink); the homepage keeps its orange accent.
+- Checked: check-all ALL OK; shader frames rendered (via the test hook) for outer-planet, lunar landing, Mars transfer and Mars landing, EN and RU, desktop 1400 and phone 390; homepage widget renders the same from the shared file.
+- Russian mission lines are my translations; worth a native read.
