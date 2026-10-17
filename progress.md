@@ -131,3 +131,6 @@ Same process as Wave 5: one author team per guide → independent review panel (
 
 ## 2026-10-15 — Expansion plan
 - Plan for the next phases (search, See also, freshness register, Waves 7–10 to ~98 guides, timeline, glossary, paths, live probe positions) saved at `/home/none/git/roadmaps/aerospace-expansion-2026-10.html` (local, outside this repo). Open decisions D1–D3 are listed there.
+
+## 2026-10-16 — Index infrastructure
+- added missing canonical URL, description where absent, Open Graph and twitter:card tags. The host-level robots.txt / sitemap index / llms.txt live in followorbounce.github.io.
