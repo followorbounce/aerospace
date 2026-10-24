@@ -15,7 +15,8 @@
       "title": { "en": "Dawn of the Space Age", "ru": "Начало космической эры" },
       "pages": [
         { "slug": "beep-sputnik-explorer", "codename": "BEEP", "label": { "en": "Sputnik, Explorer & the First Satellites", "ru": "«Спутник», «Эксплорер» и первые спутники" } },
-        { "slug": "first-vostok-voskhod", "codename": "FIRST", "label": { "en": "Vostok & Voskhod", "ru": "«Восток» и «Восход»" } }
+        { "slug": "first-vostok-voskhod", "codename": "FIRST", "label": { "en": "Vostok & Voskhod", "ru": "«Восток» и «Восход»" } },
+        { "slug": "passenger-animals-in-space", "codename": "PASSENGER", "label": { "en": "Animals in Space: Laika, Belka & Strelka, Ham", "ru": "Животные в космосе: Лайка, Белка и Стрелка, Хэм" } }
       ]
     },
     {
@@ -24,7 +25,11 @@
       "pages": [
         { "slug": "navigator-gps", "codename": "NAVIGATOR", "label": { "en": "GPS & Satellite Navigation", "ru": "GPS и спутниковая навигация" } },
         { "slug": "sunsync-earth-observation", "codename": "SUNSYNC", "label": { "en": "Earth Observation Satellites", "ru": "Спутники наблюдения Земли" } },
-        { "slug": "debris-space-junk", "codename": "DEBRIS", "label": { "en": "Space Debris & the Kessler Syndrome", "ru": "Космический мусор и синдром Кесслера" } }
+        { "slug": "debris-space-junk", "codename": "DEBRIS", "label": { "en": "Space Debris & the Kessler Syndrome", "ru": "Космический мусор и синдром Кесслера" } },
+        { "slug": "relay-telstar-syncom", "codename": "RELAY", "label": { "en": "Telstar, Syncom & the Geostationary Orbit", "ru": "«Телстар», «Синком» и геостационарная орбита" } },
+        { "slug": "swarm-megaconstellations", "codename": "SWARM", "label": { "en": "Megaconstellations: Starlink, OneWeb & Amazon Leo", "ru": "Мегасозвездия: Starlink, OneWeb и Amazon Leo" } },
+        { "slug": "forecast-weather-satellites", "codename": "FORECAST", "label": { "en": "Weather Satellites: TIROS, GOES & Meteosat", "ru": "Метеоспутники: TIROS, GOES и «Метеосат»" } },
+        { "slug": "bucket-corona-spy-satellites", "codename": "BUCKET", "label": { "en": "CORONA, Zenit & the First Spy Satellites", "ru": "CORONA, «Зенит» и первые спутники-разведчики" } }
       ]
     },
     {

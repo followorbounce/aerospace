@@ -4,6 +4,8 @@
    standalone documents. Never replaces a page's own logic.
 
      - cross-site navigation (index overlay + prev/next + crumb)
+     - site search (/ or the Search button; search.json) and
+       "See also" links at the end of each guide (related.json)
      - language-choice persistence across pages
      - keyboard access for the interactive primitives
      - BreadcrumbList / TechArticle structured data
@@ -17,6 +19,8 @@
   var BASE = "/aerospace/";
   var MANIFEST = BASE + "pages.json";
   var LANG_KEY = "aero-lang";
+  var SEARCH = BASE + "search.json";      // descriptions + chapter titles, written by _tools/search-index.py
+  var RELATED = BASE + "related.json";    // slug -> related slugs, edited by hand
 
   /* ---- helpers ------------------------------------------- */
   function el(tag, attrs, kids) {
@@ -208,6 +212,14 @@
       'aria-haspopup': 'dialog', 'aria-expanded': 'false', 'aria-controls': 'site-overlay',
       text: 'Index'
     });
+    var searchBtn = el('button', {
+      'class': 'site-menu-btn site-search-btn', type: 'button',
+      'aria-haspopup': 'dialog', 'aria-expanded': 'false', 'aria-controls': 'site-search',
+      'aria-keyshortcuts': '/', 'aria-label': 'Search'
+    });
+    // magnifier + label; the label hides on narrow screens (site.css) and the aria-label carries the name
+    searchBtn.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><circle cx="6.5" cy="6.5" r="4.75" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 10l4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg><span class="ssb-t">Search</span>';
+    actions.appendChild(searchBtn);
     actions.appendChild(menuBtn);
     var lt = document.getElementById('langtoggle');
     if (lt) actions.appendChild(lt);           // move existing toggle into the cluster
@@ -244,6 +256,146 @@
     else main.parentNode.appendChild(nav);
   }
 
+  /* ---- search ------------------------------------------ */
+  // Folds case, accents and ё so "Марс", "марс" and "Mars" behave the same way within each language.
+  function fold(t) {
+    return String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ё/g, 'е');
+  }
+  function buildSearch(manifest, here) {
+    var lang = currentLang();
+    var dlg = el('div', { 'class': 'site-overlay site-search', id: 'site-search', hidden: '', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'ss-label' });
+    var close = el('button', { 'class': 'so-close', type: 'button' });
+    var label = el('label', { 'class': 'so-title', id: 'ss-label', 'for': 'ss-q' });
+    var input = el('input', { id: 'ss-q', type: 'search', autocomplete: 'off', spellcheck: 'false',
+      role: 'combobox', 'aria-expanded': 'true', 'aria-controls': 'ss-list', 'aria-autocomplete': 'list' });
+    var status = el('p', { 'class': 'ss-status', role: 'status', 'aria-live': 'polite' });
+    var list = el('ul', { 'class': 'ss-list', id: 'ss-list', role: 'listbox' });
+    dlg.appendChild(el('div', { 'class': 'so-top' }, [label, close]));
+    dlg.appendChild(el('div', { 'class': 'ss-body' }, [input, status, list]));
+    document.body.appendChild(dlg);
+
+    var extra = null, active = -1, hits = [];
+    var all = flatten(manifest);
+    function load() {
+      if (extra) return Promise.resolve(extra);
+      return fetch(SEARCH, { cache: 'default' }).then(function (r) { return r.ok ? r.json() : {}; })
+        .catch(function () { return {}; }).then(function (j) { extra = j; return j; });
+    }
+    function texts() {
+      label.textContent = lang === 'ru' ? 'Поиск по справочнику' : 'Search the guides';
+      close.textContent = (lang === 'ru' ? 'Закрыть' : 'Close') + ' ✕';
+      input.setAttribute('placeholder', lang === 'ru' ? 'Марс, гравитационный манёвр, Хаббл…' : 'Mars, gravity assist, Hubble…');
+    }
+    function score(x, words) {
+      var e = (extra && extra[x.page.slug]) || {};
+      var title = fold([x.page.codename, pick(x.page.label, 'en'), pick(x.page.label, 'ru')].join(' '));
+      var cat = fold(pick(x.cat.title, 'en') + ' ' + pick(x.cat.title, 'ru'));
+      var heads = (e.h || []).concat(e.hr || []);
+      var body = fold(e.d) + ' ' + fold(heads.join(' | '));
+      var total = 0, snip = '';
+      for (var i = 0; i < words.length; i++) {
+        var w = words[i], s = 0;
+        if (title.indexOf(w) > -1) s = 10;
+        else if (cat.indexOf(w) > -1) s = 6;
+        else if (body.indexOf(w) > -1) s = 2;
+        if (!s) return null;               // every word has to match somewhere
+        total += s;
+        if (!snip) for (var j = 0; j < heads.length; j++) if (fold(heads[j]).indexOf(w) > -1) { snip = heads[j]; break; }
+      }
+      return { x: x, s: total, snip: snip };
+    }
+    function show(i) {
+      var items = list.querySelectorAll('[role="option"]');
+      [].forEach.call(items, function (n, k) { n.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+      active = i;
+      if (items[i]) { input.setAttribute('aria-activedescendant', items[i].id); if (items[i].scrollIntoView) items[i].scrollIntoView({ block: 'nearest' }); }
+      else input.removeAttribute('aria-activedescendant');
+    }
+    function run() {
+      var q = fold(input.value).trim();
+      var words = q.split(/\s+/).filter(Boolean);
+      list.textContent = '';
+      hits = !words.length ? [] : all.map(function (x) { return score(x, words); }).filter(Boolean)
+        .sort(function (a, b) { return b.s - a.s; });
+      hits.forEach(function (h, i) {
+        var a = el('a', { href: href(h.x.page.slug), tabindex: '-1' }, [
+          el('span', { 'class': 'cn', text: h.x.page.codename || '' }),
+          el('span', { 'class': 'cl' }, [
+            el('span', { 'class': 'ss-t', text: pick(h.x.page.label, lang) }),
+            el('span', { 'class': 'ss-c', text: pick(h.x.cat.title, lang) + (h.snip ? ' · ' + h.snip : '') })
+          ])
+        ]);
+        list.appendChild(el('li', { role: 'option', id: 'ss-o' + i, 'aria-selected': 'false' }, [a]));
+      });
+      status.textContent = !words.length ? '' : hits.length
+        ? (lang === 'ru' ? 'Найдено: ' + hits.length : hits.length + (hits.length === 1 ? ' guide' : ' guides'))
+        : (lang === 'ru' ? 'Ничего не найдено' : 'No guide matches');
+      show(hits.length ? 0 : -1);
+    }
+    var btn = document.querySelector('.site-search-btn');
+    function name() {
+      if (!btn) return;
+      var t = lang === 'ru' ? 'Поиск' : 'Search';
+      btn.setAttribute('aria-label', t);
+      var sp = btn.querySelector('.ssb-t'); if (sp) sp.textContent = t;
+    }
+    function setOpen(open) {
+      dlg.hidden = !open;
+      if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+      if (open) { lang = currentLang(); texts(); input.focus(); input.select(); load().then(run); }
+      else if (btn) btn.focus();
+    }
+    texts();
+    if (btn) btn.addEventListener('click', function () { setOpen(dlg.hidden); });
+    close.addEventListener('click', function () { setOpen(false); });
+    input.addEventListener('input', run);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' && hits.length) { e.preventDefault(); show(Math.min(active + 1, hits.length - 1)); }
+      else if (e.key === 'ArrowUp' && hits.length) { e.preventDefault(); show(Math.max(active - 1, 0)); }
+      else if (e.key === 'Enter' && hits[active]) { e.preventDefault(); location.href = href(hits[active].x.page.slug); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !dlg.hidden) { setOpen(false); return; }
+      var t = e.target, typing = t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+      if (dlg.hidden && !typing && (e.key === '/' || ((e.metaKey || e.ctrlKey) && e.key === 'k'))) { e.preventDefault(); setOpen(true); }
+    });
+    var toggle = document.getElementById('langtoggle');
+    if (toggle) toggle.addEventListener('click', function () { setTimeout(function () { lang = currentLang(); name(); texts(); run(); }, 60); });
+    name();
+  }
+
+  /* ---- see also ----------------------------------------- */
+  function buildSeeAlso(manifest, here) {
+    var nav = document.querySelector('.page-nav');
+    if (!here || !nav) return;
+    var bySlug = {};
+    flatten(manifest).forEach(function (x) { bySlug[x.page.slug] = x; });
+    fetch(RELATED, { cache: 'default' }).then(function (r) { return r.ok ? r.json() : {}; }).then(function (rel) {
+      var list = (rel[here.page.slug] || []).map(function (s) { return bySlug[s]; }).filter(Boolean);
+      if (!list.length) return;
+      var head = el('h2', { 'class': 'sa-h', id: 'see-also' });
+      var ul = el('ul', { 'class': 'sa-list' });
+      var box = el('section', { 'class': 'see-also', 'aria-labelledby': 'see-also' }, [head, ul]);
+      function render() {
+        var lang = currentLang();
+        head.textContent = lang === 'ru' ? 'См. также' : 'See also';
+        ul.textContent = '';
+        list.forEach(function (x) {
+          ul.appendChild(el('li', null, [el('a', { href: href(x.page.slug) }, [
+            el('span', { 'class': 'cn', text: x.page.codename || '' }),
+            el('span', { 'class': 'cl', text: pick(x.page.label, lang) }),
+            el('span', { 'class': 'sa-c', text: pick(x.cat.title, lang) })
+          ])]));
+        });
+      }
+      render();
+      nav.insertBefore(box, nav.firstChild);
+      var toggle = document.getElementById('langtoggle');
+      if (toggle) toggle.addEventListener('click', function () { setTimeout(render, 60); });
+    }).catch(function () {});
+  }
+
   function structuredData(manifest, here) {
     var lang = currentLang();
     var url = location.origin + location.pathname;
@@ -277,6 +429,8 @@
         var here = flatten(manifest).filter(function (x) { return x.page.slug === slug || x.page.slug === slug + '/'; })[0] || null;
         buildOverlay(manifest, here);
         buildPageNav(manifest, here);
+        buildSeeAlso(manifest, here);
+        buildSearch(manifest, here);
         structuredData(manifest, here);
       })
       .catch(function () { /* navigation stays minimal; page is unaffected */ });

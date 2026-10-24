@@ -22,7 +22,9 @@ Older guides (before Wave 1, PARABOLA included) are hand-authored and have no so
 | `wire.py` | adds a page to `pages.json`, `index.html` and `llms.txt` (and can create a new category) |
 | `test.js` | jsdom smoke test: script errors, missing `data-ru`, citation numbers vs reference count, then `checks.js` |
 | `check-all.sh` | rebuild every article, fail on drift from the committed page, run every test |
-| `shot.sh` | headless-Firefox full-page screenshot, tiled into `shots/` (git-ignored) |
+| `shot.sh` | headless-Firefox full-page screenshot, tiled into `shots/` (git-ignored); optional 3rd arg = window height (default 28000) |
+| `search-index.py` | writes `/search.json` (descriptions + chapter titles, EN/RU) for the site search and checks `/related.json`; `wire.py` runs it |
+| `freshness.json` | dated claims with review-by dates; `.github/workflows/freshness.yml` opens an issue on the 1st of each month for overdue rows |
 
 ## Adding a guide
 
@@ -33,6 +35,7 @@ python3 assemble.py articles/<slug>          # writes ../<slug>.html
 ./check-all.sh <slug>                        # must end in ALL OK
 python3 -m http.server 8790 --directory ../.. &   # server one level above the repo
 ./shot.sh <slug> 1300 && ./shot.sh <slug> 390     # look at every tile
+# add the guide to ../related.json (3–4 related slugs) and link it from 2–3 neighbours, then:
 python3 wire.py <slug> CODENAME "Label EN" "Label RU" <category-id> "llms.txt one-liner"
 #   new category: append  "Title EN" "Title RU" <id-of-category-it-goes-before>
 ```
@@ -40,6 +43,8 @@ python3 wire.py <slug> CODENAME "Label EN" "Label RU" <category-id> "llms.txt on
 Then commit and push (`git pull --rebase` first). The GitHub Action regenerates `sitemap.xml` from `pages.json`;
 never edit the sitemap by hand. Also update the homepage aero-shader card count/missions in
 `followorbounce.github.io`, and `progress.md`.
+
+- Dated claims ("as of …") go in the guide's NOTES `## Freshness` and in `freshness.json`.
 
 ## Rules the past waves learned the hard way
 
@@ -50,7 +55,7 @@ never edit the sitemap by hand. Also update the homepage aero-shader card count/
 - Kepler's equation: Newton from E = M diverges at e ≈ 0.98; use bisection or start at E = π.
 - Screenshots must go through the local server (file:// silently breaks CSS custom properties). Don't kill or
   drive the desktop's own Firefox; `shot.sh` uses a throwaway profile and `--screenshot` only.
-- `#hero` is `min-height:100svh`; `shot.sh` overrides that in a temporary copy so tall captures work.
+- `#hero` is `min-height:100svh`; `shot.sh` overrides that in a temporary copy so tall captures work. Long guides pass 20,000 px at 390 wide — the old 14,000 px window cut them off.
 - The lede's "N chapters" counts **every** numbered chapter, LEGACY and REFERENCES included (all generated guides
   do this). Older hand-made pages used a different count; don't copy theirs.
 - Each guide's folder keeps `NOTES.md` (purpose, assumptions, sources per number, unverified items) and, from

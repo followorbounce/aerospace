@@ -1,0 +1,6 @@
+[
+ ["1960-04-01", "TIROS-1", "leo", "", "forecast-weather-satellites", "The first weather satellite: two small TV cameras sent down the first pictures of clouds from orbit.", "TIROS-1", "Первый метеоспутник: две маленькие телекамеры передали первые снимки облаков с орбиты."],
+ ["1966-12-07", "ATS-1", "leo", "", "forecast-weather-satellites", "Its spin-scan camera took the first full-disk picture of Earth from geostationary orbit four days later.", "ATS-1", "Через четыре дня его камера со сканированием вращением сделала первый снимок всего диска Земли с геостационарной орбиты."],
+ ["1975-10-16", "GOES-1", "leo", "", "forecast-weather-satellites", "The first Geostationary Operational Environmental Satellite, watching the weather from one fixed spot.", "GOES-1", "Первый геостационарный оперативный спутник наблюдения за окружающей средой следит за погодой из одной неподвижной точки."],
+ ["1977-11-23", "Meteosat-1", "leo", "", "forecast-weather-satellites", "Europe's first weather satellite, scanning the full disc of the Earth every 30 minutes.", "«Метеосат-1»", "Первый европейский метеоспутник, снимавший весь диск Земли каждые 30 минут."]
+]

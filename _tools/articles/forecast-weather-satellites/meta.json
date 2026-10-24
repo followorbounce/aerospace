@@ -1,0 +1,11 @@
+{
+ "slug": "forecast-weather-satellites",
+ "title_en": "FORECAST — TIROS, GOES, METEOSAT & WEATHER FROM ORBIT",
+ "title_ru": "ПРОГНОЗ — TIROS, GOES, «МЕТЕОСАТ» И ПОГОДА С ОРБИТЫ",
+ "description": "An interactive field guide to weather satellites: TIROS-1's first cloud picture in 1960, Nimbus and the Soviet Meteor system, ATS-1's spin-scan camera and the first full-disk image, GOES and Meteosat, today's GOES-19, Meteosat Third Generation, Himawari and Fengyun; how often geostationary and polar orbiters look at each latitude, why a 2 km pixel grows to 6 km at 60° north, and how Planck's law turns a cloud top's infrared glow into its temperature and height.",
+ "og": "From TIROS-1's 1960 cloud picture to GOES-19's 10-minute full disk: geostationary vs polar coverage, ABI pixel stretch computed on the real fixed grid, and brightness temperature to cloud-top height, interactive and checked against NOAA, EUMETSAT and ECMWF data.",
+ "brand": "FORECAST — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "FIRST PICTURE",
+ "hud1": "PIXEL STRETCH",
+ "hud2": "POLAR GAP"
+}

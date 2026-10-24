@@ -135,3 +135,17 @@ Same process as Wave 5: one author team per guide → independent review panel (
 
 ## 2026-10-16 — Index infrastructure
 - added missing canonical URL, description where absent, Open Graph and twitter:card tags. The host-level robots.txt / sitemap index / llms.txt live in followorbounce.github.io.
+
+## 2026-10-22/23 — Phase 1 (find & connect) + Wave 7 (78 → 83 guides)
+- **Search**: Search button (magnifier on phones), `/` or Ctrl/Cmd+K on every page; EN/RU, folds case/accents/ё; looks through codenames, labels, categories (pages.json) and descriptions + chapter titles (`search.json`, from `_tools/search-index.py`). "mars"/"марс" → 10 guides.
+- **See also**: 3–4 related guides at the end of every guide (`related.json`, the one place they're edited; checked by search-index.py, which wire.py now runs).
+- **Freshness register**: `_tools/freshness.json` (41 rows) + monthly `.github/workflows/freshness.yml` issue. Acted on the overdue RIPPLE item: LVK plan updated 16 Oct 2026 moved IR1 to mid-January 2027.
+- **Wave 7** (author → independent review panel → MUST fixes applied, all APPROVE WITH CHANGES; REVIEW.md in each folder):
+  - **RELAY** `relay-telstar-syncom` (orbit): Kepler III to 35,786 km, Telstar 1's real passes (SGP4-checked) vs a fixed GEO dish, Syncom figure eight, Molniya 63.4°, GEO footprint/latency. 59 checks.
+  - **SWARM** `swarm-megaconstellations` (orbit): coverage counts (Iridium 6 × 11 = 66), LEO/GEO/fibre latency, Rubin streak simulator with Earth-shadow geometry; fleet counts as of 15 Oct 2026. 55 checks.
+  - **FORECAST** `forecast-weather-satellites` (orbit): polar vs GEO revisit, ABI pixel growth on the real GOES fixed grid (75.0° W centre from GOES-19 file headers), Planck cloud-top inversion. 50 checks.
+  - **BUCKET** `bucket-corona-spy-satellites` (orbit): CORONA recovery model, KH-1…KH-4B resolution (USGS vs CIA figures shown), panoramic swath, perigee/lifetime trade, Zenit. 63 checks.
+  - **PASSENGER** `passenger-animals-in-space` (dawn): Sputnik 2 cabin heat model (labelled as a model), Ham's ballistic arc (14.6 g), flight/question matrix; every animal death stated. 57 checks.
+- mission-of-day.js: +17 missions (108). Earth orbit now 7 guides, Dawn 3.
+- shot.sh takes a window height (default 28000): long guides exceed 20,000 px at 390 wide.
+- Open SHOULD items are listed at the end of each guide's REVIEW.md (e.g. SWARM shell table scrolls at 390; BUCKET flat-Earth edge stretch; PASSENGER matrix screen-reader text).

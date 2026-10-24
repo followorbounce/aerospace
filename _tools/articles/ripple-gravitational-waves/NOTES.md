@@ -79,3 +79,6 @@
 - An ESA statement for the LISA caveat: none found; cited the trade report that quotes ESA.
 
 **Screenshots:** 1300 and 390 px after the final edit; no overlaps or clipping left in the instruments. `check-all.sh ripple-gravitational-waves` → ALL OK (58 checks); `node --check` on the inline script OK.
+
+## 2026-10-22 — freshness
+- LVK plan page updated 16 Oct 2026: IR1 moved from November 2026 to mid-January 2027; status, note, timeline and ref 19 updated. Next page update due 15 Nov 2026 (in ../../freshness.json).

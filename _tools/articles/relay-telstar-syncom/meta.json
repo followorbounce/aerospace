@@ -1,0 +1,11 @@
+{
+ "slug": "relay-telstar-syncom",
+ "title_en": "RELAY — TELSTAR, SYNCOM & THE GEOSTATIONARY IDEA",
+ "title_ru": "РЕТРАНСЛЯТОР — «ТЕЛСТАР», «СИНКОМ» И ГЕОСТАЦИОНАРНАЯ ОРБИТА",
+ "description": "An interactive field guide to communications satellites: Potočnik's and Clarke's orbit that keeps pace with the turning Earth, Echo 1's 30-metre balloon, Telstar's 12-to-44-minute passes over Andover and the radiation that killed it, Syncom 2's figure eight and Syncom 3's Tokyo Olympics, Early Bird, the Soviet Molniya orbit at 63.4°, and the crowded geostationary belt of today, with its 0.24-second delay.",
+ "og": "Why 35,786 km? One sidereal day from Kepler's third law, Telstar's real passes over Andover against a dish that never moves, Syncom's figure eight, Molniya's 63.4° and the geostationary belt's footprint and delay, interactive and checked against NASA, ESA and CelesTrak data.",
+ "brand": "RELAY — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE IDEA",
+ "hud1": "ALTITUDE",
+ "hud2": "PERIOD"
+}

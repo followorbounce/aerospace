@@ -1,5 +1,5 @@
 """wire.py slug codename label_en label_ru cat_id llms_line [cat_title_en cat_title_ru before_cat_id]"""
-import json, sys, re, html, os
+import sys, json, re, html, os
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 slug, code, en, ru, cat, llms = sys.argv[1:7]
 newcat = sys.argv[7:10] if len(sys.argv) > 7 else None
@@ -58,3 +58,6 @@ if f'/aerospace/{slug})' not in ll:
     open(R + 'llms.txt', 'w').write(ll)
 # sitemap.xml is regenerated from pages.json by the repo's GitHub Action (.github/workflows/sitemap.yml) — don't edit it
 print('wired', slug)
+# search.json follows pages.json; related.json needs an entry for the new guide (search-index.py says so if not)
+import subprocess
+subprocess.run([sys.executable, R + '_tools/search-index.py'])

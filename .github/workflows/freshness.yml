@@ -1,0 +1,35 @@
+name: Freshness register
+
+# Opens (or updates) one issue listing every dated claim in _tools/freshness.json that is past its review date.
+on:
+  schedule:
+    - cron: '0 9 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: List overdue claims
+        id: due
+        run: |
+          today=$(date -u +%F)
+          jq -r --arg t "$today" '.items[] | select(.review_by <= $t)
+            | "- [ ] **\(.page)** (due \(.review_by)): \(.claim)\n  source: \(.source)"' _tools/freshness.json > overdue.md
+          echo "count=$(grep -c '^- \[ \]' overdue.md || true)" >> "$GITHUB_OUTPUT"
+      - name: Open or update the issue
+        if: steps.due.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          title="Freshness: dated claims to re-check"
+          { echo "These claims in the guides are past their review date (from \`_tools/freshness.json\`)."
+            echo; cat overdue.md; echo
+            echo "Re-check each source, update the guide's sources (then \`assemble.py\` + \`check-all.sh\`), and move \`review_by\` forward or delete the row."; } > body.md
+          n=$(gh issue list --state open --search "\"$title\" in:title" --json number -q '.[0].number')
+          if [ -n "$n" ]; then gh issue edit "$n" --body-file body.md; else gh issue create --title "$title" --body-file body.md; fi
