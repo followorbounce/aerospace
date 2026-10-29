@@ -149,3 +149,6 @@ Same process as Wave 5: one author team per guide → independent review panel (
 - mission-of-day.js: +17 missions (108). Earth orbit now 7 guides, Dawn 3.
 - shot.sh takes a window height (default 28000): long guides exceed 20,000 px at 390 wide.
 - Open SHOULD items are listed at the end of each guide's REVIEW.md (e.g. SWARM shell table scrolls at 390; BUCKET flat-Earth edge stretch; PASSENGER matrix screen-reader text).
+
+## 2026-10-28 — Reach plan F4: structured data
+Article + breadcrumbs on 83 guides, WebSite on the front (engine/structured_data.py).
