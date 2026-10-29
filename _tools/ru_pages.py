@@ -23,6 +23,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SITE = 'https://followorbounce.github.io/aerospace/'
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}
+INDEX_DESC_RU = ('Независимая двуязычная коллекция интерактивных технических справочников по истории и инженерии космонавтики: '
+                 'орбитальные станции, межпланетные зонды, исследование Луны и Марса, космические телескопы и пилотируемые полёты.')
 HL_START, HL_END = '<!-- hreflang -->', '<!-- /hreflang -->'
 
 
@@ -107,6 +109,8 @@ def russian(src, slug, site, label, slugs):
     lede = re.search(r'<(?:p|div)[^>]*class="[^"]*\blede\b[^"]*"[^>]*\bdata-ru="([^"]*)"', src) or \
         re.search(r'<p[^>]*\bdata-ru="([^"]{80,})"', src)
     desc = clip(plain(html.unescape(lede.group(1)))) if lede else t_ru
+    if not slug:                                   # the index has no hero lede: its English description, in Russian
+        desc = INDEX_DESC_RU
 
     h = re.sub(r'<html lang="[^"]*"', '<html lang="ru" data-edition="ru"', h, count=1)
     h = re.sub(r'<title>.*?</title>', '<title>%s</title>' % html.escape(t_ru, quote=False), h, count=1, flags=re.S)
