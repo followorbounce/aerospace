@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ru" data-edition="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>«Телстар», «Синком» и геостационарная орбита — Аэрокосмический справочник</title>
+<meta name="description" content="В июле 1962 года первые прямые телевизионные изображения пересекли Атлантику через спутник — окнами примерно по восемнадцать минут, пока «Телстар» был над горизонтом и для Америки, и для Европы.…">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/ru/relay-telstar-syncom">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="«Телстар», «Синком» и геостационарная орбита — Аэрокосмический справочник">
+<meta property="og:description" content="В июле 1962 года первые прямые телевизионные изображения пересекли Атлантику через спутник — окнами примерно по восемнадцать минут, пока «Телстар» был над горизонтом и для Америки, и для Европы.…">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/ru/relay-telstar-syncom">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* RELAY: 44 px touch targets, readable small SVG text, stacked map + chart */
+.btn{min-height:44px; min-width:44px; padding:10px 12px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+.svg-small{fill:#5f5f59; font-size:10.5px;}
+.svg-tiny{fill:#5f5f59; font-size:9px;}
+.svg-halo{paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round;}
+.fig-stack{display:flex; flex-direction:column; gap:14px; min-width:0;}
+@media (max-width:520px){ .svg-small{font-size:13px;} .svg-tiny{font-size:11px;} .svg-label{font-size:14px;} }
+@media (pointer:coarse){
+  input[type=range]{background:transparent;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+.grid-2 + p.body-col, p.body-col + .sim-wrap{margin-top:20px;}
+.note + .grid-2{margin-top:28px;}
+.sim-wrap + .grid-2{margin-top:28px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/relay-telstar-syncom">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/relay-telstar-syncom">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/relay-telstar-syncom">
+<!-- /hreflang -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"«Телстар», «Синком» и геостационарная орбита","description":"В июле 1962 года первые прямые телевизионные изображения пересекли Атлантику через спутник — окнами примерно по восемнадцать минут, пока «Телстар» был над горизонтом и для Америки, и для Европы.…","url":"https://followorbounce.github.io/aerospace/ru/relay-telstar-syncom","mainEntityOfPage":"https://followorbounce.github.io/aerospace/ru/relay-telstar-syncom","image":"","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Аэрокосмический справочник","url":"https://followorbounce.github.io/aerospace/ru/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Аэрокосмический справочник","item":"https://followorbounce.github.io/aerospace/ru/"},{"@type":"ListItem","position":2,"name":"«Телстар», «Синком» и геостационарная орбита","item":"https://followorbounce.github.io/aerospace/ru/relay-telstar-syncom"}]}</script>
+<!-- /fob-ld -->
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">RELAY — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="">EN</button>
+    <button data-lang="ru" class="active">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE IDEA</span></div>
+  <div class="hud-row"><span class="hud-label">ALTITUDE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">PERIOD</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE IDEA">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/ru/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← ОГЛАВЛЕНИЕ</span></a> — <span data-en="FIG. 00 — 35,786 KM · 23 H 56 MIN 4 S · 0°" data-ru="РИС. 00 — 35 786 КМ · 23 Ч 56 МИН 4 С · 0°">РИС. 00 — 35 786 КМ · 23 Ч 56 МИН 4 С · 0°</span></span>
+        <span>T² = 4π² a³ / GM</span>
+      </div>
+      <h1><span data-en="RELAY" data-ru="РЕТРАНСЛЯТОР">РЕТРАНСЛЯТОР</span><br><em data-en="TELSTAR, SYNCOM &amp; THE GEOSTATIONARY IDEA" data-ru="«ТЕЛСТАР», «СИНКОМ» И ГЕОСТАЦИОНАРНАЯ ОРБИТА">«ТЕЛСТАР», «СИНКОМ» И ГЕОСТАЦИОНАРНАЯ ОРБИТА</em></h1>
+      <p class="sub lede" data-en="In July 1962 the first live television pictures crossed the Atlantic by satellite — in windows of about eighteen minutes, while Telstar was above the horizon for both America and Europe. Two years later Syncom 3 hung over the Pacific without moving at all and carried the Tokyo Olympics. The difference is one number: 35,786 km, the height at which an orbit takes exactly as long as the Earth takes to turn. Eight chapters and five instruments: find that height from Kepler's law, watch Telstar's real passes against a dish that never moves, tilt a synchronous orbit into a figure eight, see why the Soviet Union chose a different orbit, and measure the footprint and the delay of the geostationary belt." data-ru="В июле 1962 года первые прямые телевизионные изображения пересекли Атлантику через спутник — окнами примерно по восемнадцать минут, пока «Телстар» был над горизонтом и для Америки, и для Европы. Через два года «Синком-3» неподвижно висел над Тихим океаном и передавал Олимпиаду в Токио. Разница — одно число: 35 786 км, высота, на которой виток длится ровно столько же, сколько оборот Земли. Восемь глав и пять приборов: найдите эту высоту по закону Кеплера, посмотрите реальные пролёты «Телстара» рядом с антенной, которая никогда не двигается, наклоните синхронную орбиту и получите восьмёрку, узнайте, почему Советский Союз выбрал другую орбиту, и измерьте зону обзора и задержку сигнала геостационарного пояса.">В июле 1962 года первые прямые телевизионные изображения пересекли Атлантику через спутник — окнами примерно по восемнадцать минут, пока «Телстар» был над горизонтом и для Америки, и для Европы. Через два года «Синком-3» неподвижно висел над Тихим океаном и передавал Олимпиаду в Токио. Разница — одно число: 35 786 км, высота, на которой виток длится ровно столько же, сколько оборот Земли. Восемь глав и пять приборов: найдите эту высоту по закону Кеплера, посмотрите реальные пролёты «Телстара» рядом с антенной, которая никогда не двигается, наклоните синхронную орбиту и получите восьмёрку, узнайте, почему Советский Союз выбрал другую орбиту, и измерьте зону обзора и задержку сигнала геостационарного пояса.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">НАЧАТЬ — ГЛАВА 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE IDEA -->
+<section id="ch1" class="section" data-phase="THE IDEA">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 08</span> — <span data-en="A TOWER THAT ISN'T THERE" data-ru="БАШНЯ, КОТОРОЙ НЕТ">БАШНЯ, КОТОРОЙ НЕТ</span></div>
+    <h2 class="h-lg" data-en="An orbit that turns with the Earth" data-ru="Орбита, которая поворачивается вместе с Землёй">Орбита, которая поворачивается вместе с Землёй</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The farther out a satellite orbits, the longer it takes to go around. Somewhere the period must equal one turn of the Earth, and a satellite there, above the equator, would hang over one spot as if it stood on top of an invisible tower. Herman Potočnik, writing as Hermann Noordung in a book dated 1929, put his space station exactly there: 42,300 km from Earth's centre, moving at 3,080 m/s, “precisely 35,900 km above the Earth's surface” — and imagined it talking to the ground by short-wave radio [1]." data-ru="Чем дальше орбита спутника, тем дольше длится виток. Где-то период должен сравняться с одним оборотом Земли, и спутник там, над экватором, будет висеть над одной точкой, словно на вершине невидимой башни. Герман Поточник, писавший под именем Германа Нордунга, в книге, датированной 1929 годом, поместил свою космическую станцию именно туда: 42 300 км от центра Земли, скорость 3080 м/с, «ровно 35 900 км над поверхностью Земли» — и представлял, как она связывается с Землёй на коротких волнах [1].">Чем дальше орбита спутника, тем дольше длится виток. Где-то период должен сравняться с одним оборотом Земли, и спутник там, над экватором, будет висеть над одной точкой, словно на вершине невидимой башни. Герман Поточник, писавший под именем Германа Нордунга, в книге, датированной 1929 годом, поместил свою космическую станцию именно туда: 42 300 км от центра Земли, скорость 3080 м/с, «ровно 35 900 км над поверхностью Земли» — и представлял, как она связывается с Землёй на коротких волнах [1].</p>
+      <p class="body-col" data-en="In October 1945 Arthur C. Clarke turned the idea into an engineering proposal in <i>Wireless World</i>: an orbit “with a radius of 42,000 km, has a period of exactly 24 hours”; one station would cover half the globe, and three — over 30° E, 150° E and 90° W — the whole world, with about 1.2 kW for broadcasting [2]. Neither man had a rocket that could get there. The rest of this guide is the twenty years it took to build one, and the detours on the way." data-ru="В октябре 1945 года Артур Кларк превратил эту идею в инженерное предложение в журнале <i>Wireless World</i>: орбита «радиусом 42 000 км имеет период ровно 24 часа»; одна станция покрыла бы полушарие, а три — над 30° в. д., 150° в. д. и 90° з. д. — весь мир, при мощности для вещания около 1,2 кВт [2]. Ни у того, ни у другого не было ракеты, способной туда долететь. Остальная часть справочника — двадцать лет, ушедших на то, чтобы её построить, и обходные пути.">В октябре 1945 года Артур Кларк превратил эту идею в инженерное предложение в журнале <i>Wireless World</i>: орбита «радиусом 42 000 км имеет период ровно 24 часа»; одна станция покрыла бы полушарие, а три — над 30° в. д., 150° в. д. и 90° з. д. — весь мир, при мощности для вещания около 1,2 кВт [2]. Ни у того, ни у другого не было ракеты, способной туда долететь. Остальная часть справочника — двадцать лет, ушедших на то, чтобы её построить, и обходные пути.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="KEPLER'S THIRD LAW, SOLVED FOR ONE TURN OF THE EARTH" data-ru="ТРЕТИЙ ЗАКОН КЕПЛЕРА, РЕШЁННЫЙ ДЛЯ ОДНОГО ОБОРОТА ЗЕМЛИ">ТРЕТИЙ ЗАКОН КЕПЛЕРА, РЕШЁННЫЙ ДЛЯ ОДНОГО ОБОРОТА ЗЕМЛИ</div>
+      <div class="eq-body">a = (GM T² / 4π²)<sup>1/3</sup> &nbsp;·&nbsp; T = 2π / ω<sub>⊕</sub> = 86,164.1 s &nbsp;→&nbsp; a = <span id="eqA">42,164.2</span> km</div>
+      <div class="eq-note" data-en="GM = 398,600.4418 km³/s² and Earth's rotation rate ω = 7.292115 × 10⁻⁵ rad/s (IERS conventions [16]); subtract the equatorial radius 6,378.137 km [17] to get the altitude, 35,786 km. The period is one sidereal day — one turn relative to the stars, 23 h 56 min 4 s [15] — not the 24-hour solar day: while Earth turns once, it also moves along its orbit, so the Sun takes four minutes longer to come back." data-ru="GM = 398 600,4418 км³/с² и угловая скорость вращения Земли ω = 7,292115 × 10⁻⁵ рад/с (соглашения IERS [16]); вычтите экваториальный радиус 6378,137 км [17] и получите высоту 35 786 км. Период — звёздные сутки, один оборот относительно звёзд, 23 ч 56 мин 4 с [15], а не 24-часовые солнечные: за время оборота Земля ещё и сдвигается по своей орбите, и Солнце возвращается на четыре минуты позже.">GM = 398 600,4418 км³/с² и угловая скорость вращения Земли ω = 7,292115 × 10⁻⁵ рад/с (соглашения IERS [16]); вычтите экваториальный радиус 6378,137 км [17] и получите высоту 35 786 км. Период — звёздные сутки, один оборот относительно звёзд, 23 ч 56 мин 4 с [15], а не 24-часовые солнечные: за время оборота Земля ещё и сдвигается по своей орбите, и Солнце возвращается на четыре минуты позже.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — ONE SIDEREAL DAY -->
+<section id="ch2" class="section" data-phase="KEPLER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 08</span> — <span data-en="ONE SIDEREAL DAY" data-ru="ОДНИ ЗВЁЗДНЫЕ СУТКИ">ОДНИ ЗВЁЗДНЫЕ СУТКИ</span></div>
+    <h2 class="h-lg" data-en="Higher is slower" data-ru="Чем выше, тем медленнее">Чем выше, тем медленнее</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A low satellite laps the Earth every hour and a half and races across the sky. Raise it and the period grows as the 3/2 power of the orbit's size, while the speed drops. Slide the altitude: below 35,786 km a satellite outruns the turning Earth and drifts east over the ground; above, it falls behind and drifts west. Only at one height does the drift stop." data-ru="Низкий спутник облетает Землю за полтора часа и проносится по небу. Поднимите его — и период растёт как степень 3/2 от размера орбиты, а скорость падает. Двигайте высоту: ниже 35 786 км спутник обгоняет вращающуюся Землю и смещается над ней к востоку, выше — отстаёт и смещается к западу. Смещение исчезает только на одной высоте.">Низкий спутник облетает Землю за полтора часа и проносится по небу. Поднимите его — и период растёт как степень 3/2 от размера орбиты, а скорость падает. Двигайте высоту: ниже 35 786 км спутник обгоняет вращающуюся Землю и смещается над ней к востоку, выше — отстаёт и смещается к западу. Смещение исчезает только на одной высоте.</p>
+      <p class="body-col" data-en="The early communication satellites sit on the same curve. For an elliptical orbit, use the average of the lowest and highest points: Echo 1's 1,524 × 1,684 km orbit takes 118.3 minutes [3], Telstar's 954 × 5,637 km about 158 [4], Relay 1's 1,322 × 7,439 km 185 [7]. The markers below are computed from those altitudes; the published periods agree to within a tenth of a minute." data-ru="Первые спутники связи лежат на той же кривой. Для эллиптической орбиты берите среднее самой низкой и самой высокой точек: орбита «Эхо-1» 1524 × 1684 км длится 118,3 минуты [3], «Телстара» 954 × 5637 км — около 158 [4], «Релея-1» 1322 × 7439 км — 185 [7]. Метки ниже рассчитаны по этим высотам; опубликованные периоды совпадают с точностью до десятой доли минуты.">Первые спутники связи лежат на той же кривой. Для эллиптической орбиты берите среднее самой низкой и самой высокой точек: орбита «Эхо-1» 1524 × 1684 км длится 118,3 минуты [3], «Телстара» 954 × 5637 км — около 158 [4], «Релея-1» 1322 × 7439 км — 185 [7]. Метки ниже рассчитаны по этим высотам; опубликованные периоды совпадают с точностью до десятой доли минуты.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="pdSvg" class="sim-svg" viewBox="0 0 480 300" role="img" data-aria-en="Orbital period against altitude on logarithmic axes, with a line at one sidereal day and markers for Echo 1, Telstar, Relay 1, Molniya and the geostationary orbit" data-aria-ru="Период обращения в зависимости от высоты в логарифмическом масштабе, с линией одних звёздных суток и метками «Эхо-1», «Телстара», «Релея-1», «Молнии» и геостационарной орбиты" aria-label="Orbital period against altitude"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset orbits" data-aria-en="Preset orbits" data-aria-ru="Готовые орбиты" id="pdPre">
+          <button class="btn" data-h="1604" aria-pressed="false" data-en="ECHO 1" data-ru="«ЭХО-1»">«ЭХО-1»</button>
+          <button class="btn" data-h="3295.5" aria-pressed="false" data-en="TELSTAR" data-ru="«ТЕЛСТАР»">«ТЕЛСТАР»</button>
+          <button class="btn" data-h="20183.6" aria-pressed="false" data-en="MOLNIYA" data-ru="«МОЛНИЯ»">«МОЛНИЯ»</button>
+          <button class="btn active" data-h="35786.04" aria-pressed="true" data-en="GEO" data-ru="ГСО">ГСО</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="pdH" data-en="ALTITUDE (CIRCULAR ORBIT)" data-ru="ВЫСОТА (КРУГОВАЯ ОРБИТА)">ВЫСОТА (КРУГОВАЯ ОРБИТА)</label><span class="v" id="pdHVal">—</span></div>
+          <input id="pdH" type="range" min="2.2" max="5" step="0.001" value="4.553712">
+        </div>
+        <div class="readout-grid" id="pdReadout"></div>
+        <div class="status" id="pdStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Altitude is measured from the equatorial radius. Ground drift is the change in the longitude below a circular equatorial orbit per 24 hours, ignoring Earth's bulge, which shifts it slightly." data-ru="Высота отсчитывается от экваториального радиуса. Смещение над Землёй — изменение долготы под круговой экваториальной орбитой за 24 часа, без учёта сжатия Земли, которое его слегка меняет.">Высота отсчитывается от экваториального радиуса. Смещение над Землёй — изменение долготы под круговой экваториальной орбитой за 24 часа, без учёта сжатия Земли, которое его слегка меняет.</p>
+  </div>
+</section>
+
+<!-- CH3 — ECHO AND TELSTAR -->
+<section id="ch3" class="section" data-phase="TELSTAR">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 08</span> — <span data-en="ECHO AND TELSTAR" data-ru="«ЭХО» И «ТЕЛСТАР»">«ЭХО» И «ТЕЛСТАР»</span></div>
+    <h2 class="h-lg" data-en="Eighteen minutes at a time" data-ru="По восемнадцать минут">По восемнадцать минут</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The first relay in orbit carried no electronics at all. Echo 1, launched on 12 August 1960, was a 30.48 m balloon of Mylar film 0.0127 mm thick that simply reflected radio signals between ground stations [3]. A mirror is cheap, but it throws away almost everything: the signal spreads out on the way up <i>and</i> again on the way down. Telstar 1, built by AT&amp;T's Bell Laboratories and launched on 10 July 1962, was an active repeater — a 34.5-inch, 171-pound sphere covered in solar cells [4] that amplified what it heard about ten billion times before sending it back [5]." data-ru="Первый ретранслятор на орбите вообще не нёс электроники. «Эхо-1», запущенный 12 августа 1960 года, был шаром диаметром 30,48 м из майларовой плёнки толщиной 0,0127 мм и просто отражал радиосигналы между наземными станциями [3]. Зеркало дёшево, но теряет почти всё: сигнал рассеивается и по пути вверх, <i>и</i> снова по пути вниз. «Телстар-1», построенный в Bell Laboratories компании AT&amp;T и запущенный 10 июля 1962 года, был активным ретранслятором — шаром диаметром 34,5 дюйма и массой 171 фунт, покрытым солнечными элементами [4], который усиливал принятый сигнал примерно в десять миллиардов раз и отправлял обратно [5].">Первый ретранслятор на орбите вообще не нёс электроники. «Эхо-1», запущенный 12 августа 1960 года, был шаром диаметром 30,48 м из майларовой плёнки толщиной 0,0127 мм и просто отражал радиосигналы между наземными станциями [3]. Зеркало дёшево, но теряет почти всё: сигнал рассеивается и по пути вверх, <i>и</i> снова по пути вниз. «Телстар-1», построенный в Bell Laboratories компании AT&T и запущенный 10 июля 1962 года, был активным ретранслятором — шаром диаметром 34,5 дюйма и массой 171 фунт, покрытым солнечными элементами [4], который усиливал принятый сигнал примерно в десять миллиардов раз и отправлял обратно [5].</p>
+      <p class="body-col" data-en="Telstar flew a tilted, elliptical orbit, 593 × 3,503 miles (954 × 5,637 km) [4]. To catch it, AT&amp;T built at Andover, Maine, a horn antenna seven stories tall and weighing 340 tons, steered inside a radome 160 feet high [5]; its twin stood at Pleumeur-Bodou in Brittany [22]. On 11 July the first transatlantic television signal reached France [5], and on 23 July the first public live broadcast went out [6] — usable for only about 18 minutes at a time, while Telstar was in view of both sides of the ocean [4]." data-ru="«Телстар» летал по наклонной эллиптической орбите 593 × 3503 мили (954 × 5637 км) [4]. Чтобы ловить его, AT&amp;T построила в Андовере (штат Мэн) рупорную антенну высотой с семиэтажный дом и массой 340 тонн, поворачивавшуюся под радиопрозрачным куполом высотой 160 футов [5]; её близнец стоял в Плёмёр-Боду в Бретани [22]. 11 июля первый трансатлантический телевизионный сигнал достиг Франции [5], а 23 июля вышла первая публичная прямая трансляция [6] — пригодная лишь примерно по 18 минут, пока «Телстар» был виден с обеих сторон океана [4].">«Телстар» летал по наклонной эллиптической орбите 593 × 3503 мили (954 × 5637 км) [4]. Чтобы ловить его, AT&T построила в Андовере (штат Мэн) рупорную антенну высотой с семиэтажный дом и массой 340 тонн, поворачивавшуюся под радиопрозрачным куполом высотой 160 футов [5]; её близнец стоял в Плёмёр-Боду в Бретани [22]. 11 июля первый трансатлантический телевизионный сигнал достиг Франции [5], а 23 июля вышла первая публичная прямая трансляция [6] — пригодная лишь примерно по 18 минут, пока «Телстар» был виден с обеих сторон океана [4].</p>
+    </div>
+    <p class="body-col" data-en="Below, Telstar's orbit is propagated through one day — 22 October 2026, UTC — from CelesTrak's elements of the day before: Telstar 1 is dead but still up there, on the same 158-minute orbit it was launched into [21]. The curves show its elevation above the horizon at Andover and at Pleumeur-Bodou; the shaded strips are the windows when both can see it. Switch to a geostationary satellite at 28° W, where Early Bird was planned to sit [10], and the curves go flat. The size and tilt of the orbit are Telstar's own, but Earth's bulge has turned it around many times since 1962, so today's pass times and lengths are not those of July 1962 — only the kind of thing the engineers faced." data-ru="Ниже орбита «Телстара» рассчитана на одни сутки — 22 октября 2026 года, UTC — по элементам CelesTrak за предыдущий день: «Телстар-1» давно не работает, но по-прежнему летает по той же 158-минутной орбите, на которую был выведен [21]. Кривые показывают его угол места над горизонтом в Андовере и в Плёмёр-Боду; закрашенные полосы — окна, когда его видят обе станции. Переключитесь на геостационарный спутник над 28° з. д., где должен был стоять «Эрли Бёрд» [10], и кривые станут прямыми. Размер и наклон орбиты — те же, что у «Телстара» в 1962 году, но сжатие Земли с тех пор много раз развернуло её, поэтому сегодняшние время и длительность пролётов — не те, что в июле 1962 года; похожа лишь сама задача, с которой столкнулись инженеры.">Ниже орбита «Телстара» рассчитана на одни сутки — 22 октября 2026 года, UTC — по элементам CelesTrak за предыдущий день: «Телстар-1» давно не работает, но по-прежнему летает по той же 158-минутной орбите, на которую был выведен [21]. Кривые показывают его угол места над горизонтом в Андовере и в Плёмёр-Боду; закрашенные полосы — окна, когда его видят обе станции. Переключитесь на геостационарный спутник над 28° з. д., где должен был стоять «Эрли Бёрд» [10], и кривые станут прямыми. Размер и наклон орбиты — те же, что у «Телстара» в 1962 году, но сжатие Земли с тех пор много раз развернуло её, поэтому сегодняшние время и длительность пролётов — не те, что в июле 1962 года; похожа лишь сама задача, с которой столкнулись инженеры.</p>
+    <div class="sim-wrap">
+      <div class="fig-stack">
+        <svg id="tsMap" class="sim-svg" viewBox="0 0 480 250" role="img" data-aria-en="World map with the ground track of the selected satellite over one day and the two ground stations" data-aria-ru="Карта мира с трассой выбранного спутника за сутки и двумя наземными станциями" aria-label="Ground track map"></svg>
+        <svg id="tsEl" class="sim-svg" viewBox="0 0 480 190" role="img" data-aria-en="Elevation above the horizon at Andover and Pleumeur-Bodou over one day, with shared visibility windows shaded" data-aria-ru="Угол места над горизонтом в Андовере и Плёмёр-Боду в течение суток; общие окна видимости закрашены" aria-label="Elevation over one day"></svg>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Satellite" data-aria-en="Satellite" data-aria-ru="Спутник" id="tsSat">
+          <button class="btn active" data-s="telstar" aria-pressed="true" data-en="TELSTAR 1" data-ru="«ТЕЛСТАР-1»">«ТЕЛСТАР-1»</button>
+          <button class="btn" data-s="geo" aria-pressed="false" data-en="GEO AT 28° W" data-ru="ГСО, 28° З. Д.">ГСО, 28° З. Д.</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="tsT" data-en="TIME (UTC, 22 OCT 2026)" data-ru="ВРЕМЯ (UTC, 22 ОКТ 2026)">ВРЕМЯ (UTC, 22 ОКТ 2026)</label><span class="v" id="tsTVal">—</span></div>
+          <input id="tsT" type="range" min="0" max="1440" step="1" value="882">
+        </div>
+        <div class="btn-row" role="group" aria-label="Animation" data-aria-en="Animation" data-aria-ru="Анимация" id="tsPlayRow">
+          <button class="btn" id="tsPlay" aria-pressed="false" data-en="▶ PLAY" data-ru="▶ ПУСК">▶ ПУСК</button>
+          <button class="btn" id="tsNext" aria-pressed="false" data-en="NEXT SHARED WINDOW →" data-ru="СЛЕДУЮЩЕЕ ОБЩЕЕ ОКНО →">СЛЕДУЮЩЕЕ ОБЩЕЕ ОКНО →</button>
+        </div>
+        <div class="readout-grid" id="tsReadout"></div>
+        <div class="status" id="tsStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: Kepler orbit with the secular drift of node and perigee from Earth's bulge (J₂), rotated into Earth-fixed coordinates by sidereal time; the stations are placed at approximately 44.63° N 70.70° W and 48.79° N 3.52° W, horizon at 0°. The pass times agree with the standard SGP4 propagator to within about a minute (checked)." data-ru="Модель: кеплерова орбита с вековым дрейфом узла и перигея из-за сжатия Земли (J₂), пересчитанная в земную систему координат по звёздному времени; станции расположены примерно в 44,63° с. ш. 70,70° з. д. и 48,79° с. ш. 3,52° з. д., горизонт — 0°. Время пролётов совпадает со стандартной моделью SGP4 с точностью около минуты (проверено).">Модель: кеплерова орбита с вековым дрейфом узла и перигея из-за сжатия Земли (J₂), пересчитанная в земную систему координат по звёздному времени; станции расположены примерно в 44,63° с. ш. 70,70° з. д. и 48,79° с. ш. 3,52° з. д., горизонт — 0°. Время пролётов совпадает со стандартной моделью SGP4 с точностью около минуты (проверено).</p>
+    <div class="grid-2">
+      <p class="body-col" data-en="Telstar did not last. On 9 July 1962, the day before its launch, the United States exploded a 1.4-megaton bomb 400 km above the Pacific — the Starfish Prime test. Its electrons filled the radiation belts with a flux a hundred times what had been predicted, and Telstar's orbit took it through them on every lap. Some of its transistors failed; engineers found a work-around, but the damage accumulated, and in February 1963 Telstar went silent for good [6]." data-ru="«Телстар» прожил недолго. 9 июля 1962 года, за день до его запуска, США взорвали бомбу мощностью 1,4 мегатонны на высоте 400 км над Тихим океаном — испытание «Старфиш Прайм». Его электроны наполнили радиационные пояса потоком в сто раз больше предсказанного, а орбита «Телстара» проводила его через них на каждом витке. Часть его транзисторов отказала; инженеры нашли обходной путь, но повреждения накапливались, и в феврале 1963 года «Телстар» замолчал навсегда [6].">«Телстар» прожил недолго. 9 июля 1962 года, за день до его запуска, США взорвали бомбу мощностью 1,4 мегатонны на высоте 400 км над Тихим океаном — испытание «Старфиш Прайм». Его электроны наполнили радиационные пояса потоком в сто раз больше предсказанного, а орбита «Телстара» проводила его через них на каждом витке. Часть его транзисторов отказала; инженеры нашли обходной путь, но повреждения накапливались, и в феврале 1963 года «Телстар» замолчал навсегда [6].</p>
+      <p class="body-col" data-en="NASA's own Relay 1, launched on 13 December 1962 into a 1,322 × 7,439 km orbit inclined 47.5°, carried radiation detectors alongside its transponder to map those same belts [7]. A medium orbit has its attractions — lower altitude, shorter delay, smaller rockets — but each ground station needs a steerable antenna, and continuous service needs many satellites: Bell Labs' John Pierce reckoned about 25 [6]." data-ru="Собственный «Релей-1» НАСА, запущенный 13 декабря 1962 года на орбиту 1322 × 7439 км с наклонением 47,5°, наряду с ретранслятором нёс детекторы излучения, чтобы картировать те же пояса [7]. У средней орбиты есть преимущества — меньше высота, меньше задержка, меньше ракета, — но каждой наземной станции нужна поворотная антенна, а для непрерывной связи — много спутников: Джон Пирс из Bell Labs насчитал около 25 [6].">Собственный «Релей-1» НАСА, запущенный 13 декабря 1962 года на орбиту 1322 × 7439 км с наклонением 47,5°, наряду с ретранслятором нёс детекторы излучения, чтобы картировать те же пояса [7]. У средней орбиты есть преимущества — меньше высота, меньше задержка, меньше ракета, — но каждой наземной станции нужна поворотная антенна, а для непрерывной связи — много спутников: Джон Пирс из Bell Labs насчитал около 25 [6].</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — SYNCOM -->
+<section id="ch4" class="section" data-phase="SYNCOM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 08</span> — <span data-en="SYNCOM AND EARLY BIRD" data-ru="«СИНКОМ» И «ЭРЛИ БЁРД»">«СИНКОМ» И «ЭРЛИ БЁРД»</span></div>
+    <h2 class="h-lg" data-en="Twenty-four hours, and then zero degrees" data-ru="Двадцать четыре часа, а затем ноль градусов">Двадцать четыре часа, а затем ноль градусов</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Hughes Aircraft's Syncom was the opposite bet: a small spinning drum, 71 cm across and 68 kg fully fuelled, with 29 W from its solar cells and room for one two-way telephone call [8][23]. Syncom 2, launched on 26 July 1963, reached a 24-hour orbit and settled over 55° W on 16 August — the first geosynchronous satellite. But its orbit was tilted 33° to the equator, so each day it traced a tall, thin figure eight from 33° N to 33° S [8]." data-ru="«Синком» фирмы Hughes Aircraft был противоположной ставкой: маленький вращающийся цилиндр диаметром 71 см и массой 68 кг с топливом, 29 Вт от солнечных элементов и ёмкостью в один двусторонний телефонный разговор [8][23]. «Синком-2», запущенный 26 июля 1963 года, вышел на 24-часовую орбиту и 16 августа остановился над 55° з. д. — первый геосинхронный спутник. Но его орбита была наклонена к экватору на 33°, и каждые сутки он рисовал высокую узкую восьмёрку от 33° с. ш. до 33° ю. ш. [8].">«Синком» фирмы Hughes Aircraft был противоположной ставкой: маленький вращающийся цилиндр диаметром 71 см и массой 68 кг с топливом, 29 Вт от солнечных элементов и ёмкостью в один двусторонний телефонный разговор [8][23]. «Синком-2», запущенный 26 июля 1963 года, вышел на 24-часовую орбиту и 16 августа остановился над 55° з. д. — первый геосинхронный спутник. Но его орбита была наклонена к экватору на 33°, и каждые сутки он рисовал высокую узкую восьмёрку от 33° с. ш. до 33° ю. ш. [8].</p>
+      <p class="body-col" data-en="Syncom 3, launched on 19 August 1964, was left at a 16° tilt by a sideways turn of its rocket's third stage; its apogee motor and thrusters removed the rest, reaching an inclination of 0.1° over the equator at 180° longitude — the first geostationary satellite. That autumn it carried live television of the Tokyo Olympics across the Pacific [9]. On 6 April 1965 the commercial version followed: Early Bird, later Intelsat I, with 240 telephone circuits or one TV channel, planned for 28° W; it entered service on 28 June, was designed for 18 months and worked for nearly four years [10][11]." data-ru="«Синком-3», запущенный 19 августа 1964 года, после бокового манёвра третьей ступени ракеты имел наклон 16°; остальное убрали его апогейный двигатель и двигатели ориентации, и он вышел на наклонение 0,1° над экватором на долготе 180° — первый геостационарный спутник. Той осенью он передавал через Тихий океан прямые телетрансляции Олимпиады в Токио [9]. 6 апреля 1965 года за ним последовал коммерческий вариант — «Эрли Бёрд», позднее «Интелсат-1», с 240 телефонными каналами или одним телевизионным, для точки 28° з. д.; он вступил в строй 28 июня, был рассчитан на 18 месяцев и проработал почти четыре года [10][11].">«Синком-3», запущенный 19 августа 1964 года, после бокового манёвра третьей ступени ракеты имел наклон 16°; остальное убрали его апогейный двигатель и двигатели ориентации, и он вышел на наклонение 0,1° над экватором на долготе 180° — первый геостационарный спутник. Той осенью он передавал через Тихий океан прямые телетрансляции Олимпиады в Токио [9]. 6 апреля 1965 года за ним последовал коммерческий вариант — «Эрли Бёрд», позднее «Интелсат-1», с 240 телефонными каналами или одним телевизионным, для точки 28° з. д.; он вступил в строй 28 июня, был рассчитан на 18 месяцев и проработал почти четыре года [10][11].</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="f8Svg" class="sim-svg" viewBox="0 0 480 320" role="img" data-aria-en="Daily ground track of a 24-hour circular orbit with the chosen inclination: a figure eight centred on the equator" data-aria-ru="Суточная трасса 24-часовой круговой орбиты с выбранным наклонением: восьмёрка с центром на экваторе" aria-label="Figure-eight ground track"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset inclinations" data-aria-en="Preset inclinations" data-aria-ru="Готовые наклонения" id="f8Pre">
+          <button class="btn active" data-i="33" aria-pressed="true" data-en="SYNCOM 2 · 33°" data-ru="«СИНКОМ-2» · 33°">«СИНКОМ-2» · 33°</button>
+          <button class="btn" data-i="0.1" aria-pressed="false" data-en="SYNCOM 3, 1964 · 0.1°" data-ru="«СИНКОМ-3», 1964 · 0,1°">«СИНКОМ-3», 1964 · 0,1°</button>
+          <button class="btn" data-i="7.2697" aria-pressed="false" data-en="SYNCOM 3 TODAY" data-ru="«СИНКОМ-3» СЕГОДНЯ">«СИНКОМ-3» СЕГОДНЯ</button>
+          <button class="btn" data-i="7.4572" aria-pressed="false" data-en="EARLY BIRD TODAY" data-ru="«ЭРЛИ БЁРД» СЕГОДНЯ">«ЭРЛИ БЁРД» СЕГОДНЯ</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="f8I" data-en="INCLINATION" data-ru="НАКЛОНЕНИЕ">НАКЛОНЕНИЕ</label><span class="v" id="f8IVal">—</span></div>
+          <input id="f8I" type="range" min="0" max="35" step="0.01" value="33">
+        </div>
+        <div class="readout-grid" id="f8Readout"></div>
+        <div class="status" id="f8Status" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <p class="body-col" data-en="A geostationary satellite does not stay geostationary by itself. The Moon and the Sun pull its orbit out of the equator's plane: left alone, the orbit's tilt swings up to about 15° and back over roughly 53 years [18]. Syncom 3 and Early Bird were switched off in 1969 and nobody has steered them since; CelesTrak's elements for October 2026 put them at 7.27° and 7.46° [21] — right where that 53-year cycle predicts after about 62 years. Working satellites burn propellant every few weeks to cancel the drift, which is why fuel, not electronics, usually ends a geostationary satellite's life." data-ru="Геостационарный спутник не остаётся геостационарным сам по себе. Луна и Солнце выводят его орбиту из плоскости экватора: если ничего не делать, наклон орбиты нарастает примерно до 15° и возвращается обратно за 53 года [18]. «Синком-3» и «Эрли Бёрд» выключены в 1969 году, и с тех пор ими никто не управлял; по элементам CelesTrak за октябрь 2026 года их наклонения 7,27° и 7,46° [21] — как раз то, что предсказывает 53-летний цикл примерно через 62 года. Работающие спутники каждые несколько недель тратят топливо, чтобы гасить этот дрейф, поэтому срок жизни геостационарного спутника обычно заканчивает топливо, а не электроника.">Геостационарный спутник не остаётся геостационарным сам по себе. Луна и Солнце выводят его орбиту из плоскости экватора: если ничего не делать, наклон орбиты нарастает примерно до 15° и возвращается обратно за 53 года [18]. «Синком-3» и «Эрли Бёрд» выключены в 1969 году, и с тех пор ими никто не управлял; по элементам CelesTrak за октябрь 2026 года их наклонения 7,27° и 7,46° [21] — как раз то, что предсказывает 53-летний цикл примерно через 62 года. Работающие спутники каждые несколько недель тратят топливо, чтобы гасить этот дрейф, поэтому срок жизни геостационарного спутника обычно заканчивает топливо, а не электроника.</p>
+      <p class="body-col" data-en="The figure eight is not just a curiosity. An inclined synchronous satellite swings north and south through the day, so a ground antenna with a narrow beam must follow it — exactly what geostationary orbit was supposed to make unnecessary. Some operators deliberately stop correcting the tilt late in a satellite's life to save fuel, and accept ground stations that track. Syncom 2's daily swing of ±33° is the extreme case." data-ru="Восьмёрка — не просто курьёз. Наклонный синхронный спутник в течение суток качается к северу и к югу, и наземная антенна с узким лучом должна за ним следить — ровно то, от чего должна была избавить геостационарная орбита. Некоторые операторы в конце срока службы спутника сознательно перестают исправлять наклон, чтобы сэкономить топливо, и мирятся со следящими антеннами. Суточное качание «Синкома-2» на ±33° — крайний случай.">Восьмёрка — не просто курьёз. Наклонный синхронный спутник в течение суток качается к северу и к югу, и наземная антенна с узким лучом должна за ним следить — ровно то, от чего должна была избавить геостационарная орбита. Некоторые операторы в конце срока службы спутника сознательно перестают исправлять наклон, чтобы сэкономить топливо, и мирятся со следящими антеннами. Суточное качание «Синкома-2» на ±33° — крайний случай.</p>
+    </div>
+    <p class="note" data-en="Track: circular orbit with a period of exactly one sidereal day. The east–west scale of the plot is stretched to show the loops; numbers in the readout are not. “Seen from below” is the angle the satellite swings away from the zenith of the point on the equator under its average position. The drift model is i ≈ 14.6° × |sin(π t / 53 yr)|, the simplest reading of the cycle in [18], starting from 0°." data-ru="Трасса: круговая орбита с периодом ровно одни звёздные сутки. Масштаб по оси восток–запад на графике растянут, чтобы были видны петли; числа в показаниях не растянуты. «Видно снизу» — угол, на который спутник отклоняется от зенита точки на экваторе под его средним положением. Модель дрейфа: i ≈ 14,6° × |sin(π t / 53 года)| — простейшее прочтение цикла из [18], начиная с 0°.">Трасса: круговая орбита с периодом ровно одни звёздные сутки. Масштаб по оси восток–запад на графике растянут, чтобы были видны петли; числа в показаниях не растянуты. «Видно снизу» — угол, на который спутник отклоняется от зенита точки на экваторе под его средним положением. Модель дрейфа: i ≈ 14,6° × |sin(π t / 53 года)| — простейшее прочтение цикла из [18], начиная с 0°.</p>
+  </div>
+</section>
+
+<!-- CH5 — MOLNIYA -->
+<section id="ch5" class="section" data-phase="MOLNIYA">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 08</span> — <span data-en="THE SOVIET ANSWER" data-ru="СОВЕТСКИЙ ОТВЕТ">СОВЕТСКИЙ ОТВЕТ</span></div>
+    <h2 class="h-lg" data-en="Molniya: twelve hours, mostly in the north" data-ru="«Молния»: двенадцать часов, почти всё время на севере">«Молния»: двенадцать часов, почти всё время на севере</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A geostationary satellite sits on the equator, so the farther north you live, the lower it hangs in your sky; past about 81° it is below the horizon altogether (chapter 06). Seen from Moscow at 55.75° N it rises at most 26° above the horizon; from Norilsk, inside the Arctic Circle, barely 12° — low enough for hills and buildings to block it. For a country stretching across the north, the equator is the wrong place to put a relay." data-ru="Геостационарный спутник стоит над экватором, поэтому чем севернее вы живёте, тем ниже он висит на вашем небе; севернее примерно 81° он вообще под горизонтом (глава 06). Из Москвы на 55,75° с. ш. он поднимается не выше 26° над горизонтом; из Норильска, за Полярным кругом, — едва на 12°, достаточно низко, чтобы его закрывали холмы и здания. Для страны, раскинувшейся на севере, экватор — неудачное место для ретранслятора.">Геостационарный спутник стоит над экватором, поэтому чем севернее вы живёте, тем ниже он висит на вашем небе; севернее примерно 81° он вообще под горизонтом (глава 06). Из Москвы на 55,75° с. ш. он поднимается не выше 26° над горизонтом; из Норильска, за Полярным кругом, — едва на 12°, достаточно низко, чтобы его закрывали холмы и здания. Для страны, раскинувшейся на севере, экватор — неудачное место для ретранслятора.</p>
+      <p class="body-col" data-en="The Soviet answer was a long ellipse tilted 63.4°, with a 12-hour period and an eccentricity of 0.722 [13]. Perigee is low over the southern hemisphere; apogee, nearly 40,000 km up, is high over the north, where the satellite moves slowest and lingers for hours. Molniya-1, launched on 23 April 1965, carried television between Moscow and the Far East [12]; the early Molniya-1 satellites actually flew at about 65°, close enough to the critical tilt that their apogee drifted only a few degrees a year [24]; from 1967 the Orbita network — 20 receiving stations at first, 73 ten years later — brought Moscow's programmes to the Far North, Siberia, the Far East, the Urals and Central Asia [14]." data-ru="Советским ответом стал длинный эллипс с наклонением 63,4°, периодом 12 часов и эксцентриситетом 0,722 [13]. Перигей — низко над южным полушарием; апогей, почти в 40 000 км, — высоко над северным, где спутник движется медленнее всего и задерживается на часы. «Молния-1», запущенная 23 апреля 1965 года, передавала телевидение между Москвой и Дальним Востоком [12]; первые спутники «Молния-1» на самом деле летали с наклонением около 65° — достаточно близко к критическому, чтобы их апогей смещался лишь на несколько градусов в год [24]; с 1967 года сеть «Орбита» — сначала 20 приёмных станций, через десять лет уже 73 — доставляла московские программы на Крайний Север, в Сибирь, на Дальний Восток, Урал и в Среднюю Азию [14].">Советским ответом стал длинный эллипс с наклонением 63,4°, периодом 12 часов и эксцентриситетом 0,722 [13]. Перигей — низко над южным полушарием; апогей, почти в 40 000 км, — высоко над северным, где спутник движется медленнее всего и задерживается на часы. «Молния-1», запущенная 23 апреля 1965 года, передавала телевидение между Москвой и Дальним Востоком [12]; первые спутники «Молния-1» на самом деле летали с наклонением около 65° — достаточно близко к критическому, чтобы их апогей смещался лишь на несколько градусов в год [24]; с 1967 года сеть «Орбита» — сначала 20 приёмных станций, через десять лет уже 73 — доставляла московские программы на Крайний Север, в Сибирь, на Дальний Восток, Урал и в Среднюю Азию [14].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="WHY 63.4°: THE BULGE TURNS THE PERIGEE, EXCEPT AT ONE TILT" data-ru="ПОЧЕМУ 63,4°: ВЗДУТИЕ ПОВОРАЧИВАЕТ ПЕРИГЕЙ — КРОМЕ ОДНОГО НАКЛОНА">ПОЧЕМУ 63,4°: ВЗДУТИЕ ПОВОРАЧИВАЕТ ПЕРИГЕЙ — КРОМЕ ОДНОГО НАКЛОНА</div>
+      <div class="eq-body">dω/dt = (3/4) n J₂ (R/p)² (5 cos² i − 1) = 0 &nbsp;⇔&nbsp; cos² i = 1/5 &nbsp;⇔&nbsp; i = 63.43°</div>
+      <div class="eq-note" data-en="Earth's equatorial bulge (J₂ = 1.08263 × 10⁻³ [17]) slowly rotates an elliptical orbit within its plane. Far from that tilt — at 50° or 75° — the apogee would wander away from the north within months; a degree or two off, within a few years; at the “critical inclination” the rotation stops. n is the mean motion, p = a(1 − e²)." data-ru="Экваториальное вздутие Земли (J₂ = 1,08263 × 10⁻³ [17]) медленно поворачивает эллиптическую орбиту в её плоскости. Вдали от этого наклона — при 50° или 75° — апогей за месяцы ушёл бы с севера, при отклонении на градус-другой — за несколько лет; при «критическом наклонении» поворот прекращается. n — среднее движение, p = a(1 − e²).">Экваториальное вздутие Земли (J₂ = 1,08263 × 10⁻³ [17]) медленно поворачивает эллиптическую орбиту в её плоскости. Вдали от этого наклона — при 50° или 75° — апогей за месяцы ушёл бы с севера, при отклонении на градус-другой — за несколько лет; при «критическом наклонении» поворот прекращается. n — среднее движение, p = a(1 − e²).</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="mlSvg" class="sim-svg" viewBox="0 0 480 270" role="img" data-aria-en="World map with one day of a Molniya ground track: two orbits, with hourly dots crowding near the two northern apogees" data-aria-ru="Карта мира с суточной трассой «Молнии»: два витка, часовые точки сгущаются у двух северных апогеев" aria-label="Molniya ground track"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset inclinations" data-aria-en="Preset inclinations" data-aria-ru="Готовые наклонения" id="mlPre">
+          <button class="btn" data-i="50" aria-pressed="false">50°</button>
+          <button class="btn active" data-i="63.435" aria-pressed="true" data-en="63.4°" data-ru="63,4°">63,4°</button>
+          <button class="btn" data-i="75" aria-pressed="false">75°</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="mlI" data-en="INCLINATION" data-ru="НАКЛОНЕНИЕ">НАКЛОНЕНИЕ</label><span class="v" id="mlIVal">—</span></div>
+          <input id="mlI" type="range" min="40" max="85" step="0.01" value="63.43">
+        </div>
+        <div class="readout-grid" id="mlReadout"></div>
+        <div class="status" id="mlStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: a = 26,562 km (exactly half a sidereal day), e = 0.722, argument of perigee 270°, first apogee placed at 65° E; Kepler's equation solved by Newton's method from E = π. Earth's bulge is used only for the drift rates, not to bend the drawn track. NASA's “about two-thirds of that time over one hemisphere” [13] matches the time spent north of about 45° (two-thirds of each orbit in this model); north of the equator itself the satellite spends 91.6 %." data-ru="Модель: a = 26 562 км (ровно половина звёздных суток), e = 0,722, аргумент перигея 270°, первый апогей над 65° в. д.; уравнение Кеплера решается методом Ньютона от E = π. Сжатие Земли учтено только в скоростях дрейфа, трасса на рисунке им не искривлена. Слова НАСА «около двух третей этого времени над одним полушарием» [13] соответствуют времени севернее примерно 45° (в этой модели — две трети каждого витка); севернее самого экватора спутник проводит 91,6 % времени.">Модель: a = 26 562 км (ровно половина звёздных суток), e = 0,722, аргумент перигея 270°, первый апогей над 65° в. д.; уравнение Кеплера решается методом Ньютона от E = π. Сжатие Земли учтено только в скоростях дрейфа, трасса на рисунке им не искривлена. Слова НАСА «около двух третей этого времени над одним полушарием» [13] соответствуют времени севернее примерно 45° (в этой модели — две трети каждого витка); севернее самого экватора спутник проводит 91,6 % времени.</p>
+  </div>
+</section>
+
+<!-- CH6 — THE BELT -->
+<section id="ch6" class="section" data-phase="THE BELT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 08</span> — <span data-en="THE BELT TODAY" data-ru="ПОЯС СЕГОДНЯ">ПОЯС СЕГОДНЯ</span></div>
+    <h2 class="h-lg" data-en="A third of the world, a quarter of a second away" data-ru="Треть мира в четверти секунды">Треть мира в четверти секунды</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="From 35,786 km a satellite sees Earth as a ball 17° across. Its horizon reaches 81.3° of arc from the point below it, so it can serve a cap covering 42 % of the planet — Clarke's “half the globe”, less the strip near the edge where the satellite is too low in the sky to use. Ground antennas usually need it at least 5–10° above the horizon. Three satellites 120° apart then still overlap along the equator, as Clarke said [2]; but the poles are never covered." data-ru="С высоты 35 786 км спутник видит Землю шаром размером 17°. Его горизонт простирается на 81,3° дуги от точки под ним, и он может обслуживать шапку, покрывающую 42 % планеты, — «половину земного шара» Кларка за вычетом полосы у края, где спутник слишком низко на небе. Наземным антеннам обычно нужно, чтобы он был хотя бы на 5–10° над горизонтом. Три спутника через 120° и тогда перекрываются вдоль экватора, как и писал Кларк [2]; но полюса не покрываются никогда.">С высоты 35 786 км спутник видит Землю шаром размером 17°. Его горизонт простирается на 81,3° дуги от точки под ним, и он может обслуживать шапку, покрывающую 42 % планеты, — «половину земного шара» Кларка за вычетом полосы у края, где спутник слишком низко на небе. Наземным антеннам обычно нужно, чтобы он был хотя бы на 5–10° над горизонтом. Три спутника через 120° и тогда перекрываются вдоль экватора, как и писал Кларк [2]; но полюса не покрываются никогда.</p>
+      <p class="body-col" data-en="The price is distance. Up to the satellite and back down is at least 71,572 km, about 0.24 s at the speed of light, and nearly 0.28 s between stations at the edge of the footprint. A question and its answer go up and down twice — about half a second (0.48–0.56 s), the familiar pause of a satellite phone call. Slide the minimum elevation and the latitude of a ground station below." data-ru="Цена — расстояние. Вверх к спутнику и обратно вниз — не меньше 71 572 км, около 0,24 с со скоростью света, и почти 0,28 с между станциями на краю зоны обзора. Вопрос и ответ проходят вверх-вниз дважды — около полусекунды (0,48–0,56 с), знакомая пауза спутникового телефонного разговора. Двигайте ниже минимальный угол места и широту наземной станции.">Цена — расстояние. Вверх к спутнику и обратно вниз — не меньше 71 572 км, около 0,24 с со скоростью света, и почти 0,28 с между станциями на краю зоны обзора. Вопрос и ответ проходят вверх-вниз дважды — около полусекунды (0,48–0,56 с), знакомая пауза спутникового телефонного разговора. Двигайте ниже минимальный угол места и широту наземной станции.</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="cvSvg" class="sim-svg" viewBox="0 0 480 240" role="img" data-aria-en="Earth and a geostationary satellite to scale, with the satellite's line of sight to the edge of its usable footprint and to the chosen ground station" data-aria-ru="Земля и геостационарный спутник в масштабе: линии визирования спутника к краю рабочей зоны обзора и к выбранной наземной станции" aria-label="Coverage geometry"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="ctl">
+          <div class="ctl-row"><label for="cvE" data-en="MINIMUM ELEVATION" data-ru="МИНИМАЛЬНЫЙ УГОЛ МЕСТА">МИНИМАЛЬНЫЙ УГОЛ МЕСТА</label><span class="v" id="cvEVal">—</span></div>
+          <input id="cvE" type="range" min="0" max="30" step="0.5" value="5">
+        </div>
+        <div class="btn-row" role="group" aria-label="Ground station" data-aria-en="Ground station" data-aria-ru="Наземная станция" id="cvPre">
+          <button class="btn" data-lat="0" aria-pressed="false" data-en="EQUATOR" data-ru="ЭКВАТОР">ЭКВАТОР</button>
+          <button class="btn active" data-lat="44.63" aria-pressed="true" data-en="ANDOVER" data-ru="АНДОВЕР">АНДОВЕР</button>
+          <button class="btn" data-lat="55.75" aria-pressed="false" data-en="MOSCOW" data-ru="МОСКВА">МОСКВА</button>
+          <button class="btn" data-lat="69.35" aria-pressed="false" data-en="NORILSK" data-ru="НОРИЛЬСК">НОРИЛЬСК</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="cvL" data-en="STATION LATITUDE (SAME LONGITUDE AS THE SATELLITE)" data-ru="ШИРОТА СТАНЦИИ (НА ДОЛГОТЕ СПУТНИКА)">ШИРОТА СТАНЦИИ (НА ДОЛГОТЕ СПУТНИКА)</label><span class="v" id="cvLVal">—</span></div>
+          <input id="cvL" type="range" min="0" max="85" step="0.01" value="44.63">
+        </div>
+        <div class="readout-grid" id="cvReadout"></div>
+        <div class="status" id="cvStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <p class="body-col" data-en="Each satellite owns a slot, and the slots are policed. A US-licensed geostationary satellite must stay within 0.05° of its assigned longitude east–west [20] — a box about 37 km wide at that distance, so that dishes on the ground never need to move. Above and below the ring the Inter-Agency Space Debris Coordination Committee protects a band 200 km deep and 15° either side of the equator; retired satellites are meant to be raised out of it [19]." data-ru="У каждого спутника есть своя позиция, и за ней следят. Геостационарный спутник с лицензией США должен держаться в пределах 0,05° от назначенной долготы по направлению восток–запад [20] — на таком расстоянии это коридор шириной около 37 км, чтобы антеннам на Земле никогда не приходилось поворачиваться. Выше и ниже кольца Межагентский координационный комитет по космическому мусору защищает полосу глубиной 200 км и шириной 15° по обе стороны экватора; отслужившие спутники полагается поднимать из неё [19].">У каждого спутника есть своя позиция, и за ней следят. Геостационарный спутник с лицензией США должен держаться в пределах 0,05° от назначенной долготы по направлению восток–запад [20] — на таком расстоянии это коридор шириной около 37 км, чтобы антеннам на Земле никогда не приходилось поворачиваться. Выше и ниже кольца Межагентский координационный комитет по космическому мусору защищает полосу глубиной 200 км и шириной 15° по обе стороны экватора; отслужившие спутники полагается поднимать из неё [19].</p>
+      <p class="body-col" data-en="As of October 2026, CelesTrak's list of active geosynchronous satellites holds 568 objects; 326 of them are held within 0.1° of the equator and 369 within 1° [21]. Spread evenly, that would be one satellite every 0.63° of longitude — a few hundred kilometres apart along a ring 265,000 km around; in practice they cluster over the oceans and the continents people pay to reach." data-ru="По состоянию на октябрь 2026 года в списке активных геосинхронных спутников CelesTrak 568 объектов; 326 из них удерживаются в пределах 0,1° от экватора и 369 — в пределах 1° [21]. При равномерном распределении это был бы один спутник на каждые 0,63° долготы — по нескольку сотен километров друг от друга на кольце длиной 265 000 км; на деле они скапливаются над океанами и континентами, за доступ к которым платят.">По состоянию на октябрь 2026 года в списке активных геосинхронных спутников CelesTrak 568 объектов; 326 из них удерживаются в пределах 0,1° от экватора и 369 — в пределах 1° [21]. При равномерном распределении это был бы один спутник на каждые 0,63° долготы — по нескольку сотен километров друг от друга на кольце длиной 265 000 км; на деле они скапливаются над океанами и континентами, за доступ к которым платят.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — LEGACY -->
+<section id="ch7" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 08</span> — <span data-en="FROM A TOWER TO A RING" data-ru="ОТ БАШНИ К КОЛЬЦУ">ОТ БАШНИ К КОЛЬЦУ</span></div>
+    <h2 class="h-lg" data-en="Sixty years of relays" data-ru="Шестьдесят лет ретрансляторов">Шестьдесят лет ретрансляторов</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Telstar proved a satellite could carry a television picture across an ocean; Syncom proved it could do it without moving. Everything since — the weather pictures, the dish on the roof, the pause on a satellite call — lives on that one ring, 35,786 km up." data-ru="«Телстар» доказал, что спутник может перенести телевизионную картинку через океан; «Синком» — что он может делать это не двигаясь. Всё, что было потом, — снимки погоды, тарелка на крыше, пауза в спутниковом разговоре, — живёт на одном кольце, в 35 786 км над Землёй.">«Телстар» доказал, что спутник может перенести телевизионную картинку через океан; «Синком» — что он может делать это не двигаясь. Всё, что было потом, — снимки погоды, тарелка на крыше, пауза в спутниковом разговоре, — живёт на одном кольце, в 35 786 км над Землёй.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — REFERENCES -->
+<section id="ch8" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 08</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">ИСТОЧНИКИ</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Источники, на которые ссылается этот справочник</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* Browsers round a slider's value to its step, so a preset such as log10(196) would read back as 2.29 (195 m²).
+   Each range input keeps the exact value it was given until the user moves it. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var GM = 398600.4418;                 // km³/s², IERS conventions [16]
+var OMEGA_E = 7.292115e-5;            // rad/s, Earth's rotation rate, IERS [16]
+var RE = 6378.137, F_E = 1/298.257223563;   // equatorial radius [17], WGS84 flattening
+var J2 = 1.08263e-3;                  // NASA Earth fact sheet [17]
+var C_KMS = 299792.458, D2R = Math.PI/180;
+var SID = 2*Math.PI/OMEGA_E;          // one sidereal day (stellar), s
+function periodS(a){ return 2*Math.PI*Math.sqrt(a*a*a/GM); }
+function aForPeriod(T){ return Math.cbrt(GM*Math.pow(T/(2*Math.PI), 2)); }
+var R_GEO = aForPeriod(SID), H_GEO = R_GEO - RE;
+function circV(r){ return Math.sqrt(GM/r); }
+/* change in the longitude below a circular equatorial orbit per 24 h, degrees; + = eastward */
+function driftDegDay(r){ return (Math.sqrt(GM/(r*r*r)) - OMEGA_E)/D2R*86400; }
+/* in Russian, four-digit numbers stay unspaced, as in the body text */
+function num(n){ var s = fmtInt(n); return (lang === 'ru' && Math.abs(n) < 10000) ? s.replace(/\s/g, '') : s; }
+function deg(v, d){ return fmt(v, d) + '°'; }
+function km(v){ return num(Math.round(v)) + T(' km',' км'); }
+function hms(s){
+  var h = Math.floor(s/3600), m = Math.floor((s - h*3600)/60), sec = Math.round(s - h*3600 - m*60);
+  if(sec === 60){ sec = 0; m++; } if(m === 60){ m = 0; h++; }
+  return (h ? h + T(' h ',' ч ') : '') + m + T(' min ',' мин ') + sec + T(' s',' с');
+}
+/* Russian plural for years: 1 год, 2 года, 5 лет */
+function yearsWord(n){ if(lang !== 'ru') return n === 1 ? ' year' : ' years'; var a = n % 10, b = n % 100; return (a === 1 && b !== 11) ? ' год' : (a >= 2 && a <= 4 && (b < 12 || b > 14)) ? ' года' : ' лет'; }
+function hm(min){ var m = ((Math.round(min) % 1440) + 1440) % 1440, h = Math.floor(m/60), mm = m % 60; return (h < 10 ? '0' : '') + h + ':' + (mm < 10 ? '0' : '') + mm; }
+function aria(svg){ svg.setAttribute('aria-label', svg.getAttribute('data-aria-' + lang)); }
+
+/* ============ ORBIT MACHINERY ============ */
+/* Kepler's equation by Newton's method from E = π (converges for every e < 1) */
+function kepler(M, e){
+  M = ((M % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+  var E = Math.PI;
+  for(var k = 0; k < 60; k++){ var dE = (E - e*Math.sin(E) - M)/(1 - e*Math.cos(E)); E -= dE; if(Math.abs(dE) < 1e-13) break; }
+  return E;
+}
+/* mean elements → Earth-centred inertial position (km) at time tMs, with J₂ secular drift of node and perigee */
+function rates(a, e, iDeg){
+  var n = Math.sqrt(GM/(a*a*a)), p = a*(1 - e*e), k = n*J2*(RE/p)*(RE/p), ci = Math.cos(iDeg*D2R);
+  return {n:n, dO:-1.5*k*ci, dw:0.75*k*(5*ci*ci - 1)};            // rad/s
+}
+function eciAt(el, tMs){
+  var dt = (tMs - el.t0)/1000, r = rates(el.a, el.e, el.i);
+  var O = el.O*D2R + r.dO*dt, w = el.w*D2R + r.dw*dt, M = el.M*D2R + el.n*dt, i = el.i*D2R;
+  var E = kepler(M, el.e), xp = el.a*(Math.cos(E) - el.e), yp = el.a*Math.sqrt(1 - el.e*el.e)*Math.sin(E);
+  var cO = Math.cos(O), sO = Math.sin(O), cw = Math.cos(w), sw = Math.sin(w), ci = Math.cos(i), si = Math.sin(i);
+  return [(cO*cw - sO*sw*ci)*xp + (-cO*sw - sO*cw*ci)*yp, (sO*cw + cO*sw*ci)*xp + (-sO*sw + cO*cw*ci)*yp, sw*si*xp + cw*si*yp];
+}
+function gmst(tMs){ var d = tMs/864e5 + 2440587.5 - 2451545.0; return (((280.46061837 + 360.98564736629*d) % 360) + 360) % 360*D2R; }
+function toEcef(r, tMs){ var g = gmst(tMs), c = Math.cos(g), s = Math.sin(g); return [r[0]*c + r[1]*s, -r[0]*s + r[1]*c, r[2]]; }
+function station(latDeg, lonDeg){
+  var e2 = F_E*(2 - F_E), la = latDeg*D2R, lo = lonDeg*D2R, N = RE/Math.sqrt(1 - e2*Math.sin(la)*Math.sin(la));
+  return {p:[N*Math.cos(la)*Math.cos(lo), N*Math.cos(la)*Math.sin(lo), N*(1 - e2)*Math.sin(la)], u:[Math.cos(la)*Math.cos(lo), Math.cos(la)*Math.sin(lo), Math.sin(la)]};
+}
+function elevDeg(sat, st){
+  var d = [sat[0] - st.p[0], sat[1] - st.p[1], sat[2] - st.p[2]], dn = Math.sqrt(d[0]*d[0] + d[1]*d[1] + d[2]*d[2]);
+  return Math.asin((d[0]*st.u[0] + d[1]*st.u[1] + d[2]*st.u[2])/dn)/D2R;
+}
+function subPoint(r){ return [Math.atan2(r[2], Math.sqrt(r[0]*r[0] + r[1]*r[1]))/D2R, Math.atan2(r[1], r[0])/D2R]; }
+function norm(r){ return Math.sqrt(r[0]*r[0] + r[1]*r[1] + r[2]*r[2]); }
+
+/* Telstar 1 (NORAD 340), CelesTrak elements, epoch 2026 day 294.50630661 UTC [21] */
+var TELSTAR_TLE = {n:9.12893360, e:0.2425019, i:44.7918, O:84.9629, w:33.3692, M:8.5932, t0:Date.UTC(2026, 0, 1) + 293.50630661*864e5};
+function fromTle(o){ var n = o.n*2*Math.PI/86400; return {a:Math.cbrt(GM/(n*n)), e:o.e, i:o.i, O:o.O, w:o.w, M:o.M, n:n, t0:o.t0}; }
+var TELSTAR = fromTle(TELSTAR_TLE);
+var DAY0 = Date.UTC(2026, 9, 22);                                  // 22 October 2026, 00:00 UTC
+var ANDOVER = station(44.633, -70.700), PLEUMEUR = station(48.786, -3.524);
+var GEO_LON = -28;                                                  // Early Bird's planned slot [10]
+function geoEcef(lonDeg){ return [R_GEO*Math.cos(lonDeg*D2R), R_GEO*Math.sin(lonDeg*D2R), 0]; }
+function dayTrack(mode){
+  var out = [];
+  for(var m = 0; m <= 1440; m++){
+    var t = DAY0 + m*60000, r = mode === 'geo' ? geoEcef(GEO_LON) : toEcef(eciAt(TELSTAR, t), t);
+    out.push({m:m, r:r, alt:norm(r) - RE, ll:subPoint(r), a:elevDeg(r, ANDOVER), p:elevDeg(r, PLEUMEUR)});
+  }
+  return out;
+}
+/* [start, end) minute windows where f(sample) > 0 */
+function windows(track, f){
+  var out = [], s = null;
+  track.forEach(function(x, k){ var on = f(x) > 0; if(on && s === null) s = k; if(!on && s !== null){ out.push([s, k]); s = null; } });
+  if(s !== null) out.push([s, track.length - 1]);
+  return out;
+}
+var TRACKS = {telstar:dayTrack('telstar'), geo:dayTrack('geo')};
+function passInfo(mode){
+  var tr = TRACKS[mode];
+  return {and:windows(tr, function(x){ return x.a; }), ple:windows(tr, function(x){ return x.p; }), both:windows(tr, function(x){ return Math.min(x.a, x.p); })};
+}
+var PASSES = {telstar:passInfo('telstar'), geo:passInfo('geo')};
+
+/* ============ CH1 ============ */
+document.getElementById('eqA').textContent = fmtInt(Math.floor(R_GEO)) + (lang === 'ru' ? ',' : '.') + Math.round((R_GEO % 1)*10);
+
+/* ============ CH2 — PERIOD VS ALTITUDE ============ */
+var MARKS = [
+  {h:(1524 + 1684)/2, en:'Echo 1', ru:'«Эхо-1»'},
+  {h:(954 + 5637)/2, en:'Telstar', ru:'«Телстар»'},
+  {h:(1322 + 7439)/2, en:'Relay 1', ru:'«Релей-1»'},
+  {h:aForPeriod(SID/2) - RE, en:'Molniya', ru:'«Молния»'},
+  {h:H_GEO, en:'GEO', ru:'ГСО'}
+];
+var pdH = document.getElementById('pdH');
+pdH.value = Math.log10(H_GEO);                                    /* exact GEO, not the step-rounded attribute */
+function renderPD(){
+  var h = Math.pow(10, +pdH.value), r = RE + h, Ts = periodS(r), dr = driftDegDay(r);
+  document.getElementById('pdHVal').textContent = km(h); pdH.setAttribute('aria-valuetext', km(h) + ', ' + hms(Ts));
+  var svg = document.getElementById('pdSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 56, R = 465, Tp = 24, B = 252, xa = 2.2, xb = 5, ya = 0, yb = 2;
+  function X(hh){ return L + (Math.log10(hh) - xa)/(xb - xa)*(R - L); } function Y(th){ return B - (Math.log10(th) - ya)/(yb - ya)*(B - Tp); }
+  [1, 2, 5, 10, 20, 50, 100].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, v + T(' h',' ч'), 'svg-small', 'end'); });
+  [[200,'200'],[1000,'1,000'],[10000,'10,000'],[100000,'100,000']].forEach(function(p){ ns('line', {x1:X(p[0]), y1:B, x2:X(p[0]), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(p[0]), B + 16, num(p[0]), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 14, T('period (log)','период (лог.)'), 'svg-small');
+  txt(svg, R, B + 34, T('altitude, km (log)','высота, км (лог.)'), 'svg-small', 'end');
+  var yS = Y(SID/3600);
+  ns('line', {x1:L, y1:yS, x2:R, y2:yS, stroke:'#b5452a', 'stroke-dasharray':'5 4', 'stroke-width':1.3}, svg);
+  txt(svg, L + 4, yS - 6, T('one sidereal day, 23 h 56 min 4 s','одни звёздные сутки, 23 ч 56 мин 4 с'), 'svg-small svg-halo');
+  var d = '';
+  for(var k = 0; k <= 160; k++){ var hh = Math.pow(10, xa + (xb - xa)*k/160); d += (k ? 'L' : 'M') + X(hh).toFixed(1) + ',' + Y(periodS(RE + hh)/3600).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.8}, svg);
+  MARKS.forEach(function(mk, j){
+    var x = X(mk.h), y = Y(periodS(RE + mk.h)/3600);
+    ns('circle', {cx:x, cy:y, r:4, fill:'#2f5aa1'}, svg);
+    txt(svg, x + (j === 4 ? -8 : 7), y + (j % 2 ? 14 : -7), T(mk.en, mk.ru), 'svg-small svg-halo', j === 4 ? 'end' : 'start');
+  });
+  ns('circle', {cx:X(h), cy:Y(Ts/3600), r:6.5, fill:'none', stroke:'#b5452a', 'stroke-width':2.4}, svg);
+  var ow = 2*h/C_KMS*1000;
+  cells(document.getElementById('pdReadout'), [
+    [T('PERIOD','ПЕРИОД'), hms(Ts)],
+    [T('SPEED (CIRCULAR)','СКОРОСТЬ (КРУГОВАЯ)'), fmt(circV(r), 3) + T(' km/s',' км/с')],
+    [T('DRIFT OVER THE GROUND','СМЕЩЕНИЕ НАД ЗЕМЛЁЙ'), Math.abs(dr) < 0.05 ? T('none','нет') : fmt(Math.abs(dr), Math.abs(dr) < 10 ? 2 : 0) + T('° a day ','° в сутки ') + (dr > 0 ? T('east','к востоку') : T('west','к западу'))],
+    [T('LIGHT TIME, UP AND DOWN','СВЕТ ТУДА И ОБРАТНО'), fmt(ow, ow < 10 ? 1 : 0) + T(' ms',' мс')]
+  ]);
+  hud1.textContent = km(h); hud2.textContent = hms(Ts);
+  var st = document.getElementById('pdStatus');
+  if(Math.abs(Ts - SID) < 30) st.innerHTML = T('Geosynchronous: one lap per turn of the Earth. Over the equator this satellite would hang over one longitude — Clarke\'s relay, Syncom 3\'s orbit.','Геосинхронная орбита: один виток за оборот Земли. Над экватором такой спутник висел бы над одной долготой — ретранслятор Кларка, орбита «Синкома-3».');
+  else if(dr > 0) st.innerHTML = T('Faster than the Earth turns: the satellite gains ','Быстрее вращения Земли: спутник уходит на ') + fmt(dr, dr < 10 ? 1 : 0) + T('° a day on the ground below. A station sees it rise, cross and set — ','° в сутки вперёд над Землёй. Станция видит, как он восходит, проходит по небу и заходит, — ') + fmt(86400/Ts, 1) + T(' laps every 24 hours.',' витка за 24 часа.');
+  else st.innerHTML = T('Slower than the Earth turns: the satellite falls behind and drifts ','Медленнее вращения Земли: спутник отстаёт и смещается на ') + fmt(-dr, -dr < 10 ? 1 : 0) + T('° a day westward.','° в сутки к западу.');
+}
+pdH.addEventListener('input', function(){ pressGroup(document.getElementById('pdPre'), null); renderPD(); });
+Array.prototype.forEach.call(document.querySelectorAll('#pdPre .btn'), function(btn){ btn.addEventListener('click', function(){ pdH.value = Math.log10(+this.getAttribute('data-h')); pressGroup(this.parentNode, this); renderPD(); }); });
+
+/* ============ CH3 — TELSTAR VS GEO ============ */
+var tsT = document.getElementById('tsT'), tsMode = 'telstar', tsPlaying = false;
+function mapXY(L, R, Tp, B){ return {X:function(lon){ return L + (lon + 180)/360*(R - L); }, Y:function(lat){ return Tp + (90 - lat)/180*(B - Tp); }}; }
+function drawGraticule(svg, P, L, R, Tp, B){
+  ns('rect', {x:L, y:Tp, width:R - L, height:B - Tp, fill:'#f3f5f7', stroke:'#0b0b0c', 'stroke-width':0.8}, svg);
+  for(var lo = -150; lo <= 150; lo += 30) ns('line', {x1:P.X(lo), y1:Tp, x2:P.X(lo), y2:B, stroke:'#dfe3e6'}, svg);
+  [-60, -30, 30, 60].forEach(function(la){ ns('line', {x1:L, y1:P.Y(la), x2:R, y2:P.Y(la), stroke:'#dfe3e6'}, svg); });
+  ns('line', {x1:L, y1:P.Y(0), x2:R, y2:P.Y(0), stroke:'#9aa3aa', 'stroke-dasharray':'3 3'}, svg);
+  [-60, -30, 0, 30, 60].forEach(function(la){ txt(svg, L - 4, P.Y(la) + 4, (la > 0 ? la + '°N' : la < 0 ? -la + '°S' : '0°').replace('N', T('N','с')).replace('S', T('S','ю')), 'svg-tiny', 'end'); });
+}
+function trackPath(pts, P){                                         /* breaks at the date line */
+  var d = '', prev = null;
+  pts.forEach(function(ll){ var x = P.X(ll[1]), y = P.Y(ll[0]); d += (prev === null || Math.abs(ll[1] - prev) > 180 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1); prev = ll[1]; });
+  return d;
+}
+function renderTS(){
+  var m = +tsT.value, tr = TRACKS[tsMode], ps = PASSES[tsMode], cur = tr[Math.min(1440, Math.max(0, Math.round(m)))];
+  document.getElementById('tsTVal').textContent = hm(m) + ' UTC';
+  tsT.setAttribute('aria-valuetext', hm(m) + ' UTC, ' + (tsMode === 'geo' ? T('geostationary satellite elevation: Andover ','угол места геостационарного спутника: Андовер ') : T('Telstar elevation: Andover ','угол места «Телстара»: Андовер ')) + (cur.a > 0 ? deg(cur.a, 1) : T('below horizon','под горизонтом')) + T(', Pleumeur-Bodou ',', Плёмёр-Боду ') + (cur.p > 0 ? deg(cur.p, 1) : T('below horizon','под горизонтом')));
+  /* map */
+  var svg = document.getElementById('tsMap'); svg.innerHTML = ''; aria(svg);
+  var L = 30, R = 470, Tp = 10, B = 230, P = mapXY(L, R, Tp, B);
+  drawGraticule(svg, P, L, R, Tp, B);
+  if(tsMode === 'telstar'){
+    ns('path', {d:trackPath(tr.map(function(x){ return x.ll; }), P), fill:'none', stroke:'#8f8f88', 'stroke-width':1}, svg);
+    var seg = tr.slice(Math.max(0, Math.round(m) - 15), Math.min(1441, Math.round(m) + 1)).map(function(x){ return x.ll; });
+    ns('path', {d:trackPath(seg, P), fill:'none', stroke:'#b5452a', 'stroke-width':2.4}, svg);
+  }
+  [[ANDOVER, 44.633, -70.7, T('ANDOVER','АНДОВЕР'), '#2f5aa1', 'end'], [PLEUMEUR, 48.786, -3.524, T('PLEUMEUR-BODOU','ПЛЁМЁР-БОДУ'), '#b5452a', 'start']].forEach(function(s){
+    ns('rect', {x:P.X(s[2]) - 4, y:P.Y(s[1]) - 4, width:8, height:8, fill:s[4]}, svg);
+    txt(svg, P.X(s[2]) + (s[5] === 'end' ? -7 : 7), P.Y(s[1]) - 6, s[3], 'svg-small svg-halo', s[5]);
+  });
+  ns('circle', {cx:P.X(cur.ll[1]), cy:P.Y(cur.ll[0]), r:6, fill:'#0b0b0c', stroke:'#fff', 'stroke-width':2}, svg);
+  txt(svg, R - 4, B + 15, T('ground track over 24 h; red: the last 15 minutes','трасса за 24 ч; красным — последние 15 минут'), 'svg-tiny', 'end');
+  /* elevation chart */
+  var es = document.getElementById('tsEl'); es.innerHTML = ''; aria(es);
+  var l2 = 44, r2 = 470, t2 = 14, b2 = 156;
+  function X(mm){ return l2 + mm/1440*(r2 - l2); } function Y(el){ return b2 - Math.max(0, el)/90*(b2 - t2); }
+  ps.both.forEach(function(w){ ns('rect', {x:X(w[0]), y:t2, width:Math.max(1.5, X(w[1]) - X(w[0])), height:b2 - t2, fill:'#f3e3dd'}, es); });
+  [0, 30, 60, 90].forEach(function(v){ ns('line', {x1:l2, y1:Y(v), x2:r2, y2:Y(v), stroke:'#e4e4de'}, es); txt(es, l2 - 5, Y(v) + 4, v + '°', 'svg-small', 'end'); });
+  for(var hh = 0; hh <= 24; hh += 6){ ns('line', {x1:X(hh*60), y1:b2, x2:X(hh*60), y2:b2 + 4, stroke:'#0b0b0c'}, es); txt(es, X(hh*60), b2 + 16, (hh < 10 ? '0' : '') + hh + ':00', 'svg-small', 'middle'); }
+  ns('line', {x1:l2, y1:b2, x2:r2, y2:b2, stroke:'#0b0b0c'}, es);
+  txt(es, l2, 10, T('elevation above the horizon','угол места над горизонтом'), 'svg-small');
+  [['a', '#2f5aa1'], ['p', '#b5452a']].forEach(function(c){
+    var d = '', on = false;
+    tr.forEach(function(x){ if(x[c[0]] > 0){ d += (on ? 'L' : 'M') + X(x.m).toFixed(1) + ',' + Y(x[c[0]]).toFixed(1); on = true; } else on = false; });
+    ns('path', {d:d, fill:'none', stroke:c[1], 'stroke-width':1.8}, es);
+  });
+  ns('line', {x1:X(m), y1:t2, x2:X(m), y2:b2, stroke:'#0b0b0c', 'stroke-width':1.2}, es);
+  txt(es, r2, b2 + 32, T('blue: Andover · red: Pleumeur-Bodou · shaded: both see it','синий: Андовер · красный: Плёмёр-Боду · закрашено: видят обе'), 'svg-tiny', 'end');
+  /* readouts */
+  function elStr(e){ return e > 0 ? deg(e, 1) : T('below horizon','под горизонтом'); }
+  function lens(ws){ return ws.map(function(w){ return w[1] - w[0]; }); }
+  var la = lens(ps.and), lb = lens(ps.both), geo = tsMode === 'geo';
+  cells(document.getElementById('tsReadout'), [
+    [T('SATELLITE ALTITUDE','ВЫСОТА СПУТНИКА'), km(cur.alt)],
+    [T('RANGE FROM ANDOVER','ДАЛЬНОСТЬ ОТ АНДОВЕРА'), km(norm([cur.r[0] - ANDOVER.p[0], cur.r[1] - ANDOVER.p[1], cur.r[2] - ANDOVER.p[2]]))],
+    [T('ELEVATION AT ANDOVER','УГОЛ МЕСТА В АНДОВЕРЕ'), elStr(cur.a)],
+    [T('ELEVATION AT PLEUMEUR-BODOU','УГОЛ МЕСТА В ПЛЁМЁР-БОДУ'), elStr(cur.p)],
+    [T('PASSES OVER ANDOVER TODAY','ПРОЛЁТОВ НАД АНДОВЕРОМ ЗА СУТКИ'), geo ? T('always in view','виден всегда') : la.length + ' · ' + Math.min.apply(null, la) + '–' + Math.max.apply(null, la) + T(' min',' мин')],
+    [T('SHARED WINDOWS TODAY','ОБЩИХ ОКОН ЗА СУТКИ'), geo ? T('24 hours','24 часа') : lb.length + T(', longest ',', самое длинное ') + Math.max.apply(null, lb) + T(' min',' мин')]
+  ]);
+  hud1.textContent = km(cur.alt); hud2.textContent = geo ? hms(SID) : hms(periodS(TELSTAR.a));
+  var st = document.getElementById('tsStatus');
+  if(geo){ st.innerHTML = T('A dish at Andover points ','Антенна в Андовере смотрит на ') + deg(cur.a, 1) + T(' above the horizon, the one at Pleumeur-Bodou ',' над горизонтом, в Плёмёр-Боду — на ') + deg(cur.p, 1) + T(' — all day, every day. No tracking, no waiting: this is what Early Bird gave the Atlantic in 1965.',' — весь день, каждый день. Ни слежения, ни ожидания: это и дал Атлантике «Эрли Бёрд» в 1965 году.'); return; }
+  var inBoth = null; ps.both.forEach(function(w){ if(m >= w[0] && m < w[1]) inBoth = w; });
+  if(inBoth) st.innerHTML = T('Both stations see Telstar: a live picture can cross the Atlantic for another ','Обе станции видят «Телстар»: прямая картинка может пересекать Атлантику ещё ') + (inBoth[1] - Math.round(m)) + T(' min (window ',' мин (окно ') + hm(inBoth[0]) + '–' + hm(inBoth[1]) + ').';
+  else {
+    var nx = nextWindow(m);
+    st.innerHTML = (cur.a > 0 ? T('Only Andover sees Telstar now. ','Сейчас «Телстар» видит только Андовер. ') : cur.p > 0 ? T('Only Pleumeur-Bodou sees Telstar now. ','Сейчас «Телстар» видит только Плёмёр-Боду. ') : T('Neither station sees Telstar. ','Ни одна станция не видит «Телстар». ')) +
+      (nx ? T('Next shared window: ','Следующее общее окно: ') + hm(nx[0]) + '–' + hm(nx[1]) + ' UTC.' : T('No more shared windows today.','Общих окон сегодня больше нет.'));
+  }
+}
+function nextWindow(m){ var ws = PASSES[tsMode].both, r = null; ws.forEach(function(w){ if(!r && w[0] > m) r = w; }); return r; }
+tsT.addEventListener('input', renderTS);
+Array.prototype.forEach.call(document.querySelectorAll('#tsSat .btn'), function(btn){ btn.addEventListener('click', function(){ tsMode = this.getAttribute('data-s'); pressGroup(this.parentNode, this); renderTS(); }); });
+var tsPlay = document.getElementById('tsPlay');
+function setPlay(on){ tsPlaying = on; tsPlay.setAttribute('aria-pressed', on ? 'true' : 'false'); tsPlay.classList.toggle('active', on); tsPlay.innerHTML = on ? T('❚❚ PAUSE','❚❚ ПАУЗА') : T('▶ PLAY','▶ ПУСК'); }
+tsPlay.addEventListener('click', function(){
+  if(reduced()){ tsT.value = (+tsT.value + 15) % 1440; renderTS(); return; }    /* reduced motion: step 15 minutes per press */
+  setPlay(!tsPlaying);
+});
+document.getElementById('tsNext').addEventListener('click', function(){
+  var w = nextWindow(+tsT.value) || PASSES[tsMode].both[0];
+  if(tsMode === 'geo') return;
+  if(w){ tsT.value = w[0]; renderTS(); }
+});
+visibleLoop(document.getElementById('tsMap'), function(dt){ if(!tsPlaying) return; tsT.value = (+tsT.value + dt*20) % 1440; renderTS(); });
+
+/* ============ CH4 — FIGURE EIGHT ============ */
+var f8I = document.getElementById('f8I');
+/* ground track of a circular orbit with a period of exactly one sidereal day: [lat, lon offset] in degrees */
+function f8Point(iDeg, u){ var i = iDeg*D2R, lat = Math.asin(Math.sin(i)*Math.sin(u)), lon = Math.atan2(Math.cos(i)*Math.sin(u), Math.cos(u)) - u; lon = Math.atan2(Math.sin(lon), Math.cos(lon)); return [lat/D2R, lon/D2R]; }
+function f8Swing(iDeg){ var mx = 0; for(var k = 0; k < 720; k++){ mx = Math.max(mx, Math.abs(f8Point(iDeg, k/720*2*Math.PI)[1])); } return mx; }
+/* largest angle between the satellite and the zenith of the equator point under its mean position */
+function f8Zenith(iDeg){
+  var mx = 0;
+  for(var k = 0; k < 720; k++){
+    var p = f8Point(iDeg, k/720*2*Math.PI), la = p[0]*D2R, lo = p[1]*D2R;
+    var s = [R_GEO*Math.cos(la)*Math.cos(lo) - RE, R_GEO*Math.cos(la)*Math.sin(lo), R_GEO*Math.sin(la)];
+    mx = Math.max(mx, Math.acos(s[0]/norm(s))/D2R);
+  }
+  return mx;
+}
+var DRIFT_AMP = 14.6, DRIFT_YEARS = 53;                             // [18]: up to ~14.5–15° over ~53 years
+function driftIncl(years){ return DRIFT_AMP*Math.abs(Math.sin(Math.PI*years/DRIFT_YEARS)); }
+function yearsToIncl(iDeg){ return iDeg > DRIFT_AMP ? null : DRIFT_YEARS/Math.PI*Math.asin(iDeg/DRIFT_AMP); }
+function renderF8(){
+  var iD = +f8I.value, sw = f8Swing(iD), zen = f8Zenith(iD), yrs = yearsToIncl(iD);
+  document.getElementById('f8IVal').textContent = deg(iD, 2); f8I.setAttribute('aria-valuetext', deg(iD, 2) + ', ' + T('east–west swing ±','качание восток–запад ±') + deg(sw, 2));
+  var svg = document.getElementById('f8Svg'); svg.innerHTML = ''; aria(svg);
+  var L = 70, R = 450, Tp = 20, B = 284, LON = 6, LAT = 40;
+  function X(lo){ return (L + R)/2 + lo/LON*(R - L)/2; } function Y(la){ return (Tp + B)/2 - la/LAT*(B - Tp)/2; }
+  ns('rect', {x:L, y:Tp, width:R - L, height:B - Tp, fill:'#f3f5f7', stroke:'#0b0b0c', 'stroke-width':0.8}, svg);
+  [-30, -20, -10, 10, 20, 30].forEach(function(la){ ns('line', {x1:L, y1:Y(la), x2:R, y2:Y(la), stroke:'#dfe3e6'}, svg); txt(svg, L - 5, Y(la) + 4, Math.abs(la) + '°' + (la > 0 ? T('N','с') : T('S','ю')), 'svg-small', 'end'); });
+  [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5].forEach(function(lo){ ns('line', {x1:X(lo), y1:Tp, x2:X(lo), y2:B, stroke:'#dfe3e6'}, svg); txt(svg, X(lo), B + 15, (lo > 0 ? '+' : '−') + Math.abs(lo) + '°', 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:Y(0), x2:R, y2:Y(0), stroke:'#9aa3aa', 'stroke-dasharray':'3 3'}, svg); txt(svg, L - 5, Y(0) + 4, '0°', 'svg-small', 'end');
+  ns('line', {x1:X(0), y1:Tp, x2:X(0), y2:B, stroke:'#9aa3aa', 'stroke-dasharray':'3 3'}, svg);
+  var d = '';
+  for(var k = 0; k <= 360; k++){ var p = f8Point(iD, k/360*2*Math.PI); d += (k ? 'L' : 'M') + X(p[1]).toFixed(1) + ',' + Y(p[0]).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  for(var hh = 0; hh < 24; hh++){ var q = f8Point(iD, hh/24*2*Math.PI); ns('circle', {cx:X(q[1]), cy:Y(q[0]), r:hh % 6 ? 2.2 : 3.6, fill:'#2f5aa1'}, svg); }
+  var stretch = ((R - L)/2/LON)/((B - Tp)/2/LAT);
+  txt(svg, R, 12, T('east–west stretched ×','восток–запад растянуто ×') + fmt(stretch, 1) + T(' · dots every hour',' · точки через час'), 'svg-tiny', 'end');
+  txt(svg, (L + R)/2, B + 30, T('longitude from the mean position','долгота от среднего положения'), 'svg-small', 'middle');
+  cells(document.getElementById('f8Readout'), [
+    [T('NORTH–SOUTH SWING','КАЧАНИЕ СЕВЕР–ЮГ'), '±' + deg(iD, 2)],
+    [T('EAST–WEST SWING','КАЧАНИЕ ВОСТОК–ЗАПАД'), '±' + deg(sw, sw < 0.01 ? 4 : 2)],
+    [T('SEEN FROM BELOW: SWING FROM ZENITH','ВИДНО СНИЗУ: ОТКЛОНЕНИЕ ОТ ЗЕНИТА'), '±' + deg(zen, 1)],
+    [T('A DEAD SATELLITE DRIFTS TO THIS IN','БРОШЕННЫЙ СПУТНИК ДРЕЙФУЕТ ДО ЭТОГО ЗА'), yrs === null ? T('never (cycle tops out at ~15°)','никогда (цикл не выше ~15°)') : (yrs < 1 ? fmt(yrs*12, 0) + T(' months',' мес.') : '≈ ' + fmt(yrs, 0) + yearsWord(Math.round(yrs)))]
+  ]);
+  hud1.textContent = km(H_GEO); hud2.textContent = hms(SID);
+  document.getElementById('f8Status').innerHTML = iD < 0.2
+    ? T('Practically geostationary: the satellite stays put to within a fraction of a degree, and a fixed dish never has to move.','Практически геостационарная орбита: спутник стоит на месте с точностью до долей градуса, и неподвижной антенне никогда не нужно поворачиваться.')
+    : iD <= DRIFT_AMP ? T('Geosynchronous but not geostationary: each day the satellite swings ','Геосинхронная, но не геостационарная орбита: каждые сутки спутник качается на ') + deg(iD, 1) + T(' north and south and loops ±',' к северу и к югу и описывает петли ±') + deg(sw, 2) + T(' east and west. A dead satellite gets this tilted in about ',' к востоку и западу. Брошенный спутник наклоняется так примерно за ') + (yrs < 1 ? fmt(yrs*12, 0) + T(' months.',' мес.') : fmt(yrs, 0) + yearsWord(Math.round(yrs)) + '.')
+    : T('More than the Moon and Sun ever give an abandoned satellite — a tilt like this is put there by the launch, as with Syncom 2. A dish must swing ±','Больше, чем Луна и Солнце когда-либо дают брошенному спутнику: такой наклон задаёт запуск, как у «Синкома-2». Антенна должна качаться на ±') + deg(zen, 0) + T(' to follow it.',', чтобы за ним следить.');
+}
+f8I.addEventListener('input', function(){ pressGroup(document.getElementById('f8Pre'), null); renderF8(); });
+Array.prototype.forEach.call(document.querySelectorAll('#f8Pre .btn'), function(btn){ btn.addEventListener('click', function(){ f8I.value = this.getAttribute('data-i'); pressGroup(this.parentNode, this); renderF8(); }); });
+
+/* ============ CH5 — MOLNIYA ============ */
+var ML_E = 0.722, ML_A = aForPeriod(SID/2), ML_W = 270, ML_APO_LON = 65;   // e and 12 h [13]
+var mlI = document.getElementById('mlI');
+function critIncl(){ return Math.acos(Math.sqrt(0.2))/D2R; }
+function mlRates(iDeg){ var r = rates(ML_A, ML_E, iDeg); return {dw:r.dw/D2R*86400*365.25, dO:r.dO/D2R*86400}; }   // °/yr, °/day
+/* one day of ground track starting at perigee; Earth turns at OMEGA_E; longitudes shifted so the first apogee sits at ML_APO_LON */
+function mlTrack(iDeg, steps){
+  var P = periodS(ML_A), n = 2*Math.PI/P, i = iDeg*D2R, w = ML_W*D2R, pts = [];
+  for(var k = 0; k <= steps; k++){
+    var t = k/steps*SID, E = kepler(n*t, ML_E), nu = 2*Math.atan2(Math.sqrt(1 + ML_E)*Math.sin(E/2), Math.sqrt(1 - ML_E)*Math.cos(E/2)), u = w + nu;
+    var lat = Math.asin(Math.sin(i)*Math.sin(u)), lon = Math.atan2(Math.cos(i)*Math.sin(u), Math.cos(u)) - OMEGA_E*t;
+    pts.push([lat/D2R, lon/D2R, t]);
+  }
+  var lonA = Math.atan2(Math.cos(i)*Math.sin(w + Math.PI), Math.cos(w + Math.PI)) - OMEGA_E*P/2;
+  var shift = ML_APO_LON - lonA/D2R;
+  pts.forEach(function(p){ var l = p[1] + shift; p[1] = ((l + 180) % 360 + 360) % 360 - 180; });
+  return pts;
+}
+/* fraction of each orbit spent north of a latitude */
+function mlFracNorth(iDeg, latDeg){ var pts = mlTrack(iDeg, 4000), c = 0; for(var k = 0; k < 4000; k++) if(pts[k][0] > latDeg) c++; return c/4000; }
+function renderML(){
+  var iD = +mlI.value, rt = mlRates(iD), f50 = mlFracNorth(iD, 50), fEq = mlFracNorth(iD, 0);
+  document.getElementById('mlIVal').textContent = deg(iD, 2); mlI.setAttribute('aria-valuetext', deg(iD, 2) + ', ' + T('perigee drift ','дрейф перигея ') + fmt(rt.dw, 1) + T('° a year','° в год'));
+  var svg = document.getElementById('mlSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 30, R = 470, Tp = 10, B = 230, P = mapXY(L, R, Tp, B);
+  drawGraticule(svg, P, L, R, Tp, B);
+  ns('rect', {x:L, y:Tp, width:R - L, height:P.Y(50) - Tp, fill:'#2f5aa1', opacity:0.07}, svg);
+  txt(svg, R - 4, P.Y(50) - 4, T('north of 50°','севернее 50°'), 'svg-tiny', 'end');
+  var pts = mlTrack(iD, 1440);
+  ns('path', {d:trackPath(pts, P), fill:'none', stroke:'#b5452a', 'stroke-width':1.8}, svg);
+  for(var hh = 0; hh <= 24; hh++){ var p = pts[Math.round(hh/24*1440)]; ns('circle', {cx:P.X(p[1]), cy:P.Y(p[0]), r:2.6, fill:'#0b0b0c'}, svg); }
+  [[55.75, 37.62, T('Moscow','Москва')], [69.35, 88.2, T('Norilsk','Норильск')]].forEach(function(c){ ns('rect', {x:P.X(c[1]) - 3, y:P.Y(c[0]) - 3, width:6, height:6, fill:'#2f5aa1'}, svg); txt(svg, P.X(c[1]) + 6, P.Y(c[0]) + 12, c[2], 'svg-tiny svg-halo'); });
+  txt(svg, R - 4, B + 15, T('24 h of ground track, dots every hour; apogees over 65° E and 115° W','24 ч трассы, точки через час; апогеи над 65° в. д. и 115° з. д.'), 'svg-tiny', 'end');
+  cells(document.getElementById('mlReadout'), [
+    [T('PERIGEE · APOGEE','ПЕРИГЕЙ · АПОГЕЙ'), km(ML_A*(1 - ML_E) - RE) + ' · ' + km(ML_A*(1 + ML_E) - RE)],
+    [T('PERIGEE DRIFT FROM J₂','ДРЕЙФ ПЕРИГЕЯ ИЗ-ЗА J₂'), (Math.abs(rt.dw) < 0.05 ? '0' : (rt.dw > 0 ? '+' : '') + fmt(rt.dw, 1)) + T('° a year','° в год')],
+    [T('NORTH OF THE EQUATOR','СЕВЕРНЕЕ ЭКВАТОРА'), fmt(fEq*100, 1) + T(' % of each orbit',' % каждого витка')],
+    [T('NORTH OF 50°','СЕВЕРНЕЕ 50°'), fmt(f50*12, 1) + T(' h of every 12',' ч из каждых 12')]
+  ]);
+  hud1.textContent = km(ML_A*(1 + ML_E) - RE); hud2.textContent = hms(periodS(ML_A));
+  var st = document.getElementById('mlStatus');
+  if(Math.abs(rt.dw) < 0.5) st.innerHTML = T('The critical inclination: the bulge no longer turns the orbit, so the apogee stays over the north year after year.','Критическое наклонение: вздутие больше не поворачивает орбиту, и апогей год за годом остаётся над севером.');
+  else st.innerHTML = T('At this tilt the bulge turns the perigee ','При таком наклоне вздутие поворачивает перигей на ') + fmt(Math.abs(rt.dw), 1) + T('° a year; in about ','° в год; примерно за ') + fmt(30/Math.abs(rt.dw)*12, 0) + T(' months the apogee would slide 30° away from the top of the orbit, and the long northern dwell would start to fade.',' мес. апогей сместится на 30° от верхней точки орбиты, и долгое «зависание» над севером начнёт исчезать.');
+}
+mlI.addEventListener('input', function(){ pressGroup(document.getElementById('mlPre'), null); renderML(); });
+Array.prototype.forEach.call(document.querySelectorAll('#mlPre .btn'), function(btn){ btn.addEventListener('click', function(){ mlI.value = this.getAttribute('data-i'); pressGroup(this.parentNode, this); renderML(); }); });
+
+/* ============ CH6 — COVERAGE AND DELAY ============ */
+var cvE = document.getElementById('cvE'), cvL = document.getElementById('cvL');
+function coverLambda(epsDeg){ var e = epsDeg*D2R; return (Math.acos(RE*Math.cos(e)/R_GEO) - e)/D2R; }       // Earth-central angle, °
+function slantKm(epsDeg){ var e = epsDeg*D2R; return Math.sqrt(R_GEO*R_GEO - RE*RE*Math.cos(e)*Math.cos(e)) - RE*Math.sin(e); }
+function capFraction(lamDeg){ return (1 - Math.cos(lamDeg*D2R))/2; }
+function satsForRing(epsDeg){ return Math.ceil(180/coverLambda(epsDeg) - 1e-9); }
+function elevAtLat(latDeg){ var p = latDeg*D2R; return Math.atan2(Math.cos(p) - RE/R_GEO, Math.sin(p))/D2R; }
+function rangeAtLat(latDeg){ var p = latDeg*D2R; return Math.sqrt(RE*RE + R_GEO*R_GEO - 2*RE*R_GEO*Math.cos(p)); }
+function earthAngDeg(){ return 2*Math.asin(RE/R_GEO)/D2R; }
+function renderCV(){
+  var eps = +cvE.value, lat = +cvL.value, lam = coverLambda(eps), el = elevAtLat(lat), d = rangeAtLat(lat);
+  document.getElementById('cvEVal').textContent = deg(eps, 1); cvE.setAttribute('aria-valuetext', deg(eps, 1) + ', ' + T('coverage radius ','радиус зоны ') + deg(lam, 1));
+  document.getElementById('cvLVal').textContent = deg(lat, 2); cvL.setAttribute('aria-valuetext', deg(lat, 2) + ', ' + T('elevation ','угол места ') + deg(el, 1));
+  var svg = document.getElementById('cvSvg'); svg.innerHTML = ''; aria(svg);
+  var cx = 62, cy = 136, rp = 56, k = rp/RE, sx = cx + R_GEO*k, sy = cy;
+  ns('circle', {cx:cx, cy:cy, r:rp, fill:'#dfe7ef', stroke:'#0b0b0c', 'stroke-width':1}, svg);
+  ns('line', {x1:cx, y1:cy, x2:sx, y2:sy, stroke:'#9aa3aa', 'stroke-dasharray':'3 3'}, svg);
+  /* usable footprint arc and lines of sight to its edges */
+  var a0 = lam*D2R, arc = 'M' + (cx + rp*Math.cos(a0)).toFixed(1) + ',' + (cy - rp*Math.sin(a0)).toFixed(1) + ' A' + rp + ',' + rp + ' 0 0 1 ' + (cx + rp*Math.cos(a0)).toFixed(1) + ',' + (cy + rp*Math.sin(a0)).toFixed(1);
+  ns('path', {d:arc, fill:'none', stroke:'#b5452a', 'stroke-width':4}, svg);
+  [1, -1].forEach(function(sg){ ns('line', {x1:sx, y1:sy, x2:cx + rp*Math.cos(a0), y2:cy - sg*rp*Math.sin(a0), stroke:'#b5452a', 'stroke-width':1, opacity:0.7}, svg); });
+  /* station at the chosen latitude, line of sight */
+  var p = lat*D2R, px = cx + rp*Math.cos(p), py = cy - rp*Math.sin(p);
+  ns('line', {x1:px, y1:py, x2:sx, y2:sy, stroke:el > 0 ? '#2f5aa1' : '#8f8f88', 'stroke-width':1.6, 'stroke-dasharray':el > 0 ? '' : '4 3'}, svg);
+  ns('circle', {cx:px, cy:py, r:4.5, fill:'#2f5aa1'}, svg);
+  ns('rect', {x:sx - 5, y:sy - 5, width:10, height:10, fill:'#0b0b0c'}, svg);
+  txt(svg, sx + 4, sy + 26, T('satellite, 35,786 km up','спутник, 35 786 км'), 'svg-small svg-halo', 'end');
+  txt(svg, 8, cy + rp + 20, T('Earth (to scale)','Земля (в масштабе)'), 'svg-small');
+  txt(svg, 20, 24, T('red: usable footprint at ≥ ','красное: рабочая зона при ≥ ') + deg(eps, 1) + T(' elevation',' над горизонтом'), 'svg-small');
+  txt(svg, 20, 40, T('blue: line of sight from the station','синее: линия визирования со станции'), 'svg-small');
+  var one = 2*d/C_KMS*1000;
+  cells(document.getElementById('cvReadout'), [
+    [T('FOOTPRINT RADIUS (ARC)','РАДИУС ЗОНЫ (ДУГА)'), deg(lam, 1)],
+    [T('SHARE OF EARTH\'S SURFACE','ДОЛЯ ПОВЕРХНОСТИ ЗЕМЛИ'), fmt(capFraction(lam)*100, 1) + ' %'],
+    [T('SATELLITES FOR A FULL RING','СПУТНИКОВ ДЛЯ ПОЛНОГО КОЛЬЦА'), String(satsForRing(eps))],
+    [T('ELEVATION AT THIS LATITUDE','УГОЛ МЕСТА НА ЭТОЙ ШИРОТЕ'), el > 0 ? deg(el, 1) : T('below horizon','под горизонтом')],
+    [T('ONE WAY, STATION TO TWIN STATION','В ОДНУ СТОРОНУ, ОТ СТАНЦИИ ДО ТАКОЙ ЖЕ'), el > 0 ? fmt(one, 0) + T(' ms',' мс') : '—'],
+    [T('QUESTION AND ANSWER','ВОПРОС И ОТВЕТ'), el > 0 ? fmt(2*one/1000, 2) + T(' s',' с') : '—']
+  ]);
+  hud1.textContent = km(H_GEO); hud2.textContent = hms(SID);
+  var st = document.getElementById('cvStatus');
+  st.innerHTML = el <= 0 ? T('Below the horizon: beyond ','Под горизонтом: севернее ') + deg(coverLambda(0), 1) + T(' of latitude no geostationary satellite can be seen at all.',' широты ни один геостационарный спутник вообще не виден.')
+    : el < eps ? T('Visible, but only ','Виден, но лишь на ') + deg(el, 1) + T(' up — lower than the ',' над горизонтом — ниже требуемых ') + deg(eps, 1) + T(' this link needs. This is the gap Molniya filled.',' для этой линии. Этот пробел и закрыла «Молния».')
+    : T('Usable: the dish points ','Пригодно: антенна смотрит на ') + deg(el, 1) + T(' above the horizon, and each hop up and down adds ',' над горизонтом, и каждый путь вверх-вниз добавляет ') + fmt(one, 0) + T(' ms. With ',' мс. При ') + deg(eps, 1) + T(' minimum elevation, ',' минимального угла ') + satsForRing(eps) + T(' satellites close the ring around the equator.',' спутника замыкают кольцо вокруг экватора.');
+}
+cvE.addEventListener('input', renderCV);
+cvL.addEventListener('input', function(){ pressGroup(document.getElementById('cvPre'), null); renderCV(); });
+Array.prototype.forEach.call(document.querySelectorAll('#cvPre .btn'), function(btn){ btn.addEventListener('click', function(){ cvL.value = this.getAttribute('data-lat'); pressGroup(this.parentNode, this); renderCV(); }); });
+
+/* ============ CH7 — LEGACY ============ */
+var TIMELINE = [
+  ['1929', 'Herman Potočnik (“Hermann Noordung”) places a space station 35,900 km above the equator, where it keeps pace with the turning Earth [1].', 'Герман Поточник («Герман Нордунг») помещает космическую станцию в 35 900 км над экватором, где она не отстаёт от вращения Земли [1].'],
+  ['1945', 'Arthur C. Clarke\'s “Extra-Terrestrial Relays” in <i>Wireless World</i>: three stations at 42,000 km radius for a world radio service [2].', 'Статья Артура Кларка «Внеземные ретрансляторы» в <i>Wireless World</i>: три станции на радиусе 42 000 км для всемирной радиосвязи [2].'],
+  ['1960', 'Echo 1, a 30.48 m reflecting balloon, launched on 12 August [3].', '12 августа запущен «Эхо-1» — отражающий шар диаметром 30,48 м [3].'],
+  ['1962', 'Starfish Prime explodes 400 km above the Pacific on 9 July; Telstar 1 launches on 10 July; first transatlantic TV signal to Pleumeur-Bodou on 11 July; first public live broadcast on 23 July [5][6].', '9 июля — взрыв «Старфиш Прайм» в 400 км над Тихим океаном; 10 июля — запуск «Телстара-1»; 11 июля — первый трансатлантический телесигнал в Плёмёр-Боду; 23 июля — первая публичная прямая трансляция [5][6].'],
+  ['1962', 'Relay 1 launched on 13 December into a 1,322 × 7,439 km orbit [7].', '13 декабря «Релей-1» выведен на орбиту 1322 × 7439 км [7].'],
+  ['1963', 'Telstar 1 falls silent in February, its transistors ruined by radiation [6]. Syncom 2, the first geosynchronous satellite, launched on 26 July [8].', 'В феврале «Телстар-1» замолкает: его транзисторы разрушены радиацией [6]. 26 июля запущен «Синком-2» — первый геосинхронный спутник [8].'],
+  ['1964', 'Syncom 3, the first geostationary satellite, launched on 19 August; live television of the Tokyo Olympics across the Pacific [9].', '19 августа запущен «Синком-3» — первый геостационарный спутник; прямые телетрансляции Олимпиады в Токио через Тихий океан [9].'],
+  ['1965', 'Early Bird (Intelsat I), the first commercial communications satellite, launched on 6 April and in service from 28 June [10][11]. Molniya-1 launched on 23 April [12].', '6 апреля запущен «Эрли Бёрд» («Интелсат-1») — первый коммерческий спутник связи; в строю с 28 июня [10][11]. 23 апреля запущена «Молния-1» [12].'],
+  ['1967', 'The Orbita network opens with 20 receiving stations across the Soviet north and east [14].', 'Открывается сеть «Орбита» — 20 приёмных станций на севере и востоке СССР [14].'],
+  ['1969', 'Early Bird, in reserve since January, is briefly reactivated for Apollo 11 [10]; Syncom 3 is switched off in April [9].', '«Эрли Бёрд», с января в резерве, ненадолго включают для «Аполлона-11» [10]; в апреле «Синком-3» выключен [9].'],
+  ['2026', 'CelesTrak lists 568 active geosynchronous satellites; Telstar 1, Syncom 3 and Early Bird are still in orbit, silent [21].', 'В списке CelesTrak — 568 активных геосинхронных спутников; «Телстар-1», «Синком-3» и «Эрли Бёрд» по-прежнему на орбите и молчат [21].']
+];
+var REFERENCES = [
+  {title:'H. Noordung (H. Potočnik), “The Problem of Space Travel: The Rocket Motor”, NASA SP-4026 (1995, translation of the 1929 original)', url:'https://www.nasa.gov/wp-content/uploads/2023/03/sp-4026.pdf', note:{en:'pp. 72–74: an object 42,300 km from Earth\'s centre in the equatorial plane, orbiting at 3,080 m/s, “precisely 35,900 km above the Earth\'s surface”, stays over one point (“stationary orbit”); the preface discusses short-wave links and Clarke\'s later comments.', ru:'С. 72–74: объект в плоскости экватора в 42 300 км от центра Земли, движущийся со скоростью 3080 м/с, «ровно в 35 900 км над поверхностью Земли», остаётся над одной точкой («стационарная орбита»); в предисловии — связь на коротких волнах и позднейшие замечания Кларка.'}},
+  {title:'A. C. Clarke (1945), “Extra-Terrestrial Relays: Can Rocket Stations Give World-wide Radio Coverage?”, Wireless World, October 1945 (transcription)', url:'https://rfcafe.com/references/wireless-world/extra-terrestrial-relays-arthur-c-clarke-oct-1945-wireless-world.htm', note:{en:'“One orbit, with a radius of 42,000 km, has a period of exactly 24 hours”; three stations at 30° E, 150° E and 90° W; a single station covers half the globe; about 1.2 kW for broadcasting.', ru:'«Одна орбита радиусом 42 000 км имеет период ровно 24 часа»; три станции на 30° в. д., 150° в. д. и 90° з. д.; одна станция покрывает полушарие; для вещания около 1,2 кВт.'}},
+  {title:'NASA NSSDCA Master Catalog, “Echo 1” (1960-009A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1960-009A', note:{en:'Launched 12 August 1960; 30.48 m balloon of 0.0127 mm Mylar; passive reflector; orbit 1,524 × 1,684 km, 47.2°, 118.3 min (orbital information page).', ru:'Запуск 12 августа 1960 года; шар диаметром 30,48 м из майлара толщиной 0,0127 мм; пассивный отражатель; орбита 1524 × 1684 км, 47,2°, 118,3 мин (страница орбитальных данных).'}},
+  {title:'NASA, “Telstar Opened Era of Global Satellite Television”', url:'https://www.nasa.gov/content/telstar-opened-era-of-global-satellite-television', note:{en:'Launched 10 July 1962 on a Delta; a 171-pound, 34.5-inch sphere; 3,503-by-593-mile orbit; available for broadcasts “for only about 18 minutes at a time”.', ru:'Запуск 10 июля 1962 года на ракете «Дельта»; шар массой 171 фунт и диаметром 34,5 дюйма; орбита 3503 × 593 мили; пригоден для трансляций «лишь примерно по 18 минут».'}},
+  {title:'IEEE ETHW, “Milestones: First Transatlantic Transmission of a Television Signal via Satellite, 1962”', url:'https://ethw.org/Milestones:First_Transatlantic_Transmission_of_a_Television_Signal_via_Satellite,_1962', note:{en:'Andover, Maine, transmitted the first transatlantic TV signal to Pleumeur-Bodou on 11 July 1962; horn antenna about seven stories tall, 340 tons, in a radome 160 ft high; Telstar amplified the signal about ten billion times.', ru:'Андовер (штат Мэн) передал первый трансатлантический телесигнал в Плёмёр-Боду 11 июля 1962 года; рупорная антенна высотой около семи этажей, 340 тонн, под куполом высотой 160 футов; «Телстар» усиливал сигнал примерно в десять миллиардов раз.'}},
+  {title:'Scientific American, “How the U.S. Accidentally Nuked Its Own Communications Satellite”', url:'https://www.scientificamerican.com/article/how-us-accidentally-nuked-own-communications-satellite', note:{en:'Starfish Prime the day before Telstar\'s launch: 1.4 Mt at 400 km; electron flux a hundred times the prediction; Telstar\'s transistors failed for good in February 1963; first public broadcast 23 July 1962; John Pierce\'s estimate of about 25 satellites for continuous coverage.', ru:'«Старфиш Прайм» за день до запуска «Телстара»: 1,4 Мт на высоте 400 км; поток электронов в сто раз больше предсказанного; транзисторы «Телстара» окончательно отказали в феврале 1963 года; первая публичная трансляция 23 июля 1962 года; оценка Джона Пирса — около 25 спутников для непрерывной связи.'}},
+  {title:'NASA NSSDCA Master Catalog, “Relay 1” (1962-068A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1962-068A', note:{en:'Launched 13 December 1962; radiation-belt experiments; orbit 1,322 × 7,439 km, 47.5°, 185 min (orbital information page); usable data until 10 February 1965.', ru:'Запуск 13 декабря 1962 года; эксперименты по радиационным поясам; орбита 1322 × 7439 км, 47,5°, 185 мин (страница орбитальных данных); пригодные данные до 10 февраля 1965 года.'}},
+  {title:'NASA NSSDCA Master Catalog, “Syncom 2” (1963-031A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1963-031A', note:{en:'First geosynchronous satellite, launched 26 July 1963; inclined 33°, figure eight 33° north and south; at 55° longitude from 16 August; 71 × 39 cm cylinder, 68 kg fuelled, 29 W; one two-way telephone channel.', ru:'Первый геосинхронный спутник, запуск 26 июля 1963 года; наклонение 33°, восьмёрка на 33° к северу и югу; на долготе 55° с 16 августа; цилиндр 71 × 39 см, 68 кг с топливом, 29 Вт; один двусторонний телефонный канал.'}},
+  {title:'NASA NSSDCA Master Catalog, “Syncom 3” (1964-047A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-047A', note:{en:'First geostationary satellite, launched 19 August 1964; 35,670 × 35,908 km, inclination 0.1°, at 180° longitude; live television of the 1964 Tokyo Olympics; turned off in April 1969.', ru:'Первый геостационарный спутник, запуск 19 августа 1964 года; 35 670 × 35 908 км, наклонение 0,1°, долгота 180°; прямые телетрансляции Олимпиады 1964 года в Токио; выключен в апреле 1969 года.'}},
+  {title:'Gunter\'s Space Page, “Intelsat 1 (Early Bird)”', url:'https://space.skyrocket.de/doc_sdat/intelsat-1.htm', note:{en:'Launched 6 April 1965; 240 circuits or one TV channel; planned station 28° W; commercial service from 28 June 1965; designed for 18 months, about 4 years achieved; in reserve from January 1969, reactivated for Apollo 11.', ru:'Запуск 6 апреля 1965 года; 240 каналов или один телевизионный; планируемая точка 28° з. д.; коммерческая эксплуатация с 28 июня 1965 года; рассчитан на 18 месяцев, проработал около 4 лет; в резерве с января 1969 года, включён для «Аполлона-11».'}},
+  {title:'IEEE Communications Society, “History of Communications”: Early Bird (1965)', url:'https://www.comsoc.org/node/19396', note:{en:'The first commercial communications satellite, launched 6 April 1965; planned life 18 months, lasted four years.', ru:'Первый коммерческий спутник связи, запуск 6 апреля 1965 года; расчётный срок 18 месяцев, проработал четыре года.'}},
+  {title:'IEEE Communications Society, “History of Communications”: Molniya 1 (1965)', url:'https://www.comsoc.org/node/19421', note:{en:'23 April 1965: the Soviet Union launches its first communications satellite and carries out television transmissions.', ru:'23 апреля 1965 года: Советский Союз запускает свой первый спутник связи и проводит телевизионные передачи.'}},
+  {title:'NASA Earth Observatory, “Catalog of Earth Satellite Orbits”', url:'https://science.nasa.gov/earth/earth-observatory/catalog-of-earth-satellite-orbits', note:{en:'Geosynchronous at 42,164 km from Earth\'s centre; the Molniya orbit combines inclination 63.4° with eccentricity 0.722 and a 12-hour period and works well for high latitudes.', ru:'Геосинхронная орбита — 42 164 км от центра Земли; орбита «Молния» сочетает наклонение 63,4°, эксцентриситет 0,722 и период 12 часов и удобна для высоких широт.'}},
+  {title:'ComNews (2021), “Космическая одиссея телесигнала” (in Russian)', url:'https://www.comnews.ru/content/214004/2021-04-08/2021-w14/kosmicheskaya-odisseya-telesignala', note:{en:'The Orbita ground network began work in 1967 with 20 stations, 73 ten years later, in the Far North, Far East, Siberia, the Urals and Central Asia.', ru:'Наземная сеть «Орбита» заработала в 1967 году: 20 станций, через десять лет — 73, на Крайнем Севере, Дальнем Востоке, в Сибири, на Урале и в Средней Азии.'}},
+  {title:'ESA, “Types of orbits”', url:'https://www.esa.int/Enabling_Support/Space_Transportation/Types_of_orbits', note:{en:'Geostationary altitude 35,786 km; one orbit takes 23 hours 56 minutes 4 seconds; three evenly spaced satellites give near-global coverage.', ru:'Высота геостационарной орбиты 35 786 км; виток длится 23 часа 56 минут 4 секунды; три равномерно расставленных спутника дают почти глобальное покрытие.'}},
+  {title:'IERS Conventions (2010), Chapter 1, “General definitions and numerical standards”', url:'https://iers-conventions.obspm.fr/content/chapter1/icc1.pdf', note:{en:'GM⊕ = 3.986004418 × 10¹⁴ m³/s²; nominal mean angular velocity of the Earth ω = 7.292115 × 10⁻⁵ rad/s.', ru:'GM⊕ = 3,986004418 × 10¹⁴ м³/с²; номинальная средняя угловая скорость Земли ω = 7,292115 × 10⁻⁵ рад/с.'}},
+  {title:'NASA NSSDCA, “Earth Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html', note:{en:'Equatorial radius 6,378.137 km; J₂ = 1,082.63 × 10⁻⁶; sidereal rotation period 23.9345 h.', ru:'Экваториальный радиус 6378,137 км; J₂ = 1082,63 × 10⁻⁶; звёздный период вращения 23,9345 ч.'}},
+  {title:'S. Proietti, R. Flores, E. Fantino, M. Pontani (2021), “Long-Term Orbit Dynamics of Decommissioned Geostationary Satellites”, Acta Astronautica 182, 559–573', url:'https://arxiv.org/abs/2104.01240', note:{en:'Reviews earlier work: the orbit pole of an uncontrolled geostationary satellite precesses with a period of about 53 years around a point about 7.3° from Earth\'s axis; simulations show an inclination cycle with a maximum of 14.5–15°.', ru:'Обзор предшествующих работ: полюс орбиты неуправляемого геостационарного спутника прецессирует с периодом около 53 лет вокруг точки примерно в 7,3° от оси Земли; моделирование даёт цикл наклонения с максимумом 14,5–15°.'}},
+  {title:'N. L. Johnson (2011), “A New Look at the GEO and Near-GEO Regimes: Operations, Disposals, and Debris”, NASA JSC', url:'https://ntrs.nasa.gov/api/citations/20110006974/downloads/20110006974.pdf', note:{en:'The IADC GEO protected region: 200 km below to 200 km above geostationary altitude, and 15° either side of the equator.', ru:'Защищённая область ГСО по определению IADC: от 200 км ниже до 200 км выше геостационарной высоты и 15° по обе стороны экватора.'}},
+  {title:'47 CFR § 25.210(j), “Technical requirements for space stations” (Cornell LII)', url:'https://www.law.cornell.edu/cfr/text/47/25.210', note:{en:'Geostationary space stations “must be maintained within 0.05° of their assigned orbital longitude in the east/west direction” unless authorised otherwise.', ru:'Геостационарные космические станции «должны удерживаться в пределах 0,05° от назначенной орбитальной долготы в направлении восток–запад», если не разрешено иное.'}},
+  {title:'CelesTrak, “Current GP Element Sets” — Active Geosynchronous; Telstar 1 (340), Syncom 3 (858), Intelsat 1-F1 (1317)', url:'https://celestrak.org/NORAD/elements/', note:{en:'Retrieved 22 October 2026: 568 active geosynchronous satellites (326 below 0.1° inclination, 369 below 1°); Telstar 1 at 9.12893 revolutions a day, e = 0.2425, 44.79° (epoch 21 October 2026); Syncom 3 at 7.27° and Early Bird at 7.46°.', ru:'Получено 22 октября 2026 года: 568 активных геосинхронных спутников (326 с наклонением меньше 0,1°, 369 — меньше 1°); «Телстар-1»: 9,12893 оборота в сутки, e = 0,2425, 44,79° (эпоха 21 октября 2026 года); «Синком-3» — 7,27°, «Эрли Бёрд» — 7,46°.'}},
+  {title:'IEEE ETHW, “Milestones: First Transatlantic Reception of a Television Signal via Satellite, 1962”', url:'https://ethw.org/Milestones:First_Transatlantic_Reception_of_a_Television_Signal_via_Satellite,_1962', note:{en:'Pleumeur-Bodou received the first transatlantic transmission of a TV signal on 11 July 1962; its radome is 64 m across and is now a museum.', ru:'Плёмёр-Боду принял первую трансатлантическую передачу телесигнала 11 июля 1962 года; его купол диаметром 64 м сегодня — музей.'}},
+  {title:'Gunter\'s Space Page, “Syncom 1, 2, 3”', url:'https://space.skyrocket.de/doc_sdat/syncom-1.htm', note:{en:'Contractor: Hughes.', ru:'Подрядчик: Hughes.'}},
+  {title:'Gunter\'s Space Page, “Molniya-1”', url:'https://space.skyrocket.de/doc_sdat/molniya-1.htm', note:{en:'Orbit “500 km × 40000 km, 65° (typical)”, 12-hour period; the payload served the Orbita network or TV broadcast.', ru:'Орбита «500 км × 40 000 км, 65° (типичная)», период 12 часов; полезная нагрузка работала в сети «Орбита» или для телевещания.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderPD(); renderTS(); renderF8(); renderML(); renderCV();
+  if(tsPlay) setPlay(tsPlaying);
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__relay = {GM:GM, RE:RE, SID:SID, R_GEO:R_GEO, H_GEO:H_GEO, periodS:periodS, aForPeriod:aForPeriod, circV:circV, driftDegDay:driftDegDay,
+  kepler:kepler, rates:rates, eciAt:eciAt, toEcef:toEcef, gmst:gmst, station:station, elevDeg:elevDeg, TELSTAR:TELSTAR, TRACKS:TRACKS, PASSES:PASSES,
+  ANDOVER:ANDOVER, PLEUMEUR:PLEUMEUR, geoEcef:geoEcef, f8Point:f8Point, f8Swing:f8Swing, f8Zenith:f8Zenith, driftIncl:driftIncl, yearsToIncl:yearsToIncl,
+  critIncl:critIncl, mlRates:mlRates, mlTrack:mlTrack, mlFracNorth:mlFracNorth, ML_A:ML_A, ML_E:ML_E, coverLambda:coverLambda, slantKm:slantKm,
+  capFraction:capFraction, satsForRing:satsForRing, elevAtLat:elevAtLat, rangeAtLat:rangeAtLat, earthAngDeg:earthAngDeg, MARKS:MARKS, TIMELINE:TIMELINE, REFERENCES:REFERENCES};
+
+})();
+</script>
+</body>
+</html>

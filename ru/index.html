@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru" data-edition="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="yandex-verification" content="6aceeb02b2fcb918" />
+<title>Аэрокосмический справочник</title>
+<meta name="description" content="Аэрокосмический справочник">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/ru/">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Аэрокосмический справочник">
+<meta property="og:description" content="Аэрокосмический справочник">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/ru/">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+#hub-hero{border-bottom:1px solid var(--ink); padding-top:104px; padding-bottom:40px;}
+#hub-hero .eyebrow{margin-bottom:14px;}
+.hub-home{font-family:var(--font-mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:5px; display:inline-flex; align-items:center; min-height:44px;}
+.hub-home:hover,.hub-home:focus-visible{text-decoration-thickness:2px;}
+.vh{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; border:0;}
+.hub-cats{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:40px 48px;}
+.hub-cat h2{font-size:1rem; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;}
+.hub-cat ul{list-style:none; margin:10px 0 0; padding:0;}
+.hub-cat li{border-top:1px solid var(--line);}
+.hub-cat li:last-child{border-bottom:1px solid var(--line);}
+.hub-cat a,.hub-cat .np{display:flex; gap:12px; align-items:baseline; padding:10px 0; text-decoration:none;}
+.hub-cat a:hover .cl{text-decoration:underline;}
+.hub-cat .cn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.06em; color:var(--mid); flex:0 0 auto; min-width:82px;}
+.hub-cat .cl{font-size:14.5px;}
+.hub-cat .np .cl{color:var(--mid);}
+.hub-cat li.soon .cn{color:var(--mid);}
+.hub-cat li.ext .cn{color:var(--ink);}
+/* Mission of the day (script: assets/mission-of-day.js, shared with the followorbounce.github.io homepage) */
+#mission-of-day{padding-block:56px;}
+.mod-head{display:flex; justify-content:space-between; align-items:center; gap:12px 24px; flex-wrap:wrap; margin-bottom:16px;}
+.mod-head .eyebrow{margin-bottom:0;}
+.mod-bar{display:flex; gap:8px; flex-wrap:wrap;}
+.mod-seg{display:flex; border:1px solid var(--ink);}
+.mod-seg button{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; background:none; color:var(--ink); border:0; border-left:1px solid var(--ink); padding:7px 12px; min-height:34px;}
+.mod-seg button:first-child{border-left:0;}
+.mod-seg button:hover{text-decoration:underline;}
+.mod-seg button.active{background:var(--ink); color:var(--paper); text-decoration:none;}
+.mod-seg button:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.mod-step button{min-width:36px; font-size:14px;}
+.mod-frame{--ae-acc:#0b0b0c; position:relative; display:grid; grid-template-columns:minmax(0,1fr) 340px; border:1px solid var(--ink); background:var(--white);}
+.mod-frame canvas{display:block; width:100%; height:340px; cursor:ew-resize; touch-action:pan-y;}
+.mod-hint{position:absolute; left:12px; bottom:10px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--mid); pointer-events:none;}
+.mod-info{border-left:1px solid var(--ink); padding:20px 22px; display:flex; flex-direction:column; gap:10px; min-width:0;}
+.mod-when{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid);}
+.mod-name{font-size:1.5rem; line-height:1.1;}
+.mod-what{margin:0; font-size:15px; line-height:1.55; flex:1;}
+.mod-read{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; color:var(--ink); border-top:1px solid var(--line); padding-top:12px;}
+.mod-read:hover,.mod-read:focus-visible{text-decoration:underline;}
+.mod-note{margin-top:10px; font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--mid);}
+@media(max-width:760px){.mod-frame{grid-template-columns:1fr;} .mod-frame canvas{height:240px;} .mod-info{border-left:0; border-top:1px solid var(--ink);} .mod-hint{bottom:auto; top:10px;}}
+@media(pointer:coarse){.mod-seg button{min-height:44px; padding-inline:14px;}}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script src="/aerospace/assets/mission-of-day.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/">
+<!-- /hreflang -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Аэрокосмический справочник","url":"https://followorbounce.github.io/aerospace/ru/","inLanguage":"ru","publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"}}</script>
+<!-- /fob-ld -->
+</head>
+
+<body>
+
+<a class="skip-link" href="#index">Skip to content</a>
+
+<header id="chrome">
+  <div class="brand">AEROSPACE — KNOWLEDGE HUB</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="">EN</button>
+    <button data-lang="ru" class="active">RU</button>
+  </div>
+</header>
+
+<main>
+
+<section class="section" id="hub-hero">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">INDEX</span> — <span data-en="A FIELD LIBRARY OF SPACEFLIGHT" data-ru="ПОЛЕВАЯ БИБЛИОТЕКА КОСМОНАВТИКИ">ПОЛЕВАЯ БИБЛИОТЕКА КОСМОНАВТИКИ</span></div>
+    <h1 class="vh" data-en="Aerospace Knowledge Hub" data-ru="Аэрокосмический справочник">Аэрокосмический справочник</h1>
+    <a class="hub-home" href="https://followorbounce.github.io/" data-en="← Follow or Bounce" data-ru="← Follow or Bounce">← Follow or Bounce</a>
+  </div>
+</section>
+
+<section class="section" id="mission-of-day" aria-labelledby="ae-h">
+  <div class="section-inner">
+    <div class="mod-head">
+      <div class="eyebrow" id="ae-h" data-en="MISSION OF THE DAY" data-ru="МИССИЯ ДНЯ">МИССИЯ ДНЯ</div>
+      <div class="mod-bar">
+        <div class="mod-seg" id="ae-eras" role="group" aria-label="Choose a period">
+          <button type="button" class="active" data-era="today" aria-pressed="true" data-en="Today" data-ru="Сегодня">Сегодня</button>
+          <button type="button" data-era="0" aria-pressed="false">1957&ndash;75</button>
+          <button type="button" data-era="1" aria-pressed="false">1976&ndash;99</button>
+          <button type="button" data-era="2" aria-pressed="false" data-en="2000–now" data-ru="2000–сейчас">2000–сейчас</button>
+        </div>
+        <div class="mod-seg mod-step">
+          <button type="button" id="ae-prev" aria-label="Previous mission">&lsaquo;</button>
+          <button type="button" id="ae-next" aria-label="Next mission">&rsaquo;</button>
+        </div>
+      </div>
+    </div>
+    <div class="mod-frame" id="ae-frame">
+      <canvas id="ae-cv" role="img" aria-label="Animated trajectory of the selected mission"></canvas>
+      <div class="mod-hint" id="ae-hint"></div>
+      <div class="mod-info" aria-live="polite">
+        <div class="mod-when" id="ae-when">&nbsp;</div>
+        <h2 class="mod-name" id="ae-name">&nbsp;</h2>
+        <p class="mod-what" id="ae-what"></p>
+        <a class="mod-read" id="ae-read" href="/aerospace/ru/">&nbsp;</a>
+      </div>
+    </div>
+    <p class="mod-note" data-en="Trajectories are schematic, not to scale · dates UTC" data-ru="Траектории схематичны, без соблюдения масштаба · даты UTC">Траектории схематичны, без соблюдения масштаба · даты UTC</p>
+    <noscript><p class="mod-note">Mission of the day needs JavaScript.</p></noscript>
+  </div>
+</section>
+
+<section class="section" id="index">
+  <div class="section-inner hub-cats">
+
+    <div class="hub-cat" data-cat="dawn">
+      <h2 data-en="Dawn of the Space Age" data-ru="Начало космической эры">Начало космической эры</h2>
+      <ul>
+        <li><a href="/aerospace/ru/beep-sputnik-explorer"><span class="cn">BEEP</span><span class="cl" data-en="Sputnik, Explorer &amp; the First Satellites" data-ru="«Спутник», «Эксплорер» и первые спутники">«Спутник», «Эксплорер» и первые спутники</span></a></li>
+        <li><a href="/aerospace/ru/first-vostok-voskhod"><span class="cn">FIRST</span><span class="cl" data-en="Vostok &amp; Voskhod" data-ru="«Восток» и «Восход»">«Восток» и «Восход»</span></a></li>
+        <li><a href="/aerospace/ru/passenger-animals-in-space"><span class="cn">PASSENGER</span><span class="cl" data-en="Animals in Space: Laika, Belka &amp; Strelka, Ham" data-ru="Животные в космосе: Лайка, Белка и Стрелка, Хэм">Животные в космосе: Лайка, Белка и Стрелка, Хэм</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="orbit">
+      <h2 data-en="Earth Orbit &amp; Applications" data-ru="Околоземная орбита и её применение">Околоземная орбита и её применение</h2>
+      <ul>
+        <li><a href="/aerospace/ru/navigator-gps"><span class="cn">NAVIGATOR</span><span class="cl" data-en="GPS &amp; Satellite Navigation" data-ru="GPS и спутниковая навигация">GPS и спутниковая навигация</span></a></li>
+        <li><a href="/aerospace/ru/sunsync-earth-observation"><span class="cn">SUNSYNC</span><span class="cl" data-en="Earth Observation Satellites" data-ru="Спутники наблюдения Земли">Спутники наблюдения Земли</span></a></li>
+        <li><a href="/aerospace/ru/debris-space-junk"><span class="cn">DEBRIS</span><span class="cl" data-en="Space Debris &amp; the Kessler Syndrome" data-ru="Космический мусор и синдром Кесслера">Космический мусор и синдром Кесслера</span></a></li>
+        <li><a href="/aerospace/ru/relay-telstar-syncom"><span class="cn">RELAY</span><span class="cl" data-en="Telstar, Syncom &amp; the Geostationary Orbit" data-ru="«Телстар», «Синком» и геостационарная орбита">«Телстар», «Синком» и геостационарная орбита</span></a></li>
+        <li><a href="/aerospace/ru/swarm-megaconstellations"><span class="cn">SWARM</span><span class="cl" data-en="Megaconstellations: Starlink, OneWeb &amp; Amazon Leo" data-ru="Мегасозвездия: Starlink, OneWeb и Amazon Leo">Мегасозвездия: Starlink, OneWeb и Amazon Leo</span></a></li>
+        <li><a href="/aerospace/ru/forecast-weather-satellites"><span class="cn">FORECAST</span><span class="cl" data-en="Weather Satellites: TIROS, GOES &amp; Meteosat" data-ru="Метеоспутники: TIROS, GOES и «Метеосат»">Метеоспутники: TIROS, GOES и «Метеосат»</span></a></li>
+        <li><a href="/aerospace/ru/bucket-corona-spy-satellites"><span class="cn">BUCKET</span><span class="cl" data-en="CORONA, Zenit &amp; the First Spy Satellites" data-ru="CORONA, «Зенит» и первые спутники-разведчики">CORONA, «Зенит» и первые спутники-разведчики</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="stations">
+      <h2 data-en="Space Stations" data-ru="Космические станции">Космические станции</h2>
+      <ul>
+        <li><a href="/aerospace/ru/iss-and-mir"><span class="cn">ORBIT</span><span class="cl" data-en="ISS &amp; Mir" data-ru="МКС и Мир">МКС и Мир</span></a></li>
+        <li><a href="/aerospace/ru/workshop-skylab"><span class="cn">WORKSHOP</span><span class="cl" data-en="Skylab &amp; the First Stations" data-ru="«Скайлэб» и первые станции">«Скайлэб» и первые станции</span></a></li>
+        <li><a href="/aerospace/ru/salute-salyut-program"><span class="cn">SALUTE</span><span class="cl" data-en="The Salyut Program" data-ru="Программа «Салют»">Программа «Салют»</span></a></li>
+        <li><a href="/aerospace/ru/palace-tiangong-station"><span class="cn">PALACE</span><span class="cl" data-en="Tiangong Space Station" data-ru="Станция «Тяньгун»">Станция «Тяньгун»</span></a></li>
+        <li><a href="/aerospace/ru/almaz-program-ussr"><span class="cn">DIAMOND</span><span class="cl" data-en="The Almaz Program" data-ru="Программа «Алмаз»">Программа «Алмаз»</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="probes">
+      <h2 data-en="Deep Space Probes" data-ru="Межпланетные зонды">Межпланетные зонды</h2>
+      <ul>
+        <li><a href="/aerospace/ru/voyager-and-pioner"><span class="cn">DEPARTURE</span><span class="cl" data-en="Voyager &amp; Pioneer" data-ru="«Вояджер» и «Пионер»">«Вояджер» и «Пионер»</span></a></li>
+        <li><a href="/aerospace/ru/frontier-new-horizons"><span class="cn">FRONTIER</span><span class="cl" data-en="New Horizons &amp; the Kuiper Belt" data-ru="«Новые горизонты» и пояс Койпера">«Новые горизонты» и пояс Койпера</span></a></li>
+        <li><a href="/aerospace/ru/umbrella-galileo-jupiter"><span class="cn">UMBRELLA</span><span class="cl" data-en="Galileo at Jupiter" data-ru="«Галилео» у Юпитера">«Галилео» у Юпитера</span></a></li>
+        <li><a href="/aerospace/ru/finale-cassini-huygens"><span class="cn">FINALE</span><span class="cl" data-en="Cassini-Huygens at Saturn" data-ru="«Кассини-Гюйгенс» у Сатурна">«Кассини-Гюйгенс» у Сатурна</span></a></li>
+        <li><a href="/aerospace/ru/furnace-venera-vega"><span class="cn">FURNACE</span><span class="cl" data-en="Venera &amp; Vega" data-ru="«Венера» и «Вега»">«Венера» и «Вега»</span></a></li>
+        <li><a href="/aerospace/ru/polar-juno-jupiter"><span class="cn">POLAR</span><span class="cl" data-en="Juno at Jupiter" data-ru="«Юнона» у Юпитера">«Юнона» у Юпитера</span></a></li>
+        <li><a href="/aerospace/ru/scorch-mercury-messenger-bepicolombo"><span class="cn">SCORCH</span><span class="cl" data-en="Mercury: MESSENGER &amp; BepiColombo" data-ru="Меркурий: MESSENGER и BepiColombo">Меркурий: MESSENGER и BepiColombo</span></a></li>
+        <li><a href="/aerospace/ru/veil-magellan-venus"><span class="cn">VEIL</span><span class="cl" data-en="Magellan&#x27;s Radar Map of Venus" data-ru="Радиолокационная карта Венеры «Магеллана»">Радиолокационная карта Венеры «Магеллана»</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="sun">
+      <h2 data-en="The Sun &amp; Small Bodies" data-ru="Солнце и малые тела">Солнце и малые тела</h2>
+      <ul>
+        <li><a href="/aerospace/ru/corona-parker-solar-orbiter"><span class="cn">CORONA</span><span class="cl" data-en="Parker Solar Probe &amp; Solar Orbiter" data-ru="Parker Solar Probe и Solar Orbiter">Parker Solar Probe и Solar Orbiter</span></a></li>
+        <li><a href="/aerospace/ru/comet-rosetta-philae"><span class="cn">COMET</span><span class="cl" data-en="Rosetta &amp; Philae" data-ru="«Розетта» и «Филы»">«Розетта» и «Филы»</span></a></li>
+        <li><a href="/aerospace/ru/sample-hayabusa-osiris-rex"><span class="cn">SAMPLE</span><span class="cl" data-en="Hayabusa &amp; OSIRIS-REx" data-ru="«Хаябуса» и OSIRIS-REx">«Хаябуса» и OSIRIS-REx</span></a></li>
+        <li><a href="/aerospace/ru/impact-dart-planetary-defence"><span class="cn">IMPACT</span><span class="cl" data-en="DART &amp; Planetary Defence" data-ru="DART и планетарная защита">DART и планетарная защита</span></a></li>
+        <li><a href="/aerospace/ru/belt-dawn-vesta-ceres"><span class="cn">BELT</span><span class="cl" data-en="Dawn at Vesta &amp; Ceres" data-ru="Dawn у Весты и Цереры">Dawn у Весты и Цереры</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="moon">
+      <h2 data-en="Moon Exploration" data-ru="Исследование Луны">Исследование Луны</h2>
+      <ul>
+        <li><a href="/aerospace/ru/luna-programs"><span class="cn">DESCENT</span><span class="cl" data-en="Luna &amp; the Moon Race" data-ru="«Луна» и лунная гонка">«Луна» и лунная гонка</span></a></li>
+        <li><a href="/aerospace/ru/tranquility-apollo-program"><span class="cn">TRANQUILITY</span><span class="cl" data-en="The Apollo Program" data-ru="Программа «Аполлон»">Программа «Аполлон»</span></a></li>
+        <li><a href="/aerospace/ru/prospect-clementine-mission"><span class="cn">PROSPECT</span><span class="cl" data-en="The Clementine Mission" data-ru="Миссия «Клементина»">Миссия «Клементина»</span></a></li>
+        <li><a href="/aerospace/ru/scout-lunar-reconnaissance-orbiter"><span class="cn">SCOUT</span><span class="cl" data-en="Lunar Reconnaissance Orbiter" data-ru="Орбитальный разведчик Луны">Орбитальный разведчик Луны</span></a></li>
+        <li><a href="/aerospace/ru/valor-the-chandrayaan-mission"><span class="cn">VALOR</span><span class="cl" data-en="The Chandrayaan Missions" data-ru="Миссии «Чандраян»">Миссии «Чандраян»</span></a></li>
+        <li><a href="/aerospace/ru/campaign-artemis-program"><span class="cn">CAMPAIGN</span><span class="cl" data-en="The Artemis Program" data-ru="Программа Artemis">Программа Artemis</span></a></li>
+        <li><a href="/aerospace/ru/rabbit-change-far-side"><span class="cn">RABBIT</span><span class="cl" data-en="Chang&#x27;e &amp; the Far Side of the Moon" data-ru="«Чанъэ» и обратная сторона Луны">«Чанъэ» и обратная сторона Луны</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="mars">
+      <h2 data-en="Mars Exploration" data-ru="Исследование Марса">Исследование Марса</h2>
+      <ul>
+        <li><a href="/aerospace/ru/viking"><span class="cn">ARRIVAL</span><span class="cl" data-en="Viking &amp; Mars" data-ru="«Викинг» и Марс">«Викинг» и Марс</span></a></li>
+        <li><a href="/aerospace/ru/bounce-mars-pathfinder"><span class="cn">BOUNCE</span><span class="cl" data-en="Mars Pathfinder &amp; Sojourner" data-ru="«Патфайндер» и «Соджорнер»">«Патфайндер» и «Соджорнер»</span></a></li>
+        <li><a href="/aerospace/ru/troy-spirit-rover"><span class="cn">TROY</span><span class="cl" data-en="The Spirit Rover" data-ru="Марсоход Spirit">Марсоход Spirit</span></a></li>
+        <li><a href="/aerospace/ru/marathon-opportunity-rover"><span class="cn">MARATHON</span><span class="cl" data-en="The Opportunity Rover" data-ru="Марсоход Opportunity">Марсоход Opportunity</span></a></li>
+        <li><a href="/aerospace/ru/skycrane-curiosity-rover"><span class="cn">SKYCRANE</span><span class="cl" data-en="The Curiosity Rover" data-ru="Марсоход Curiosity">Марсоход Curiosity</span></a></li>
+        <li><a href="/aerospace/ru/jezero-perseverance-rover"><span class="cn">JEZERO</span><span class="cl" data-en="The Perseverance Rover" data-ru="Марсоход Perseverance">Марсоход Perseverance</span></a></li>
+        <li><a href="/aerospace/ru/transfer-earth-to-mars"><span class="cn">TRANSFER</span><span class="cl" data-en="Earth to Mars: The Transfer" data-ru="Перелёт Земля — Марс">Перелёт Земля — Марс</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="telescopes">
+      <h2 data-en="Space Telescopes" data-ru="Космические телескопы">Космические телескопы</h2>
+      <ul>
+        <li><a href="/aerospace/ru/aperture-hubble-telescopes"><span class="cn">APERTURE</span><span class="cl" data-en="Hubble &amp; Space Telescopes" data-ru="«Хаббл» и космические телескопы">«Хаббл» и космические телескопы</span></a></li>
+        <li><a href="/aerospace/ru/james-webb-space-telescope"><span class="cn">UNFOLD</span><span class="cl" data-en="James Webb Space Telescope" data-ru="«Джеймс Уэбб»">«Джеймс Уэбб»</span></a></li>
+        <li><a href="/aerospace/ru/xray-chandra-observatory"><span class="cn">XRAY</span><span class="cl" data-en="Chandra X-ray Observatory" data-ru="Рентгеновская обсерватория «Чандра»">Рентгеновская обсерватория «Чандра»</span></a></li>
+        <li><a href="/aerospace/ru/infrared-spitzer-telescope"><span class="cn">INFRARED</span><span class="cl" data-en="Spitzer Space Telescope" data-ru="Телескоп «Спитцер»">Телескоп «Спитцер»</span></a></li>
+        <li><a href="/aerospace/ru/transit-kepler-telescope"><span class="cn">TRANSIT</span><span class="cl" data-en="Kepler Space Telescope" data-ru="Телескоп «Кеплер»">Телескоп «Кеплер»</span></a></li>
+        <li><a href="/aerospace/ru/parallax-gaia-mission"><span class="cn">PARALLAX</span><span class="cl" data-en="Gaia Mission" data-ru="Миссия «Гайя»">Миссия «Гайя»</span></a></li>
+        <li><a href="/aerospace/ru/parabola-mirrors-and-dishes"><span class="cn">PARABOLA</span><span class="cl" data-en="Parabola: Mirrors, Dishes &amp; the Focus" data-ru="Парабола: зеркала, антенны и фокус">Парабола: зеркала, антенны и фокус</span></a></li>
+        <li><a href="/aerospace/ru/glow-cosmic-microwave-background"><span class="cn">GLOW</span><span class="cl" data-en="The Cosmic Microwave Background: COBE, WMAP &amp; Planck" data-ru="Реликтовое излучение: COBE, WMAP и «Планк»">Реликтовое излучение: COBE, WMAP и «Планк»</span></a></li>
+        <li><a href="/aerospace/ru/dark-euclid-roman"><span class="cn">DARK</span><span class="cl" data-en="Euclid &amp; Roman: Dark Matter and Dark Energy" data-ru="Euclid и Roman: тёмная материя и тёмная энергия">Euclid и Roman: тёмная материя и тёмная энергия</span></a></li>
+        <li><a href="/aerospace/ru/ripple-gravitational-waves"><span class="cn">RIPPLE</span><span class="cl" data-en="Gravitational Waves: LIGO, Virgo, KAGRA &amp; LISA" data-ru="Гравитационные волны: LIGO, Virgo, KAGRA и LISA">Гравитационные волны: LIGO, Virgo, KAGRA и LISA</span></a></li>
+        <li><a href="/aerospace/ru/burst-gamma-ray-bursts"><span class="cn">BURST</span><span class="cl" data-en="Gamma-Ray Bursts: Swift &amp; Fermi" data-ru="Гамма-всплески: Swift и Fermi">Гамма-всплески: Swift и Fermi</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="human">
+      <h2 data-en="Human Spaceflight" data-ru="Пилотируемые полёты">Пилотируемые полёты</h2>
+      <ul>
+        <li><a href="/aerospace/ru/ascent-mercury-program"><span class="cn">ASCENT</span><span class="cl" data-en="Mercury &amp; the First Astronauts" data-ru="«Меркурий» и первые астронавты">«Меркурий» и первые астронавты</span></a></li>
+        <li><a href="/aerospace/ru/rendezvous-gemini-program"><span class="cn">RENDEZVOUS</span><span class="cl" data-en="The Gemini Program" data-ru="Программа «Джемини»">Программа «Джемини»</span></a></li>
+        <li><a href="/aerospace/ru/tranquility-apollo-program"><span class="cn">TRANQUILITY</span><span class="cl" data-en="The Apollo Program" data-ru="Программа «Аполлон»">Программа «Аполлон»</span></a></li>
+        <li><a href="/aerospace/ru/orbiter-space-shuttle-program"><span class="cn">ORBITER</span><span class="cl" data-en="Space Shuttle Program" data-ru="Программа «Спейс шаттл»">Программа «Спейс шаттл»</span></a></li>
+        <li><a href="/aerospace/ru/union-soyuz-program"><span class="cn">UNION</span><span class="cl" data-en="Soyuz Program" data-ru="Программа «Союз»">Программа «Союз»</span></a></li>
+        <li><a href="/aerospace/ru/handoff-commercial-crew-program"><span class="cn">HANDOFF</span><span class="cl" data-en="Commercial Crew Program" data-ru="Программа Commercial Crew">Программа Commercial Crew</span></a></li>
+        <li><a href="/aerospace/ru/vessel-shenzhou-program"><span class="cn">VESSEL</span><span class="cl" data-en="Shenzhou &amp; China&#x27;s Crewed Program" data-ru="«Шэньчжоу» и пилотируемая программа Китая">«Шэньчжоу» и пилотируемая программа Китая</span></a></li>
+        <li><a href="/aerospace/ru/suit-spacesuits-eva"><span class="cn">SUIT</span><span class="cl" data-en="Spacesuits &amp; Spacewalks" data-ru="Скафандры и выходы в открытый космос">Скафандры и выходы в открытый космос</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="future">
+      <h2 data-en="Future Exploration" data-ru="Будущее освоение космоса">Будущее освоение космоса</h2>
+      <ul>
+        <li><a href="/aerospace/ru/horizon-artemis-base-camp"><span class="cn">HORIZON</span><span class="cl" data-en="Artemis Base Camp" data-ru="Базовый лагерь «Артемида»">Базовый лагерь «Артемида»</span></a></li>
+        <li><a href="/aerospace/ru/the-lunar-gateway"><span class="cn">HALO</span><span class="cl" data-en="The Lunar Gateway" data-ru="Окололунная станция Gateway">Окололунная станция Gateway</span></a></li>
+        <li><a href="/aerospace/ru/retrieve-mars-sample-return"><span class="cn">RETRIEVE</span><span class="cl" data-en="Mars Sample Return" data-ru="Доставка образцов с Марса">Доставка образцов с Марса</span></a></li>
+        <li><a href="/aerospace/ru/flyby-europa-clipper"><span class="cn">FLYBY</span><span class="cl" data-en="Europa Clipper" data-ru="«Европа Клипер»">«Европа Клипер»</span></a></li>
+        <li><a href="/aerospace/ru/rotor-dragonfly-titan"><span class="cn">ROTOR</span><span class="cl" data-en="Dragonfly Mission" data-ru="Миссия Dragonfly">Миссия Dragonfly</span></a></li>
+        <li><a href="/aerospace/ru/beyond-interstellar-probe"><span class="cn">BEYOND</span><span class="cl" data-en="Interstellar Probe Concept" data-ru="Концепция межзвёздного зонда">Концепция межзвёздного зонда</span></a></li>
+        <li><a href="/aerospace/ru/sail-solar-sails"><span class="cn">SAIL</span><span class="cl" data-en="Solar Sails" data-ru="Солнечные паруса">Солнечные паруса</span></a></li>
+        <li><a href="/aerospace/ru/tilt-uranus-neptune"><span class="cn">TILT</span><span class="cl" data-en="Uranus &amp; Neptune: the Ice Giants" data-ru="Уран и Нептун: ледяные гиганты">Уран и Нептун: ледяные гиганты</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="rockets">
+      <h2 data-en="Rockets &amp; Engineering" data-ru="Ракеты и техника">Ракеты и техника</h2>
+      <ul>
+        <li><a href="/aerospace/ru/thrust-saturn-v-n1"><span class="cn">THRUST</span><span class="cl" data-en="Saturn V &amp; N1" data-ru="«Сатурн-5» и Н-1">«Сатурн-5» и Н-1</span></a></li>
+        <li><a href="/aerospace/ru/return-reusable-rockets"><span class="cn">RETURN</span><span class="cl" data-en="Falcon 9, Starship &amp; Reusable Rockets" data-ru="Falcon 9, Starship и многоразовые ракеты">Falcon 9, Starship и многоразовые ракеты</span></a></li>
+        <li><a href="/aerospace/ru/nozzle-rocket-engines"><span class="cn">NOZZLE</span><span class="cl" data-en="How Rocket Engines Work" data-ru="Как работают ракетные двигатели">Как работают ракетные двигатели</span></a></li>
+        <li><a href="/aerospace/ru/entry-heat-shields"><span class="cn">ENTRY</span><span class="cl" data-en="Heat Shields &amp; Atmospheric Entry" data-ru="Теплозащита и вход в атмосферу">Теплозащита и вход в атмосферу</span></a></li>
+        <li><a href="/aerospace/ru/link-deep-space-network"><span class="cn">LINK</span><span class="cl" data-en="The Deep Space Network" data-ru="Сеть дальней космической связи">Сеть дальней космической связи</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="foundations">
+      <h2 data-en="Foundations &amp; Tools" data-ru="Основы и инструменты">Основы и инструменты</h2>
+      <ul>
+        <li><a href="/aerospace/ru/common-ground-basic-logic"><span class="cn">THRESHOLD</span><span class="cl" data-en="Common Ground &amp; Basic Logic" data-ru="Общая основа и базовая логика">Общая основа и базовая логика</span></a></li>
+        <li><a href="/aerospace/ru/build-your-own-cubesat"><span class="cn">ASSEMBLY</span><span class="cl" data-en="Build Your Own CubeSat" data-ru="Собери свой кубсат">Собери свой кубсат</span></a></li>
+        <li><a href="/aerospace/ru/lagrange-points"><span class="cn">EQUILIBRIUM</span><span class="cl" data-en="Lagrange Points" data-ru="Точки Лагранжа">Точки Лагранжа</span></a></li>
+        <li><a href="/aerospace/ru/physics-of-spaceflight"><span class="cn">IMPULSE</span><span class="cl" data-en="The Physics of Spaceflight" data-ru="Физика космического полёта">Физика космического полёта</span></a></li>
+        <li><a href="/aerospace/ru/cascade-physical-computing"><span class="cn">CASCADE</span><span class="cl" data-en="Physical Computing" data-ru="Физика вычислений">Физика вычислений</span></a></li>
+        <li><a href="/aerospace/ru/mathematics-of-music"><span class="cn">RESONANCE</span><span class="cl" data-en="The Mathematics of Music" data-ru="Математика музыки">Математика музыки</span></a></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">СКОРО</span><span class="cl" data-en="Texas Instruments" data-ru="Texas Instruments">Texas Instruments</span></span></li>
+        <li class="soon"><span class="np"><span class="cn" data-en="SOON" data-ru="СКОРО">СКОРО</span><span class="cl" data-en="Analog Devices" data-ru="Analog Devices">Analog Devices</span></span></li>
+        <li class="ext"><a href="https://www.nasa.gov/" rel="external noopener" target="_blank"><span class="cn">EXT&#8599;</span><span class="cl">NASA</span></a></li>
+        <li class="ext"><a href="https://www.spacex.com/" rel="external noopener" target="_blank"><span class="cn">EXT&#8599;</span><span class="cl">SpaceX</span></a></li>
+        <li class="ext"><a href="https://arxiv.org/search/?query=aerospace&amp;searchtype=all&amp;source=header" rel="external noopener" target="_blank"><span class="cn">EXT&#8599;</span><span class="cl">arXiv · astro-ph</span></a></li>
+        <li><a href="/aerospace/ru/slingshot-gravity-assists"><span class="cn">SLINGSHOT</span><span class="cl" data-en="Gravity Assists &amp; the Grand Tour" data-ru="Гравитационные манёвры и «Большой тур»">Гравитационные манёвры и «Большой тур»</span></a></li>
+        <li><a href="/aerospace/ru/spectrum-spectroscopy"><span class="cn">SPECTRUM</span><span class="cl" data-en="Spectroscopy: What Starlight Says" data-ru="Спектроскопия: о чём говорит свет звёзд">Спектроскопия: о чём говорит свет звёзд</span></a></li>
+      </ul>
+    </div>
+
+    <div class="hub-cat" data-cat="time">
+      <h2 data-en="Space &amp; Time" data-ru="Пространство и время">Пространство и время</h2>
+      <ul>
+        <li><a href="/aerospace/time-philosophy/"><span class="cn">01</span><span class="cl" data-en="Voyager / Heliosphere / Time" data-ru="Вояджер / Гелиосфера / Время">Вояджер / Гелиосфера / Время</span></a></li>
+        <li><a href="/aerospace/time-philosophy/time-as-space"><span class="cn">02</span><span class="cl" data-en="Time as Space" data-ru="Время как пространство">Время как пространство</span></a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="AEROSPACE — AN INDEPENDENT KNOWLEDGE HUB" data-ru="AEROSPACE — НЕЗАВИСИМЫЙ СПРАВОЧНИК">AEROSPACE — НЕЗАВИСИМЫЙ СПРАВОЧНИК</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ</span>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  function apply(l) {
+    document.documentElement.lang = l;
+    document.querySelectorAll('[data-en]').forEach(function (el) {
+      var v = el.getAttribute('data-' + l);
+      if (v != null) el.textContent = v;
+    });
+    document.querySelectorAll('#langtoggle button').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-lang') === l);
+    });
+  }
+  document.querySelectorAll('#langtoggle button').forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.getAttribute('data-lang')); });
+  });
+})();
+</script>
+</body>
+</html>

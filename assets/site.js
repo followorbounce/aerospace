@@ -21,6 +21,8 @@
   var LANG_KEY = "aero-lang";
   var SEARCH = BASE + "search.json";      // descriptions + chapter titles, written by _tools/search-index.py
   var RELATED = BASE + "related.json";    // slug -> related slugs, edited by hand
+  // Russian edition (/aerospace/ru/…, written by _tools/ru_pages.py): <html data-edition="ru">
+  var EDITION = document.documentElement.getAttribute('data-edition') || '';
 
   /* ---- helpers ------------------------------------------- */
   function el(tag, attrs, kids) {
@@ -40,6 +42,7 @@
   function currentSlug() {
     var p = location.pathname;
     if (p.indexOf(BASE) === 0) p = p.slice(BASE.length);
+    if (p.indexOf('ru/') === 0) p = p.slice(3);
     p = p.replace(/index\.html?$/, '').replace(/\.html?$/, '').replace(/\/$/, '');
     return p;
   }
@@ -51,6 +54,27 @@
     if (!toggle) return;
     var saved;
     try { saved = localStorage.getItem(LANG_KEY); } catch (e) { saved = null; }
+
+    // A page with a language edition: the toggle goes to the other URL (keeping the #section).
+    // Captured on the toggle so the page's own in-place handler does not run.
+    var alt = {};
+    [].forEach.call(document.querySelectorAll('link[rel="alternate"][hreflang]'), function (l) { alt[l.getAttribute('hreflang')] = l.href; });
+    if (alt.en && alt.ru) {
+      toggle.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-lang]');
+        var code = b && b.getAttribute('data-lang');
+        if (!code || code === (EDITION || 'en') || !alt[code]) return;
+        e.stopPropagation(); e.preventDefault();
+        try { localStorage.setItem(LANG_KEY, code); } catch (e2) {}
+        location.href = alt[code] + location.hash;
+      }, true);
+    }
+    if (EDITION) {
+      // The text is already Russian in the HTML; run the page's own handler once so script-drawn labels follow.
+      var own = toggle.querySelector('button[data-lang="' + EDITION + '"]');
+      if (own) own.click();
+      saved = null;                     // the URL decides the language here
+    }
 
     if (saved && saved !== currentLang()) {
       var btn = toggle.querySelector('button[data-lang="' + saved + '"]');
@@ -120,7 +144,9 @@
     return list;
   }
   function href(slug) {
-    return BASE + slug + (slug.charAt(slug.length - 1) === '/' ? '' : '');
+    // inside the Russian edition, guides that have a Russian page link to it (the page lists its alternates)
+    var inEd = EDITION && slug.indexOf('/') < 0;
+    return BASE + (inEd ? EDITION + '/' : '') + slug;
   }
   function pick(obj, lang) {
     if (obj == null) return '';

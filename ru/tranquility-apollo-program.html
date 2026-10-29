@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ru" data-edition="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Программа «Аполлон» — Аэрокосмический справочник</title>
+<meta name="description" content="Десять глав о восьмилетнем рывке от президентского срока до следа ботинка в Море Спокойствия — о ракете, корабле, едва не случившихся катастрофах и шести посадках, за ними последовавших, — и три…">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/ru/tranquility-apollo-program">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Программа «Аполлон» — Аэрокосмический справочник">
+<meta property="og:description" content="Десять глав о восьмилетнем рывке от президентского срока до следа ботинка в Море Спокойствия — о ракете, корабле, едва не случившихся катастрофах и шести посадках, за ними последовавших, — и три…">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/ru/tranquility-apollo-program">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+.velocity-card{background:var(--white); padding:24px; display:flex; flex-direction:column; gap:10px;}
+.velocity-card .vnum{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.velocity-card .vval{font-family:var(--font-display); font-size:1.6rem;}
+.velocity-card p{font-size:13.5px; color:#333;}
+.mt-year{position:absolute; top:16px; left:50%; transform:translateX(-50%); font-family:var(--font-mono); font-size:10px; color:var(--mid); white-space:nowrap; text-align:center;}
+.mt-detail .mt-y{font-family:var(--font-display); font-size:1.6rem; margin-bottom:8px;}
+.stage-btn{font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.04em; border:1px solid var(--ink); background:var(--paper); padding:9px 14px;}
+.stage-btn.active{background:var(--ink); color:var(--white);}
+.stage-row{display:flex; justify-content:center; gap:8px; margin-top:20px; flex-wrap:wrap;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-viewport{width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto;}
+.sim-verdict{margin-top:16px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:13px; min-height:20px;}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+/* instruments (same vocabulary as the generated guides) */
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(14px,2vw,17px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:#5e5e58; margin-top:12px; text-align:left;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:44px; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat; outline:none; margin:6px 0;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:22px; height:22px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:4px;}
+.ctl-head{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;}
+.ctl-head output{font-weight:600;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer; min-height:44px;}
+.btn:hover{border-color:var(--ink);}
+.btn.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn:focus-visible,.stage-btn:focus-visible,.exp-head:focus-visible,.hotspot:focus-visible,button.mt-dot:focus-visible{outline:2px solid var(--ink); outline-offset:3px;}
+.stage-btn{min-height:44px; cursor:pointer;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:#5e5e58; display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:#5e5e58; margin-top:8px;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:10px; fill:#5e5e58;}
+button.mt-dot{padding:0; appearance:none; -webkit-appearance:none;}
+button.mt-dot::before{content:''; position:absolute; inset:-17px;}
+.exp-head{cursor:pointer;}
+button.module-chip{color:var(--ink); cursor:pointer; min-height:44px;}
+.stack-label{font-family:'IBM Plex Mono',monospace; font-size:15px; fill:#0b0b0c;}
+.stack-label.active{fill:#b5452a; font-weight:600;}
+.hotspot .hs{fill:#ffffff; stroke:#0b0b0c; stroke-width:1.4; transition:fill 0.15s ease;}
+.hotspot:hover .hs{fill:#f1f1ec;}
+.hotspot.active .hs{fill:#f3e3dd; stroke:#b5452a; stroke-width:2;}
+.hotspot .hs-stroke{stroke:#0b0b0c; stroke-width:7;}
+.hotspot.active .hs-stroke{stroke:#b5452a;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/tranquility-apollo-program">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/tranquility-apollo-program">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/tranquility-apollo-program">
+<!-- /hreflang -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Программа «Аполлон»","description":"Десять глав о восьмилетнем рывке от президентского срока до следа ботинка в Море Спокойствия — о ракете, корабле, едва не случившихся катастрофах и шести посадках, за ними последовавших, — и три…","url":"https://followorbounce.github.io/aerospace/ru/tranquility-apollo-program","mainEntityOfPage":"https://followorbounce.github.io/aerospace/ru/tranquility-apollo-program","image":"","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Аэрокосмический справочник","url":"https://followorbounce.github.io/aerospace/ru/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Аэрокосмический справочник","item":"https://followorbounce.github.io/aerospace/ru/"},{"@type":"ListItem","position":2,"name":"Программа «Аполлон»","item":"https://followorbounce.github.io/aerospace/ru/tranquility-apollo-program"}]}</script>
+<!-- /fob-ld -->
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">TRANQUILITY — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="">EN</button>
+    <button data-lang="ru" class="active">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRE-LAUNCH</span></div>
+  <div class="hud-row"><span class="hud-label">ALT</span><span id="hud-alt">384,400 KM</span></div>
+  <div class="hud-row"><span class="hud-label">VEL</span><span id="hud-vel">0.00 KM/S</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRE-LAUNCH" data-alt="384,400 KM" data-vel="0.00 KM/S" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — TWELVE BOOTPRINTS, A DECADE-LONG DEADLINE" data-ru="РИС. 00 — ДВЕНАДЦАТЬ СЛЕДОВ, СРОК В ОДНО ДЕСЯТИЛЕТИЕ">РИС. 00 — ДВЕНАДЦАТЬ СЛЕДОВ, СРОК В ОДНО ДЕСЯТИЛЕТИЕ</span>
+        <span data-en="1961 → 1972" data-ru="1961 → 1972">1961 → 1972</span>
+      </div>
+      <h1><span data-en="TRANQUILITY" data-ru="СПОКОЙСТВИЕ">СПОКОЙСТВИЕ</span><br><em data-en="A FIELD GUIDE TO THE APOLLO PROGRAM" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «АПОЛЛОН»">ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «АПОЛЛОН»</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the eight-year sprint from a presidential deadline to a boot print in the Sea of Tranquility — the rocket, the spacecraft, the near-disasters, and the six landings that followed — with three instruments built from NASA’s own flight records. Scroll to begin the mission." data-ru="Десять глав о восьмилетнем рывке от президентского срока до следа ботинка в Море Спокойствия — о ракете, корабле, едва не случившихся катастрофах и шести посадках, за ними последовавших, — и три интерактивных прибора, построенных на полётных данных самого NASA. Пролистайте вниз, чтобы начать миссию.">Десять глав о восьмилетнем рывке от президентского срока до следа ботинка в Море Спокойствия — о ракете, корабле, едва не случившихся катастрофах и шести посадках, за ними последовавших, — и три интерактивных прибора, построенных на полётных данных самого NASA. Пролистайте вниз, чтобы начать миссию.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">НАЧАТЬ — ГЛАВА 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE DEADLINE -->
+<section id="ch1" class="section" data-phase="THE DEADLINE" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="KENNEDY'S DEADLINE" data-ru="СРОК КЕННЕДИ">СРОК КЕННЕДИ</span></div>
+    <h2 class="h-lg" data-en="Eight years and eight weeks" data-ru="Восемь лет и восемь недель">Восемь лет и восемь недель</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On May 25, 1961 — six weeks after Gagarin's flight and just twenty days after Alan Shepard's fifteen-minute suborbital flight — President Kennedy committed the United States to landing a man on the Moon and returning him safely, before the decade was out. At the time, America had a grand total of fifteen minutes of crewed spaceflight experience [1]." data-ru="25 мая 1961 года — через шесть недель после полёта Гагарина и всего через двадцать дней после пятнадцатиминутного суборбитального полёта Алана Шепарда — президент Кеннеди объявил, что Соединённые Штаты высадят человека на Луну и благополучно вернут его на Землю до конца десятилетия. На тот момент весь пилотируемый космический опыт Америки составлял ровно пятнадцать минут [1].">25 мая 1961 года — через шесть недель после полёта Гагарина и всего через двадцать дней после пятнадцатиминутного суборбитального полёта Алана Шепарда — президент Кеннеди объявил, что Соединённые Штаты высадят человека на Луну и благополучно вернут его на Землю до конца десятилетия. На тот момент весь пилотируемый космический опыт Америки составлял ровно пятнадцать минут [1].</p>
+      <p class="body-col" data-en="Apollo 11 touched down on July 20, 1969 — eight years and 56 days after the speech, with five months of the decade to spare [2]." data-ru="«Аполлон-11» совершил посадку 20 июля 1969 года — через восемь лет и 56 дней после речи, за пять с лишним месяцев до конца десятилетия [2].">«Аполлон-11» совершил посадку 20 июля 1969 года — через восемь лет и 56 дней после речи, за пять с лишним месяцев до конца десятилетия [2].</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — SATURN V -->
+<section id="ch2" class="section" data-phase="THE SATURN V" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE SATURN V" data-ru="«САТУРН V»">«САТУРН V»</span></div>
+    <h2 class="h-lg" data-en="The rocket that carried 24 people to the Moon" data-ru="Ракета, доставившая к Луне 24 человека">Ракета, доставившая к Луне 24 человека</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Thirteen Saturn Vs flew between 1967 and 1973 — the last one put Skylab into orbit [3] — and none lost its crew or its payload. Ten carried astronauts; 24 people rode it to the Moon, and until Artemis II in April 2026 it was the only rocket that had ever sent anyone beyond low Earth orbit [4]." data-ru="С 1967 по 1973 год стартовали тринадцать «Сатурнов V» — последний вывел на орбиту станцию «Скайлэб» [3], — и ни один не потерял ни экипажа, ни полезного груза. Десять несли астронавтов; 24 человека полетели на нём к Луне, и до Artemis II в апреле 2026 года это была единственная ракета, отправлявшая людей дальше низкой околоземной орбиты [4].">С 1967 по 1973 год стартовали тринадцать «Сатурнов V» — последний вывел на орбиту станцию «Скайлэб» [3], — и ни один не потерял ни экипажа, ни полезного груза. Десять несли астронавтов; 24 человека полетели на нём к Луне, и до Artemis II в апреле 2026 года это была единственная ракета, отправлявшая людей дальше низкой околоземной орбиты [4].</p>
+    <div class="grid-4">
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.5rem;">111 m</div><div class="fig-num" data-en="HEIGHT" data-ru="ВЫСОТА">ВЫСОТА</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.5rem;">2,938 t</div><div class="fig-num" data-en="APOLLO 11 AT LIFTOFF" data-ru="«АПОЛЛОН-11» НА СТАРТЕ">«АПОЛЛОН-11» НА СТАРТЕ</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.5rem;">3</div><div class="fig-num" data-en="STAGES" data-ru="СТУПЕНИ">СТУПЕНИ</div></div>
+      <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.5rem;">13</div><div class="fig-num" data-en="FLIGHTS, 1967–73" data-ru="ПОЛЁТОВ, 1967–73">ПОЛЁТОВ, 1967–73</div></div>
+    </div>
+    <p class="body-col" style="margin-top:36px; max-width:760px;" data-en="How three stages added up to the speed the trip needed is the subject of <a href='/aerospace/thrust-saturn-v-n1'>THRUST</a>. This instrument follows the mass instead. Of the 2,938 tonnes that left the pad on 16 July 1969, how much came home? Step through Apollo 11 using the weights NASA recorded at each stage of the flight [2]." data-ru="Как три ступени набрали нужную для полёта скорость — тема справочника <a href='/aerospace/thrust-saturn-v-n1'>ТЯГА</a>. Этот прибор следит за массой. Сколько из 2938 тонн, оторвавшихся от стартового стола 16 июля 1969 года, вернулось домой? Пройдите по полёту «Аполлона-11» с массами, которые NASA записало на каждом этапе [2].">Как три ступени набрали нужную для полёта скорость — тема справочника <a href='/aerospace/thrust-saturn-v-n1'>ТЯГА</a>. Этот прибор следит за массой. Сколько из 2938 тонн, оторвавшихся от стартового стола 16 июля 1969 года, вернулось домой? Пройдите по полёту «Аполлона-11» с массами, которые NASA записало на каждом этапе [2].</p>
+    <div class="sim-wrap">
+      <div>
+        <svg id="ledgerSvg" class="sim-svg" viewBox="0 0 640 320" role="img" aria-label="Apollo 11 mass from liftoff to splashdown"></svg>
+        <div class="fig-cap" data-en="Logarithmic scale: each gridline is ten times the one before, so the bars can show 2,938 t and 4.9 t together. Masses from NASA’s Apollo by the Numbers [2]." data-ru="Логарифмическая шкала: каждая линия сетки в десять раз больше предыдущей — так на одном графике помещаются и 2938 т, и 4,9 т. Массы — из справочника NASA «Apollo by the Numbers» [2].">Логарифмическая шкала: каждая линия сетки в десять раз больше предыдущей — так на одном графике помещаются и 2938 т, и 4,9 т. Массы — из справочника NASA «Apollo by the Numbers» [2].</div>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="fig-num" data-en="APOLLO 11, STEP BY STEP" data-ru="«АПОЛЛОН-11» ШАГ ЗА ШАГОМ">«АПОЛЛОН-11» ШАГ ЗА ШАГОМ</div>
+        <div class="btn-row" id="ledgerBtns" role="group" aria-label="Mission step"></div>
+        <div class="readout-grid" id="ledgerOut"></div>
+        <div class="status" id="ledgerStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — SPACECRAFT ANATOMY -->
+<section id="ch3" class="section" data-phase="SPACECRAFT ANATOMY" data-alt="384,400 KM" data-vel="~11 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="ANATOMY OF THE SPACECRAFT" data-ru="УСТРОЙСТВО КОРАБЛЯ">УСТРОЙСТВО КОРАБЛЯ</span></div>
+    <h2 class="h-lg" data-en="Three modules, one mission each" data-ru="Три модуля, у каждого своя задача">Три модуля, у каждого своя задача</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Apollo flew as three separate vehicles docked together — only one of which was ever meant to touch the Moon. That choice, lunar-orbit rendezvous, meant only a small lander had to land and climb back out; its champion John Houbolt argued it cut the mass to be launched from Earth by a factor of 2 to 2.5 [5]. Select a component." data-ru="«Аполлон» летал как три отдельных, состыкованных друг с другом аппарата — и лишь один из них был предназначен для касания лунной поверхности. Этот выбор — встреча на окололунной орбите — означал, что садиться и взлетать должен лишь небольшой посадочный аппарат; главный сторонник схемы Джон Хуболт доказывал, что она уменьшает массу, выводимую с Земли, в 2–2,5 раза [5]. Выберите компонент.">«Аполлон» летал как три отдельных, состыкованных друг с другом аппарата — и лишь один из них был предназначен для касания лунной поверхности. Этот выбор — встреча на окололунной орбите — означал, что садиться и взлетать должен лишь небольшой посадочный аппарат; главный сторонник схемы Джон Хуболт доказывал, что она уменьшает массу, выводимую с Земли, в 2–2,5 раза [5]. Выберите компонент.</p>
+    <div class="schematic-wrap">
+      <svg id="apolloSvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="apolloPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — BUILDING TO ELEVEN -->
+<section id="ch4" class="section" data-phase="BUILDING TO ELEVEN 1967–69" data-alt="VARIES" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="BUILDING UP TO ELEVEN" data-ru="ПУТЬ К «ОДИННАДЦАТОМУ»">ПУТЬ К «ОДИННАДЦАТОМУ»</span></div>
+    <h2 class="h-lg" data-en="A tragedy, then four flights of firsts" data-ru="Трагедия, затем четыре полёта первенств">Трагедия, затем четыре полёта первенств</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Apollo's road to the Moon began with its worst day. Scrub through the buildup." data-ru="Путь «Аполлона» к Луне начался с самого тяжёлого дня программы. Пролистайте хронологию подготовки.">Путь «Аполлона» к Луне начался с самого тяжёлого дня программы. Пролистайте хронологию подготовки.</p>
+    <div class="mir-timeline">
+      <div class="mt-track"></div>
+      <div class="mt-events" id="buildupEvents"></div>
+      <div class="mt-detail corner-frame" id="buildupDetail"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — APOLLO 11 LANDING -->
+<section id="ch5" class="section" data-phase="APOLLO 11 LANDING" data-alt="0 KM (SURFACE)" data-vel="1.7 → 0 KM/S">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="APOLLO 11: THE LANDING" data-ru="«АПОЛЛОН-11»: ПОСАДКА">«АПОЛЛОН-11»: ПОСАДКА</span></div>
+    <h2 class="h-lg" data-en="Forty-five seconds of fuel, not thirty" data-ru="Сорок пять секунд топлива, а не тридцать">Сорок пять секунд топлива, а не тридцать</h2>
+    <p class="body-col" style="margin-bottom:32px;" data-en="The final descent nearly didn't happen as planned — unfamiliar computer alarms went off, and the autopilot was steering toward a boulder field [6]. Step through what happened." data-ru="Финальный спуск едва не пошёл не по плану — сработали незнакомые сигналы тревоги компьютера, а автопилот вёл корабль прямо на поле валунов [6]. Пройдите по этапам произошедшего.">Финальный спуск едва не пошёл не по плану — сработали незнакомые сигналы тревоги компьютера, а автопилот вёл корабль прямо на поле валунов [6]. Пройдите по этапам произошедшего.</p>
+    <div class="sim-panel corner-frame" style="max-width:900px; margin:0 auto;">
+      <svg id="landingSvg" class="sim-svg" viewBox="0 0 600 240" role="img" aria-label="Apollo 11 descent profile"></svg>
+      <div class="stage-row" id="landingControls"></div>
+      <div class="sim-verdict" id="landingCaption" style="margin-top:20px;" aria-live="polite"></div>
+    </div>
+    <p class="body-col" style="margin-top:48px; max-width:760px;" data-en="At 102:44:30 into the flight a sensor in the descent tanks lit a warning light: about 116 seconds of engine firing left. Mission rules put the land-or-abort point 20 seconds before empty tanks, so the crew had 96 seconds to land. Houston’s “60 seconds” and “30 seconds” counted down to that point. When the engine stopped, the gauge still showed 45 seconds of firing; post-flight analysis found 50 [6][7]. That still left 25 seconds before the land-or-abort point. Drag the clock through the last two and a half minutes." data-ru="На 102:44:30 полётного времени датчик в баках посадочной ступени зажёг сигнальную лампу: двигателю осталось около 116 секунд работы. По правилам полёта точка «садиться или прерывать» наступала за 20 секунд до пустых баков, так что на посадку у экипажа было 96 секунд. «60 секунд» и «30 секунд» Хьюстона отсчитывали время именно до этой точки. Когда двигатель выключился, датчик показывал ещё 45 секунд работы; послеполётный анализ дал 50 [6][7]. То есть до точки «садиться или прерывать» оставалось ещё 25 секунд. Передвигайте ползунок по последним двум с половиной минутам.">На 102:44:30 полётного времени датчик в баках посадочной ступени зажёг сигнальную лампу: двигателю осталось около 116 секунд работы. По правилам полёта точка «садиться или прерывать» наступала за 20 секунд до пустых баков, так что на посадку у экипажа было 96 секунд. «60 секунд» и «30 секунд» Хьюстона отсчитывали время именно до этой точки. Когда двигатель выключился, датчик показывал ещё 45 секунд работы; послеполётный анализ дал 50 [6][7]. То есть до точки «садиться или прерывать» оставалось ещё 25 секунд. Передвигайте ползунок по последним двум с половиной минутам.</p>
+    <div class="eq-box">
+      <div class="eq-label" data-en="THE FUEL CLOCK" data-ru="ТОПЛИВНЫЕ ЧАСЫ">ТОПЛИВНЫЕ ЧАСЫ</div>
+      <div class="eq-body" data-en="to empty = 116 s − (time since the light) · land-or-abort = 20 s before empty" data-ru="до пустых баков = 116 с − (время с момента сигнала) · «садиться или прерывать» = за 20 с до пустых баков">до пустых баков = 116 с − (время с момента сигнала) · «садиться или прерывать» = за 20 с до пустых баков</div>
+      <div class="eq-note" data-en="Light at 102:44:30.4, 116 s, the 20 s go/no-go point and the 45 s / 50 s figures: Apollo 11 Mission Report §9.8.3 [6]. Callout times: the air-to-ground transcript [7]; the land-or-abort time implied by Houston’s calls is our reconstruction from them. Landing and cutoff times and Eagle’s 16,153 lb landed weight: Apollo by the Numbers [2]. Hover thrust = mass × 1.62 m/s² against the engine’s 9,870 lbf maximum." data-ru="Лампа на 102:44:30,4, 116 с, точка «да/нет» за 20 с и цифры 45 с / 50 с — отчёт о миссии «Аполлон-11», §9.8.3 [6]. Время реплик — стенограмма переговоров [7]; момент «садиться или прерывать», вытекающий из реплик Хьюстона, — наша реконструкция по ним. Моменты посадки и выключения и посадочная масса «Орла» 16 153 фунта — «Apollo by the Numbers» [2]. Тяга зависания = масса × 1,62 м/с² при максимуме двигателя 9870 фунтов-силы.">Лампа на 102:44:30,4, 116 с, точка «да/нет» за 20 с и цифры 45 с / 50 с — отчёт о миссии «Аполлон-11», §9.8.3 [6]. Время реплик — стенограмма переговоров [7]; момент «садиться или прерывать», вытекающий из реплик Хьюстона, — наша реконструкция по ним. Моменты посадки и выключения и посадочная масса «Орла» 16 153 фунта — «Apollo by the Numbers» [2]. Тяга зависания = масса × 1,62 м/с² при максимуме двигателя 9870 фунтов-силы.</div>
+    </div>
+    <div class="sim-wrap">
+      <div>
+        <svg id="fuelSvg" class="sim-svg" viewBox="0 0 640 176" role="img" aria-label="Apollo 11 descent fuel timeline"></svg>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="ctl-head"><label for="fuelT" data-en="GROUND ELAPSED TIME" data-ru="ПОЛЁТНОЕ ВРЕМЯ (GET)">ПОЛЁТНОЕ ВРЕМЯ (GET)</label><output id="fuelTVal" for="fuelT"></output></div>
+        <input type="range" id="fuelT">
+        <div class="btn-row" id="fuelBtns" role="group" aria-label="Moments in the landing"></div>
+        <div class="readout-grid" id="fuelOut"></div>
+        <div class="status" id="fuelStatus" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — SIX LANDINGS -->
+<section id="ch6" class="section" data-phase="SIX LANDINGS 1969–72" data-alt="0 KM (SURFACE)" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="SIX LANDINGS" data-ru="ШЕСТЬ ПОСАДОК">ШЕСТЬ ПОСАДОК</span></div>
+    <h2 class="h-lg" data-en="Each one bolder than the last" data-ru="Каждая смелее предыдущей">Каждая смелее предыдущей</h2>
+    <div id="landingsList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH7 — APOLLO 13 -->
+<section id="ch7" class="section" data-phase="APOLLO 13 CRISIS" data-alt="VARIES" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="APOLLO 13" data-ru="«АПОЛЛОН-13»">«АПОЛЛОН-13»</span></div>
+    <h2 class="h-lg" data-en="A successful failure" data-ru="Успешная неудача">Успешная неудача</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On the evening of April 13, 1970, Houston time — 55 hours 55 minutes into the flight and about 200,000 miles (320,000 km) from Earth — an oxygen tank in the service module exploded, crippling the spacecraft's power, water and life support less than a day before it would have reached the Moon [2][9]. The lunar landing was abandoned within hours; the entire mission became a single objective — getting three men home alive." data-ru="Вечером 13 апреля 1970 года по хьюстонскому времени — через 55 часов 55 минут после старта, примерно в 320 000 км (200 000 миль) от Земли — взорвался кислородный бак в служебном модуле, лишив корабль энергии, воды и систем жизнеобеспечения меньше чем за сутки до подлёта к Луне [2][9]. Посадку на Луну отменили в течение нескольких часов; вся миссия свелась к одной цели — вернуть троих людей домой живыми.">Вечером 13 апреля 1970 года по хьюстонскому времени — через 55 часов 55 минут после старта, примерно в 320 000 км (200 000 миль) от Земли — взорвался кислородный бак в служебном модуле, лишив корабль энергии, воды и систем жизнеобеспечения меньше чем за сутки до подлёта к Луне [2][9]. Посадку на Луну отменили в течение нескольких часов; вся миссия свелась к одной цели — вернуть троих людей домой живыми.</p>
+      <p class="body-col" data-en="The crew used the still-intact lunar module as a lifeboat, rationing power and water while ground teams improvised a carbon-dioxide filter fix from spare parts and duct tape. All three astronauts splashed down safely on April 17 [9] — the mission NASA itself calls a “successful failure”." data-ru="Экипаж использовал ещё целый лунный модуль как спасательную шлюпку, экономя энергию и воду, пока наземные команды на скорую руку собирали фильтр для углекислого газа из подручных деталей и скотча. Все трое астронавтов благополучно приводнились 17 апреля [9] — миссия, которую само NASA называет «успешной неудачей».">Экипаж использовал ещё целый лунный модуль как спасательную шлюпку, экономя энергию и воду, пока наземные команды на скорую руку собирали фильтр для углекислого газа из подручных деталей и скотча. Все трое астронавтов благополучно приводнились 17 апреля [9] — миссия, которую само NASA называет «успешной неудачей».</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — SAMPLE SCIENCE -->
+<section id="ch8" class="section" data-phase="SAMPLE SCIENCE" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="WHAT THEY BROUGHT BACK" data-ru="ЧТО ОНИ ПРИВЕЗЛИ">ЧТО ОНИ ПРИВЕЗЛИ</span></div>
+    <h2 class="h-lg" data-en="382 kilograms of another world" data-ru="382 килограмма другого мира">382 килограмма другого мира</h2>
+    <p class="body-col" style="max-width:760px;" data-en="Each landing kept its crew outside longer than the last, and from Apollo 15 on the J-missions brought a rover that took them kilometres farther, and three days on the surface. Pick a measure; the figures are NASA’s, from the mission reports and the Lunar Sample Curator [2]." data-ru="Каждая следующая экспедиция работала на поверхности дольше предыдущей, а начиная с «Аполлона-15» J-миссии брали с собой луноход, уносивший экипаж на километры дальше, и оставались на Луне три дня. Выберите показатель; цифры — NASA, по отчётам о миссиях и данным хранителя лунных образцов [2].">Каждая следующая экспедиция работала на поверхности дольше предыдущей, а начиная с «Аполлона-15» J-миссии брали с собой луноход, уносивший экипаж на километры дальше, и оставались на Луне три дня. Выберите показатель; цифры — NASA, по отчётам о миссиях и данным хранителя лунных образцов [2].</p>
+    <div class="sim-wrap" style="margin-bottom:40px;">
+      <div>
+        <svg id="evaSvg" class="sim-svg" viewBox="0 0 640 300" role="img" aria-label="Six Apollo landings compared"></svg>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" id="evaBtns" role="group" aria-label="Measure" style="margin-top:0;"></div>
+        <div class="readout-grid" id="evaOut"></div>
+        <div class="status" id="evaStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <div id="scienceList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH9 — APOLLO VS N1-L3 -->
+<section id="ch9" class="section" data-phase="APOLLO VS N1-L3" data-alt="VARIES" data-vel="VARIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="APOLLO &amp; THE N1-L3" data-ru="«АПОЛЛОН» И Н1-Л3">«АПОЛЛОН» И Н1-Л3</span></div>
+    <h2 class="h-lg" data-en="The Soviet Moon program kept out of sight" data-ru="Советская лунная программа, которую скрывали">Советская лунная программа, которую скрывали</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="The USSR ran its own crewed lunar program in parallel — kept secret until 1989, fifteen years after it was halted [13]. Its uncrewed side did fly: Luna 16 and Luna 20 brought lunar soil back robotically, and two Lunokhod rovers drove on the Moon [13]." data-ru="СССР параллельно вёл собственную пилотируемую лунную программу — засекреченную вплоть до 1989 года, через пятнадцать лет после её остановки [13]. Её беспилотная часть летала: «Луна-16» и «Луна-20» автоматически доставили лунный грунт, а два «Лунохода» ездили по Луне [13].">СССР параллельно вёл собственную пилотируемую лунную программу — засекреченную вплоть до 1989 года, через пятнадцать лет после её остановки [13]. Её беспилотная часть летала: «Луна-16» и «Луна-20» автоматически доставили лунный грунт, а два «Лунохода» ездили по Луне [13].</p>
+    <div class="dash-grid" id="n1Grid"></div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">НАСЛЕДИЕ</span></div>
+    <h2 class="h-lg" data-en="Twelve footprints, still the only ones" data-ru="Двенадцать следов — до сих пор единственные">Двенадцать следов — до сих пор единственные</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="More than fifty years later, the twelve men who walked on the Moon between 1969 and 1972 remain the only human beings who ever have." data-ru="Спустя более пятидесяти лет двенадцать человек, ходивших по Луне с 1969 по 1972 год, остаются единственными людьми, которым это когда-либо удавалось.">Спустя более пятидесяти лет двенадцать человек, ходивших по Луне с 1969 по 1972 год, остаются единственными людьми, которым это когда-либо удавалось.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">ИСТОЧНИКИ</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Источники, на которые ссылается этот справочник</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Номера в квадратных скобках в тексте выше соответствуют источникам ниже.</p>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="TRANQUILITY — A FIELD GUIDE TO THE APOLLO PROGRAM" data-ru="TRANQUILITY — ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «АПОЛЛОН»">TRANQUILITY — ПОЛЕВОЙ СПРАВОЧНИК ПО ПРОГРАММЕ «АПОЛЛОН»</span>
+  <span data-en="EDUCATIONAL / ILLUSTRATIVE — FIGURES APPROXIMATE UNLESS CITED" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ">УЧЕБНЫЙ МАТЕРИАЛ — ЗНАЧЕНИЯ ПРИБЛИЗИТЕЛЬНЫ, ЕСЛИ НЕ УКАЗАНО ИНОЕ</span>
+</footer>
+
+<script>
+/* Browsers round a slider's value to its step; keep the exact value a preset set until the user moves the slider. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH3 — SPACECRAFT SCHEMATIC: the launch stack, side view, in flight order ============ */
+var APOLLO_PARTS = [
+  {id:'les', en:'Launch Escape System', ru:'Система аварийного спасения', sEn:'Escape tower', sRu:'Башня спасения', lx:85, up:false, ly:300, cEn:'Tower jettisoned after ascent', cRu:'Башня сбрасывалась после подъёма',
+   dEn:'A solid rocket tower above the Command Module, ready to pull the crew clear of a failing Saturn V — never needed on a crewed flight.', dRu:'Твердотопливная башня над командным модулем, готовая оттянуть экипаж от аварийного «Сатурна V», — ни разу не понадобилась в пилотируемом полёте.'},
+  {id:'cm', en:'Command Module', ru:'Командный модуль', sEn:'Command Module', sRu:'Командный модуль', lx:195, up:true, ly:117, cEn:'Crew cabin, only part that returns to Earth', cRu:'Кабина экипажа, единственная часть, возвращающаяся на Землю',
+   dEn:'The cone-shaped cabin where the crew lived during transit and re-entry — the only piece of the entire stack that ever touched Earth again.', dRu:'Кабина конической формы, где экипаж находился во время перелёта и входа в атмосферу, — единственная часть всей связки, когда-либо вновь коснувшаяся Земли.'},
+  {id:'heatshield', en:'Ablative Heat Shield', ru:'Абляционный тепловой экран', sEn:'Heat shield', sRu:'Теплозащитный экран', lx:256, up:false, ly:232, cEn:'Rated for lunar-return re-entry speed', cRu:'Рассчитан на скорость возврата от Луны',
+   dEn:'Had to survive a much faster, hotter re-entry than any Earth-orbit mission — Apollo 11\'s command module met the atmosphere at 11.03 km/s [2]. How the shield survived is the subject of <a href=\'/aerospace/entry-heat-shields\'>ENTRY</a>.', dRu:'Должен был выдержать вход в атмосферу гораздо более быстрый и горячий, чем у любой околоземной миссии, — командный модуль «Аполлона-11» вошёл в атмосферу на скорости 11,03 км/с [2]. Как экран это выдержал — в справочнике <a href=\'/aerospace/entry-heat-shields\'>ВХОД</a>.'},
+  {id:'sm', en:'Service Module', ru:'Служебный модуль', sEn:'Service Module', sRu:'Служебный модуль', lx:345, up:true, ly:90, cEn:'Engine, fuel cells, oxygen', cRu:'Двигатель, топливные элементы, кислород',
+   dEn:'Provided propulsion, electrical power, and life-support consumables for the whole trip — and was where Apollo 13\'s oxygen tank exploded.', dRu:'Обеспечивал двигательную установку, электроэнергию и запасы жизнеобеспечения на весь полёт — именно здесь взорвался кислородный бак «Аполлона-13».'},
+  {id:'lm', en:'Lunar Module', ru:'Лунный модуль', sEn:'Lunar Module (inside adapter)', sRu:'Лунный модуль внутри переходника', lx:550, up:false, ly:214, cEn:'Two stages: descent + ascent', cRu:'Две ступени: посадочная и взлётная',
+   dEn:'The first crewed spacecraft built to fly only in airless space — its descent stage stayed on the Moon as a launch pad for the ascent stage. At launch it rode inside the adapter under the Service Module; after leaving Earth orbit, the Command Module turned round and pulled it out nose to nose.', dRu:'Первый пилотируемый аппарат, построенный для полётов только в безвоздушном пространстве, — его посадочная ступень оставалась на Луне как стартовая площадка для взлётной ступени. На старте он находился внутри переходника под служебным модулем; после ухода с околоземной орбиты командный модуль разворачивался и вытягивал его, стыкуясь «нос к носу».'}
+];
+var apolloSel = 'cm';
+function renderApollo(){
+  var svg = document.getElementById('apolloSvg');
+  var panel = document.getElementById('apolloPanel');
+  svg.innerHTML = '';
+  function g(id){
+    var m = APOLLO_PARTS.filter(function(x){ return x.id === id; })[0];
+    var el = ns('g', {'class':'hotspot', 'data-id':id, tabindex:0, role:'button', 'aria-label':(lang==='en'?m.en:m.ru)}, svg);
+    el.addEventListener('click', function(){ apolloSel = id; selectPart(svg, panel, APOLLO_PARTS, id); });
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); apolloSel = id; selectPart(svg, panel, APOLLO_PARTS, id); } });
+    return el;
+  }
+  /* axis of the stack */
+  ns('line', {x1:14, y1:160, x2:706, y2:160, stroke:'#c9c9c1', 'stroke-width':1, 'stroke-dasharray':'4 4'}, svg);
+  /* LES: motor + truss tower */
+  var les = g('les');
+  ns('path', {'class':'hs', d:'M 22 160 L 34 150 L 84 150 L 84 170 L 34 170 Z'}, les);
+  ns('path', {'class':'hs', d:'M 84 152 L 150 132 L 150 188 L 84 168 Z'}, les);
+  ns('path', {d:'M 84 152 L 150 188 M 84 168 L 150 132 M 117 142 L 117 178', stroke:'#0b0b0c', 'stroke-width':1, fill:'none'}, les);
+  /* CM cone */
+  var cm = g('cm');
+  ns('path', {'class':'hs', d:'M 150 146 L 150 174 L 250 230 L 250 90 Z'}, cm);
+  ns('rect', {x:188, y:146, width:14, height:10, fill:'none', stroke:'#0b0b0c', 'stroke-width':1}, cm);   /* window */
+  /* heat shield: the CM's blunt base */
+  var hs = g('heatshield');
+  ns('path', {'class':'hs-stroke', d:'M 250 90 Q 266 160 250 230', fill:'none'}, hs);
+  /* SM cylinder + SPS engine bell */
+  var sm = g('sm');
+  ns('rect', {'class':'hs', x:262, y:90, width:158, height:140}, sm);
+  ns('path', {'class':'hs', d:'M 420 146 L 462 128 L 462 192 L 420 174 Z'}, sm);
+  /* SLA adapter (not selectable) with the LM folded inside */
+  ns('path', {d:'M 420 90 L 640 54 L 640 266 L 420 230', fill:'none', stroke:'#0b0b0c', 'stroke-width':1.2}, svg);
+  txt(svg, 632, 70, T('adapter (SLA)', 'переходник (SLA)'), 'svg-small', 'end');
+  txt(svg, 700, 164, T('S-IVB →', 'S-IVB →'), 'svg-small', 'end');
+  var lm = g('lm');
+  ns('path', {'class':'hs', d:'M 488 150 L 560 150 L 560 200 L 488 200 Z', 'stroke-dasharray':'4 3'}, lm);    /* descent stage */
+  ns('path', {'class':'hs', d:'M 560 158 L 600 146 L 612 160 L 600 186 L 560 194 Z', 'stroke-dasharray':'4 3'}, lm); /* ascent stage */
+  ns('path', {d:'M 488 150 L 470 128 M 488 200 L 470 222 M 520 150 L 512 124 M 520 200 L 512 226', stroke:'#0b0b0c', 'stroke-width':1, 'stroke-dasharray':'3 3', fill:'none'}, lm); /* folded legs */
+  /* labels with straight, non-crossing leaders */
+  var ends = {les:[85, 168], cm:[195, 119], heatshield:[256, 220], sm:[345, 90], lm:[550, 200]};
+  APOLLO_PARTS.forEach(function(m){
+    var y = m.up ? 30 : 300, e = ends[m.id];
+    ns('line', {x1:e[0], y1: m.up ? 38 : 284, x2:e[0], y2:e[1], stroke:'#7a7a74', 'stroke-width':1}, svg);
+    var t = txt(svg, m.lx, y, lang==='en'?m.sEn:m.sRu, 'stack-label', 'middle');
+    t.setAttribute('data-id', m.id);
+  });
+  selectPart(svg, panel, APOLLO_PARTS, apolloSel);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ var on = h.dataset.id===id; h.classList.toggle('active', on); h.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+  svg.querySelectorAll('.stack-label').forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-id')===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<button type="button" class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'" aria-pressed="'+(x.id===id)+'">'+(lang==='en'?x.en:x.ru)+'</button>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ apolloSel = chip.dataset.jump; selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH4 — BUILDUP TIMELINE ============ */
+var BUILDUP = [
+  {y:'1967', crisis:true, tEn:'Apollo 1', tRu:'«Аполлон-1»', dEn:'A cabin fire during a launch pad test on January 27 kills astronauts Gus Grissom, Ed White, and Roger Chaffee, forcing a total redesign of the Command Module\'s hatch and wiring [2].', dRu:'27 января пожар в кабине во время наземного испытания на стартовой площадке уносит жизни астронавтов Гаса Гриссома, Эда Уайта и Роджера Чаффи, вынуждая полностью переработать люк и проводку командного модуля [2].'},
+  {y:'1968', crisis:false, tEn:'Apollo 7', tRu:'«Аполлон-7»', dEn:'The redesigned Command Module flies crewed for the first time in October, testing systems in Earth orbit after the twenty-month grounding.', dRu:'Переработанный командный модуль впервые летит с экипажем в октябре, испытывая системы на околоземной орбите после двадцатимесячного простоя.'},
+  {y:'1968', crisis:false, tEn:'Apollo 8', tRu:'«Аполлон-8»', dEn:'In December, a crew leaves Earth orbit for the first time in history, circling the Moon ten times and reading from Genesis on a Christmas Eve broadcast [2].', dRu:'В декабре экипаж впервые в истории покидает околоземную орбиту, десять раз облетает Луну и читает Книгу Бытия в рождественской трансляции [2].'},
+  {y:'1969', crisis:false, tEn:'Apollo 9', tRu:'«Аполлон-9»', dEn:'In March, the Lunar Module flies crewed for the first time, testing docking and undocking in Earth orbit before anyone trusts it near the Moon.', dRu:'В марте лунный модуль впервые летит с экипажем, отрабатывая стыковку и расстыковку на околоземной орбите, прежде чем ему доверят полёт к Луне.'},
+  {y:'1969', crisis:false, tEn:'Apollo 10', tRu:'«Аполлон-10»', dEn:'In May, a full dress rehearsal flies the Lunar Module down to 14.4 km (47,400 feet) above the lunar surface — everything but the actual landing [2].', dRu:'В мае проходит полная генеральная репетиция: лунный модуль спускается до 14,4 км (47 400 футов) над поверхностью Луны — всё, кроме самой посадки [2].'}
+];
+function renderBuildup(){
+  var events = document.getElementById('buildupEvents');
+  var detail = document.getElementById('buildupDetail');
+  events.innerHTML='';
+  BUILDUP.forEach(function(ev,i){
+    var wrap = document.createElement('div');
+    wrap.style.position='relative'; wrap.style.flex='1'; wrap.style.display='flex'; wrap.style.justifyContent='center';
+    var dot = document.createElement('button');
+    dot.type='button';
+    dot.className='mt-dot'+(ev.crisis?' crisis':'')+(i===0?' active':'');
+    dot.setAttribute('aria-label', (lang==='en'?ev.tEn:ev.tRu)+', '+ev.y);
+    var yr = document.createElement('div');
+    yr.className='mt-year'; yr.textContent=ev.y;
+    wrap.appendChild(dot); wrap.appendChild(yr);
+    dot.addEventListener('click', function(){ selectBuildup(i); });
+    events.appendChild(wrap);
+  });
+  function selectBuildup(i){
+    events.querySelectorAll('.mt-dot').forEach(function(d,j){ d.classList.toggle('active', j===i); d.setAttribute('aria-pressed', j===i ? 'true' : 'false'); });
+    var ev = BUILDUP[i];
+    detail.innerHTML = '<div class="mt-y">'+(lang==='en'?ev.tEn:ev.tRu)+'</div><div class="mt-t">'+ev.y+'</div><p style="font-size:14.5px;">'+(lang==='en'?ev.dEn:ev.dRu)+'</p>';
+  }
+  selectBuildup(0);
+}
+
+/* ============ CH5 — LANDING STAGES: a time-true descent profile ============ */
+/* altitude (ft) against ground elapsed time: event table of the Mission Report [6] and the crew's altitude calls in the air-to-ground transcript [7] */
+var DESCENT = [
+  [gs(102,33,5), 50000], [gs(102,38,50), 30000], [gs(102,42,31), 2000], [gs(102,43,1), 750], [gs(102,43,7), 700], [gs(102,43,11), 600],
+  [gs(102,43,26), 400], [gs(102,43,46), 300], [gs(102,44,16), 220], [gs(102,44,24), 200], [gs(102,44,31), 160], [gs(102,44,40), 120],
+  [gs(102,44,54), 75], [gs(102,45,17), 40], [gs(102,45,21), 30], [gs(102,45,39.9), 0]
+];
+/* stage spans: ignition 102:33:05 · first 1202 alarm 102:38:22 · redesignation 102:43:09 · low-level light 102:44:30.4 · contact 102:45:39.9 */
+var STAGE_SPANS = [[gs(102,33,5), gs(102,38,22)], [gs(102,38,22), gs(102,43,9)], [gs(102,43,9), gs(102,44,30.4)], [gs(102,44,30.4), gs(102,45,39.9)], [gs(102,45,39.9), gs(102,45,39.9)]];
+var ALARMS = [[gs(102,38,22), '1202'], [gs(102,39,2), '1202'], [gs(102,42,18), '1201'], [gs(102,42,43), '1202'], [gs(102,42,58), '1202']];
+function altAt(t){
+  for(var i = 1; i < DESCENT.length; i++){
+    if(t <= DESCENT[i][0]){
+      var a = DESCENT[i-1], b = DESCENT[i], f = (t - a[0])/(b[0] - a[0]);
+      var sa = Math.sqrt(a[1]), sb = Math.sqrt(b[1]);                 /* interpolate on the plotted (square-root) scale */
+      var s = sa + (sb - sa)*f; return s*s;
+    }
+  }
+  return 0;
+}
+var landingStage = 0;
+var LANDING_STAGES = [
+  {tEn:'01 — Powered descent', tRu:'01 — Управляемый спуск', cEn:'The Lunar Module fires its descent engine to drop out of lunar orbit, beginning a 12½-minute controlled fall toward the surface [2].', cRu:'Лунный модуль включает посадочный двигатель, чтобы сойти с окололунной орбиты, начиная 12,5-минутное управляемое снижение к поверхности [2].'},
+  {tEn:'02 — Program alarms', tRu:'02 — Сигналы тревоги компьютера', cEn:'Between 102:38 and 102:43 the guidance computer throws five 1202 and 1201 alarms — overloaded, not broken — and Houston rules each one safe to fly through [6][7].', cRu:'Между 102:38 и 102:43 полётного времени компьютер наведения пять раз выдаёт сигналы 1202 и 1201 — он перегружен, но не сломан, — и Хьюстон каждый раз признаёт, что спуск можно продолжать [6][7].'},
+  {tEn:'03 — Manual takeover', tRu:'03 — Ручное управление', cEn:'Armstrong sees the autopilot steering toward a boulder-strewn crater and takes manual control, flying further downrange to find clearer ground.', cRu:'Армстронг видит, что автопилот ведёт корабль к кратеру, усеянному валунами, и берёт ручное управление, пролетая дальше в поисках более ровного участка.'},
+  {tEn:'04 — Low fuel', tRu:'04 — Малый остаток топлива', cEn:'Houston calls “60 seconds”, then “30 seconds” — counting down not to empty tanks but to the land-or-abort point, which itself kept 20 seconds in reserve. The fuel clock below shows the real margin [6][7].', cRu:'Хьюстон объявляет «60 секунд», затем «30 секунд» — отсчёт идёт не до пустых баков, а до точки «садиться или прерывать», за которой оставался ещё 20-секундный резерв. Реальный запас — на «топливных часах» ниже [6][7].'},
+  {tEn:'05 — Touchdown', tRu:'05 — Посадка', cEn:'Contact light at 20:17:39 UTC on July 20, 1969, in the Sea of Tranquility [2]. About 20 seconds later Armstrong reports: “Houston, Tranquility Base here. The Eagle has landed” [7].', cRu:'Сигнал касания в 20:17:39 UTC 20 июля 1969 года, Море Спокойствия [2]. Примерно через 20 секунд Армстронг докладывает: «Хьюстон, говорит база Спокойствия. „Орёл“ сел» [7].'}
+];
+function renderLanding(){
+  var controls = document.getElementById('landingControls');
+  controls.innerHTML='';
+  LANDING_STAGES.forEach(function(s,i){
+    var b = document.createElement('button');
+    b.type='button';
+    b.className='stage-btn'+(i===landingStage?' active':'');
+    b.setAttribute('aria-pressed', i===landingStage ? 'true' : 'false');
+    b.textContent = (lang==='en'?s.tEn:s.tRu);
+    b.addEventListener('click', function(){ landingStage = i; showStage(); });
+    controls.appendChild(b);
+  });
+  function showStage(){
+    controls.querySelectorAll('.stage-btn').forEach(function(b,j){ b.classList.toggle('active', j===landingStage); b.setAttribute('aria-pressed', j===landingStage ? 'true' : 'false'); });
+    document.getElementById('landingCaption').innerHTML = lang==='en' ? LANDING_STAGES[landingStage].cEn : LANDING_STAGES[landingStage].cRu;
+    renderLandingFigure();
+  }
+  showStage();
+}
+function renderLandingFigure(){
+  var svg = document.getElementById('landingSvg');
+  if(!svg) return;
+  var nar = isNarrow(svg), W = nar ? 360 : 600, H = nar ? 260 : 240;
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.innerHTML = '';
+  var t0 = DESCENT[0][0], t1 = DESCENT[DESCENT.length-1][0];
+  var x0 = nar ? 46 : 64, x1 = W - 14, yTop = 26, yG = H - 54;
+  function X(t){ return x0 + (t - t0)/(t1 - t0)*(x1 - x0); }
+  function Y(ft){ return yG - Math.sqrt(ft/50000)*(yG - yTop); }
+  /* altitude gridlines on a square-root scale */
+  [50000, 10000, 2000, 500].forEach(function(ft){
+    var y = Y(ft);
+    ns('line', {x1:x0, y1:y, x2:x1, y2:y, stroke:'#e2e2dc', 'stroke-width':1}, svg);
+    txt(svg, x0 - 6, y + 4, fmtInt(ft), 'svg-small', 'end');
+  });
+  txt(svg, x0 - 6, 14, T('ft', 'фут'), 'svg-small', 'end');
+  /* time axis */
+  ns('line', {x1:x0, y1:yG, x2:x1, y2:yG, stroke:'#0b0b0c', 'stroke-width':1.4}, svg);
+  for(var m = 34; m <= 44; m += nar ? 4 : 2){
+    var tx = X(gs(102, m, 0));
+    ns('line', {x1:tx, y1:yG, x2:tx, y2:yG + 5, stroke:'#0b0b0c', 'stroke-width':1}, svg);
+    txt(svg, tx, yG + 18, '102:' + m, 'svg-small', 'middle');
+  }
+  txt(svg, x1, H - 6, T('ground elapsed time · altitude on a square-root scale', 'полётное время · высота в масштабе квадратного корня'), 'svg-small', 'end');
+  /* the descent curve, active stage highlighted */
+  function path(ta, tb){
+    var d = '', n = 80;
+    for(var k = 0; k <= n; k++){ var t = ta + (tb - ta)*k/n; d += (k ? 'L' : 'M') + X(t).toFixed(1) + ',' + Y(altAt(t)).toFixed(1); }
+    return d;
+  }
+  ns('path', {d:path(t0, t1), fill:'none', stroke:'#8f8f88', 'stroke-width':2}, svg);
+  var sp = STAGE_SPANS[landingStage];
+  if(sp[1] > sp[0]) ns('path', {d:path(sp[0], sp[1]), fill:'none', stroke:'#b5452a', 'stroke-width':4.5}, svg);
+  /* stage markers */
+  STAGE_SPANS.forEach(function(s, i){
+    var x = X(s[0]), y = Y(altAt(s[0])), on = i === landingStage;
+    if(i === 4){ x = X(t1); y = yG; }
+    ns('circle', {cx:x, cy:y, r: on ? 7 : 5, fill: on ? '#b5452a' : '#ffffff', stroke: on ? '#b5452a' : '#0b0b0c', 'stroke-width':1.4}, svg);
+  });
+  /* stage-specific annotations */
+  if(landingStage === 0){
+    txt(svg, X(t0) + 18, Y(50000) - 9, T('ignition 102:33:05, ~50,000 ft', 'зажигание 102:33:05, ~50 000 фут'), 'svg-label', 'start');
+  }
+  if(landingStage === 1){
+    ALARMS.forEach(function(a, i){
+      var x = X(a[0]), y = Y(altAt(a[0]));
+      ns('line', {x1:x, y1:y - 8, x2:x, y2:yTop + 4 + (i % 2)*14, stroke:'#b5452a', 'stroke-width':1}, svg);
+      txt(svg, x, yTop + (i % 2)*14, a[1], 'svg-small', 'middle');
+    });
+  }
+  if(landingStage === 2){
+    /* West crater and its boulder field, schematic, under the stretch Armstrong flew over */
+    var cx = X(gs(102,43,30)), cw = nar ? 34 : 50;
+    ns('path', {d:'M ' + (cx - cw) + ' ' + yG + ' Q ' + cx + ' ' + (yG + 24) + ' ' + (cx + cw) + ' ' + yG, fill:'#f0e6e2', stroke:'#0b0b0c', 'stroke-width':1}, svg);
+    for(var k = -3; k <= 3; k++) ns('circle', {cx:cx + k*cw*0.38 + (k % 2)*3, cy:yG - 3 - (k % 2 ? 2 : 0), r:2.6, fill:'#0b0b0c'}, svg);
+    txt(svg, cx, yG - 16, T('West crater & boulders (schematic)', 'кратер West и валуны (схема)'), 'svg-label', cx > W - 150 ? 'end' : 'middle');
+    var xr = X(gs(102,43,9)), yr = Y(altAt(gs(102,43,9)));
+    txt(svg, xr - 6, yr - 12, T('P66: manual', 'P66: вручную'), 'svg-small', 'end');
+  }
+  if(landingStage === 3){
+    [[FC.LL, T('light', 'лампа')], [FC.CALL60, '60 s'], [FC.CALL30, '30 s']].forEach(function(e, i){
+      var x = X(e[0]), y = Y(altAt(e[0]));
+      ns('line', {x1:x, y1:y - 8, x2:x, y2:yTop + 30 + i*16, stroke:'#b5452a', 'stroke-width':1}, svg);
+      txt(svg, x, yTop + 26 + i*16, i === 0 ? e[1] : (lang === 'en' ? e[1] : e[1].replace('s', 'с')), 'svg-small', 'end');
+    });
+  }
+  if(landingStage === 4){
+    txt(svg, X(t1), yG - 16, T('contact 102:45:39.9', 'касание 102:45:39,9'), 'svg-label', 'end');
+  }
+  svg.setAttribute('aria-label', T('Apollo 11 descent profile, altitude against time; highlighted: ', 'Профиль спуска «Аполлона-11», высота от времени; выделено: ') + T(LANDING_STAGES[landingStage].tEn, LANDING_STAGES[landingStage].tRu));
+}
+
+/* ============ CH6 — SIX LANDINGS LIST ============ */
+var LANDINGS = [
+  {en:'Apollo 11 — July 1969', ru:'«Аполлон-11» — июль 1969',
+   bEn:'The first landing, at Sea of Tranquility — a cautious, minimal-risk mission focused entirely on proving it could be done at all [8].', bRu:'Первая посадка, в Море Спокойствия, — осторожная миссия с минимальным риском, полностью нацеленная на то, чтобы доказать саму возможность [8].'},
+  {en:'Apollo 12 — November 1969', ru:'«Аполлон-12» — ноябрь 1969',
+   bEn:'A precision landing 535 feet (163 m) from the robotic Surveyor 3 probe, proving pinpoint accuracy for future missions [2].', bRu:'Точная посадка в 535 футах (163 м) от автоматического зонда «Сервейер-3», доказавшая возможность высокоточных посадок для будущих миссий [2].'},
+  {en:'Apollo 14 — January 1971', ru:'«Аполлон-14» — январь 1971',
+   bEn:'Recovering from Apollo 13\'s abort, Alan Shepard — the same man who flew America\'s first spaceflight a decade earlier — became the fifth man to walk on the Moon.', bRu:'После срыва «Аполлона-13» Алан Шепард — тот же человек, что совершил первый космический полёт Америки десятилетием ранее, — стал пятым человеком, ступившим на Луну.'},
+  {en:'Apollo 15 — July 1971', ru:'«Аполлон-15» — июль 1971',
+   bEn:'The first "J-mission" — longer stays, a full science payload, and the first Lunar Roving Vehicle, extending each moonwalk\'s range dramatically.', bRu:'Первая «J-миссия» — более долгое пребывание, полноценная научная программа и первый лунный электромобиль, резко расширивший дальность вылазок.'},
+  {en:'Apollo 16 — April 1972', ru:'«Аполлон-16» — апрель 1972',
+   bEn:'Landed in the rough terrain of the Descartes highlands to sample the Moon\'s ancient crust [2].', bRu:'Сел в труднопроходимой местности высокогорья Декарта, чтобы взять образцы древней лунной коры [2].'},
+  {en:'Apollo 17 — December 1972', ru:'«Аполлон-17» — декабрь 1972',
+   bEn:'The final landing and the only one to carry a professional geologist, Harrison Schmitt — Gene Cernan\'s final words on the surface remain the last spoken by anyone standing on the Moon.', bRu:'Последняя посадка и единственная, в составе которой был профессиональный геолог Харрисон Шмитт, — последние слова Джина Сернана на поверхности остаются последними, сказанными кем-либо стоящим на Луне.'}
+];
+function renderLandings(){
+  var wrap = document.getElementById('landingsList');
+  wrap.innerHTML='';
+  LANDINGS.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    var head = card.querySelector('.exp-head');
+    head.setAttribute('role','button'); head.setAttribute('tabindex','0'); head.setAttribute('aria-expanded', i===0 ? 'true' : 'false');
+    function toggleCard(){
+      card.classList.toggle('open');
+      var open = card.classList.contains('open');
+      card.querySelector('.exp-toggle').textContent = open ? '−' : '+';
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    head.addEventListener('click', toggleCard);
+    head.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleCard(); } });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH8 — SAMPLE SCIENCE ============ */
+var SCIENCE = [
+  {en:'382 kilograms of rock and soil', ru:'382 килограмма камней и грунта',
+   bEn:'Across six landings, astronauts collected 381.7 kg of samples, from ancient highland rocks to volcanic basalts [2] — still being studied with instruments that didn\'t exist in 1972.', bRu:'За шесть посадок астронавты собрали 381,7 кг образцов — от древних пород высокогорья до вулканических базальтов [2], — которые до сих пор изучают приборами, не существовавшими в 1972 году.'},
+  {en:'ALSEP science stations', ru:'Научные станции ALSEP',
+   bEn:'Five of the six landings left behind an Apollo Lunar Surface Experiments Package — seismometers, heat-flow probes, and solar wind detectors that kept transmitting for years after the astronauts left [2].', bRu:'Пять из шести посадок оставили на поверхности комплект научных приборов ALSEP — сейсмометры, датчики теплового потока и детекторы солнечного ветра, продолжавшие передавать данные годами после отлёта астронавтов [2].'},
+  {en:'Rewriting the Moon\'s origin', ru:'Новая история происхождения Луны',
+   bEn:'The returned samples overturned older ideas about where the Moon came from. Most explanations now share one event: about 4.5 billion years ago something — perhaps a single body the size of Mars, perhaps several — struck the young Earth, and the debris became the Moon [10].', bRu:'Доставленные образцы опровергли прежние представления о происхождении Луны. Почти все современные объяснения сходятся в одном: около 4,5 миллиарда лет назад нечто — возможно, одно тело размером с Марс, возможно, несколько — ударило в молодую Землю, и из обломков образовалась Луна [10].'},
+  {en:'A retroreflector still in use today', ru:'Ретрорефлектор, используемый до сих пор',
+   bEn:'Mirror arrays left by Apollo 11, 14, and 15 still bounce laser beams from Earth back to their source, letting scientists measure the Earth-Moon distance to about two centimetres and showing that the Moon drifts 3.8 cm farther away every year [11].', bRu:'Зеркальные массивы, оставленные «Аполлонами-11, 14 и 15», до сих пор отражают лазерные лучи с Земли обратно к источнику, позволяя учёным измерять расстояние Земля — Луна с точностью около двух сантиметров и показав, что Луна удаляется на 3,8 см в год [11].'}
+];
+function renderScience(){
+  var wrap = document.getElementById('scienceList');
+  wrap.innerHTML='';
+  SCIENCE.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    var head = card.querySelector('.exp-head');
+    head.setAttribute('role','button'); head.setAttribute('tabindex','0'); head.setAttribute('aria-expanded', i===0 ? 'true' : 'false');
+    function toggleCard(){
+      card.classList.toggle('open');
+      var open = card.classList.contains('open');
+      card.querySelector('.exp-toggle').textContent = open ? '−' : '+';
+      head.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    head.addEventListener('click', toggleCard);
+    head.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleCard(); } });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH9 — APOLLO VS N1-L3 ============ */
+function renderN1(){
+  var wrap = document.getElementById('n1Grid');
+  wrap.innerHTML='';
+  var data = [
+    {en:'Apollo / Saturn V (USA)', ru:'«Аполлон» / «Сатурн V» (США)', statusEn:'6 LANDINGS', statusRu:'6 ПОСАДОК', dead:false,
+     rows:[{lEn:'ROCKET LAUNCHES', lRu:'ЗАПУСКОВ РАКЕТЫ', vEn:'13 Saturn V, none lost its payload', vRu:'13 «Сатурнов V», ни один не потерял груз'},{lEn:'PROGRAM COST', lRu:'СТОИМОСТЬ ПРОГРАММЫ', vEn:'≈ $25.8 billion, 1960–73 [12]', vRu:'≈ 25,8 млрд долларов, 1960–73 [12]'},{lEn:'PROGRAM STATUS', lRu:'СТАТУС ПРОГРАММЫ', vEn:'Public from the start', vRu:'Открыта с самого начала'}]},
+    {en:'N1-L3 (USSR)', ru:'Н1-Л3 (СССР)', statusEn:'0 LAUNCHES SUCCEEDED', statusRu:'0 УСПЕШНЫХ ЗАПУСКОВ', dead:true,
+     rows:[{lEn:'ROCKET LAUNCHES', lRu:'ЗАПУСКОВ РАКЕТЫ', vEn:'4, all failed, 1969–1972', vRu:'4, все аварийные, 1969–1972'},{lEn:'PROGRAM COST', lRu:'СТОИМОСТЬ ПРОГРАММЫ', vEn:'3.6 billion rubles by 1973; perhaps 4–4.5 billion in all, roughly half of Apollo [13]', vRu:'3,6 млрд рублей к 1973 году; всего, возможно, 4–4,5 млрд — примерно половина «Аполлона» [13]'},{lEn:'PROGRAM STATUS', lRu:'СТАТУС ПРОГРАММЫ', vEn:'Secret until 1989; halted 1974, formally ended 1976', vRu:'Секретна до 1989 года; остановлена в 1974-м, официально закрыта в 1976-м'}]}
+  ];
+  data.forEach(function(d){
+    var card = document.createElement('div');
+    card.className='dash-card';
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+(lang==='en'?r.vEn:r.vRu)+'</span></div>'; }).join('');
+    card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span><span class="dc-status'+(d.dead?' dead':'')+'">'+(lang==='en'?d.statusEn:d.statusRu)+'</span></div>'+rowsHtml;
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1961–66', en:'Mercury &amp; Gemini', ru:'«Меркурий» и «Джемини»', noteEn:'Learning to fly, dock, and walk in space', noteRu:'Учились летать, стыковаться и выходить в открытый космос', h:22},
+  {y:'1969–72', en:'Apollo', ru:'«Аполлон»', noteEn:'Six crewed Moon landings', noteRu:'Шесть пилотируемых посадок на Луну', h:44},
+  {y:'1973', en:'Skylab', ru:'«Скайлэб»', noteEn:'Built from leftover Apollo hardware', noteRu:'Построен из оставшегося оборудования «Аполлона»', h:30},
+  {y:'1981', en:'Space Shuttle', ru:'Space Shuttle', noteEn:'Reusable, low Earth orbit only', noteRu:'Многоразовый, только низкая околоземная орбита', h:36},
+  {y:'2026', en:'Artemis II', ru:'Artemis II', noteEn:'Four astronauts around the Moon, April 2026 [4]', noteRu:'Четыре астронавта облетели Луну, апрель 2026 [4]', h:40}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><rect x="'+(50-l.h/3)+'" y="10" width="'+(l.h/1.5)+'" height="'+l.h+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ SHARED HELPERS FOR THE NEW INSTRUMENTS ============ */
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',');
+  return s.replace('-', '−');
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* charts switch to a 360-unit layout when drawn narrower than 480 px, so text stays legible on phones */
+function isNarrow(svg){ var w = svg.clientWidth || (svg.getBoundingClientRect ? svg.getBoundingClientRect().width : 0); return w > 0 && w < 480; }
+var LB = 0.45359237, LBF = 4.4482216152605, G_MOON = 1.62;   /* NASA Moon fact sheet: surface gravity 1.62 m/s² */
+function tonnes(lb){ return lb*LB/1000; }
+
+/* ============ CH2 — THE MASS LEDGER (Apollo 11, SP-4029 "Selected Mission Weights") ============ */
+var LEDGER = [
+  {lb:6477875,  en:'Liftoff', ru:'Старт', dEn:'The whole Saturn V with Columbia and Eagle on top, at ignition.', dRu:'Весь «Сатурн V» с «Колумбией» и «Орлом» наверху в момент зажигания.'},
+  {lb:96767.5,  en:'Bound for the Moon', ru:'Курс на Луну', dEn:'Columbia docked to Eagle after leaving Earth orbit. Three rocket stages, burned and dropped, made up almost all the rest.', dRu:'«Колумбия», состыкованная с «Орлом», после ухода с околоземной орбиты. Почти всё остальное — три сгоревшие и отброшенные ступени.'},
+  {lb:72037.6,  en:'In lunar orbit', ru:'На орбите Луны', dEn:'After the six-minute braking burn into lunar orbit, a quarter of the stack had gone out of the engine.', dRu:'После шестиминутного тормозного манёвра выхода на орбиту Луны четверть массы связки ушла через сопло.'},
+  {lb:16153.2,  en:'Eagle lands', ru:'«Орёл» садится', dEn:'Eagle at touchdown. Columbia waited overhead at 16.8 t with Michael Collins aboard.', dRu:'«Орёл» в момент посадки. «Колумбия» массой 16,8 т ждала на орбите, на борту — Майкл Коллинз.'},
+  {lb:10776.6,  en:'Eagle lifts off', ru:'«Орёл» взлетает', dEn:'Only the ascent stage leaves; the descent stage stays behind as its launch pad.', dRu:'Улетает лишь взлётная ступень; посадочная остаётся на Луне как стартовый стол.'},
+  {lb:5738.0,   en:'Back at Columbia', ru:'Снова у «Колумбии»', dEn:'The ascent stage at docking, its propellant almost gone. It was then cast off.', dRu:'Взлётная ступень при стыковке, топлива почти не осталось. Затем её отстыковали.'},
+  {lb:26792.7,  en:'Heading home', ru:'Курс домой', dEn:'Columbia alone, after the burn that broke it out of lunar orbit.', dRu:'Одна «Колумбия» после манёвра, вырвавшего её с окололунной орбиты.'},
+  {lb:12095.5,  en:'Entry', ru:'Вход в атмосферу', dEn:'The service module is dropped; the command module meets the atmosphere at 11 km/s.', dRu:'Служебный модуль сброшен; командный модуль входит в атмосферу на 11 км/с.'},
+  {lb:10873.0,  en:'Splashdown', ru:'Приводнение', dEn:'What came home: three men, 21.5 kg of Moon and a scorched cone.', dRu:'Вернулось домой: три человека, 21,5 кг Луны и обгоревший конус.'}
+];
+var ledgerStep = 8;
+function renderLedger(){
+  var svg = document.getElementById('ledgerSvg'), btns = document.getElementById('ledgerBtns');
+  if(!svg) return;
+  svg.innerHTML = '';
+  var nar = isNarrow(svg), W = nar ? 360 : 640, rowH = nar ? 40 : 30, top = 24;
+  var x0 = nar ? 10 : 150, x1 = W - 20, lo = 0, hi = 4;   /* log10 tonnes from 1 t to 10,000 t */
+  var H = top + LEDGER.length*rowH + 30;
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  function X(t){ return x0 + (Math.log(t)/Math.LN10 - lo)/(hi - lo)*(x1 - x0); }
+  [1, 10, 100, 1000, 10000].forEach(function(t, i){
+    var x = X(t);
+    ns('line', {x1:x, y1:top, x2:x, y2:top + LEDGER.length*rowH, stroke:'#c9c9c1', 'stroke-width':1}, svg);
+    txt(svg, x, 18, (nar && (i === 1 || i === 3)) ? '' : fmtInt(t) + T(' t', ' т'), 'svg-small', i === 0 ? 'start' : (i === 4 ? 'end' : 'middle'));
+  });
+  LEDGER.forEach(function(s, i){
+    var y = top + 6 + i*rowH + (nar ? 16 : 0), t = tonnes(s.lb), on = i === ledgerStep;
+    if(nar) txt(svg, x0, y - 4, (i + 1) + ' · ' + T(s.en, s.ru), on ? 'svg-label' : 'svg-small', 'start');
+    else txt(svg, x0 - 10, y + 13, T(s.en, s.ru), on ? 'svg-label' : 'svg-small', 'end');
+    /* future steps: white bar with an ink outline (3:1+ against the white plot) */
+    ns('rect', {x:x0, y:y, width:Math.max(1, X(t) - x0), height:nar ? 14 : 18, fill: on ? '#b5452a' : (i <= ledgerStep ? '#0b0b0c' : '#ffffff'), stroke: (on || i <= ledgerStep) ? 'none' : '#6e6e68', 'stroke-width':1}, svg);
+    if(on) txt(svg, Math.min(X(t) + 6, x1 - 2), y + (nar ? 11 : 13), fmt(t, t < 10 ? 2 : (t < 100 ? 1 : 0)) + T(' t', ' т'), 'svg-label', X(t) + 6 > x1 - 60 ? 'end' : 'start');
+  });
+  txt(svg, x1, top + LEDGER.length*rowH + 20, T('tonnes, logarithmic scale', 'тонны, логарифмическая шкала'), 'svg-small', 'end');
+  btns.innerHTML = '';
+  LEDGER.forEach(function(s, i){
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'btn' + (i === ledgerStep ? ' active' : '');
+    b.setAttribute('aria-pressed', i === ledgerStep ? 'true' : 'false');
+    b.textContent = (i + 1) + ' · ' + T(s.en, s.ru);
+    b.addEventListener('click', function(){ ledgerStep = i; renderLedger(); });
+    btns.appendChild(b);
+  });
+  var s = LEDGER[ledgerStep], t = tonnes(s.lb), frac = s.lb/LEDGER[0].lb;
+  cells(document.getElementById('ledgerOut'), [
+    [T('MASS', 'МАССА'), fmt(t, t < 10 ? 3 : (t < 100 ? 2 : 1)) + T(' t', ' т')],
+    [T('POUNDS (AS LISTED)', 'ФУНТЫ (В ИСТОЧНИКЕ)'), fmtInt(s.lb) + (lang === 'en' ? ' lb' : ' фунтов')],
+    [T('SHARE OF LIFTOFF MASS', 'ДОЛЯ СТАРТОВОЙ МАССЫ'), frac > 0.01 ? fmt(frac*100, 1) + ' %' : fmt(frac*100, 3) + ' %'],
+    [T('ONE KILOGRAM IN EVERY', 'ОДИН КИЛОГРАММ ИЗ'), fmtInt(1/frac) + T(' kg', ' кг')]
+  ]);
+  document.getElementById('ledgerStatus').textContent = T(s.dEn, s.dRu);
+  svg.setAttribute('aria-label', T('Apollo 11 mass at nine steps from liftoff to splashdown, logarithmic scale; selected: ', 'Масса «Аполлона-11» на девяти этапах от старта до приводнения, логарифмическая шкала; выбрано: ') + T(s.en, s.ru) + ', ' + fmt(t, 2) + T(' t', ' т'));
+}
+
+/* ============ CH5 — THE FUEL CLOCK (Mission Report MSC-00171 §9.8.3; GOSS NET 1 transcript) ============ */
+function gs(h, m, s){ return h*3600 + m*60 + s; }
+var FC = {
+  LL: gs(102,44,30.4),     /* low-level light (mission report §9.8.3: 102:44:30.4) */
+  T_LL: 116,               /* firing time remaining when the light came on, from the sensor location (report §9.8.3) */
+  RESERVE: 20,             /* landing go/no-go point: 20 s of firing time before depletion (report §9.8.3 figure) */
+  POST: 5,                 /* post-flight: 50 s to oxidizer tank 2 depletion vs 45 s indicated (report §9.8.3) */
+  CALL60: gs(102,45,2),    /* CAPCOM "60 seconds" (GOSS NET 1, 04 06 45 02) */
+  CALL30: gs(102,45,31),   /* CAPCOM "30 seconds" (GOSS NET 1, 04 06 45 31) */
+  CONTACT: gs(102,45,39.9),/* landing, SP-4029 */
+  CUTOFF: gs(102,45,41.4)  /* powered-descent cutoff, SP-4029 */
+};
+function toEmpty(t){ return FC.T_LL - (t - FC.LL); }
+function toAbort(t){ return toEmpty(t) - FC.RESERVE; }
+/* the land-or-abort time implied by Houston's own calls: "60 seconds" + 60 and "30 seconds" + 30 */
+function houstonBingo(){ return ((FC.CALL60 + 60) + (FC.CALL30 + 30))/2; }
+function getStr(t){
+  var h = Math.floor(t/3600), m = Math.floor((t - h*3600)/60), s = t - h*3600 - m*60;
+  return h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s.toFixed(s % 1 ? 1 : 0).replace('.', lang === 'ru' ? ',' : '.');
+}
+var LM_LAND_LB = 16153.2, DPS_MAX_LBF = 9870;      /* SP-4029: Apollo 11 LM at lunar landing; descent engine maximum rated thrust */
+function hover(){
+  var m = LM_LAND_LB*LB, F = m*G_MOON, Fmax = DPS_MAX_LBF*LBF;
+  return {m:m, F:F, Fmax:Fmax, frac:F/Fmax};
+}
+var FC_EVENTS = [
+  {t:FC.LL, en:'LOW-LEVEL LIGHT', ru:'ЛАМПА «МАЛО ТОПЛИВА»', sEn:'A sensor in the tanks trips: about 116 seconds of firing left, so the land-or-abort point is 96 seconds away. Houston starts the countdown.', sRu:'Срабатывает датчик в баках: осталось около 116 секунд работы двигателя, значит, до точки «садиться или прерывать» — 96 секунд. Хьюстон начинает отсчёт.'},
+  {t:FC.CALL60, en:'“60 SECONDS”', ru:'«60 СЕКУНД»', sEn:'CAPCOM Charlie Duke: “60 seconds.” Sixty seconds to the land-or-abort point, not to empty tanks.', sRu:'Оператор связи Чарли Дьюк: «60 секунд». Шестьдесят секунд до точки «садиться или прерывать», а не до пустых баков.'},
+  {t:FC.CALL30, en:'“30 SECONDS”', ru:'«30 СЕКУНД»', sEn:'“30 seconds.” Eagle is about 30 feet up and drifting; Armstrong is still choosing his spot.', sRu:'«30 секунд». «Орёл» примерно в 9 метрах над поверхностью и дрейфует; Армстронг всё ещё выбирает место.'},
+  {t:FC.CONTACT, en:'CONTACT LIGHT', ru:'«КОНТАКТ»', sEn:'A probe under a footpad touches the surface. The engine stops 1.5 seconds later with about 45 seconds of firing left by the gauge, 50 by post-flight analysis.', sRu:'Щуп под опорой касается грунта. Двигатель выключается через 1,5 секунды; по датчику остаётся около 45 секунд работы, по послеполётному анализу — 50.'},
+  {t:FC.LL + FC.T_LL - FC.RESERVE, en:'LAND-OR-ABORT POINT', ru:'ТОЧКА «САДИТЬСЯ ИЛИ ПРЕРЫВАТЬ»', sEn:'Had Eagle still been flying here, Armstrong would have had 20 seconds to land or fire the abort. The last 20 seconds were a reserve for the abort itself.', sRu:'Если бы «Орёл» ещё летел здесь, у Армстронга было бы 20 секунд, чтобы сесть или прервать посадку. Последние 20 секунд — резерв на само прерывание.'}
+];
+var fuelT = FC.CONTACT;
+function renderFuel(){
+  var svg = document.getElementById('fuelSvg'), inp = document.getElementById('fuelT'), btns = document.getElementById('fuelBtns');
+  if(!svg) return;
+  var nar = isNarrow(svg), W = nar ? 360 : 640, H = nar ? 214 : 176;
+  var tA = FC.LL - 20, tB = FC.LL + FC.T_LL + 4, x0 = 16, x1 = W - 16;
+  function X(t){ return x0 + (t - tA)/(tB - tA)*(x1 - x0); }
+  svg.innerHTML = '';
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  var tEmpty = FC.LL + FC.T_LL, tAbort = tEmpty - FC.RESERVE;
+  ns('rect', {x:X(tAbort), y:70, width:X(tEmpty) - X(tAbort), height:30, fill:'#b5452a', opacity:0.18}, svg);
+  ns('rect', {x:X(FC.LL), y:70, width:X(tAbort) - X(FC.LL), height:30, fill:'none', stroke:'#0b0b0c', 'stroke-width':1}, svg);
+  ns('line', {x1:x0, y1:100, x2:x1, y2:100, stroke:'#0b0b0c', 'stroke-width':1.4}, svg);
+  txt(svg, (X(tAbort) + X(tEmpty))/2, 90, T('abort reserve', 'резерв'), 'svg-small', 'middle');
+  txt(svg, X(tEmpty), 116, T('empty', 'пусто'), 'svg-small', 'end');
+  var rows = nar ? [128, 148, 168, 188] : [128, 146, 164, 128];
+  FC_EVENTS.forEach(function(e, i){
+    var x = X(e.t), y = i === 4 ? 56 : rows[i];
+    ns('line', {x1:x, y1: i === 4 ? 60 : 100, x2:x, y2: i === 4 ? 100 : y - 10, stroke:'#7a7a74', 'stroke-width':1, 'stroke-dasharray':'2 2'}, svg);
+    txt(svg, x, y, T(e.en, e.ru), 'svg-small', i === 0 ? 'start' : (x > W - 120 ? 'end' : 'middle'));
+  });
+  var xc = X(fuelT);
+  ns('line', {x1:xc, y1:30, x2:xc, y2:104, stroke:'#b5452a', 'stroke-width':2}, svg);
+  ns('circle', {cx:xc, cy:100, r:5, fill:'#b5452a'}, svg);
+  txt(svg, x0, 22, (nar ? '' : T('GROUND ELAPSED TIME ', 'ПОЛЁТНОЕ ВРЕМЯ ')) + getStr(tA) + ' → ' + getStr(tB), 'svg-small');
+  inp.min = tA; inp.max = tEmpty; inp.step = 0.5; inp.value = fuelT;
+  inp.setAttribute('aria-valuetext', getStr(fuelT));
+  document.getElementById('fuelTVal').textContent = getStr(fuelT);
+  btns.innerHTML = '';
+  FC_EVENTS.forEach(function(e){
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'btn' + (Math.abs(e.t - fuelT) < 0.05 ? ' active' : '');
+    b.setAttribute('aria-pressed', Math.abs(e.t - fuelT) < 0.05 ? 'true' : 'false');
+    b.textContent = T(e.en, e.ru);
+    b.addEventListener('click', function(){ fuelT = e.t; renderFuel(); });
+    btns.appendChild(b);
+  });
+  var lit = fuelT >= FC.LL, te = toEmpty(fuelT), ta = toAbort(fuelT), h = hover();
+  cells(document.getElementById('fuelOut'), [
+    [T('SINCE THE LOW-LEVEL LIGHT', 'С МОМЕНТА СИГНАЛА'), lit ? fmt(fuelT - FC.LL, 1) + T(' s', ' с') : T('not yet lit', 'ещё не горит')],
+    [T('TO LAND-OR-ABORT, FROM HOUSTON’S CALLS (RECONSTRUCTED)', 'ДО «САДИТЬСЯ ИЛИ ПРЕРЫВАТЬ», ПО РЕПЛИКАМ ХЬЮСТОНА (РЕКОНСТРУКЦИЯ)'), lit ? (houstonBingo() - fuelT >= 0 ? fmt(houstonBingo() - fuelT, 1) + T(' s', ' с') : T('passed', 'пройдена')) : '—'],
+    [T('TO LAND-OR-ABORT, BY THE GAUGE', 'ДО «САДИТЬСЯ ИЛИ ПРЕРЫВАТЬ», ПО ДАТЧИКУ'), lit ? (ta >= 0 ? fmt(ta, 1) + T(' s', ' с') : T('passed', 'пройдена')) : '—'],
+    [T('FIRING TIME TO EMPTY', 'ДО ПУСТЫХ БАКОВ'), fmt(te, 1) + T(' s gauge · ', ' с по датчику · ') + fmt(te + FC.POST, 1) + T(' s post-flight', ' с по анализу')],
+    [T('HOVERING EAGLE (7.33 t, LANDED MASS) NEEDED', 'ДЛЯ ЗАВИСАНИЯ «ОРЛА» (7,33 т, ПОСАДОЧНАЯ МАССА) НУЖНО'), fmt(h.F/1000, 1) + T(' kN = ', ' кН = ') + fmt(h.frac*100, 0) + T(' % of full thrust', ' % полной тяги'), true]
+  ]);
+  var near = FC_EVENTS.filter(function(e){ return Math.abs(e.t - fuelT) < 0.05; })[0], msg;
+  if(near) msg = T(near.sEn, near.sRu);
+  else if(!lit) msg = T('Eagle is about 200 feet up, still flying forward in search of a clear spot.', '«Орёл» примерно в 60 метрах над грунтом и всё ещё летит вперёд в поисках ровного места.');
+  else if(fuelT < FC.CONTACT) msg = T('By this reconstruction, Houston’s count ran about ' + fmt(FC.LL + FC.T_LL - FC.RESERVE - houstonBingo(), 0) + ' s ahead of the gauge, on the safe side; the tanks held another ' + fmt(FC.RESERVE, 0) + ' s after the land-or-abort point.', 'По этой реконструкции отсчёт Хьюстона опережал датчик примерно на ' + fmt(FC.LL + FC.T_LL - FC.RESERVE - houstonBingo(), 0) + ' с — с запасом; в баках оставалось ещё ' + fmt(FC.RESERVE, 0) + ' с после точки «садиться или прерывать».');
+  else if(fuelT < FC.CUTOFF) msg = T('On the surface; the engine is still running for another moment.', 'На поверхности; двигатель ещё работает мгновение.');
+  else msg = T('Eagle is down. Had it kept hovering, the land-or-abort point would have come ' + fmt(Math.max(0, toAbort(FC.CUTOFF)), 0) + ' s after cutoff.', '«Орёл» сел. Если бы он продолжал висеть, точка «садиться или прерывать» наступила бы через ' + fmt(Math.max(0, toAbort(FC.CUTOFF)), 0) + ' с после выключения.');
+  document.getElementById('fuelStatus').textContent = msg;
+  svg.setAttribute('aria-label', T('Timeline of the last two and a half minutes of Apollo 11’s descent fuel, cursor at ', 'Шкала последних двух с половиной минут топлива посадки «Аполлона-11», курсор на ') + getStr(fuelT));
+}
+
+/* ============ CH8 — SIX LANDINGS, BY THE NUMBERS (SP-4029 "Extravehicular Activity") ============ */
+function hms(s){ var p = s.split(':'); return +p[0] + p[1]/60 + p[2]/3600; }
+var EVA = [
+  {m:'11', lb:47.51,  eva:'02:31:40', nmi:0.5,  ft:200},
+  {m:'12', lb:75.73,  eva:'07:45:18', nmi:1.2,  ft:1350},
+  {m:'14', lb:93.21,  eva:'09:22:31', nmi:2.2,  ft:4770},
+  {m:'15', lb:170.44, eva:'18:34:46', nmi:15.1, ft:16470},
+  {m:'16', lb:211.00, eva:'20:14:14', nmi:14.5, ft:15092},
+  {m:'17', lb:243.65, eva:'22:03:57', nmi:19.3, ft:25029}
+];
+var EVA_METRICS = [
+  {id:'kg', en:'SAMPLES', ru:'ОБРАЗЦЫ', uEn:'kg', uRu:'кг', d:1, f:function(r){ return r.lb*LB; }},
+  {id:'h',  en:'TIME OUTSIDE', ru:'ВРЕМЯ СНАРУЖИ', uEn:'h', uRu:'ч', d:1, f:function(r){ return hms(r.eva); }},
+  {id:'km', en:'DISTANCE COVERED', ru:'ПРОЙДЕНО', uEn:'km', uRu:'км', d:1, f:function(r){ return r.nmi*1.852; }},
+  {id:'far',en:'FARTHEST FROM THE LM', ru:'ДАЛЬШЕ ВСЕГО ОТ ЛУННОГО МОДУЛЯ', uEn:'km', uRu:'км', d:2, f:function(r){ return r.ft*0.3048/1000; }}
+];
+var evaMetric = 0;
+function renderEva(){
+  var svg = document.getElementById('evaSvg'), btns = document.getElementById('evaBtns');
+  if(!svg) return;
+  var M = EVA_METRICS[evaMetric], vals = EVA.map(M.f), max = Math.max.apply(null, vals), top = Math.ceil(max/(max > 50 ? 20 : (max > 10 ? 5 : 1)))*(max > 50 ? 20 : (max > 10 ? 5 : 1));
+  svg.innerHTML = '';
+  var nar = isNarrow(svg), W = nar ? 360 : 640;
+  svg.setAttribute('viewBox', '0 0 ' + W + ' 300');
+  var x0 = nar ? 40 : 56, x1 = W - 14, y0 = 250, y1 = 30, bw = (x1 - x0)/EVA.length;
+  function Y(v){ return y0 - v/top*(y0 - y1); }
+  for(var k = 0; k <= 4; k++){
+    var v = top*k/4, y = Y(v);
+    ns('line', {x1:x0, y1:y, x2:x1, y2:y, stroke:'#c9c9c1', 'stroke-width':1}, svg);
+    txt(svg, x0 - 6, y + 3, fmt(v, v % 1 ? 1 : 0), 'svg-small', 'end');
+  }
+  txt(svg, x0 - 6, 18, T(M.uEn, M.uRu), 'svg-small', 'end');
+  EVA.forEach(function(r, i){
+    var x = x0 + i*bw + bw*0.2, w = bw*0.6, v = vals[i];
+    ns('rect', {x:x, y:Y(v), width:w, height:y0 - Y(v), fill: i >= 3 ? '#0b0b0c' : '#7a7a74'}, svg);
+    txt(svg, x + w/2, Y(v) - 6, fmt(v, M.d), 'svg-label', 'middle');
+    txt(svg, x + w/2, y0 + 18, nar ? r.m : (lang === 'en' ? 'Apollo ' : '«А-') + r.m + (lang === 'en' ? '' : '»'), 'svg-small', 'middle');
+  });
+  txt(svg, x1, y0 + 38, nar ? T('Apollo · dark: with rover', '«Аполлон» · тёмные: с луноходом') : T('dark bars: J-missions with the Lunar Roving Vehicle', 'тёмные столбцы: J-миссии с луноходом LRV'), 'svg-small', 'end');
+  btns.innerHTML = '';
+  EVA_METRICS.forEach(function(m, i){
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'btn' + (i === evaMetric ? ' active' : '');
+    b.setAttribute('aria-pressed', i === evaMetric ? 'true' : 'false');
+    b.textContent = T(m.en, m.ru);
+    b.addEventListener('click', function(){ evaMetric = i; renderEva(); });
+    btns.appendChild(b);
+  });
+  var kg = EVA.map(EVA_METRICS[0].f), h = EVA.map(EVA_METRICS[1].f), sum = function(a){ return a.reduce(function(s, x){ return s + x; }, 0); };
+  cells(document.getElementById('evaOut'), [
+    [T('TOTAL, ALL SIX', 'ВСЕГО ЗА ШЕСТЬ'), fmt(sum(vals), M.id === 'far' ? 2 : 1) + ' ' + T(M.uEn, M.uRu)],
+    [T('APOLLO 17 ÷ APOLLO 11', '«А-17» ÷ «А-11»'), '×' + fmt(vals[5]/vals[0], 1)],
+    [T('SAMPLES PER HOUR OUTSIDE, APOLLO 11', 'ОБРАЗЦОВ ЗА ЧАС СНАРУЖИ, «А-11»'), fmt(kg[0]/h[0], 1) + T(' kg/h', ' кг/ч')],
+    [T('SAMPLES PER HOUR OUTSIDE, APOLLO 17', 'ОБРАЗЦОВ ЗА ЧАС СНАРУЖИ, «А-17»'), fmt(kg[5]/h[5], 1) + T(' kg/h', ' кг/ч')]
+  ]);
+  var notes = [
+    T('Together: ' + fmt(sum(kg), 1) + ' kg of rock, soil and core — the “382 kilograms”. Apollo 17 alone brought back five times Apollo 11’s haul.', 'Вместе: ' + fmt(sum(kg), 1) + ' кг камней, грунта и кернов — те самые «382 килограмма». Один «Аполлон-17» привёз в пять раз больше, чем «Аполлон-11».'),
+    T('Apollo 11 spent two and a half hours outside; Apollo 17’s crew spent 22, over three days.', 'Экипаж «Аполлона-11» провёл снаружи два с половиной часа; экипаж «Аполлона-17» — 22 часа за три дня.'),
+    T('From Apollo 15 on, the rover turned walks of a kilometre or two into drives of 25–36 km.', 'Начиная с «Аполлона-15» луноход превратил прогулки в километр-два в поездки на 25–36 км.'),
+    T('Apollo 11 never went more than 60 metres from Eagle; Apollo 17 drove 7.6 km away — still within walking distance back, the rule if the rover failed.', 'Экипаж «Аполлона-11» не отходил от «Орла» дальше 60 метров; «Аполлон-17» уезжал на 7,6 км — в пределах пешего возвращения, таково было правило на случай отказа лунохода.')
+  ];
+  document.getElementById('evaStatus').textContent = notes[evaMetric];
+  svg.setAttribute('aria-label', T('Bar chart, Apollo 11 to 17: ', 'Столбчатая диаграмма, «Аполлон-11»–«17»: ') + T(M.en, M.ru).toLowerCase() + ', ' + vals.map(function(v, i){ return EVA[i].m + ': ' + fmt(v, M.d); }).join('; '));
+}
+var resizeTimer = 0, lastNarrow = null;
+window.addEventListener('resize', function(){
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function(){
+    var n = isNarrow(document.getElementById('ledgerSvg'));
+    if(n !== lastNarrow){ lastNarrow = n; renderLedger(); renderFuel(); renderEva(); renderLandingFigure(); }
+  }, 150);
+});
+window.__tranquility = {LEDGER:LEDGER, tonnes:tonnes, FC:FC, toEmpty:toEmpty, toAbort:toAbort, houstonBingo:houstonBingo, hover:hover, gs:gs, EVA:EVA, EVA_METRICS:EVA_METRICS, hms:hms,
+  setLedger:function(i){ ledgerStep = i; renderLedger(); }, setFuel:function(t){ fuelT = t; renderFuel(); }, setEva:function(i){ evaMetric = i; renderEva(); }, isNarrow:isNarrow, DESCENT:DESCENT, STAGE_SPANS:STAGE_SPANS};
+
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA History (2021), “60 Years Ago: President Kennedy Proposes Moon Landing Goal in Speech to Congress”', url:'https://www.nasa.gov/history/60-years-ago-president-kennedy-proposes-moon-landing-goal-in-speech-to-congress/', note:{en:'The 25 May 1961 address and its goal of “landing a man on the moon and returning him safely to the earth” before the decade was out; the context of Gagarin’s and Shepard’s flights.', ru:'Речь 25 мая 1961 года и цель — «высадить человека на Луну и благополучно вернуть его на Землю» до конца десятилетия; контекст полётов Гагарина и Шепарда.'}},
+  {title:'R. W. Orloff (2000), Apollo by the Numbers: A Statistical Reference, NASA SP-2000-4029', url:'https://www.nasa.gov/wp-content/uploads/2023/04/sp-4029.pdf', note:{en:'Mission narratives and tables used throughout: Apollo 11 weights at every stage (6,477,875 lb at liftoff; Eagle 16,153.2 lb at landing; command module 10,873.0 lb at splashdown), landing times (102:45:39.9, 20:17:39 UTC), powered-descent and LOI burns, Apollo 10’s 47,400 ft low point, Apollo 12’s 535 ft from Surveyor III, Apollo 13’s 055:54:53 GET, re-entry at 36,194 ft/s, descent-engine maximum thrust 9,870 lbf, and the EVA table with returned sample weights from the Lunar Sample Curator (841.5 lb in all).', ru:'Описания миссий и таблицы, использованные во всём справочнике: массы «Аполлона-11» на каждом этапе (6 477 875 фунтов на старте; «Орёл» — 16 153,2 фунта при посадке; командный модуль — 10 873,0 фунта при приводнении), моменты посадки (102:45:39,9; 20:17:39 UTC), импульсы спуска и выхода на орбиту, нижняя точка «Аполлона-10» 47 400 футов, 535 футов от «Сервейера-3» у «Аполлона-12», 055:54:53 полётного времени у «Аполлона-13», вход в атмосферу на 36 194 фут/с, максимальная тяга посадочного двигателя 9870 фунтов-силы и таблица выходов с массами образцов от хранителя лунных образцов (всего 841,5 фунта).'}},
+  {title:'NASA (2023), “This Week in NASA History: Skylab Launches – May 14, 1973”', url:'https://www.nasa.gov/image-article/this-week-nasa-history-skylab-launches-may-14-1973/', note:{en:'Skylab’s launch on a modified Saturn V from Kennedy Space Center, 14 May 1973.', ru:'Запуск «Скайлэба» на модифицированном «Сатурне V» с Космического центра имени Кеннеди, 14 мая 1973 года.'}},
+  {title:'NASA, “Artemis II” mission page', url:'https://www.nasa.gov/mission/artemis-ii/', note:{en:'Crewed lunar flyby on SLS and Orion, launched 1 April 2026, splashdown 10 April 2026, with Reid Wiseman, Victor Glover, Christina Koch and Jeremy Hansen.', ru:'Пилотируемый облёт Луны на SLS и Orion: старт 1 апреля 2026 года, приводнение 10 апреля 2026 года; экипаж — Рид Уайзман, Виктор Гловер, Кристина Кох и Джереми Хансен.'}},
+  {title:'J. R. Hansen (1995), Enchanted Rendezvous: John C. Houbolt and the Genesis of the Lunar-Orbit Rendezvous Concept, NASA Monographs in Aerospace History No. 4', url:'https://www.nasa.gov/wp-content/uploads/2023/04/sp-4504-enchanted-rendezvous.pdf', note:{en:'How lunar-orbit rendezvous won: only the lander descends, only its ascent stage returns, only the command module comes home; Houbolt’s December 1960 claim of a 2–2.5× cut in Earth payload.', ru:'Как победила схема встречи на окололунной орбите: садится только посадочный аппарат, возвращается только его взлётная ступень, домой прилетает только командный модуль; утверждение Хуболта (декабрь 1960) о сокращении массы, выводимой с Земли, в 2–2,5 раза.'}},
+  {title:'NASA Manned Spacecraft Center (1969), Apollo 11 Mission Report, MSC-00171', url:'https://ntrs.nasa.gov/citations/19700008096', note:{en:'Descent event times and the 1201/1202 alarms; §9.8.3: low-level light at 102:44:30.4 with about 116 s of firing time left, the landing go/no-go point 20 s before depletion, 45 s indicated at cutoff vs 50 s by post-flight calculation; ~6,775 ft/s powered-descent Δv.', ru:'Хронология спуска и сигналы 1201/1202; §9.8.3: лампа «мало топлива» на 102:44:30,4 при остатке около 116 с работы двигателя, точка «да/нет» за 20 с до опустошения, 45 с по датчику при выключении против 50 с по послеполётному расчёту; Δv спуска около 6775 фут/с.'}},
+  {title:'NASA (1969), Apollo 11 Technical Air-to-Ground Voice Transcription (GOSS NET 1)', url:'https://ntrs.nasa.gov/citations/20160014392', note:{en:'The landing exchange: the 1202/1201 alarms and Houston’s “GO”, CAPCOM’s “60 seconds” at 04:06:45:02 and “30 seconds” at 04:06:45:31, and the altitude calls down to contact.', ru:'Переговоры при посадке: сигналы 1202/1201 и «Продолжайте» Хьюстона, «60 секунд» оператора связи в 04:06:45:02 и «30 секунд» в 04:06:45:31, отсчёт высоты до касания.'}},
+  {title:'NASA, “The Apollo Program”', url:'https://www.nasa.gov/the-apollo-program/', note:{en:'Program overview and mission-by-mission pages from Apollo 1 to Apollo 17.', ru:'Обзор программы и страницы каждой миссии от «Аполлона-1» до «Аполлона-17».'}},
+  {title:'NASA, “Apollo 13” mission page', url:'https://www.nasa.gov/mission/apollo-13/', note:{en:'Launch 11 April 1970, the damage “200,000 miles from Earth”, the lunar module as lifeboat, splashdown 17 April 1970, “The Successful Failure”.', ru:'Старт 11 апреля 1970 года, авария «в 200 000 милях от Земли», лунный модуль как спасательная шлюпка, приводнение 17 апреля 1970 года, «Успешная неудача».'}},
+  {title:'NASA Science, “How Did the Moon Form?”', url:'https://science.nasa.gov/moon/formation/', note:{en:'How the Apollo samples changed ideas of the Moon’s origin; the collision with a Mars-sized body (or several bodies) about 4.5 billion years ago.', ru:'Как образцы «Аполлонов» изменили представления о происхождении Луны; столкновение с телом размером с Марс (или несколькими телами) около 4,5 миллиарда лет назад.'}},
+  {title:'NASA JPL (1999), “Apollo 11 Experiment Continues to Return Valuable Data”', url:'https://www.jpl.nasa.gov/news/apollo-11-experiment-continues-to-return-valuable-data/', note:{en:'Laser ranging to the reflectors of Apollo 11 and two later Apollo missions: accuracy about two centimetres, and the Moon receding 3.8 cm a year.', ru:'Лазерная локация отражателей «Аполлона-11» и двух более поздних «Аполлонов»: точность около двух сантиметров, Луна удаляется на 3,8 см в год.'}},
+  {title:'C. Dreier, “How much did the Apollo program cost?”, The Planetary Society', url:'https://www.planetary.org/space-policy/cost-of-apollo', note:{en:'A reconstruction from NASA budget records: $25.8 billion on Project Apollo, 1960–1973 (about $309 billion in 2025 dollars).', ru:'Реконструкция по бюджетным документам NASA: 25,8 млрд долларов на проект «Аполлон» в 1960–1973 годах (около 309 млрд в долларах 2025 года).'}},
+  {title:'A. A. Siddiqi (2000), Challenge to Apollo: The Soviet Union and the Space Race, 1945–1974, NASA SP-2000-4408, Part 2', url:'https://www.nasa.gov/wp-content/uploads/2023/06/sp-4408.pdf', note:{en:'The N1-L3 program (p. 838 and around): four N1 failures 1969–72; work halted by an order of 24 June 1974, with the program formally ended in 1976; cost of 3.6 billion rubles to January 1973 and perhaps 4.0–4.5 billion by the mid-1970s (roughly $12–13.5 billion, about half of Apollo). It was first acknowledged in print in July 1989 (Kamanin’s diaries in Poisk), with the first in-depth N1 article in Izvestiya on 18 August 1989. Also the robotic Luna 16 and 20 sample returns and the Lunokhod rovers.', ru:'Программа Н1-Л3 (с. 838 и далее): четыре аварии Н1 в 1969–72 годах; работы остановлены приказом от 24 июня 1974 года, официально программа закрыта в 1976-м; расходы 3,6 млрд рублей к январю 1973 года и, возможно, 4,0–4,5 млрд к середине 1970-х (примерно 12–13,5 млрд долларов, около половины «Аполлона»). Впервые признана в печати в июле 1989 года (дневники Каманина в «Поиске»); первая подробная статья о Н1 — в «Известиях» 18 августа 1989 года. Там же — автоматическая доставка грунта «Луной-16» и «Луной-20» и «Луноходы».'}}
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+document.getElementById('fuelT').addEventListener('input', function(e){ fuelT = +e.target.value; renderFuel(); });
+function renderAll(){
+  renderApollo();
+  renderBuildup();
+  renderLanding();
+  renderLandings();
+  renderScience();
+  renderN1();
+  renderLegacy(); renderRefs();
+  renderLedger(); renderFuel(); renderEva();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>

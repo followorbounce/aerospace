@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="ru" data-edition="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Спектроскопия: о чём говорит свет звёзд — Аэрокосмический справочник</title>
+<meta name="description" content="Кусочек звезды никто никогда не привезёт, и всё же мы знаем, из чего звёзды состоят, насколько они горячи и как быстро движутся. Всё это следует из одного: их свет раскладывают в радугу и читают…">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/ru/spectrum-spectroscopy">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Спектроскопия: о чём говорит свет звёзд — Аэрокосмический справочник">
+<meta property="og:description" content="Кусочек звезды никто никогда не привезёт, и всё же мы знаем, из чего звёзды состоят, насколько они горячи и как быстро движутся. Всё это следует из одного: их свет раскладывают в радугу и читают…">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/ru/spectrum-spectroscopy">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* SPECTRUM: 44 px touch targets (iPhone guideline), readable small SVG text, full-width figures */
+.btn{min-height:44px; min-width:44px; padding:10px 12px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+.svg-small{fill:#5f5f59; font-size:10.5px; font-family:'IBM Plex Mono',monospace;}
+.fig-wide{border:1px solid var(--ink); background:var(--white); padding:12px; margin-top:28px;}
+.fig-wide svg{display:block; width:100%; max-width:640px; margin:0 auto; height:auto;}
+.body-col a, .eq-note a{color:inherit; text-decoration:underline; text-underline-offset:2px;}
+@media (max-width:520px){ .svg-small{font-size:14px;} .svg-label{font-size:14px;} }
+@media (pointer:coarse){
+  input[type=range]{background:transparent;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/spectrum-spectroscopy">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/spectrum-spectroscopy">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/spectrum-spectroscopy">
+<!-- /hreflang -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Спектроскопия: о чём говорит свет звёзд","description":"Кусочек звезды никто никогда не привезёт, и всё же мы знаем, из чего звёзды состоят, насколько они горячи и как быстро движутся. Всё это следует из одного: их свет раскладывают в радугу и читают…","url":"https://followorbounce.github.io/aerospace/ru/spectrum-spectroscopy","mainEntityOfPage":"https://followorbounce.github.io/aerospace/ru/spectrum-spectroscopy","image":"","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Аэрокосмический справочник","url":"https://followorbounce.github.io/aerospace/ru/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Аэрокосмический справочник","item":"https://followorbounce.github.io/aerospace/ru/"},{"@type":"ListItem","position":2,"name":"Спектроскопия: о чём говорит свет звёзд","item":"https://followorbounce.github.io/aerospace/ru/spectrum-spectroscopy"}]}</script>
+<!-- /fob-ld -->
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">SPECTRUM — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="">EN</button>
+    <button data-lang="ru" class="active">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PRISM</span></div>
+  <div class="hud-row"><span class="hud-label">WAVELENGTH</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">READING</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PRISM">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/ru/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← ОГЛАВЛЕНИЕ</span></a> — <span data-en="FIG. 00 — SUNLIGHT, TAKEN APART" data-ru="РИС. 00 — СОЛНЕЧНЫЙ СВЕТ, РАЗЛОЖЕННЫЙ В СПЕКТР">РИС. 00 — СОЛНЕЧНЫЙ СВЕТ, РАЗЛОЖЕННЫЙ В СПЕКТР</span></span>
+        <span>1966 SOLAR ATLAS · 380–700 nm</span>
+      </div>
+      <h1><span data-en="SPECTRUM" data-ru="СПЕКТР">СПЕКТР</span><br><em data-en="SPECTROSCOPY: WHAT STARLIGHT SAYS" data-ru="СПЕКТРОСКОПИЯ: О ЧЁМ ГОВОРИТ СВЕТ ЗВЁЗД">СПЕКТРОСКОПИЯ: О ЧЁМ ГОВОРИТ СВЕТ ЗВЁЗД</em></h1>
+      <p class="sub lede" data-en="Nobody will ever bring back a piece of a star, yet we know what stars are made of, how hot they are and how fast they move. All of it comes from spreading their light into a rainbow and reading the dark lines across it. Ten chapters and four instruments: follow Newton's prism and Fraunhofer's lines, match a sodium lamp to the Sun the way Kirchhoff did, find helium in the Sun 27 years before it was found on Earth, climb hydrogen's ladder with two integers and one constant, take a star's temperature as Cecilia Payne did in 1925, and measure the 59 m/s wobble that revealed the first planet around a Sun-like star." data-ru="Кусочек звезды никто никогда не привезёт, и всё же мы знаем, из чего звёзды состоят, насколько они горячи и как быстро движутся. Всё это следует из одного: их свет раскладывают в радугу и читают пересекающие её тёмные линии. Десять глав и четыре прибора: повторите опыт Ньютона с призмой и найдите линии Фраунгофера, сравните натриевую лампу с Солнцем, как это сделал Кирхгоф, найдите гелий на Солнце за 27 лет до того, как его нашли на Земле, поднимитесь по лестнице водорода с двумя целыми числами и одной константой, измерьте температуру звезды так, как это сделала Сесилия Пейн в 1925 году, и найдите колебание в 59 м/с, по которому открыли первую планету у звезды, похожей на Солнце.">Кусочек звезды никто никогда не привезёт, и всё же мы знаем, из чего звёзды состоят, насколько они горячи и как быстро движутся. Всё это следует из одного: их свет раскладывают в радугу и читают пересекающие её тёмные линии. Десять глав и четыре прибора: повторите опыт Ньютона с призмой и найдите линии Фраунгофера, сравните натриевую лампу с Солнцем, как это сделал Кирхгоф, найдите гелий на Солнце за 27 лет до того, как его нашли на Земле, поднимитесь по лестнице водорода с двумя целыми числами и одной константой, измерьте температуру звезды так, как это сделала Сесилия Пейн в 1925 году, и найдите колебание в 59 м/с, по которому открыли первую планету у звезды, похожей на Солнце.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">НАЧАТЬ — ГЛАВА 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — PRISM -->
+<section id="ch1" class="section" data-phase="PRISM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="CAMBRIDGE, 1666" data-ru="КЕМБРИДЖ, 1666">КЕМБРИДЖ, 1666</span></div>
+    <h2 class="h-lg" data-en="White light is a mixture" data-ru="Белый свет — это смесь">Белый свет — это смесь</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="“In the beginning of the Year 1666”, Isaac Newton darkened his room, let sunlight in through a small hole in the shutter and put a glass prism in its path. He expected a round spot of colour on the far wall. He got a band about <b>five times longer than it was wide</b>: 2° 49′ long, while the Sun itself is only 31′ across [1]." data-ru="«В начале 1666 года» Исаак Ньютон затемнил комнату, впустил солнечный свет через маленькое отверстие в ставне и поставил на его пути стеклянную призму. Он ожидал увидеть на противоположной стене круглое цветное пятно. А получил полосу <b>примерно в пять раз длиннее её ширины</b>: 2° 49′ в длину, хотя само Солнце имеет поперечник всего 31′ [1].">«В начале 1666 года» Исаак Ньютон затемнил комнату, впустил солнечный свет через маленькое отверстие в ставне и поставил на его пути стеклянную призму. Он ожидал увидеть на противоположной стене круглое цветное пятно. А получил полосу <b>примерно в пять раз длиннее её ширины</b>: 2° 49′ в длину, хотя само Солнце имеет поперечник всего 31′ [1].</p>
+      <p class="body-col" data-en="His decisive test, the <i>experimentum crucis</i>, sent one colour at a time through a second prism: each colour bent by its own fixed amount, and no prism could change it into another. Sunlight, he concluded, is “a Heterogeneous mixture of differently refrangible Rays” [1]. The band he saw was a <b>spectrum</b> — and everything in this guide is about reading it." data-ru="Решающий опыт, <i>experimentum crucis</i>, направлял через вторую призму по одному цвету: каждый цвет преломлялся на свой, строго определённый угол, и никакая призма не превращала его в другой. Солнечный свет, заключил Ньютон, — это «неоднородная смесь по-разному преломляемых лучей» [1]. Полоса, которую он увидел, — <b>спектр</b>, и весь этот справочник — о том, как его читать.">Решающий опыт, <i>experimentum crucis</i>, направлял через вторую призму по одному цвету: каждый цвет преломлялся на свой, строго определённый угол, и никакая призма не превращала его в другой. Солнечный свет, заключил Ньютон, — это «неоднородная смесь по-разному преломляемых лучей» [1]. Полоса, которую он увидел, — <b>спектр</b>, и весь этот справочник — о том, как его читать.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="NEWTON'S OWN NUMBERS" data-ru="ЧИСЛА САМОГО НЬЮТОНА">ЧИСЛА САМОГО НЬЮТОНА</div>
+      <div class="eq-body" data-en="length of the band 2° 49′ ÷ width of the Sun 31′ = 169′ ÷ 31′ ≈ 5.5" data-ru="длина полосы 2° 49′ ÷ поперечник Солнца 31′ = 169′ ÷ 31′ ≈ 5,5">длина полосы 2° 49′ ÷ поперечник Солнца 31′ = 169′ ÷ 31′ ≈ 5,5</div>
+      <div class="eq-note" data-en="If every ray bent by the same amount, the image of a 31′ Sun would be a 31′ circle. The extra length is the spread of colours. Newton also saw what this meant for telescopes: a lens cannot bring all colours to one focus, so he “took Reflections into consideration” and turned to mirrors [1] (see <a href='/aerospace/parabola-mirrors-and-dishes'>PARABOLA</a>)." data-ru="Если бы все лучи преломлялись одинаково, изображение Солнца в 31′ было бы кругом в 31′. Дополнительная длина — это разброс цветов. Ньютон увидел и следствие для телескопов: линза не может свести все цвета в один фокус — поэтому он «принял во внимание отражения» и обратился к зеркалам [1] (см. <a href='/aerospace/parabola-mirrors-and-dishes'>ПАРАБОЛА</a>).">Если бы все лучи преломлялись одинаково, изображение Солнца в 31′ было бы кругом в 31′. Дополнительная длина — это разброс цветов. Ньютон увидел и следствие для телескопов: линза не может свести все цвета в один фокус — поэтому он «принял во внимание отражения» и обратился к зеркалам [1] (см. <a href='/aerospace/parabola-mirrors-and-dishes'>ПАРАБОЛА</a>).</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — DARK LINES -->
+<section id="ch2" class="section" data-phase="DARK LINES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="MUNICH, 1814–17" data-ru="МЮНХЕН, 1814–1817">МЮНХЕН, 1814–1817</span></div>
+    <h2 class="h-lg" data-en="Hundreds of gaps in the rainbow" data-ru="Сотни разрывов в радуге">Сотни разрывов в радуге</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Joseph Fraunhofer was an optician. To design better achromatic telescope lenses he needed to measure exactly how much each kind of glass bent each colour — and a smooth rainbow has no fixed marks to measure against. Looking at sunlight through a narrow slit and a prism on a theodolite, he found the marks: dark lines, sharp and always in the same places. (William Wollaston had glimpsed a few in 1802, but took them for boundaries between colours [33].) Between the lines he lettered B and H he counted <b>about 574</b> [2]." data-ru="Йозеф Фраунгофер был оптиком. Чтобы рассчитывать более совершенные ахроматические объективы, ему нужно было точно измерить, насколько каждый сорт стекла преломляет каждый цвет, — а на гладкой радуге нет постоянных меток, по которым можно мерить. Рассматривая солнечный свет через узкую щель и призму на теодолите, он нашёл такие метки: тёмные линии, резкие и всегда на одних и тех же местах. (Уильям Волластон заметил несколько из них ещё в 1802 году, но принял их за границы между цветами [33].) Между линиями, которые он обозначил буквами B и H, он насчитал <b>около 574</b> [2].">Йозеф Фраунгофер был оптиком. Чтобы рассчитывать более совершенные ахроматические объективы, ему нужно было точно измерить, насколько каждый сорт стекла преломляет каждый цвет, — а на гладкой радуге нет постоянных меток, по которым можно мерить. Рассматривая солнечный свет через узкую щель и призму на теодолите, он нашёл такие метки: тёмные линии, резкие и всегда на одних и тех же местах. (Уильям Волластон заметил несколько из них ещё в 1802 году, но принял их за границы между цветами [33].) Между линиями, которые он обозначил буквами B и H, он насчитал <b>около 574</b> [2].</p>
+      <p class="body-col" data-en="He labelled the strongest with letters, convinced himself they belonged to sunlight itself and not to his instrument, and noticed two clues. A lamp flame showed none of the dark lines but a <b>bright</b> line exactly at the place of the dark D. And the light of Sirius showed “three broad stripes”, one in the green and two in the blue, unlike anything in sunlight; other bright stars differed again [2]. His paper was presented to the Bavarian Academy on 12 April 1817 [2]." data-ru="Самые сильные он обозначил буквами, убедился, что они принадлежат самому солнечному свету, а не прибору, и заметил две подсказки. Пламя лампы не давало ни одной тёмной линии, зато давало <b>яркую</b> линию точно на месте тёмной линии D. А в свете Сириуса были видны «три широкие полосы», одна в зелёной и две в синей части, — ничего похожего на солнечный спектр; другие яркие звёзды отличались и от него [2]. Работа была представлена Баварской академии 12 апреля 1817 года [2].">Самые сильные он обозначил буквами, убедился, что они принадлежат самому солнечному свету, а не прибору, и заметил две подсказки. Пламя лампы не давало ни одной тёмной линии, зато давало <b>яркую</b> линию точно на месте тёмной линии D. А в свете Сириуса были видны «три широкие полосы», одна в зелёной и две в синей части, — ничего похожего на солнечный спектр; другие яркие звёзды отличались и от него [2]. Работа была представлена Баварской академии 12 апреля 1817 года [2].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="FOUR OF FRAUNHOFER'S LETTERS, IDENTIFIED LATER" data-ru="ЧЕТЫРЕ БУКВЫ ФРАУНГОФЕРА, ОТОЖДЕСТВЛЁННЫЕ ПОЗЖЕ">ЧЕТЫРЕ БУКВЫ ФРАУНГОФЕРА, ОТОЖДЕСТВЛЁННЫЕ ПОЗЖЕ</div>
+      <div class="eq-body" data-en="C 656.3 nm hydrogen · D 589.0 + 589.6 nm sodium · F 486.1 nm hydrogen · H 396.8 nm ionized calcium (with K, 393.4 nm)" data-ru="C 656,3 нм водород · D 589,0 + 589,6 нм натрий · F 486,1 нм водород · H 396,8 нм ионизованный кальций (вместе с K, 393,4 нм)">C 656,3 нм водород · D 589,0 + 589,6 нм натрий · F 486,1 нм водород · H 396,8 нм ионизованный кальций (вместе с K, 393,4 нм)</div>
+      <div class="eq-note" data-en="Fraunhofer did not know what made any of them. The identifications came over the next half-century [4][8]; the wavelengths are those of the 1966 solar atlas, measured in air [5]. Fraunhofer's H was a pair of broad stripes — today's H and K [2][5]." data-ru="Фраунгофер не знал, что создаёт эти линии. Отождествления появились в следующие полвека [4][8]; длины волн взяты из солнечного атласа 1966 года и измерены в воздухе [5]. Линия H у Фраунгофера была парой широких полос — нынешние H и K [2][5].">Фраунгофер не знал, что создаёт эти линии. Отождествления появились в следующие полвека [4][8]; длины волн взяты из солнечного атласа 1966 года и измерены в воздухе [5]. Линия H у Фраунгофера была парой широких полос — нынешние H и K [2][5].</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — FINGERPRINTS -->
+<section id="ch3" class="section" data-phase="FINGERPRINTS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="HEIDELBERG, 1859–60" data-ru="ГЕЙДЕЛЬБЕРГ, 1859–1860">ГЕЙДЕЛЬБЕРГ, 1859–1860</span></div>
+    <h2 class="h-lg" data-en="Every element writes its own lines" data-ru="Каждый элемент пишет свои линии">Каждый элемент пишет свои линии</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="In Heidelberg, the chemist Robert Bunsen had a burner whose flame was hot but nearly colourless, and the physicist Gustav Kirchhoff a spectroscope to look at it. Heating very pure salts, they showed that each metal gives its own unique set of bright lines. Their 1860 paper founded <b>spectral analysis</b> [3], and within about a year the method had turned up two new elements: caesium, announced in 1860, and rubidium, described in their second paper of 1861 [4][34]." data-ru="В Гейдельберге у химика Роберта Бунзена была горелка с горячим, но почти бесцветным пламенем, а у физика Густава Кирхгофа — спектроскоп, чтобы на это пламя смотреть. Нагревая очень чистые соли, они показали, что каждый металл даёт собственный, только ему присущий набор ярких линий. Их статья 1860 года положила начало <b>спектральному анализу</b> [3], а меньше чем за год метод принёс два новых элемента: цезий, о котором объявили в 1860 году, и рубидий, описанный в их второй статье 1861 года [4][34].">В Гейдельберге у химика Роберта Бунзена была горелка с горячим, но почти бесцветным пламенем, а у физика Густава Кирхгофа — спектроскоп, чтобы на это пламя смотреть. Нагревая очень чистые соли, они показали, что каждый металл даёт собственный, только ему присущий набор ярких линий. Их статья 1860 года положила начало <b>спектральному анализу</b> [3], а меньше чем за год метод принёс два новых элемента: цезий, о котором объявили в 1860 году, и рубидий, описанный в их второй статье 1861 года [4][34].</p>
+      <p class="body-col" data-en="In the autumn of 1859 Kirchhoff sent bright sunlight through a sodium flame, expecting the flame's yellow lines to fill in the dark D lines. Instead the D lines got <b>darker</b>. The explanation came the next day: “a substance capable of emitting a certain spectral line has a strong absorptive power for the same line” [4]. A cool gas in front of a hot source takes out exactly the colours it would emit. So the dark D lines meant sodium in the Sun's atmosphere — and every other dark line was a chemical fingerprint waiting to be matched." data-ru="Осенью 1859 года Кирхгоф пропустил яркий солнечный свет через натриевое пламя, ожидая, что жёлтые линии пламени заполнят тёмные линии D. Вместо этого линии D стали <b>темнее</b>. Объяснение пришло на следующий день: «вещество, способное излучать некоторую спектральную линию, сильно поглощает ту же линию» [4]. Холодный газ перед горячим источником вычитает ровно те цвета, которые сам бы излучал. Значит, тёмные линии D говорят о натрии в атмосфере Солнца, а каждая другая тёмная линия — это химический отпечаток, который осталось сопоставить.">Осенью 1859 года Кирхгоф пропустил яркий солнечный свет через натриевое пламя, ожидая, что жёлтые линии пламени заполнят тёмные линии D. Вместо этого линии D стали <b>темнее</b>. Объяснение пришло на следующий день: «вещество, способное излучать некоторую спектральную линию, сильно поглощает ту же линию» [4]. Холодный газ перед горячим источником вычитает ровно те цвета, которые сам бы излучал. Значит, тёмные линии D говорят о натрии в атмосфере Солнца, а каждая другая тёмная линия — это химический отпечаток, который осталось сопоставить.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="HOW STRONG IS A DARK LINE? — EQUIVALENT WIDTH" data-ru="НАСКОЛЬКО СИЛЬНА ТЁМНАЯ ЛИНИЯ? — ЭКВИВАЛЕНТНАЯ ШИРИНА">НАСКОЛЬКО СИЛЬНА ТЁМНАЯ ЛИНИЯ? — ЭКВИВАЛЕНТНАЯ ШИРИНА</div>
+      <div class="eq-body" data-en="W = width of a perfectly black, sharp-edged line that removes the same light &nbsp;·&nbsp; 1 mÅ = 0.0001 nm" data-ru="W = ширина идеально чёрной линии с резкими краями, убирающей столько же света &nbsp;·&nbsp; 1 мÅ = 0,0001 нм">W = ширина идеально чёрной линии с резкими краями, убирающей столько же света  ·  1 мÅ = 0,0001 нм</div>
+      <div class="eq-note" data-en="The definition used by the 1966 solar atlas of Charlotte Moore, M. Minnaert and J. Houtgast, which lists about 24,000 lines with their wavelengths in air and equivalent widths, 73 % identified, from 63 elements [5]. The widest is ionized calcium's K line: 20,253 mÅ, about 2 nm. Most lines are narrower than 0.01 nm." data-ru="Определение из солнечного атласа Шарлотты Мур, М. Миннарта и Я. Хаутгаста 1966 года: около 24 000 линий с длинами волн в воздухе и эквивалентными ширинами, 73 % из них отождествлены, — от 63 элементов [5]. Самая широкая — линия K ионизованного кальция: 20 253 мÅ, около 2 нм. Большинство линий — уже 0,01 нм.">Определение из солнечного атласа Шарлотты Мур, М. Миннарта и Я. Хаутгаста 1966 года: около 24 000 линий с длинами волн в воздухе и эквивалентными ширинами, 73 % из них отождествлены, — от 63 элементов [5]. Самая широкая — линия K ионизованного кальция: 20 253 мÅ, около 2 нм. Большинство линий — уже 0,01 нм.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="mtSvg" class="sim-svg" viewBox="0 0 480 240" role="img" aria-label="The solar spectrum from 380 to 700 nanometres with its dark lines, above the bright lines of the chosen element in a laboratory lamp; dashed links mark matches" data-aria-en="The solar spectrum from 380 to 700 nanometres with its dark lines, above the bright lines of the chosen element in a laboratory lamp; dashed links mark matches" data-aria-ru="Спектр Солнца от 380 до 700 нанометров с тёмными линиями, под ним — яркие линии выбранного элемента в лабораторной лампе; штриховые связи отмечают совпадения"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Element in the lamp" data-aria-en="Element in the lamp" data-aria-ru="Элемент в лампе" id="mtPre">
+          <button class="btn" data-el="H" aria-pressed="false" data-en="HYDROGEN" data-ru="ВОДОРОД">ВОДОРОД</button>
+          <button class="btn active" data-el="Na" aria-pressed="true" data-en="SODIUM" data-ru="НАТРИЙ">НАТРИЙ</button>
+          <button class="btn" data-el="Mg" aria-pressed="false" data-en="MAGNESIUM" data-ru="МАГНИЙ">МАГНИЙ</button>
+          <button class="btn" data-el="Ca" aria-pressed="false" data-en="CALCIUM" data-ru="КАЛЬЦИЙ">КАЛЬЦИЙ</button>
+          <button class="btn" data-el="Fe" aria-pressed="false" data-en="IRON" data-ru="ЖЕЛЕЗО">ЖЕЛЕЗО</button>
+          <button class="btn" data-el="He" aria-pressed="false" data-en="HELIUM" data-ru="ГЕЛИЙ">ГЕЛИЙ</button>
+        </div>
+        <div class="readout-grid" id="mtReadout"></div>
+        <div class="status" id="mtStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Top: lines of the 1966 atlas between 380 and 700 nm (darker = stronger) — every line of at least 100 mÅ whose table row reads cleanly in the scan, plus 38 lines checked by eye on the scanned pages, including all labelled lines and every width quoted in the text [5]. A row “reads cleanly” when its equivalent width and its reduced width agree; OCR errors elsewhere are possible. The cluster near 687 nm is oxygen in Earth's own air, not the Sun — the atlas marks it “Atm O₂” [5]. Bottom: the element's strongest laboratory lines from the NIST Atomic Spectra Database, also in air [6]. A match means a solar line within 0.03 nm. Only lines of at least 100 mÅ are shown; against all 24,000 atlas lines almost any wavelength would find a faint neighbour within 0.03 nm by chance, which is why real identification needs several lines with the right relative strengths. Colours are only approximate." data-ru="Вверху: линии атласа 1966 года в диапазоне 380–700 нм (чем темнее, тем сильнее) — все линии не слабее 100 мÅ, строка которых чётко читается на скане, и ещё 38 линий, проверенных на глаз по сканированным страницам, включая все подписанные линии и все ширины, приведённые в тексте [5]. Строка «читается чётко», если её эквивалентная и приведённая ширины согласуются; в остальных возможны ошибки распознавания. Группа около 687 нм — это кислород в воздухе самой Земли, а не Солнце: в атласе она помечена «Atm O₂» [5]. Внизу: самые сильные лабораторные линии элемента из базы атомных спектров NIST, тоже в воздухе [6]. Совпадение — это солнечная линия ближе 0,03 нм. Показаны только линии не слабее 100 мÅ; среди всех 24 000 линий атласа почти любая длина волны случайно нашла бы слабую соседку ближе 0,03 нм, поэтому настоящее отождествление требует нескольких линий с правильным соотношением интенсивностей. Цвета приблизительные.">Вверху: линии атласа 1966 года в диапазоне 380–700 нм (чем темнее, тем сильнее) — все линии не слабее 100 мÅ, строка которых чётко читается на скане, и ещё 38 линий, проверенных на глаз по сканированным страницам, включая все подписанные линии и все ширины, приведённые в тексте [5]. Строка «читается чётко», если её эквивалентная и приведённая ширины согласуются; в остальных возможны ошибки распознавания. Группа около 687 нм — это кислород в воздухе самой Земли, а не Солнце: в атласе она помечена «Atm O₂» [5]. Внизу: самые сильные лабораторные линии элемента из базы атомных спектров NIST, тоже в воздухе [6]. Совпадение — это солнечная линия ближе 0,03 нм. Показаны только линии не слабее 100 мÅ; среди всех 24 000 линий атласа почти любая длина волны случайно нашла бы слабую соседку ближе 0,03 нм, поэтому настоящее отождествление требует нескольких линий с правильным соотношением интенсивностей. Цвета приблизительные.</p>
+  </div>
+</section>
+
+<!-- CH4 — HELIUM -->
+<section id="ch4" class="section" data-phase="HELIUM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="GUNTUR · LONDON, 1868 — LONDON, 1895" data-ru="ГУНТУР · ЛОНДОН, 1868 — ЛОНДОН, 1895">ГУНТУР · ЛОНДОН, 1868 — ЛОНДОН, 1895</span></div>
+    <h2 class="h-lg" data-en="An element found in the Sun first" data-ru="Элемент, который сначала нашли на Солнце">Элемент, который сначала нашли на Солнце</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="At the total eclipse of <b>18 August 1868</b>, Pierre Janssen pointed a spectroscope from Guntur in India at the red flames — prominences — around the hidden Sun. They showed bright lines: hydrogen's red C and blue F, and a yellow line close to sodium's D. Prominences were glowing gas. On <b>20 October</b>, Norman Lockyer saw the same lines from his home observatory in London without any eclipse; both results were read to the Paris Academy of Sciences on 26 October [8]." data-ru="Во время полного затмения <b>18 августа 1868 года</b> Пьер Жансен из Гунтура в Индии направил спектроскоп на красные языки пламени — протуберанцы — вокруг закрытого Солнца. В них были видны яркие линии: красная C и синяя F водорода и жёлтая линия рядом с линией D натрия. Значит, протуберанцы — светящийся газ. <b>20 октября</b> Норман Локьер увидел те же линии из своей домашней обсерватории в Лондоне безо всякого затмения; оба результата были оглашены в Парижской академии наук 26 октября [8].">Во время полного затмения <b>18 августа 1868 года</b> Пьер Жансен из Гунтура в Индии направил спектроскоп на красные языки пламени — протуберанцы — вокруг закрытого Солнца. В них были видны яркие линии: красная C и синяя F водорода и жёлтая линия рядом с линией D натрия. Значит, протуберанцы — светящийся газ. <b>20 октября</b> Норман Локьер увидел те же линии из своей домашней обсерватории в Лондоне безо всякого затмения; оба результата были оглашены в Парижской академии наук 26 октября [8].</p>
+      <p class="body-col" data-en="The yellow line was not sodium: it was single, not double, and in the wrong place. Lockyer called it <b>D₃</b>, failed with the chemist Edward Frankland to make any laboratory gas produce it, and decided it came from an unknown element: <b>helium</b>, from the Greek for the Sun [8][10]. In 1895 William Ramsay released the gas trapped in the uranium mineral cleveite and saw the D₃ line in its spectrum; William Crookes confirmed it, and Per Teodor Cleve in Uppsala found it independently the same year [8][9]. Ramsay's 1904 Nobel Prize was for the inert gases [11]. Try HELIUM in the instrument above: none of its lines is among the Sun's dark lines, because helium shows itself in the hot chromosphere, as bright lines [5]." data-ru="Жёлтая линия не принадлежала натрию: она была одиночной, а не двойной, и стояла не на том месте. Локьер назвал её <b>D₃</b>, вместе с химиком Эдуардом Франклендом безуспешно пытался получить её от какого-нибудь газа в лаборатории и решил, что её даёт неизвестный элемент — <b>гелий</b>, от греческого названия Солнца [8][10]. В 1895 году Уильям Рамзай извлёк газ, заключённый в урановом минерале клевеите, и увидел в его спектре линию D₃; Уильям Крукс это подтвердил, а Пер Теодор Клеве в Уппсале в том же году нашёл его независимо [8][9]. Нобелевская премия Рамзая 1904 года была присуждена за инертные газы [11]. Выберите ГЕЛИЙ в приборе выше: ни одной его линии нет среди тёмных линий Солнца, потому что гелий проявляет себя в горячей хромосфере — яркими линиями [5].">Жёлтая линия не принадлежала натрию: она была одиночной, а не двойной, и стояла не на том месте. Локьер назвал её <b>D₃</b>, вместе с химиком Эдуардом Франклендом безуспешно пытался получить её от какого-нибудь газа в лаборатории и решил, что её даёт неизвестный элемент — <b>гелий</b>, от греческого названия Солнца [8][10]. В 1895 году Уильям Рамзай извлёк газ, заключённый в урановом минерале клевеите, и увидел в его спектре линию D₃; Уильям Крукс это подтвердил, а Пер Теодор Клеве в Уппсале в том же году нашёл его независимо [8][9]. Нобелевская премия Рамзая 1904 года была присуждена за инертные газы [11]. Выберите ГЕЛИЙ в приборе выше: ни одной его линии нет среди тёмных линий Солнца, потому что гелий проявляет себя в горячей хромосфере — яркими линиями [5].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="CLOSE TO D, BUT NOT D" data-ru="РЯДОМ С D, НО НЕ D">РЯДОМ С D, НО НЕ D</div>
+      <div class="eq-body" data-en="D₂ 588.995 nm − D₃ 587.562 nm = 1.433 nm &nbsp;·&nbsp; D₁ − D₂ = 589.592 − 588.995 = 0.597 nm" data-ru="D₂ 588,995 нм − D₃ 587,562 нм = 1,433 нм &nbsp;·&nbsp; D₁ − D₂ = 589,592 − 588,995 = 0,597 нм">D₂ 588,995 нм − D₃ 587,562 нм = 1,433 нм  ·  D₁ − D₂ = 589,592 − 588,995 = 0,597 нм</div>
+      <div class="eq-note" data-en="Modern laboratory wavelengths in air [6]. D₃ sits more than twice as far from the sodium pair as the pair's own lines are from each other — easy to tell apart in a good spectroscope. Crookes's 1895 measurement put it at 587.45 nm against sodium's 588.91 and 589.51 nm [8]. Helium was seen in the Sun 27 years before it was recognised on Earth." data-ru="Современные лабораторные длины волн в воздухе [6]. D₃ отстоит от натриевой пары более чем вдвое дальше, чем линии пары друг от друга, — в хороший спектроскоп их легко различить. Крукс в 1895 году измерил её как 587,45 нм против 588,91 и 589,51 нм у натрия [8]. Гелий увидели на Солнце за 27 лет до того, как его распознали на Земле.">Современные лабораторные длины волн в воздухе [6]. D₃ отстоит от натриевой пары более чем вдвое дальше, чем линии пары друг от друга, — в хороший спектроскоп их легко различить. Крукс в 1895 году измерил её как 587,45 нм против 588,91 и 589,51 нм у натрия [8]. Гелий увидели на Солнце за 27 лет до того, как его распознали на Земле.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — LADDER -->
+<section id="ch5" class="section" data-phase="LADDER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="BASEL 1885 · LUND 1890" data-ru="БАЗЕЛЬ, 1885 · ЛУНД, 1890">БАЗЕЛЬ, 1885 · ЛУНД, 1890</span></div>
+    <h2 class="h-lg" data-en="Hydrogen's ladder" data-ru="Лестница водорода">Лестница водорода</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Johann Balmer taught at a girls' school in Basel and lectured part-time at the university. In 1885 he took Ångström's wavelengths for the four visible hydrogen lines and found a formula that gave all four: λ = h·m²/(m² − 4), with h = 364.56 nm and m = 3, 4, 5, 6. He calculated a fifth line for m = 7; a colleague told him it had already been measured, along with more, which the formula also matched, to within about one part in a thousand [12][13]." data-ru="Иоганн Бальмер преподавал в женской школе в Базеле и по совместительству читал лекции в университете. В 1885 году он взял длины волн Ангстрема для четырёх видимых линий водорода и нашёл формулу, которая давала все четыре: λ = h·m²/(m² − 4), где h = 364,56 нм и m = 3, 4, 5, 6. Он вычислил пятую линию для m = 7; коллега сообщил ему, что она уже измерена, а с ней и другие; формула совпала и с ними — примерно до одной тысячной [12][13].">Иоганн Бальмер преподавал в женской школе в Базеле и по совместительству читал лекции в университете. В 1885 году он взял длины волн Ангстрема для четырёх видимых линий водорода и нашёл формулу, которая давала все четыре: λ = h·m²/(m² − 4), где h = 364,56 нм и m = 3, 4, 5, 6. Он вычислил пятую линию для m = 7; коллега сообщил ему, что она уже измерена, а с ней и другие; формула совпала и с ними — примерно до одной тысячной [12][13].</p>
+      <p class="body-col" data-en="In 1890 Johannes Rydberg rewrote spectral series in <b>wavenumbers</b> — waves per centimetre — and found one constant common to all of them, 109,721.6 cm⁻¹ [14]. The meaning came with Niels Bohr's model of the atom, recognized by the 1922 Nobel Prize [16]: the electron can only sit on certain rungs, with energies −13.6 eV/n², and each line is a jump between two rungs. Lines that land on rung 2 are Balmer's; on rung 1, the ultraviolet Lyman series; on rung 3, the infrared Paschen series." data-ru="В 1890 году Иоганнес Ридберг переписал спектральные серии в <b>волновых числах</b> (числе волн на сантиметр) и нашёл одну общую для всех них константу: 109 721,6 см⁻¹ [14]. Смысл появился с моделью атома Нильса Бора, отмеченной Нобелевской премией 1922 года [16]: электрон может находиться только на определённых ступенях с энергиями −13,6 эВ/n², а каждая линия — это прыжок между двумя ступенями. Линии, оканчивающиеся на ступени 2, — серия Бальмера; на ступени 1 — ультрафиолетовая серия Лаймана; на ступени 3 — инфракрасная серия Пашена.">В 1890 году Иоганнес Ридберг переписал спектральные серии в <b>волновых числах</b> (числе волн на сантиметр) и нашёл одну общую для всех них константу: 109 721,6 см⁻¹ [14]. Смысл появился с моделью атома Нильса Бора, отмеченной Нобелевской премией 1922 года [16]: электрон может находиться только на определённых ступенях с энергиями −13,6 эВ/n², а каждая линия — это прыжок между двумя ступенями. Линии, оканчивающиеся на ступени 2, — серия Бальмера; на ступени 1 — ультрафиолетовая серия Лаймана; на ступени 3 — инфракрасная серия Пашена.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE RYDBERG FORMULA" data-ru="ФОРМУЛА РИДБЕРГА">ФОРМУЛА РИДБЕРГА</div>
+      <div class="eq-body" data-en="1/λ = R_H (1/n₁² − 1/n₂²) &nbsp;·&nbsp; R_H = R∞ / (1 + mₑ/mₚ) = 109,677.58 cm⁻¹" data-ru="1/λ = R_H (1/n₁² − 1/n₂²) &nbsp;·&nbsp; R_H = R∞ / (1 + mₑ/mₚ) = 109 677,58 см⁻¹">1/λ = R_H (1/n₁² − 1/n₂²)  ·  R_H = R∞ / (1 + mₑ/mₚ) = 109 677,58 см⁻¹</div>
+      <div class="eq-note" data-en="R∞ = 10,973,731.568157 m⁻¹ and mₚ/mₑ = 1836.152673426 (CODATA 2022) [15]; the small correction is because the proton moves a little too. Rydberg's 1890 constant is just 0.04 % above today's value for hydrogen. The formula gives the wavelength in vacuum; to compare with lines measured in air, divide by the refractive index of standard air, as NIST does [7]." data-ru="R∞ = 10 973 731,568157 м⁻¹ и mₚ/mₑ = 1836,152673426 (CODATA 2022) [15]; небольшая поправка — потому что протон тоже немного движется. Постоянная Ридберга 1890 года всего на 0,04 % больше современного значения для водорода. Формула даёт длину волны в вакууме; чтобы сравнить её с линиями, измеренными в воздухе, её делят на показатель преломления стандартного воздуха, как это делает NIST [7].">R∞ = 10 973 731,568157 м⁻¹ и mₚ/mₑ = 1836,152673426 (CODATA 2022) [15]; небольшая поправка — потому что протон тоже немного движется. Постоянная Ридберга 1890 года всего на 0,04 % больше современного значения для водорода. Формула даёт длину волны в вакууме; чтобы сравнить её с линиями, измеренными в воздухе, её делят на показатель преломления стандартного воздуха, как это делает NIST [7].</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="ldSvg" class="sim-svg" viewBox="0 0 480 290" role="img" aria-label="Energy levels of hydrogen with the chosen jump drawn as an arrow, and where the line falls in its series" data-aria-en="Energy levels of hydrogen with the chosen jump drawn as an arrow, and where the line falls in its series" data-aria-ru="Уровни энергии водорода с выбранным переходом-стрелкой и положение линии в её серии"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Series (lower level)" data-aria-en="Series (lower level)" data-aria-ru="Серия (нижний уровень)" id="ldPre">
+          <button class="btn" data-lo="1" aria-pressed="false" data-en="LYMAN → 1" data-ru="ЛАЙМАН → 1">ЛАЙМАН → 1</button>
+          <button class="btn active" data-lo="2" aria-pressed="true" data-en="BALMER → 2" data-ru="БАЛЬМЕР → 2">БАЛЬМЕР → 2</button>
+          <button class="btn" data-lo="3" aria-pressed="false" data-en="PASCHEN → 3" data-ru="ПАШЕН → 3">ПАШЕН → 3</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="ldN" data-en="UPPER LEVEL" data-ru="ВЕРХНИЙ УРОВЕНЬ">ВЕРХНИЙ УРОВЕНЬ</label><span class="v" id="ldNVal">—</span></div>
+          <input id="ldN" type="range" min="3" max="12" step="1" value="3">
+        </div>
+        <div class="readout-grid" id="ldReadout"></div>
+        <div class="status" id="ldStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="NIST values are Ritz wavelengths, calculated from the measured energy levels — the database's most accurate — with Lyman in vacuum and Balmer and Paschen in standard air, following NIST's convention [6][7]. Balmer's h = 3645.6 × 10⁻⁸ cm [13]. The Rydberg formula ignores the fine structure of the levels, which is why it differs from NIST by about 10 parts per million throughout (up to 0.02 nm); Balmer's formula, fitted to 1880s measurements in air, is off by at most 0.012 % for the lines shown." data-ru="Значения NIST — длины волн Ритца, вычисленные по измеренным уровням энергии (самые точные в базе): серия Лаймана в вакууме, серии Бальмера и Пашена в стандартном воздухе, по соглашению NIST [6][7]. Постоянная Бальмера h = 3645,6 × 10⁻⁸ см [13]. Формула Ридберга не учитывает тонкую структуру уровней, поэтому везде расходится с NIST примерно на 10 миллионных (до 0,02 нм); формула Бальмера, подобранная по измерениям в воздухе 1880-х годов, ошибается для показанных линий не более чем на 0,012 %.">Значения NIST — длины волн Ритца, вычисленные по измеренным уровням энергии (самые точные в базе): серия Лаймана в вакууме, серии Бальмера и Пашена в стандартном воздухе, по соглашению NIST [6][7]. Постоянная Бальмера h = 3645,6 × 10⁻⁸ см [13]. Формула Ридберга не учитывает тонкую структуру уровней, поэтому везде расходится с NIST примерно на 10 миллионных (до 0,02 нм); формула Бальмера, подобранная по измерениям в воздухе 1880-х годов, ошибается для показанных линий не более чем на 0,012 %.</p>
+  </div>
+</section>
+
+<!-- CH6 — HARVARD -->
+<section id="ch6" class="section" data-phase="HARVARD">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="HARVARD COLLEGE OBSERVATORY, 1881–1924" data-ru="ОБСЕРВАТОРИЯ ГАРВАРДСКОГО КОЛЛЕДЖА, 1881–1924">ОБСЕРВАТОРИЯ ГАРВАРДСКОГО КОЛЛЕДЖА, 1881–1924</span></div>
+    <h2 class="h-lg" data-en="A quarter of a million stars, sorted by eye" data-ru="Четверть миллиона звёзд, рассортированных на глаз">Четверть миллиона звёзд, рассортированных на глаз</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Harvard photographed the sky through a prism placed in front of the telescope, so that every star on a glass plate became a tiny spectrum. Williamina Fleming, hired in 1881 as a copyist and computer, sorted the spectra of <b>10,351 stars</b> for the Draper Catalogue of 1890, in classes lettered A to Q; 99.3 % fell into just six of them [17]. By 1910 she had examined nearly 200,000 plates [17]." data-ru="В Гарварде небо фотографировали через призму, установленную перед телескопом, поэтому каждая звезда на стеклянной пластинке превращалась в крошечный спектр. Вильямина Флеминг, принятая в 1881 году переписчицей и вычислительницей, рассортировала спектры <b>10 351 звезды</b> для Каталога Дрейпера 1890 года по классам, обозначенным буквами от A до Q; 99,3 % попали всего в шесть из них [17]. К 1910 году она просмотрела почти 200 000 пластинок [17].">В Гарварде небо фотографировали через призму, установленную перед телескопом, поэтому каждая звезда на стеклянной пластинке превращалась в крошечный спектр. Вильямина Флеминг, принятая в 1881 году переписчицей и вычислительницей, рассортировала спектры <b>10 351 звезды</b> для Каталога Дрейпера 1890 года по классам, обозначенным буквами от A до Q; 99,3 % попали всего в шесть из них [17]. К 1910 году она просмотрела почти 200 000 пластинок [17].</p>
+      <p class="body-col" data-en="Annie Jump Cannon rearranged the letters, dropped some and showed that the classes form <b>one continuous sequence</b> [18]. Between 1911 and 1915, at more than three stars a minute, she classified the <b>225,300 stars</b> of the Henry Draper Catalogue, published 1918–1924 [18][19]. Her order — O, B, A, F, G, K, M — turned out to be a temperature scale, from above 30,000 K to below 4,000 K [20]. Why temperature, and not composition, was the puzzle chapter 7 solves." data-ru="Энни Джамп Кэннон переставила буквы, часть убрала и показала, что классы образуют <b>одну непрерывную последовательность</b> [18]. В 1911–1915 годах, со скоростью более трёх звёзд в минуту, она классифицировала <b>225 300 звёзд</b> Каталога Генри Дрейпера, изданного в 1918–1924 годах [18][19]. Её порядок — O, B, A, F, G, K, M — оказался шкалой температур, от более чем 30 000 К до менее чем 4000 К [20]. Почему именно температура, а не состав, — загадка, которую решает глава 7.">Энни Джамп Кэннон переставила буквы, часть убрала и показала, что классы образуют <b>одну непрерывную последовательность</b> [18]. В 1911–1915 годах, со скоростью более трёх звёзд в минуту, она классифицировала <b>225 300 звёзд</b> Каталога Генри Дрейпера, изданного в 1918–1924 годах [18][19]. Её порядок — O, B, A, F, G, K, M — оказался шкалой температур, от более чем 30 000 К до менее чем 4000 К [20]. Почему именно температура, а не состав, — загадка, которую решает глава 7.</p>
+      <p class="body-col" data-en="Antonia Maury, assigned the bright northern stars in 1888, classified 681 of them in finer detail and was “alone responsible” for the result, published in 1897 [31]. She sorted spectra into 22 groups and three divisions by the look of their lines, and noted that stars of her division c, with narrow, sharp hydrogen lines, “must differ more decidedly in constitution” [31]. Ejnar Hertzsprung later used her c stars to show that a spectrum also reveals a star's luminosity — they are far brighter than ordinary stars of the same colour [32]." data-ru="Антония Мори, которой в 1888 году поручили яркие северные звёзды, подробнее классифицировала 681 из них и была «единственным автором» этой классификации, опубликованной в 1897 году [31]. Она разделила спектры на 22 группы и три подразделения по виду линий и отметила, что звёзды её подразделения c, с узкими резкими линиями водорода, «должны сильнее отличаться по строению» [31]. Позже Эйнар Герцшпрунг на её c-звёздах показал, что спектр говорит и о светимости звезды: они гораздо ярче обычных звёзд того же цвета [32].">Антония Мори, которой в 1888 году поручили яркие северные звёзды, подробнее классифицировала 681 из них и была «единственным автором» этой классификации, опубликованной в 1897 году [31]. Она разделила спектры на 22 группы и три подразделения по виду линий и отметила, что звёзды её подразделения c, с узкими резкими линиями водорода, «должны сильнее отличаться по строению» [31]. Позже Эйнар Герцшпрунг на её c-звёздах показал, что спектр говорит и о светимости звезды: они гораздо ярче обычных звёзд того же цвета [32].</p>
+    </div>
+    <div class="fig-wide corner-frame">
+      <svg id="hdSvg" class="sim-svg" viewBox="0 0 480 268" role="img" aria-label="Bar chart of the number of stars in each spectral class of the Henry Draper Catalogue" data-aria-en="Bar chart of the number of stars in each spectral class of the Henry Draper Catalogue" data-aria-ru="Столбчатая диаграмма: число звёзд каждого спектрального класса в Каталоге Генри Дрейпера"></svg>
+    </div>
+    <p class="note" data-en="Counted here from the machine-readable catalogue for HD 1 to 225,300 by the first letter of each spectral type [19]. “Other” is the rarer classes P, N, R, “Con” and S. A and K dominate because the catalogue goes down to a fixed brightness (about 9th magnitude [19]), and a brightness-limited list favours stars that are luminous enough to be seen from far away. Temperatures are present-day mean values for main-sequence (dwarf) stars [20] — a guide to each class, not to the particular stars counted here." data-ru="Подсчитано здесь по машиночитаемому каталогу для HD 1–225 300 по первой букве каждого спектрального типа [19]. «Прочие» — более редкие классы P, N, R, «Con» и S. Преобладают A и K, потому что каталог доходит до определённого блеска (около 9-й звёздной величины [19]), а список, ограниченный по блеску, отдаёт предпочтение звёздам, которые достаточно ярки, чтобы быть видимыми издалека. Температуры — современные средние значения для звёзд главной последовательности (карликов) [20]: это ориентир для класса, а не для подсчитанных здесь звёзд.">Подсчитано здесь по машиночитаемому каталогу для HD 1–225 300 по первой букве каждого спектрального типа [19]. «Прочие» — более редкие классы P, N, R, «Con» и S. Преобладают A и K, потому что каталог доходит до определённого блеска (около 9-й звёздной величины [19]), а список, ограниченный по блеску, отдаёт предпочтение звёздам, которые достаточно ярки, чтобы быть видимыми издалека. Температуры — современные средние значения для звёзд главной последовательности (карликов) [20]: это ориентир для класса, а не для подсчитанных здесь звёзд.</p>
+  </div>
+</section>
+
+<!-- CH7 — PAYNE -->
+<section id="ch7" class="section" data-phase="THE SUN'S RECIPE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="CECILIA PAYNE, 1925" data-ru="СЕСИЛИЯ ПЕЙН, 1925">СЕСИЛИЯ ПЕЙН, 1925</span></div>
+    <h2 class="h-lg" data-en="Mostly hydrogen" data-ru="В основном водород">В основном водород</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Cecilia Payne came from Cambridge, England, to Harvard in 1923 [22]. Using the new ionization theory of Meghnad Saha and Harvard's plates, she showed that the spectral sequence is a <b>temperature</b> sequence: a line is strong only where enough atoms sit on the right rung to absorb it. Hydrogen's Balmer lines, for example, need atoms already lifted to rung 2. Too cool, and almost none are; too hot, and the electrons are torn off. She found the hydrogen lines strongest “in the neighborhood of Class A0” [21][22]. Stars look different because they are at different temperatures, not because they are made of different things." data-ru="Сесилия Пейн приехала из английского Кембриджа в Гарвард в 1923 году [22]. Опираясь на новую теорию ионизации Мегнада Саха и гарвардские пластинки, она показала, что спектральная последовательность — это последовательность <b>температур</b>: линия сильна лишь там, где на нужной ступени находится достаточно атомов, чтобы её поглощать. Например, для линий Бальмера атомы водорода должны быть уже подняты на ступень 2. Если слишком холодно — таких атомов почти нет, если слишком горячо — электроны сорваны. Она нашла, что линии водорода сильнее всего «в окрестности класса A0» [21][22]. Звёзды выглядят по-разному потому, что у них разная температура, а не потому, что состоят из разных веществ.">Сесилия Пейн приехала из английского Кембриджа в Гарвард в 1923 году [22]. Опираясь на новую теорию ионизации Мегнада Саха и гарвардские пластинки, она показала, что спектральная последовательность — это последовательность <b>температур</b>: линия сильна лишь там, где на нужной ступени находится достаточно атомов, чтобы её поглощать. Например, для линий Бальмера атомы водорода должны быть уже подняты на ступень 2. Если слишком холодно — таких атомов почти нет, если слишком горячо — электроны сорваны. Она нашла, что линии водорода сильнее всего «в окрестности класса A0» [21][22]. Звёзды выглядят по-разному потому, что у них разная температура, а не потому, что состоят из разных веществ.</p>
+      <p class="body-col" data-en="Then she worked out how much of each element there must be. Silicon, magnesium, iron and the rest came out much as on Earth — but hydrogen and helium came out absurdly abundant. Her thesis says: “The enormous abundance derived for these elements in the stellar atmosphere is almost certainly not real” [21]; she had been persuaded, largely by Henry Norris Russell, that something was wrong [22]. In 1929 Russell, by another method, found the Sun's atmosphere to be <b>60 parts hydrogen</b> by volume to 1 part metals, and called the match with Payne's other elements “a very gratifying agreement” [23]. Otto Struve later called her thesis “undoubtedly the most brilliant PhD thesis ever written in astronomy” [22]." data-ru="Затем она вычислила, сколько должно быть каждого элемента. Кремний, магний, железо и остальные получились примерно как на Земле, но водород и гелий оказались невероятно обильными. В диссертации сказано: «Огромное обилие этих элементов, полученное для звёздной атмосферы, почти наверняка не соответствует действительности» [21]; её убедил — главным образом Генри Норрис Расселл, — что здесь какая-то ошибка [22]. В 1929 году Расселл другим методом нашёл, что в атмосфере Солнца <b>60 частей водорода</b> по объёму на 1 часть металлов, и назвал совпадение с результатами Пейн для других элементов «весьма отрадным согласием» [23]. Отто Струве позже назвал её работу «несомненно, самой блестящей диссертацией, когда-либо написанной по астрономии» [22].">Затем она вычислила, сколько должно быть каждого элемента. Кремний, магний, железо и остальные получились примерно как на Земле, но водород и гелий оказались невероятно обильными. В диссертации сказано: «Огромное обилие этих элементов, полученное для звёздной атмосферы, почти наверняка не соответствует действительности» [21]; её убедил — главным образом Генри Норрис Расселл, — что здесь какая-то ошибка [22]. В 1929 году Расселл другим методом нашёл, что в атмосфере Солнца <b>60 частей водорода</b> по объёму на 1 часть металлов, и назвал совпадение с результатами Пейн для других элементов «весьма отрадным согласием» [23]. Отто Струве позже назвал её работу «несомненно, самой блестящей диссертацией, когда-либо написанной по астрономии» [22].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="WHY BALMER LINES PEAK: BOLTZMANN × SAHA" data-ru="ПОЧЕМУ У ЛИНИЙ БАЛЬМЕРА ЕСТЬ МАКСИМУМ: БОЛЬЦМАН × САХА">ПОЧЕМУ У ЛИНИЙ БАЛЬМЕРА ЕСТЬ МАКСИМУМ: БОЛЬЦМАН × САХА</div>
+      <div class="eq-body" data-en="N₂ / N_H = [ 4 e<sup>−10.20 eV/kT</sup> / (1 + 4 e<sup>−10.20 eV/kT</sup>) ]<br>× 1 / (1 + N_H⁺/N_H⁰)<br>N_H⁺/N_H⁰ = (2πmₑkT/h²)<sup>3/2</sup> · kT/Pₑ · e<sup>−13.60 eV/kT</sup>" data-ru="N₂ / N_H = [ 4 e<sup>−10,20 эВ/kT</sup> / (1 + 4 e<sup>−10,20 эВ/kT</sup>) ]<br>× 1 / (1 + N_H⁺/N_H⁰)<br>N_H⁺/N_H⁰ = (2πmₑkT/h²)<sup>3/2</sup> · kT/Pₑ · e<sup>−13,60 эВ/kT</sup>">N₂ / N_H = [ 4 e<sup>−10,20 эВ/kT</sup> / (1 + 4 e<sup>−10,20 эВ/kT</sup>) ]<br>× 1 / (1 + N_H⁺/N_H⁰)<br>N_H⁺/N_H⁰ = (2πmₑkT/h²)<sup>3/2</sup> · kT/Pₑ · e<sup>−13,60 эВ/kT</sup></div>
+      <div class="eq-note" data-en="N_H is all hydrogen, N_H⁰ the neutral atoms, N_H⁺ the ions. The first factor (Boltzmann) is the share of neutral atoms lifted to rung 2, whose 8 states lie 10.20 eV above the 2 states of rung 1 (8/2 = 4) [6]; the second (Saha) is the share still neutral, with ionization energy 13.598 eV [25] and the electron pressure Pₑ of the gas. The Saha prefactor 2·Z_II/Z_I equals 1 here (Z_I = 2, Z_II = 1) and is not written. Our model: local thermodynamic equilibrium, only rungs 1 and 2 counted, Pₑ set by the slider. It shows the main driver of Balmer-line strength, not the line strength itself, which also depends on the opacity of the gas. It is a sketch of Payne's reasoning, not her calculation." data-ru="N_H — весь водород, N_H⁰ — нейтральные атомы, N_H⁺ — ионы. Первый множитель (Больцман) — доля нейтральных атомов, поднятых на ступень 2, 8 состояний которой лежат на 10,20 эВ выше 2 состояний ступени 1 (8/2 = 4) [6]; второй (Саха) — доля ещё не ионизованных атомов при энергии ионизации 13,598 эВ [25] и электронном давлении Pₑ в газе. Множитель Саха 2·Z_II/Z_I здесь равен 1 (Z_I = 2, Z_II = 1) и не записан. Наша модель: локальное термодинамическое равновесие, учтены только ступени 1 и 2, Pₑ задаётся ползунком. Она показывает главный фактор силы линий Бальмера, а не саму силу линий, которая зависит ещё и от непрозрачности газа. Это схема рассуждения Пейн, а не её расчёт.">N_H — весь водород, N_H⁰ — нейтральные атомы, N_H⁺ — ионы. Первый множитель (Больцман) — доля нейтральных атомов, поднятых на ступень 2, 8 состояний которой лежат на 10,20 эВ выше 2 состояний ступени 1 (8/2 = 4) [6]; второй (Саха) — доля ещё не ионизованных атомов при энергии ионизации 13,598 эВ [25] и электронном давлении Pₑ в газе. Множитель Саха 2·Z_II/Z_I здесь равен 1 (Z_I = 2, Z_II = 1) и не записан. Наша модель: локальное термодинамическое равновесие, учтены только ступени 1 и 2, Pₑ задаётся ползунком. Она показывает главный фактор силы линий Бальмера, а не саму силу линий, которая зависит ещё и от непрозрачности газа. Это схема рассуждения Пейн, а не её расчёт.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="thSvg" class="sim-svg" viewBox="0 0 480 322" role="img" aria-label="Top: the shape of a glowing body's spectrum at the chosen temperature. Bottom: the strength of hydrogen's Balmer lines against temperature, with the chosen star marked" data-aria-en="Top: the shape of a glowing body's spectrum at the chosen temperature. Bottom: the strength of hydrogen's Balmer lines against temperature, with the chosen star marked" data-aria-ru="Вверху: форма спектра светящегося тела при выбранной температуре. Внизу: сила линий Бальмера водорода в зависимости от температуры, выбранная звезда отмечена"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Star" data-aria-en="Star" data-aria-ru="Звезда" id="thPre">
+          <button class="btn" data-t="3850" aria-pressed="false" data-en="M0 DWARF 3,850 K" data-ru="КАРЛИК M0 3850 К">КАРЛИК M0 3850 К</button>
+          <button class="btn active" data-t="5772" aria-pressed="true" data-en="THE SUN 5,772 K" data-ru="СОЛНЦЕ 5772 К">СОЛНЦЕ 5772 К</button>
+          <button class="btn" data-t="9700" aria-pressed="false" data-en="A0 DWARF 9,700 K" data-ru="КАРЛИК A0 9700 К">КАРЛИК A0 9700 К</button>
+          <button class="btn" data-t="31400" aria-pressed="false" data-en="B0 DWARF 31,400 K" data-ru="КАРЛИК B0 31 400 К">КАРЛИК B0 31 400 К</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="thT" data-en="SURFACE TEMPERATURE" data-ru="ТЕМПЕРАТУРА ПОВЕРХНОСТИ">ТЕМПЕРАТУРА ПОВЕРХНОСТИ</label><span class="v" id="thTVal">—</span></div>
+          <input id="thT" type="range" min="3.478" max="4.602" step="0.001" value="3.761">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="thP" data-en="ELECTRON PRESSURE" data-ru="ЭЛЕКТРОННОЕ ДАВЛЕНИЕ">ЭЛЕКТРОННОЕ ДАВЛЕНИЕ</label><span class="v" id="thPVal">—</span></div>
+          <input id="thP" type="range" min="0" max="3" step="0.01" value="1.3">
+        </div>
+        <div class="readout-grid" id="thReadout"></div>
+        <div class="status" id="thStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Star temperatures: the Sun's effective temperature from NASA [30]; the others are mean values for main-sequence stars of each type [20]. The default electron pressure, 20 Pa, is an illustrative value for a stellar atmosphere, not a measurement or a cited figure; the star buttons reset it to 20 Pa; between 10 and 100 Pa the peak moves only from about 9,500 to 10,800 K. The top curve is Planck's law; real stars depart from it in detail." data-ru="Температуры звёзд: эффективная температура Солнца — по NASA [30]; остальные — средние значения для звёзд главной последовательности каждого типа [20]. Электронное давление по умолчанию, 20 Па, — иллюстративное значение для звёздной атмосферы, а не измерение и не цитата; кнопки звёзд возвращают его к 20 Па; при давлении от 10 до 100 Па максимум сдвигается лишь примерно с 9500 до 10 800 К. Верхняя кривая — закон Планка; реальные звёзды отклоняются от него в деталях.">Температуры звёзд: эффективная температура Солнца — по NASA [30]; остальные — средние значения для звёзд главной последовательности каждого типа [20]. Электронное давление по умолчанию, 20 Па, — иллюстративное значение для звёздной атмосферы, а не измерение и не цитата; кнопки звёзд возвращают его к 20 Па; при давлении от 10 до 100 Па максимум сдвигается лишь примерно с 9500 до 10 800 К. Верхняя кривая — закон Планка; реальные звёзды отклоняются от него в деталях.</p>
+    <div class="fig-wide corner-frame">
+      <svg id="abSvg" class="sim-svg" viewBox="0 0 480 296" role="img" aria-label="Atoms of each element per silicon atom: Payne's 1925 values against today's solar values" data-aria-en="Atoms of each element per silicon atom: Payne's 1925 values against today's solar values" data-aria-ru="Число атомов каждого элемента на один атом кремния: значения Пейн 1925 года и современные солнечные значения"></svg>
+    </div>
+    <p class="note" data-en="Payne's Table XXVIII gives the logarithm of relative abundance; the neutral-atom values are used here [21]. Today's values are for the Sun's surface (Asplund, Amarsi & Grevesse 2021) [24]. Both are shown per silicon atom so the two scales can be compared. Payne's numbers put about 1.6 million hydrogen atoms to each silicon atom; today's, about 31,000. Either way hydrogen wins by a landslide: by mass the Sun's surface is 74.4 % hydrogen, 24.2 % helium and 1.4 % everything else [24]." data-ru="В табл. XXVIII Пейн даны логарифмы относительного обилия; здесь использованы значения для нейтральных атомов [21]. Современные значения относятся к поверхности Солнца (Асплунд, Амарси и Гревесс, 2021) [24]. Обе шкалы приведены к одному атому кремния, чтобы их можно было сравнить. По данным Пейн на один атом кремния приходится около 1,6 млн атомов водорода, по современным — около 31 000. В любом случае водород побеждает с огромным отрывом: по массе поверхность Солнца — это 74,4 % водорода, 24,2 % гелия и 1,4 % всего остального [24].">В табл. XXVIII Пейн даны логарифмы относительного обилия; здесь использованы значения для нейтральных атомов [21]. Современные значения относятся к поверхности Солнца (Асплунд, Амарси и Гревесс, 2021) [24]. Обе шкалы приведены к одному атому кремния, чтобы их можно было сравнить. По данным Пейн на один атом кремния приходится около 1,6 млн атомов водорода, по современным — около 31 000. В любом случае водород побеждает с огромным отрывом: по массе поверхность Солнца — это 74,4 % водорода, 24,2 % гелия и 1,4 % всего остального [24].</p>
+  </div>
+</section>
+
+<!-- CH8 — WOBBLE -->
+<section id="ch8" class="section" data-phase="WOBBLE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="HAUTE-PROVENCE, 1994–95" data-ru="ВЕРХНИЙ ПРОВАНС, 1994–1995">ВЕРХНИЙ ПРОВАНС, 1994–1995</span></div>
+    <h2 class="h-lg" data-en="A star that wobbles at 59 m/s" data-ru="Звезда, которая качается со скоростью 59 м/с">Звезда, которая качается со скоростью 59 м/с</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A planet and its star circle their common centre of mass, so the star moves too: towards us, then away. Its lines shift to the blue, then to the red, by Δλ/λ = v/c. Seen from afar, Jupiter makes the Sun swing by ±13 m/s over 12 years [27]. Michel Mayor and Didier Queloz, with André Baranne and colleagues, built the fibre-fed ELODIE spectrograph at the Haute-Provence Observatory [35], reaching an accuracy of 13 m/s by cross-correlating about 5,000 stellar lines at once [27]." data-ru="Планета и её звезда обращаются вокруг общего центра масс, поэтому звезда тоже движется — то к нам, то от нас. Её линии смещаются то в синюю, то в красную сторону на Δλ/λ = v/c. Если смотреть издалека, Юпитер раскачивает Солнце на ±13 м/с за 12 лет [27]. Мишель Майор и Дидье Кело вместе с Андре Баранном и коллегами создали в обсерватории Верхнего Прованса спектрограф ELODIE со световодами [35], который за счёт одновременной кросс-корреляции около 5000 звёздных линий достигал точности 13 м/с [27].">Планета и её звезда обращаются вокруг общего центра масс, поэтому звезда тоже движется — то к нам, то от нас. Её линии смещаются то в синюю, то в красную сторону на Δλ/λ = v/c. Если смотреть издалека, Юпитер раскачивает Солнце на ±13 м/с за 12 лет [27]. Мишель Майор и Дидье Кело вместе с Андре Баранном и коллегами создали в обсерватории Верхнего Прованса спектрограф ELODIE со световодами [35], который за счёт одновременной кросс-корреляции около 5000 звёздных линий достигал точности 13 м/с [27].</p>
+      <p class="body-col" data-en="Among their 142 stars, 51 Pegasi swung back and forth every <b>4.2293 days</b> with a half-amplitude of <b>59 m/s</b>: a companion of at least <b>0.47 Jupiter masses</b>, at only about 0.05 AU [26][27]. They announced it in Florence on 6 October 1995; teams at Lick Observatory and from the CfA and HAO confirmed it within weeks, and <i>Nature</i> published it on 23 November [26][27]. Nobody expected a Jupiter-mass planet on a four-day orbit: in our Solar System, the giants take years to go round [27]. The two shared the 2019 Nobel Prize in Physics [28]." data-ru="Среди их 142 звёзд 51 Пегаса качалась туда-обратно с периодом <b>4,2293 суток</b> и полуамплитудой <b>59 м/с</b>: спутник массой не меньше <b>0,47 массы Юпитера</b> всего примерно в 0,05 а. е. от звезды [26][27]. Об открытии объявили во Флоренции 6 октября 1995 года; группы обсерватории Лик, а также CfA и HAO подтвердили его за считаные недели, и 23 ноября статья вышла в <i>Nature</i> [26][27]. Планету массой с Юпитер на четырёхдневной орбите никто не ожидал: в Солнечной системе планеты-гиганты обращаются годами [27]. Оба разделили Нобелевскую премию по физике 2019 года [28].">Среди их 142 звёзд 51 Пегаса качалась туда-обратно с периодом <b>4,2293 суток</b> и полуамплитудой <b>59 м/с</b>: спутник массой не меньше <b>0,47 массы Юпитера</b> всего примерно в 0,05 а. е. от звезды [26][27]. Об открытии объявили во Флоренции 6 октября 1995 года; группы обсерватории Лик, а также CfA и HAO подтвердили его за считаные недели, и 23 ноября статья вышла в <i>Nature</i> [26][27]. Планету массой с Юпитер на четырёхдневной орбите никто не ожидал: в Солнечной системе планеты-гиганты обращаются годами [27]. Оба разделили Нобелевскую премию по физике 2019 года [28].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="HOW BIG A WOBBLE?" data-ru="НАСКОЛЬКО ВЕЛИКО КОЛЕБАНИЕ?">НАСКОЛЬКО ВЕЛИКО КОЛЕБАНИЕ?</div>
+      <div class="eq-body" data-en="K = (2πG/P)^(1/3) · m sin i / (M★ + m)^(2/3) &nbsp;·&nbsp; Δλ = λ · K / c" data-ru="K = (2πG/P)^(1/3) · m sin i / (M★ + m)^(2/3) &nbsp;·&nbsp; Δλ = λ · K / c">K = (2πG/P)^(1/3) · m sin i / (M★ + m)^(2/3)  ·  Δλ = λ · K / c</div>
+      <div class="eq-note" data-en="For a circular orbit; i is the tilt of the orbit, unknown from velocities alone, so only m sin i — a minimum mass — comes out [27]. With 51 Peg's K = 59 m/s and P = 4.2293 days [26], and the star's mass taken as one Sun, this gives 0.47 Jupiter masses, as published; a star of 1.1 Suns would give 0.50. At 589 nm the shift is about 0.12 picometres: 1/121 of what ELODIE's resolving power of 42,000 can separate [27]." data-ru="Для круговой орбиты; i — наклон орбиты, по одним скоростям он неизвестен, поэтому получается только m sin i — минимальная масса [27]. При K = 59 м/с и P = 4,2293 сут для 51 Пегаса [26] и массе звезды, принятой равной солнечной, получается 0,47 массы Юпитера, как и опубликовано; для звезды в 1,1 солнечной массы вышло бы 0,50. На длине волны 589 нм сдвиг около 0,12 пикометра — 1/121 того, что может разделить ELODIE с разрешающей силой 42 000 [27].">Для круговой орбиты; i — наклон орбиты, по одним скоростям он неизвестен, поэтому получается только m sin i — минимальная масса [27]. При K = 59 м/с и P = 4,2293 сут для 51 Пегаса [26] и массе звезды, принятой равной солнечной, получается 0,47 массы Юпитера, как и опубликовано; для звезды в 1,1 солнечной массы вышло бы 0,50. На длине волны 589 нм сдвиг около 0,12 пикометра — 1/121 того, что может разделить ELODIE с разрешающей силой 42 000 [27].</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="wbSvg" class="sim-svg" viewBox="0 0 480 272" role="img" aria-label="The star's speed towards and away from us over two orbits of the planet, against ELODIE's 13 metre-per-second accuracy" data-aria-en="The star's speed towards and away from us over two orbits of the planet, against ELODIE's 13 metre-per-second accuracy" data-aria-ru="Скорость звезды к нам и от нас за два оборота планеты на фоне точности ELODIE 13 метров в секунду"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="System" data-aria-en="System" data-aria-ru="Система" id="wbPre">
+          <button class="btn active" data-m="peg" data-p="4.2293" data-s="1" aria-pressed="true" data-en="51 PEGASI b" data-ru="51 ПЕГАСА b">51 ПЕГАСА b</button>
+          <button class="btn" data-m="1" data-p="4332.589" data-s="1" aria-pressed="false" data-en="JUPITER–SUN" data-ru="ЮПИТЕР–СОЛНЦЕ">ЮПИТЕР–СОЛНЦЕ</button>
+          <button class="btn" data-m="0.0031463" data-p="365.256" data-s="1" aria-pressed="false" data-en="EARTH–SUN" data-ru="ЗЕМЛЯ–СОЛНЦЕ">ЗЕМЛЯ–СОЛНЦЕ</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="wbM" data-en="PLANET MASS (× sin i)" data-ru="МАССА ПЛАНЕТЫ (× sin i)">МАССА ПЛАНЕТЫ (× sin i)</label><span class="v" id="wbMVal">—</span></div>
+          <input id="wbM" type="range" min="-3.5" max="1.5" step="0.01" value="-0.33">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="wbP" data-en="ORBITAL PERIOD" data-ru="ПЕРИОД ОБРАЩЕНИЯ">ПЕРИОД ОБРАЩЕНИЯ</label><span class="v" id="wbPVal">—</span></div>
+          <input id="wbP" type="range" min="0" max="4" step="0.01" value="0.63">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="wbS" data-en="STAR MASS" data-ru="МАССА ЗВЕЗДЫ">МАССА ЗВЕЗДЫ</label><span class="v" id="wbSVal">—</span></div>
+          <input id="wbS" type="range" min="0.1" max="2" step="0.01" value="1">
+        </div>
+        <div class="readout-grid" id="wbReadout"></div>
+        <div class="status" id="wbStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Circular orbits seen edge-on (sin i = 1). Speeds away from us are positive, as astronomers plot them. Masses and periods of Jupiter and Earth, and the Sun's GM, are NASA fact-sheet values [29][30]; Earth is 0.0031463 Jupiter masses (the ratio of their GM). The 51 Pegasi preset uses the published K and period [26] with a one-solar-mass star. ELODIE's 13 m/s and resolving power are from the Nobel Committee's scientific background [27]." data-ru="Круговые орбиты, видимые с ребра (sin i = 1). Скорость от нас считается положительной, как принято у астрономов. Массы и периоды Юпитера и Земли и GM Солнца — значения из справочных листов NASA [29][30]; масса Земли — 0,0031463 массы Юпитера (отношение их GM). Готовая настройка «51 Пегаса» использует опубликованные K и период [26] при массе звезды в одну солнечную. Точность ELODIE 13 м/с и разрешающая сила — из научного обзора Нобелевского комитета [27].">Круговые орбиты, видимые с ребра (sin i = 1). Скорость от нас считается положительной, как принято у астрономов. Массы и периоды Юпитера и Земли и GM Солнца — значения из справочных листов NASA [29][30]; масса Земли — 0,0031463 массы Юпитера (отношение их GM). Готовая настройка «51 Пегаса» использует опубликованные K и период [26] при массе звезды в одну солнечную. Точность ELODIE 13 м/с и разрешающая сила — из научного обзора Нобелевского комитета [27].</p>
+  </div>
+</section>
+
+<!-- CH9 — LEGACY -->
+<section id="ch9" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">НАСЛЕДИЕ</span></div>
+    <h2 class="h-lg" data-en="From a prism to the edge of the universe" data-ru="От призмы до края Вселенной">От призмы до края Вселенной</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The same few ideas run through every other guide on this site that measures something no one can touch. A redshift is measured exactly as in chapter 8, by Δλ/λ — though for distant galaxies it comes from the stretching of space, not from motion through it. James Webb confirms its most distant galaxies by their spectra (<a href='/aerospace/james-webb-space-telescope'>UNFOLD</a>), absorption lines in a gamma-ray burst's afterglow fixed how far away it was (<a href='/aerospace/burst-gamma-ray-bursts'>BURST</a>), and the supernova distances behind dark energy rest on measured redshifts (<a href='/aerospace/dark-euclid-roman'>DARK</a>)." data-ru="Те же несколько идей проходят через все справочники этого сайта, где измеряют то, к чему нельзя прикоснуться. Красное смещение измеряют так же, как в главе 8, — по Δλ/λ, хотя у далёких галактик оно возникает из-за растяжения пространства, а не из-за движения в нём. «Джеймс Уэбб» подтверждает расстояния до самых далёких галактик по их спектрам (<a href='/aerospace/james-webb-space-telescope'>РАЗВЁРТЫВАНИЕ</a>), линии поглощения в послесвечении гамма-всплеска определили, насколько он далёк (<a href='/aerospace/burst-gamma-ray-bursts'>ВСПЫШКА</a>), а расстояния до сверхновых, стоящие за тёмной энергией, опираются на измеренные красные смещения (<a href='/aerospace/dark-euclid-roman'>ТЬМА</a>).">Те же несколько идей проходят через все справочники этого сайта, где измеряют то, к чему нельзя прикоснуться. Красное смещение измеряют так же, как в главе 8, — по Δλ/λ, хотя у далёких галактик оно возникает из-за растяжения пространства, а не из-за движения в нём. «Джеймс Уэбб» подтверждает расстояния до самых далёких галактик по их спектрам (<a href='/aerospace/james-webb-space-telescope'>РАЗВЁРТЫВАНИЕ</a>), линии поглощения в послесвечении гамма-всплеска определили, насколько он далёк (<a href='/aerospace/burst-gamma-ray-bursts'>ВСПЫШКА</a>), а расстояния до сверхновых, стоящие за тёмной энергией, опираются на измеренные красные смещения (<a href='/aerospace/dark-euclid-roman'>ТЬМА</a>).</p>
+      <p class="body-col" data-en="The smooth curve under the lines matters as much as the lines. The cosmic microwave background is a blackbody spectrum so clean that one temperature fits all 43 of COBE's measured points (<a href='/aerospace/glow-cosmic-microwave-background'>GLOW</a>). And the composition Payne found holds far beyond the Sun: nearly everything that shines is hydrogen and helium, with a pinch of the elements chapter 3 matched to the dark lines." data-ru="Гладкая кривая под линиями важна не меньше самих линий. Реликтовое излучение — настолько чистый спектр абсолютно чёрного тела, что одна температура описывает все 43 точки, измеренные COBE (<a href='/aerospace/glow-cosmic-microwave-background'>СВЕЧЕНИЕ</a>). А состав, найденный Пейн, верен далеко за пределами Солнца: почти всё, что светится, — это водород и гелий со щепоткой тех элементов, которые глава 3 сопоставила с тёмными линиями.">Гладкая кривая под линиями важна не меньше самих линий. Реликтовое излучение — настолько чистый спектр абсолютно чёрного тела, что одна температура описывает все 43 точки, измеренные COBE (<a href='/aerospace/glow-cosmic-microwave-background'>СВЕЧЕНИЕ</a>). А состав, найденный Пейн, верен далеко за пределами Солнца: почти всё, что светится, — это водород и гелий со щепоткой тех элементов, которые глава 3 сопоставила с тёмными линиями.</p>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="A narrow slit, a prism and a lot of patience turned the stars from points of light into objects with a temperature, a chemistry and a motion — and, around one of them, a planet." data-ru="Узкая щель, призма и много терпения превратили звёзды из светящихся точек в тела с температурой, химическим составом и движением — а у одной из них нашли планету.">Узкая щель, призма и много терпения превратили звёзды из светящихся точек в тела с температурой, химическим составом и движением — а у одной из них нашли планету.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH10 — REFERENCES -->
+<section id="ch10" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">ИСТОЧНИКИ</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Источники, на которые ссылается этот справочник</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* Browsers round a slider's value to its step, so a preset such as log10(196) would read back as 2.29 (195 m²).
+   Each range input keeps the exact value it was given until the user moves it. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var H_PL = 6.62607015e-34, K_B = 1.380649e-23, C_SI = 299792458, EV = 1.602176634e-19;   // exact SI values [15]
+var M_E = 9.1093837139e-31;                                         // electron mass, CODATA 2022 [15]
+var R_INF = 10973731.568157, MP_ME = 1836.152673426;                // m⁻¹; proton/electron mass ratio, CODATA 2022 [15]
+var R_H = R_INF/(1 + 1/MP_ME);                                      // hydrogen's own Rydberg constant (reduced mass)
+var CHI_H = 13.598434599702;                                        // eV, ionization energy of H I, NIST ASD [25]
+var E2_CM = 82259.158;                                              // cm⁻¹, mean energy of the n = 2 level, NIST ASD [6]
+var BALMER_H = 364.56;                                              // nm: Balmer's 1885 constant, 3645.6 × 10⁻⁸ cm [13]
+var RYDBERG_1890 = 109721.6;                                        // cm⁻¹: Rydberg's N0 of 1890 [14]
+/* scientific notation for readouts: 3.1 × 10¹⁶ */
+function sci(v){ var e = Math.floor(Math.log10(v)), m = v/Math.pow(10, e); if(m >= 9.95){ m /= 10; e += 1; }
+  var sup = String(e).replace(/-/g, '⁻').replace(/\d/g, function(c){ return '⁰¹²³⁴⁵⁶⁷⁸⁹'[+c]; }); return fmt(m, 1) + ' × 10' + sup; }
+function num(n){ var s = fmtInt(n); return (lang === 'ru' && Math.abs(n) < 10000) ? s.replace(/\s/g, '') : s; }
+
+/* Refractive index of standard air (Peck & Reeder 1972, the formula NIST ASD uses) [7]; λ in vacuum, nm */
+function nAir(lvacNm){ var s = 1000/lvacNm, s2 = s*s; return 1 + (8060.51 + 2480990/(132.274 - s2) + 17455.7/(39.32957 - s2))*1e-8; }
+function vacToAir(lvacNm){ return lvacNm/nAir(lvacNm); }
+/* NIST convention: air wavelengths between 200 and 2000 nm, vacuum outside [7] */
+function shownWl(lvacNm){ return (lvacNm > 200 && lvacNm < 2000) ? vacToAir(lvacNm) : lvacNm; }
+
+/* ============ DATA ============ */
+/* 1966 solar atlas (Moore, Minnaert & Houtgast, NBS Monograph 61) [5]: [wavelength in air, Å; equivalent width, mÅ].
+   Labelled lines checked by eye on the scanned pages; the rest are every line ≥ 100 mÅ whose row reads consistently in the scan. */
+var ATLAS = [[3805.349,171],[3806.718,209],[3807.151,193],[3807.937,111],[3808.734,114],[3809.586,132],[3812.962,322],[3813.394,138],[3815.851,1272],[3820.436,1712],[3823.514,116],[3824.452,519],[3825.891,1519],[3827.832,897],[3832.31,1685],[3834.233,624],[3835.39,2362],[3838.302,1920],[3841.058,517],[3842.054,126],[3843.715,145],[3845.47,135],[3846.417,105],[3846.809,160],[3847.848,146],[3849.006,121],[3849.977,608],[3850.826,222],[3851.291,102],[3852.579,148],[3853.483,148],[3854.37,130],[3854.571,189],[3856.381,648],[3857.667,149],[3858.303,202],[3859.922,1554],[3871.392,764],[3871.758,132],[3872.51,612],[3873.767,105],[3876.051,141],[3878.58,724],[3881.875,117],[3882.996,118],[3886.294,920],[3889.05,2346],[3895.667,361],[3899.719,436],[3905.532,816],[3915.811,110],[3920.269,341],[3922.923,414],[3930.308,108],[3933.682,20253],[3955.343,107],[3956.339,110],[3956.686,133],[3968.492,15467],[3969.268,52],[3970.076,76],[3981.775,101],[3987.096,163],[4005.254,416],[4013.816,102],[4024.732,104],[4032.641,106],[4044.615,105],[4045.825,1174],[4055.551,114],[4057.515,197],[4058.221,101],[4063.605,787],[4066.984,130],[4067.988,133],[4071.749,723],[4074.794,110],[4076.637,127],[4084.501,156],[4085.013,107],[4086.316,104],[4092.396,108],[4092.669,115],[4101.748,3133],[4104.133,100],[4111.787,106],[4114.451,100],[4118.555,154],[4118.782,148],[4121.325,125],[4123.753,109],[4126.191,113],[4128.098,107],[4132.908,123],[4134.685,129],[4137.005,104],[4143.416,134],[4143.878,466],[4147.675,110],[4149.37,111],[4152.176,107],[4153.906,138],[4154.505,126],[4156.806,126],[4157.788,127],[4158.798,103],[4167.277,200],[4172.759,110],[4174.917,103],[4175.643,110],[4176.577,124],[4179.383,126],[4181.764,148],[4183.998,131],[4187.047,204],[4188.737,120],[4191.437,181],[4195.34,127],[4199.105,183],[4202.04,326],[4206.702,122],[4210.967,100],[4215.539,233],[4216.191,130],[4222.221,180],[4224.178,135],[4226.74,1476],[4229.774,115],[4235.949,385],[4238.029,111],[4240.38,101],[4243.365,151],[4245.264,118],[4247.432,162],[4254.346,393],[4254.979,108],[4260.486,595],[4271.774,756],[4274.806,196],[4275.386,104],[4283.014,133],[4285.45,120],[4286.015,119],[4286.477,114],[4289.372,131],[4289.729,230],[4290.226,117],[4290.956,137],[4291.121,110],[4294.142,217],[4295.226,107],[4296.584,105],[4298.994,112],[4299.249,212],[4300.053,166],[4300.573,126],[4301.103,179],[4301.927,128],[4302.297,135],[4302.539,165],[4302.754,101],[4303.177,103],[4303.937,119],[4304.571,108],[4305.456,124],[4305.918,156],[4306.855,120],[4307.912,723],[4309.04,131],[4309.383,126],[4310.106,108],[4310.467,126],[4310.984,104],[4311.509,171],[4312.875,153],[4315.098,153],[4323.512,105],[4324.998,117],[4325.775,793],[4337.055,120],[4340.475,2855],[4351.921,283],[4352.743,142],[4359.623,139],[4367.594,143],[4371.286,110],[4374.472,110],[4375.944,152],[4384.712,110],[4395.04,135],[4399.778,115],[4401.298,101],[4401.552,115],[4404.761,898],[4408.425,130],[4434.967,171],[4435.688,127],[4443.812,124],[4454.793,176],[4455.893,106],[4461.66,116],[4466.562,125],[4494.573,139],[4501.278,111],[4526.442,107],[4531.158,106],[4554.036,159],[4556.137,100],[4703.003,326],[4707.285,107],[4754.039,130],[4762.375,105],[4783.424,157],[4786.542,110],[4861.342,3680],[4871.325,228],[4872.144,195],[4890.763,220],[4891.502,312],[4918.998,278],[4924.777,101],[4938.82,119],[4946.395,113],[4966.095,114],[4982.507,138],[4983.859,123],[4985.259,101],[4985.554,103],[4991.072,102],[5006.12,190],[5018.45,210],[5022.241,114],[5027.13,105],[5035.37,109],[5040.89,116],[5041.076,112],[5049.827,135],[5068.771,129],[5098.707,102],[5123.73,101],[5125.128,100],[5139.473,152],[5142.53,117],[5151.917,100],[5166.284,115],[5167.327,935],[5168.908,114],[5169.05,154],[5171.61,160],[5172.698,1259],[5183.619,1584],[5192.353,176],[5194.949,126],[5195.48,114],[5208.432,247],[5208.601,117],[5216.283,108],[5217.396,102],[5226.87,160],[5227.192,277],[5229.86,124],[5263.314,121],[5265.56,112],[5269.55,478],[5273.17,103],[5298.283,110],[5328.051,375],[5328.542,210],[5339.937,161],[5367.476,157],[5369.974,182],[5371.501,294],[5393.176,153],[5404.145,239],[5405.785,266],[5410.918,169],[5455.624,219],[5463.289,118],[5465.465,112],[5476.576,104],[5506.791,120],[5528.418,293],[5569.631,162],[5572.851,205],[5576.099,113],[5594.471,117],[5682.647,104],[5688.217,121],[5709.386,103],[5711.095,107],[5763.002,101],[5857.459,132],[5889.973,752],[5895.94,564],[6005.719,136],[6400.009,181],[6439.083,156],[6462.57,216],[6493.788,133],[6494.994,165],[6546.252,103],[6562.808,4020],[6867.547,154],[6868.105,137],[6868.245,174],[6869.096,216],[6871.285,264],[6872.247,257],[6872.843,272],[6873.798,258],[6874.653,268],[6875.59,249],[6876.715,241],[6877.637,200],[6883.833,146],[6885.754,175],[6886.743,208],[6888.948,190],[6889.903,222],[6892.369,208],[6893.309,213],[6904.117,165],[6914.09,107]];
+var LABELLED = [
+  [3933.682, 'K', 'Ca⁺'], [3968.492, 'H', 'Ca⁺'], [4045.825, '', 'Fe'], [4101.748, '', 'Hδ'], [4226.740, '', 'Ca'], [4307.912, '', 'Fe'],
+  [4340.475, '', 'Hγ'], [4861.342, 'F', 'Hβ'], [5172.698, '', 'Mg'], [5183.619, '', 'Mg'], [5269.550, '', 'Fe'],
+  [5889.973, 'D', 'Na'], [5895.940, '', 'Na'], [6562.808, 'C', 'Hα']
+];
+/* Laboratory lines, NIST Atomic Spectra Database, observed wavelengths in standard air, nm [6] */
+var LAB = {
+  H:  [656.279, 486.135, 434.0472, 410.1734, 397.0075, 388.9064, 383.5397],
+  Na: [588.995095, 589.592424, 568.82046],
+  Mg: [383.23037, 383.82918, 470.29909, 516.73216, 517.26843, 518.36042, 552.84047],
+  Ca: [393.366, 396.847, 422.673, 445.478, 585.745, 643.907, 646.257, 649.378],
+  Fe: [381.29643, 381.584, 382.44435, 382.58809, 382.78224, 383.42222, 384.10477, 385.63713, 387.8573, 388.6282, 389.56562, 389.97071,
+       392.02578, 392.29115, 393.02964, 396.9257, 404.58122, 406.35939, 407.17377, 427.17602, 430.7902, 432.57616, 440.47501, 516.74881,
+       522.71891, 526.9537, 532.80383, 537.14893, 640.00008, 649.498],
+  He: [388.8648, 402.61914, 447.14802, 471.31457, 492.19313, 501.56783, 587.5621, 667.8151]
+};
+var MATCH_TOL = 0.03;                                               // nm
+/* each lab line → the nearest atlas line within MATCH_TOL, or null */
+function matchLines(el){
+  return LAB[el].map(function(w){
+    var best = null, bd = 1e9;
+    ATLAS.forEach(function(a){ var d = Math.abs(a[0]/10 - w); if(d < bd){ bd = d; best = a; } });
+    return {lab:w, sun:bd <= MATCH_TOL ? best : null, d:bd};
+  });
+}
+
+/* Hydrogen ladder */
+function rydbergVac(lo, hi){ return 1e9/(R_H*(1/(lo*lo) - 1/(hi*hi))); }   // nm, vacuum
+function levelEv(n){ return -CHI_H/(n*n); }
+function balmer1885(m){ return BALMER_H*m*m/(m*m - 4); }
+/* NIST ASD H I wavelengths [6], Ritz values (from the measured energy levels, the database's most accurate):
+   Lyman in vacuum, Balmer and Paschen in standard air */
+var NIST_H = {
+  1: {2:121.56701, 3:102.57220, 4:97.253650, 5:94.974287, 6:93.780331, 7:93.0748142, 8:92.6225605, 9:92.3150275, 10:92.0963006, 11:91.9351334, 12:91.8129300},
+  2: {3:656.2819, 4:486.1333, 5:434.0471, 6:410.17415, 7:397.00788, 8:388.90557, 9:383.53909, 10:379.79044, 11:377.06368, 12:375.01584},
+  3: {4:1875.0976, 5:1281.8070, 6:1093.8086, 7:1004.9369, 8:954.5969, 9:922.9014, 10:901.4910, 11:886.2783, 12:875.0472}
+};
+
+/* Stellar thermometer: Saha + Boltzmann for hydrogen (Z_I = 2, Z_II = 1, local thermodynamic equilibrium) */
+function sahaRatio(T, Pe){                                          // N(H⁺)/N(H), Pe in Pa
+  return 2*(1/2)*Math.pow(2*Math.PI*M_E*K_B*T/(H_PL*H_PL), 1.5)*K_B*T/Pe*Math.exp(-CHI_H*EV/(K_B*T));
+}
+function n2Fraction(T, Pe){                                          // share of all hydrogen sitting in level n = 2
+  var b = 8/2*Math.exp(-E2_CM*100*H_PL*C_SI/(K_B*T));
+  return b/(1 + b)/(1 + sahaRatio(T, Pe));
+}
+function peakT(Pe){                                                 // golden-section search on log T
+  var a = Math.log(3000), c = Math.log(40000), g = (Math.sqrt(5) - 1)/2;
+  for(var i = 0; i < 80; i++){ var x1 = c - g*(c - a), x2 = a + g*(c - a); if(n2Fraction(Math.exp(x1), Pe) > n2Fraction(Math.exp(x2), Pe)) c = x2; else a = x1; }
+  return Math.exp((a + c)/2);
+}
+function planckLam(lamNm, T){ var l = lamNm*1e-9; return 2*H_PL*C_SI*C_SI/Math.pow(l, 5)/(Math.exp(H_PL*C_SI/(l*K_B*T)) - 1); }
+var WIEN_B = 2.897771955e-3;                                        // m·K [15]
+function wienNm(T){ return WIEN_B/T*1e9; }
+/* Mean dwarf (main-sequence) effective temperatures, Pecaut & Mamajek table v2022.04.16 [20] */
+var SPT = [['O5V',41400],['B0V',31400],['B5V',15700],['A0V',9700],['A5V',8100],['F0V',7220],['F5V',6550],['G0V',5930],['G2V',5770],['G5V',5660],['K0V',5270],['K5V',4440],['M0V',3850],['M5V',3060]];
+function nearestType(T){ var best = SPT[0]; SPT.forEach(function(s){ if(Math.abs(Math.log(s[1]/T)) < Math.abs(Math.log(best[1]/T))) best = s; }); return best; }
+var T_SUN = 5772;                                                    // K, NASA Sun fact sheet [30]
+
+/* Henry Draper Catalogue, HD 1–225300: first letter of the spectral type, counted from the VizieR file [19] */
+var HD_COUNTS = [['O',169],['B',16789],['A',57852],['F',42988],['G',41994],['K',60615],['M',4396],['other',497]];
+/* Abundances on a log scale: Payne 1925, Table XXVIII (log a_r) [21]; Asplund, Amarsi & Grevesse 2021, Table 2 (log ε, H = 12) [24] */
+var PAYNE = {H:11, He:8.3, Na:5.2, Mg:5.6, Si:4.8, Ca:4.8, Fe:4.8};
+var ASPLUND = {H:12.00, He:10.914, Na:6.22, Mg:7.55, Si:7.51, Ca:6.30, Fe:7.46};
+function perSilicon(tab, el){ return Math.pow(10, tab[el] - tab.Si); }
+
+/* Doppler wobble */
+var GM_SUN = 1.32712e20, GM_JUP = 1.26687e17, GM_EARTH = 3.9860e14; // m³/s², NASA fact sheets [29][30]
+var AU = 1.495978707e11;
+function kAmp(mpMJ, Pdays, MsMsun){                                 // m/s, circular orbit seen edge-on
+  var P = Pdays*86400, gp = mpMJ*GM_JUP, gs = MsMsun*GM_SUN;
+  return Math.pow(2*Math.PI/P, 1/3)*gp/Math.pow(gs + gp, 2/3);
+}
+function orbitAU(Pdays, MsMsun, mpMJ){ var P = Pdays*86400; return Math.pow((MsMsun*GM_SUN + mpMJ*GM_JUP)*P*P/(4*Math.PI*Math.PI), 1/3)/AU; }
+function minMassMJ(K, Pdays, MsMsun){                                // invert kAmp by bisection
+  var lo = 0, hi = 100; for(var i = 0; i < 200; i++){ var m = (lo + hi)/2; if(kAmp(m, Pdays, MsMsun) > K) hi = m; else lo = m; } return (lo + hi)/2;
+}
+function shiftNm(vMs, lamNm){ return lamNm*vMs/C_SI; }
+var ELODIE_R = 42000, ELODIE_MS = 13;                                // resolving power and velocity accuracy [27]
+var PEG = {K:59, P:4.2293, M:1.0};                                   // IAUC 6251 [26]; star mass assumed 1 M☉
+
+/* ============ colour of a wavelength (display only) ============ */
+function wlRGB(nm){
+  var r = 0, g = 0, b = 0;
+  if(nm < 440){ r = -(nm - 440)/60; b = 1; } else if(nm < 490){ g = (nm - 440)/50; b = 1; } else if(nm < 510){ g = 1; b = -(nm - 510)/20; }
+  else if(nm < 580){ r = (nm - 510)/70; g = 1; } else if(nm < 645){ r = 1; g = -(nm - 645)/65; } else { r = 1; }
+  var f = nm < 420 ? 0.35 + 0.65*(nm - 380)/40 : nm > 680 ? 0.35 + 0.65*(750 - nm)/70 : 1;
+  f = Math.max(0.25, Math.min(1, f));
+  function c(v){ return Math.round(255*Math.pow(v*f, 0.8)); }
+  return 'rgb(' + c(r) + ',' + c(g) + ',' + c(b) + ')';
+}
+function gradientStops(defs, id, a, b){
+  var grad = ns('linearGradient', {id:id, x1:'0', x2:'1', y1:'0', y2:'0'}, defs);
+  for(var i = 0; i <= 16; i++){ var nm = a + (b - a)*i/16; ns('stop', {offset:(i/16*100) + '%', 'stop-color':wlRGB(nm)}, grad); }
+}
+
+/* ============ CH3 — LINE MATCHER ============ */
+var EL_NAMES = {H:['HYDROGEN','ВОДОРОД'], Na:['SODIUM','НАТРИЙ'], Mg:['MAGNESIUM','МАГНИЙ'], Ca:['CALCIUM','КАЛЬЦИЙ'], Fe:['IRON','ЖЕЛЕЗО'], He:['HELIUM','ГЕЛИЙ']};
+var mtEl = 'Na';
+function renderMT(){
+  var svg = document.getElementById('mtSvg'); svg.innerHTML = '';
+  var L = 20, R = 455, a = 380, b = 700;
+  function X(nm){ return L + (nm - a)/(b - a)*(R - L); }
+  var defs = ns('defs', {}, svg); gradientStops(defs, 'mtGrad', a, b);
+  var y1 = 34, h1 = 70, y2 = 150, h2 = 40;
+  txt(svg, L, 18, T('SUNLIGHT — 1966 solar atlas [5]','СОЛНЕЧНЫЙ СВЕТ — атлас 1966 года [5]'), 'svg-small');
+  ns('rect', {x:L, y:y1, width:R - L, height:h1, fill:'url(#mtGrad)'}, svg);
+  ATLAS.forEach(function(p){
+    var nm = p[0]/10; if(nm < a || nm > b) return;
+    var w = Math.min(3.2, 0.5 + Math.sqrt(p[1])/45), op = Math.min(0.95, 0.25 + Math.log10(p[1])/5);
+    ns('rect', {x:(X(nm) - w/2).toFixed(2), y:y1, width:w.toFixed(2), height:h1, fill:'#0b0b0c', 'fill-opacity':op.toFixed(2)}, svg);
+  });
+  LABELLED.forEach(function(p){
+    var nm = p[0]/10; if(!p[1]) return;
+    var dx = p[1] === 'K' ? -2 : p[1] === 'H' ? 2 : p[1] === 'D' ? 0.4 : 0;
+    txt(svg, X(nm) + dx, y1 + h1 + 12, p[1], 'svg-small', p[1] === 'K' ? 'end' : p[1] === 'H' ? 'start' : 'middle');
+  });
+  txt(svg, L, y2 - 8, T('LAB LAMP — ','ЛАБОРАТОРНАЯ ЛАМПА — ') + T(EL_NAMES[mtEl][0], EL_NAMES[mtEl][1]) + T(', NIST [6]',', NIST [6]'), 'svg-small');
+  ns('rect', {x:L, y:y2, width:R - L, height:h2, fill:'#111114'}, svg);
+  var res = matchLines(mtEl);
+  res.forEach(function(m){
+    if(m.lab < a || m.lab > b) return;
+    ns('rect', {x:(X(m.lab) - 1.1).toFixed(2), y:y2, width:2.2, height:h2, fill:wlRGB(m.lab)}, svg);
+    if(m.sun) ns('line', {x1:X(m.lab), y1:y1 + h1 + 16, x2:X(m.lab), y2:y2 - 14, stroke:'#2f5aa1', 'stroke-width':1.2, 'stroke-dasharray':'3 2'}, svg);
+  });
+  [400, 450, 500, 550, 600, 650, 700].forEach(function(v){ ns('line', {x1:X(v), y1:y2 + h2, x2:X(v), y2:y2 + h2 + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(v), y2 + h2 + 16, v + '', 'svg-small', 'middle'); });
+  txt(svg, R, y2 + h2 + 32, T('wavelength in air, nm','длина волны в воздухе, нм'), 'svg-small', 'end');
+  var shown = res.filter(function(m){ return m.lab >= a && m.lab <= b; }), hits = shown.filter(function(m){ return m.sun; });
+  var strongest = hits.slice().sort(function(p, q){ return q.sun[1] - p.sun[1]; })[0];
+  cells(document.getElementById('mtReadout'), [
+    [T('LAB LINES SHOWN','ЛИНИЙ В ЛАМПЕ'), shown.length + ''],
+    [T('FOUND IN SUNLIGHT','НАЙДЕНО В СОЛНЕЧНОМ СВЕТЕ'), hits.length + T(' of ',' из ') + shown.length],
+    [T('STRONGEST MATCH','САМОЕ СИЛЬНОЕ СОВПАДЕНИЕ'), strongest ? fmt(strongest.sun[0]/10, 3) + T(' nm',' нм') : '—'],
+    [T('ITS EQUIVALENT WIDTH','ЕЁ ЭКВИВАЛЕНТНАЯ ШИРИНА'), strongest ? fmt(strongest.sun[1]/10000, 4) + T(' nm',' нм') : '—']
+  ]);
+  var S = {
+    H: T('Every Balmer line in this range sits on a solar dark line — the red one is Fraunhofer\'s C [8], and Hε at 397.0 nm is a weak line in the wing of calcium\'s broad H [5]. Hydrogen is the commonest element in the Sun — first glimpsed in 1925 and accepted only after 1929 (chapter 7).','Каждая линия серии Бальмера в этом диапазоне совпадает с тёмной линией Солнца: красная — это линия C Фраунгофера [8], а Hε на 397,0 нм — слабая линия в крыле широкой линии H кальция [5]. Водород — самый распространённый элемент Солнца: впервые это увидели в 1925 году, а признали лишь после 1929 года (глава 7).'),
+    Na: T('The two yellow lines of a sodium flame land exactly on Fraunhofer\'s D lines — the coincidence Kirchhoff turned into proof that there is sodium in the Sun [4].','Две жёлтые линии натриевого пламени точно попадают на линии D Фраунгофера — именно это совпадение Кирхгоф превратил в доказательство того, что на Солнце есть натрий [4].'),
+    Mg: T('Magnesium\'s green triplet near 517 nm is one of the strongest groups in the visible solar spectrum [5].','Зелёный триплет магния около 517 нм — одна из самых сильных групп в видимом спектре Солнца [5].'),
+    Ca: T('Ionized calcium makes H and K, the two widest dark lines of all: K is 2.0 nm wide in equivalent width, about 27 times sodium\'s D₂ [5].','Ионизованный кальций даёт H и K — две самые широкие тёмные линии из всех: эквивалентная ширина K — 2,0 нм, примерно в 27 раз больше, чем у D₂ натрия [5].'),
+    Fe: T('Iron fills the Sun\'s spectrum with lines — these are its 30 strongest in this range. Before 1925 that was taken as a sign of how much iron there is; chapter 7 shows why it was not [21][22].','Железо заполняет спектр Солнца линиями — здесь 30 самых сильных в этом диапазоне. До 1925 года это считали признаком обилия железа; почему это не так — в главе 7 [21][22].'),
+    He: T('None of helium\'s lines appears in the Sun\'s dark-line spectrum, not even its bright yellow 587.6 nm line. Helium shows up in the chromosphere above it, as bright lines — which is how it was found there in 1868 (chapter 4) [5][8].','Ни одной линии гелия нет в спектре тёмных линий Солнца — даже яркой жёлтой линии 587,6 нм. Гелий виден выше, в хромосфере, в виде ярких линий — так его и нашли там в 1868 году (глава 4) [5][8].')
+  };
+  document.getElementById('mtStatus').innerHTML = S[mtEl];
+}
+Array.prototype.forEach.call(document.querySelectorAll('#mtPre .btn'), function(btn){ btn.addEventListener('click', function(){ mtEl = this.getAttribute('data-el'); pressGroup(this.parentNode, this); renderMT(); }); });
+
+/* ============ CH5 — HYDROGEN LADDER ============ */
+var ldLo = 2, ldN = document.getElementById('ldN');
+function seriesName(lo){ return [[],['LYMAN','ЛАЙМАНА'],['BALMER','БАЛЬМЕРА'],['PASCHEN','ПАШЕНА']][lo]; }
+function renderLD(){
+  var n = +ldN.value;
+  if(n <= ldLo){ n = ldLo + 1; ldN.value = n; }
+  ldN.min = ldLo + 1;
+  var lv = rydbergVac(ldLo, n), lw = shownWl(lv), obs = NIST_H[ldLo][n], air = lv > 200 && lv < 2000, ppm = Math.abs(lw - obs)/obs*1e6;
+  document.getElementById('ldNVal').textContent = 'n = ' + n + ' → ' + ldLo;
+  ldN.setAttribute('aria-valuetext', T('from level ','с уровня ') + n + T(' down to level ',' на уровень ') + ldLo + ', ' + fmt(lw, 2) + T(' nanometres',' нанометра'));
+  var svg = document.getElementById('ldSvg'); svg.innerHTML = '';
+  var L = 40, R = 190, Tp = 22, B = 262;
+  function Y(e){ return Tp + (-e)/CHI_H*(B - Tp); }
+  for(var k = 1; k <= 12; k++){
+    var y = Y(levelEv(k)), on = (k === n || k === ldLo);
+    ns('line', {x1:L, y1:y, x2:R, y2:y, stroke:on ? '#0b0b0c' : '#b9b9b2', 'stroke-width':on ? 1.6 : 1}, svg);
+    if(k <= 3) txt(svg, L - 6, y + 4, 'n=' + k, 'svg-small', 'end');
+  }
+  ns('line', {x1:L, y1:Tp, x2:R, y2:Tp, stroke:'#0b0b0c', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, L - 6, Tp + 4, 'n=∞', 'svg-small', 'end');
+  [[0, '0'], [-13.6, '−13.6'], [-3.4, '−3.40'], [-1.51, '−1.51']].forEach(function(e){ txt(svg, R + 6, Y(e[0]) + 4, (lang === 'ru' ? e[1].replace('.', ',') : e[1]) + T(' eV',' эВ'), 'svg-small'); });
+  var x = (L + R)/2, col = lw >= 380 && lw <= 700 ? wlRGB(lw) : '#5f5f59';
+  ns('line', {x1:x, y1:Y(levelEv(n)), x2:x, y2:Y(levelEv(ldLo)) - 7, stroke:col, 'stroke-width':3}, svg);
+  ns('path', {d:'M' + (x - 6) + ',' + (Y(levelEv(ldLo)) - 9) + 'L' + x + ',' + Y(levelEv(ldLo)) + 'L' + (x + 6) + ',' + (Y(levelEv(ldLo)) - 9) + 'Z', fill:col}, svg);
+  if(n > 3) txt(svg, x + 8, Y(levelEv(n)) + 14, 'n=' + n, 'svg-small');
+  /* series strip: where this line falls */
+  var sx0 = 280, sx1 = 470, ranges = {1:[90, 125], 2:[360, 670], 3:[800, 1900]}, rg = ranges[ldLo];
+  function SX(l){ return sx0 + (l - rg[0])/(rg[1] - rg[0])*(sx1 - sx0); }
+  txt(svg, sx0, Tp + 4, T('SERIES OF ','СЕРИЯ ') + T(seriesName(ldLo)[0], seriesName(ldLo)[1]), 'svg-small');
+  var defs = ns('defs', {}, svg); gradientStops(defs, 'ldGrad', 380, 700);
+  ns('rect', {x:sx0, y:Tp + 14, width:sx1 - sx0, height:46, fill:ldLo === 2 ? '#111114' : '#26262b'}, svg);
+  if(ldLo === 2) ns('rect', {x:SX(380), y:Tp + 62, width:SX(670) - SX(380), height:5, fill:'url(#ldGrad)'}, svg);
+  for(var m = ldLo + 1; m <= 40; m++){
+    var l = shownWl(rydbergVac(ldLo, m)); if(l < rg[0] || l > rg[1]) continue;
+    ns('line', {x1:SX(l), y1:Tp + 14, x2:SX(l), y2:Tp + 60, stroke:m === n ? '#ffffff' : '#8d8d86', 'stroke-width':m === n ? 2.4 : 0.8}, svg);
+  }
+  var lim = shownWl(1e9/(R_H/(ldLo*ldLo)));
+  txt(svg, sx0, Tp + 84, T('limit ','предел ') + fmt(lim, 1) + T(' nm',' нм'), 'svg-small');
+  txt(svg, sx0, Tp + 102, fmt(rg[0], 0) + '–' + fmt(rg[1], 0) + T(' nm',' нм'), 'svg-small');
+  var desc = ldLo === 1 ? [T('ultraviolet —','ультрафиолет —'), T('blocked by our air','поглощается воздухом')]
+    : ldLo === 2 ? [T('visible and','видимый и ближний'), T('near-ultraviolet','ультрафиолет')] : [T('infrared','инфракрасный'), ''];
+  txt(svg, sx0, Tp + 126, desc[0], 'svg-small'); if(desc[1]) txt(svg, sx0, Tp + 144, desc[1], 'svg-small');
+  hud1.textContent = fmt(lw, 2) + T(' nm',' нм');
+  var rows = [
+    [T('RYDBERG FORMULA','ФОРМУЛА РИДБЕРГА') + (air ? T(' (AIR)',' (ВОЗДУХ)') : T(' (VACUUM)',' (ВАКУУМ)')), fmt(lw, 4) + T(' nm',' нм')],
+    [T('NIST','NIST'), fmt(obs, 4) + T(' nm',' нм')],
+    [T('DIFFERENCE','РАЗНИЦА'), fmt(lw - obs, 4) + T(' nm',' нм') + ' (' + fmt(ppm, 0) + T(' ppm',' ppm') + ')'],
+    [T('PHOTON ENERGY','ЭНЕРГИЯ ФОТОНА'), fmt(levelEv(n) - levelEv(ldLo), 3) + T(' eV',' эВ')]
+  ];
+  if(ldLo === 2) rows.push([T('BALMER 1885 (h = 364.56 nm)','БАЛЬМЕР, 1885 (h = 364,56 нм)'), fmt(balmer1885(n), 2) + T(' nm',' нм') + ' (' + fmt((balmer1885(n) - obs)/obs*100, 3) + ' %)', true]);
+  cells(document.getElementById('ldReadout'), rows);
+  var st = ldLo === 2 && n >= 4 && n <= 6
+    ? T('Hβ, Hγ and Hδ — one green-blue and two blue-violet lines, almost certainly the “three broad stripes, one in the green and two in the blue” that Fraunhofer saw in the light of Sirius in 1814–17 without knowing what they were [2].','Hβ, Hγ и Hδ — одна зелёно-голубая и две сине-фиолетовые линии; почти наверняка это те «три широкие полосы, одна в зелёной и две в синей части», которые Фраунгофер в 1814–1817 годах видел в свете Сириуса, не зная, что это такое [2].')
+    : ldLo === 2 && n === 3 ? T('Hα, the red line: the level 3 → 2 jump. Two integers and one constant give its wavelength to about ' + fmt(ppm, 0) + ' parts per million.','Hα, красная линия: переход 3 → 2. Два целых числа и одна константа дают её длину волны с точностью около ' + fmt(ppm, 0) + ' миллионных.')
+    : ldLo === 1 ? T('Lyman lines end on the ground state. They are ultraviolet, so the hydrogen of the Sun absorbs them where no ground telescope can look.','Линии Лаймана заканчиваются на основном уровне. Это ультрафиолет, и водород Солнца поглощает их там, куда не заглянуть наземному телескопу.')
+    : ldLo === 3 ? T('Paschen lines end on level 3, deep in the infrared — the series Balmer guessed would exist when the lower number is not 2 [13].','Линии Пашена заканчиваются на уровне 3, глубоко в инфракрасной области, — существование таких серий Бальмер предполагал, когда нижнее число не равно 2 [13].')
+    : T('Higher up the ladder the rungs crowd together and the lines pile up towards the series limit.','Чем выше по лестнице, тем теснее ступени, и линии сгущаются к пределу серии.');
+  document.getElementById('ldStatus').innerHTML = st + T(' The model leaves out the fine structure of the levels, so it differs from NIST by about 10 parts per million throughout.',' Модель не учитывает тонкую структуру уровней, поэтому везде расходится с NIST примерно на 10 миллионных.');
+}
+ldN.addEventListener('input', renderLD);
+Array.prototype.forEach.call(document.querySelectorAll('#ldPre .btn'), function(btn){ btn.addEventListener('click', function(){ ldLo = +this.getAttribute('data-lo'); ldN.value = ldLo + 1; pressGroup(this.parentNode, this); renderLD(); }); });
+
+/* ============ CH6 — HARVARD COUNTS ============ */
+function renderHD(){
+  var svg = document.getElementById('hdSvg'); svg.innerHTML = '';
+  var L = 70, R = 440, Tp = 18, rowH = 26, max = 60615;
+  var temps = {O:'O5V', B:'B0V', A:'A0V', F:'F0V', G:'G0V', K:'K0V', M:'M0V'}, teff = {}; SPT.forEach(function(s){ teff[s[0]] = s[1]; });
+  HD_COUNTS.forEach(function(c, i){
+    var y = Tp + i*rowH, w = c[1]/max*(R - L);
+    txt(svg, L - 10, y + 15, c[0] === 'other' ? T('other','прочие') : c[0], 'svg-small', 'end');
+    ns('rect', {x:L, y:y + 3, width:Math.max(1, w), height:16, fill:c[0] === 'other' ? '#b9b9b2' : '#2f5aa1'}, svg);
+    var lab = num(c[1]) + (temps[c[0]] ? '  · ' + temps[c[0]] + ' ≈ ' + num(teff[temps[c[0]]]) + T(' K',' К') : ''), inside = w > R - L - 170;
+    var t = txt(svg, inside ? L + w - 6 : L + w + 6, y + 15, lab, 'svg-small', inside ? 'end' : 'start'); if(inside) t.setAttribute('style', 'fill:#ffffff');
+  });
+  txt(svg, L, Tp + 8*rowH + 16, T('stars per class, HD 1–225,300 [19]','звёзд в классе, HD 1–225 300 [19]'), 'svg-small');
+  txt(svg, L, Tp + 8*rowH + 34, T('hottest at top; dwarf temperatures [20]','горячие сверху; температуры карликов [20]'), 'svg-small');
+}
+
+/* ============ CH7 — STELLAR THERMOMETER ============ */
+var thT = document.getElementById('thT'), thP = document.getElementById('thP');
+function renderTH(){
+  var Tk = Math.pow(10, +thT.value), Pe = Math.pow(10, +thP.value);
+  document.getElementById('thTVal').textContent = num(Math.round(Tk)) + T(' K',' К');
+  document.getElementById('thPVal').textContent = (Pe < 10 ? fmt(Pe, 1) : num(Math.round(Pe))) + T(' Pa',' Па');
+  thT.setAttribute('aria-valuetext', document.getElementById('thTVal').textContent);
+  thP.setAttribute('aria-valuetext', T('electron pressure ','электронное давление ') + document.getElementById('thPVal').textContent);
+  var svg = document.getElementById('thSvg'); svg.innerHTML = '';
+  /* top: blackbody shape 100–2000 nm, normalized to its peak */
+  var L = 46, R = 465, Tp = 22, B = 110;
+  function X(nm){ return L + (nm - 100)/(1900)*(R - L); }
+  var pk = Math.min(Math.max(wienNm(Tk), 100), 2000), peakVal = planckLam(wienNm(Tk), Tk);
+  ns('rect', {x:X(380), y:Tp, width:X(700) - X(380), height:B - Tp, fill:'#f1efe6'}, svg);
+  txt(svg, (X(380) + X(700))/2, Tp + 10, T('visible','видимый'), 'svg-small', 'middle');
+  var d = '';
+  for(var i = 0; i <= 200; i++){ var nm = 100 + 1900*i/200; d += (i ? 'L' : 'M') + X(nm).toFixed(1) + ',' + (B - planckLam(nm, Tk)/peakVal*(B - Tp - 14)).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  ns('line', {x1:X(pk), y1:Tp + 12, x2:X(pk), y2:B, stroke:'#0b0b0c', 'stroke-dasharray':'2 3'}, svg);
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  [100, 500, 1000, 1500, 2000].forEach(function(v){ txt(svg, X(v), B + 14, num(v), 'svg-small', v === 100 ? 'start' : v === 2000 ? 'end' : 'middle'); });
+  txt(svg, R, B + 31, T('wavelength, nm (glow shape)','длина волны, нм (форма свечения)'), 'svg-small', 'end');
+  /* bottom: share of hydrogen in level 2 against temperature */
+  var Tp2 = 190, B2 = 282, xa = Math.log10(3000), xb = Math.log10(40000);
+  function X2(t){ return L + (Math.log10(t) - xa)/(xb - xa)*(R - L); }
+  var fmax = n2Fraction(peakT(Pe), Pe);
+  function Y2(f){ return B2 - f/fmax*(B2 - Tp2 - 10); }
+  var d2 = '';
+  for(var j = 0; j <= 200; j++){ var t = Math.pow(10, xa + (xb - xa)*j/200); d2 += (j ? 'L' : 'M') + X2(t).toFixed(1) + ',' + Y2(n2Fraction(t, Pe)).toFixed(1); }
+  ns('path', {d:d2, fill:'none', stroke:'#2f5aa1', 'stroke-width':2}, svg);
+  ns('line', {x1:L, y1:B2, x2:R, y2:B2, stroke:'#0b0b0c'}, svg);
+  SPT.forEach(function(s){ if(!/^(B0|A0|F0|G2|M0)V$/.test(s[0])) return; ns('line', {x1:X2(s[1]), y1:B2, x2:X2(s[1]), y2:B2 + 4, stroke:'#0b0b0c'}, svg); txt(svg, X2(s[1]), B2 + 15, s[0], 'svg-small', 'middle'); });
+  txt(svg, L, Tp2 - 24, T('H atoms in level 2 (peak = 1): the main','атомы H на уровне 2 (максимум = 1) —'), 'svg-small');
+  txt(svg, L, Tp2 - 8, T('driver of Balmer-line strength','главный фактор силы линий Бальмера'), 'svg-small');
+  ns('circle', {cx:X2(Tk), cy:Y2(n2Fraction(Tk, Pe)), r:5.5, fill:'#b5452a'}, svg);
+  var tp = peakT(Pe); ns('line', {x1:X2(tp), y1:Tp2 + 4, x2:X2(tp), y2:B2, stroke:'#0b0b0c', 'stroke-dasharray':'2 3'}, svg);
+  txt(svg, R, B2 + 32, T('temperature, K (log); dwarf types [20]','температура, К (лог.); типы карликов [20]'), 'svg-small', 'end');
+  var f2 = n2Fraction(Tk, Pe), ion = sahaRatio(Tk, Pe), typ = nearestType(Tk);
+  hud2.textContent = num(Math.round(Tk)) + T(' K',' К');
+  cells(document.getElementById('thReadout'), [
+    [T('GLOW PEAKS AT','МАКСИМУМ СВЕЧЕНИЯ'), (wienNm(Tk) < 1000 ? fmt(wienNm(Tk), 0) : num(Math.round(wienNm(Tk)))) + T(' nm',' нм')],
+    [T('NEAREST DWARF TYPE','БЛИЖАЙШИЙ ТИП КАРЛИКА'), typ[0] + ' (' + num(typ[1]) + T(' K)',' К)')],
+    [T('HYDROGEN IONIZED','ИОНИЗОВАНО ВОДОРОДА'), fmt(ion/(1 + ion)*100, ion/(1 + ion) < 0.001 ? 4 : 1) + ' %'],
+    [T('ATOMS IN LEVEL 2','АТОМОВ НА УРОВНЕ 2'), T('1 in ','1 из ') + (1/f2 < 1e6 ? num(Math.round(1/f2)) : sci(1/f2))],
+    [T('BALMER STRENGTHS PEAK AT','МАКСИМУМ ЛИНИЙ БАЛЬМЕРА'), num(Math.round(tp/10)*10) + T(' K',' К'), true]
+  ]);
+  document.getElementById('thStatus').innerHTML = Tk < tp*0.8
+    ? T('Too cool for strong Balmer lines: almost every hydrogen atom sits in level 1, and a Balmer line needs an atom already in level 2.','Слишком холодно для сильных линий Бальмера: почти все атомы водорода на уровне 1, а для линии Бальмера атом должен уже находиться на уровне 2.')
+      + (Tk >= 5000 && Tk <= 7000 ? T(' Only 1 hydrogen atom in ' + sci(1/f2) + ' is in level 2 — yet Hα is still a strong line in sunlight, because there is so much hydrogen. That is Payne\'s discovery in miniature.',' На уровне 2 лишь один атом водорода из ' + sci(1/f2) + ' — и всё же Hα в солнечном свете сильная линия, потому что водорода очень много. Это открытие Пейн в миниатюре.') : '')
+    : Tk > tp*1.25
+    ? T('Too hot: ' + fmt(ion/(1 + ion)*100, 1) + ' % of the hydrogen has lost its electron, so there are few atoms left to absorb. The lines fade even though the star is full of hydrogen.','Слишком горячо: ' + fmt(ion/(1 + ion)*100, 1) + ' % водорода потеряли электрон, и поглощать почти некому. Линии слабеют, хотя звезда полна водорода.')
+    : T('Near the peak: enough atoms are lifted to level 2, but not yet ionized. Payne found the hydrogen lines strongest “in the neighborhood of Class A0” [21].','Около максимума: достаточно атомов поднято на уровень 2, но ещё не ионизовано. Пейн нашла, что линии водорода сильнее всего «в окрестности класса A0» [21].');
+}
+thT.addEventListener('input', function(){ pressGroup(document.getElementById('thPre'), null); renderTH(); });
+thP.addEventListener('input', renderTH);
+Array.prototype.forEach.call(document.querySelectorAll('#thPre .btn'), function(btn){ btn.addEventListener('click', function(){ thT.value = Math.log10(+this.getAttribute('data-t')); thP.value = Math.log10(20); pressGroup(this.parentNode, this); renderTH(); }); });
+
+/* ============ CH7 — ABUNDANCES ============ */
+function renderAB(){
+  var svg = document.getElementById('abSvg'); svg.innerHTML = '';
+  var L = 60, R = 465, Tp = 30, rowH = 30, els = ['H','He','Mg','Na','Ca','Fe'];
+  function X(lg){ return L + (lg + 2)/9*(R - L); }
+  txt(svg, L, 14, T('atoms per silicon atom (log scale)','атомов на один атом кремния (лог. шкала)'), 'svg-small');
+  [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7].forEach(function(v){ ns('line', {x1:X(v), y1:Tp - 6, x2:X(v), y2:Tp + els.length*rowH, stroke:v === 0 ? '#0b0b0c' : '#e4e4de'}, svg); if(v % 2 === 0 || v === 7 || v === -1) txt(svg, X(v), Tp + els.length*rowH + 14, v === 0 ? '1' : v === 1 ? '10' : '10' + (v < 0 ? '⁻' : '') + '⁰¹²³⁴⁵⁶⁷'[Math.abs(v)], 'svg-small', 'middle'); });
+  els.forEach(function(e, i){
+    var y = Tp + i*rowH, p = Math.log10(perSilicon(PAYNE, e)), a = Math.log10(perSilicon(ASPLUND, e));
+    txt(svg, L - 10, y + 15, e, 'svg-small', 'end');
+    ns('rect', {x:X(Math.min(0, p)), y:y + 2, width:Math.max(1.5, Math.abs(X(p) - X(0))), height:10, fill:'#a8741a'}, svg);
+    ns('rect', {x:X(Math.min(0, a)), y:y + 13, width:Math.max(1.5, Math.abs(X(a) - X(0))), height:10, fill:'#2f5aa1'}, svg);
+  });
+  var ly = Tp + els.length*rowH + 36;
+  ns('rect', {x:L, y:ly - 9, width:12, height:10, fill:'#a8741a'}, svg); txt(svg, L + 18, ly, T('Payne 1925, stars [21]','Пейн, 1925, звёзды [21]'), 'svg-small');
+  ns('rect', {x:L, y:ly + 9, width:12, height:10, fill:'#2f5aa1'}, svg); txt(svg, L + 18, ly + 18, T('Sun today, 2021 [24]','Солнце сегодня, 2021 [24]'), 'svg-small');
+  txt(svg, L, ly + 40, T('left of 1 = rarer than silicon','левее 1 — реже кремния'), 'svg-small');
+}
+
+/* ============ CH8 — WOBBLE ============ */
+var wbM = document.getElementById('wbM'), wbP = document.getElementById('wbP'), wbS = document.getElementById('wbS'), wbPhase = 0;
+function renderWB(){
+  var mp = Math.pow(10, +wbM.value), P = Math.pow(10, +wbP.value), Ms = +wbS.value;
+  document.getElementById('wbMVal').textContent = (mp < 0.01 ? fmt(mp*317.83, 2) + T(' Earth masses',' массы Земли') : fmt(mp, mp < 1 ? 3 : 2) + T(' Jupiter masses',' массы Юпитера'));
+  document.getElementById('wbPVal').textContent = (P < 1000 ? fmt(P, P < 10 ? 4 : 1) + T(' days',' сут') : num(Math.round(P)) + T(' days',' сут'));
+  document.getElementById('wbSVal').textContent = fmt(Ms, 2) + T(' Sun masses',' массы Солнца');
+  wbM.setAttribute('aria-valuetext', document.getElementById('wbMVal').textContent);
+  wbP.setAttribute('aria-valuetext', document.getElementById('wbPVal').textContent);
+  wbS.setAttribute('aria-valuetext', document.getElementById('wbSVal').textContent);
+  var K = kAmp(mp, P, Ms), a = orbitAU(P, Ms, mp), dl = shiftNm(K, 589), res = 589/ELODIE_R;
+  var svg = document.getElementById('wbSvg'); svg.innerHTML = '';
+  var L = 60, R = 465, Tp = 24, B = 214, ymax = K > 80 ? Math.ceil(K*1.25/50)*50 : 80;
+  function X(ph){ return L + ph/2*(R - L); } function Y(v){ return (Tp + B)/2 - v/ymax*(B - Tp)/2; }
+  ns('rect', {x:L, y:Y(ELODIE_MS), width:R - L, height:Y(-ELODIE_MS) - Y(ELODIE_MS), fill:'#f3e3dd'}, svg);
+  [-ymax, -ymax/2, 0, ymax/2, ymax].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, ymax >= 10000 ? fmt(v/1000, 0) : fmt(v, 0), 'svg-small', 'end'); });
+  var d = ''; for(var i = 0; i <= 200; i++){ var ph = 2*i/200; d += (i ? 'L' : 'M') + X(ph).toFixed(1) + ',' + Y(K*Math.sin(2*Math.PI*ph)).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  [0, 0.5, 1, 1.5, 2].forEach(function(v){ txt(svg, v === 0 ? X(0) + 2 : X(v), B + 14, v === 0 ? '0' : fmt(v, 1), 'svg-small', v === 0 ? 'start' : 'middle'); });
+  txt(svg, L - 50, 14, T('star\'s speed away (+) / towards (−), ','скорость звезды от нас (+) / к нам (−), ') + (ymax >= 10000 ? T('km/s','км/с') : T('m/s','м/с')), 'svg-small');
+  txt(svg, R, B + 30, T('time, in orbits of the planet','время, в оборотах планеты'), 'svg-small', 'end');
+  ns('rect', {x:L - 50, y:B + 41, width:14, height:10, fill:'#f3e3dd', stroke:'#b5452a', 'stroke-width':0.6}, svg);
+  txt(svg, L - 30, B + 50, T('± 13 m/s: ELODIE\'s accuracy [27]','± 13 м/с: точность ELODIE [27]'), 'svg-small');
+  ns('circle', {cx:X(wbPhase % 2), cy:Y(K*Math.sin(2*Math.PI*wbPhase)), r:5, fill:'#b5452a', id:'wbDot'}, svg);
+  hud2.textContent = fmt(K, K < 1 ? 3 : 1) + T(' m/s',' м/с');
+  cells(document.getElementById('wbReadout'), [
+    [T('STAR\'S WOBBLE K','КОЛЕБАНИЕ ЗВЕЗДЫ K'), (K < 1 ? fmt(K*100, 1) + T(' cm/s',' см/с') : K >= 1000 ? num(Math.round(K)) + T(' m/s',' м/с') : fmt(K, 1) + T(' m/s',' м/с'))],
+    [T('ORBIT RADIUS','РАДИУС ОРБИТЫ'), fmt(a, a < 0.1 ? 4 : 2) + T(' AU',' а. е.')],
+    [T('SHIFT OF THE 589 nm LINE','СДВИГ ЛИНИИ 589 нм'), (dl*1e3 >= 1000 ? fmt(dl*1e3, 0) + T(' pm',' пм') : dl*1e3 >= 0.1 ? fmt(dl*1e3, 3) + T(' pm',' пм') : dl*1e6 >= 0.1 ? fmt(dl*1e6, 2) + T(' fm',' фм') : sci(dl*1e6) + T(' fm',' фм'))],
+    [T('SHARE OF ONE ELODIE RESOLUTION ELEMENT','ДОЛЯ ЭЛЕМЕНТА РАЗРЕШЕНИЯ ELODIE'), dl >= res ? '× ' + fmt(dl/res, 1) + T(' elements',' элемента') : '1/' + (res/dl < 1e6 ? num(Math.round(res/dl)) : sci(res/dl))]
+  ]);
+  document.getElementById('wbStatus').innerHTML = K > 3*ELODIE_MS
+    ? T('A wobble of ' + num(Math.round(K)) + ' m/s is ' + (K/ELODIE_MS < 1000 ? fmt(K/ELODIE_MS, 1) : num(Math.round(K/ELODIE_MS))) + ' times ELODIE\'s 13 m/s accuracy: detectable in a few nights, the way 51 Pegasi b was.','Колебание ' + num(Math.round(K)) + ' м/с в ' + (K/ELODIE_MS < 1000 ? fmt(K/ELODIE_MS, 1) : num(Math.round(K/ELODIE_MS))) + ' раза больше точности ELODIE 13 м/с: его видно за несколько ночей, как это было с 51 Пегаса b.')
+    : K > ELODIE_MS
+    ? T('Just above ELODIE\'s 13 m/s: it needs many orbits to stand out.','Чуть выше 13 м/с ELODIE: чтобы сигнал выделился, нужно много оборотов.')
+    : T('Below ELODIE\'s 13 m/s: lost in the measurement scatter. A Jupiter around the Sun would need ±13 m/s measured steadily for 12 years [27].','Меньше 13 м/с ELODIE: теряется в разбросе измерений. Юпитер у Солнца потребовал бы стабильно измерять ±13 м/с в течение 12 лет [27].');
+}
+[wbM, wbP, wbS].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById('wbPre'), null); renderWB(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#wbPre .btn'), function(btn){ btn.addEventListener('click', function(){
+  var dm = this.getAttribute('data-m'); wbM.value = Math.log10(dm === 'peg' ? minMassMJ(PEG.K, PEG.P, PEG.M) : +dm); wbP.value = Math.log10(+this.getAttribute('data-p')); wbS.value = this.getAttribute('data-s');
+  pressGroup(this.parentNode, this); renderWB(); }); });
+visibleLoop(document.getElementById('wbSvg'), function(dt){
+  if(reduced()) return;
+  wbPhase = (wbPhase + dt*0.25) % 2;
+  var dot = document.getElementById('wbDot'); if(!dot) return;
+  var mp = Math.pow(10, +wbM.value), P = Math.pow(10, +wbP.value), K = kAmp(mp, P, +wbS.value);
+  var ymax = K > 80 ? Math.ceil(K*1.25/50)*50 : 80, L = 60, R = 465, Tp = 24, B = 214;
+  dot.setAttribute('cx', (L + wbPhase/2*(R - L)).toFixed(1)); dot.setAttribute('cy', ((Tp + B)/2 - K*Math.sin(2*Math.PI*wbPhase)/ymax*(B - Tp)/2).toFixed(1));
+});
+
+/* initial preset values (the pressed buttons) */
+thT.value = Math.log10(T_SUN); thP.value = Math.log10(20);
+wbM.value = Math.log10(minMassMJ(PEG.K, PEG.P, PEG.M)); wbP.value = Math.log10(PEG.P); wbS.value = PEG.M;
+
+/* ============ TIMELINE / REFERENCES ============ */
+var TIMELINE = [
+  ['1666', 'Isaac Newton spreads sunlight with a prism into a band about five times longer than it is wide; his letter is published in February 1672 [1].', 'Исаак Ньютон раскладывает солнечный свет призмой в полосу примерно в пять раз длиннее её ширины; его письмо опубликовано в феврале 1672 года [1].'],
+  ['1802', 'William Wollaston sees a few dark lines in a narrow beam of daylight and takes them for boundaries between colours [33].', 'Уильям Волластон видит в узком пучке дневного света несколько тёмных линий и принимает их за границы между цветами [33].'],
+  ['1814–17', 'Joseph Fraunhofer counts about 574 dark lines in sunlight between B and H and letters the strongest; his paper is presented in Munich on 12 April 1817 [2].', 'Йозеф Фраунгофер насчитывает в солнечном свете около 574 тёмных линий между B и H и обозначает буквами самые сильные; его работа представлена в Мюнхене 12 апреля 1817 года [2].'],
+  ['1859', '<b>Autumn:</b> Gustav Kirchhoff darkens the D lines of sunlight by passing it through a sodium flame — a gas absorbs the colours it emits [4].', '<b>Осень:</b> Густав Кирхгоф делает линии D солнечного света темнее, пропуская его через натриевое пламя: газ поглощает те цвета, которые сам излучает [4].'],
+  ['1860', 'Kirchhoff and Robert Bunsen publish “Chemical analysis by spectral observations”; caesium (1860) and rubidium (1861) follow from the method [3][4][34].', 'Кирхгоф и Роберт Бунзен публикуют «Химический анализ посредством спектральных наблюдений»; метод приводит к открытию цезия (1860) и рубидия (1861) [3][4][34].'],
+  ['1868', '<b>18 August:</b> Pierre Janssen sees bright lines in the prominences at the eclipse at Guntur, India; <b>20 October:</b> Norman Lockyer sees them from London without an eclipse. A yellow line, D₃, matches no known element [8].', '<b>18 августа:</b> Пьер Жансен видит яркие линии в протуберанцах во время затмения в Гунтуре (Индия); <b>20 октября:</b> Норман Локьер наблюдает их из Лондона без затмения. Жёлтая линия D₃ не совпадает ни с одним известным элементом [8].'],
+  ['1885', 'Johann Balmer fits the four visible hydrogen lines with one formula and predicts the next [12][13].', 'Иоганн Бальмер описывает четыре видимые линии водорода одной формулой и предсказывает следующую [12][13].'],
+  ['1890', 'Johannes Rydberg writes spectral series in wavenumbers with a constant common to all — the Rydberg constant [14]. Williamina Fleming\'s Draper Catalogue classifies 10,351 stars [17].', 'Иоганнес Ридберг записывает спектральные серии в волновых числах с общей для всех константой — постоянной Ридберга [14]. Каталог Дрейпера Вильямины Флеминг классифицирует 10 351 звезду [17].'],
+  ['1895', 'William Ramsay finds the gas of the D₃ line in the uranium mineral cleveite; William Crookes confirms the spectrum. Per Teodor Cleve finds it independently. Helium is recognised on Earth 27 years after it was seen in the Sun [8][9].', 'Уильям Рамзай находит газ с линией D₃ в урановом минерале клевеите; Уильям Крукс подтверждает спектр. Пер Теодор Клеве находит его независимо. Гелий распознан на Земле через 27 лет после того, как его увидели на Солнце [8][9].'],
+  ['1897', 'Antonia Maury publishes her finer classification of 681 bright stars, with a division c of sharp-lined spectra [31].', 'Антония Мори публикует свою более подробную классификацию 681 яркой звезды с подразделением c — спектрами с резкими линиями [31].'],
+  ['1901', 'Annie Jump Cannon describes the spectra of 1,122 bright stars, ordering the classes into one continuous sequence [18].', 'Энни Джамп Кэннон описывает спектры 1122 ярких звёзд и выстраивает классы в одну непрерывную последовательность [18].'],
+  ['1904', 'Ramsay receives the Nobel Prize in Chemistry for the discovery of the inert gases [11].', 'Рамзай получает Нобелевскую премию по химии за открытие инертных газов [11].'],
+  ['1918–24', 'The Henry Draper Catalogue: 225,300 stars, classified by Cannon between 1911 and 1915 [18][19].', 'Каталог Генри Дрейпера: 225 300 звёзд, классифицированных Кэннон в 1911–1915 годах [18][19].'],
+  ['1909', 'Ejnar Hertzsprung shows that Maury\'s c stars are exceptionally luminous [32].', 'Эйнар Герцшпрунг показывает, что c-звёзды Мори обладают исключительно высокой светимостью [32].'],
+  ['1922', 'Niels Bohr receives the Nobel Prize in Physics for his work on the structure of atoms and the radiation they emit [16].', 'Нильс Бор получает Нобелевскую премию по физике за исследование строения атомов и их излучения [16].'],
+  ['1925', 'Cecilia Payne\'s thesis <i>Stellar Atmospheres</i>: star spectra differ by temperature, not composition, and hydrogen and helium come out enormously abundant [21][22].', 'Диссертация Сесилии Пейн «Звёздные атмосферы»: спектры звёзд различаются температурой, а не составом, а водород и гелий оказываются чрезвычайно обильными [21][22].'],
+  ['1929', 'Henry Norris Russell finds 60 parts of hydrogen by volume in the Sun\'s atmosphere to 1 of metals, in “very gratifying agreement” with Payne [23].', 'Генри Норрис Расселл находит в атмосфере Солнца 60 частей водорода по объёму на 1 часть металлов — в «весьма отрадном согласии» с Пейн [23].'],
+  ['1966', 'Moore, Minnaert and Houtgast publish about 24,000 measured solar lines, 73 % of them identified, from 63 elements [5].', 'Мур, Миннарт и Хаутгаст публикуют около 24 000 измеренных линий Солнца, 73 % из них отождествлены, — от 63 элементов [5].'],
+  ['1995', '<b>6 October:</b> Michel Mayor and Didier Queloz announce a planet around 51 Pegasi from a 59 m/s wobble; <i>Nature</i> publishes it on 23 November [26][27].', '<b>6 октября:</b> Мишель Майор и Дидье Кело объявляют о планете у звезды 51 Пегаса по колебанию 59 м/с; <i>Nature</i> публикует статью 23 ноября [26][27].'],
+  ['2019', 'Mayor and Queloz share the Nobel Prize in Physics “for the discovery of an exoplanet orbiting a solar-type star” [28].', 'Майор и Кело разделяют Нобелевскую премию по физике «за открытие экзопланеты, обращающейся вокруг звезды солнечного типа» [28].'],
+  ['2021', 'Asplund, Amarsi and Grevesse: the Sun\'s surface is 74.4 % hydrogen, 24.2 % helium and 1.4 % everything else, by mass [24].', 'Асплунд, Амарси и Гревесс: поверхность Солнца по массе — 74,4 % водорода, 24,2 % гелия и 1,4 % всего остального [24].']
+];
+var REFERENCES = [
+  {title:'I. Newton (1672), “A Letter … containing his New Theory about Light and Colors”, Philosophical Transactions 6, 3075–3087 (The Newton Project transcription)', url:'https://www.newtonproject.ox.ac.uk/view/texts/normalized/NATP00006', note:{en:'Prism bought “in the beginning of the Year 1666”; the coloured image was “about five times” longer than wide, 2° 49′ long against the Sun\'s 31′; the experimentum crucis.', ru:'Призма приобретена «в начале 1666 года»; цветное изображение было «примерно в пять раз» длиннее ширины, 2° 49′ в длину против 31′ Солнца; experimentum crucis («решающий опыт»).'}},
+  {title:'J. Fraunhofer (1817), “Bestimmung des Brechungs- und Farbenzerstreuungs-Vermögens verschiedener Glasarten …”, reprinted in Ostwalds Klassiker 150 (1905), ed. A. von Oettingen', url:'https://archive.org/details/bestimmungdesbr00oettgoog', note:{en:'About 574 lines between B and H (p. 14); a lamp shows a bright line exactly at D; Sirius shows three broad stripes, one in the green and two in the blue; presented to the Bavarian Academy on 12 April 1817.', ru:'Около 574 линий между B и H (с. 14); лампа даёт яркую линию точно на месте D; у Сириуса — три широкие полосы, одна в зелёной и две в синей части; представлено Баварской академии 12 апреля 1817 года.'}},
+  {title:'G. Kirchhoff & R. Bunsen (1860), “Chemische Analyse durch Spectralbeobachtungen”, Annalen der Physik 186, 161–189', url:'https://doi.org/10.1002/andp.18601860602', note:{en:'The founding paper of spectral analysis (bibliographic data checked at Crossref).', ru:'Основополагающая статья спектрального анализа (библиографические данные проверены по Crossref).'}},
+  {title:'Complete Dictionary of Scientific Biography, “Kirchhoff, Gustav Robert”', url:'https://mathshistory.st-andrews.ac.uk/DSB/kirchhoff.pdf', note:{en:'Autumn 1859: a sodium flame made the solar D lines darker; “a substance capable of emitting a certain spectral line has a strong absorptive power for the same line”; caesium and rubidium, which the DSB dates to 1860 (rubidium was described in the 1861 paper [34]).', ru:'Осень 1859 года: натриевое пламя сделало линии D Солнца темнее; «вещество, способное излучать некоторую спектральную линию, сильно поглощает ту же линию»; цезий и рубидий, которые словарь датирует 1860 годом (рубидий описан в статье 1861 года [34]).'}},
+  {title:'C. E. Moore, M. G. J. Minnaert & J. Houtgast (1966), “The Solar Spectrum 2935 Å to 8770 Å”, NBS Monograph 61', url:'https://nvlpubs.nist.gov/nistpubs/Legacy/MONO/nbsmonograph61.pdf', note:{en:'About 24,000 lines with measured equivalent widths, wavelengths in air; 73 % identified; 63 elements. Read here: Ca II K 3933.682 Å, 20,253 mÅ; Na D₂ 5889.973 Å, 752 mÅ; Hα 6562.808 Å, 4,020 mÅ; no helium in the photospheric table — “Lines of He I and He II conspicuous in the spectrum of the chromosphere”.', ru:'Около 24 000 линий с измеренными эквивалентными ширинами, длины волн в воздухе; 73 % отождествлены; 63 элемента. Использовано: Ca II K 3933,682 Å, 20 253 мÅ; Na D₂ 5889,973 Å, 752 мÅ; Hα 6562,808 Å, 4020 мÅ; гелия в фотосферной таблице нет — линии He I и He II «заметны в спектре хромосферы».'}},
+  {title:'A. Kramida, Yu. Ralchenko, J. Reader & NIST ASD Team, NIST Atomic Spectra Database (lines)', url:'https://physics.nist.gov/PhysRefData/ASD/lines_form.html', note:{en:'Observed wavelengths of H I, He I, Na I, Mg I, Ca I, Ca II and Fe I used for every laboratory line in the line matcher, and Ritz wavelengths for the hydrogen ladder (air between 200 and 2000 nm, vacuum outside); the H I n = 2 level at 82,259.158 cm⁻¹.', ru:'Наблюдаемые длины волн H I, He I, Na I, Mg I, Ca I, Ca II и Fe I для всех лабораторных линий в сравнении спектров и длины волн Ритца для лестницы водорода (в воздухе от 200 до 2000 нм, в вакууме вне этого диапазона); уровень H I n = 2 — 82 259,158 см⁻¹.'}},
+  {title:'NIST ASD, “Conversion between air and vacuum wavelengths”', url:'https://physics.nist.gov/PhysRefData/ASD/Html/lineshelp.html', note:{en:'ASD uses the five-parameter refractive index of Peck & Reeder (1972); 200.0648 nm in vacuum = 200.0000 nm in standard air.', ru:'ASD использует пятипараметрическую формулу показателя преломления Пека и Ридера (1972); 200,0648 нм в вакууме = 200,0000 нм в стандартном воздухе.'}},
+  {title:'J. L. Marshall & V. R. Marshall (2012), “Rediscovery of the Elements: Helium”, The HEXAGON (summer), 20–24', url:'https://cos.unt.edu/chemistry/system/files/james-l-marshall-pdfs/helium.pdf', note:{en:'Janssen at Guntur on 18 August 1868 saw the red C and blue F hydrogen lines and a yellow line; Lockyer saw them on 20 October 1868; both announced to the Académie on 26 October; Lockyer\'s D₃; Ramsay\'s cleveite; Crookes\'s confirmation.', ru:'Жансен в Гунтуре 18 августа 1868 года увидел красную линию C и синюю F водорода и жёлтую линию; Локьер — 20 октября 1868 года; оба результата оглашены в Академии 26 октября; линия D₃ Локьера; клевеит Рамзая; подтверждение Крукса.'}},
+  {title:'W. Ramsay (1895), “On a gas showing the spectrum of helium, the reputed cause of D₃ …”, Proceedings of the Royal Society 58, 65–67', url:'https://doi.org/10.1098/rspl.1895.0006', note:{en:'Ramsay\'s preliminary note (bibliographic data checked at Crossref).', ru:'Предварительное сообщение Рамзая (библиографические данные проверены по Crossref).'}},
+  {title:'Encyclopædia Britannica (1911), “Helium”, by R. J. Strutt (Wikisource)', url:'https://en.wikisource.org/wiki/1911_Encyclop%C3%A6dia_Britannica/Helium', note:{en:'A bright yellow line “near to, but not identical with, the D line of sodium”, identified with the D₃ line of the solar chromosphere observed in 1868 by Lockyer.', ru:'Яркая жёлтая линия «вблизи линии D натрия, но не совпадающая с ней», отождествлённая с линией D₃ солнечной хромосферы, которую в 1868 году наблюдал Локьер.'}},
+  {title:'The Nobel Prize in Chemistry 1904 — Summary', url:'https://www.nobelprize.org/prizes/chemistry/1904/summary/', note:{en:'Sir William Ramsay “in recognition of his services in the discovery of the inert gaseous elements in air”.', ru:'Сэр Уильям Рамзай — «в знак признания его заслуг в открытии инертных газообразных элементов воздуха».'}},
+  {title:'J. J. Balmer (1885), “Notiz über die Spectrallinien des Wasserstoffs”, Annalen der Physik 261, 80–87', url:'https://doi.org/10.1002/andp.18852610506', note:{en:'Balmer\'s formula (bibliographic data checked at Crossref).', ru:'Формула Бальмера (библиографические данные проверены по Crossref).'}},
+  {title:'Complete Dictionary of Scientific Biography, “Balmer, Johann Jakob”', url:'https://mathshistory.st-andrews.ac.uk/DSB/balmer.pdf', note:{en:'λ = h m²/(m² − n²) with n = 2 and h = 3645.6 × 10⁻⁸ cm; he knew Ångström\'s four lines and predicted the fifth; agreement within about one part in a thousand; other series for other n.', ru:'λ = h m²/(m² − n²) при n = 2 и h = 3645,6 × 10⁻⁸ см; он знал четыре линии Ангстрема и предсказал пятую; согласие примерно до одной тысячной; другие серии при других n.'}},
+  {title:'Complete Dictionary of Scientific Biography, “Rydberg, Johannes (Janne) Robert”', url:'https://mathshistory.st-andrews.ac.uk/DSB/rydberg.pdf', note:{en:'His 1890 work wrote series in wave numbers with N₀ = 109,721.6 cm⁻¹ common to all series and all elements.', ru:'В работе 1890 года серии записаны в волновых числах с постоянной N₀ = 109 721,6 см⁻¹, общей для всех серий и всех элементов.'}},
+  {title:'NIST, “Fundamental Physical Constants” (CODATA 2022)', url:'https://physics.nist.gov/cuu/Constants/index.html', note:{en:'Rydberg constant 10,973,731.568157 m⁻¹; proton–electron mass ratio 1836.152673426; electron mass 9.1093837139 × 10⁻³¹ kg; exact h, k, c, e; Wien constant 2.897771955 × 10⁻³ m·K.', ru:'Постоянная Ридберга 10 973 731,568157 м⁻¹; отношение масс протона и электрона 1836,152673426; масса электрона 9,1093837139 × 10⁻³¹ кг; точные h, k, c, e; постоянная Вина 2,897771955 × 10⁻³ м·К.'}},
+  {title:'The Nobel Prize in Physics 1922 — Summary', url:'https://www.nobelprize.org/prizes/physics/1922/summary/', note:{en:'Niels Bohr “for his services in the investigation of the structure of atoms and of the radiation emanating from them”.', ru:'Нильс Бор — «за заслуги в исследовании строения атомов и испускаемого ими излучения».'}},
+  {title:'O. Gingerich, “Fleming, Williamina Paton”, Complete Dictionary of Scientific Biography', url:'https://mathshistory.st-andrews.ac.uk/DSB/fleming.pdf', note:{en:'10,351 stars in the Draper Catalogue of Stellar Spectra (Harvard Annals 27, 1890), in classes lettered A to Q; 99.3 % fell in A, B, F, G, K and M.', ru:'10 351 звезда в Каталоге звёздных спектров Дрейпера (Анналы Гарварда, т. 27, 1890), классы обозначены буквами от A до Q; 99,3 % попали в A, B, F, G, K и M.'}},
+  {title:'O. Gingerich, “Cannon, Annie Jump”, Complete Dictionary of Scientific Biography', url:'https://mathshistory.st-andrews.ac.uk/DSB/cannon.pdf', note:{en:'1901: spectra of 1,122 brighter stars; the Henry Draper Catalogue (Annals 91–99), 225,300 stars, classified 1911–1915 at more than three stars a minute, last volume 1924.', ru:'1901: спектры 1122 ярких звёзд; Каталог Генри Дрейпера (Анналы, т. 91–99), 225 300 звёзд, классифицированных в 1911–1915 годах со скоростью более трёх звёзд в минуту, последний том — 1924.'}},
+  {title:'A. J. Cannon & E. C. Pickering (1918–1924), Henry Draper Catalogue, machine-readable version, VizieR III/135A', url:'https://cdsarc.cds.unistra.fr/viz-bin/cat/III/135A', note:{en:'Counted here from catalog.dat for HD 1–225300 by the first letter of the spectral type: K 60,615; A 57,852; F 42,988; G 41,994; B 16,789; M 4,396; O 169; other 497.', ru:'Подсчитано по файлу catalog.dat для HD 1–225300 по первой букве спектрального типа: K 60 615; A 57 852; F 42 988; G 41 994; B 16 789; M 4396; O 169; прочие 497.'}},
+  {title:'E. Mamajek, “A Modern Mean Dwarf Stellar Color and Effective Temperature Sequence”, v2022.04.16 (after Pecaut & Mamajek 2013, ApJS 208, 9)', url:'https://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt', note:{en:'Mean effective temperatures: O5V 41,400 K, B0V 31,400, A0V 9,700, F0V 7,220, G2V 5,770, K0V 5,270, M0V 3,850, M5V 3,060.', ru:'Средние эффективные температуры: O5V 41 400 К, B0V 31 400, A0V 9700, F0V 7220, G2V 5770, K0V 5270, M0V 3850, M5V 3060.'}},
+  {title:'C. H. Payne (1925), Stellar Atmospheres, Harvard Observatory Monographs 1 (Internet Archive scan)', url:'https://archive.org/details/in.ernet.dli.2015.212833', note:{en:'Hydrogen lines at a maximum “in the neighborhood of Class A0”; Table XXVIII (p. 184): log abundance H 11, He 8.3, Mg 5.6, Na 5.2, Si 4.8, Ca 4.8, Fe 4.8; p. 188: “The enormous abundance derived for these elements in the stellar atmosphere is almost certainly not real.”', ru:'Линии водорода максимальны «в окрестности класса A0»; табл. XXVIII (с. 184): логарифм обилия H 11, He 8,3, Mg 5,6, Na 5,2, Si 4,8, Ca 4,8, Fe 4,8; с. 188: «Огромное обилие этих элементов, полученное для звёздной атмосферы, почти наверняка не соответствует действительности».'}},
+  {title:'Complete Dictionary of Scientific Biography, “Payne-Gaposchkin, Cecilia Helena”', url:'https://mathshistory.st-andrews.ac.uk/DSB/payne-gaposchkin.pdf', note:{en:'Arrived at Harvard in 1923; differences between spectra come from physical conditions, not abundance; persuaded largely by Henry Norris Russell that the hydrogen result was amiss; Struve: “undoubtedly the most brilliant PhD thesis ever written in astronomy”.', ru:'Приехала в Гарвард в 1923 году; различия спектров — следствие физических условий, а не обилия; в основном Генри Норрис Расселл убедил её, что результат по водороду ошибочен; Струве: «несомненно, самая блестящая диссертация, когда-либо написанная по астрономии».'}},
+  {title:'H. N. Russell (1929), “On the Composition of the Sun\'s Atmosphere”, Astrophysical Journal 70, 11–82 (ADS scan)', url:'https://articles.adsabs.harvard.edu/pdf/1929ApJ....70...11R', note:{en:'Abstract: “60 parts of hydrogen (by volume), 2 of helium, 2 of oxygen, 1 of metallic vapors, and 0.8 of free electrons”; p. 65: comparison with Payne for 16 elements, “a very gratifying agreement”.', ru:'Аннотация: «60 частей водорода (по объёму), 2 — гелия, 2 — кислорода, 1 — паров металлов и 0,8 — свободных электронов»; с. 65: сравнение с Пейн по 16 элементам — «весьма отрадное согласие».'}},
+  {title:'M. Asplund, A. M. Amarsi & N. Grevesse (2021), “The chemical make-up of the Sun: A 2020 vision”, Astronomy & Astrophysics 653, A141', url:'https://arxiv.org/abs/2105.01661', note:{en:'Table 2, log ε (H = 12): He 10.914, Mg 7.55, Si 7.51, Fe 7.46, Ca 6.30, Na 6.22; surface mass fractions X = 0.7438, Y = 0.2423, Z = 0.0139.', ru:'Табл. 2, log ε (H = 12): He 10,914, Mg 7,55, Si 7,51, Fe 7,46, Ca 6,30, Na 6,22; массовые доли на поверхности X = 0,7438, Y = 0,2423, Z = 0,0139.'}},
+  {title:'NIST ASD, “Ionization Energies” — H I', url:'https://physics.nist.gov/PhysRefData/ASD/ionEnergy.html', note:{en:'13.598434599702 eV (109,678.77174307 cm⁻¹).', ru:'13,598434599702 эВ (109 678,77174307 см⁻¹).'}},
+  {title:'IAU Circular 6251 (1995), “51 Pegasi”', url:'https://tamkin3.eps.harvard.edu/iauc/06200/06251.html', note:{en:'Announced in Florence on 6 October; 18 months of ELODIE data; P = 4.2293 ± 0.0011 days, e = 0 (assumed), K = 0.059 ± 0.003 km/s; minimum mass 0.47 ± 0.02 Jupiter masses; confirmed at Lick and by a CfA/HAO team.', ru:'Объявлено во Флоренции 6 октября; 18 месяцев измерений ELODIE; P = 4,2293 ± 0,0011 сут, e = 0 (принято), K = 0,059 ± 0,003 км/с; минимальная масса 0,47 ± 0,02 массы Юпитера; подтверждено в Лике и группой CfA/HAO.'}},
+  {title:'Royal Swedish Academy of Sciences (2019), “Scientific Background on the Nobel Prize in Physics 2019”', url:'https://www.nobelprize.org/uploads/2019/10/advanced-physicsprize2019.pdf', note:{en:'ELODIE: resolving power 42,000, 390–680 nm, accuracy 13 m/s, about 5,000 lines used; Jupiter moves the Sun ±13 m/s over 12 years; 51 Peg b: 59 m/s, 4.23 days, 0.47 M_J/sin i; 142 stars; published 23 November 1995.', ru:'ELODIE: разрешающая сила 42 000, 390–680 нм, точность 13 м/с, около 5000 линий; Юпитер качает Солнце на ±13 м/с за 12 лет; 51 Пегаса b: 59 м/с, 4,23 сут, 0,47 M_J/sin i; 142 звезды; опубликовано 23 ноября 1995 года.'}},
+  {title:'The Nobel Prize in Physics 2019 — Summary', url:'https://www.nobelprize.org/prizes/physics/2019/summary/', note:{en:'Michel Mayor and Didier Queloz “for the discovery of an exoplanet orbiting a solar-type star” (shared with James Peebles).', ru:'Мишель Майор и Дидье Кело — «за открытие экзопланеты, обращающейся вокруг звезды солнечного типа» (вместе с Джеймсом Пиблсом).'}},
+  {title:'NASA NSSDC, “Jupiter Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html', note:{en:'GM 126.687 × 10⁶ km³/s²; sidereal orbit period 4,332.589 days; mass 317.83 Earths; Earth GM 0.39860 × 10⁶ km³/s², year 365.256 days.', ru:'GM 126,687 × 10⁶ км³/с²; сидерический период 4332,589 сут; масса 317,83 земной; GM Земли 0,39860 × 10⁶ км³/с², год 365,256 сут.'}},
+  {title:'NASA NSSDC, “Sun Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html', note:{en:'GM 132,712 × 10⁶ km³/s²; effective temperature 5,772 K.', ru:'GM 132 712 × 10⁶ км³/с²; эффективная температура 5772 К.'}},
+  {title:'A. C. Maury & E. C. Pickering (1897), “Spectra of Bright Stars Photographed with the 11-inch Draper Telescope”, Annals of Harvard College Observatory 28, Part I (ADS scan)', url:'https://articles.adsabs.harvard.edu/pdf/1897AnHar..28....1M', note:{en:'Preface: assigned to Miss Antonia C. Maury in 1888, “she is alone responsible for the classification”; ch. I: about 4,800 photographs of 681 of the brightest stars north of −30°; 22 groups and divisions a, b, c; division c stars “must differ more decidedly in constitution”.', ru:'Предисловие: работа поручена мисс Антонии К. Мори в 1888 году, «она единственный автор классификации»; гл. I: около 4800 снимков 681 самой яркой звезды севернее −30°; 22 группы и подразделения a, b, c; звёзды подразделения c «должны сильнее отличаться по строению».'}},
+  {title:'E. Hertzsprung (1909), “Über die Sterne der Unterabteilungen c und ac nach der Spektralklassifikation von Antonia C. Maury”, Astronomische Nachrichten 179, 373 (ADS scan)', url:'https://articles.adsabs.harvard.edu/pdf/1909AN....179..373H', note:{en:'Maury\'s c stars have unmeasurably small parallaxes and proper motions, so they must be very luminous; an extract of his 1905 and 1907 papers.', ru:'У c-звёзд Мори параллаксы и собственные движения неизмеримо малы, значит, их светимость очень велика; выдержка из его работ 1905 и 1907 годов.'}},
+  {title:'W. H. Wollaston (1802), “A Method of examining refractive and dispersive Powers, by prismatic Reflection”, Philosophical Transactions 92, 365–380 (Internet Archive scan of the 1802 volume)', url:'https://archive.org/details/s3id13528400', note:{en:'p. 378: through a narrow crevice and a flint-glass prism, daylight separates into four colours bounded by distinct lines A–E, with “other distinct dark lines, f and g”.', ru:'с. 378: через узкую щель и призму из флинтгласа дневной свет разделяется на четыре цвета, ограниченные чёткими линиями A–E, с «другими отчётливыми тёмными линиями f и g».'}},
+  {title:'G. Kirchhoff & R. Bunsen (1861), “Chemische Analyse durch Spectralbeobachtungen” (second paper), Annalen der Physik 189, 337–381', url:'https://doi.org/10.1002/andp.18611890702', note:{en:'Bibliographic data checked at Crossref; the 1911 Britannica “Rubidium” article cites p. 337 of this paper for the discovery, and its “Caesium” article dates Bunsen\'s caesium announcement to 1860.', ru:'Библиографические данные проверены по Crossref; статья «Рубидий» Британники 1911 года ссылается на с. 337 этой работы как на открытие, а статья «Цезий» датирует сообщение Бунзена о цезии 1860 годом.'}},
+  {title:'A. Baranne, D. Queloz, M. Mayor et al. (1996), “ELODIE: A spectrograph for accurate radial velocity measurements”, Astronomy & Astrophysics Supplement 119, 373–390', url:'https://doi.org/10.1051/aas:1996251', note:{en:'The instrument paper (bibliographic data checked at Crossref).', ru:'Статья с описанием прибора (библиографические данные проверены по Crossref).'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderMT(); renderLD(); renderHD(); renderTH(); renderAB(); renderWB();
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__spectrum = {nAir:nAir, vacToAir:vacToAir, shownWl:shownWl, ATLAS:ATLAS, LAB:LAB, LABELLED:LABELLED, matchLines:matchLines, rydbergVac:rydbergVac, levelEv:levelEv,
+  balmer1885:balmer1885, NIST_H:NIST_H, R_H:R_H, RYDBERG_1890:RYDBERG_1890, sahaRatio:sahaRatio, n2Fraction:n2Fraction, peakT:peakT, planckLam:planckLam, wienNm:wienNm,
+  SPT:SPT, nearestType:nearestType, HD_COUNTS:HD_COUNTS, PAYNE:PAYNE, ASPLUND:ASPLUND, perSilicon:perSilicon, kAmp:kAmp, orbitAU:orbitAU, minMassMJ:minMassMJ,
+  shiftNm:shiftNm, ELODIE_R:ELODIE_R, PEG:PEG, GM_JUP:GM_JUP, GM_EARTH:GM_EARTH, GM_SUN:GM_SUN, T_SUN:T_SUN, TIMELINE:TIMELINE, REFERENCES:REFERENCES};
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ru" data-edition="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гамма-всплески: Swift и Fermi — Аэрокосмический справочник</title>
+<meta name="description" content="Примерно раз в сутки где-то на небе вспыхивает гамма-излучение, которое на несколько секунд затмевает все остальные гамма-источники, а затем гаснет. Эти вспышки нашли спутники, созданные для…">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/ru/burst-gamma-ray-bursts">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Гамма-всплески: Swift и Fermi — Аэрокосмический справочник">
+<meta property="og:description" content="Примерно раз в сутки где-то на небе вспыхивает гамма-излучение, которое на несколько секунд затмевает все остальные гамма-источники, а затем гаснет. Эти вспышки нашли спутники, созданные для…">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/ru/burst-gamma-ray-bursts">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* BURST: 44 px touch targets (iPhone guideline), darker small SVG labels, larger chart text on phones */
+.btn{min-height:44px; min-width:44px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+input[type=range]:disabled{opacity:0.35;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+.svg-small{fill:#5f5f59;}
+.svg-halo{paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round;}
+.cmp-table th[scope=row]{font-family:var(--font-mono); font-size:12px; color:var(--ink); text-transform:none; letter-spacing:0;}
+@media (max-width:500px){ .sim-svg .svg-small{font-size:14px;} .sim-svg .svg-label{font-size:15px;} }
+@media (pointer:coarse){
+  .btn{min-height:44px; min-width:44px; padding:10px 14px; font-size:12px;}
+  input[type=range]{height:44px; background:transparent; margin:4px 0;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/burst-gamma-ray-bursts">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/burst-gamma-ray-bursts">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/burst-gamma-ray-bursts">
+<!-- /hreflang -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Гамма-всплески: Swift и Fermi","description":"Примерно раз в сутки где-то на небе вспыхивает гамма-излучение, которое на несколько секунд затмевает все остальные гамма-источники, а затем гаснет. Эти вспышки нашли спутники, созданные для…","url":"https://followorbounce.github.io/aerospace/ru/burst-gamma-ray-bursts","mainEntityOfPage":"https://followorbounce.github.io/aerospace/ru/burst-gamma-ray-bursts","image":"","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Аэрокосмический справочник","url":"https://followorbounce.github.io/aerospace/ru/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Аэрокосмический справочник","item":"https://followorbounce.github.io/aerospace/ru/"},{"@type":"ListItem","position":2,"name":"Гамма-всплески: Swift и Fermi","item":"https://followorbounce.github.io/aerospace/ru/burst-gamma-ray-bursts"}]}</script>
+<!-- /fob-ld -->
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">BURST — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="">EN</button>
+    <button data-lang="ru" class="active">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">FLASH</span></div>
+  <div class="hud-row"><span class="hud-label">DISTANCE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">ENERGY</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="FLASH">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/ru/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← ОГЛАВЛЕНИЕ</span></a> — <span data-en="FIG. 00 — GRB 221009A, 9 OCTOBER 2022" data-ru="РИС. 00 — GRB 221009A, 9 ОКТЯБРЯ 2022">РИС. 00 — GRB 221009A, 9 ОКТЯБРЯ 2022</span></span>
+        <span>z = 0.151 · ≈ 10<sup>55</sup> erg</span>
+      </div>
+      <h1><span data-en="BURST" data-ru="ВСПЫШКА">ВСПЫШКА</span><br><em data-en="GAMMA-RAY BURSTS: SWIFT &amp; FERMI" data-ru="ГАММА-ВСПЛЕСКИ: SWIFT И FERMI">ГАММА-ВСПЛЕСКИ: SWIFT И FERMI</em></h1>
+      <p class="sub lede" data-en="About once a day, somewhere in the sky, a flash of gamma rays outshines every other gamma-ray source for a few seconds and then fades. They were found by satellites built to watch for nuclear tests; they turned out to come from distant galaxies across the universe, from collapsing stars and colliding neutron stars. Nine chapters and four instruments: see why an even sky meant enormous distances, sort 4,391 real bursts into their two families, weigh the brightest burst ever recorded, and see how much a narrow jet changes that answer — then read about Swift's last orbits." data-ru="Примерно раз в сутки где-то на небе вспыхивает гамма-излучение, которое на несколько секунд затмевает все остальные гамма-источники, а затем гаснет. Эти вспышки нашли спутники, созданные для наблюдения за ядерными испытаниями; оказалось, что они приходят из далёких галактик по всей Вселенной — от коллапсирующих звёзд и сливающихся нейтронных звёзд. Девять глав и четыре прибора: посмотрите, почему равномерное небо означало огромные расстояния, разделите 4391 настоящий всплеск на два семейства, оцените энергию самого яркого из когда-либо зарегистрированных всплесков и узнайте, насколько узкая струя меняет этот ответ, — а затем прочитайте о последних витках Swift.">Примерно раз в сутки где-то на небе вспыхивает гамма-излучение, которое на несколько секунд затмевает все остальные гамма-источники, а затем гаснет. Эти вспышки нашли спутники, созданные для наблюдения за ядерными испытаниями; оказалось, что они приходят из далёких галактик по всей Вселенной — от коллапсирующих звёзд и сливающихся нейтронных звёзд. Девять глав и четыре прибора: посмотрите, почему равномерное небо означало огромные расстояния, разделите 4391 настоящий всплеск на два семейства, оцените энергию самого яркого из когда-либо зарегистрированных всплесков и узнайте, насколько узкая струя меняет этот ответ, — а затем прочитайте о последних витках Swift.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">НАЧАТЬ — ГЛАВА 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — VELA -->
+<section id="ch1" class="section" data-phase="FLASH">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 09</span> — <span data-en="VELA, 1967–1973" data-ru="«ВЕЛА», 1967–1973">«ВЕЛА», 1967–1973</span></div>
+    <h2 class="h-lg" data-en="A flash that was not a bomb" data-ru="Вспышка, которая не была взрывом">Вспышка, которая не была взрывом</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Vela satellites were launched in pairs to watch space for nuclear explosions, carrying X-ray, gamma-ray and neutron detectors [1]; Vela 4a and 4b went up on 28 April 1967 [2]. On <b>2 July 1967</b> those two recorded a burst of gamma rays that looked nothing like a weapon [2]. Ray Klebesadel and colleagues at Los Alamos found it later while searching the archived data, and kept looking." data-ru="Спутники «Вела» запускались парами, чтобы следить за ядерными взрывами в космосе; на них стояли детекторы рентгеновского и гамма-излучения и нейтронов [1]; «Вела-4А» и «Вела-4Б» стартовали 28 апреля 1967 года [2]. <b>2 июля 1967 года</b> эти два спутника зарегистрировали всплеск гамма-излучения, совсем не похожий на оружие [2]. Рэй Клебесадел и его коллеги из Лос-Аламоса нашли его позже, просматривая архивные данные, и продолжили поиски.">Спутники «Вела» запускались парами, чтобы следить за ядерными взрывами в космосе; на них стояли детекторы рентгеновского и гамма-излучения и нейтронов [1]; «Вела-4А» и «Вела-4Б» стартовали 28 апреля 1967 года [2]. <b>2 июля 1967 года</b> эти два спутника зарегистрировали всплеск гамма-излучения, совсем не похожий на оружие [2]. Рэй Клебесадел и его коллеги из Лос-Аламоса нашли его позже, просматривая архивные данные, и продолжили поиски.</p>
+      <p class="body-col" data-en="In 1973 they published <b>sixteen</b> bursts seen between July 1969 and July 1972 by widely separated spacecraft, with photons of 0.2–1.5 MeV and durations from under 0.1 s to about 30 s [3]. Comparing arrival times at widely separated satellites gave rough directions, and the directions ruled out the Earth and the Sun [3]. The source had to be in space — but nobody knew how far away." data-ru="В 1973 году они опубликовали <b>шестнадцать</b> всплесков, зарегистрированных с июля 1969 по июль 1972 года разнесёнными друг от друга аппаратами: фотоны с энергией 0,2–1,5 МэВ, длительность — от менее 0,1 с до примерно 30 с [3]. Сравнение времён прихода на далеко разнесённые спутники дало грубые направления, и эти направления исключили Землю и Солнце [3]. Источник должен был находиться в космосе — но никто не знал, на каком расстоянии.">В 1973 году они опубликовали <b>шестнадцать</b> всплесков, зарегистрированных с июля 1969 по июль 1972 года разнесёнными друг от друга аппаратами: фотоны с энергией 0,2–1,5 МэВ, длительность — от менее 0,1 с до примерно 30 с [3]. Сравнение времён прихода на далеко разнесённые спутники дало грубые направления, и эти направления исключили Землю и Солнце [3]. Источник должен был находиться в космосе — но никто не знал, на каком расстоянии.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="DIRECTION FROM ARRIVAL TIMES" data-ru="НАПРАВЛЕНИЕ ПО ВРЕМЕНИ ПРИХОДА">НАПРАВЛЕНИЕ ПО ВРЕМЕНИ ПРИХОДА</div>
+      <div class="eq-body">cos θ = c · Δt / D</div>
+      <div class="eq-note" data-en="Two satellites a distance D apart see the same flash Δt apart; the burst lies on a cone of angle θ around the line joining them. A third satellite adds a second cone, and the two cones cross in two directions. Near θ = 90°, with D = 10⁵ km, an error of 0.03 s in Δt moves θ by about 5°." data-ru="Два спутника на расстоянии D друг от друга видят одну и ту же вспышку с разницей Δt; всплеск лежит на конусе с углом θ вокруг соединяющей их линии. Третий спутник даёт второй конус, и два конуса пересекаются в двух направлениях. Вблизи θ = 90° при D = 10⁵ км ошибка 0,03 с в Δt сдвигает θ примерно на 5°.">Два спутника на расстоянии D друг от друга видят одну и ту же вспышку с разницей Δt; всплеск лежит на конусе с углом θ вокруг соединяющей их линии. Третий спутник даёт второй конус, и два конуса пересекаются в двух направлениях. Вблизи θ = 90° при D = 10⁵ км ошибка 0,03 с в Δt сдвигает θ примерно на 5°.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — EVERYWHERE -->
+<section id="ch2" class="section" data-phase="EVERYWHERE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 09</span> — <span data-en="BATSE, 1991–2000" data-ru="BATSE, 1991–2000">BATSE, 1991–2000</span></div>
+    <h2 class="h-lg" data-en="An even sky, so a very long way off" data-ru="Равномерное небо — значит, очень далеко">Равномерное небо — значит, очень далеко</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="If bursts came from our own galaxy, they should crowd towards the Milky Way. The test came with BATSE on NASA's Compton Gamma Ray Observatory, launched on 5 April 1991 [2]. In nine years it located <b>2,704</b> bursts, and they were spread evenly over the sky — no excess along the Milky Way, no excess towards its centre, no significant dipole or quadrupole [4]." data-ru="Если бы всплески рождались в нашей Галактике, они теснились бы к Млечному Пути. Проверку провёл прибор BATSE на обсерватории NASA «Комптон», запущенной 5 апреля 1991 года [2]. За девять лет он определил положение <b>2704</b> всплесков, и они распределились по небу равномерно — без избытка вдоль Млечного Пути, без избытка в сторону его центра, без значимого дипольного или квадрупольного момента [4].">Если бы всплески рождались в нашей Галактике, они теснились бы к Млечному Пути. Проверку провёл прибор BATSE на обсерватории NASA «Комптон», запущенной 5 апреля 1991 года [2]. За девять лет он определил положение <b>2704</b> всплесков, и они распределились по небу равномерно — без избытка вдоль Млечного Пути, без избытка в сторону его центра, без значимого дипольного или квадрупольного момента [4].</p>
+      <p class="body-col" data-en="An even sky alone does not prove great distance: anything much closer than the thickness of the galactic disk also looks even, because you are inside it. The second clue was that faint bursts were too few — the population had an edge [4]. Close and even with an edge pointed to something odd around the Sun or in a vast halo around the Galaxy; far, even and with an edge pointed to the whole universe. The model below shows the first half of that argument." data-ru="Одно лишь равномерное небо ещё не доказывает большого расстояния: всё, что гораздо ближе толщины галактического диска, тоже выглядит равномерно, потому что мы внутри него. Вторая подсказка — слабых всплесков оказалось слишком мало: у населения был край [4]. Близко, равномерно и с краем — значило бы что-то странное вокруг Солнца или в огромном гало вокруг Галактики; далеко, равномерно и с краем — указывало на всю Вселенную. Модель ниже показывает первую половину этого рассуждения.">Одно лишь равномерное небо ещё не доказывает большого расстояния: всё, что гораздо ближе толщины галактического диска, тоже выглядит равномерно, потому что мы внутри него. Вторая подсказка — слабых всплесков оказалось слишком мало: у населения был край [4]. Близко, равномерно и с краем — значило бы что-то странное вокруг Солнца или в огромном гало вокруг Галактики; далеко, равномерно и с краем — указывало на всю Вселенную. Модель ниже показывает первую половину этого рассуждения.</p>
+    </div>
+    <div class="eyebrow" style="margin-top:32px;"><span data-en="INSTRUMENT 1 · DISK OR UNIVERSE?" data-ru="ПРИБОР 1 · ДИСК ИЛИ ВСЕЛЕННАЯ?">ПРИБОР 1 · ДИСК ИЛИ ВСЕЛЕННАЯ?</span></div>
+    <div class="sim-wrap">
+      <svg id="skySvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="All-sky map of simulated bursts in galactic coordinates"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Population" id="skyPre">
+          <button class="btn active" data-m="disk" aria-pressed="true" data-en="GALACTIC DISK" data-ru="ГАЛАКТИЧЕСКИЙ ДИСК">ГАЛАКТИЧЕСКИЙ ДИСК</button>
+          <button class="btn" data-m="iso" aria-pressed="false" data-en="EVERYWHERE" data-ru="ВЕЗДЕ">ВЕЗДЕ</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="skyD" data-en="HOW FAR WE CAN SEE ÷ DISK HALF-THICKNESS" data-ru="ДАЛЬНОСТЬ ОБЗОРА ÷ ПОЛУТОЛЩИНА ДИСКА">ДАЛЬНОСТЬ ОБЗОРА ÷ ПОЛУТОЛЩИНА ДИСКА</label><span class="v" id="skyDVal">—</span></div>
+          <input id="skyD" type="range" min="-1" max="2" step="0.01" value="1">
+        </div>
+        <div class="btn-row"><button class="btn" id="skyNew" data-en="NEW SAMPLE" data-ru="НОВАЯ ВЫБОРКА">НОВАЯ ВЫБОРКА</button></div>
+        <div class="readout-grid" id="skyReadout"></div>
+        <div class="status" id="skyStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Illustration, not BATSE data: 600 sources placed at random inside a sphere around the Sun, kept only if they lie within a flat disk (for the disk population). ⟨sin² b⟩ is the mean of sin² of galactic latitude; an even sky gives exactly 1/3, a population hugging the plane gives less. The model's expected value comes from integrating over the sphere-and-slab volume; the readout's ± range is 2 standard errors of an even sky (600 sources)." data-ru="Иллюстрация, а не данные BATSE: 600 источников случайно расставлены внутри сферы вокруг Солнца и, для дискового населения, оставлены только внутри плоского диска. ⟨sin² b⟩ — среднее sin² галактической широты; для равномерного неба оно ровно 1/3, для населения, прижатого к плоскости, — меньше. Ожидаемое значение модели получено интегрированием по объёму «сфера ∩ слой»; диапазон ± в показаниях — 2 стандартные ошибки для равномерного неба (600 источников).">Иллюстрация, а не данные BATSE: 600 источников случайно расставлены внутри сферы вокруг Солнца и, для дискового населения, оставлены только внутри плоского диска. ⟨sin² b⟩ — среднее sin² галактической широты; для равномерного неба оно ровно 1/3, для населения, прижатого к плоскости, — меньше. Ожидаемое значение модели получено интегрированием по объёму «сфера ∩ слой»; диапазон ± в показаниях — 2 стандартные ошибки для равномерного неба (600 источников).</p>
+  </div>
+</section>
+
+<!-- CH3 — TWO FAMILIES -->
+<section id="ch3" class="section" data-phase="TWO FAMILIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 09</span> — <span data-en="SHORT AND LONG" data-ru="КОРОТКИЕ И ДЛИННЫЕ">КОРОТКИЕ И ДЛИННЫЕ</span></div>
+    <h2 class="h-lg" data-en="Two families, split at about two seconds" data-ru="Два семейства с границей около двух секунд">Два семейства с границей около двух секунд</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A burst's duration is measured as <b>T90</b>, the time over which the middle 90 % of its counts arrive. In 1993 Chryssa Kouveliotou and colleagues found that BATSE's durations fall into two groups — short bursts under about 2 s, usually harder (more high-energy photons), and long ones over 2 s, usually softer [5]. The chart below uses every Fermi GBM burst with a measured T90: <b>4,391</b>, from July 2008 to 8 October 2026 [6][7]." data-ru="Длительность всплеска измеряют величиной <b>T90</b> — временем, за которое приходят средние 90 % отсчётов. В 1993 году Крисса Кувелиоту с коллегами обнаружила, что длительности BATSE делятся на две группы: короткие всплески короче примерно 2 с, обычно более жёсткие (больше фотонов высоких энергий), и длинные — дольше 2 с, обычно более мягкие [5]. На графике ниже — все всплески Fermi GBM с измеренным T90: <b>4391</b>, с июля 2008 по 8 октября 2026 года [6][7].">Длительность всплеска измеряют величиной <b>T90</b> — временем, за которое приходят средние 90 % отсчётов. В 1993 году Крисса Кувелиоту с коллегами обнаружила, что длительности BATSE делятся на две группы: короткие всплески короче примерно 2 с, обычно более жёсткие (больше фотонов высоких энергий), и длинные — дольше 2 с, обычно более мягкие [5]. На графике ниже — все всплески Fermi GBM с измеренным T90: <b>4391</b>, с июля 2008 по 8 октября 2026 года [6][7].</p>
+      <p class="body-col" data-en="The two families have different engines. Long bursts come from the collapse of massive stars: the long burst of 29 March 2003 was followed, at the same spot, by a very energetic supernova that had exploded within a few days of it [8]. Short bursts come, at least in part, from merging neutron stars: on 17 August 2017 a short burst arrived <b>1.74 s</b> after a gravitational-wave signal from a neutron-star merger in a galaxy about 43 million parsecs (about 140 million light-years) away [9] — the story of that wave is in <a href='/aerospace/ripple-gravitational-waves'>RIPPLE</a>." data-ru="У двух семейств разные «двигатели». Длинные всплески возникают при коллапсе массивных звёзд: за длинным всплеском 29 марта 2003 года в той же точке последовала очень мощная сверхновая, взорвавшаяся в пределах нескольких дней от него [8]. Короткие всплески порождаются, по крайней мере отчасти, слиянием нейтронных звёзд: 17 августа 2017 года короткий всплеск пришёл через <b>1,74 с</b> после гравитационно-волнового сигнала от слияния нейтронных звёзд в галактике на расстоянии около 43 млн парсек (около 140 млн световых лет) [9] — история этой волны в справочнике <a href='/aerospace/ripple-gravitational-waves'>РЯБЬ</a>.">У двух семейств разные «двигатели». Длинные всплески возникают при коллапсе массивных звёзд: за длинным всплеском 29 марта 2003 года в той же точке последовала очень мощная сверхновая, взорвавшаяся в пределах нескольких дней от него [8]. Короткие всплески порождаются, по крайней мере отчасти, слиянием нейтронных звёзд: 17 августа 2017 года короткий всплеск пришёл через <b>1,74 с</b> после гравитационно-волнового сигнала от слияния нейтронных звёзд в галактике на расстоянии около 43 млн парсек (около 140 млн световых лет) [9] — история этой волны в справочнике <a href='/aerospace/ripple-gravitational-waves'>РЯБЬ</a>.</p>
+    </div>
+    <div class="eyebrow" style="margin-top:32px;"><span data-en="INSTRUMENT 2 · 4,391 REAL DURATIONS" data-ru="ПРИБОР 2 · 4391 НАСТОЯЩАЯ ДЛИТЕЛЬНОСТЬ">ПРИБОР 2 · 4391 НАСТОЯЩАЯ ДЛИТЕЛЬНОСТЬ</span></div>
+    <div class="sim-wrap">
+      <svg id="t90Svg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Histogram of Fermi GBM burst durations on a logarithmic axis"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Dividing line" id="t90Pre">
+          <button class="btn active" data-t="0.30" aria-pressed="true" data-en="2 s (CONVENTION)" data-ru="2 С (УСЛОВНО)">2 С (УСЛОВНО)</button>
+          <button class="btn" data-t="0" aria-pressed="false" data-en="1 s" data-ru="1 С">1 С</button>
+          <button class="btn" data-t="0.7" aria-pressed="false" data-en="5 s" data-ru="5 С">5 С</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="t90Cut" data-en="DIVIDING LINE" data-ru="ГРАНИЦА">ГРАНИЦА</label><span class="v" id="t90CutVal">—</span></div>
+          <input id="t90Cut" type="range" min="-1" max="1.5" step="0.05" value="0.3">
+        </div>
+        <div class="readout-grid" id="t90Readout"></div>
+        <div class="status" id="t90Status" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Data: the FERMIGBRST catalog at NASA's HEASARC, queried on 11 October 2026 — 4,391 bursts with a T90 above zero, measured in 50–300 keV [6][7]. Bars are 0.2 dex wide (a factor of 1.58); the dividing line moves in 0.05 dex steps. GBM records a smaller share of short bursts than BATSE did; a likely reason is that its detectors respond to lower energies, which favours the softer, mostly long bursts. The split is a convention, and the two families overlap. The grey bar straddles the line; the counts use the exact 0.05-dex bins." data-ru="Данные: каталог FERMIGBRST архива HEASARC (NASA), запрос от 11 октября 2026 года — 4391 всплеск с T90 больше нуля, измеренным в диапазоне 50–300 кэВ [6][7]. Ширина столбцов — 0,2 декады (множитель 1,58); граница сдвигается шагами по 0,05 декады. Доля коротких всплесков у GBM меньше, чем у BATSE; вероятная причина — его детекторы чувствительны к более низким энергиям, а это благоприятствует более мягким, в основном длинным всплескам. Граница условна, и семейства перекрываются. Серый столбец пересекает границу; подсчёт ведётся по точным бинам 0,05 декады.">Данные: каталог FERMIGBRST архива HEASARC (NASA), запрос от 11 октября 2026 года — 4391 всплеск с T90 больше нуля, измеренным в диапазоне 50–300 кэВ [6][7]. Ширина столбцов — 0,2 декады (множитель 1,58); граница сдвигается шагами по 0,05 декады. Доля коротких всплесков у GBM меньше, чем у BATSE; вероятная причина — его детекторы чувствительны к более низким энергиям, а это благоприятствует более мягким, в основном длинным всплескам. Граница условна, и семейства перекрываются. Серый столбец пересекает границу; подсчёт ведётся по точным бинам 0,05 декады.</p>
+  </div>
+</section>
+
+<!-- CH4 — CATCHING ONE -->
+<section id="ch4" class="section" data-phase="CATCH">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 09</span> — <span data-en="SWIFT AND FERMI" data-ru="SWIFT И FERMI">SWIFT И FERMI</span></div>
+    <h2 class="h-lg" data-en="A camera with no lens, and a sky watched at once" data-ru="Камера без линзы и небо, видимое целиком">Камера без линзы и небо, видимое целиком</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Gamma rays go straight through mirrors, so Swift's Burst Alert Telescope uses a <b>coded mask</b>: about 54,000 lead tiles in a random pattern, half open, a metre above 32,768 small cadmium-zinc-telluride detectors [10]. A burst casts the mask's shadow on the detectors; the shift of that shadow gives the direction. BAT watches about 1.4 steradians at 15–150 keV and works out a position to a few arcminutes within seconds [10][11]. Then the whole spacecraft turns, on its own, to point its X-ray and optical telescopes at the spot." data-ru="Гамма-лучи проходят сквозь зеркала, поэтому телескоп BAT аппарата Swift использует <b>кодирующую маску</b>: около 54 000 свинцовых пластинок в случайном порядке, половина ячеек открыта, в метре над 32 768 маленькими детекторами из теллурида кадмия-цинка [10]. Всплеск отбрасывает тень маски на детекторы; по сдвигу тени определяют направление. BAT охватывает около 1,4 ср неба в диапазоне 15–150 кэВ и за секунды вычисляет положение с точностью до нескольких угловых минут [10][11]. Затем весь аппарат сам разворачивается, наводя рентгеновский и оптический телескопы на эту точку.">Гамма-лучи проходят сквозь зеркала, поэтому телескоп BAT аппарата Swift использует <b>кодирующую маску</b>: около 54 000 свинцовых пластинок в случайном порядке, половина ячеек открыта, в метре над 32 768 маленькими детекторами из теллурида кадмия-цинка [10]. Всплеск отбрасывает тень маски на детекторы; по сдвигу тени определяют направление. BAT охватывает около 1,4 ср неба в диапазоне 15–150 кэВ и за секунды вычисляет положение с точностью до нескольких угловых минут [10][11]. Затем весь аппарат сам разворачивается, наводя рентгеновский и оптический телескопы на эту точку.</p>
+      <p class="body-col" data-en="Fermi, launched on 11 June 2008, takes the other approach: its Gamma-ray Burst Monitor has no imaging at all, just detectors facing different ways, so it sees about 8.8 steradians — most of the sky not blocked by Earth — at 8 keV–30 MeV and finds direction to a few degrees by comparing their rates [2][12]. Its Large Area Telescope goes up to hundreds of GeV. Afterglows made distances possible: in 1997 BeppoSAX caught the first X-ray afterglow, of GRB 970228, and pinned down GRB 970508 quickly enough for the Keck telescope to find an absorption system at redshift 0.835 in its light — so the burst was at least that far [2][13]." data-ru="Fermi, запущенный 11 июня 2008 года, устроен иначе: монитор гамма-всплесков GBM вовсе не строит изображений — его детекторы смотрят в разные стороны, поэтому он видит около 8,8 стерадиана (почти всё небо, не закрытое Землёй) в диапазоне 8 кэВ — 30 МэВ и находит направление с точностью до нескольких градусов, сравнивая их отсчёты [2][12]. Телескоп LAT доходит до сотен ГэВ. Расстояния стали измеримы благодаря послесвечениям: в 1997 году BeppoSAX зарегистрировал первое рентгеновское послесвечение (GRB 970228) и так быстро локализовал GRB 970508, что телескоп Кека нашёл в его свете систему поглощения с красным смещением 0,835 — значит, всплеск был по меньшей мере так далеко [2][13].">Fermi, запущенный 11 июня 2008 года, устроен иначе: монитор гамма-всплесков GBM вовсе не строит изображений — его детекторы смотрят в разные стороны, поэтому он видит около 8,8 стерадиана (почти всё небо, не закрытое Землёй) в диапазоне 8 кэВ — 30 МэВ и находит направление с точностью до нескольких градусов, сравнивая их отсчёты [2][12]. Телескоп LAT доходит до сотен ГэВ. Расстояния стали измеримы благодаря послесвечениям: в 1997 году BeppoSAX зарегистрировал первое рентгеновское послесвечение (GRB 970228) и так быстро локализовал GRB 970508, что телескоп Кека нашёл в его свете систему поглощения с красным смещением 0,835 — значит, всплеск был по меньшей мере так далеко [2][13].</p>
+    </div>
+    <div class="table-scroll">
+      <table class="cmp-table" id="instTable"></table>
+    </div>
+    <p class="note" data-en="Field of view, band, position accuracy and typical bursts per year from NASA's GCN mission tables [11][12]. The BAT field of view is 1.4 sr half-coded (NASA's BAT description) or about 2 sr counting the partly coded edge (GCN)." data-ru="Поле зрения, диапазон, точность положения и типичное число всплесков в год — по таблицам миссий GCN (NASA) [11][12]. Поле зрения BAT — 1,4 ср при половинном кодировании (описание BAT от NASA) или около 2 ср с частично кодированным краем (GCN).">Поле зрения, диапазон, точность положения и типичное число всплесков в год — по таблицам миссий GCN (NASA) [11][12]. Поле зрения BAT — 1,4 ср при половинном кодировании (описание BAT от NASA) или около 2 ср с частично кодированным краем (GCN).</p>
+  </div>
+</section>
+
+<!-- CH5 — ENERGY -->
+<section id="ch5" class="section" data-phase="HOW FAR, HOW BRIGHT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 09</span> — <span data-en="DISTANCE AND ENERGY" data-ru="РАССТОЯНИЕ И ЭНЕРГИЯ">РАССТОЯНИЕ И ЭНЕРГИЯ</span></div>
+    <h2 class="h-lg" data-en="The brightest burst ever recorded" data-ru="Самый яркий всплеск за всю историю наблюдений">Самый яркий всплеск за всю историю наблюдений</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A detector measures <b>fluence</b>: energy per square centimetre, summed over the burst. With a redshift from the afterglow, the distance follows from the expansion history of the universe, and the energy the burst would have released if it shone equally in all directions — <b>E<sub>iso</sub></b> — follows from spreading that fluence over a sphere of that size. GRB 221009A, on 9 October 2022, was the brightest ever seen by Fermi and so intense it saturated sensitive detectors; at redshift 0.151 it released about <b>10<sup>55</sup> erg</b> this way [14][15]." data-ru="Детектор измеряет <b>флюенс</b> — энергию на квадратный сантиметр, просуммированную за всплеск. Если по послесвечению известно красное смещение, расстояние следует из истории расширения Вселенной, а энергия, которую всплеск выделил бы, светя одинаково во все стороны, — <b>E<sub>iso</sub></b>, — получается распределением этого флюенса по сфере такого размера. GRB 221009A 9 октября 2022 года стал самым ярким всплеском за всю работу Fermi и был настолько мощным, что насытил чувствительные детекторы; при красном смещении 0,151 он выделил таким образом около <b>10<sup>55</sup> эрг</b> [14][15].">Детектор измеряет <b>флюенс</b> — энергию на квадратный сантиметр, просуммированную за всплеск. Если по послесвечению известно красное смещение, расстояние следует из истории расширения Вселенной, а энергия, которую всплеск выделил бы, светя одинаково во все стороны, — <b>E<sub>iso</sub></b>, — получается распределением этого флюенса по сфере такого размера. GRB 221009A 9 октября 2022 года стал самым ярким всплеском за всю работу Fermi и был настолько мощным, что насытил чувствительные детекторы; при красном смещении 0,151 он выделил таким образом около <b>10<sup>55</sup> эрг</b> [14][15].</p>
+      <p class="body-col" data-en="That is about six to seven times the energy of the Sun's whole mass turned into radiation (M<sub>☉</sub>c² ≈ 1.8 × 10<sup>54</sup> erg), released within minutes. Gamma-ray bursts are also seen across most of cosmic history: GRB 090423, at redshift about 8.2, left its galaxy when the universe was about 630 million years old [16]. Pick a burst below, or set your own fluence and redshift; the distance and age use the Planck 2018 cosmology [17]." data-ru="Это примерно в шесть–семь раз больше энергии, которая получилась бы, если бы вся масса Солнца превратилась в излучение (M<sub>☉</sub>c² ≈ 1,8 × 10<sup>54</sup> эрг), и выделилась она за минуты. Гамма-всплески видны и почти на всём протяжении космической истории: GRB 090423 с красным смещением около 8,2 покинул свою галактику, когда Вселенной было около 630 млн лет [16]. Выберите всплеск ниже или задайте свои флюенс и красное смещение; расстояние и возраст рассчитаны по космологии Planck 2018 [17].">Это примерно в шесть–семь раз больше энергии, которая получилась бы, если бы вся масса Солнца превратилась в излучение (M<sub>☉</sub>c² ≈ 1,8 × 10<sup>54</sup> эрг), и выделилась она за минуты. Гамма-всплески видны и почти на всём протяжении космической истории: GRB 090423 с красным смещением около 8,2 покинул свою галактику, когда Вселенной было около 630 млн лет [16]. Выберите всплеск ниже или задайте свои флюенс и красное смещение; расстояние и возраст рассчитаны по космологии Planck 2018 [17].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="ISOTROPIC-EQUIVALENT ENERGY" data-ru="ИЗОТРОПНЫЙ ЭКВИВАЛЕНТ ЭНЕРГИИ">ИЗОТРОПНЫЙ ЭКВИВАЛЕНТ ЭНЕРГИИ</div>
+      <div class="eq-body">E<sub>iso</sub> = 4π d<sub>L</sub>² S / (1 + z) &nbsp;·&nbsp; d<sub>L</sub> = (1 + z) (c/H₀) ∫₀<sup>z</sup> dz′ / √(Ω<sub>m</sub>(1 + z′)³ + Ω<sub>Λ</sub>)</div>
+      <div class="eq-note" data-en="S is the fluence, z the redshift, d_L the luminosity distance in a flat universe with H₀ = 67.36 km/s/Mpc and Ω_m = 0.3153 [17]. Dividing by 1 + z undoes the stretching of the burst's duration. Published values also apply a k-correction for the detector's energy band; this simple version skips it, and still lands within 6 % of the published numbers for the three bursts below." data-ru="S — флюенс, z — красное смещение, d_L — фотометрическое расстояние в плоской Вселенной с H₀ = 67,36 км/с/Мпк и Ω_m = 0,3153 [17]. Деление на 1 + z учитывает растяжение длительности всплеска. В опубликованных значениях добавляют ещё K-поправку на энергетический диапазон детектора; здесь она опущена, и всё равно результат для трёх всплесков ниже отличается от опубликованных не более чем на 6 %.">S — флюенс, z — красное смещение, d_L — фотометрическое расстояние в плоской Вселенной с H₀ = 67,36 км/с/Мпк и Ω_m = 0,3153 [17]. Деление на 1 + z учитывает растяжение длительности всплеска. В опубликованных значениях добавляют ещё K-поправку на энергетический диапазон детектора; здесь она опущена, и всё равно результат для трёх всплесков ниже отличается от опубликованных не более чем на 6 %.</div>
+    </div>
+    <div class="eyebrow" style="margin-top:32px;"><span data-en="INSTRUMENT 3 · HOW FAR, HOW MUCH" data-ru="ПРИБОР 3 · КАК ДАЛЕКО И СКОЛЬКО">ПРИБОР 3 · КАК ДАЛЕКО И СКОЛЬКО</span></div>
+    <div class="sim-wrap">
+      <svg id="enSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Isotropic energy against redshift for the chosen fluence, with record bursts marked"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Burst" id="enPre">
+          <button class="btn active" data-k="boat" aria-pressed="true">GRB 221009A</button>
+          <button class="btn" data-k="c16" aria-pressed="false">GRB 080916C</button>
+          <button class="btn" data-k="z82" aria-pressed="false">GRB 090423</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="enZ" data-en="REDSHIFT z" data-ru="КРАСНОЕ СМЕЩЕНИЕ z">КРАСНОЕ СМЕЩЕНИЕ z</label><span class="v" id="enZVal">—</span></div>
+          <input id="enZ" type="range" min="-2" max="1.1" step="0.005" value="-0.82">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="enS" data-en="FLUENCE S" data-ru="ФЛЮЕНС S">ФЛЮЕНС S</label><span class="v" id="enSVal">—</span></div>
+          <input id="enS" type="range" min="-8" max="0" step="0.01" value="-0.66">
+        </div>
+        <div class="readout-grid" id="enReadout"></div>
+        <div class="status" id="enStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Presets: GRB 221009A — Konus-Wind fluence ≈ 0.22 erg/cm² at 20 keV–10 MeV, z = 0.151, published E_iso ≈ 1.2 × 10⁵⁵ erg [15]; GRB 080916C — Fermi fluence 2.4 × 10⁻⁴ erg/cm² at 10 keV–10 GeV, z ≈ 4.35, published ≈ 8.8 × 10⁵⁴ erg [18][19]; GRB 090423 — Fermi GBM fluence 1.1 × 10⁻⁶ erg/cm² at 8–1000 keV, z ≈ 8.2 [16][20], published ≈ 1.0 × 10⁵³ erg at z = 8.1 [21]. The dashed curve is the same fluence moved to every redshift." data-ru="Предустановки: GRB 221009A — флюенс Konus-Wind ≈ 0,22 эрг/см² в диапазоне 20 кэВ — 10 МэВ, z = 0,151, опубликованная E_iso ≈ 1,2 × 10⁵⁵ эрг [15]; GRB 080916C — флюенс Fermi 2,4 × 10⁻⁴ эрг/см² в диапазоне 10 кэВ — 10 ГэВ, z ≈ 4,35, опубликовано ≈ 8,8 × 10⁵⁴ эрг [18][19]; GRB 090423 — флюенс Fermi GBM 1,1 × 10⁻⁶ эрг/см² в диапазоне 8–1000 кэВ, z ≈ 8,2 [16][20], опубликовано ≈ 1,0 × 10⁵³ эрг при z = 8,1 [21]. Пунктирная кривая — тот же флюенс, перенесённый на все красные смещения.">Предустановки: GRB 221009A — флюенс Konus-Wind ≈ 0,22 эрг/см² в диапазоне 20 кэВ — 10 МэВ, z = 0,151, опубликованная E_iso ≈ 1,2 × 10⁵⁵ эрг [15]; GRB 080916C — флюенс Fermi 2,4 × 10⁻⁴ эрг/см² в диапазоне 10 кэВ — 10 ГэВ, z ≈ 4,35, опубликовано ≈ 8,8 × 10⁵⁴ эрг [18][19]; GRB 090423 — флюенс Fermi GBM 1,1 × 10⁻⁶ эрг/см² в диапазоне 8–1000 кэВ, z ≈ 8,2 [16][20], опубликовано ≈ 1,0 × 10⁵³ эрг при z = 8,1 [21]. Пунктирная кривая — тот же флюенс, перенесённый на все красные смещения.</p>
+  </div>
+</section>
+
+<!-- CH6 — JETS -->
+<section id="ch6" class="section" data-phase="AIMED AT US">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 09</span> — <span data-en="BEAMING" data-ru="КОЛЛИМАЦИЯ">КОЛЛИМАЦИЯ</span></div>
+    <h2 class="h-lg" data-en="Only the ones pointed at us" data-ru="Только те, что направлены на нас">Только те, что направлены на нас</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="E<sub>iso</sub> assumes the burst shines equally in every direction. It does not: the gamma rays come from two narrow jets moving at almost the speed of light. If each jet has a half-opening angle θ, together they light a fraction 1 − cos θ of the sky, and the true energy is that fraction of E<sub>iso</sub>. A sudden steepening in an afterglow's fading, the jet break, gives θ." data-ru="E<sub>iso</sub> предполагает, что всплеск светит одинаково во все стороны. Это не так: гамма-излучение идёт из двух узких струй, движущихся почти со скоростью света. Если у каждой струи полуугол раскрытия θ, вместе они освещают долю 1 − cos θ неба, и истинная энергия — это такая доля E<sub>iso</sub>. Угол θ даёт резкое ускорение угасания послесвечения — излом кривой блеска, связанный со струёй (джет-брейк).">E<sub>iso</sub> предполагает, что всплеск светит одинаково во все стороны. Это не так: гамма-излучение идёт из двух узких струй, движущихся почти со скоростью света. Если у каждой струи полуугол раскрытия θ, вместе они освещают долю 1 − cos θ неба, и истинная энергия — это такая доля E<sub>iso</sub>. Угол θ даёт резкое ускорение угасания послесвечения — излом кривой блеска, связанный со струёй (джет-брейк).</p>
+      <p class="body-col" data-en="In 2001 Dale Frail and colleagues applied this correction to bursts with measured jet breaks and found the energies, which spanned a wide range as E<sub>iso</sub>, narrowly clustered around <b>5 × 10<sup>50</sup> erg</b> [22]. The other side of the coin: for every burst aimed at us there are many more aimed elsewhere, which we never see. That was one sample of bursts, so read the cluster as a typical value, not a law." data-ru="В 2001 году Дейл Фрейл с коллегами применили эту поправку ко всплескам с измеренным изломом струи и обнаружили, что энергии, сильно различавшиеся как E<sub>iso</sub>, тесно группируются около <b>5 × 10<sup>50</sup> эрг</b> [22]. Обратная сторона: на каждый всплеск, направленный на нас, приходится много других, направленных в сторону, которых мы никогда не увидим. Это была одна выборка всплесков, поэтому считайте это типичным значением, а не законом.">В 2001 году Дейл Фрейл с коллегами применили эту поправку ко всплескам с измеренным изломом струи и обнаружили, что энергии, сильно различавшиеся как E<sub>iso</sub>, тесно группируются около <b>5 × 10<sup>50</sup> эрг</b> [22]. Обратная сторона: на каждый всплеск, направленный на нас, приходится много других, направленных в сторону, которых мы никогда не увидим. Это была одна выборка всплесков, поэтому считайте это типичным значением, а не законом.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="TWO JETS OF HALF-ANGLE θ" data-ru="ДВЕ СТРУИ С ПОЛУУГЛОМ θ">ДВЕ СТРУИ С ПОЛУУГЛОМ θ</div>
+      <div class="eq-body">f = 1 − cos θ &nbsp;·&nbsp; E<sub>true</sub> = f · E<sub>iso</sub> &nbsp;·&nbsp; bursts per one we see = 1/f</div>
+      <div class="eq-note" data-en="Two cones of half-angle θ cover a solid angle 2 × 2π(1 − cos θ) out of 4π. For small angles f ≈ θ²/2 with θ in radians." data-ru="Два конуса с полууглом θ покрывают телесный угол 2 × 2π(1 − cos θ) из 4π. Для малых углов f ≈ θ²/2, где θ — в радианах.">Два конуса с полууглом θ покрывают телесный угол 2 × 2π(1 − cos θ) из 4π. Для малых углов f ≈ θ²/2, где θ — в радианах.</div>
+    </div>
+    <div class="eyebrow" style="margin-top:32px;"><span data-en="INSTRUMENT 4 · NARROW JETS" data-ru="ПРИБОР 4 · УЗКИЕ СТРУИ">ПРИБОР 4 · УЗКИЕ СТРУИ</span></div>
+    <div class="sim-wrap">
+      <svg id="jetSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Two jets of the chosen opening angle and the energy they imply"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Starting energy" id="jetPre">
+          <button class="btn active" data-e="55.0792" aria-pressed="true" data-en="221009A, 1.2×10⁵⁵" data-ru="221009A, 1,2×10⁵⁵">221009A, 1,2×10⁵⁵</button>
+          <button class="btn" data-e="53" aria-pressed="false" data-en="TYPICAL LONG, 10⁵³" data-ru="ТИПИЧНЫЙ ДЛИННЫЙ, 10⁵³">ТИПИЧНЫЙ ДЛИННЫЙ, 10⁵³</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="jetE" data-en="ISOTROPIC ENERGY E_iso" data-ru="ИЗОТРОПНАЯ ЭНЕРГИЯ E_iso">ИЗОТРОПНАЯ ЭНЕРГИЯ E_iso</label><span class="v" id="jetEVal">—</span></div>
+          <input id="jetE" type="range" min="49" max="56" step="0.01" value="55.08">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="jetT" data-en="JET HALF-ANGLE θ" data-ru="ПОЛУУГОЛ СТРУИ θ">ПОЛУУГОЛ СТРУИ θ</label><span class="v" id="jetTVal">—</span></div>
+          <input id="jetT" type="range" min="1" max="30" step="0.5" value="5">
+        </div>
+        <div class="readout-grid" id="jetReadout"></div>
+        <div class="status" id="jetStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="The jet angle is your choice here, not a measurement of these bursts. The orange band marks 5 × 10⁵⁰ erg, the cluster Frail and colleagues found [22]. Drawing: the two cones to scale in angle, seen side-on." data-ru="Угол струи здесь задаёте вы — это не измерение для этих всплесков. Оранжевая полоса — 5 × 10⁵⁰ эрг, значение, около которого группировались энергии у Фрейла и коллег [22]. Рисунок: два конуса в масштабе по углу, вид сбоку.">Угол струи здесь задаёте вы — это не измерение для этих всплесков. Оранжевая полоса — 5 × 10⁵⁰ эрг, значение, около которого группировались энергии у Фрейла и коллег [22]. Рисунок: два конуса в масштабе по углу, вид сбоку.</p>
+  </div>
+</section>
+
+<!-- CH7 — SWIFT TODAY -->
+<section id="ch7" class="section" data-phase="LAST ORBITS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 09</span> — <span data-en="SWIFT IN OCTOBER 2026" data-ru="SWIFT В ОКТЯБРЕ 2026">SWIFT В ОКТЯБРЕ 2026</span></div>
+    <h2 class="h-lg" data-en="Swift's last orbits" data-ru="Последние витки Swift">Последние витки Swift</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Swift was launched on 20 November 2004 [2] and its burst table lists more than 1,700 bursts [23]. Its low orbit has been decaying faster than expected. In February 2026 its X-ray and ultraviolet/optical telescopes were switched off and it was turned to cut drag; BAT was halted in April [24]. A commercial servicer, Katalyst's LINK, launched in July 2026 to boost it, but attitude-control problems meant it could not capture Swift: the boost was called off on 19 August [25], and LINK itself re-entered on 25 September [26]." data-ru="Swift запущен 20 ноября 2004 года [2], и в его таблице всплесков их больше 1700 [23]. Его низкая орбита снижалась быстрее, чем ожидалось. В феврале 2026 года рентгеновский и ультрафиолетово-оптический телескопы отключили и развернули аппарат так, чтобы уменьшить сопротивление; BAT остановили в апреле [24]. Коммерческий сервисный аппарат LINK компании Katalyst был запущен в июле 2026 года, чтобы поднять орбиту, но из-за проблем с ориентацией не смог захватить Swift: от подъёма орбиты отказались 19 августа [25], а сам LINK вошёл в атмосферу 25 сентября [26].">Swift запущен 20 ноября 2004 года [2], и в его таблице всплесков их больше 1700 [23]. Его низкая орбита снижалась быстрее, чем ожидалось. В феврале 2026 года рентгеновский и ультрафиолетово-оптический телескопы отключили и развернули аппарат так, чтобы уменьшить сопротивление; BAT остановили в апреле [24]. Коммерческий сервисный аппарат LINK компании Katalyst был запущен в июле 2026 года, чтобы поднять орбиту, но из-за проблем с ориентацией не смог захватить Swift: от подъёма орбиты отказались 19 августа [25], а сам LINK вошёл в атмосферу 25 сентября [26].</p>
+      <p class="body-col" data-en="Swift went back to work anyway: the two telescopes returned on 26 August, BAT was detecting gamma rays again on 18 September, and automatic slews to new bursts resumed on 21 September, at about 325 km [24][27]. NASA expects it to sink below 300 km around early to mid-October, after which science will likely stop [27]; it is expected to re-enter the atmosphere later this year [26]. Fermi continues, and since 22 June 2024 the Chinese–French SVOM has been catching bursts with its own coded-mask telescope [28]." data-ru="И всё же Swift вернулся к работе: оба телескопа включили 26 августа, BAT снова регистрировал гамма-излучение 18 сентября, а автоматические развороты к новым всплескам возобновились 21 сентября, на высоте около 325 км [24][27]. NASA ожидает, что в начале или середине октября аппарат опустится ниже 300 км, после чего наблюдения, вероятно, прекратятся [27]; вход в атмосферу ожидается в этом году [26]. Fermi продолжает работу, а с 22 июня 2024 года всплески ловит и китайско-французский SVOM со своим телескопом с кодирующей маской [28].">И всё же Swift вернулся к работе: оба телескопа включили 26 августа, BAT снова регистрировал гамма-излучение 18 сентября, а автоматические развороты к новым всплескам возобновились 21 сентября, на высоте около 325 км [24][27]. NASA ожидает, что в начале или середине октября аппарат опустится ниже 300 км, после чего наблюдения, вероятно, прекратятся [27]; вход в атмосферу ожидается в этом году [26]. Fermi продолжает работу, а с 22 июня 2024 года всплески ловит и китайско-французский SVOM со своим телескопом с кодирующей маской [28].</p>
+    </div>
+    <p class="note" data-en="Status as of 11 October 2026, from NASA's Swift blog (latest post 25 September; re-checked on 11 October) and SpacePolicyOnline. Re-check: Swift may stop observing or re-enter at any time from mid-October 2026." data-ru="Статус на 11 октября 2026 года по блогу Swift (NASA, последняя запись 25 сентября; проверено снова 11 октября) и SpacePolicyOnline. Проверить снова: Swift может прекратить наблюдения или войти в атмосферу в любой момент начиная с середины октября 2026 года.">Статус на 11 октября 2026 года по блогу Swift (NASA, последняя запись 25 сентября; проверено снова 11 октября) и SpacePolicyOnline. Проверить снова: Swift может прекратить наблюдения или войти в атмосферу в любой момент начиная с середины октября 2026 года.</p>
+  </div>
+</section>
+
+<!-- CH8 — LEGACY -->
+<section id="ch8" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 09</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">НАСЛЕДИЕ</span></div>
+    <h2 class="h-lg" data-en="From a secret archive to the edge of the universe" data-ru="От секретного архива до края Вселенной">От секретного архива до края Вселенной</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Each step needed a new instrument: timing to say it was not Earth, a whole-sky map to say it was not the Galaxy, an afterglow to give a distance, and a fast-turning telescope to catch thousands more." data-ru="Каждому шагу требовался новый прибор: хронометраж — чтобы доказать, что это не Земля; карта всего неба — что это не Галактика; послесвечение — чтобы узнать расстояние; быстро разворачивающийся телескоп — чтобы поймать тысячи новых.">Каждому шагу требовался новый прибор: хронометраж — чтобы доказать, что это не Земля; карта всего неба — что это не Галактика; послесвечение — чтобы узнать расстояние; быстро разворачивающийся телескоп — чтобы поймать тысячи новых.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — REFERENCES -->
+<section id="ch9" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 09</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">ИСТОЧНИКИ</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Источники, на которые ссылается этот справочник</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* Browsers round a slider's value to its step, so a preset such as log10(196) would read back as 2.29 (195 m²).
+   Each range input keeps the exact value it was given until the user moves it. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var C_KMS = 299792.458, MPC_CM = 3.0856775814913673e24, GYR_S = 3.15576e16, LY_PER_MPC = 3.26156e6;
+var MSUN_C2 = 1.98847e33*Math.pow(2.99792458e10, 2);            /* Sun's rest-mass energy, erg */
+var PLANCK18 = {H0:67.36, Om:0.3153};                            /* flat ΛCDM, TT,TE,EE+lowE+lensing [17] */
+
+/* Fermi GBM T90 histogram: 0.05-dex bins from log10(T90/s) = −2.2, all 4,391 bursts with T90 > 0
+   in HEASARC FERMIGBRST, queried 11 October 2026 (July 2008 – 8 October 2026) [6] */
+var T90_LO = -2.2, T90_W = 0.05;
+var T90_HIST = [0,0,1,0,0,0,0,0,3,0,0,1,0,0,9,0,1,4,0,0,14,1,7,10,6,0,24,7,17,42,3,8,35,9,42,34,6,32,29,36,55,27,32,51,28,15,44,26,43,39,25,45,42,31,40,42,40,51,54,72,74,113,72,118,81,123,130,114,134,128,146,154,151,132,147,156,131,136,126,130,119,84,95,67,67,62,39,36,32,19,19,18,11,13,9,6,4,7,2,1,0,0,1,1,0,0,0,0,0,0,0,0];
+var T90_TOTAL = 4391, T90_SHORT_2S = 741;                          /* exact counts from the raw catalog */
+
+/* Record bursts: fluence S (erg/cm²), redshift z, published E_iso (erg) [15][18][19][20][21] */
+var BURSTS = {
+  boat:{name:'GRB 221009A', S:0.22, z:0.151, pub:1.2e55, pubZ:0.151, band:'20 keV–10 MeV'},
+  c16:{name:'GRB 080916C', S:2.4e-4, z:4.35, pub:8.8e54, pubZ:4.35, band:'10 keV–10 GeV'},
+  z82:{name:'GRB 090423', S:1.1e-6, z:8.2, pub:1.03e53, pubZ:8.1, band:'8–1000 keV'}
+};
+
+/* ============ NUMBER FORMATTING ============ */
+var SUPS = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'};
+function sci(x, d){
+  if(!(x > 0)) return '0';
+  var e = Math.floor(Math.log10(x)), m = x/Math.pow(10, e);
+  if(+m.toFixed(d) >= 10){ m /= 10; e += 1; }
+  return fmt(m, d) + ' × 10' + String(e).split('').map(function(c){ return SUPS[c]; }).join('');
+}
+
+/* ============ COSMOLOGY ============ */
+function Ez(z, c){ return Math.sqrt(c.Om*Math.pow(1 + z, 3) + (1 - c.Om)); }
+/* comoving distance, Mpc (Simpson's rule) */
+function comoving(z, c){
+  if(z <= 0) return 0;
+  var n = 400, s = 0;
+  for(var i = 0; i <= n; i++){ var w = (i === 0 || i === n) ? 1 : (i % 2 ? 4 : 2); s += w/Ez(z*i/n, c); }
+  return C_KMS/c.H0*s*z/(3*n);
+}
+function lumDist(z, c){ return (1 + z)*comoving(z, c); }
+/* age of a flat matter + Λ universe at redshift z, Gyr (closed form) */
+function ageAt(z, c){
+  var Hs = c.H0*1e5/MPC_CM, OL = 1 - c.Om;
+  return 2/(3*Hs*Math.sqrt(OL))*Math.asinh(Math.sqrt(OL/c.Om)*Math.pow(1 + z, -1.5))/GYR_S;
+}
+function eIso(S, z, c){ var d = lumDist(z, c)*MPC_CM; return 4*Math.PI*d*d*S/(1 + z); }
+
+/* ============ BEAMING ============ */
+function beamFrac(thetaDeg){ return 1 - Math.cos(thetaDeg*Math.PI/180); }
+
+/* ============ ISOTROPY MODEL ============ */
+/* Expected ⟨sin² b⟩ for sources uniform in a sphere of radius D around the Sun, kept within a slab |z| < h (h = 1). */
+function expSin2(D){
+  var k = Math.min(1, 1/D);
+  return k*k*(1/3 + Math.log(1/k))/(1.5 - 0.5*k*k);
+}
+function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0)/4294967296; }; }
+function sampleSky(mode, D, n, seed){
+  var r = rng(seed), out = [];
+  while(out.length < n){
+    if(mode === 'iso'){ out.push({u:2*r() - 1, l:2*Math.PI*r() - Math.PI}); continue; }
+    var x = 2*r() - 1, y = 2*r() - 1, z = 2*r() - 1, q = x*x + y*y + z*z;
+    if(q > 1 || q === 0) continue;
+    if(Math.abs(z*D) >= 1) continue;
+    var rr = Math.sqrt(q); out.push({u:z/rr, l:Math.atan2(y, x)});
+  }
+  return out;
+}
+function meanSin2(pts){ var s = 0; pts.forEach(function(p){ s += p.u*p.u; }); return s/pts.length; }
+function hammer(l, b){ var den = Math.sqrt(1 + Math.cos(b)*Math.cos(l/2)); return [2*Math.SQRT2*Math.cos(b)*Math.sin(l/2)/den, Math.SQRT2*Math.sin(b)/den]; }
+
+/* ============ T90 ============ */
+function t90Split(cutLog){
+  var k = Math.round((cutLog - T90_LO)/T90_W), s = 0;
+  for(var i = 0; i < k && i < T90_HIST.length; i++) s += T90_HIST[i];
+  return {shortN:s, longN:T90_TOTAL - s};
+}
+function num(n){ var s = fmtInt(n); return (lang === 'ru' && Math.abs(n) < 10000) ? s.replace(/\s/g, '') : s; }
+function secStr(v){ return v < 10 ? fmt(v, v < 1 ? 2 : 1) : fmtInt(v); }
+
+/* ============ CH2 — SKY ============ */
+var skyMode = 'disk', skySeed = 7, skyD = document.getElementById('skyD'), SKY_N = 600;
+function renderSky(){
+  var D = Math.pow(10, +skyD.value), pts = sampleSky(skyMode, D, SKY_N, skySeed), m = meanSin2(pts);
+  var expv = skyMode === 'iso' ? 1/3 : expSin2(D), sig = Math.sqrt(4/45/SKY_N);
+  var low = pts.filter(function(p){ return Math.abs(p.u) < Math.sin(10*Math.PI/180); }).length/SKY_N;
+  document.getElementById('skyDVal').textContent = skyMode === 'iso' ? '—' : (D < 10 ? fmt(D, 2) : num(D)) + ' ×';
+  skyD.setAttribute('aria-valuetext', (D < 10 ? fmt(D, 2) : num(D)) + T(' times the disk half-thickness',' полутолщины диска'));
+  document.getElementById('skyPre').setAttribute('aria-label', T('Population','Население'));
+  skyD.disabled = skyMode === 'iso';
+  var svg = document.getElementById('skySvg'); svg.innerHTML = '';
+  svg.setAttribute('aria-label', T('All-sky map of 600 simulated bursts in galactic coordinates; the Milky Way runs along the middle','Карта всего неба с 600 модельными всплесками в галактических координатах; Млечный Путь проходит посередине'));
+  var cx = 240, cy = 150, sx = 225/(2*Math.SQRT2), sy = 120/Math.SQRT2;
+  var e = ns('ellipse', {cx:cx, cy:cy, rx:225, ry:120, fill:'#fbfbf8', stroke:'#0b0b0c', 'stroke-width':1}, svg);
+  [-60, -30, 30, 60].forEach(function(bd){
+    var d = ''; for(var i = 0; i <= 60; i++){ var xy = hammer(-Math.PI + 2*Math.PI*i/60, bd*Math.PI/180); d += (i ? 'L' : 'M') + (cx - xy[0]*sx).toFixed(1) + ' ' + (cy - xy[1]*sy).toFixed(1); }
+    ns('path', {d:d, fill:'none', stroke:'#e4e4de'}, svg);
+  });
+  ns('line', {x1:cx - 225, y1:cy, x2:cx + 225, y2:cy, stroke:'#a8741a', 'stroke-width':1.5}, svg);
+  pts.forEach(function(p){ var xy = hammer(p.l, Math.asin(p.u)); ns('circle', {cx:(cx - xy[0]*sx).toFixed(1), cy:(cy - xy[1]*sy).toFixed(1), r:2.2, fill:'#2f5aa1', 'fill-opacity':0.75}, svg); });
+  txt(svg, cx + 6, cy - 6, T('Milky Way plane','плоскость Млечного Пути'), 'svg-small svg-halo');
+  txt(svg, 12, 292, T('galactic coordinates, Hammer projection · illustration','галактические координаты, проекция Хаммера · иллюстрация'), 'svg-small');
+  cells(document.getElementById('skyReadout'), [
+    [T('⟨sin² b⟩ IN THIS SAMPLE','⟨sin² b⟩ В ВЫБОРКЕ'), fmt(m, 3)],
+    [T('MODEL EXPECTS','МОДЕЛЬ ОЖИДАЕТ'), fmt(expv, 3)],
+    [T('EVEN SKY, ± 2 σ','РАВНОМЕРНОЕ НЕБО, ± 2 σ'), fmt(1/3, 3) + ' ± ' + fmt(2*sig, 3)],
+    [T('WITHIN 10° OF THE PLANE','В ПРЕДЕЛАХ 10° ОТ ПЛОСКОСТИ'), fmtInt(low*100) + ' % ' + T('(even sky: 17 %)','(равномерно: 17 %)')]
+  ]);
+  var even = Math.abs(m - 1/3) < 2*sig;
+  document.getElementById('skyStatus').textContent = skyMode === 'iso'
+    ? T('Sources spread through the universe: an even sky, as BATSE saw.','Источники по всей Вселенной: равномерное небо, как у BATSE.')
+    : even ? T('Even to this test: we see only nearby sources, well inside the disk, so the disk does not show. Look further and it will.','По этому тесту равномерно: видны лишь близкие источники глубоко внутри диска, и диск не проявляется. Посмотрите дальше — и он проявится.')
+    : T('The sources crowd towards the Milky Way. BATSE saw no such band, so bursts are not a disk population seen this far out.','Источники теснятся к Млечному Пути. BATSE такой полосы не видел — значит, всплески не дисковое население, видимое на такую глубину.');
+}
+skyD.addEventListener('input', renderSky);
+document.getElementById('skyNew').addEventListener('click', function(){ skySeed += 1; renderSky(); });
+Array.prototype.forEach.call(document.querySelectorAll('#skyPre .btn'), function(btn){ btn.addEventListener('click', function(){ skyMode = this.getAttribute('data-m'); pressGroup(this.parentNode, this); renderSky(); }); });
+
+/* ============ CH3 — T90 ============ */
+var t90Cut = document.getElementById('t90Cut');
+function renderT90(){
+  var c = +t90Cut.value, sp = t90Split(c), cutS = Math.pow(10, c);
+  document.getElementById('t90CutVal').textContent = secStr(cutS) + T(' s',' с');
+  t90Cut.setAttribute('aria-valuetext', secStr(cutS) + T(' seconds',' с'));
+  document.getElementById('t90Pre').setAttribute('aria-label', T('Dividing line','Граница'));
+  var svg = document.getElementById('t90Svg'); svg.innerHTML = '';
+  svg.setAttribute('aria-label', T('Histogram of 4,391 Fermi GBM burst durations on a logarithmic axis, with the chosen dividing line','Гистограмма 4391 длительности всплесков Fermi GBM на логарифмической оси с выбранной границей'));
+  var L = 52, R = 465, Tp = 28, B = 240, x0 = -2.2, x1 = 3.0, agg = [], i, ymax = 650;
+  for(i = 0; i < (x1 - x0)/0.2 - 1e-9; i++){ var s4 = 0; for(var j = 0; j < 4; j++) s4 += T90_HIST[i*4 + j] || 0; agg.push(s4); }
+  function X(lg){ return L + (lg - x0)/(x1 - x0)*(R - L); }
+  function Y(v){ return B - v/ymax*(B - Tp); }
+  [0, 200, 400, 600].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, num(v), 'svg-small', 'end'); });
+  agg.forEach(function(v, k){
+    var a = x0 + 0.2*k, isShort = a + 0.2 <= c + 1e-9, part = !isShort && a < c - 1e-9;
+    ns('rect', {x:X(a) + 0.5, y:Y(v), width:Math.max(0, X(a + 0.2) - X(a) - 1), height:B - Y(v), fill:isShort ? '#b5452a' : part ? '#9a8f7a' : '#2f5aa1'}, svg);
+  });
+  [-2, -1, 0, 1, 2, 3].forEach(function(lg){ ns('line', {x1:X(lg), y1:B, x2:X(lg), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(lg), B + 17, lg < 0 ? fmt(Math.pow(10, lg), -lg) : fmtInt(Math.pow(10, lg)), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  ns('line', {x1:X(c), y1:Tp - 6, x2:X(c), y2:B, stroke:'#0b0b0c', 'stroke-dasharray':'4 3', 'stroke-width':1.5}, svg);
+  txt(svg, X(c) - 6, Tp + 6, T('short','короткие'), 'svg-small svg-halo', 'end');
+  txt(svg, X(c) + 6, Tp + 6, T('long','длинные'), 'svg-small svg-halo', 'start');
+  txt(svg, L, 14, T('number of bursts','число всплесков'), 'svg-small');
+  txt(svg, R, B + 34, T('T90, seconds (log scale)','T90, секунды (лог. шкала)'), 'svg-small', 'end');
+  cells(document.getElementById('t90Readout'), [
+    [T('SHORT (BELOW THE LINE)','КОРОТКИЕ (ДО ГРАНИЦЫ)'), num(sp.shortN) + ' · ' + fmt(sp.shortN/T90_TOTAL*100, 1) + ' %'],
+    [T('LONG','ДЛИННЫЕ'), num(sp.longN) + ' · ' + fmt(sp.longN/T90_TOTAL*100, 1) + ' %'],
+    [T('ALL BURSTS WITH A T90','ВСЕ ВСПЛЕСКИ С T90'), num(T90_TOTAL), true]
+  ]);
+  hud2.textContent = num(sp.shortN) + ' / ' + num(T90_TOTAL);
+  document.getElementById('t90Status').textContent = Math.abs(c - 0.3) < 1e-9
+    ? T('At the usual 2 s line, 741 of 4,391 Fermi bursts are short. The bars show a small hump just under a second and a much larger one near half a minute, and they overlap.','При обычной границе 2 с короткие — 741 из 4391 всплеска Fermi. На столбцах видны небольшой горб чуть меньше секунды и гораздо больший — около полуминуты, и они перекрываются.')
+    : T('Moving the line shifts hundreds of bursts between the families: the dip between the two humps is shallow, so any single cut misclassifies some.','Сдвиг границы перебрасывает сотни всплесков из семейства в семейство: провал между горбами неглубокий, и любая граница часть всплесков относит не туда.');
+}
+t90Cut.addEventListener('input', function(){ pressGroup(document.getElementById('t90Pre'), null); renderT90(); });
+Array.prototype.forEach.call(document.querySelectorAll('#t90Pre .btn'), function(btn){ btn.addEventListener('click', function(){ t90Cut.value = this.getAttribute('data-t'); pressGroup(this.parentNode, this); renderT90(); }); });
+
+/* ============ CH4 — INSTRUMENT TABLE ============ */
+function renderInst(){
+  var rows = [
+    [T('Swift BAT','Swift BAT'), T('coded mask','кодирующая маска'), '15–150 keV', '1.4–2 sr', T('1–3′ (4′ design)','1–3′ (4′ по проекту)'), '≈ 80–90'],
+    [T('Swift XRT','Swift XRT'), T('grazing-incidence mirror','зеркало косого падения'), '0.3–10 keV', '23.6′ × 23.6′', '1–3″', T('follows BAT','по наводке BAT')],
+    [T('Fermi GBM','Fermi GBM'), T('detectors facing many ways','детекторы в разные стороны'), '8 keV–30 MeV', '8.8 sr', '≳ 1–10°', '≈ 235–240'],
+    [T('Fermi LAT','Fermi LAT'), T('pair-conversion telescope','телескоп с конверсией в электрон-позитронные пары'), T('20 MeV–>300 GeV','20 МэВ — >300 ГэВ'), '2.5 sr', '≤ 1°', '15–20']
+  ];
+  var head = [T('INSTRUMENT','ПРИБОР'), T('HOW IT IMAGES','КАК СТРОИТ ИЗОБРАЖЕНИЕ'), T('BAND','ДИАПАЗОН'), T('FIELD OF VIEW','ПОЛЕ ЗРЕНИЯ'), T('POSITION','ТОЧНОСТЬ ПОЛОЖЕНИЯ'), T('BURSTS / YEAR','ВСПЛЕСКОВ В ГОД')];
+  var ru = function(s){ return lang === 'ru' ? s.replace(/keV/g, 'кэВ').replace(/MeV/g, 'МэВ').replace(/GeV/g, 'ГэВ').replace(/ sr/g, ' ср').replace(/(\d)\.(\d)/g, '$1,$2') : s; };
+  document.getElementById('instTable').innerHTML = '<thead><tr>' + head.map(function(h){ return '<th scope="col">' + h + '</th>'; }).join('') + '</tr></thead><tbody>' +
+    rows.map(function(r){ return '<tr><th scope="row">' + r[0] + '</th><td>' + r[1] + '</td>' + r.slice(2).map(function(v){ return '<td class="n">' + ru(v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
+}
+
+/* ============ CH5 — ENERGY ============ */
+var enZ = document.getElementById('enZ'), enS = document.getElementById('enS'), enKey = 'boat';
+function renderEn(){
+  var z = Math.pow(10, +enZ.value), S = Math.pow(10, +enS.value), dl = lumDist(z, PLANCK18), E = eIso(S, z, PLANCK18);
+  var age = ageAt(z, PLANCK18), age0 = ageAt(0, PLANCK18);
+  document.getElementById('enZVal').textContent = fmt(z, z < 0.1 ? 3 : z < 1 ? 3 : 2);
+  document.getElementById('enSVal').textContent = sci(S, 2) + T(' erg/cm²',' эрг/см²');
+  enZ.setAttribute('aria-valuetext', 'z = ' + document.getElementById('enZVal').textContent);
+  enS.setAttribute('aria-valuetext', document.getElementById('enSVal').textContent);
+  document.getElementById('enPre').setAttribute('aria-label', T('Burst','Всплеск'));
+  var svg = document.getElementById('enSvg'); svg.innerHTML = '';
+  svg.setAttribute('aria-label', T('Isotropic energy against redshift for the chosen fluence, with three record bursts marked','Изотропная энергия в зависимости от красного смещения при выбранном флюенсе; отмечены три рекордных всплеска'));
+  var L = 56, R = 465, Tp = 26, B = 244, zl0 = -2, zl1 = 1.1, el0 = 46, el1 = 56;
+  function X(lz){ return L + (lz - zl0)/(zl1 - zl0)*(R - L); }
+  function Y(le){ return B - (le - el0)/(el1 - el0)*(B - Tp); }
+  for(var le = 46; le <= 56; le += 2){ ns('line', {x1:L, y1:Y(le), x2:R, y2:Y(le), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(le) + 4, '10' + String(le).split('').map(function(ch){ return SUPS[ch]; }).join(''), 'svg-small', 'end'); }
+  [-2, -1, 0, 1].forEach(function(lz){ ns('line', {x1:X(lz), y1:B, x2:X(lz), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(lz), B + 17, fmt(Math.pow(10, lz), lz < 0 ? -lz : 0), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  var ms = Math.log10(MSUN_C2);
+  ns('line', {x1:L, y1:Y(ms), x2:R, y2:Y(ms), stroke:'#a8741a', 'stroke-dasharray':'2 3'}, svg);
+  txt(svg, L + 4, Y(ms) - 4, T('Sun’s mass as energy, M☉c²','масса Солнца как энергия, M☉c²'), 'svg-small svg-halo');
+  var d = '', first = true;
+  for(var k = 0; k <= 120; k++){ var lz = zl0 + (zl1 - zl0)*k/120, ee = Math.log10(eIso(S, Math.pow(10, lz), PLANCK18)); if(ee < el0 || ee > el1){ first = true; continue; } d += (first ? 'M' : 'L') + X(lz).toFixed(1) + ' ' + Y(ee).toFixed(1); first = false; }
+  if(d) ns('path', {d:d, fill:'none', stroke:'#2f5aa1', 'stroke-width':1.5, 'stroke-dasharray':'5 4'}, svg);
+  Object.keys(BURSTS).forEach(function(key){
+    var b = BURSTS[key], px = X(Math.log10(b.pubZ)), py = Y(Math.log10(b.pub));
+    ns('rect', {x:px - 4, y:py - 4, width:8, height:8, fill:'#fff', stroke:'#0b0b0c', 'stroke-width':1.5}, svg);
+    txt(svg, px + (key === 'z82' ? -8 : 8), py - 8, b.name, 'svg-small svg-halo', key === 'z82' ? 'end' : 'start');
+  });
+  var le2 = Math.log10(E);
+  if(le2 >= el0 && le2 <= el1) ns('circle', {cx:X(Math.log10(z)), cy:Y(le2), r:6, fill:'#b5452a'}, svg);
+  txt(svg, L, 14, T('isotropic energy E_iso, erg','изотропная энергия E_iso, эрг'), 'svg-small');
+  txt(svg, R, B + 34, T('redshift z (log scale) · squares: published values','красное смещение z (лог. шкала) · квадраты: опубликованные значения'), 'svg-small', 'end');
+  var b = BURSTS[enKey], exact = b && Math.abs(z - b.z) < 1e-9 && Math.abs(S - b.S) < 1e-15*Math.max(1, b.S), Ecmp = exact ? eIso(S, b.pubZ, PLANCK18) : E;
+  var zStr = function(v){ return lang === 'ru' ? String(v).replace('.', ',') : String(v); };
+  var dGly = dl*LY_PER_MPC/1e9;
+  cells(document.getElementById('enReadout'), [
+    [T('LUMINOSITY DISTANCE','ФОТОМЕТРИЧЕСКОЕ РАССТОЯНИЕ'), num(dl) + T(' Mpc',' Мпк')],
+    [T('LIGHT LEFT WHEN THE UNIVERSE WAS','СВЕТ УШЁЛ, КОГДА ВСЕЛЕННОЙ БЫЛО'), age < 1 ? num(age*1000) + T(' million years',' млн лет') : fmt(age, 2) + T(' billion years',' млрд лет')],
+    [T('LIGHT TRAVEL TIME','ВРЕМЯ В ПУТИ'), fmt(age0 - age, 2) + T(' billion years',' млрд лет')],
+    [T('E_iso','E_iso'), sci(E, 2) + T(' erg',' эрг')],
+    [T('IN UNITS OF M☉c²','В ЕДИНИЦАХ M☉c²'), E/MSUN_C2 >= 0.01 ? fmt(E/MSUN_C2, 2) : sci(E/MSUN_C2, 1)],
+    [T('PUBLISHED','ОПУБЛИКОВАНО'), exact ? sci(b.pub, 2) + T(' erg (z = ',' эрг (z = ') + zStr(b.pubZ) + ')' : '—']
+  ]);
+  hud1.textContent = fmt(dGly, 1) + T(' Gly',' млрд св. лет');
+  hud2.textContent = sci(E, 1) + T(' erg',' эрг');
+  document.getElementById('enStatus').textContent = exact
+    ? (b.name + T(': at z = ',': при z = ') + zStr(b.pubZ) + T(' this simple estimate gives ',' эта простая оценка даёт ') + sci(Ecmp, 2) + T(' erg, ',' эрг — на ') + fmt(Math.abs(Ecmp/b.pub - 1)*100, 0) + T(' % from the published value, which also corrects for the detector’s energy band.',' % отличается от опубликованного значения, в котором учтён ещё и энергетический диапазон детектора.'))
+    : T('Move the same fluence further away and the energy needed to produce it climbs steeply, as the dashed curve shows.','Перенесите тот же флюенс дальше — и требуемая энергия резко растёт, как показывает пунктир.');
+}
+function enFree(){ enKey = null; pressGroup(document.getElementById('enPre'), null); renderEn(); }
+enZ.addEventListener('input', enFree); enS.addEventListener('input', enFree);
+Array.prototype.forEach.call(document.querySelectorAll('#enPre .btn'), function(btn){ btn.addEventListener('click', function(){
+  enKey = this.getAttribute('data-k'); var b = BURSTS[enKey]; enZ.value = Math.log10(b.z); enS.value = Math.log10(b.S); pressGroup(this.parentNode, this); renderEn(); }); });
+
+/* ============ CH6 — JETS ============ */
+var jetE = document.getElementById('jetE'), jetT = document.getElementById('jetT');
+function renderJet(){
+  var Ei = Math.pow(10, +jetE.value), th = +jetT.value, f = beamFrac(th), Et = f*Ei;
+  document.getElementById('jetEVal').textContent = sci(Ei, 2) + T(' erg',' эрг');
+  document.getElementById('jetTVal').textContent = fmt(th, 1) + '°';
+  jetE.setAttribute('aria-valuetext', document.getElementById('jetEVal').textContent);
+  jetT.setAttribute('aria-valuetext', fmt(th, 1) + T(' degrees',' градуса'));
+  document.getElementById('jetPre').setAttribute('aria-label', T('Starting energy','Начальная энергия'));
+  var svg = document.getElementById('jetSvg'); svg.innerHTML = '';
+  svg.setAttribute('aria-label', T('Two opposite jets of the chosen half-angle, and a scale comparing isotropic and true energy','Две противоположные струи с выбранным полууглом и шкала сравнения изотропной и истинной энергии'));
+  var cx = 130, cy = 140, Lj = 110, a = th*Math.PI/180;
+  [1, -1].forEach(function(s){
+    ns('path', {d:'M' + cx + ' ' + cy + ' L' + (cx + s*Lj*Math.cos(a)) + ' ' + (cy - Lj*Math.sin(a)) + ' A' + Lj + ' ' + Lj + ' 0 0 ' + (s > 0 ? 1 : 0) + ' ' + (cx + s*Lj*Math.cos(a)) + ' ' + (cy + Lj*Math.sin(a)) + ' Z', fill:'#b5452a', 'fill-opacity':0.35, stroke:'#b5452a'}, svg);
+  });
+  ns('circle', {cx:cx, cy:cy, r:Lj, fill:'none', stroke:'#c9c9c1', 'stroke-dasharray':'3 3'}, svg);
+  ns('circle', {cx:cx, cy:cy, r:4, fill:'#0b0b0c'}, svg);
+  txt(svg, cx, cy + Lj + 22, T('two jets, side view','две струи, вид сбоку'), 'svg-small', 'middle');
+  /* energy scale */
+  var X0 = 280, X1 = 460, l0 = 49, l1 = 56;
+  function Yv(le){ return 262 - (le - l0)/(l1 - l0)*230; }
+  ns('line', {x1:X0, y1:Yv(l0), x2:X0, y2:Yv(l1), stroke:'#0b0b0c'}, svg);
+  for(var le = 49; le <= 56; le++){ ns('line', {x1:X0 - 4, y1:Yv(le), x2:X0, y2:Yv(le), stroke:'#0b0b0c'}, svg); txt(svg, X0 - 8, Yv(le) + 4, '10' + String(le).split('').map(function(ch){ return SUPS[ch]; }).join(''), 'svg-small', 'end'); }
+  var fr = Math.log10(5e50);
+  ns('rect', {x:X0, y:Yv(fr + 0.15), width:X1 - X0, height:Yv(fr - 0.15) - Yv(fr + 0.15), fill:'#a8741a', 'fill-opacity':0.25}, svg);
+  txt(svg, X1, Yv(fr) + 16, T('Frail et al.: 5 × 10⁵⁰','Фрейл и др.: 5 × 10⁵⁰'), 'svg-small', 'end');
+  var yi = Yv(Math.log10(Ei)), yt = Yv(Math.max(l0, Math.log10(Et)));
+  ns('line', {x1:X0, y1:yi, x2:X1 - 70, y2:yi, stroke:'#2f5aa1', 'stroke-width':2}, svg);
+  txt(svg, X1 - 66, yi + 4, 'E_iso', 'svg-small', 'start');
+  ns('line', {x1:X0, y1:yt, x2:X1 - 70, y2:yt, stroke:'#b5452a', 'stroke-width':2}, svg);
+  txt(svg, X1 - 66, yt + 4, 'E_true', 'svg-small', 'start');
+  ns('line', {x1:X0 + 40, y1:yi, x2:X0 + 40, y2:yt, stroke:'#0b0b0c', 'stroke-dasharray':'2 3'}, svg);
+  txt(svg, X0, 20, T('energy, erg (log)','энергия, эрг (лог.)'), 'svg-small');
+  cells(document.getElementById('jetReadout'), [
+    [T('SKY LIT BY BOTH JETS','ДОЛЯ НЕБА ПОД ОБЕИМИ СТРУЯМИ'), f < 0.01 ? fmt(f*100, 2) + ' %' : fmt(f*100, 1) + ' %'],
+    [T('TRUE ENERGY','ИСТИННАЯ ЭНЕРГИЯ'), sci(Et, 2) + T(' erg',' эрг')],
+    [T('BURSTS PER ONE AIMED AT US','ВСПЛЕСКОВ НА ОДИН, НАПРАВЛЕННЫЙ НА НАС'), num(1/f)],
+    [T('TRUE ENERGY IN M☉c²','ИСТИННАЯ ЭНЕРГИЯ В M☉c²'), Et/MSUN_C2 >= 0.01 ? fmt(Et/MSUN_C2, 3) : sci(Et/MSUN_C2, 1)]
+  ]);
+  var ratio = Et/5e50;
+  document.getElementById('jetStatus').textContent = ratio > 3
+    ? T('Even beamed this way, the true energy is well above the 5 × 10⁵⁰ erg cluster: a narrower jet would bring it closer.','Даже с такой коллимацией истинная энергия заметно выше 5 × 10⁵⁰ эрг: более узкая струя приблизила бы её к этому значению.')
+    : ratio < 1/3 ? T('Beamed this narrowly, the true energy falls well below the cluster.','При такой узкой струе истинная энергия заметно ниже этого значения.')
+    : T('With this jet the true energy lands near the 5 × 10⁵⁰ erg that Frail and colleagues found typical.','С такой струёй истинная энергия близка к 5 × 10⁵⁰ эрг — типичному значению у Фрейла и коллег.');
+}
+jetE.addEventListener('input', function(){ pressGroup(document.getElementById('jetPre'), null); renderJet(); });
+jetT.addEventListener('input', renderJet);
+Array.prototype.forEach.call(document.querySelectorAll('#jetPre .btn'), function(btn){ btn.addEventListener('click', function(){ jetE.value = this.getAttribute('data-e'); pressGroup(this.parentNode, this); renderJet(); }); });
+
+/* ============ CH8 — TIMELINE ============ */
+var TIMELINE = [
+  ['1967', '<b>2 July:</b> Vela 4a and 4b record the first known gamma-ray burst [2].', '<b>2 июля:</b> «Вела-4А» и «Вела-4Б» регистрируют первый известный гамма-всплеск [2].'],
+  ['1973', 'Klebesadel, Strong and Olson publish sixteen bursts of cosmic origin [3].', 'Клебесадел, Стронг и Олсон публикуют шестнадцать всплесков космического происхождения [3].'],
+  ['1991', '<b>5 April:</b> the Compton Gamma Ray Observatory, carrying BATSE, is launched [2].', '<b>5 апреля:</b> запущена обсерватория «Комптон» с прибором BATSE [2].'],
+  ['1992', 'BATSE: bursts are spread evenly over the sky, and faint ones are too few [2][4].', 'BATSE: всплески равномерно распределены по небу, а слабых слишком мало [2][4].'],
+  ['1993', 'Kouveliotou and colleagues separate short and long bursts at about 2 s [5].', 'Кувелиоту с коллегами разделяет короткие и длинные всплески по границе около 2 с [5].'],
+  ['1997', 'BeppoSAX finds the first X-ray afterglow (GRB 970228); Keck spectra put GRB 970508 at redshift 0.835 or beyond [2][13].', 'BeppoSAX находит первое рентгеновское послесвечение (GRB 970228); спектры телескопа Кека помещают GRB 970508 на красное смещение 0,835 или дальше [2][13].'],
+  ['2003', '<b>29 March:</b> a long burst is followed, at the same spot, by a very energetic supernova [8].', '<b>29 марта:</b> за длинным всплеском в той же точке следует очень мощная сверхновая [8].'],
+  ['2004', '<b>20 November:</b> Swift is launched [2].', '<b>20 ноября:</b> запуск Swift [2].'],
+  ['2008', '<b>11 June:</b> Fermi is launched [2]. <b>16 September:</b> GRB 080916C, about 8.8 × 10⁵⁴ erg [19].', '<b>11 июня:</b> запуск Fermi [2]. <b>16 сентября:</b> GRB 080916C, около 8,8 × 10⁵⁴ эрг [19].'],
+  ['2009', '<b>23 April:</b> GRB 090423 at redshift about 8.2 [16].', '<b>23 апреля:</b> GRB 090423 с красным смещением около 8,2 [16].'],
+  ['2017', '<b>17 August:</b> GRB 170817A arrives 1.74 s after the neutron-star merger GW170817 [9].', '<b>17 августа:</b> GRB 170817A приходит через 1,74 с после слияния нейтронных звёзд GW170817 [9].'],
+  ['2022', '<b>9 October:</b> GRB 221009A, the brightest burst Fermi has seen [14].', '<b>9 октября:</b> GRB 221009A, самый яркий всплеск за всю работу Fermi [14].'],
+  ['2024', '<b>22 June:</b> SVOM is launched [28].', '<b>22 июня:</b> запуск SVOM [28].'],
+  ['2026', '<b>19 August:</b> the LINK boost is called off [25]; Swift resumes science while its orbit decays [27].', '<b>19 августа:</b> от подъёма орбиты аппаратом LINK отказываются [25]; Swift возобновляет наблюдения, пока его орбита снижается [27].']
+];
+
+/* ============ CH9 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'Los Alamos National Laboratory, “The mystery flash that changed astrophysics”, National Security Science', url:'https://www.lanl.gov/media/publications/national-security-science/0720-the-mystery-flash-that-changed-astrophysics', note:{en:'Vela detectors were built to monitor space for nuclear explosions; Klebesadel found the event in 1967 data from two satellites; the result was declassified before publication.', ru:'Детекторы «Вела» создавались для наблюдения за ядерными взрывами в космосе; Клебесадел нашёл событие в данных двух спутников за 1967 год; результат рассекретили до публикации.'}},
+  {title:'NASA HEASARC, “A History of Gamma-Ray Astronomy Including Related Discoveries”', url:'https://heasarc.gsfc.nasa.gov/docs/history/', note:{en:'Vela 4a,b launched 28 April 1967; first burst 2 July 1967; CGRO launched 5 April 1991; BATSE isotropy (1992); BeppoSAX afterglows and z = 0.835 for GRB 970508 (1997); Swift launched 20 November 2004; Fermi 11 June 2008.', ru:'«Вела-4a,b» запущены 28 апреля 1967 года; первый всплеск 2 июля 1967 года; «Комптон» запущен 5 апреля 1991 года; изотропия BATSE (1992); послесвечения BeppoSAX и z = 0,835 для GRB 970508 (1997); Swift запущен 20 ноября 2004 года; Fermi — 11 июня 2008 года.'}},
+  {title:'R. W. Klebesadel, I. B. Strong, R. A. Olson (1973), “Observations of Gamma-Ray Bursts of Cosmic Origin”, ApJ 182, L85 (INSPIRE record)', url:'https://inspirehep.net/literature/87981', note:{en:'Sixteen bursts at 0.2–1.5 MeV, July 1969 – July 1972, durations from under 0.1 s to 30 s; directions rule out the Earth and Sun.', ru:'Шестнадцать всплесков в диапазоне 0,2–1,5 МэВ, июль 1969 — июль 1972 года, длительность от менее 0,1 с до 30 с; направления исключают Землю и Солнце.'}},
+  {title:'NASA HEASARC, “CGRO SSC: BATSE All-Sky Plot of Gamma-Ray Burst Locations”', url:'https://heasarc.gsfc.nasa.gov/docs/cgro/cgro/batse_src.html', note:{en:'2,704 bursts in nine years; isotropic, no significant dipole or quadrupole; a deficiency of faint bursts; naturally explained at cosmological distances.', ru:'2704 всплеска за девять лет; изотропны, без значимого диполя или квадруполя; недостаток слабых всплесков; естественно объясняется космологическими расстояниями.'}},
+  {title:'C. Kouveliotou et al. (1993), “Identification of two classes of gamma-ray bursts”, ApJ 413, L101 (INSPIRE record)', url:'https://inspirehep.net/literature/370019', note:{en:'Bimodal BATSE durations: short (less than 2 s) and long (more than 2 s); short bursts predominantly harder.', ru:'Бимодальные длительности BATSE: короткие (менее 2 с) и длинные (более 2 с); короткие преимущественно жёстче.'}},
+  {title:'NASA HEASARC, FERMIGBRST — Fermi GBM Burst Catalog (queried 11 October 2026)', url:'https://heasarc.gsfc.nasa.gov/W3Browse/fermi/fermigbrst.html', note:{en:'4,391 bursts with T90 > 0, 14 July 2008 – 8 October 2026; 741 have T90 below 2 s. Queried via the HEASARC TAP service.', ru:'4391 всплеск с T90 > 0, 14 июля 2008 — 8 октября 2026 года; у 741 T90 меньше 2 с. Запрос через сервис TAP архива HEASARC.'}},
+  {title:'A. von Kienlin et al. (2020), “The Fourth Fermi-GBM Gamma-Ray Burst Catalog: A Decade of Data”, ApJ 893, 46', url:'https://arxiv.org/abs/2002.11460', note:{en:'Catalog methods, including T90 measured in 50–300 keV.', ru:'Методы каталога, в том числе T90, измеряемая в диапазоне 50–300 кэВ.'}},
+  {title:'J. Hjorth et al. (2003), “A very energetic supernova associated with the γ-ray burst of 29 March 2003”, Nature 423, 847', url:'https://arxiv.org/abs/astro-ph/0306347', note:{en:'A hypernova coincident in time and place with a burst at z = 0.1685 — support for the collapsar model.', ru:'Гиперновая, совпавшая по времени и месту со всплеском при z = 0,1685, — подтверждение модели коллапсара.'}},
+  {title:'B. P. Abbott et al. (2017), “Gravitational Waves and Gamma-Rays from a Binary Neutron Star Merger: GW170817 and GRB 170817A”, ApJL 848, L13', url:'https://arxiv.org/abs/1710.05834', note:{en:'Delay (+1.74 ± 0.05) s; host NGC 4993 at (42.9 ± 3.2) Mpc; E_iso ≈ 3–5 × 10⁴⁶ erg, orders of magnitude below other short bursts.', ru:'Задержка (+1,74 ± 0,05) с; родительская галактика NGC 4993 на расстоянии (42,9 ± 3,2) Мпк; E_iso ≈ 3–5 × 10⁴⁶ эрг — на порядки ниже других коротких всплесков.'}},
+  {title:'NASA Swift, “The Burst Alert Telescope (BAT)”', url:'https://swift.gsfc.nasa.gov/about_swift/bat_desc.html', note:{en:'15–150 keV imaging; 1.4 sr half-coded; 32,768 CdZnTe pieces; about 54,000 lead tiles, random 50 % open pattern, about 1 m above the detectors; 4′ centroiding; initial position within several seconds.', ru:'Изображения в диапазоне 15–150 кэВ; 1,4 ср при половинном кодировании; 32 768 элементов CdZnTe; около 54 000 свинцовых пластинок, случайный узор с 50 % открытых, примерно в 1 м над детекторами; точность 4′; первое положение за несколько секунд.'}},
+  {title:'NASA GCN, “Neil Gehrels Swift Observatory” mission table', url:'https://gcn.nasa.gov/missions/swift', note:{en:'BAT 15–350 keV, about 2 sr, ≤ 1–3′; XRT 0.3–10 keV, 23.6′ × 23.6′, 1–3″; BAT on-board triggers 70–80 long and 7–9 short bursts per year.', ru:'BAT 15–350 кэВ, около 2 ср, ≤ 1–3′; XRT 0,3–10 кэВ, 23,6′ × 23,6′, 1–3″; бортовых срабатываний BAT в год: 70–80 длинных и 7–9 коротких всплесков.'}},
+  {title:'NASA GCN, “Fermi Gamma-ray Space Telescope” mission table', url:'https://gcn.nasa.gov/missions/fermi', note:{en:'GBM 8 keV–30 MeV, 8.8 sr, ≳ 1–10°, about 200 long and 35–40 short bursts per year; LAT 20 MeV to over 300 GeV, 2.5 sr, ≤ 1°, 15–20 per year.', ru:'GBM 8 кэВ — 30 МэВ, 8,8 ср, ≳ 1–10°, около 200 длинных и 35–40 коротких всплесков в год; LAT от 20 МэВ до более 300 ГэВ, 2,5 ср, ≤ 1°, 15–20 в год.'}},
+  {title:'M. R. Metzger et al. (1997), “Spectral constraints on the redshift of the optical counterpart to the γ-ray burst of 8 May 1997”, Nature 387, 878 (Caltech record)', url:'https://resolver.caltech.edu/CaltechAUTHORS:20130419-091322811', note:{en:'Keck spectra show an absorption system at z = 0.835, so the burst lies at 0.835 ≲ z ≲ 2.3 — the first direct limits on a burst’s distance.', ru:'Спектры телескопа Кека показывают систему поглощения при z = 0,835, значит, всплеск находится при 0,835 ≲ z ≲ 2,3 — первые прямые ограничения на расстояние до всплеска.'}},
+  {title:'S. Lesage et al. (2023), “Fermi-GBM Discovery of GRB 221009A: An Extraordinarily Bright GRB from Onset to Afterglow”, ApJL 952, L42', url:'https://arxiv.org/abs/2303.14172', note:{en:'The highest-flux burst Fermi GBM has observed; E_iso = 1.0 × 10⁵⁵ erg at z = 0.151, the highest in the GBM sample.', ru:'Самый яркий по потоку всплеск за всю работу Fermi GBM; E_iso = 1,0 × 10⁵⁵ эрг при z = 0,151 — максимум в выборке GBM.'}},
+  {title:'D. D. Frederiks et al. (2023), “Properties of the extremely energetic GRB 221009A from Konus-WIND and SRG/ART-XC observations”, ApJL 949, L7', url:'https://arxiv.org/abs/2302.13383', note:{en:'Total fluence ≈ 0.22 erg/cm² (20 keV–10 MeV); at z = 0.151, E_iso ≈ 1.2 × 10⁵⁵ erg.', ru:'Полный флюенс ≈ 0,22 эрг/см² (20 кэВ — 10 МэВ); при z = 0,151 E_iso ≈ 1,2 × 10⁵⁵ эрг.'}},
+  {title:'N. R. Tanvir et al. (2009), “A γ-ray burst at a redshift of z ≈ 8.2”, Nature 461, 1254 (doi:10.1038/nature08459; arXiv preprint)', url:'https://arxiv.org/abs/0906.1577', note:{en:'Redshift about 8.2, about 630 million years after the Big Bang (the published Nature version; the preprint’s title gives 8.3).', ru:'Красное смещение около 8,2, примерно через 630 млн лет после Большого взрыва (опубликованная в Nature версия; в заголовке препринта — 8,3).'}},
+  {title:'Planck Collaboration (2020), “Planck 2018 results. VI. Cosmological parameters”, A&A 641, A6', url:'https://arxiv.org/abs/1807.06209', note:{en:'H₀ = 67.36 km/s/Mpc, Ω_m = 0.3153 (TT,TE,EE+lowE+lensing); age 13.797 Gyr.', ru:'H₀ = 67,36 км/с/Мпк, Ω_m = 0,3153 (TT,TE,EE+lowE+lensing); возраст 13,797 млрд лет.'}},
+  {title:'A. A. Abdo et al. (2009), “Fermi Observations of High-Energy Gamma-Ray Emission from GRB 080916C”, Science 323, 1688', url:'https://doi.org/10.1126/science.1169101', note:{en:'Fluence about 2.4 × 10⁻⁴ erg/cm² at 10 keV–10 GeV; with z ≈ 4.35, the largest apparent isotropic energy then known.', ru:'Флюенс около 2,4 × 10⁻⁴ эрг/см² в диапазоне 10 кэВ — 10 ГэВ; при z ≈ 4,35 — самая большая из известных тогда изотропных энергий.'}},
+  {title:'H. Tajima et al. (2009), “Fermi Observations of high-energy gamma-ray emissions from GRB 080916C”, arXiv:0907.0714', url:'https://arxiv.org/abs/0907.0714', note:{en:'z ≈ 4.35 from GROND; E_iso ≈ 8.8 × 10⁵⁴ erg.', ru:'z ≈ 4,35 по данным GROND; E_iso ≈ 8,8 × 10⁵⁴ эрг.'}},
+  {title:'A. von Kienlin (2009), “GRB 090423: Fermi GBM observation”, GCN Circular 9229', url:'https://gcn.nasa.gov/circulars/9229', note:{en:'Fluence (1.1 ± 0.3) × 10⁻⁶ erg/cm² at 8–1000 keV; T90 about 12 s.', ru:'Флюенс (1,1 ± 0,3) × 10⁻⁶ эрг/см² в диапазоне 8–1000 кэВ; T90 около 12 с.'}},
+  {title:'L. Nava et al. (2009), “GRB 090423: energetic, luminosity and jet break”, GCN Circular 9235', url:'https://gcn.nasa.gov/circulars/9235', note:{en:'From the Fermi parameters and z = 8.1, E_iso = 1.03 × 10⁵³ erg.', ru:'По параметрам Fermi и z = 8,1: E_iso = 1,03 × 10⁵³ эрг.'}},
+  {title:'D. A. Frail et al. (2001), “Beaming in gamma-ray bursts: evidence for a standard energy reservoir”, ApJ 562, L55', url:'https://arxiv.org/abs/astro-ph/0102282', note:{en:'Corrected for jet geometry, gamma-ray energies narrowly cluster around 5 × 10⁵⁰ erg.', ru:'С поправкой на геометрию струи энергии гамма-излучения тесно группируются около 5 × 10⁵⁰ эрг.'}},
+  {title:'NASA Swift, “Swift GRB Stats” (Swift GRB table)', url:'https://swift.gsfc.nasa.gov/archive/grb_table/stats/', note:{en:'Swift GRBs: 1,765 in the table.', ru:'Всплесков Swift в таблице: 1765.'}},
+  {title:'NASA Science (2026), “NASA’s Swift Restarts Science Observations”, 28 August 2026', url:'https://science.nasa.gov/blogs/swift/2026/08/28/nasas-swift-restarts-science-observations/', note:{en:'UVOT and XRT off since February to minimize drag; BAT halted in April; UVOT and XRT back on 26 August.', ru:'UVOT и XRT выключены с февраля, чтобы уменьшить сопротивление; BAT остановлен в апреле; UVOT и XRT включены снова 26 августа.'}},
+  {title:'NASA Science (2026), “NASA Updates Next Steps for Commercial Swift Boost Mission”, 19 August 2026', url:'https://science.nasa.gov/blogs/swift/2026/08/19/nasa-updates-next-steps-for-commercial-swift-boost-mission/', note:{en:'The LINK spacecraft will not capture or boost Swift to a higher altitude.', ru:'Аппарат LINK не будет захватывать Swift и поднимать его орбиту.'}},
+  {title:'SpacePolicyOnline (2026), “Swift Rescue Mission May Not Have Succeeded, But No Regrets”, 23 September 2026 (updated 26 September)', url:'https://spacepolicyonline.com/news/swift-rescue-mission-may-not-have-succeeded-but-no-regrets/', note:{en:'LINK did not reboost Swift and has re-entered (Katalyst: 25 September); Swift is expected to re-enter later this year; NASA had wanted to raise it to 600 km.', ru:'LINK не поднял Swift и уже вошёл в атмосферу (по данным Katalyst — 25 сентября); вход Swift в атмосферу ожидается в этом году; NASA хотело поднять его до 600 км.'}},
+  {title:'NASA Science (2026), “NASA’s Swift Powers On Third Instrument, Restarts Automated Slewing”, 25 September 2026', url:'https://science.nasa.gov/blogs/swift/2026/09/25/nasas-swift-powers-on-third-instrument-restarts-automated-slewing/', note:{en:'BAT detecting gamma rays again on 18 September; automated pointing from 21 September; about 325 km up; below 300 km (expected early to mid-October) science will likely cease.', ru:'BAT снова регистрирует гамма-излучение с 18 сентября; автоматическое наведение с 21 сентября; высота около 325 км; ниже 300 км (ожидается в начале — середине октября) наблюдения, вероятно, прекратятся.'}},
+  {title:'CNES / CNSA, “The SVOM mission”', url:'https://www.svom.eu/en/the-svom-mission/', note:{en:'Chinese–French gamma-ray burst mission launched on 22 June 2024 from Xichang; ECLAIRs coded-mask telescope.', ru:'Китайско-французская миссия для изучения гамма-всплесков, запущена 22 июня 2024 года с космодрома Сичан; телескоп ECLAIRs с кодирующей маской.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderSky(); renderT90(); renderInst(); renderEn(); renderJet();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+enZ.value = Math.log10(BURSTS.boat.z); enS.value = Math.log10(BURSTS.boat.S);   /* load in the pressed GRB 221009A preset */
+applyLang('en');
+window.__burst = {lumDist:lumDist, comoving:comoving, ageAt:ageAt, eIso:eIso, beamFrac:beamFrac, expSin2:expSin2, sampleSky:sampleSky, meanSin2:meanSin2,
+  t90Split:t90Split, hammer:hammer, sci:sci, PLANCK18:PLANCK18, BURSTS:BURSTS, T90_HIST:T90_HIST, T90_TOTAL:T90_TOTAL, T90_SHORT_2S:T90_SHORT_2S, MSUN_C2:MSUN_C2};
+
+})();
+</script>
+</body>
+</html>

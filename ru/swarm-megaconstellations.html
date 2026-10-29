@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="ru" data-edition="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мегасозвездия: Starlink, OneWeb и Amazon Leo — Аэрокосмический справочник</title>
+<meta name="description" content="В 1997 году Iridium понадобилось 66 спутников, чтобы покрыть всю Землю, — и через два года компания обанкротилась. На октябрь 2026 года у одной только SpaceX на орбите больше 11 000 спутников…">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/ru/swarm-megaconstellations">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Мегасозвездия: Starlink, OneWeb и Amazon Leo — Аэрокосмический справочник">
+<meta property="og:description" content="В 1997 году Iridium понадобилось 66 спутников, чтобы покрыть всю Землю, — и через два года компания обанкротилась. На октябрь 2026 года у одной только SpaceX на орбите больше 11 000 спутников…">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/ru/swarm-megaconstellations">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* SWARM: 44 px touch targets, readable small SVG text, data tables */
+.btn{min-height:44px; min-width:44px; padding:10px 12px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+.svg-small{fill:#5f5f59; font-size:10.5px;}
+.svg-halo{paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round;}
+.sw-tablewrap{overflow-x:auto; margin:28px 0 8px; border:1px solid var(--ink); background:var(--white);}
+.sw-table{width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:13px;}
+.sw-table th{text-align:left; font-weight:600; letter-spacing:.04em; text-transform:uppercase; font-size:11px; padding:10px 12px; border-bottom:1px solid var(--ink); background:#f6f6f2;}
+.sw-table td{padding:9px 12px; border-bottom:1px solid #e4e4de; white-space:nowrap;}
+.sw-table td:nth-child(n+2), .sw-table th:nth-child(n+2){text-align:right;}
+.sw-table tr.tot td{font-weight:700; border-top:1px solid var(--ink); border-bottom:none;}
+@media (max-width:520px){ .svg-small{font-size:13px;} .svg-label{font-size:14px;} .sw-table{font-size:12px;} .sw-table td, .sw-table th{padding:8px 8px;} }
+@media (pointer:coarse){
+  input[type=range]{background:transparent;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+.note + .grid-2{margin-top:36px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/swarm-megaconstellations">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/swarm-megaconstellations">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/swarm-megaconstellations">
+<!-- /hreflang -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Мегасозвездия: Starlink, OneWeb и Amazon Leo","description":"В 1997 году Iridium понадобилось 66 спутников, чтобы покрыть всю Землю, — и через два года компания обанкротилась. На октябрь 2026 года у одной только SpaceX на орбите больше 11 000 спутников…","url":"https://followorbounce.github.io/aerospace/ru/swarm-megaconstellations","mainEntityOfPage":"https://followorbounce.github.io/aerospace/ru/swarm-megaconstellations","image":"","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Аэрокосмический справочник","url":"https://followorbounce.github.io/aerospace/ru/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Аэрокосмический справочник","item":"https://followorbounce.github.io/aerospace/ru/"},{"@type":"ListItem","position":2,"name":"Мегасозвездия: Starlink, OneWeb и Amazon Leo","item":"https://followorbounce.github.io/aerospace/ru/swarm-megaconstellations"}]}</script>
+<!-- /fob-ld -->
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">SWARM — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="">EN</button>
+    <button data-lang="ru" class="active">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE SWARM</span></div>
+  <div class="hud-row"><span class="hud-label">SATELLITES</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">ROUND TRIP</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE SWARM">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/ru/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← ОГЛАВЛЕНИЕ</span></a> — <span data-en="FIG. 00 — 11,154 STARLINKS IN ORBIT, 15 OCTOBER 2026" data-ru="РИС. 00 — 11 154 СПУТНИКА STARLINK НА ОРБИТЕ, 15 ОКТЯБРЯ 2026">РИС. 00 — 11 154 СПУТНИКА STARLINK НА ОРБИТЕ, 15 ОКТЯБРЯ 2026</span></span>
+        <span>λ = arccos(R cos ε / r) − ε</span>
+      </div>
+      <h1><span data-en="SWARM" data-ru="РОЙ">РОЙ</span><br><em data-en="STARLINK, ONEWEB &amp; THE MEGA&shy;CONSTELLATIONS" data-ru="STARLINK, ONEWEB И МЕГА&shy;СОЗВЕЗДИЯ">STARLINK, ONEWEB И МЕГА­СОЗВЕЗДИЯ</em></h1>
+      <p class="sub lede" data-en="In 1997 Iridium needed 66 satellites to cover the whole Earth, and went bankrupt two years later. As of October 2026 a single company, SpaceX, has more than 11,000 Starlink satellites in orbit, and several rivals are racing to follow. Nine chapters and three instruments: find how few satellites it really takes to cover the planet — and why the biggest swarm is dozens of times larger than that; time a signal from London to New York through fibre, a geostationary satellite and a laser-linked low orbit; and point a telescope into twilight to see how many satellite streaks cross its picture." data-ru="В 1997 году Iridium понадобилось 66 спутников, чтобы покрыть всю Землю, — и через два года компания обанкротилась. На октябрь 2026 года у одной только SpaceX на орбите больше 11 000 спутников Starlink, и несколько соперников стремятся за ней. Девять глав и три прибора: узнайте, как мало спутников на самом деле нужно, чтобы покрыть планету, — и почему крупнейший рой в десятки раз больше; засеките время сигнала из Лондона в Нью-Йорк по оптоволокну, через геостационарный спутник и через низкую орбиту с лазерными связями; и наведите телескоп в сумерки, чтобы увидеть, сколько спутниковых треков пересечёт снимок.">В 1997 году Iridium понадобилось 66 спутников, чтобы покрыть всю Землю, — и через два года компания обанкротилась. На октябрь 2026 года у одной только SpaceX на орбите больше 11 000 спутников Starlink, и несколько соперников стремятся за ней. Девять глав и три прибора: узнайте, как мало спутников на самом деле нужно, чтобы покрыть планету, — и почему крупнейший рой в десятки раз больше; засеките время сигнала из Лондона в Нью-Йорк по оптоволокну, через геостационарный спутник и через низкую орбиту с лазерными связями; и наведите телескоп в сумерки, чтобы увидеть, сколько спутниковых треков пересечёт снимок.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">НАЧАТЬ — ГЛАВА 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — FIRST SWARMS -->
+<section id="ch1" class="section" data-phase="FIRST SWARMS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 09</span> — <span data-en="THE 1990s" data-ru="1990-Е">1990-Е</span></div>
+    <h2 class="h-lg" data-en="A triumph of engineering over common sense" data-ru="Триумф инженерии над здравым смыслом">Триумф инженерии над здравым смыслом</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Motorola's <b>Iridium</b> was the first satellite network meant to reach a handheld phone anywhere on Earth. Launches began on 5 May 1997 [7], and within a year 66 satellites were up, plus spares [1]. They fly in six polar planes of eleven satellites each, 780 km up at an inclination of 86.4°, each plane crossing the poles [2]. Their three large, silver-coated antennas also gave sky-watchers a show: for a few seconds a glint of sunlight — an <b>Iridium flare</b> — could outshine Venus [3]." data-ru="<b>Iridium</b> компании Motorola стал первой спутниковой сетью, рассчитанной на связь с карманным телефоном в любой точке Земли. Запуски начались 5 мая 1997 года [7], и за год на орбиту вывели 66 спутников плюс резервные [1]. Они летают в шести полярных плоскостях по одиннадцать спутников, на высоте 780 км с наклонением 86,4°, и каждая плоскость проходит над полюсами [2]. Их три большие посеребрённые антенны заодно устраивали представление для наблюдателей неба: на несколько секунд солнечный блик — <b>вспышка «Иридиума»</b> — мог затмить Венеру [3]."><b>Iridium</b> компании Motorola стал первой спутниковой сетью, рассчитанной на связь с карманным телефоном в любой точке Земли. Запуски начались 5 мая 1997 года [7], и за год на орбиту вывели 66 спутников плюс резервные [1]. Они летают в шести полярных плоскостях по одиннадцать спутников, на высоте 780 км с наклонением 86,4°, и каждая плоскость проходит над полюсами [2]. Их три большие посеребрённые антенны заодно устраивали представление для наблюдателей неба: на несколько секунд солнечный блик — <b>вспышка «Иридиума»</b> — мог затмить Венеру [3].</p>
+      <p class="body-col" data-en="The engineering worked; the business did not. Iridium had cost about $5 billion, offered calls from a brick-sized $3,000 phone at $6 to $30 a minute, and was bankrupt by August 1999 [1]. Its rival <b>Globalstar</b> — 48 satellites at 1,414 km, inclined 52° [4] — filed for bankruptcy on 15 February 2002 [5]. <b>Teledesic</b>, backed by Craig McCaw and Bill Gates, planned 840 satellites for an “Internet in the sky” costing $9 billion, shrank to about 300 and then 30, and suspended work in October 2002 without launching its constellation [6]." data-ru="Техника работала, бизнес — нет. Iridium обошёлся примерно в 5 млрд долларов, предлагал звонки с телефона размером с кирпич за 3000 долларов по цене от 6 до 30 долларов за минуту — и к августу 1999 года обанкротился [1]. Его соперник <b>Globalstar</b> — 48 спутников на высоте 1414 км с наклонением 52° [4] — подал заявление о банкротстве 15 февраля 2002 года [5]. <b>Teledesic</b>, за которым стояли Крейг Маккоу и Билл Гейтс, задумывал 840 спутников для «интернета в небе» стоимостью 9 млрд долларов, сократил план примерно до 300, затем до 30 и в октябре 2002 года остановил работы, так и не запустив созвездие [6].">Техника работала, бизнес — нет. Iridium обошёлся примерно в 5 млрд долларов, предлагал звонки с телефона размером с кирпич за 3000 долларов по цене от 6 до 30 долларов за минуту — и к августу 1999 года обанкротился [1]. Его соперник <b>Globalstar</b> — 48 спутников на высоте 1414 км с наклонением 52° [4] — подал заявление о банкротстве 15 февраля 2002 года [5]. <b>Teledesic</b>, за которым стояли Крейг Маккоу и Билл Гейтс, задумывал 840 спутников для «интернета в небе» стоимостью 9 млрд долларов, сократил план примерно до 300, затем до 30 и в октябре 2002 года остановил работы, так и не запустив созвездие [6].</p>
+    </div>
+    <p class="note" data-en="Both networks survived their owners: Iridium's satellites were bought out of bankruptcy for $25 million plus further investment [1], and its second generation, Iridium NEXT, completed its launches in January 2019 [2]. The chapter title is that article's verdict on Iridium and Globalstar [1]." data-ru="Обе сети пережили своих владельцев: спутники Iridium выкупили из банкротства за 25 млн долларов плюс последующие вложения [1], а второе поколение, Iridium NEXT, завершило запуски в январе 2019 года [2]. Заголовок главы — вердикт той же статьи об Iridium и Globalstar [1].">Обе сети пережили своих владельцев: спутники Iridium выкупили из банкротства за 25 млн долларов плюс последующие вложения [1], а второе поколение, Iridium NEXT, завершило запуски в январе 2019 года [2]. Заголовок главы — вердикт той же статьи об Iridium и Globalstar [1].</p>
+  </div>
+</section>
+
+<!-- CH2 — COVERAGE -->
+<section id="ch2" class="section" data-phase="COVERAGE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 09</span> — <span data-en="HOW MANY IS ENOUGH" data-ru="СКОЛЬКО ДОСТАТОЧНО">СКОЛЬКО ДОСТАТОЧНО</span></div>
+    <h2 class="h-lg" data-en="Footprints and streets of coverage" data-ru="Пятна обзора и «улицы покрытия»">Пятна обзора и «улицы покрытия»</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A satellite serves the circle of ground from which it stands at least a <b>minimum elevation</b> ε above the horizon; below that, buildings, hills and the long path through the air get in the way. The higher the orbit, the wider the circle — so a high constellation needs fewer satellites. Starlink is licensed to talk to user terminals down to 25°; the same FCC order, summarising a rival operator's filing, says OneWeb's terminals work down to 40° [8]." data-ru="Спутник обслуживает круг на земле, из которого он виден не ниже <b>минимального угла места</b> ε над горизонтом; ниже мешают здания, холмы и длинный путь сквозь атмосферу. Чем выше орбита, тем шире круг — и тем меньше спутников нужно созвездию. Starlink разрешено работать с абонентскими терминалами начиная с 25°; в том же решении FCC, со ссылкой на заявку другого оператора, сказано, что терминалы OneWeb работают начиная с 40° [8].">Спутник обслуживает круг на земле, из которого он виден не ниже <b>минимального угла места</b> ε над горизонтом; ниже мешают здания, холмы и длинный путь сквозь атмосферу. Чем выше орбита, тем шире круг — и тем меньше спутников нужно созвездию. Starlink разрешено работать с абонентскими терминалами начиная с 25°; в том же решении FCC, со ссылкой на заявку другого оператора, сказано, что терминалы OneWeb работают начиная с 40° [8].</p>
+      <p class="body-col" data-en="To cover the whole Earth continuously, the circles must overlap with no gaps. A perfect honeycomb of overlapping circles gives a lower bound. Real polar constellations use <b>streets of coverage</b>: satellites strung along each plane overlap into a continuous band, and neighbouring planes are spaced so the bands touch. Choose Iridium below — the street formula lands on six planes of eleven, exactly Iridium's layout [2]." data-ru="Чтобы непрерывно покрыть всю Землю, круги должны перекрываться без просветов. Идеальные соты из перекрывающихся кругов дают нижнюю границу. Реальные полярные созвездия используют <b>«улицы покрытия»</b>: спутники одной плоскости перекрываются в непрерывную полосу, а соседние плоскости разнесены так, чтобы полосы смыкались. Выберите Iridium — формула «улиц» даёт шесть плоскостей по одиннадцать спутников, ровно как у Iridium [2].">Чтобы непрерывно покрыть всю Землю, круги должны перекрываться без просветов. Идеальные соты из перекрывающихся кругов дают нижнюю границу. Реальные полярные созвездия используют <b>«улицы покрытия»</b>: спутники одной плоскости перекрываются в непрерывную полосу, а соседние плоскости разнесены так, чтобы полосы смыкались. Выберите Iridium — формула «улиц» даёт шесть плоскостей по одиннадцать спутников, ровно как у Iridium [2].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="FOOTPRINT AND STREETS OF COVERAGE (POLAR ORBITS, SPHERICAL EARTH)" data-ru="ПЯТНО ОБЗОРА И «УЛИЦЫ ПОКРЫТИЯ» (ПОЛЯРНЫЕ ОРБИТЫ, СФЕРИЧЕСКАЯ ЗЕМЛЯ)">ПЯТНО ОБЗОРА И «УЛИЦЫ ПОКРЫТИЯ» (ПОЛЯРНЫЕ ОРБИТЫ, СФЕРИЧЕСКАЯ ЗЕМЛЯ)</div>
+      <div class="eq-body">λ = arccos(R cos ε / (R + h)) − ε &nbsp;·&nbsp; cos λ = cos c · cos(π/S) &nbsp;·&nbsp; (P − 1)(λ + c) + 2c ≥ π</div>
+      <div class="eq-note" data-en="λ is the Earth-central angle from the sub-satellite point to the edge of the footprint, R = 6,378.137 km. With S satellites per plane, the overlapping circles form a street of half-width c; P planes moving the same way can sit λ + c apart, but at the seam, where neighbouring planes move in opposite directions, only 2c. The search picks the S and P with the smallest P × S. The honeycomb bound is 4π divided by the hexagon inscribed in each footprint. Simplifications: a spherical Earth, single coverage only, no capacity limit, and inclined shells (Starlink's 53°, Globalstar's 52°) are not polar, so for them the formula is only indicative." data-ru="λ — центральный угол от подспутниковой точки до края пятна, R = 6378,137 км. При S спутниках в плоскости перекрывающиеся круги образуют «улицу» полуширины c; P плоскостей, движущихся в одну сторону, можно разнести на λ + c, но на «шве», где соседние плоскости движутся навстречу, — только на 2c. Поиск выбирает S и P с наименьшим P × S. Граница «сот» — 4π, делённые на шестиугольник, вписанный в каждое пятно. Упрощения: Земля — шар, только однократное покрытие, без ограничения пропускной способности; наклонные оболочки (53° у Starlink, 52° у Globalstar) не полярные, и для них формула лишь ориентировочна.">λ — центральный угол от подспутниковой точки до края пятна, R = 6378,137 км. При S спутниках в плоскости перекрывающиеся круги образуют «улицу» полуширины c; P плоскостей, движущихся в одну сторону, можно разнести на λ + c, но на «шве», где соседние плоскости движутся навстречу, — только на 2c. Поиск выбирает S и P с наименьшим P × S. Граница «сот» — 4π, делённые на шестиугольник, вписанный в каждое пятно. Упрощения: Земля — шар, только однократное покрытие, без ограничения пропускной способности; наклонные оболочки (53° у Starlink, 52° у Globalstar) не полярные, и для них формула лишь ориентировочна.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="cvSvg" class="sim-svg" viewBox="0 0 480 345" role="img" aria-label="Cross-section of Earth with a satellite, its footprint, and the satellite count needed for continuous coverage" data-aria-en="Cross-section of Earth with a satellite, its footprint, and the satellite count needed for continuous coverage" data-aria-ru="Разрез Земли со спутником, его пятном обзора и числом спутников, нужным для непрерывного покрытия"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Constellation preset" data-aria-en="Constellation preset" data-aria-ru="Готовые созвездия" id="cvPre">
+          <button class="btn active" data-h="780" data-e="8.2" data-k="iri" aria-pressed="true">IRIDIUM</button>
+          <button class="btn" data-h="1200" data-e="40" data-k="ow" aria-pressed="false">ONEWEB</button>
+          <button class="btn" data-h="550" data-e="25" data-k="sl" aria-pressed="false">STARLINK 550</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="cvH" data-en="ALTITUDE" data-ru="ВЫСОТА">ВЫСОТА</label><span class="v" id="cvHVal">—</span></div>
+          <input id="cvH" type="range" min="300" max="2000" step="1" value="780">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="cvE" data-en="MINIMUM ELEVATION" data-ru="МИНИМАЛЬНЫЙ УГОЛ МЕСТА">МИНИМАЛЬНЫЙ УГОЛ МЕСТА</label><span class="v" id="cvEVal">—</span></div>
+          <input id="cvE" type="range" min="0" max="60" step="0.1" value="8.2">
+        </div>
+        <div class="readout-grid" id="cvReadout"></div>
+        <div class="status" id="cvStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Iridium's 8.2° minimum elevation is from a 1999 IEEE overview of the system [21]. It fits the layout: the street formula returns 6 × 11 for any mask from 7.0° to 8.2°, so 8.2° is the steepest mask the 66 satellites can still serve, and the spacings it gives — planes 31.5° apart, 23° at the seam — match the 31.6° and 22° that overview quotes [21]. The gap between the coverage minimum and the real fleets is the subject of the next chapter: coverage is cheap, capacity is not." data-ru="Минимальный угол места Iridium 8,2° взят из обзора системы в журнале IEEE 1999 года [21]. Он согласуется с конфигурацией: формула «улиц» даёт 6 × 11 при любом угле от 7,0° до 8,2°, то есть 8,2° — самый крутой угол, который 66 спутников ещё обслуживают, а получающиеся интервалы — 31,5° между плоскостями и 23° на «шве» — совпадают с 31,6° и 22° из того же обзора [21]. Разрыву между минимумом для покрытия и реальными группировками посвящена следующая глава: покрытие дёшево, пропускная способность — нет.">Минимальный угол места Iridium 8,2° взят из обзора системы в журнале IEEE 1999 года [21]. Он согласуется с конфигурацией: формула «улиц» даёт 6 × 11 при любом угле от 7,0° до 8,2°, то есть 8,2° — самый крутой угол, который 66 спутников ещё обслуживают, а получающиеся интервалы — 31,5° между плоскостями и 23° на «шве» — совпадают с 31,6° и 22° из того же обзора [21]. Разрыву между минимумом для покрытия и реальными группировками посвящена следующая глава: покрытие дёшево, пропускная способность — нет.</p>
+  </div>
+</section>
+
+<!-- CH3 — STARLINK -->
+<section id="ch3" class="section" data-phase="STARLINK">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 09</span> — <span data-en="SHELLS, LASERS AND DRAG" data-ru="ОБОЛОЧКИ, ЛАЗЕРЫ И СОПРОТИВЛЕНИЕ">ОБОЛОЧКИ, ЛАЗЕРЫ И СОПРОТИВЛЕНИЕ</span></div>
+    <h2 class="h-lg" data-en="Thousands of satellites for capacity, not coverage" data-ru="Тысячи спутников — ради пропускной способности, а не покрытия">Тысячи спутников — ради пропускной способности, а не покрытия</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The first 60 Starlink satellites went up on a single Falcon 9 on 24 May 2019 [7]. A 2021 FCC order describes the first-generation plan: 1,584 satellites at 550 km and 53°, in 72 planes of 22, plus shells at 540, 560 and 570 km, inclined 53.2°, 97.6° and 70° [8]. In practice SpaceX has since moved most satellites lower. As of 15 October 2026 Jonathan McDowell counts <b>13,015 Starlinks launched, 11,154 still in orbit and 9,726 in operational shells</b> [9]." data-ru="Первые 60 спутников Starlink вывел на орбиту один Falcon 9 24 мая 2019 года [7]. Решение FCC 2021 года описывает план первого поколения: 1584 спутника на высоте 550 км с наклонением 53° в 72 плоскостях по 22, плюс оболочки на 540, 560 и 570 км с наклонениями 53,2°, 97,6° и 70° [8]. На практике SpaceX с тех пор перевела большинство спутников ниже. На 15 октября 2026 года, по подсчёту Джонатана Макдауэлла, <b>запущено 13 015 спутников Starlink, на орбите остаются 11 154, в рабочих оболочках — 9726</b> [9].">Первые 60 спутников Starlink вывел на орбиту один Falcon 9 24 мая 2019 года [7]. Решение FCC 2021 года описывает план первого поколения: 1584 спутника на высоте 550 км с наклонением 53° в 72 плоскостях по 22, плюс оболочки на 540, 560 и 570 км с наклонениями 53,2°, 97,6° и 70° [8]. На практике SpaceX с тех пор перевела большинство спутников ниже. На 15 октября 2026 года, по подсчёту Джонатана Макдауэлла, <b>запущено 13 015 спутников Starlink, на орбите остаются 11 154, в рабочих оболочках — 9726</b> [9].</p>
+      <p class="body-col" data-en="Why so many, when Chapter 2 says a few hundred would cover the planet? Because each satellite can serve only so many customers inside its footprint. More satellites, lower down, mean smaller cells, more capacity per square kilometre and shorter paths. Since the v1.5 satellites, Starlinks also talk to each other by <b>laser</b>: in January 2024 a SpaceX engineer reported more than 9,000 lasers carrying over 42 petabytes a day, with 100 Gbit/s links up to 5,400 km long [11]. Lasers let a signal cross an ocean without a ground station below." data-ru="Зачем так много, если, по главе 2, планету покрыли бы несколько сотен? Потому что каждый спутник может обслужить ограниченное число абонентов в своём пятне. Больше спутников и ниже — значит меньше ячейки, больше пропускной способности на квадратный километр и короче пути. Начиная с версии v1.5 спутники Starlink связываются друг с другом <b>лазером</b>: в январе 2024 года инженер SpaceX сообщил о более чем 9000 лазеров, передающих свыше 42 петабайт в сутки, с каналами 100 Гбит/с длиной до 5400 км [11]. Лазеры позволяют сигналу пересечь океан без наземной станции внизу.">Зачем так много, если, по главе 2, планету покрыли бы несколько сотен? Потому что каждый спутник может обслужить ограниченное число абонентов в своём пятне. Больше спутников и ниже — значит меньше ячейки, больше пропускной способности на квадратный километр и короче пути. Начиная с версии v1.5 спутники Starlink связываются друг с другом <b>лазером</b>: в январе 2024 года инженер SpaceX сообщил о более чем 9000 лазеров, передающих свыше 42 петабайт в сутки, с каналами 100 Гбит/с длиной до 5400 км [11]. Лазеры позволяют сигналу пересечь океан без наземной станции внизу.</p>
+    </div>
+    <div class="sw-tablewrap"><table class="sw-table" id="shellTable"></table></div>
+    <p class="note" data-en="Operational Starlink satellites by shell as McDowell groups them, 15 October 2026 [10]. Altitudes are the shells actually occupied, which often differ from the licensed ones." data-ru="Рабочие спутники Starlink по оболочкам в группировке Макдауэлла, 15 октября 2026 года [10]. Высоты — фактически занятые оболочки, которые часто отличаются от разрешённых.">Рабочие спутники Starlink по оболочкам в группировке Макдауэлла, 15 октября 2026 года [10]. Высоты — фактически занятые оболочки, которые часто отличаются от разрешённых.</p>
+    <div class="grid-2">
+      <p class="body-col" data-en="Low orbits clean themselves. New Starlinks are released low and raise their own orbits; a satellite that fails there soon falls back, and even the operational shells near 480 km decay in years rather than centuries once a satellite stops manoeuvring — the physics is worked through in <a href='/aerospace/debris-space-junk'>DEBRIS</a>. Of the 1,861 Starlinks no longer in orbit, McDowell lists 1,508 as deliberately lowered for disposal [9]." data-ru="Низкие орбиты самоочищаются. Новые Starlink выпускают низко, и они сами поднимают орбиту; отказавший там спутник вскоре падает, и даже рабочие оболочки около 480 км, если спутник перестал маневрировать, распадаются за годы, а не за века — физика разобрана в <a href='/aerospace/debris-space-junk'>ОБЛОМКАХ</a>. Из 1861 спутника Starlink, которых уже нет на орбите, 1508 Макдауэлл относит к намеренно сведённым для утилизации [9].">Низкие орбиты самоочищаются. Новые Starlink выпускают низко, и они сами поднимают орбиту; отказавший там спутник вскоре падает, и даже рабочие оболочки около 480 км, если спутник перестал маневрировать, распадаются за годы, а не за века — физика разобрана в <a href='/aerospace/debris-space-junk'>ОБЛОМКАХ</a>. Из 1861 спутника Starlink, которых уже нет на орбите, 1508 Макдауэлл относит к намеренно сведённым для утилизации [9].</p>
+      <p class="body-col" data-en="The same drag bit back on 3 February 2022, when 49 satellites were released with a perigee of about 210 km [25] just as moderate geomagnetic storms heated the upper atmosphere. Air drag at about 200 km rose by up to 50 %, the satellites could not climb out, and <b>38 of the 49</b> re-entered [12][9]." data-ru="То же сопротивление ударило 3 февраля 2022 года, когда 49 спутников выпустили с перигеем около 210 км [25] — как раз когда умеренные геомагнитные бури нагрели верхнюю атмосферу. Сопротивление воздуха на высоте около 200 км выросло до 50 %, спутники не смогли подняться, и <b>38 из 49</b> вошли в атмосферу [12][9].">То же сопротивление ударило 3 февраля 2022 года, когда 49 спутников выпустили с перигеем около 210 км [25] — как раз когда умеренные геомагнитные бури нагрели верхнюю атмосферу. Сопротивление воздуха на высоте около 200 км выросло до 50 %, спутники не смогли подняться, и <b>38 из 49</b> вошли в атмосферу [12][9].</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — LATENCY -->
+<section id="ch4" class="section" data-phase="LATENCY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 09</span> — <span data-en="THE SPEED OF LIGHT, TWICE" data-ru="СКОРОСТЬ СВЕТА — ДВАЖДЫ">СКОРОСТЬ СВЕТА — ДВАЖДЫ</span></div>
+    <h2 class="h-lg" data-en="Low orbit beats geostationary — and sometimes glass" data-ru="Низкая орбита обгоняет геостационарную — а иногда и стекло">Низкая орбита обгоняет геостационарную — а иногда и стекло</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A geostationary satellite hangs 35,786 km up, so a signal from you to it and down to a gateway, and the reply back the same way, travels at least four times that distance: <b>about 477 ms</b> before any processing. Why that one high orbit was worth the delay — a single satellite that hangs still in the sky and sees more than a third of the planet — is the story of <a href='/aerospace/relay-telstar-syncom'>RELAY</a>. A Starlink at 480–550 km adds only 3–4 ms each way. In its latest published figure, SpaceX reports a median peak-hour latency of 25.7 ms across its US customers as of June 2025, with fewer than 1 % of measurements above 55 ms [13]." data-ru="Геостационарный спутник висит на высоте 35 786 км, поэтому сигнал от вас к нему и вниз к шлюзу, а ответ обратно тем же путём проходят как минимум четыре таких расстояния: <b>около 477 мс</b> ещё до всякой обработки. Почему эта единственная высокая орбита стоила такой задержки — один спутник неподвижно висит в небе и видит больше трети планеты, — рассказано в <a href='/aerospace/relay-telstar-syncom'>РЕТРАНСЛЯТОРЕ</a>. Спутник Starlink на 480–550 км добавляет лишь 3–4 мс в каждую сторону. В последних опубликованных данных SpaceX сообщает медианную задержку в часы пик 25,7 мс для своих абонентов в США на июнь 2025 года, причём менее 1 % измерений превышают 55 мс [13].">Геостационарный спутник висит на высоте 35 786 км, поэтому сигнал от вас к нему и вниз к шлюзу, а ответ обратно тем же путём проходят как минимум четыре таких расстояния: <b>около 477 мс</b> ещё до всякой обработки. Почему эта единственная высокая орбита стоила такой задержки — один спутник неподвижно висит в небе и видит больше трети планеты, — рассказано в <a href='/aerospace/relay-telstar-syncom'>РЕТРАНСЛЯТОРЕ</a>. Спутник Starlink на 480–550 км добавляет лишь 3–4 мс в каждую сторону. В последних опубликованных данных SpaceX сообщает медианную задержку в часы пик 25,7 мс для своих абонентов в США на июнь 2025 года, причём менее 1 % измерений превышают 55 мс [13].</p>
+      <p class="body-col" data-en="Over long distances something stranger happens. Light in glass fibre travels at only about c/1.47 [14], while a laser between satellites travels at c through vacuum. The detour up to orbit and down again is soon repaid: a 2018 simulation by Mark Handley concluded that a laser-linked constellation could beat any possible fibre network beyond about 3,000 km [14]. His constellation was the one SpaceX had filed at the time, 1,600 satellites at 1,150 km. The instrument below uses a simpler, deliberately pessimistic path — straight up, along the shell, straight down — which at 550 km breaks even with fibre at about 2,900 km, and at 1,150 km only near 8,000 km; real terminals reach satellites at a slant, which shortens the climb. Try the city pairs below." data-ru="На больших расстояниях происходит нечто ещё более странное. Свет в оптоволокне идёт лишь со скоростью около c/1,47 [14], а лазерный луч между спутниками — со скоростью c в вакууме. Крюк на орбиту и обратно быстро окупается: в моделировании 2018 года Марк Хэндли пришёл к выводу, что созвездие с лазерными связями может обогнать любую возможную оптоволоконную сеть на расстояниях более 3000 км [14]. Его созвездие — то, что SpaceX тогда заявляла: 1600 спутников на высоте 1150 км. Прибор ниже использует более простой и намеренно пессимистичный путь — вертикально вверх, вдоль оболочки и вертикально вниз; на 550 км он сравнивается с оптоволокном примерно на 2900 км, а на 1150 км — лишь около 8000 км: реальные терминалы связываются со спутниками под углом, и подъём короче. Попробуйте пары городов ниже.">На больших расстояниях происходит нечто ещё более странное. Свет в оптоволокне идёт лишь со скоростью около c/1,47 [14], а лазерный луч между спутниками — со скоростью c в вакууме. Крюк на орбиту и обратно быстро окупается: в моделировании 2018 года Марк Хэндли пришёл к выводу, что созвездие с лазерными связями может обогнать любую возможную оптоволоконную сеть на расстояниях более 3000 км [14]. Его созвездие — то, что SpaceX тогда заявляла: 1600 спутников на высоте 1150 км. Прибор ниже использует более простой и намеренно пессимистичный путь — вертикально вверх, вдоль оболочки и вертикально вниз; на 550 км он сравнивается с оптоволокном примерно на 2900 км, а на 1150 км — лишь около 8000 км: реальные терминалы связываются со спутниками под углом, и подъём короче. Попробуйте пары городов ниже.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="ONE-WAY PATHS (ROUND TRIP = 2 ×)" data-ru="ПУТЬ В ОДНУ СТОРОНУ (ТУДА И ОБРАТНО = 2 ×)">ПУТЬ В ОДНУ СТОРОНУ (ТУДА И ОБРАТНО = 2 ×)</div>
+      <div class="eq-body">fibre: 1.47 · k · d / c &nbsp;·&nbsp; LEO laser: (2h + (R + h)·d/R) / c &nbsp;·&nbsp; GEO: (ρ<sub>A</sub> + ρ<sub>B</sub>) / c</div>
+      <div class="eq-note" data-en="d is the great-circle distance on a sphere of radius R = 6,371 km; k is the ratio of the real cable route to the great circle (1 = a perfectly straight cable). The LEO laser path goes straight up, along the shell and straight down — an ideal; a real mesh zig-zags between planes. Bent pipe (“LEO + fibre” in the chart): up to a satellite and down to a gateway near the user (2h), then fibre. GEO: ρ are the slant ranges from each city to one geostationary satellite over the midpoint longitude; if a city cannot see it, the route is split into two or more hops through ground relays along the great circle. Processing, queueing and routing delays are ignored." data-ru="d — расстояние по дуге большого круга на сфере радиусом R = 6371 км; k — отношение длины реальной кабельной трассы к дуге большого круга (1 — идеально прямой кабель). Лазерный путь на НОО идёт вертикально вверх, вдоль оболочки и вертикально вниз — идеал; реальная сеть петляет между плоскостями. «Прозрачный ретранслятор» («НОО + волокно» на графике): вверх к спутнику и вниз к шлюзу возле абонента (2h), дальше по оптоволокну. ГСО: ρ — наклонные дальности от каждого города до одного геостационарного спутника над средней долготой; если город его не видит, маршрут делится на два и более скачка через наземные ретрансляторы вдоль дуги большого круга. Задержки обработки, очередей и маршрутизации не учитываются.">d — расстояние по дуге большого круга на сфере радиусом R = 6371 км; k — отношение длины реальной кабельной трассы к дуге большого круга (1 — идеально прямой кабель). Лазерный путь на НОО идёт вертикально вверх, вдоль оболочки и вертикально вниз — идеал; реальная сеть петляет между плоскостями. «Прозрачный ретранслятор» («НОО + волокно» на графике): вверх к спутнику и вниз к шлюзу возле абонента (2h), дальше по оптоволокну. ГСО: ρ — наклонные дальности от каждого города до одного геостационарного спутника над средней долготой; если город его не видит, маршрут делится на два и более скачка через наземные ретрансляторы вдоль дуги большого круга. Задержки обработки, очередей и маршрутизации не учитываются.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="ltSvg" class="sim-svg" viewBox="0 0 480 300" role="img" aria-label="Round-trip time for fibre, low-orbit and geostationary paths between two cities" data-aria-en="Round-trip time for fibre, low-orbit and geostationary paths between two cities" data-aria-ru="Время «туда и обратно» по оптоволокну, через низкую и через геостационарную орбиту между двумя городами"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="City pair" data-aria-en="City pair" data-aria-ru="Пара городов" id="ltPair">
+          <button class="btn active" data-p="0" aria-pressed="true" data-en="LONDON–NEW YORK" data-ru="ЛОНДОН–НЬЮ-ЙОРК">ЛОНДОН–НЬЮ-ЙОРК</button>
+          <button class="btn" data-p="1" aria-pressed="false" data-en="FRANKFURT–SINGAPORE" data-ru="ФРАНКФУРТ–СИНГАПУР">ФРАНКФУРТ–СИНГАПУР</button>
+          <button class="btn" data-p="2" aria-pressed="false" data-en="LOS ANGELES–SYDNEY" data-ru="ЛОС-АНДЖЕЛЕС–СИДНЕЙ">ЛОС-АНДЖЕЛЕС–СИДНЕЙ</button>
+          <button class="btn" data-p="3" aria-pressed="false" data-en="TOKYO–SÃO PAULO" data-ru="ТОКИО–САН-ПАУЛУ">ТОКИО–САН-ПАУЛУ</button>
+          <button class="btn" data-p="4" aria-pressed="false" data-en="LONDON–PARIS" data-ru="ЛОНДОН–ПАРИЖ">ЛОНДОН–ПАРИЖ</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="ltH" data-en="LEO ALTITUDE" data-ru="ВЫСОТА НОО">ВЫСОТА НОО</label><span class="v" id="ltHVal">—</span></div>
+          <input id="ltH" type="range" min="340" max="1300" step="1" value="550">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="ltK" data-en="CABLE ROUTE ÷ GREAT CIRCLE" data-ru="КАБЕЛЬНАЯ ТРАССА ÷ ДУГА БОЛЬШОГО КРУГА">КАБЕЛЬНАЯ ТРАССА ÷ ДУГА БОЛЬШОГО КРУГА</label><span class="v" id="ltKVal">—</span></div>
+          <input id="ltK" type="range" min="1" max="2" step="0.01" value="1">
+        </div>
+        <div class="readout-grid" id="ltReadout"></div>
+        <div class="status" id="ltStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="City coordinates are city centres rounded to 0.01°. The geostationary altitude is computed from Kepler's third law for one sidereal day (86,164.09 s) and μ = 398,600.4418 km³/s²." data-ru="Координаты — центры городов, округлённые до 0,01°. Высота геостационарной орбиты вычислена по третьему закону Кеплера для звёздных суток (86 164,09 с) и μ = 398 600,4418 км³/с².">Координаты — центры городов, округлённые до 0,01°. Высота геостационарной орбиты вычислена по третьему закону Кеплера для звёздных суток (86 164,09 с) и μ = 398 600,4418 км³/с².</p>
+  </div>
+</section>
+
+<!-- CH5 — THE OTHERS -->
+<section id="ch5" class="section" data-phase="THE OTHERS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 09</span> — <span data-en="ONEWEB, AMAZON LEO, GUOWANG, QIANFAN" data-ru="ONEWEB, AMAZON LEO, «ГОВАН», «ЦЯНЬФАНЬ»">ONEWEB, AMAZON LEO, «ГОВАН», «ЦЯНЬФАНЬ»</span></div>
+    <h2 class="h-lg" data-en="The rest of the race" data-ru="Остальные участники гонки">Остальные участники гонки</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="<b>OneWeb</b> flew its first satellites on 27 February 2019 [7] into a nearly polar shell at about 1,200 km, inclined 87.9° — twelve planes, high enough to need fewer satellites [10]. It filed for bankruptcy in March 2020 and re-emerged owned by the British government and India's Bharti Global [15]; in 2023 it merged with the French operator Eutelsat [16]. <b>Amazon</b> launched two prototypes on 6 October 2023 and its first 27 production satellites on 28 April 2025 [7], and on 13 November 2025 renamed Project Kuiper <b>Amazon Leo</b> [17]." data-ru="<b>OneWeb</b> запустила первые спутники 27 февраля 2019 года [7] на почти полярную оболочку высотой около 1200 км с наклонением 87,9° — двенадцать плоскостей, достаточно высоко, чтобы обойтись меньшим числом спутников [10]. В марте 2020 года компания обанкротилась и вернулась под контролем правительства Великобритании и индийской Bharti Global [15]; в 2023 году она объединилась с французским оператором Eutelsat [16]. <b>Amazon</b> запустила два прототипа 6 октября 2023 года и первые 27 серийных спутников 28 апреля 2025 года [7], а 13 ноября 2025 года переименовала Project Kuiper в <b>Amazon Leo</b> [17]."><b>OneWeb</b> запустила первые спутники 27 февраля 2019 года [7] на почти полярную оболочку высотой около 1200 км с наклонением 87,9° — двенадцать плоскостей, достаточно высоко, чтобы обойтись меньшим числом спутников [10]. В марте 2020 года компания обанкротилась и вернулась под контролем правительства Великобритании и индийской Bharti Global [15]; в 2023 году она объединилась с французским оператором Eutelsat [16]. <b>Amazon</b> запустила два прототипа 6 октября 2023 года и первые 27 серийных спутников 28 апреля 2025 года [7], а 13 ноября 2025 года переименовала Project Kuiper в <b>Amazon Leo</b> [17].</p>
+      <p class="body-col" data-en="China is building two networks. The state-run <b>Guowang</b> («national network») launched its first low-orbit batch on 16 December 2024, and the Shanghai-backed <b>Qianfan</b> («thousand sails») its first 18 satellites on 6 August 2024 [7]. Their filings add up to tens of thousands of satellites [10]. The table shows how far each had got by mid-October 2026 — launched is not the same as working, and McDowell counts a satellite as operational only once it sits in its shell [10]." data-ru="Китай строит две сети. Государственная <b>«Гован»</b> («национальная сеть») запустила первую партию на низкую орбиту 16 декабря 2024 года, а шанхайская <b>«Цяньфань»</b> («тысяча парусов») — первые 18 спутников 6 августа 2024 года [7]. Их заявки в сумме составляют десятки тысяч спутников [10]. Таблица показывает, как далеко продвинулся каждый к середине октября 2026 года: запущенный спутник ещё не значит работающий, и Макдауэлл считает спутник рабочим, только когда тот занял свою оболочку [10].">Китай строит две сети. Государственная <b>«Гован»</b> («национальная сеть») запустила первую партию на низкую орбиту 16 декабря 2024 года, а шанхайская <b>«Цяньфань»</b> («тысяча парусов») — первые 18 спутников 6 августа 2024 года [7]. Их заявки в сумме составляют десятки тысяч спутников [10]. Таблица показывает, как далеко продвинулся каждый к середине октября 2026 года: запущенный спутник ещё не значит работающий, и Макдауэлл считает спутник рабочим, только когда тот занял свою оболочку [10].</p>
+    </div>
+    <div class="sw-tablewrap"><table class="sw-table" id="fleetTable"></table></div>
+    <p class="note" data-en="Counts from McDowell's constellation tables, updated 15 October 2026 [9][10]. Planned numbers are the regulatory filings he lists (OneWeb's first-generation 588; Amazon's first authorisation 3,232; Guowang's 12,992 low-orbit filing plus 960 for its earlier shells; Qianfan's 16,000), not promises. Guowang appears in McDowell's tables as Xingwang." data-ru="Данные из таблиц созвездий Макдауэлла, обновлённых 15 октября 2026 года [9][10]. Планы — перечисленные им заявки регуляторам (588 у первого поколения OneWeb; 3232 в первом разрешении Amazon; 12 992 в низкоорбитальной заявке «Гована» плюс 960 для его ранних оболочек; 16 000 у «Цяньфаня»), а не обещания. «Гован» в таблицах Макдауэлла значится как Xingwang.">Данные из таблиц созвездий Макдауэлла, обновлённых 15 октября 2026 года [9][10]. Планы — перечисленные им заявки регуляторам (588 у первого поколения OneWeb; 3232 в первом разрешении Amazon; 12 992 в низкоорбитальной заявке «Гована» плюс 960 для его ранних оболочек; 16 000 у «Цяньфаня»), а не обещания. «Гован» в таблицах Макдауэлла значится как Xingwang.</p>
+  </div>
+</section>
+
+<!-- CH6 — DARK SKIES -->
+<section id="ch6" class="section" data-phase="DARK SKIES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 09</span> — <span data-en="STREAKS AND RADIO NOISE" data-ru="ТРЕКИ И РАДИОШУМ">ТРЕКИ И РАДИОШУМ</span></div>
+    <h2 class="h-lg" data-en="What astronomers see" data-ru="Что видят астрономы">Что видят астрономы</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A satellite shines only by reflected sunlight, so it is visible only while it is above Earth's shadow. After sunset the shadow rises: with the Sun 18° below the horizon, the end of astronomical twilight, a satellite straight overhead is lit only if it is higher than about 330 km. In 2020 McDowell showed that about 12,000 Starlinks would put between 0.005 and 0.01 satellites in every square degree of sky at airmass below 2, and that at mid-latitudes near twilight hundreds could be visible at once [18]." data-ru="Спутник светит только отражённым солнечным светом, поэтому виден, лишь пока находится выше земной тени. После заката тень поднимается: когда Солнце на 18° под горизонтом — конец астрономических сумерек, — спутник прямо над головой освещён, только если он выше примерно 330 км. В 2020 году Макдауэлл показал, что около 12 000 спутников Starlink дадут от 0,005 до 0,01 спутника на каждый квадратный градус неба при воздушной массе меньше 2 и что в средних широтах в сумерки одновременно могут быть видны сотни [18].">Спутник светит только отражённым солнечным светом, поэтому виден, лишь пока находится выше земной тени. После заката тень поднимается: когда Солнце на 18° под горизонтом — конец астрономических сумерек, — спутник прямо над головой освещён, только если он выше примерно 330 км. В 2020 году Макдауэлл показал, что около 12 000 спутников Starlink дадут от 0,005 до 0,01 спутника на каждый квадратный градус неба при воздушной массе меньше 2 и что в средних широтах в сумерки одновременно могут быть видны сотни [18].</p>
+      <p class="body-col" data-en="The <b>Vera C. Rubin Observatory</b> on Cerro Pachón in Chile takes 30-second exposures of a 9.6-square-degree field with an 8.4 m mirror [20]. The first Starlinks were about magnitude 4.5 in the g band; an experimental darkened “DarkSat” reached 6.1, and darkening plans aimed for about 7 — faint enough to correct the image artefacts, though the trails still remain [19]. Rubin's team estimated that 48,000 satellites of magnitude 4.5 would force about 1 % of the pixels in its twilight images to be masked [19]." data-ru="<b>Обсерватория имени Веры Рубин</b> на горе Серро-Пачон в Чили снимает 30-секундные экспозиции поля площадью 9,6 квадратного градуса 8,4-метровым зеркалом [20]. Первые Starlink имели звёздную величину около 4,5 в полосе g; экспериментальный затемнённый «DarkSat» — 6,1, а планы затемнения нацеливались примерно на 7 — достаточно слабо, чтобы исправить артефакты изображения, хотя сами треки остаются [19]. Команда Рубин оценила, что 48 000 спутников 4,5-й величины потребуют маскировать около 1 % пикселей на сумеречных снимках [19]."><b>Обсерватория имени Веры Рубин</b> на горе Серро-Пачон в Чили снимает 30-секундные экспозиции поля площадью 9,6 квадратного градуса 8,4-метровым зеркалом [20]. Первые Starlink имели звёздную величину около 4,5 в полосе g; экспериментальный затемнённый «DarkSat» — 6,1, а планы затемнения нацеливались примерно на 7 — достаточно слабо, чтобы исправить артефакты изображения, хотя сами треки остаются [19]. Команда Рубин оценила, что 48 000 спутников 4,5-й величины потребуют маскировать около 1 % пикселей на сумеречных снимках [19].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="SHADOW, DENSITY AND STREAKS" data-ru="ТЕНЬ, ПЛОТНОСТЬ И ТРЕКИ">ТЕНЬ, ПЛОТНОСТЬ И ТРЕКИ</div>
+      <div class="eq-body">lit if P·ŝ &gt; 0 or |P − (P·ŝ)ŝ| &gt; R &nbsp;·&nbsp; σ = N / 4πr² &nbsp;·&nbsp; streaks ≈ σ (A + v t W)</div>
+      <div class="eq-note" data-en="P is the point where the telescope's line of sight meets the shell r = R + h; ŝ is the direction to the Sun; Earth's shadow is treated as a cylinder (the penumbra is ignored). σ spreads the N satellites evenly over the whole shell — real shells crowd towards the latitude of their inclination, so counts near 50° latitude run higher. A is the patch of shell inside the field of view, W its mean width; satellites move at v = √(μ/r) in random directions, and Earth's rotation is ignored. R = 6,371 km." data-ru="P — точка, где луч зрения телескопа пересекает оболочку r = R + h; ŝ — направление на Солнце; тень Земли считается цилиндром (полутень не учитывается). σ равномерно распределяет N спутников по всей оболочке — реальные оболочки сгущаются к широте, равной наклонению, поэтому около 50° широты спутников больше. A — участок оболочки в поле зрения, W — его средняя ширина; спутники движутся со скоростью v = √(μ/r) в случайных направлениях, вращение Земли не учитывается. R = 6371 км.">P — точка, где луч зрения телескопа пересекает оболочку r = R + h; ŝ — направление на Солнце; тень Земли считается цилиндром (полутень не учитывается). σ равномерно распределяет N спутников по всей оболочке — реальные оболочки сгущаются к широте, равной наклонению, поэтому около 50° широты спутников больше. A — участок оболочки в поле зрения, W — его средняя ширина; спутники движутся со скоростью v = √(μ/r) в случайных направлениях, вращение Земли не учитывается. R = 6371 км.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="skSvg" class="sim-svg" viewBox="0 0 480 400" role="img" aria-label="Sky map: where satellites at the chosen altitude are sunlit, with the telescope's field of view" data-aria-en="Sky map: where satellites at the chosen altitude are sunlit, with the telescope's field of view" data-aria-ru="Карта неба: где спутники на выбранной высоте освещены Солнцем, и поле зрения телескопа"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Time of night" data-aria-en="Time of night" data-aria-ru="Время ночи" id="skSun">
+          <button class="btn" data-d="12" aria-pressed="false" data-en="SUN −12°" data-ru="СОЛНЦЕ −12°">СОЛНЦЕ −12°</button>
+          <button class="btn active" data-d="18" aria-pressed="true" data-en="SUN −18°" data-ru="СОЛНЦЕ −18°">СОЛНЦЕ −18°</button>
+          <button class="btn" data-d="dec" aria-pressed="false" data-en="RUBIN MIDNIGHT, DEC" data-ru="РУБИН, ПОЛНОЧЬ, ДЕК.">РУБИН, ПОЛНОЧЬ, ДЕК.</button>
+          <button class="btn" data-d="jun" aria-pressed="false" data-en="RUBIN MIDNIGHT, JUN" data-ru="РУБИН, ПОЛНОЧЬ, ИЮН.">РУБИН, ПОЛНОЧЬ, ИЮН.</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="skD" data-en="SUN BELOW HORIZON" data-ru="СОЛНЦЕ ПОД ГОРИЗОНТОМ">СОЛНЦЕ ПОД ГОРИЗОНТОМ</label><span class="v" id="skDVal">—</span></div>
+          <input id="skD" type="range" min="0" max="90" step="0.1" value="18">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="skN" data-en="SATELLITES IN THE SHELL" data-ru="СПУТНИКОВ В ОБОЛОЧКЕ">СПУТНИКОВ В ОБОЛОЧКЕ</label><span class="v" id="skNVal">—</span></div>
+          <input id="skN" type="range" min="2" max="5" step="0.01" value="4">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="skH" data-en="SHELL ALTITUDE" data-ru="ВЫСОТА ОБОЛОЧКИ">ВЫСОТА ОБОЛОЧКИ</label><span class="v" id="skHVal">—</span></div>
+          <input id="skH" type="range" min="300" max="1300" step="1" value="550">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="skE" data-en="TELESCOPE ELEVATION" data-ru="ВЫСОТА НАВЕДЕНИЯ ТЕЛЕСКОПА">ВЫСОТА НАВЕДЕНИЯ ТЕЛЕСКОПА</label><span class="v" id="skEVal">—</span></div>
+          <input id="skE" type="range" min="20" max="90" step="1" value="60">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="skA" data-en="AZIMUTH FROM THE SUN" data-ru="АЗИМУТ ОТ СОЛНЦА">АЗИМУТ ОТ СОЛНЦА</label><span class="v" id="skAVal">—</span></div>
+          <input id="skA" type="range" min="0" max="180" step="1" value="180">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="skT" data-en="EXPOSURE" data-ru="ЭКСПОЗИЦИЯ">ЭКСПОЗИЦИЯ</label><span class="v" id="skTVal">—</span></div>
+          <input id="skT" type="range" min="1" max="300" step="1" value="30">
+        </div>
+        <div class="btn-row" role="group" aria-label="Field of view" data-aria-en="Field of view" data-aria-ru="Поле зрения" id="skFov">
+          <button class="btn active" data-f="3.5" aria-pressed="true" data-en="RUBIN 3.5°" data-ru="РУБИН 3,5°">РУБИН 3,5°</button>
+          <button class="btn" data-f="0.5" aria-pressed="false" data-en="NARROW 0.5°" data-ru="УЗКОЕ 0,5°">УЗКОЕ 0,5°</button>
+          <button class="btn" data-f="10" aria-pressed="false" data-en="WIDE 10°" data-ru="ШИРОКОЕ 10°">ШИРОКОЕ 10°</button>
+        </div>
+        <div class="readout-grid" id="skReadout"></div>
+        <div class="status" id="skStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Rubin presets: the Sun's depth at local midnight, 90° − |φ + δ|, for latitude φ = −30.24° [20] and the solstice declinations δ = ±23.44°. In southern summer (December) the midnight Sun is only about 36° down; in June it is about 83° down." data-ru="Пресеты для Рубин: глубина Солнца в местную полночь 90° − |φ + δ| для широты φ = −30,24° [20] и склонений солнцестояний δ = ±23,44°. Южным летом (в декабре) Солнце в полночь лишь примерно на 36° под горизонтом, в июне — примерно на 83°.">Пресеты для Рубин: глубина Солнца в местную полночь 90° − |φ + δ| для широты φ = −30,24° [20] и склонений солнцестояний δ = ±23,44°. Южным летом (в декабре) Солнце в полночь лишь примерно на 36° под горизонтом, в июне — примерно на 83°.</p>
+    <div class="grid-2">
+      <p class="body-col" data-en="Radio astronomers have a different problem. Starlink downlinks use 10.7–12.7 GHz, but in 2023 the LOFAR radio telescope detected unintended radiation from 47 of 68 Starlink satellites observed, between 110 and 188 MHz — far below the communication bands [22]. In 2024 the same team found the second-generation v2-Mini satellites emitting up to <b>32 times</b> more strongly than the first generation, above the levels the ITU recommends to protect radio astronomy [23]." data-ru="У радиоастрономов другая проблема. Нисходящие каналы Starlink работают на 10,7–12,7 ГГц, но в 2023 году радиотелескоп LOFAR зарегистрировал непреднамеренное излучение у 47 из 68 наблюдавшихся спутников Starlink в диапазоне 110–188 МГц — намного ниже рабочих частот связи [22]. В 2024 году та же группа обнаружила, что спутники второго поколения v2-Mini излучают до <b>32 раз</b> сильнее первого поколения — выше уровней, которые МСЭ рекомендует для защиты радиоастрономии [23].">У радиоастрономов другая проблема. Нисходящие каналы Starlink работают на 10,7–12,7 ГГц, но в 2023 году радиотелескоп LOFAR зарегистрировал непреднамеренное излучение у 47 из 68 наблюдавшихся спутников Starlink в диапазоне 110–188 МГц — намного ниже рабочих частот связи [22]. В 2024 году та же группа обнаружила, что спутники второго поколения v2-Mini излучают до <b>32 раз</b> сильнее первого поколения — выше уровней, которые МСЭ рекомендует для защиты радиоастрономии [23].</p>
+      <p class="body-col" data-en="Optical streaks can be dodged or masked; radio leakage is harder, because it comes from electronics on board and from every direction the satellites fly. Both problems grow with the number of satellites — which is why the numbers in the previous chapter matter to observatories as well as to customers." data-ru="От оптических треков можно уклониться или замаскировать их; с радиоутечкой сложнее, потому что её источник — электроника на борту, и приходит она отовсюду, где летают спутники. Обе проблемы растут с числом спутников — поэтому цифры из предыдущей главы важны не только абонентам, но и обсерваториям.">От оптических треков можно уклониться или замаскировать их; с радиоутечкой сложнее, потому что её источник — электроника на борту, и приходит она отовсюду, где летают спутники. Обе проблемы растут с числом спутников — поэтому цифры из предыдущей главы важны не только абонентам, но и обсерваториям.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — DODGING -->
+<section id="ch7" class="section" data-phase="DODGING">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 09</span> — <span data-en="TRAFFIC" data-ru="ДВИЖЕНИЕ">ДВИЖЕНИЕ</span></div>
+    <h2 class="h-lg" data-en="A dodge almost every week, for every satellite" data-ru="Уклонение почти каждую неделю — у каждого спутника">Уклонение почти каждую неделю — у каждого спутника</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="SpaceX reports its manoeuvres to the FCC every six months. Starlink satellites made <b>148,696</b> collision-avoidance manoeuvres between June and November 2025 and <b>207,152</b> between December 2025 and May 2026 — 355,848 in a year, about 1,138 a day in the latest half-year. The onboard system manoeuvres whenever the estimated chance of a collision exceeds <b>3 in 10 million</b> [24]." data-ru="SpaceX каждые полгода отчитывается перед FCC о манёврах. Спутники Starlink выполнили <b>148 696</b> манёвров уклонения с июня по ноябрь 2025 года и <b>207 152</b> с декабря 2025 по май 2026 года — 355 848 за год, около 1138 в сутки в последнем полугодии. Бортовая система начинает манёвр, когда оценка вероятности столкновения превышает <b>3 на 10 миллионов</b> [24].">SpaceX каждые полгода отчитывается перед FCC о манёврах. Спутники Starlink выполнили <b>148 696</b> манёвров уклонения с июня по ноябрь 2025 года и <b>207 152</b> с декабря 2025 по май 2026 года — 355 848 за год, около 1138 в сутки в последнем полугодии. Бортовая система начинает манёвр, когда оценка вероятности столкновения превышает <b>3 на 10 миллионов</b> [24].</p>
+      <p class="body-col" data-en="That works out to more than 40 manoeuvres per satellite per year [24]. The danger is not the satellites that can dodge but the ones that cannot — dead satellites, spent rocket stages and fragments. Why a single collision can fill an orbit with debris for centuries, and the rule that now requires satellites to be removed within five years of their missions ending, are the subject of <a href='/aerospace/debris-space-junk'>DEBRIS</a>." data-ru="Это больше 40 манёвров на спутник в год [24]. Опасны не спутники, способные уклониться, а те, что не могут, — мёртвые аппараты, отработавшие ступени и обломки. Почему одно столкновение может засорить орбиту на века и какое правило теперь требует сводить спутники в течение пяти лет после окончания миссии — об этом в <a href='/aerospace/debris-space-junk'>ОБЛОМКАХ</a>.">Это больше 40 манёвров на спутник в год [24]. Опасны не спутники, способные уклониться, а те, что не могут, — мёртвые аппараты, отработавшие ступени и обломки. Почему одно столкновение может засорить орбиту на века и какое правило теперь требует сводить спутники в течение пяти лет после окончания миссии — об этом в <a href='/aerospace/debris-space-junk'>ОБЛОМКАХ</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — LEGACY -->
+<section id="ch8" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 09</span> — <span data-en="THIRTY YEARS OF SWARMS" data-ru="ТРИДЦАТЬ ЛЕТ РОЁВ">ТРИДЦАТЬ ЛЕТ РОЁВ</span></div>
+    <h2 class="h-lg" data-en="From bankruptcy to eleven thousand satellites" data-ru="От банкротства до одиннадцати тысяч спутников">От банкротства до одиннадцати тысяч спутников</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Covering the Earth takes dozens of satellites; serving everyone on it takes thousands — and every one of them shares the sky with telescopes and the orbit with everything else." data-ru="Чтобы покрыть Землю, нужны десятки спутников; чтобы обслужить всех на ней — тысячи, и каждый из них делит небо с телескопами, а орбиту — со всем остальным.">Чтобы покрыть Землю, нужны десятки спутников; чтобы обслужить всех на ней — тысячи, и каждый из них делит небо с телескопами, а орбиту — со всем остальным.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — REFERENCES -->
+<section id="ch9" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 09</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">ИСТОЧНИКИ</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Источники, на которые ссылается этот справочник</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* Browsers round a slider's value to its step, so a preset such as log10(196) would read back as 2.29 (195 m²).
+   Each range input keeps the exact value it was given until the user moves it. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var MU = 398600.4418, RE = 6378.137, RM = 6371.0, C_KMS = 299792.458, N_FIBRE = 1.47, D2R = Math.PI/180;
+var T_SID = 86164.0905;                                                         // sidereal day, s
+var A_GEO = Math.cbrt(MU*Math.pow(T_SID/(2*Math.PI), 2));                       // km from Earth's centre
+var H_GEO = A_GEO - RE;
+function vCirc(r){ return Math.sqrt(MU/r); }
+/* number with RU-style grouping; four-digit numbers unspaced in Russian, as in the body text */
+function num(n){ var s = fmtInt(n); return (lang === 'ru' && Math.abs(n) < 10000) ? s.replace(/\s/g, '') : s; }
+
+/* ============ SNAPSHOT: McDowell, 15 Oct 2026 [9][10] ============ */
+var SNAP = {date:'2026-10-15', slLaunched:13015, slInOrbit:11154, slOp:9726, slDown:1861, slDisposed:1508, g47:49, g47lost:38};
+/* Starlink operational satellites by shell [10]: [label EN, label RU, altitude text, inclination, count] */
+var SHELLS = [
+  ['Main shells, 53°', 'Основные оболочки, 53°', '463–540', '53.0–53.2', 372 + 44 + 2 + 275 + 100 + 786 + 322 + 2416],
+  ['43° shells', 'Оболочки 43°', '483', '43.0', 641 + 2581],
+  ['Polar shells', 'Полярные оболочки', '465–549', '97.3–97.6', 1220 + 6],
+  ['70° shells', 'Оболочки 70°', '438–572', '70.0', 192 + 132 + 1],
+  ['Direct-to-cell', 'Прямая связь с телефонами', '357–359', '43.0 / 53.2', 309 + 327]
+];
+/* [name EN, name RU, launched, operational, planned, first launch] [7][9][10] */
+var FLEET = [
+  ['Starlink (SpaceX)', 'Starlink (SpaceX)', 13015, 9726, 34864, '2019-05-24'],
+  ['OneWeb (Eutelsat)', 'OneWeb (Eutelsat)', 660, 636, 588, '2019-02-27'],
+  ['Amazon Leo', 'Amazon Leo', 398, 355, 3232, '2023-10-06'],
+  ['Guowang', '«Гован»', 261, 213, 12992 + 960, '2024-12-16'],
+  ['Qianfan', '«Цяньфань»', 258, 178, 16000, '2024-08-06']
+];
+var MANEUVERS = {h2_2025:148696, h1_2026:207152, days:182};                       // Dec 2025–May 2026 = 182 days [24]
+
+/* ============ CH2 — COVERAGE ============ */
+function footprint(hKm, eDeg){ var e = eDeg*D2R; return Math.acos(RE*Math.cos(e)/(RE + hKm)) - e; }      // Earth-central angle, rad
+function slantMax(hKm, eDeg){ var l = footprint(hKm, eDeg), r = RE + hKm; return Math.sqrt(RE*RE + r*r - 2*RE*r*Math.cos(l)); }
+function capArea(hKm, eDeg){ return 2*Math.PI*RE*RE*(1 - Math.cos(footprint(hKm, eDeg))); }               // km²
+function nHoneycomb(hKm, eDeg){ return 4*Math.PI*RE*RE/(capArea(hKm, eDeg)*3*Math.sqrt(3)/(2*Math.PI)); }
+function streets(hKm, eDeg){
+  var l = footprint(hKm, eDeg), best = null;
+  for(var S = 3; S <= 600; S++){
+    var q = Math.cos(l)/Math.cos(Math.PI/S); if(q >= 1) continue;
+    var c = Math.acos(q), P = Math.max(1, Math.ceil(1 + (Math.PI - 2*c)/(l + c) - 1e-9)), N = P*S;
+    if(!best || N < best.N) best = {N:N, P:P, S:S, c:c/D2R};
+  }
+  return best;
+}
+var cvH = document.getElementById('cvH'), cvE = document.getElementById('cvE'), cvKey = 'iri';
+var REAL = {iri:[66, 'Iridium: 6 × 11 = 66 [2]', 'Iridium: 6 × 11 = 66 [2]'], ow:[636, 'OneWeb: 12 planes × 49 planned, 636 operational [10]', 'OneWeb: 12 плоскостей × 49 по плану, 636 рабочих [10]'], sl:[9726, 'Starlink: 9,726 operational in all shells [9]', 'Starlink: 9726 рабочих во всех оболочках [9]']};
+function renderCov(){
+  var h = +cvH.value, e = +cvE.value, l = footprint(h, e), st = streets(h, e), nh = nHoneycomb(h, e);
+  document.getElementById('cvHVal').textContent = fmtInt(h) + T(' km',' км');
+  document.getElementById('cvEVal').textContent = fmt(e, 1) + '°';
+  cvH.setAttribute('aria-valuetext', fmtInt(h) + T(' km',' км'));
+  cvE.setAttribute('aria-valuetext', fmt(e, 1) + T(' degrees',' градуса'));
+  var svg = document.getElementById('cvSvg'); svg.innerHTML = '';
+  /* cross-section, true scale (zoom follows the altitude so the cone always fills the panel) */
+  var span = (RE + h) - RE*Math.cos(l), s = Math.min(0.06, 118/span), cx = 240, rp = (RE + h)*s, cy = 46 + rp, Rp = RE*s;
+  var thMax = Math.min(80, l/D2R + 25);
+  var d = ''; for(var th = -thMax; th <= thMax + 1e-9; th += thMax/40){ d += (d ? 'L' : 'M') + (cx + Rp*Math.sin(th*D2R)).toFixed(1) + ' ' + (cy - Rp*Math.cos(th*D2R)).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.5}, svg);
+  var ds = ''; for(var th2 = -thMax; th2 <= thMax + 1e-9; th2 += thMax/40){ ds += (ds ? 'L' : 'M') + (cx + rp*Math.sin(th2*D2R)).toFixed(1) + ' ' + (cy - rp*Math.cos(th2*D2R)).toFixed(1); }
+  ns('path', {d:ds, fill:'none', stroke:'#9a9a92', 'stroke-dasharray':'3 4'}, svg);
+  var fp = ''; for(var t3 = -l; t3 <= l + 1e-9; t3 += l/20){ fp += (fp ? 'L' : 'M') + (cx + Rp*Math.sin(t3)).toFixed(1) + ' ' + (cy - Rp*Math.cos(t3)).toFixed(1); }
+  var sx = cx, sy = cy - rp, ex1 = cx - Rp*Math.sin(l), ey = cy - Rp*Math.cos(l), ex2 = cx + Rp*Math.sin(l);
+  ns('path', {d:'M' + ex1.toFixed(1) + ' ' + ey.toFixed(1) + 'L' + sx + ' ' + sy.toFixed(1) + 'L' + ex2.toFixed(1) + ' ' + ey.toFixed(1), fill:'rgba(181,69,42,0.08)', stroke:'#b5452a'}, svg);
+  ns('path', {d:fp, fill:'none', stroke:'#b5452a', 'stroke-width':5, opacity:0.85}, svg);
+  ns('rect', {x:sx - 5, y:sy - 5, width:10, height:10, fill:'#0b0b0c'}, svg);
+  /* local horizon at the footprint's edge, and the elevation angle above it */
+  var hx = Math.cos(l), hy = Math.sin(l);
+  ns('line', {x1:ex2 - 40*hx, y1:ey - 40*hy, x2:ex2 + 40*hx, y2:ey + 40*hy, stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, Math.min(470, ex2 + 10), ey - 6, 'ε = ' + fmt(e, 1) + '°', 'svg-small svg-halo');
+  txt(svg, sx + 10, sy + 4, fmtInt(h) + T(' km',' км'), 'svg-small svg-halo');
+  txt(svg, cx, Math.min(190, ey + 34), T('footprint ','пятно обзора ') + fmtInt(RE*l*2) + T(' km across',' км в поперечнике'), 'svg-small svg-halo', 'middle');
+  txt(svg, 14, 16, T('cross-section, true scale','разрез, в истинном масштабе'), 'svg-small');
+  /* satellite counts on a log axis */
+  var L = 128, R = 466, y0 = 214;
+  function X(n){ return L + (Math.log10(n) - 1)/(4.3 - 1)*(R - L); }
+  ns('rect', {x:0, y:y0 - 12, width:480, height:150, fill:'#fff'}, svg);
+  [10, 100, 1000, 10000].forEach(function(n){ ns('line', {x1:X(n), y1:y0, x2:X(n), y2:y0 + 92, stroke:'#e4e4de'}, svg); txt(svg, X(n), y0 + 106, num(n), 'svg-small', 'middle'); });
+  [[nh, T('honeycomb bound','граница «сот»'), '#9a9a92'], [st.N, T('streets: ','«улицы»: ') + st.P + ' × ' + st.S, '#0b0b0c']].forEach(function(b, i){
+    var y = y0 + 6 + i*24; ns('rect', {x:L, y:y, width:Math.max(1, X(Math.max(10, b[0])) - L), height:16, fill:b[2]}, svg);
+    txt(svg, L - 6, y + 12, b[1], 'svg-small', 'end'); txt(svg, X(Math.max(10, b[0])) + 5, y + 12, num(Math.ceil(b[0])), 'svg-small');
+  });
+  [[66, 'Iridium'], [636, 'OneWeb'], [9726, 'Starlink']].forEach(function(m){ var x = X(m[0]); ns('line', {x1:x, y1:y0 + 56, x2:x, y2:y0 + 92, stroke:'#2f5aa1', 'stroke-width':2}, svg); txt(svg, m[0] > 5000 ? x - 5 : x + 5, m[0] === 636 ? y0 + 86 : y0 + 68, m[1] + ' ' + num(m[0]), 'svg-small svg-halo', m[0] > 5000 ? 'end' : 'start'); });
+  txt(svg, L - 6, y0 + 78, T('real fleets','реальные'), 'svg-small', 'end');
+  txt(svg, R, y0 + 124, T('satellites (log scale)','спутников (лог. шкала)'), 'svg-small', 'end');
+  cells(document.getElementById('cvReadout'), [
+    [T('FOOTPRINT RADIUS','РАДИУС ПЯТНА'), fmtInt(RE*l) + T(' km',' км') + ' (' + fmt(l/D2R, 1) + '°)'],
+    [T('LONGEST SLANT RANGE','НАИБОЛЬШАЯ НАКЛОННАЯ ДАЛЬНОСТЬ'), fmtInt(slantMax(h, e)) + T(' km',' км')],
+    [T('AREA SERVED','ПЛОЩАДЬ ОБЗОРА'), fmt(capArea(h, e)/1e6, 2) + T(' million km²',' млн км²')],
+    [T('SHARE OF EARTH','ДОЛЯ ЗЕМЛИ'), fmt(100*(1 - Math.cos(l))/2, 2) + ' %'],
+    [T('HONEYCOMB BOUND','ГРАНИЦА «СОТ»'), num(Math.ceil(nh))],
+    [T('STREETS OF COVERAGE','«УЛИЦЫ ПОКРЫТИЯ»'), st.P + ' × ' + st.S + ' = ' + num(st.N)]
+  ]);
+  hud1.textContent = num(st.N);
+  var r = REAL[cvKey];
+  document.getElementById('cvStatus').innerHTML = r
+    ? T(r[1], r[2]) + (cvKey === 'iri' ? T(' — the street formula reproduces it exactly.',' — формула «улиц» воспроизводит её точно.') : T(' — ',' — ') + fmt(r[0]/st.N, 0) + T(' times the coverage minimum: the rest is capacity.',' раз больше минимума для покрытия: остальное — пропускная способность.'))
+    : T('Raise the altitude or lower the elevation mask and the footprint grows — fewer satellites, but longer paths and weaker signals.','Поднимите орбиту или опустите угол места — пятно растёт: спутников меньше, но пути длиннее, а сигнал слабее.');
+}
+[cvH, cvE].forEach(function(el){ el.addEventListener('input', function(){ cvKey = null; pressGroup(document.getElementById('cvPre'), null); renderCov(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#cvPre .btn'), function(btn){ btn.addEventListener('click', function(){ cvH.value = this.getAttribute('data-h'); cvE.value = this.getAttribute('data-e'); cvKey = this.getAttribute('data-k'); pressGroup(this.parentNode, this); renderCov(); }); });
+
+/* ============ CH3 / CH5 — TABLES ============ */
+function renderTables(){
+  var sh = '<thead><tr><th>' + T('Shell group','Группа оболочек') + '</th><th>' + T('Altitude, km','Высота, км') + '</th><th>' + T('Inclination','Наклонение') + '</th><th>' + T('Operational','Рабочих') + '</th></tr></thead><tbody>';
+  SHELLS.forEach(function(r){ sh += '<tr><td>' + T(r[0], r[1]) + '</td><td>' + r[2] + '</td><td>' + (lang === 'ru' ? r[3].replace(/\./g, ',') : r[3]) + '°</td><td>' + num(r[4]) + '</td></tr>'; });
+  sh += '<tr class="tot"><td>' + T('Total','Всего') + '</td><td></td><td></td><td>' + num(SHELLS.reduce(function(a, r){ return a + r[4]; }, 0)) + '</td></tr></tbody>';
+  document.getElementById('shellTable').innerHTML = sh;
+  var ft = '<thead><tr><th>' + T('Constellation','Созвездие') + '</th><th>' + T('First launch','Первый запуск') + '</th><th>' + T('Launched','Запущено') + '</th><th>' + T('Operational','Рабочих') + '</th><th>' + T('Filed for','По заявкам') + '</th></tr></thead><tbody>';
+  FLEET.forEach(function(r){ ft += '<tr><td>' + T(r[0], r[1]) + '</td><td>' + r[5].slice(0, 4) + '</td><td>' + num(r[2]) + '</td><td>' + num(r[3]) + '</td><td>' + num(r[4]) + '</td></tr>'; });
+  document.getElementById('fleetTable').innerHTML = ft + '</tbody>';
+}
+
+/* ============ CH4 — LATENCY ============ */
+var CITIES = {LON:[51.51, -0.13], NYC:[40.71, -74.01], FRA:[50.11, 8.68], SIN:[1.35, 103.82], LAX:[34.05, -118.24], SYD:[-33.87, 151.21], TYO:[35.68, 139.69], SAO:[-23.55, -46.63], PAR:[48.86, 2.35]};
+var PAIRS = [['LON','NYC'], ['FRA','SIN'], ['LAX','SYD'], ['TYO','SAO'], ['LON','PAR']];
+function unit(lat, lon){ lat *= D2R; lon *= D2R; return [Math.cos(lat)*Math.cos(lon), Math.cos(lat)*Math.sin(lon), Math.sin(lat)]; }
+function dot(a, b){ return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]; }
+function sub(a, b){ return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
+function scl(a, k){ return [a[0]*k, a[1]*k, a[2]*k]; }
+function len(a){ return Math.sqrt(dot(a, a)); }
+function centralAngle(p, q){ var a = unit(p[0], p[1]), b = unit(q[0], q[1]); return Math.atan2(len([a[1]*b[2] - a[2]*b[1], a[2]*b[0] - a[0]*b[2], a[0]*b[1] - a[1]*b[0]]), dot(a, b)); }
+function gcKm(p, q){ return RM*centralAngle(p, q); }
+function slerp(a, b, f){ var w = Math.acos(Math.max(-1, Math.min(1, dot(a, b)))), s = Math.sin(w); if(s < 1e-9) return a; var k1 = Math.sin((1 - f)*w)/s, k2 = Math.sin(f*w)/s; return [a[0]*k1 + b[0]*k2, a[1]*k1 + b[1]*k2, a[2]*k1 + b[2]*k2]; }
+/* GEO slant range and elevation from a ground unit vector g to a satellite at longitude L (rad) */
+function geoLook(g, L){ var sat = [A_GEO*Math.cos(L), A_GEO*Math.sin(L), 0], p = scl(g, RM), d = sub(sat, p), rho = len(d); return {rho:rho, el:Math.asin(dot(d, g)/rho)/D2R}; }
+function geoPath(p, q){
+  var a = unit(p[0], p[1]), b = unit(q[0], q[1]);
+  for(var n = 1; n <= 4; n++){
+    var tot = 0, ok = true;
+    for(var k = 0; k < n; k++){
+      var g1 = slerp(a, b, k/n), g2 = slerp(a, b, (k + 1)/n), m = [g1[0] + g2[0], g1[1] + g2[1], 0], L = Math.atan2(m[1], m[0]);
+      var l1 = geoLook(g1, L), l2 = geoLook(g2, L); if(l1.el < 0 || l2.el < 0){ ok = false; break; } tot += l1.rho + l2.rho;
+    }
+    if(ok) return {km:tot, hops:n};
+  }
+  return {km:NaN, hops:0};
+}
+function latency(p, q, hKm, k){
+  var d = gcKm(p, q), g = geoPath(p, q);
+  var fibre = N_FIBRE*k*d/C_KMS*1000;
+  var bent = 2*hKm/C_KMS*1000 + fibre;
+  var laser = (2*hKm + (RM + hKm)*d/RM)/C_KMS*1000;
+  return {d:d, fibre:2*fibre, bent:2*bent, laser:2*laser, geo:2*g.km/C_KMS*1000, hops:g.hops};      // round trips, ms
+}
+function crossover(hKm){ return 2*hKm/(N_FIBRE - (RM + hKm)/RM); }                  // km, ideal fibre = ideal laser
+var ltH = document.getElementById('ltH'), ltK = document.getElementById('ltK'), ltP = 0;
+var CITY_NAMES = {LON:['London','Лондон'], NYC:['New York','Нью-Йорк'], FRA:['Frankfurt','Франкфурт'], SIN:['Singapore','Сингапур'], LAX:['Los Angeles','Лос-Анджелес'], SYD:['Sydney','Сидней'], TYO:['Tokyo','Токио'], SAO:['São Paulo','Сан-Паулу'], PAR:['Paris','Париж']};
+function msStr(ms){ return ms >= 100 ? fmtInt(ms) + T(' ms',' мс') : fmt(ms, 1) + T(' ms',' мс'); }
+function renderLat(){
+  var h = +ltH.value, k = +ltK.value, pr = PAIRS[ltP], p = CITIES[pr[0]], q = CITIES[pr[1]], Lr = latency(p, q, h, k);
+  document.getElementById('ltHVal').textContent = fmtInt(h) + T(' km',' км');
+  document.getElementById('ltKVal').textContent = '× ' + fmt(k, 2);
+  ltH.setAttribute('aria-valuetext', fmtInt(h) + T(' km',' км'));
+  ltK.setAttribute('aria-valuetext', T('cable ',' кабель ') + fmt(k, 2) + T(' times the great circle',' дуги большого круга'));
+  var svg = document.getElementById('ltSvg'); svg.innerHTML = '';
+  var L = 120, R = 430, y0 = 52;
+  function X(ms){ return L + (Math.log10(Math.max(1, ms)))/Math.log10(2000)*(R - L); }
+  [1, 10, 100, 1000].forEach(function(m){ ns('line', {x1:X(m), y1:y0 - 6, x2:X(m), y2:y0 + 222, stroke:'#e4e4de'}, svg); txt(svg, X(m), y0 + 238, num(m) + T(' ms',' мс'), 'svg-small', 'middle'); });
+  txt(svg, 14, 20, T(CITY_NAMES[pr[0]][0], CITY_NAMES[pr[0]][1]) + ' – ' + T(CITY_NAMES[pr[1]][0], CITY_NAMES[pr[1]][1]) + ': ' + fmtInt(Lr.d) + T(' km',' км'), 'svg-small'); txt(svg, 14, 34, T('round trip, log scale','туда и обратно, лог. шкала'), 'svg-small');
+  var rows = [
+    [T('fibre','волокно') + (k > 1.001 ? ' × ' + fmt(k, 2) : ''), Lr.fibre, '#0b0b0c'],
+    [T('LEO + fibre','НОО + волокно'), Lr.bent, '#5f5f59'],
+    [T('LEO laser','НОО, лазер'), Lr.laser, '#b5452a'],
+    [T('GEO','ГСО') + (Lr.hops > 1 ? T(', ',', ') + Lr.hops + T(' hops',' скачка') : ''), Lr.geo, '#2f5aa1']
+  ];
+  var best = Math.min(Lr.fibre, Lr.laser);
+  rows.forEach(function(r, i){ var y = y0 + 8 + i*54; ns('rect', {x:L, y:y, width:Math.max(1, X(r[1]) - L), height:26, fill:r[2], opacity: r[1] === best ? 1 : 0.8}, svg); txt(svg, L - 8, y + 17, r[0], 'svg-small', 'end'); txt(svg, Math.min(X(r[1]) + 6, R - 2), y + 17, msStr(r[1]), 'svg-small svg-halo', X(r[1]) + 60 > R + 30 ? 'end' : 'start'); });
+  cells(document.getElementById('ltReadout'), [
+    [T('GREAT-CIRCLE DISTANCE','ПО ДУГЕ БОЛЬШОГО КРУГА'), fmtInt(Lr.d) + T(' km',' км')],
+    [T('FIBRE ROUND TRIP','ОПТОВОЛОКНО, ТУДА-ОБРАТНО'), msStr(Lr.fibre)],
+    [T('LEO LASER ROUND TRIP','НОО, ЛАЗЕР, ТУДА-ОБРАТНО'), msStr(Lr.laser)],
+    [T('GEO ROUND TRIP','ГСО, ТУДА-ОБРАТНО'), msStr(Lr.geo)],
+    [T('LASER BEATS STRAIGHT FIBRE BEYOND','ЛАЗЕР ОБГОНЯЕТ ПРЯМОЕ ВОЛОКНО ДАЛЬШЕ'), fmtInt(crossover(h)) + T(' km',' км'), true]
+  ]);
+  hud2.textContent = msStr(Lr.laser);
+  document.getElementById('ltStatus').innerHTML = Lr.laser < Lr.fibre
+    ? T('Through vacuum the laser path wins by ','В вакууме лазерный путь выигрывает ') + msStr(Lr.fibre - Lr.laser) + T(' even though it climbs ',', хотя поднимается на ') + fmtInt(h) + T(' km and comes back down.',' км и спускается обратно.')
+    : T('Too short a route: the climb to orbit and back costs more than the slower glass. Over short distances fibre wins.','Слишком короткий маршрут: подъём на орбиту и обратно обходится дороже, чем более медленное стекло. На коротких расстояниях выигрывает волокно.');
+}
+[ltH, ltK].forEach(function(el){ el.addEventListener('input', renderLat); });
+Array.prototype.forEach.call(document.querySelectorAll('#ltPair .btn'), function(btn){ btn.addEventListener('click', function(){ ltP = +this.getAttribute('data-p'); pressGroup(this.parentNode, this); renderLat(); }); });
+
+/* ============ CH6 — SKY, SHADOW AND STREAKS ============ */
+var RUBIN_LAT = -30.24, OBLIQ = 23.44;                                           // [20]; solstice declination
+function midnightDepression(latDeg, decDeg){ return 90 - Math.abs(latDeg + decDeg); }   // Sun's depth at lower culmination
+function shadowHeightZenith(dDeg){ return RM*(1/Math.cos(dDeg*D2R) - 1); }
+/* observer at (0,0,RM); x axis toward the Sun's azimuth; returns the point on the shell along (E, A) */
+function shellPoint(hKm, eDeg, aDeg){
+  var E = eDeg*D2R, A = aDeg*D2R, r = RM + hKm, se = Math.sin(E);
+  var rho = -RM*se + Math.sqrt(RM*RM*se*se + 2*RM*hKm + hKm*hKm);
+  var u = [Math.cos(E)*Math.cos(A), Math.cos(E)*Math.sin(A), se], P = [rho*u[0], rho*u[1], RM + rho*u[2]];
+  return {rho:rho, P:P, cz:dot(P, u)/r};
+}
+function sunlit(P, dDeg){ var s = [Math.cos(dDeg*D2R), 0, -Math.sin(dDeg*D2R)], k = dot(P, s); return k > 0 || len(sub(P, scl(s, k))) > RM; }
+function skyCounts(N, hKm, dDeg){
+  var r = RM + hKm, sig = N/(4*Math.PI*r*r), dE = 0.5, dA = 2, all = 0, a30 = 0, lit30 = 0, litAll = 0;
+  for(var e = dE/2; e < 90; e += dE){ for(var a = dA/2; a < 360; a += dA){
+    var sp = shellPoint(hKm, e, a), n = sig*sp.rho*sp.rho*Math.cos(e*D2R)*dE*dA*D2R*D2R/sp.cz, lit = sunlit(sp.P, dDeg);
+    all += n; if(lit) litAll += n; if(e >= 30){ a30 += n; if(lit) lit30 += n; }
+  } }
+  return {all:all, a30:a30, lit30:lit30, litAll:litAll};
+}
+function perSqDeg(N, hKm, eDeg){ var r = RM + hKm, sp = shellPoint(hKm, eDeg, 0); return N/(4*Math.PI*r*r)*Math.pow(sp.rho*D2R, 2)/sp.cz; }
+function streaks(N, hKm, eDeg, aDeg, fovDeg, tSec, dDeg){
+  var r = RM + hKm, sig = N/(4*Math.PI*r*r), sp = shellPoint(hKm, eDeg, aDeg), th = fovDeg*D2R, v = vCirc(r);
+  var a1 = th*sp.rho/2, a2 = a1/sp.cz, A = Math.PI*a1*a2;
+  var per = Math.PI*(3*(a1 + a2) - Math.sqrt((3*a1 + a2)*(a1 + 3*a2)));            // Ramanujan
+  var lit = sunlit(sp.P, dDeg), n = sig*(A + v*tSec*per/Math.PI);
+  return {n: lit ? n : 0, nIfLit:n, lit:lit, rho:sp.rho, cross: th/(v/sp.rho), v:v};
+}
+/* fixed-seed satellite positions, uniform over the sphere (unit vectors) */
+var SKY_DOTS = (function(){ var s = 20261022, out = []; function rnd(){ s = (s*1664525 + 1013904223) % 4294967296; return s/4294967296; }
+  for(var i = 0; i < 5000; i++){ var z = 2*rnd() - 1, ph = 2*Math.PI*rnd(), q = Math.sqrt(1 - z*z); out.push([q*Math.cos(ph), q*Math.sin(ph), z]); } return out; })();
+var skD = document.getElementById('skD'), skN = document.getElementById('skN'), skH = document.getElementById('skH'), skE = document.getElementById('skE'), skA = document.getElementById('skA'), skT = document.getElementById('skT'), skF = 3.5;
+function renderSky(){
+  var dd = +skD.value, N = Math.round(Math.pow(10, +skN.value)), h = +skH.value, E = +skE.value, A = +skA.value, t = +skT.value;
+  var sc = skyCounts(N, h, dd), st = streaks(N, h, E, A, skF, t, dd), zs = shadowHeightZenith(dd);
+  document.getElementById('skDVal').textContent = fmt(dd, 1) + '°';
+  document.getElementById('skNVal').textContent = num(N);
+  document.getElementById('skHVal').textContent = fmtInt(h) + T(' km',' км');
+  document.getElementById('skEVal').textContent = E + '°';
+  document.getElementById('skAVal').textContent = A + '°';
+  document.getElementById('skTVal').textContent = t + T(' s',' с');
+  skD.setAttribute('aria-valuetext', T('Sun ',' Солнце на ') + fmt(dd, 1) + T(' degrees below the horizon',' градуса под горизонтом'));
+  skN.setAttribute('aria-valuetext', num(N) + T(' satellites',' спутников'));
+  skH.setAttribute('aria-valuetext', fmtInt(h) + T(' km',' км'));
+  skE.setAttribute('aria-valuetext', E + T(' degrees above the horizon',' градусов над горизонтом'));
+  skA.setAttribute('aria-valuetext', A + T(' degrees from the Sun’s direction',' градусов от направления на Солнце'));
+  skT.setAttribute('aria-valuetext', t + T(' seconds',' секунд'));
+  var svg = document.getElementById('skSvg'); svg.innerHTML = '';
+  var cx = 240, cy = 206, Rs = 168;
+  function XY(e, a){ var rr = (90 - e)/90*Rs; return [cx + rr*Math.sin(a*D2R), cy - rr*Math.cos(a*D2R)]; }
+  /* lit / shadow cells */
+  for(var e = 0; e < 90; e += 6){ for(var a = 0; a < 360; a += 10){
+    var sp = shellPoint(h, e + 3, a + 5), lit = sunlit(sp.P, dd);
+    var p1 = XY(e, a), p2 = XY(e, a + 10), p3 = XY(e + 6, a + 10), p4 = XY(e + 6, a);
+    ns('path', {d:'M' + p1.join(' ') + 'L' + p2.join(' ') + 'L' + p3.join(' ') + 'L' + p4.join(' ') + 'Z', fill: lit ? '#f3dfb3' : '#dfe3ea', stroke: lit ? '#f3dfb3' : '#dfe3ea', 'stroke-width':0.6}, svg);
+  } }
+  [30, 60].forEach(function(e2){ ns('circle', {cx:cx, cy:cy, r:(90 - e2)/90*Rs, fill:'none', stroke:'#9a9a92', 'stroke-dasharray':'2 3'}, svg); txt(svg, cx + 3, cy - (90 - e2)/90*Rs - 3, e2 + '°', 'svg-small svg-halo'); });
+  ns('circle', {cx:cx, cy:cy, r:Rs, fill:'none', stroke:'#0b0b0c'}, svg);
+  /* satellites: fixed-seed sample, one dot per k satellites */
+  var r = RM + h, k = Math.max(1, N/5000), nd = Math.min(5000, N), O = [0, 0, RM];
+  for(var i = 0; i < nd; i++){ var u = SKY_DOTS[i], P = scl(u, r), dv = sub(P, O), dl = len(dv), sinE = dv[2]/dl; if(sinE <= 0) continue;
+    var el = Math.asin(sinE)/D2R, az = Math.atan2(dv[1], dv[0])/D2R, xy = XY(el, az), lt = sunlit(P, dd);
+    ns('circle', lt ? {cx:xy[0].toFixed(1), cy:xy[1].toFixed(1), r:2.2, fill:'#0b0b0c'} : {cx:xy[0].toFixed(1), cy:xy[1].toFixed(1), r:1.6, fill:'none', stroke:'#8a8f99', 'stroke-width':0.8}, svg); }
+  /* telescope field */
+  var fp = XY(E, A); ns('circle', {cx:fp[0], cy:fp[1], r:Math.max(4, skF/2/90*Rs), fill:'none', stroke:'#b5452a', 'stroke-width':2.5}, svg);
+  txt(svg, cx, cy - Rs - 8, T('toward the Sun (below the horizon)','в сторону Солнца (под горизонтом)'), 'svg-small', 'middle');
+  txt(svg, 8, 382, T('yellow: sunlit at this altitude · grey: Earth’s shadow','жёлтое: освещено на этой высоте · серое: тень Земли'), 'svg-small');
+  txt(svg, 8, 396, T('● lit satellite   ○ satellite in shadow','● освещённый спутник   ○ спутник в тени') + (k > 1.001 ? T(' · 1 dot = ',' · 1 точка = ') + fmt(k, 1) : ''), 'svg-small');
+  cells(document.getElementById('skReadout'), [
+    [T('ABOVE THE HORIZON','НАД ГОРИЗОНТОМ'), num(Math.round(sc.all))],
+    [T('ABOVE 30°','ВЫШЕ 30°'), num(Math.round(sc.a30))],
+    [T('SUNLIT, ABOVE 30°','ОСВЕЩЕНО, ВЫШЕ 30°'), num(Math.round(sc.lit30))],
+    [T('SHADOW HEIGHT AT ZENITH','ВЫСОТА ТЕНИ В ЗЕНИТЕ'), dd >= 89.9 ? '∞' : fmtInt(zs) + T(' km',' км')],
+    [T('STREAKS PER EXPOSURE','ТРЕКОВ ЗА ЭКСПОЗИЦИЮ'), fmt(st.n, st.n < 10 ? 2 : 0)],
+    [T('TIME TO CROSS THE FIELD','ВРЕМЯ ПЕРЕСЕЧЕНИЯ ПОЛЯ'), '≈ ' + fmt(st.cross, 1) + T(' s',' с')]
+  ]);
+  document.getElementById('skStatus').innerHTML = !st.lit
+    ? T('The field looks into Earth’s shadow at this altitude: satellites cross it unseen. Without the Sun they would streak ',' Поле смотрит в земную тень на этой высоте: спутники пересекают его невидимыми. Будь они освещены, треков было бы ') + fmt(st.nIfLit, 2) + T(' times per exposure.',' за экспозицию.')
+    : st.n >= 1
+      ? T('About ','Около ') + fmt(st.n, st.n < 10 ? 1 : 0) + T(' streaks cross every exposure; the field is sunlit at ',' треков на каждой экспозиции; поле освещено на высоте ') + fmtInt(h) + T(' km.',' км.')
+      : T('About one exposure in ','Примерно на одной экспозиции из ') + fmtInt(1/st.n) + T(' catches a streak; the field is sunlit at ',' есть трек; поле освещено на высоте ') + fmtInt(h) + T(' km.',' км.');
+}
+[skD, skN, skH, skE, skA, skT].forEach(function(el){ el.addEventListener('input', function(){ if(el === skD) pressGroup(document.getElementById('skSun'), null); renderSky(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#skSun .btn'), function(btn){ btn.addEventListener('click', function(){ var v = this.getAttribute('data-d'); skD.value = v === 'dec' ? midnightDepression(RUBIN_LAT, -OBLIQ) : v === 'jun' ? midnightDepression(RUBIN_LAT, OBLIQ) : +v; pressGroup(this.parentNode, this); renderSky(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#skFov .btn'), function(btn){ btn.addEventListener('click', function(){ skF = +this.getAttribute('data-f'); pressGroup(this.parentNode, this); renderSky(); }); });
+
+/* ============ CH8 — TIMELINE ============ */
+var TIMELINE = [
+  ['1997', '<b>5 May:</b> the first five Iridium satellites launched on a Delta II; 66 are up within a year [7][1].', '<b>5 мая:</b> на Delta II запущены первые пять спутников Iridium; через год на орбите 66 [7][1].'],
+  ['1998', '<b>14 February:</b> the first four Globalstar satellites launched [7].', '<b>14 февраля:</b> запущены первые четыре спутника Globalstar [7].'],
+  ['1999', '<b>August:</b> Iridium bankrupt after about $5 billion spent [1].', '<b>Август:</b> Iridium обанкротился, потратив около 5 млрд долларов [1].'],
+  ['2002', '<b>15 February:</b> Globalstar files for bankruptcy [5]. <b>October:</b> Teledesic suspends work on its constellation [6].', '<b>15 февраля:</b> банкротство Globalstar [5]. <b>Октябрь:</b> Teledesic останавливает работу над созвездием [6].'],
+  ['2017–19', 'Iridium NEXT replaces the first generation in eight launches, January 2017 to January 2019; the flares fade [2][3].', 'Iridium NEXT заменяет первое поколение за восемь запусков, с января 2017 по январь 2019 года; вспышки уходят в прошлое [2][3].'],
+  ['2019', '<b>27 February:</b> first OneWeb satellites [7]. <b>24 May:</b> the first 60 Starlinks on one Falcon 9 [7].', '<b>27 февраля:</b> первые спутники OneWeb [7]. <b>24 мая:</b> первые 60 спутников Starlink на одном Falcon 9 [7].'],
+  ['2020', '<b>March:</b> OneWeb bankrupt; rescued by the UK government and Bharti Global [15]. McDowell models Starlink’s effect on astronomy [18].', '<b>Март:</b> банкротство OneWeb; её спасают правительство Великобритании и Bharti Global [15]. Макдауэлл моделирует влияние Starlink на астрономию [18].'],
+  ['2021', '<b>23 April:</b> the FCC lets Starlink move lower and serve terminals down to 25° [8].', '<b>23 апреля:</b> FCC разрешает Starlink опуститься ниже и работать с терминалами начиная с 25° [8].'],
+  ['2022', '<b>3 February:</b> 49 Starlinks released at a 210 km perigee into a geomagnetic storm; 38 re-enter [25][12][9].', '<b>3 февраля:</b> 49 спутников Starlink выпущены с перигеем 210 км в геомагнитную бурю; 38 входят в атмосферу [25][12][9].'],
+  ['2023', 'OneWeb merges with Eutelsat [16]. <b>6 October:</b> Amazon’s two prototypes launched [7]. LOFAR detects radio leakage from Starlinks [22].', 'OneWeb объединяется с Eutelsat [16]. <b>6 октября:</b> запуск двух прототипов Amazon [7]. LOFAR обнаруживает радиоутечку спутников Starlink [22].'],
+  ['2024', '<b>January:</b> over 9,000 Starlink lasers carry 42 PB a day [11]. <b>6 August:</b> first 18 Qianfan satellites [7]. <b>16 December:</b> first Guowang batch [7].', '<b>Январь:</b> более 9000 лазеров Starlink передают 42 ПБ в сутки [11]. <b>6 августа:</b> первые 18 спутников «Цяньфаня» [7]. <b>16 декабря:</b> первая партия «Гована» [7].'],
+  ['2025', '<b>28 April:</b> first 27 production Kuiper satellites [7]. <b>13 November:</b> Kuiper becomes Amazon Leo [17].', '<b>28 апреля:</b> первые 27 серийных спутников Kuiper [7]. <b>13 ноября:</b> Kuiper становится Amazon Leo [17].'],
+  ['2026', '<b>December 2025 – May 2026:</b> 207,152 Starlink avoidance manoeuvres [24]. <b>15 October:</b> 13,015 Starlinks launched, 11,154 in orbit [9].', '<b>Декабрь 2025 – май 2026:</b> 207 152 манёвра уклонения Starlink [24]. <b>15 октября:</b> запущено 13 015 спутников Starlink, на орбите 11 154 [9].']
+];
+
+/* ============ CH9 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'Air & Space / Smithsonian, “The Rise and Fall and Rise of Iridium”', url:'https://www.smithsonianmag.com/air-space-magazine/the-rise-and-fall-and-rise-of-iridium-5615034/', note:{en:'Launches began May 1997, 66 satellites plus spares within a year; $5 billion; $3,000 phone, $6–30 a minute; bankrupt by August 1999; bought for $25 million plus investment; “a triumph of engineering over common sense” (on Iridium and Globalstar).', ru:'Запуски с мая 1997 года, 66 спутников плюс резерв за год; 5 млрд долларов; телефон за 3000 долларов, 6–30 долларов в минуту; банкротство к августу 1999 года; выкуп за 25 млн долларов плюс вложения; «триумф инженерии над здравым смыслом» (об Iridium и Globalstar).'}},
+  {title:'ESA eoPortal, “Iridium NEXT”', url:'https://www.eoportal.org/satellite-missions/iridium-next', note:{en:'66 operational satellites in 6 polar planes of 11, 780 km, 86.4°, 101 min; launched in eight stages, January 2017 to January 2019.', ru:'66 рабочих спутников в 6 полярных плоскостях по 11, 780 км, 86,4°, 101 мин; запущены в восемь этапов, с января 2017 по январь 2019 года.'}},
+  {title:'A. Fazekas, “Amazing Sky Bursts Are About to End” — National Geographic, 25 January 2017', url:'https://www.nationalgeographic.com/science/article/skywatching-iridium-flares-spacex-satellites-space-science', note:{en:'Iridium flares: sunlight glinting off three large silver-coated antennas; can outshine the ISS and Venus; the new satellites are far less reflective.', ru:'Вспышки «Иридиумов»: блики солнца на трёх больших посеребрённых антеннах; ярче МКС и Венеры; новые спутники отражают гораздо слабее.'}},
+  {title:'FCC Public Notice, Report No. SAT-00115, 1 August 2002', url:'https://docs.fcc.gov/public/attachments/DOC-224926A1.pdf', note:{en:'Globalstar modification: 48 in-service satellites in eight planes, 52°, orbital height 1,414 km.', ru:'Изменение Globalstar: 48 рабочих спутников в восьми плоскостях, 52°, высота орбиты 1414 км.'}},
+  {title:'Globalstar, L.P., Form 8-K, US Securities and Exchange Commission, filed 19 February 2002', url:'https://www.sec.gov/Archives/edgar/data/1037927/000095012302001711/y57723e8-k.txt', note:{en:'“On February 15, 2002 … Globalstar, L.P. … and certain of its direct subsidiaries filed voluntary petitions under Chapter 11” in the US Bankruptcy Court for the District of Delaware.', ru:'«15 февраля 2002 года … Globalstar, L.P. … и ряд её дочерних компаний подали добровольные заявления по главе 11» в Суд по делам о банкротстве округа Делавэр (США).'}},
+  {title:'S. P. Chan, “The birth and demise of an idea: Teledesic’s ‘Internet in the sky’” — Seattle Times, 7 October 2002', url:'https://archive.seattletimes.com/archive/20021007/teledesic070/the-birth-and-demise-of-an-idea-teledesics-internet-in-the-sky', note:{en:'840 satellites, $9 billion; McCaw and Gates each invested $5 million in 1994; design shrank to 300 (1997) and later 30; satellite contract suspended, October 2002.', ru:'840 спутников, 9 млрд долларов; Маккоу и Гейтс вложили по 5 млн долларов в 1994 году; проект сокращён до 300 (1997) и затем до 30; контракт на спутники приостановлен в октябре 2002 года.'}},
+  {title:'J. McDowell, GCAT — General Catalog of Artificial Space Objects, launch list', url:'https://planet4589.org/space/gcat/', note:{en:'Launch dates (UTC): Iridium MS-1A 1997-05-05; Globalstar D-1 1998-02-14; OneWeb F6 2019-02-27; Starlink V0.9 2019-05-24; Starlink Group 4-7 2022-02-03; KuiperSat-1/2 2023-10-06; Qianfan 01 2024-08-06; first Guowang low-orbit batch 2024-12-16; Kuiper KA-01 2025-04-28. Launch list updated 17 October 2026.', ru:'Даты запусков (UTC): Iridium MS-1A 1997-05-05; Globalstar D-1 1998-02-14; OneWeb F6 2019-02-27; Starlink V0.9 2019-05-24; Starlink Group 4-7 2022-02-03; KuiperSat-1/2 2023-10-06; «Цяньфань» 01 2024-08-06; первая низкоорбитальная партия «Гована» 2024-12-16; Kuiper KA-01 2025-04-28. Список обновлён 17 октября 2026 года.'}},
+  {title:'FCC 21-48, Order and Authorization on SpaceX’s third modification (adopted 23 April 2021)', url:'https://docs.fcc.gov/public/attachments/FCC-21-48A1.pdf', note:{en:'Earth-station elevation angles as low as 25° for user terminals and gateways; 1,584 satellites at 550 km, 53°, 72 planes × 22, plus 540 km/53.2°, 570 km/70°, 560 km/97.6° shells; OneWeb terminals operate down to 40° (as stated in the order).', ru:'Углы места земных станций от 25° для терминалов и шлюзов; 1584 спутника на 550 км, 53°, 72 плоскости × 22, плюс оболочки 540 км/53,2°, 570 км/70°, 560 км/97,6°; терминалы OneWeb работают от 40° (по тексту решения).'}},
+  {title:'J. McDowell, “Starlink Statistics” — Jonathan’s Space Report', url:'https://planet4589.org/space/con/star/stats.html', note:{en:'Updated 15 October 2026: 13,015 launched, 1,861 down (1,508 disposal complete), 11,154 in orbit, 9,726 in operational orbit; Group 4-7: 49 launched, 38 early deorbit.', ru:'Обновлено 15 октября 2026 года: запущено 13 015, сошли с орбиты 1861 (1508 — завершённая утилизация), на орбите 11 154, на рабочей орбите 9726; Group 4-7: запущено 49, 38 — ранний сход.'}},
+  {title:'J. McDowell, “Enormous (‘Mega’) Satellite Constellations — Constellation List”', url:'https://planet4589.org/space/con/conlist.html', note:{en:'Updated 15 October 2026. Shell altitudes, inclinations and satellites on station; OneWeb 87.9°, ~1,180–1,220 km, 588 planned, 660 up, 636 operational; Kuiper KP1 3,232 planned, 398 up, 355 operational; Xingwang (Guowang) 960 + 12,992 planned, 261 up, 213 operational; Qianfan 16,000 planned, 258 up, 178 operational.', ru:'Обновлено 15 октября 2026 года. Высоты и наклонения оболочек, спутники на позициях; OneWeb 87,9°, ~1180–1220 км, план 588, запущено 660, рабочих 636; Kuiper KP1 план 3232, запущено 398, рабочих 355; Xingwang («Гован») план 960 + 12 992, запущено 261, рабочих 213; «Цяньфань» план 16 000, запущено 258, рабочих 178.'}},
+  {title:'M. Posch, “Starlink’s Inter-Satellite Laser Links Are Setting New Record With 42 Million GB Per Day” — Hackaday, 5 February 2024', url:'https://hackaday.com/2024/02/05/starlinks-inter-satellite-laser-links-are-setting-new-record-with-42-million-gb-per-day/', note:{en:'Report of T. Brashears (SpaceX), SPIE Photonics West, 30 January 2024: over 9,000 lasers, over 42 PB a day, 100 Gbps links, maximum link distance 5,400 km; first enabled with v1.5 satellites.', ru:'Доклад Т. Брашерса (SpaceX), SPIE Photonics West, 30 января 2024 года: более 9000 лазеров, свыше 42 ПБ в сутки, каналы 100 Гбит/с, наибольшая дальность связи 5400 км; впервые на спутниках v1.5.'}},
+  {title:'R. Kataoka et al., “Unexpected space weather causing the reentry of 38 Starlink satellites in February 2022” — J. Space Weather Space Clim. 12 (2022)', url:'https://doi.org/10.1051/swsc/2022034', note:{en:'Moderate magnetic storms; “up to 50%” enhancement of air drag at ~200 km; NRLMSIS2.0 predicted under 25%.', ru:'Умеренные магнитные бури; рост сопротивления воздуха «до 50 %» на высоте ~200 км; модель NRLMSIS2.0 предсказывала менее 25 %.'}},
+  {title:'iTWire, “Starlink claims dramatic improvement in network performance” (2025)', url:'https://itwire.com/business-it-news/business-technology/starlink-claims-dramatic-improvement-in-network-performance', note:{en:'Quoting Starlink: as of June 2025, median peak-hour latency 25.7 ms across all US customers; fewer than 1 % of measurements above 55 ms.', ru:'Цитата Starlink: на июнь 2025 года медианная задержка в часы пик 25,7 мс для всех абонентов в США; менее 1 % измерений выше 55 мс.'}},
+  {title:'M. Handley, “Delay is Not an Option: Low Latency Routing in Space” — ACM HotNets 2018', url:'https://discovery.ucl.ac.uk/id/eprint/10062262/', note:{en:'Simulation of SpaceX’s initial phase as then filed — 1,600 satellites at 1,150 km, 53° — giving lower latency than any possible terrestrial fibre network beyond about 3,000 km; c in vacuum is “≈ 47% higher” than in glass (index ≈ 1.47).', ru:'Моделирование начальной фазы SpaceX по тогдашним заявкам — 1600 спутников на 1150 км, 53°: меньшая задержка, чем у любой возможной наземной оптоволоконной сети, на расстояниях более 3000 км; скорость света в вакууме «примерно на 47 % выше», чем в стекле (показатель преломления ≈ 1,47).'}},
+  {title:'E. Howell, “OneWeb eyes merger with Eutelsat amid SpaceX Starlink expansion” — Space.com, 27 July 2022', url:'https://www.space.com/oneweb-merger-eutelsat-spacex-starlink', note:{en:'Chapter 11 in March 2020; re-emerged owned by the British government and Bharti Global.', ru:'Банкротство в марте 2020 года; вернулась под контролем правительства Великобритании и Bharti Global.'}},
+  {title:'Eutelsat, “Our History”', url:'https://www.eutelsat.com/en/group/our-history.html', note:{en:'2023: Eutelsat and OneWeb merge.', ru:'2023: Eutelsat и OneWeb объединяются.'}},
+  {title:'Amazon, “What is Amazon Leo?” (FAQ)', url:'https://www.aboutamazon.com/news/innovation-at-amazon/what-is-amazon-project-kuiper', note:{en:'Project Kuiper retired as a name on 13 November 2025 and renamed Amazon Leo.', ru:'Название Project Kuiper упразднено 13 ноября 2025 года, сеть переименована в Amazon Leo.'}},
+  {title:'J. McDowell, “The Low Earth Orbit Satellite Population and Impacts of the SpaceX Starlink Constellation” — ApJL 892, L36 (2020)', url:'https://doi.org/10.3847/2041-8213/ab8016', note:{en:'~12,000 Starlinks: 0.005–0.01 objects per square degree at airmass < 2; hundreds visible near twilight at latitudes 45°–55°.', ru:'~12 000 Starlink: 0,005–0,01 объекта на квадратный градус при воздушной массе < 2; в сумерки на широтах 45°–55° видны сотни.'}},
+  {title:'J. A. Tyson et al., “Mitigation of LEO Satellite Brightness and Trail Effects on the Rubin Observatory LSST” — AJ 160, 226 (2020)', url:'https://doi.org/10.3847/1538-3881/abba3e', note:{en:'Starlink v0.9 g ≈ 4.5 mag, DarkSat ≈ 6.1, darkening plans ≈ 7; 48,000 satellites of mag 4.5 → about 1 % of pixels masked in nautical-twilight images.', ru:'Starlink v0.9 g ≈ 4,5ᵐ, DarkSat ≈ 6,1ᵐ, планы затемнения ≈ 7ᵐ; 48 000 спутников 4,5ᵐ → около 1 % пикселей маскируется на снимках в навигационные сумерки.'}},
+  {title:'Vera C. Rubin Observatory, “Key Numbers”', url:'https://rubinobservatory.org/for-scientists/rubin-101/key-numbers', note:{en:'8.4 m primary mirror; 9.6 deg² field of view; standard visit exposure 30 s; site latitude −30:14:40.68 (−30.24°), longitude −70:44:57.90.', ru:'Главное зеркало 8,4 м; поле зрения 9,6 кв. градуса; стандартная экспозиция 30 с; широта −30:14:40,68 (−30,24°), долгота −70:44:57,90.'}},
+  {title:'S. R. Pratt, R. A. Raines, C. E. Fossa Jr. & M. A. Temple, “An Operational and Performance Overview of the IRIDIUM Low Earth Orbit Satellite System” — IEEE Communications Surveys 2 (2), 1999', url:'https://kt.agh.edu.pl/~kulakowski/satelity/Iridium-Leo.pdf', note:{en:'“The minimum elevation angle for an earth station is 8.2 degrees”; co-rotating planes 31.6° apart, counter-rotating planes 22° apart.', ru:'«Минимальный угол места для земной станции — 8,2 градуса»; плоскости, движущиеся в одну сторону, разнесены на 31,6°, встречные — на 22°.'}},
+  {title:'F. Di Vruno et al., “Unintended electromagnetic radiation from Starlink satellites detected with LOFAR between 110 and 188 MHz” — A&A 676, A75 (2023)', url:'https://doi.org/10.1051/0004-6361/202346374', note:{en:'47 of 68 Starlink satellites observed show intrinsic radiation at 110–188 MHz, far below the 10.7–12.7 GHz downlinks.', ru:'У 47 из 68 наблюдавшихся спутников Starlink — собственное излучение на 110–188 МГц, намного ниже нисходящих каналов 10,7–12,7 ГГц.'}},
+  {title:'C. G. Bassa et al., “Bright unintended electromagnetic radiation from second-generation Starlink satellites” — A&A 689 (2024)', url:'https://doi.org/10.1051/0004-6361/202451856', note:{en:'v2-Mini emission up to a factor of 32 stronger than the first generation; exceeds ITU-R thresholds protecting 150.05–153 MHz.', ru:'Излучение v2-Mini до 32 раз сильнее, чем у первого поколения; превышает пороги МСЭ-R для защиты полосы 150,05–153 МГц.'}},
+  {title:'T. Pultarova, “Every SpaceX Starlink satellite has to dodge a collision almost weekly…” — Space.com, 15 July 2026', url:'https://www.space.com/space-exploration/satellites/every-spacex-starlink-satellite-has-to-dodge-a-collision-almost-weekly-and-experts-fear-the-worst', note:{en:'From SpaceX’s semiannual FCC report: 207,152 manoeuvres December 2025 – May 2026, 148,696 the previous half-year; over 40 per satellite per year; threshold 3 in 10 million.', ru:'По полугодовому отчёту SpaceX в FCC: 207 152 манёвра с декабря 2025 по май 2026 года, 148 696 за предыдущее полугодие; более 40 на спутник в год; порог 3 на 10 миллионов.'}},
+  {title:'SpaceX, “Geomagnetic storm and recently deployed Starlink satellites” (8 February 2022), reposted by TelecomTV, 9 February 2022', url:'https://www.telecomtv.com/content/access-evolution/geomagnetic-storm-and-recently-deployed-starlink-satellites-43563/', note:{en:'Falcon 9 deployed 49 satellites “with a perigee of approximately 210 kilometers above Earth”; drag “up to 50 percent higher than during previous launches”; “up to 40” expected to re-enter (McDowell later counts 38).', ru:'Falcon 9 вывел 49 спутников «с перигеем около 210 километров над Землёй»; сопротивление «до 50 процентов выше, чем при предыдущих запусках»; ожидался вход в атмосферу «до 40» (по позднейшему подсчёту Макдауэлла — 38).'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  Array.prototype.forEach.call(document.querySelectorAll('[data-aria-en]'), function(el){ el.setAttribute('aria-label', T(el.getAttribute('data-aria-en'), el.getAttribute('data-aria-ru'))); });
+  renderCov();
+  renderTables();
+  renderLat();
+  renderSky();
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__swarm = {footprint:footprint, slantMax:slantMax, capArea:capArea, nHoneycomb:nHoneycomb, streets:streets, gcKm:gcKm, latency:latency, geoPath:geoPath, crossover:crossover,
+  shellPoint:shellPoint, sunlit:sunlit, skyCounts:skyCounts, perSqDeg:perSqDeg, streaks:streaks, shadowHeightZenith:shadowHeightZenith, midnightDepression:midnightDepression,
+  CITIES:CITIES, SNAP:SNAP, SHELLS:SHELLS, FLEET:FLEET, MANEUVERS:MANEUVERS, H_GEO:H_GEO, A_GEO:A_GEO, RUBIN_LAT:RUBIN_LAT, OBLIQ:OBLIQ, TIMELINE:TIMELINE, REFERENCES:REFERENCES};
+
+})();
+</script>
+</body>
+</html>

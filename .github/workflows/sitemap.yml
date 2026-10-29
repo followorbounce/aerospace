@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'pages.json'
+      - 'ru/**'
       - '.github/workflows/sitemap.yml'
   workflow_dispatch:
 
@@ -20,16 +21,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      # Each guide with a Russian edition (ru/<slug>.html, _tools/ru_pages.py) is listed twice, each URL naming both.
       - name: Generate sitemap from pages.json
         run: |
           BASE="https://followorbounce.github.io/aerospace"
+          pair() {  # $1 = slug ('' for the index)
+            local en="${BASE}/$1" ru="${BASE}/ru/$1" f="ru/${1:-index}.html"
+            if [ -f "$f" ]; then
+              for u in "$en" "$ru"; do
+                echo "  <url><loc>${u}</loc><xhtml:link rel=\"alternate\" hreflang=\"en\" href=\"${en}\"/><xhtml:link rel=\"alternate\" hreflang=\"ru\" href=\"${ru}\"/><xhtml:link rel=\"alternate\" hreflang=\"x-default\" href=\"${en}\"/></url>"
+              done
+            else
+              echo "  <url><loc>${en}</loc></url>"
+            fi
+          }
           {
             echo '<?xml version="1.0" encoding="UTF-8"?>'
-            echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-            echo "  <url><loc>${BASE}/</loc></url>"
-            jq -r '.categories[].pages[].slug' pages.json | while read -r slug; do
-              echo "  <url><loc>${BASE}/${slug}</loc></url>"
-            done
+            echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">'
+            pair ''
+            jq -r '.categories[].pages[].slug' pages.json | while read -r slug; do pair "$slug"; done
             echo '</urlset>'
           } > sitemap.xml
           cat sitemap.xml

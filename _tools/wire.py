@@ -61,3 +61,5 @@ print('wired', slug)
 # search.json follows pages.json; related.json needs an entry for the new guide (search-index.py says so if not)
 import subprocess
 subprocess.run([sys.executable, R + '_tools/search-index.py'])
+# the Russian edition (ru/<slug>.html + hreflang on both editions) follows the English pages
+subprocess.run([sys.executable, R + '_tools/ru_pages.py'])

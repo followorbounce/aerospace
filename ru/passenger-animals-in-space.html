@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ru" data-edition="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Животные в космосе: Лайка, Белка и Стрелка, Хэм — Аэрокосмический справочник</title>
+<meta name="description" content="Прежде чем полетел человек, летали животные — плодовые мушки, обезьяны, собаки, шимпанзе, кошка, черепахи и мыши. Одни вернулись, многие — нет, и этот справочник говорит об этом прямо. Девять глав и…">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/ru/passenger-animals-in-space">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Животные в космосе: Лайка, Белка и Стрелка, Хэм — Аэрокосмический справочник">
+<meta property="og:description" content="Прежде чем полетел человек, летали животные — плодовые мушки, обезьяны, собаки, шимпанзе, кошка, черепахи и мыши. Одни вернулись, многие — нет, и этот справочник говорит об этом прямо. Девять глав и…">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/ru/passenger-animals-in-space">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* PASSENGER: 44 px touch targets, small SVG text, the flight/question matrix */
+.btn{min-height:44px; min-width:44px; padding:10px 12px;}
+input[type=range]{height:44px; margin:2px 0; width:100%; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible, .mx-row:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+.svg-small{fill:#5f5f59; font-size:10.5px; font-family:'IBM Plex Mono',monospace;}
+.svg-halo{paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round;}
+.sky-wrap{border:1px solid var(--ink); background:var(--white); padding:12px; display:flex; flex-direction:column; gap:10px; min-width:0;}
+.mx-table{width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:11px; table-layout:fixed;}
+.mx-table th, .mx-table td{border-bottom:1px solid var(--line); padding:0; text-align:center; vertical-align:middle;}
+.mx-table thead th{font-weight:600; padding:6px 0; font-size:10.5px;}
+.mx-table thead th.mx-fl{text-align:left;}
+.mx-table abbr{text-decoration:none;}
+.mx-table th.mx-fl{width:auto;}
+.mx-table th.mx-q, .mx-table td.mx-c{width:9%;}
+.mx-table td.mx-c{font-size:14px;}
+.mx-table .on{background:#f3e3dd;}
+.mx-table tr.dim{opacity:0.45;}
+.mx-table tr.sel th.mx-fl{background:#eef2f9;}
+.mx-row{display:block; width:100%; min-height:44px; padding:6px 6px; background:none; border:0; text-align:left; font:inherit; font-size:11.5px; color:var(--ink); cursor:pointer;}
+.mx-row[aria-pressed="true"]{font-weight:600;}
+.mx-y{color:#5f5f59; font-weight:400;}
+.mx-o{display:block; font-size:10px; color:#5f5f59; font-weight:400; margin-top:2px;}
+.mx-died .mx-o, .mx-o.mx-died, .mx-o.mx-killed{color:#b5452a;}
+.mx-detail{font-size:14.5px; line-height:1.5; margin-top:14px;}
+@media (max-width:520px){ .svg-small{font-size:14px;} .svg-label{font-size:14px;} .mx-table th.mx-q, .mx-table td.mx-c{width:7%;} .mx-table td.mx-c{font-size:12px;} .mx-row{padding:6px 2px;} .mx-table thead th{font-size:9.5px;} }
+@media (pointer:coarse){
+  input[type=range]{background:transparent;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/passenger-animals-in-space">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/passenger-animals-in-space">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/passenger-animals-in-space">
+<!-- /hreflang -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Животные в космосе: Лайка, Белка и Стрелка, Хэм","description":"Прежде чем полетел человек, летали животные — плодовые мушки, обезьяны, собаки, шимпанзе, кошка, черепахи и мыши. Одни вернулись, многие — нет, и этот справочник говорит об этом прямо. Девять глав и…","url":"https://followorbounce.github.io/aerospace/ru/passenger-animals-in-space","mainEntityOfPage":"https://followorbounce.github.io/aerospace/ru/passenger-animals-in-space","image":"","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Аэрокосмический справочник","url":"https://followorbounce.github.io/aerospace/ru/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Аэрокосмический справочник","item":"https://followorbounce.github.io/aerospace/ru/"},{"@type":"ListItem","position":2,"name":"Животные в космосе: Лайка, Белка и Стрелка, Хэм","item":"https://followorbounce.github.io/aerospace/ru/passenger-animals-in-space"}]}</script>
+<!-- /fob-ld -->
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">PASSENGER — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="">EN</button>
+    <button data-lang="ru" class="active">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">PASSENGERS</span></div>
+  <div class="hud-row"><span class="hud-label">CABIN (MODEL)</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">PEAK G</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+<!-- HERO -->
+<section id="hero" class="section" data-phase="PASSENGERS">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/ru/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← ОГЛАВЛЕНИЕ</span></a> — <span data-en="FIG. 00 — THE BIOLOGY FLIGHTS, 1947–2025" data-ru="РИС. 00 — БИОЛОГИЧЕСКИЕ ПОЛЁТЫ, 1947–2025">РИС. 00 — БИОЛОГИЧЕСКИЕ ПОЛЁТЫ, 1947–2025</span></span>
+        <span>V-2 → Bion-M No. 2</span>
+      </div>
+      <h1><span data-en="PASSENGER" data-ru="ПАССАЖИР">ПАССАЖИР</span><br><em data-en="LAIKA, BELKA &amp; STRELKA, HAM AND THE BIOLOGY FLIGHTS" data-ru="ЛАЙКА, БЕЛКА И СТРЕЛКА, ХЭМ И БИОЛОГИЧЕСКИЕ ПОЛЁТЫ">ЛАЙКА, БЕЛКА И СТРЕЛКА, ХЭМ И БИОЛОГИЧЕСКИЕ ПОЛЁТЫ</em></h1>
+      <p class="sub lede" data-en="Before anyone flew, animals did — fruit flies, monkeys, dogs, chimpanzees, a cat, tortoises and mice. Some came back; many did not, and this guide says so plainly. Nine chapters and three instruments: heat a sealed cabin the way Sputnik 2 heated Laika's, fly Ham's ballistic arc and see why a faster booster meant 14.6 g instead of 11, and match each flight to the question it actually answered for Gagarin and Shepard — and the ones it could not." data-ru="Прежде чем полетел человек, летали животные — плодовые мушки, обезьяны, собаки, шимпанзе, кошка, черепахи и мыши. Одни вернулись, многие — нет, и этот справочник говорит об этом прямо. Девять глав и три прибора: нагрейте запечатанную кабину так, как «Спутник-2» нагрел кабину Лайки, пролетите баллистическую дугу Хэма и посмотрите, почему слишком быстрый носитель дал 14,6 g вместо 11, и сопоставьте каждый полёт с вопросом, на который он действительно ответил для Гагарина и Шепарда, — и с теми, на которые не мог.">Прежде чем полетел человек, летали животные — плодовые мушки, обезьяны, собаки, шимпанзе, кошка, черепахи и мыши. Одни вернулись, многие — нет, и этот справочник говорит об этом прямо. Девять глав и три прибора: нагрейте запечатанную кабину так, как «Спутник-2» нагрел кабину Лайки, пролетите баллистическую дугу Хэма и посмотрите, почему слишком быстрый носитель дал 14,6 g вместо 11, и сопоставьте каждый полёт с вопросом, на который он действительно ответил для Гагарина и Шепарда, — и с теми, на которые не мог.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">НАЧАТЬ — ГЛАВА 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — SOUNDING ROCKETS -->
+<section id="ch1" class="section" data-phase="SOUNDING ROCKETS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 09</span> — <span data-en="WHITE SANDS AND KAPUSTIN YAR, 1947–51" data-ru="УАЙТ-СЭНДС И КАПУСТИН ЯР, 1947–1951">УАЙТ-СЭНДС И КАПУСТИН ЯР, 1947–1951</span></div>
+    <h2 class="h-lg" data-en="Up, a few minutes of falling, and a parachute" data-ru="Вверх, несколько минут падения и парашют">Вверх, несколько минут падения и парашют</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The first animals above the atmosphere were insects. On 20 February 1947 a captured V-2 launched from White Sands, New Mexico, carried a canister of <b>fruit flies</b> and seeds in the “Blossom” series; the canister was ejected near the top of the flight and came down by parachute, and the flies were recovered alive. The purpose was to see what cosmic radiation did to living things [1][2]. Monkeys followed. <b>Albert II</b> reached 83 miles (134 km) on 14 June 1949 and survived the flight, but his parachute failed and he died on impact; Albert I had died a year earlier in a cramped capsule, and Albert IV also died at impact [1][2]." data-ru="Первыми живыми существами над атмосферой стали насекомые. 20 февраля 1947 года трофейная V-2, запущенная с полигона Уайт-Сэндс (Нью-Мексико), подняла в рамках серии Blossom контейнер с <b>плодовыми мушками</b> и семенами; у вершины траектории контейнер отделился и спустился на парашюте, мушек нашли живыми. Целью было узнать, что космические лучи делают с живым [1][2]. Следом полетели обезьяны. <b>Альберт II</b> 14 июня 1949 года поднялся на 83 мили (134 км) и пережил полёт, но парашют не раскрылся, и он погиб при ударе; Альберт I погиб годом раньше в тесной капсуле, Альберт IV тоже погиб при ударе [1][2].">Первыми живыми существами над атмосферой стали насекомые. 20 февраля 1947 года трофейная V-2, запущенная с полигона Уайт-Сэндс (Нью-Мексико), подняла в рамках серии Blossom контейнер с <b>плодовыми мушками</b> и семенами; у вершины траектории контейнер отделился и спустился на парашюте, мушек нашли живыми. Целью было узнать, что космические лучи делают с живым [1][2]. Следом полетели обезьяны. <b>Альберт II</b> 14 июня 1949 года поднялся на 83 мили (134 км) и пережил полёт, но парашют не раскрылся, и он погиб при ударе; Альберт I погиб годом раньше в тесной капсуле, Альберт IV тоже погиб при ударе [1][2].</p>
+      <p class="body-col" data-en="The Soviet programme used dogs: small, calm strays, chosen because they tolerated confinement. On 22 July 1951 <b>Dezik and Tsygan</b> rode an R-1V — a Soviet-built copy of the V-2 — to about 110 km and were recovered unharmed [3]. (NASA's history page gives 15 August for this flight [1].) Dezik died on a later flight with a dog named Lisa when the parachute did not open; nine dogs flew on R-1 rockets in 1951–52 [1]. These flights showed a mammal could come through launch vibration and acceleration, minutes of free fall and a parachute landing — but minutes, not hours." data-ru="Советская программа использовала собак — небольших спокойных дворняг, которых отбирали за то, что они переносили тесноту. 22 июля 1951 года <b>Дезик и Цыган</b> поднялись на ракете Р-1В — советской копии V-2 — примерно на 110 км и вернулись невредимыми [3]. (На странице истории NASA для этого полёта указано 15 августа [1].) Дезик погиб в следующем полёте вместе с собакой Лисой, когда не раскрылся парашют; всего в 1951–1952 годах на ракетах Р-1 летали девять собак [1]. Эти полёты показали, что млекопитающее переносит вибрацию и перегрузку старта, минуты свободного падения и посадку на парашюте, — но речь шла о минутах, а не о часах.">Советская программа использовала собак — небольших спокойных дворняг, которых отбирали за то, что они переносили тесноту. 22 июля 1951 года <b>Дезик и Цыган</b> поднялись на ракете Р-1В — советской копии V-2 — примерно на 110 км и вернулись невредимыми [3]. (На странице истории NASA для этого полёта указано 15 августа [1].) Дезик погиб в следующем полёте вместе с собакой Лисой, когда не раскрылся парашют; всего в 1951–1952 годах на ракетах Р-1 летали девять собак [1]. Эти полёты показали, что млекопитающее переносит вибрацию и перегрузку старта, минуты свободного падения и посадку на парашюте, — но речь шла о минутах, а не о часах.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="HOW LONG A SOUNDING ROCKET FALLS FREELY" data-ru="СКОЛЬКО СВОБОДНО ПАДАЕТ ГЕОФИЗИЧЕСКАЯ РАКЕТА">СКОЛЬКО СВОБОДНО ПАДАЕТ ГЕОФИЗИЧЕСКАЯ РАКЕТА</div>
+      <div class="eq-body" data-en="t = 2 √(2 Δh / g) · apogee 110 km, above 60 km: t ≈ 3.4 min" data-ru="t = 2 √(2 Δh / g) · апогей 110 км, выше 60 км: t ≈ 3,4 мин">t = 2 √(2 Δh / g) · апогей 110 км, выше 60 км: t ≈ 3,4 мин</div>
+      <div class="eq-note" data-en="Δh is the height of the arc above the altitude where the air is thin enough to ignore (taken here as 60 km); the same formula gives the weightless time of any ballistic hop. Orbit changes this completely: in orbit the fall never ends — chapter 2." data-ru="Δh — высота дуги над уровнем, где воздухом можно пренебречь (здесь 60 км); та же формула даёт время невесомости любого баллистического прыжка. Орбита меняет всё: на орбите падение не заканчивается — глава 2.">Δh — высота дуги над уровнем, где воздухом можно пренебречь (здесь 60 км); та же формула даёт время невесомости любого баллистического прыжка. Орбита меняет всё: на орбите падение не заканчивается — глава 2.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — SPUTNIK 2 -->
+<section id="ch2" class="section" data-phase="SPUTNIK 2">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 09</span> — <span data-en="3 NOVEMBER 1957" data-ru="3 НОЯБРЯ 1957 ГОДА">3 НОЯБРЯ 1957 ГОДА</span></div>
+    <h2 class="h-lg" data-en="Laika and a cabin that could not shed its heat" data-ru="Лайка и кабина, которая не могла отдать тепло">Лайка и кабина, которая не могла отдать тепло</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="<b>Sputnik 2</b>, 508.3 kg [5], went into a 212 × 1,660 km orbit with a period of 103.7 minutes [4]. In a sealed cabin was <b>Laika</b>, a stray of about 6 kg [4]. Life support and food were designed for seven days; there was no way to bring her back [4][7]. A fan was set to switch on above 15 °C [6]. Sensors showed her pulse tripling at launch and slowing again in weightlessness — but taking three times longer to settle than after a centrifuge run [6][7]. The <a href='/aerospace/beep-sputnik-explorer.html'>BEEP guide</a> tells the launch story; this chapter is about the heat." data-ru="<b>«Спутник-2»</b> массой 508,3 кг [5] вышел на орбиту 212 × 1660 км с периодом 103,7 минуты [4]. В герметичной кабине находилась <b>Лайка</b> — дворняжка весом около 6 кг [4]. Системы жизнеобеспечения и запас корма рассчитывались на семь суток; способа вернуть её не было [4][7]. Вентилятор должен был включаться при температуре выше 15 °C [6]. Датчики показали, что пульс при старте утроился, а в невесомости снова замедлился, — но успокаивался втрое дольше, чем после центрифуги [6][7]. История запуска — в <a href='/aerospace/beep-sputnik-explorer.html'>справочнике BEEP</a>; эта глава — о тепле."><b>«Спутник-2»</b> массой 508,3 кг [5] вышел на орбиту 212 × 1660 км с периодом 103,7 минуты [4]. В герметичной кабине находилась <b>Лайка</b> — дворняжка весом около 6 кг [4]. Системы жизнеобеспечения и запас корма рассчитывались на семь суток; способа вернуть её не было [4][7]. Вентилятор должен был включаться при температуре выше 15 °C [6]. Датчики показали, что пульс при старте утроился, а в невесомости снова замедлился, — но успокаивался втрое дольше, чем после центрифуги [6][7]. История запуска — в <a href='/aerospace/beep-sputnik-explorer.html'>справочнике BEEP</a>; эта глава — о тепле.</p>
+      <p class="body-col" data-en="Telemetry showed the cabin's temperature and humidity climbing. After five to seven hours no more physiological data came; Malashenkov's 2002 paper, based on post-flight simulations, put her death from overheating on the third or fourth orbit [6][7]. NASA's catalogue says the interior reached <b>40 °C</b> [4]. For 45 years the official story was that she lived about a week [6]. Why it overheated is told two ways. NASA's entry says the core stage “did not separate as planned” and some insulation tore loose [4]; RussianSpaceWeb says the satellite was designed from the outset to stay attached to the core stage, making a 7.79-tonne object in orbit [8][9]. On what matters here the sources agree: the cabin flew joined to a large, sunlit rocket stage, and its thermal control could not keep it cool." data-ru="Телеметрия показывала рост температуры и влажности в кабине. Через пять–семь часов физиологические данные перестали поступать; доклад Малашенкова 2002 года по результатам послеполётного моделирования относит её гибель от перегрева к третьему или четвёртому витку [6][7]. В каталоге NASA сказано, что температура внутри достигла <b>40 °C</b> [4]. 45 лет официальная версия гласила, что она прожила около недели [6]. Причину перегрева объясняют по-разному. По данным NASA, центральный блок «не отделился, как планировалось», и часть теплоизоляции оторвалась [4]; по данным RussianSpaceWeb, спутник изначально проектировался неотделяемым от центрального блока, и на орбите оказался объект массой 7,79 т [8][9]. В главном источники сходятся: кабина летела вместе с большой, освещённой Солнцем ступенью ракеты, и система терморегулирования не справлялась с охлаждением.">Телеметрия показывала рост температуры и влажности в кабине. Через пять–семь часов физиологические данные перестали поступать; доклад Малашенкова 2002 года по результатам послеполётного моделирования относит её гибель от перегрева к третьему или четвёртому витку [6][7]. В каталоге NASA сказано, что температура внутри достигла <b>40 °C</b> [4]. 45 лет официальная версия гласила, что она прожила около недели [6]. Причину перегрева объясняют по-разному. По данным NASA, центральный блок «не отделился, как планировалось», и часть теплоизоляции оторвалась [4]; по данным RussianSpaceWeb, спутник изначально проектировался неотделяемым от центрального блока, и на орбите оказался объект массой 7,79 т [8][9]. В главном источники сходятся: кабина летела вместе с большой, освещённой Солнцем ступенью ракеты, и система терморегулирования не справлялась с охлаждением.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="A SEALED BOX IN ONE EQUATION" data-ru="ЗАПЕЧАТАННАЯ КОРОБКА В ОДНОМ УРАВНЕНИИ">ЗАПЕЧАТАННАЯ КОРОБКА В ОДНОМ УРАВНЕНИИ</div>
+      <div class="eq-body">C dT/dt = Q<sub>dog</sub> + Q<sub>eq</sub> + Q<sub>sun</sub>(t) − UA (T − T<sub>s</sub>) &nbsp;·&nbsp; T<sub>eq</sub> = T<sub>s</sub> + Q̄ / UA &nbsp;·&nbsp; τ = C / UA</div>
+      <div class="eq-note" data-en="C is the heat capacity of dog, air and cabin wall; UA is how many watts the cabin can shed per degree above its surroundings T_s. The cabin always heads for T_eq; τ says how fast. The orbital period comes from the orbit: T = 2π √(a³/GM), a = 6,371 km + (212 + 1,660)/2 km [10]." data-ru="C — теплоёмкость собаки, воздуха и стенки кабины; UA — сколько ватт кабина может отдать на каждый градус выше температуры окружения T_s. Кабина всегда стремится к T_eq; τ показывает, как быстро. Период обращения следует из орбиты: T = 2π √(a³/GM), a = 6371 км + (212 + 1660)/2 км [10].">C — теплоёмкость собаки, воздуха и стенки кабины; UA — сколько ватт кабина может отдать на каждый градус выше температуры окружения T_s. Кабина всегда стремится к T_eq; τ показывает, как быстро. Период обращения следует из орбиты: T = 2π √(a³/GM), a = 6371 км + (212 + 1660)/2 км [10].</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="heatSvg" class="sim-svg" viewBox="0 0 480 296" role="img" aria-label="Modelled cabin temperature over ten hours, with orbits shaded, the 40 °C line and the 5 to 7 hour window when life signs stopped" data-aria-en="Modelled cabin temperature over ten hours, with orbits shaded, the 40 °C line and the 5 to 7 hour window when life signs stopped" data-aria-ru="Модельная температура в кабине за десять часов: витки выделены полосами, линия 40 °C и окно 5–7 часов, когда пропали признаки жизни"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Configuration" data-aria-en="Configuration" data-aria-ru="Конфигурация" id="hCfg">
+          <button class="btn active" data-c="flown" aria-pressed="true" data-en="AS FLOWN: ON THE CORE STAGE" data-ru="КАК ЛЕТЕЛ: НА ЦЕНТРАЛЬНОМ БЛОКЕ">КАК ЛЕТЕЛ: НА ЦЕНТРАЛЬНОМ БЛОКЕ</button>
+          <button class="btn" data-c="alone" aria-pressed="false" data-en="SATELLITE ALONE (HYPOTHETICAL)" data-ru="СПУТНИК ОТДЕЛЬНО (ГИПОТЕТИЧЕСКИ)">СПУТНИК ОТДЕЛЬНО (ГИПОТЕТИЧЕСКИ)</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="hUA" data-en="HEAT THE CABIN CAN SHED (UA)" data-ru="СКОЛЬКО ТЕПЛА КАБИНА ОТДАЁТ (UA)">СКОЛЬКО ТЕПЛА КАБИНА ОТДАЁТ (UA)</label><span class="v" id="hUAVal">—</span></div>
+          <input id="hUA" type="range" min="0.5" max="5" step="0.1" value="1.5">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="hDog" data-en="THE DOG'S OWN HEAT" data-ru="СОБСТВЕННОЕ ТЕПЛО СОБАКИ">СОБСТВЕННОЕ ТЕПЛО СОБАКИ</label><span class="v" id="hDogVal">—</span></div>
+          <input id="hDog" type="range" min="5" max="40" step="1" value="25">
+        </div>
+        <div class="btn-row" role="group" aria-label="Dog heat presets" data-aria-en="Dog heat presets" data-aria-ru="Готовые значения тепла собаки" id="hDogPre">
+          <button class="btn" data-w="k" aria-pressed="false" data-en="AT REST ≈ 13 W" data-ru="В ПОКОЕ ≈ 13 Вт">В ПОКОЕ ≈ 13 Вт</button>
+          <button class="btn active" data-w="25" aria-pressed="true" data-en="AGITATED 25 W" data-ru="ВОЗБУЖДЕНА 25 Вт">ВОЗБУЖДЕНА 25 Вт</button>
+        </div>
+        <div class="readout-grid" id="heatReadout"></div>
+        <div class="status" id="heatStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="This is a one-node teaching model, not a reconstruction: no temperature telemetry has been published that we could check against. Its numbers are our assumptions — heat capacity 30 kJ/°C (a 6 kg dog is about 21 kJ/°C), equipment 15 W, surroundings 0 °C, sunlight on 65 % of each orbit, and for the as-flown case 60 W of extra heat in sunlight with UA = 1.5 W/°C (2.6 W/°C and 15 W for the satellite alone) — chosen by us so that the as-flown case crosses 40 °C, the interior temperature NASA's catalogue gives with no time attached [4], during the fourth orbit, where post-flight simulations put her death [7]. No source says when the cabin reached 40 °C, and no curve here is measured data. “At rest” is Kleiber's estimate for a 6 kg mammal, 70 M^0.75 kcal/day ≈ 13 W. The dashed grey line is the other configuration. What the model does show reliably is the shape: a sealed cabin with too little UA has an equilibrium above survivable, and a calm passenger only changes how fast it gets there." data-ru="Это однозонная учебная модель, а не реконструкция: опубликованной телеметрии температуры, с которой можно было бы сверить расчёт, мы не нашли. Её числа — наши допущения: теплоёмкость 30 кДж/°C (собака весом 6 кг — около 21 кДж/°C), аппаратура 15 Вт, окружение 0 °C, Солнце освещает аппарат 65 % каждого витка, а для полёта «как было» — 60 Вт дополнительного тепла на освещённом участке при UA = 1,5 Вт/°C (2,6 Вт/°C и 15 Вт для отдельного спутника). Они подобраны нами так, чтобы в варианте «как летел» кабина переходила 40 °C — температуру внутри, которую каталог NASA приводит без указания времени [4], — на четвёртом витке, к которому послеполётное моделирование относит её гибель [7]. Ни один источник не говорит, когда в кабине стало 40 °C, и ни одна кривая здесь не является измерением. «В покое» — оценка Клайбера для млекопитающего массой 6 кг: 70 M^0,75 ккал/сут ≈ 13 Вт. Серая пунктирная линия — другая конфигурация. Надёжно модель показывает лишь форму: у герметичной кабины со слишком малым UA равновесие лежит выше переносимого, а спокойствие пассажира меняет только скорость, с которой оно достигается.">Это однозонная учебная модель, а не реконструкция: опубликованной телеметрии температуры, с которой можно было бы сверить расчёт, мы не нашли. Её числа — наши допущения: теплоёмкость 30 кДж/°C (собака весом 6 кг — около 21 кДж/°C), аппаратура 15 Вт, окружение 0 °C, Солнце освещает аппарат 65 % каждого витка, а для полёта «как было» — 60 Вт дополнительного тепла на освещённом участке при UA = 1,5 Вт/°C (2,6 Вт/°C и 15 Вт для отдельного спутника). Они подобраны нами так, чтобы в варианте «как летел» кабина переходила 40 °C — температуру внутри, которую каталог NASA приводит без указания времени [4], — на четвёртом витке, к которому послеполётное моделирование относит её гибель [7]. Ни один источник не говорит, когда в кабине стало 40 °C, и ни одна кривая здесь не является измерением. «В покое» — оценка Клайбера для млекопитающего массой 6 кг: 70 M^0,75 ккал/сут ≈ 13 Вт. Серая пунктирная линия — другая конфигурация. Надёжно модель показывает лишь форму: у герметичной кабины со слишком малым UA равновесие лежит выше переносимого, а спокойствие пассажира меняет только скорость, с которой оно достигается.</p>
+  </div>
+</section>
+
+<!-- CH3 — THE ROUND TRIP -->
+<section id="ch3" class="section" data-phase="ROUND TRIP">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 09</span> — <span data-en="KORABL-SPUTNIKS, 1960–61" data-ru="КОРАБЛИ-СПУТНИКИ, 1960–1961">КОРАБЛИ-СПУТНИКИ, 1960–1961</span></div>
+    <h2 class="h-lg" data-en="Belka and Strelka, and the flights either side of them" data-ru="Белка и Стрелка — и полёты до и после них">Белка и Стрелка — и полёты до и после них</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Vostok test ships carried dogs in an ejectable container. The first attempt, on 28 July 1960, ended in a launch failure that killed the dogs Lisichka and Chaika [11]. On 19 August 1960 <b>Korabl-Sputnik 2</b> (called Sputnik 5 in the West) took <b>Belka and Strelka</b>, 40 mice, two rats and insects into a 306 × 339 km orbit; it landed on 20 August after 1 day 2 hours 23 minutes, 17–18 orbits — the first animals recovered alive from orbit, though 28 of the 40 mice died in flight [11]. On the fourth orbit the camera showed Belka moving anxiously, barking and vomiting. Vladimir Yazdovsky, head of Air Force medical research, then demanded that the first crewed flight last no more than one orbit [11]." data-ru="Испытательные «Востоки» несли собак в катапультируемом контейнере. Первая попытка 28 июля 1960 года закончилась аварией носителя, в которой погибли собаки Лисичка и Чайка [11]. 19 августа 1960 года <b>Второй корабль-спутник</b> (на Западе — «Спутник-5») вывел на орбиту 306 × 339 км <b>Белку и Стрелку</b>, 40 мышей, двух крыс и насекомых; 20 августа он приземлился после полёта длительностью 1 сутки 2 часа 23 минуты, 17–18 витков, — это были первые животные, живыми вернувшиеся с орбиты, хотя 28 из 40 мышей погибли в полёте [11]. На четвёртом витке камера показала, что Белка беспокойно мечется, лает и её рвёт. Начальник медицинских исследований ВВС Владимир Яздовский после этого потребовал, чтобы первый пилотируемый полёт длился не больше одного витка [11].">Испытательные «Востоки» несли собак в катапультируемом контейнере. Первая попытка 28 июля 1960 года закончилась аварией носителя, в которой погибли собаки Лисичка и Чайка [11]. 19 августа 1960 года <b>Второй корабль-спутник</b> (на Западе — «Спутник-5») вывел на орбиту 306 × 339 км <b>Белку и Стрелку</b>, 40 мышей, двух крыс и насекомых; 20 августа он приземлился после полёта длительностью 1 сутки 2 часа 23 минуты, 17–18 витков, — это были первые животные, живыми вернувшиеся с орбиты, хотя 28 из 40 мышей погибли в полёте [11]. На четвёртом витке камера показала, что Белка беспокойно мечется, лает и её рвёт. Начальник медицинских исследований ВВС Владимир Яздовский после этого потребовал, чтобы первый пилотируемый полёт длился не больше одного витка [11].</p>
+      <p class="body-col" data-en="The next ship, on 1–2 December 1960, flew a day in orbit, but its braking burn came out short and the descent module was destroyed by its self-destruct system on the way down: <b>Pchyolka and Mushka</b> died [12]. On 22 December a third-stage failure dropped <b>Kometa and Shutka</b> into the Siberian winter; the capsule's ejection and self-destruct systems both failed, and the dogs survived two days in the cold before rescue [13]. Then two flights flew Vostok 1's exact one-orbit plan with a mannequin in the pilot's seat: <b>Chernushka</b> on 9 March and <b>Zvezdochka</b> on 25 March 1961. Both came back alive [14][15]. Gagarin flew on 12 April — see the <a href='/aerospace/first-vostok-voskhod.html'>FIRST guide</a>." data-ru="Следующий корабль 1–2 декабря 1960 года провёл сутки на орбите, но тормозной импульс оказался недостаточным, и спускаемый аппарат был уничтожен системой аварийного подрыва: <b>Пчёлка и Мушка</b> погибли [12]. 22 декабря авария третьей ступени сбросила <b>Комету и Шутку</b> в сибирскую зиму; катапульта и система подрыва капсулы не сработали, и собаки двое суток провели на морозе, пока их не нашли [13]. Затем два полёта выполнили точную одновитковую программу «Востока-1» с манекеном в кресле лётчика: <b>Чернушка</b> 9 марта и <b>Звёздочка</b> 25 марта 1961 года. Обе вернулись живыми [14][15]. Гагарин полетел 12 апреля — см. <a href='/aerospace/first-vostok-voskhod.html'>справочник FIRST</a>.">Следующий корабль 1–2 декабря 1960 года провёл сутки на орбите, но тормозной импульс оказался недостаточным, и спускаемый аппарат был уничтожен системой аварийного подрыва: <b>Пчёлка и Мушка</b> погибли [12]. 22 декабря авария третьей ступени сбросила <b>Комету и Шутку</b> в сибирскую зиму; катапульта и система подрыва капсулы не сработали, и собаки двое суток провели на морозе, пока их не нашли [13]. Затем два полёта выполнили точную одновитковую программу «Востока-1» с манекеном в кресле лётчика: <b>Чернушка</b> 9 марта и <b>Звёздочка</b> 25 марта 1961 года. Обе вернулись живыми [14][15]. Гагарин полетел 12 апреля — см. <a href='/aerospace/first-vostok-voskhod.html'>справочник FIRST</a>.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="WHY A DAY MEANT SEVENTEEN ORBITS" data-ru="ПОЧЕМУ СУТКИ — ЭТО СЕМНАДЦАТЬ ВИТКОВ">ПОЧЕМУ СУТКИ — ЭТО СЕМНАДЦАТЬ ВИТКОВ</div>
+      <div class="eq-body" data-en="306 × 339 km → T = 90.9 min · 26 h 23 min ÷ T = 17.4 orbits" data-ru="306 × 339 км → T = 90,9 мин · 26 ч 23 мин ÷ T = 17,4 витка">306 × 339 км → T = 90,9 мин · 26 ч 23 мин ÷ T = 17,4 витка</div>
+      <div class="eq-note" data-en="Kepler's third law with the Earth values in [10]; RussianSpaceWeb quotes 90.6 minutes [11]. Seventeen-plus orbits of weightlessness, with recovery, was the first evidence that a mammal could live through what a day-long crewed flight would demand. The vomiting on the fourth orbit was the first warning that it would not necessarily be comfortable." data-ru="Третий закон Кеплера с земными константами из [10]; RussianSpaceWeb приводит 90,6 минуты [11]. Больше семнадцати витков невесомости с возвращением — первое свидетельство, что млекопитающее переживёт то, чего потребует суточный пилотируемый полёт. Рвота на четвёртом витке стала первым предупреждением, что приятным он не будет.">Третий закон Кеплера с земными константами из [10]; RussianSpaceWeb приводит 90,6 минуты [11]. Больше семнадцати витков невесомости с возвращением — первое свидетельство, что млекопитающее переживёт то, чего потребует суточный пилотируемый полёт. Рвота на четвёртом витке стала первым предупреждением, что приятным он не будет.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — HAM -->
+<section id="ch4" class="section" data-phase="HAM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 09</span> — <span data-en="MERCURY-REDSTONE 2, 31 JANUARY 1961" data-ru="«МЕРКУРИЙ-РЕДСТОУН-2», 31 ЯНВАРЯ 1961 ГОДА">«МЕРКУРИЙ-РЕДСТОУН-2», 31 ЯНВАРЯ 1961 ГОДА</span></div>
+    <h2 class="h-lg" data-en="A chimpanzee at work, and a booster that ran hot" data-ru="Шимпанзе за работой и носитель, который перестарался" >Шимпанзе за работой и носитель, который перестарался</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Project Mercury wanted more than survival: could a primate <i>do a job</i>? <b>Ham</b>, a chimpanzee trained to press levers in response to lights, flew on Mercury-Redstone 2. The Redstone's thrust was “considerably higher than planned”, its liquid oxygen ran out early, and the abort system fired the escape rocket, which pushed the capsule harder still [17]. Ham took <b>17.0 g</b> at that moment, then 6½ minutes of weightlessness, then <b>14.6 g</b> on re-entry at T+9 min 36 s; the capsule reached 136.2 nautical miles (252 km) and came down 363 nautical miles (672 km) downrange [16]." data-ru="Проекту «Меркурий» было мало выживания: может ли примат <i>выполнять работу</i>? <b>Хэм</b> — шимпанзе, обученный нажимать рычаги в ответ на световые сигналы, — полетел на «Меркурий-Редстоун-2». Тяга «Редстоуна» оказалась «значительно выше запланированной», жидкий кислород кончился раньше времени, и система аварийного спасения включила двигатель САС, который разогнал капсулу ещё сильнее [17]. В этот момент Хэм испытал <b>17,0 g</b>, затем 6,5 минуты невесомости и <b>14,6 g</b> на входе в атмосферу на T+9 мин 36 с; капсула поднялась на 136,2 морской мили (252 км) и приводнилась в 363 морских милях (672 км) от старта [16].">Проекту «Меркурий» было мало выживания: может ли примат <i>выполнять работу</i>? <b>Хэм</b> — шимпанзе, обученный нажимать рычаги в ответ на световые сигналы, — полетел на «Меркурий-Редстоун-2». Тяга «Редстоуна» оказалась «значительно выше запланированной», жидкий кислород кончился раньше времени, и система аварийного спасения включила двигатель САС, который разогнал капсулу ещё сильнее [17]. В этот момент Хэм испытал <b>17,0 g</b>, затем 6,5 минуты невесомости и <b>14,6 g</b> на входе в атмосферу на T+9 мин 36 с; капсула поднялась на 136,2 морской мили (252 км) и приводнилась в 363 морских милях (672 км) от старта [16].</p>
+      <p class="body-col" data-en="He kept working. His mean reaction time in flight was 0.82 s against 0.80 s before it; his heart rate rose from a pre-launch mean of 94 per minute to 158 after launch and 173 after re-entry [16]. Because of the booster's faults, NASA flew one more uncrewed Redstone test on 24 March 1961 before risking a person [17] — and by then Gagarin was three weeks away. Shepard flew the nominal profile on 5 May: 116.5 statute miles (187 km) up, 302 miles (486 km) downrange, about five minutes weightless and 11.0 g on re-entry [18][19]. The instrument below starts from the Redstone's cutoff and lets you change the speed." data-ru="Он продолжал работать. Среднее время реакции в полёте составило 0,82 с против 0,80 с до полёта; пульс вырос со средних 94 ударов в минуту перед стартом до 158 после старта и 173 после входа [16]. Из-за неполадок носителя NASA провело ещё один беспилотный пуск «Редстоуна» 24 марта 1961 года, прежде чем рисковать человеком [17], — а до полёта Гагарина оставалось три недели. Шепард пролетел номинальный профиль 5 мая: 116,5 сухопутной мили (187 км) вверх, 302 мили (486 км) по дальности, около пяти минут невесомости и 11,0 g на входе [18][19]. Прибор ниже начинает полёт с момента выключения двигателя «Редстоуна» и позволяет менять скорость.">Он продолжал работать. Среднее время реакции в полёте составило 0,82 с против 0,80 с до полёта; пульс вырос со средних 94 ударов в минуту перед стартом до 158 после старта и 173 после входа [16]. Из-за неполадок носителя NASA провело ещё один беспилотный пуск «Редстоуна» 24 марта 1961 года, прежде чем рисковать человеком [17], — а до полёта Гагарина оставалось три недели. Шепард пролетел номинальный профиль 5 мая: 116,5 сухопутной мили (187 км) вверх, 302 мили (486 км) по дальности, около пяти минут невесомости и 11,0 g на входе [18][19]. Прибор ниже начинает полёт с момента выключения двигателя «Редстоуна» и позволяет менять скорость.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="WHY FASTER MEANS HARDER ON THE WAY DOWN" data-ru="ПОЧЕМУ БЫСТРЕЕ — ЗНАЧИТ ТЯЖЕЛЕЕ НА СПУСКЕ">ПОЧЕМУ БЫСТРЕЕ — ЗНАЧИТ ТЯЖЕЛЕЕ НА СПУСКЕ</div>
+      <div class="eq-body">a<sub>max</sub> ≈ V<sub>e</sub>² sin γ<sub>e</sub> / (2 e H)</div>
+      <div class="eq-note" data-en="Allen and Eggers' result for a steep ballistic entry: the peak deceleration depends on the entry speed V_e and angle γ_e and on the air's scale height H (6.6 km between 30 and 40 km in the 1976 Standard Atmosphere [20]) — not on the capsule. The <a href='/aerospace/entry-heat-shields.html'>ENTRY guide</a> derives it. The instrument integrates the full motion instead: gravity from GM [10], drag from the 1976 atmosphere [20], starting at 42.5 km and 50° above the horizon. Allen–Eggers ignores gravity, which for a slow suborbital capsule keeps adding speed all the way down from 80 km, so applied at 80 km it comes out 20–35 % low for these flights; the gap narrows as the speed rises." data-ru="Результат Аллена и Эггерса для крутого баллистического входа: пиковая перегрузка зависит от скорости входа V_e, угла γ_e и шкалы высот атмосферы H (6,6 км между 30 и 40 км в Стандартной атмосфере 1976 года [20]), — но не от капсулы. Вывод — в <a href='/aerospace/entry-heat-shields.html'>справочнике ENTRY</a>. Прибор же интегрирует полное движение: тяготение по GM [10], сопротивление по атмосфере 1976 года [20], начиная с высоты 42,5 км и угла 50° над горизонтом. Формула Аллена–Эггерса не учитывает тяготение, которое у медленной суборбитальной капсулы продолжает добавлять скорость на всём спуске от 80 км, поэтому, применённая на высоте 80 км, она даёт для этих полётов на 20–35 % меньше; с ростом скорости разрыв сокращается.">Результат Аллена и Эггерса для крутого баллистического входа: пиковая перегрузка зависит от скорости входа V_e, угла γ_e и шкалы высот атмосферы H (6,6 км между 30 и 40 км в Стандартной атмосфере 1976 года [20]), — но не от капсулы. Вывод — в <a href='/aerospace/entry-heat-shields.html'>справочнике ENTRY</a>. Прибор же интегрирует полное движение: тяготение по GM [10], сопротивление по атмосфере 1976 года [20], начиная с высоты 42,5 км и угла 50° над горизонтом. Формула Аллена–Эггерса не учитывает тяготение, которое у медленной суборбитальной капсулы продолжает добавлять скорость на всём спуске от 80 км, поэтому, применённая на высоте 80 км, она даёт для этих полётов на 20–35 % меньше; с ростом скорости разрыв сокращается.</div>
+    </div>
+    <div class="sim-wrap">
+      <div class="sky-wrap">
+        <svg id="balSvg" class="sim-svg" viewBox="0 0 480 206" role="img" aria-label="Modelled ballistic trajectory: altitude against downrange distance, with Ham's and Shepard's measured apogee and landing points" data-aria-en="Modelled ballistic trajectory: altitude against downrange distance, with Ham's and Shepard's measured apogee and landing points" data-aria-ru="Модельная баллистическая траектория: высота в зависимости от дальности, с измеренными апогеем и точками приводнения Хэма и Шепарда"></svg>
+        <svg id="gSvg" class="sim-svg" viewBox="0 0 480 190" role="img" aria-label="Modelled deceleration against time after cutoff, with Ham's 14.6 g and Shepard's 11.0 g" data-aria-en="Modelled deceleration against time after cutoff, with Ham's 14.6 g and Shepard's 11.0 g" data-aria-ru="Модельная перегрузка торможения в зависимости от времени после выключения двигателя, с 14,6 g Хэма и 11,0 g Шепарда"></svg>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Flights" data-aria-en="Flights" data-aria-ru="Полёты" id="bPre">
+          <button class="btn active" data-v="ham" aria-pressed="true" data-en="HAM, MR-2: 5,857 mph" data-ru="ХЭМ, MR-2: 5857 миль/ч">ХЭМ, MR-2: 5857 миль/ч</button>
+          <button class="btn" data-v="shepard" aria-pressed="false" data-en="SHEPARD, MR-3: 7,388 ft/s" data-ru="ШЕПАРД, MR-3: 7388 фут/с">ШЕПАРД, MR-3: 7388 фут/с</button>
+          <button class="btn" data-v="2000" aria-pressed="false" data-en="SLOWER: 2,000 m/s" data-ru="МЕДЛЕННЕЕ: 2000 м/с">МЕДЛЕННЕЕ: 2000 м/с</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="bV" data-en="SPEED AT CUTOFF" data-ru="СКОРОСТЬ В МОМЕНТ ВЫКЛЮЧЕНИЯ">СКОРОСТЬ В МОМЕНТ ВЫКЛЮЧЕНИЯ</label><span class="v" id="bVVal">—</span></div>
+          <input id="bV" type="range" min="1800" max="2900" step="1" value="2618">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="bG" data-en="CLIMB ANGLE AT CUTOFF" data-ru="УГОЛ ПОДЪЁМА В МОМЕНТ ВЫКЛЮЧЕНИЯ">УГОЛ ПОДЪЁМА В МОМЕНТ ВЫКЛЮЧЕНИЯ</label><span class="v" id="bGVal">—</span></div>
+          <input id="bG" type="range" min="30" max="70" step="0.5" value="50">
+        </div>
+        <div class="readout-grid" id="balReadout"></div>
+        <div class="status" id="balStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: a point mass over a spherical, non-rotating Earth, still air, ballistic coefficient 245 kg/m² (assumed: about 1.1 t on a 1.89 m heat shield with drag coefficient 1.6). The cutoff height and angle were fitted once to Shepard's apogee and range, using his measured cutoff speed [19]; nothing was fitted to Ham. Given only NASA's 5,857 mph [1], it gives an apogee within 5 %, a range within 2 %, a peak within 0.2 g of 14.6 g and 6.5 minutes weightless — all against SP-39 [16]. Speeds are as NASA quoted them, and they are not defined alike: Shepard's 7,388 ft/s is the inertial speed at cutoff [19], while [1] does not say how Ham's 5,857 mph was measured. We read it as an inertial peak too — the ground-relative 7,540 ft/s that secondary summaries of the MR-2 post-launch report give, plus the Earth's rotation at the Cape, comes to about 2,600 m/s — but the close agreement is partly fortunate: fed 7,540 ft/s as if inertial, the model gives 11.6 g, and any ballistic coefficient from 150 to 400 kg/m² moves Ham's peak between 13.2 and 15.6 g. The Earth's rotation, Ham's slightly steeper climb and the escape-rocket push are not modelled separately. Range is measured to 5 km altitude, where the parachutes take over." data-ru="Модель: материальная точка над сферической невращающейся Землёй, неподвижный воздух, баллистический коэффициент 245 кг/м² (допущение: около 1,1 т на теплозащитном экране диаметром 1,89 м при коэффициенте сопротивления 1,6). Высота и угол в момент выключения подобраны один раз — по апогею и дальности Шепарда при его измеренной скорости [19]; под Хэма ничего не подгонялось. Получив только 5857 миль/ч по данным NASA [1], модель даёт апогей с точностью 5 %, дальность — 2 %, пик — в пределах 0,2 g от 14,6 g и 6,5 минуты невесомости, — всё в сравнении с SP-39 [16]. Скорости взяты так, как их приводит NASA, и определены они по-разному: 7388 фут/с Шепарда — инерциальная скорость в момент выключения [19], а в [1] не сказано, как измерены 5857 миль/ч Хэма. Мы считаем это тоже инерциальной пиковой скоростью — 7540 фут/с относительно Земли, которые приводят вторичные изложения послеполётного отчёта MR-2, вместе с вращением Земли на мысе Канаверал дают около 2600 м/с, — но близкое совпадение отчасти случайно: если подать в модель 7540 фут/с как инерциальную скорость, она даст 11,6 g, а любой баллистический коэффициент от 150 до 400 кг/м² сдвигает пик Хэма в пределах от 13,2 до 15,6 g. Вращение Земли, чуть более крутой подъём Хэма и толчок двигателя САС отдельно не моделируются. Дальность считается до высоты 5 км, где начинают работать парашюты.">Модель: материальная точка над сферической невращающейся Землёй, неподвижный воздух, баллистический коэффициент 245 кг/м² (допущение: около 1,1 т на теплозащитном экране диаметром 1,89 м при коэффициенте сопротивления 1,6). Высота и угол в момент выключения подобраны один раз — по апогею и дальности Шепарда при его измеренной скорости [19]; под Хэма ничего не подгонялось. Получив только 5857 миль/ч по данным NASA [1], модель даёт апогей с точностью 5 %, дальность — 2 %, пик — в пределах 0,2 g от 14,6 g и 6,5 минуты невесомости, — всё в сравнении с SP-39 [16]. Скорости взяты так, как их приводит NASA, и определены они по-разному: 7388 фут/с Шепарда — инерциальная скорость в момент выключения [19], а в [1] не сказано, как измерены 5857 миль/ч Хэма. Мы считаем это тоже инерциальной пиковой скоростью — 7540 фут/с относительно Земли, которые приводят вторичные изложения послеполётного отчёта MR-2, вместе с вращением Земли на мысе Канаверал дают около 2600 м/с, — но близкое совпадение отчасти случайно: если подать в модель 7540 фут/с как инерциальную скорость, она даст 11,6 g, а любой баллистический коэффициент от 150 до 400 кг/м² сдвигает пик Хэма в пределах от 13,2 до 15,6 g. Вращение Земли, чуть более крутой подъём Хэма и толчок двигателя САС отдельно не моделируются. Дальность считается до высоты 5 км, где начинают работать парашюты.</p>
+  </div>
+</section>
+
+<!-- CH5 — ENOS -->
+<section id="ch5" class="section" data-phase="ENOS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 09</span> — <span data-en="MERCURY-ATLAS 5, 29 NOVEMBER 1961" data-ru="«МЕРКУРИЙ-АТЛАС-5», 29 НОЯБРЯ 1961 ГОДА">«МЕРКУРИЙ-АТЛАС-5», 29 НОЯБРЯ 1961 ГОДА</span></div>
+    <h2 class="h-lg" data-en="Two orbits, a faulty lever, and Glenn's dress rehearsal" data-ru="Два витка, неисправный рычаг и генеральная репетиция Гленна">Два витка, неисправный рычаг и генеральная репетиция Гленна</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Before John Glenn orbited, NASA flew the same mission with <b>Enos</b>, a chimpanzee with about 1,263 hours of training. Mercury-Atlas 5 entered a 99.5 × 147.4 statute-mile orbit (160 × 237 km) with a period of 88 minutes 26 seconds. A failed roll-control jet and an overheating inverter ended the flight after two orbits instead of three [18]; the cabin temperature had also climbed sharply early in the second orbit before levelling off [16]. Re-entry peaked at 7.8 g, and the capsule landed 3 hours 21 minutes after launch, 200 miles south of Bermuda [16]." data-ru="Прежде чем на орбиту отправился Джон Гленн, NASA выполнило ту же программу с <b>Эносом</b> — шимпанзе, у которого было около 1263 часов подготовки. «Меркурий-Атлас-5» вышел на орбиту 99,5 × 147,4 сухопутной мили (160 × 237 км) с периодом 88 минут 26 секунд. Отказ реактивного сопла управления по крену и перегрев инвертора заставили завершить полёт после двух витков вместо трёх [18]; в начале второго витка резко росла и температура в кабине, но затем стабилизировалась [16]. Пиковая перегрузка на входе составила 7,8 g, и капсула приводнилась через 3 часа 21 минуту после старта в 200 милях к югу от Бермуд [16].">Прежде чем на орбиту отправился Джон Гленн, NASA выполнило ту же программу с <b>Эносом</b> — шимпанзе, у которого было около 1263 часов подготовки. «Меркурий-Атлас-5» вышел на орбиту 99,5 × 147,4 сухопутной мили (160 × 237 км) с периодом 88 минут 26 секунд. Отказ реактивного сопла управления по крену и перегрев инвертора заставили завершить полёт после двух витков вместо трёх [18]; в начале второго витка резко росла и температура в кабине, но затем стабилизировалась [16]. Пиковая перегрузка на входе составила 7,8 g, и капсула приводнилась через 3 часа 21 минуту после старта в 200 милях к югу от Бермуд [16].</p>
+      <p class="body-col" data-en="Enos worked through the flight, but a lever switch failed, so that correct answers on one task went unrewarded and he was shocked for them; his discrimination results for those sessions are, in NASA's words, “virtually meaningless” [16]. Nothing in the flight killed him: he died on 4 November 1962 of shigella dysentery, which NASA stated was in no way related to his orbital mission [21]. Three months after his flight, on 20 February 1962, Glenn flew three orbits — told in the <a href='/aerospace/ascent-mercury-program.html'>ASCENT guide</a>." data-ru="Энос работал весь полёт, но отказал переключатель одного из рычагов: правильные ответы в одном из заданий не засчитывались, и за них его било током; результаты различения для этих сеансов, по словам NASA, «практически бессмысленны» [16]. Полёт его не убил: он умер 4 ноября 1962 года от шигеллёзной дизентерии, которая, по заявлению NASA, никак не была связана с орбитальным полётом [21]. Через три месяца после него, 20 февраля 1962 года, Гленн совершил три витка — об этом в <a href='/aerospace/ascent-mercury-program.html'>справочнике ASCENT</a>.">Энос работал весь полёт, но отказал переключатель одного из рычагов: правильные ответы в одном из заданий не засчитывались, и за них его било током; результаты различения для этих сеансов, по словам NASA, «практически бессмысленны» [16]. Полёт его не убил: он умер 4 ноября 1962 года от шигеллёзной дизентерии, которая, по заявлению NASA, никак не была связана с орбитальным полётом [21]. Через три месяца после него, 20 февраля 1962 года, Гленн совершил три витка — об этом в <a href='/aerospace/ascent-mercury-program.html'>справочнике ASCENT</a>.</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="CHECKING THE ORBIT" data-ru="ПРОВЕРКА ОРБИТЫ">ПРОВЕРКА ОРБИТЫ</div>
+      <div class="eq-body" data-en="160 × 237 km → T = 88.3 min (published 88 min 26 s)" data-ru="160 × 237 км → T = 88,3 мин (опубликовано 88 мин 26 с)">160 × 237 км → T = 88,3 мин (опубликовано 88 мин 26 с)</div>
+      <div class="eq-note" data-en="Same formula as chapter 2 [10]. Enos's 7.8 g came from a shallow entry from orbit; Ham's 14.6 g from a steep suborbital one — the difference Allen and Eggers' sin γ explains." data-ru="Та же формула, что в главе 2 [10]. 7,8 g Эноса — следствие пологого входа с орбиты; 14,6 g Хэма — крутого суборбитального; разницу объясняет sin γ в формуле Аллена и Эггерса.">Та же формула, что в главе 2 [10]. 7,8 g Эноса — следствие пологого входа с орбиты; 14,6 g Хэма — крутого суборбитального; разницу объясняет sin γ в формуле Аллена и Эггерса.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — AFTER THE FIRST FLIGHTS -->
+<section id="ch6" class="section" data-phase="BEYOND">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 09</span> — <span data-en="1963–2025" data-ru="1963–2025">1963–2025</span></div>
+    <h2 class="h-lg" data-en="A cat, two tortoises round the Moon, and the biosatellites" data-ru="Кошка, две черепахи вокруг Луны и биоспутники">Кошка, две черепахи вокруг Луны и биоспутники</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 18 October 1963 France launched <b>Félicette</b>, a cat with electrodes implanted in her skull, on a Véronique AGI rocket from the Algerian Sahara. She reached about 157 km, spent about five minutes weightless and was recovered alive [22][23]. Two months later she was killed so that her brain could be examined; according to Guinness, the autopsy yielded little beyond showing that brain activity could be recorded remotely [22]. A bronze statue of her stands at the International Space University in Strasbourg [22]. In 1966 the dogs Veterok and Ugolyok spent 21 days on Kosmos 110 to study radiation — still the canine record [1]." data-ru="18 октября 1963 года Франция запустила на ракете «Вероника» AGI из алжирской Сахары кошку <b>Фелисетт</b> с вживлёнными в череп электродами. Она поднялась примерно на 157 км, около пяти минут провела в невесомости и была найдена живой [22][23]. Через два месяца её умертвили, чтобы исследовать мозг; по данным Guinness, вскрытие почти ничего не дало, кроме того, что активность мозга можно записывать дистанционно [22]. Её бронзовая статуя стоит в Международном космическом университете в Страсбурге [22]. В 1966 году собаки Ветерок и Уголёк провели 21 сутки на «Космосе-110», изучая действие радиации, — это до сих пор собачий рекорд [1].">18 октября 1963 года Франция запустила на ракете «Вероника» AGI из алжирской Сахары кошку <b>Фелисетт</b> с вживлёнными в череп электродами. Она поднялась примерно на 157 км, около пяти минут провела в невесомости и была найдена живой [22][23]. Через два месяца её умертвили, чтобы исследовать мозг; по данным Guinness, вскрытие почти ничего не дало, кроме того, что активность мозга можно записывать дистанционно [22]. Её бронзовая статуя стоит в Международном космическом университете в Страсбурге [22]. В 1966 году собаки Ветерок и Уголёк провели 21 сутки на «Космосе-110», изучая действие радиации, — это до сих пор собачий рекорд [1].</p>
+      <p class="body-col" data-en="<b>Zond 5</b>, launched on 14 September 1968, carried two steppe tortoises, insects, plants and bacteria around the Moon, passing 1,950 km from it on 18 September. A failed sensor forced a steep ballistic re-entry — NASA puts it at about 20 g [1] — and a splashdown in the Indian Ocean on 21 September. The tortoises had lost about 10 % of their body weight but were active and eating [24]. From 1973 the <b>Bion</b> biosatellites flew tortoises, rats, monkeys, fish and insects on flights of five to 22 days; on Bion-M No. 1 in 2013 fewer than half of 53 rodents survived 30 days [1][25]. As of October 2026 the most recent flight is <b>Bion-M No. 2</b>: 75 mice and other organisms for 30 days in a polar orbit at about 97°, launched 20 August 2025; ten of the mice died in flight [26][27]." data-ru="<b>«Зонд-5»</b>, запущенный 14 сентября 1968 года, пронёс вокруг Луны двух степных черепах, насекомых, растения и бактерии и 18 сентября прошёл в 1950 км от неё. Из-за отказа датчика пришлось выполнить крутой баллистический вход — по данным NASA, около 20 g [1] — и приводниться в Индийском океане 21 сентября. Черепахи потеряли около 10 % веса, но были активны и ели [24]. С 1973 года биоспутники <b>«Бион»</b> возили черепах, крыс, обезьян, рыб и насекомых в полёты длительностью от 5 до 22 суток; на «Бионе-М» № 1 в 2013 году 30 суток пережили меньше половины из 53 грызунов [1][25]. На октябрь 2026 года последний полёт — <b>«Бион-М» № 2</b>: 75 мышей и другие организмы на 30 суток на полярной орбите наклонением около 97°, запуск 20 августа 2025 года; десять мышей погибли в полёте [26][27]."><b>«Зонд-5»</b>, запущенный 14 сентября 1968 года, пронёс вокруг Луны двух степных черепах, насекомых, растения и бактерии и 18 сентября прошёл в 1950 км от неё. Из-за отказа датчика пришлось выполнить крутой баллистический вход — по данным NASA, около 20 g [1] — и приводниться в Индийском океане 21 сентября. Черепахи потеряли около 10 % веса, но были активны и ели [24]. С 1973 года биоспутники <b>«Бион»</b> возили черепах, крыс, обезьян, рыб и насекомых в полёты длительностью от 5 до 22 суток; на «Бионе-М» № 1 в 2013 году 30 суток пережили меньше половины из 53 грызунов [1][25]. На октябрь 2026 года последний полёт — <b>«Бион-М» № 2</b>: 75 мышей и другие организмы на 30 суток на полярной орбите наклонением около 97°, запуск 20 августа 2025 года; десять мышей погибли в полёте [26][27].</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — WHAT THE ANIMALS ANSWERED -->
+<section id="ch7" class="section" data-phase="WHAT IT PROVED">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 09</span> — <span data-en="FOR GAGARIN AND SHEPARD" data-ru="ДЛЯ ГАГАРИНА И ШЕПАРДА">ДЛЯ ГАГАРИНА И ШЕПАРДА</span></div>
+    <h2 class="h-lg" data-en="What each flight answered — and what it could not" data-ru="На что ответил каждый полёт — и на что не мог">На что ответил каждый полёт — и на что не мог</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="By April 1961 the animals had answered the questions engineers could pose to a body: a mammal survives launch and re-entry loads, breathes, eats and keeps a steady heartbeat through a day of weightlessness, and can be brought home; a chimpanzee can keep doing a trained task. That is a large part of why Gagarin's flight was one orbit and fully automatic, and why Shepard's was a short ballistic hop after a chimpanzee had flown the same rocket. What they could not answer was what a human would feel and think. Belka's vomiting hinted at it; Gherman Titov's space sickness on Vostok 2 in August 1961 confirmed it (see the <a href='/aerospace/first-vostok-voskhod.html'>FIRST guide</a>)." data-ru="К апрелю 1961 года животные ответили на те вопросы, которые инженеры могли задать телу: млекопитающее переносит перегрузки старта и входа, дышит, ест и сохраняет ровный пульс в течение суток невесомости, и его можно вернуть домой; шимпанзе способен продолжать выполнять заученную задачу. Во многом поэтому полёт Гагарина длился один виток и был полностью автоматическим, а полёт Шепарда стал коротким баллистическим прыжком — после того как на той же ракете слетал шимпанзе. Ответить они не могли на другое: что будет чувствовать и думать человек. Рвота Белки на это намекала; космическая болезнь Германа Титова на «Востоке-2» в августе 1961 года это подтвердила (см. <a href='/aerospace/first-vostok-voskhod.html'>справочник FIRST</a>).">К апрелю 1961 года животные ответили на те вопросы, которые инженеры могли задать телу: млекопитающее переносит перегрузки старта и входа, дышит, ест и сохраняет ровный пульс в течение суток невесомости, и его можно вернуть домой; шимпанзе способен продолжать выполнять заученную задачу. Во многом поэтому полёт Гагарина длился один виток и был полностью автоматическим, а полёт Шепарда стал коротким баллистическим прыжком — после того как на той же ракете слетал шимпанзе. Ответить они не могли на другое: что будет чувствовать и думать человек. Рвота Белки на это намекала; космическая болезнь Германа Титова на «Востоке-2» в августе 1961 года это подтвердила (см. <a href='/aerospace/first-vostok-voskhod.html'>справочник FIRST</a>).</p>
+      <p class="body-col" data-en="Every animal in this guide was put there without any say, and many died: of heat, of failed parachutes, of rockets that exploded, of a capsule destroyed by its own self-destruct charge, or afterwards, killed for dissection. The scientists involved knew this. In 1998 Oleg Gazenko, one of the leading figures of the Soviet animal programme, told a Moscow news conference: “The more time passes, the more I'm sorry about it. We shouldn't have done it… We did not learn enough from this mission to justify the death of the dog.” [28] Animals still fly (chapter 6); the debate over what knowledge justifies it has not ended." data-ru="Ни одно животное из этого справочника не выбирало свою участь, и многие погибли — от жары, от нераскрывшихся парашютов, во взорвавшихся ракетах, в капсуле, уничтоженной её собственным зарядом самоподрыва, или уже после полёта, умерщвлённые для вскрытия. Учёные это понимали. В 1998 году Олег Газенко, одна из ведущих фигур советской программы полётов животных, сказал на пресс-конференции в Москве: «Чем больше проходит времени, тем больше я сожалею об этом. Нам не следовало этого делать… Мы не узнали из этого полёта достаточно, чтобы оправдать гибель собаки» [28]. Животные летают и сегодня (глава 6); спор о том, какое знание это оправдывает, не закончен.">Ни одно животное из этого справочника не выбирало свою участь, и многие погибли — от жары, от нераскрывшихся парашютов, во взорвавшихся ракетах, в капсуле, уничтоженной её собственным зарядом самоподрыва, или уже после полёта, умерщвлённые для вскрытия. Учёные это понимали. В 1998 году Олег Газенко, одна из ведущих фигур советской программы полётов животных, сказал на пресс-конференции в Москве: «Чем больше проходит времени, тем больше я сожалею об этом. Нам не следовало этого делать… Мы не узнали из этого полёта достаточно, чтобы оправдать гибель собаки» [28]. Животные летают и сегодня (глава 6); спор о том, какое знание это оправдывает, не закончен.</p>
+    </div>
+    <div class="sim-wrap">
+      <div class="sky-wrap">
+        <div class="btn-row" role="group" aria-label="Questions" data-aria-en="Questions" data-aria-ru="Вопросы" id="mxQ">
+          <button class="btn" data-q="0" aria-pressed="false" data-en="Q1 LAUNCH &amp; RE-ENTRY LOADS" data-ru="Q1 ПЕРЕГРУЗКИ">Q1 ПЕРЕГРУЗКИ</button>
+          <button class="btn" data-q="1" aria-pressed="false" data-en="Q2 MINUTES WEIGHTLESS" data-ru="Q2 МИНУТЫ НЕВЕСОМОСТИ">Q2 МИНУТЫ НЕВЕСОМОСТИ</button>
+          <button class="btn" data-q="2" aria-pressed="false" data-en="Q3 HOURS–DAYS IN ORBIT" data-ru="Q3 ЧАСЫ–СУТКИ НА ОРБИТЕ">Q3 ЧАСЫ–СУТКИ НА ОРБИТЕ</button>
+          <button class="btn" data-q="3" aria-pressed="false" data-en="Q4 DOING A TASK" data-ru="Q4 ВЫПОЛНЕНИЕ ЗАДАЧИ">Q4 ВЫПОЛНЕНИЕ ЗАДАЧИ</button>
+          <button class="btn" data-q="4" aria-pressed="false" data-en="Q5 HOME FROM ORBIT" data-ru="Q5 ВОЗВРАЩЕНИЕ С ОРБИТЫ">Q5 ВОЗВРАЩЕНИЕ С ОРБИТЫ</button>
+          <button class="btn" data-q="5" aria-pressed="false" data-en="Q6 RADIATION" data-ru="Q6 РАДИАЦИЯ">Q6 РАДИАЦИЯ</button>
+          <button class="btn" data-q="6" aria-pressed="false" data-en="Q7 BEYOND EARTH ORBIT" data-ru="Q7 ДАЛЬШЕ ОКОЛОЗЕМНОЙ ОРБИТЫ">Q7 ДАЛЬШЕ ОКОЛОЗЕМНОЙ ОРБИТЫ</button>
+        </div>
+        <table class="mx-table" id="mxTable" aria-describedby="mxNote"></table>
+      </div>
+      <div class="sim-panel corner-frame">
+        <div class="status" id="mxStatus" aria-live="polite"></div>
+        <p class="mx-detail" id="mxDetail" aria-live="polite"></p>
+      </div>
+    </div>
+    <p class="note" id="mxNote" data-en="● answered, ◐ partly, · not addressed. The grading is our editorial judgement from the sources cited in each entry, not a published classification. Select a flight's name to read what it measured and what happened to the animals." data-ru="● ответил, ◐ частично, · не затрагивал. Оценки — наше редакционное суждение по источникам, указанным в каждой записи, а не опубликованная классификация. Выберите название полёта, чтобы прочитать, что он измерил и что стало с животными.">● ответил, ◐ частично, · не затрагивал. Оценки — наше редакционное суждение по источникам, указанным в каждой записи, а не опубликованная классификация. Выберите название полёта, чтобы прочитать, что он измерил и что стало с животными.</p>
+  </div>
+</section>
+
+<!-- CH8 — LEGACY -->
+<section id="ch8" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 09</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">НАСЛЕДИЕ</span></div>
+    <h2 class="h-lg" data-en="From fruit flies to a polar-orbit mouse colony" data-ru="От плодовых мушек до колонии мышей на полярной орбите">От плодовых мушек до колонии мышей на полярной орбите</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Gagarin's single orbit and Shepard's fifteen minutes were short by choice: the animals had shown that much to be survivable, and Belka's sickness and the dogs lost on the way home had shown how much was still unknown." data-ru="Один виток Гагарина и пятнадцать минут Шепарда были короткими по выбору: животные показали, что это можно пережить, а болезнь Белки и собаки, погибшие на пути домой, — как много ещё неизвестно.">Один виток Гагарина и пятнадцать минут Шепарда были короткими по выбору: животные показали, что это можно пережить, а болезнь Белки и собаки, погибшие на пути домой, — как много ещё неизвестно.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — REFERENCES -->
+<section id="ch9" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 09</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">ИСТОЧНИКИ</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Источники, на которые ссылается этот справочник</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* Browsers round a slider's value to its step, so a preset such as log10(196) would read back as 2.29 (195 m²).
+   Each range input keeps the exact value it was given until the user moves it. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var MU = 398600.4418e9, RE_M = 6371e3, G0 = 9.80665;               /* NASA Earth fact sheet [10] */
+var MPH = 0.44704, FT = 0.3048, NMI = 1852, SMI = 1609.344;
+function periodMin(perKm, apoKm){ var a = RE_M + (perKm + apoKm)/2*1000; return 2*Math.PI*Math.sqrt(a*a*a/MU)/60; }
+/* local digit grouping: in Russian, four-digit numbers stay unspaced */
+function num(n){ var s = fmtInt(n); return (lang === 'ru' && Math.abs(n) < 10000) ? s.replace(/\s/g, '') : s; }
+
+/* ============ CH1 — FREE FALL ON A SOUNDING ROCKET ============ */
+/* time spent above a given height on a ballistic arc with apogee h_apo (no drag): 2√(2Δh/g) */
+function freeFallMin(apoKm, aboveKm){ var g = MU/Math.pow(RE_M + aboveKm*1000, 2); return 2*Math.sqrt(2*(apoKm - aboveKm)*1000/g)/60; }
+
+/* ============ CH2 — SPUTNIK 2 CABIN HEAT BALANCE ============ */
+/* One-node model: C dT/dt = Q_dog + Q_eq + Q_sun(t) − UA (T − T_s). All parameters are assumptions (see the note),
+   chosen so that the as-flown case passes 40 °C during the fourth orbit, as the published outcome requires [4][7]. */
+var HEAT = {C:30000, Ts:0, T0:18, Qeq:15, fsun:0.65, P:periodMin(212, 1660)*60,
+  cfg:{flown:{UA:1.5, Qsun:60}, alone:{UA:2.6, Qsun:15}}};
+/* a resting mammal's heat output, Kleiber's 70 M^0.75 kcal/day, in watts */
+function kleiberW(kg){ return 70*Math.pow(kg, 0.75)*4184/86400; }
+function heatRun(cfg, UA, Qdog, hours){
+  var c = HEAT.cfg[cfg], T = HEAT.T0, t = 0, dt = 10, tEnd = (hours || 10)*3600, cross = null, pts = [[0, T]], T7 = null;
+  while(t < tEnd){
+    var sun = ((t % HEAT.P)/HEAT.P) < HEAT.fsun ? 1 : 0;
+    T += (Qdog + HEAT.Qeq + c.Qsun*sun - UA*(T - HEAT.Ts))/HEAT.C*dt; t += dt;
+    if(cross === null && T >= 40) cross = t/3600;
+    if(t % 120 === 0) pts.push([t/3600, T]);
+    if(t === 7*3600) T7 = T;
+  }
+  return {pts:pts, cross:cross, T7:T7, Tend:T, Teq:HEAT.Ts + (Qdog + HEAT.Qeq + c.Qsun*HEAT.fsun)/UA, tau:HEAT.C/UA/3600};
+}
+function orbitAt(h){ return Math.floor(h*3600/HEAT.P) + 1; }
+
+/* ============ CH4 — A BALLISTIC CAPSULE FROM REDSTONE CUTOFF ============ */
+/* U.S. Standard Atmosphere 1976 densities, kg/m³, every 10 km to 100 km and at 120 km [20]; log-linear between them */
+var ATM_H = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 120];
+var ATM_R = [1.225, 0.41351, 0.08891, 0.01841, 0.0039957, 0.0010269, 3.0968e-4, 8.2829e-5, 1.8458e-5, 3.416e-6, 5.604e-7, 2.222e-8];
+function rho(hm){
+  var k = hm/1000; if(k <= 0) return ATM_R[0]; if(k >= 120) return 0;
+  var i = 0; while(ATM_H[i + 1] < k) i++;
+  return Math.exp(Math.log(ATM_R[i]) + (Math.log(ATM_R[i + 1]) - Math.log(ATM_R[i]))*(k - ATM_H[i])/(ATM_H[i + 1] - ATM_H[i]));
+}
+var SCALE_H = 10/Math.log(ATM_R[3]/ATM_R[4]);                       /* km, between 30 and 40 km */
+/* Cutoff state calibrated once on Freedom 7 (MR-3): 42.5 km, 50° above the horizon; ballistic coefficient assumed. */
+var BAL = {h0:42500, gam:50, beta:245};
+var SHEPARD_V = 7388*FT, HAM_V = 5857*MPH;                          /* MR-3 inertial cutoff speed [19]; Ham's flight speed (NASA) [1] */
+function fly(v0, gdeg, beta){
+  var g = gdeg*Math.PI/180, b = beta || BAL.beta;
+  var px = 0, py = RE_M + BAL.h0, vx = v0*Math.cos(g), vy = v0*Math.sin(g);
+  var t = 0, dt = 0.02, apo = 0, peak = 0, tPeak = 0, hPeak = 0, wt = 0, path = [], gt = [], entry = null, step = 0;
+  while(t < 3000){
+    var r = Math.sqrt(px*px + py*py), h = r - RE_M, v = Math.sqrt(vx*vx + vy*vy), d = 0.5*rho(h)*v*v/b;
+    if(entry === null && h < 80000 && (px*vx + py*vy) < 0){ entry = {v:v, gam:Math.asin(-(px*vx + py*vy)/(r*v))*180/Math.PI}; }
+    if(d/G0 < 0.05) wt += dt;
+    if(d/G0 > peak){ peak = d/G0; tPeak = t; hPeak = h; }
+    if(h > apo) apo = h;
+    if(step % 50 === 0){ path.push([Math.atan2(px, py)*RE_M/1000, h/1000]); gt.push([t, d/G0]); }
+    var ax = -MU*px/(r*r*r) - d*vx/v, ay = -MU*py/(r*r*r) - d*vy/v;
+    vx += ax*dt; vy += ay*dt; px += vx*dt; py += vy*dt; t += dt; step++;
+    if(h < 5000 && t > 10) break;
+  }
+  return {apo:apo/1000, rng:Math.atan2(px, py)*RE_M/1000, peak:peak, tPeak:tPeak, hPeak:hPeak/1000, wt:wt/60, path:path, gt:gt, entry:entry, tEnd:t};
+}
+/* Allen & Eggers: peak deceleration of a steep ballistic entry, a = V² sin γ / (2 e H) */
+function allenEggersG(v, gamDeg){ return v*v*Math.sin(gamDeg*Math.PI/180)/(2*Math.E*SCALE_H*1000)/G0; }
+
+/* published values the model is compared with */
+var MR3 = {apo:116.5*SMI/1000, rng:302*SMI/1000, peak:11.0, hPeak:83000*FT/1000, wt:5};         /* [18][19] */
+var MR2 = {apo:136.2*NMI/1000, rng:363*NMI/1000, peak:14.6, wt:6.5, launchPeak:17.0};         /* [16] */
+
+/* ============ CH2 — RENDER ============ */
+var hCfg = 'flown', hUA = document.getElementById('hUA'), hDog = document.getElementById('hDog');
+function renderHeat(){
+  var UA = +hUA.value, Qd = +hDog.value, r = heatRun(hCfg, UA, Qd, 10);
+  document.getElementById('hUAVal').textContent = fmt(UA, 1) + T(' W per °C',' Вт на °C'); hUA.setAttribute('aria-valuetext', document.getElementById('hUAVal').textContent);
+  document.getElementById('hDogVal').textContent = fmt(Qd, 0) + T(' W',' Вт'); hDog.setAttribute('aria-valuetext', document.getElementById('hDogVal').textContent);
+  var svg = document.getElementById('heatSvg'); svg.innerHTML = '';
+  var L = 46, R = 468, Tp = 22, B = 252, xmax = 10, ymin = 0, ymax = 60;
+  function X(h){ return L + h/xmax*(R - L); } function Y(c){ return B - (c - ymin)/(ymax - ymin)*(B - Tp); }
+  ns('rect', {x:X(5), y:Tp, width:X(7) - X(5), height:B - Tp, fill:'#f3e3dd', opacity:0.8}, svg);
+  for(var k = 0; k*HEAT.P/3600 < xmax; k++){
+    var a = k*HEAT.P/3600, e = Math.min(xmax, (k + 1)*HEAT.P/3600);
+    if(k % 2 === 0) ns('rect', {x:X(a), y:Tp, width:X(e) - X(a), height:B - Tp, fill:'#f1f1ec'}, svg);
+    txt(svg, (X(a) + X(e))/2, B - 6, (k + 1) + '', 'svg-small', 'middle');
+  }
+  txt(svg, X(6), Tp + 12, T('no life signs','нет признаков жизни'), 'svg-small svg-halo', 'middle');
+  txt(svg, X(6), Tp + 25, T('after 5–7 h [6][7]','через 5–7 ч [6][7]'), 'svg-small svg-halo', 'middle');
+  [0, 10, 20, 30, 40, 50, 60].forEach(function(c){ ns('line', {x1:L, y1:Y(c), x2:R, y2:Y(c), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(c) + 4, c + '', 'svg-small', 'end'); });
+  [0, 2, 4, 6, 8, 10].forEach(function(h){ ns('line', {x1:X(h), y1:B, x2:X(h), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(h), B + 16, h + T(' h',' ч'), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  ns('line', {x1:L, y1:Y(40), x2:R, y2:Y(40), stroke:'#b5452a', 'stroke-dasharray':'5 3'}, svg);
+  txt(svg, L + 4, Y(40) - 5, T('40 °C [4]','40 °C [4]'), 'svg-small svg-halo');
+  ns('line', {x1:L, y1:Y(15), x2:R, y2:Y(15), stroke:'#2f5aa1', 'stroke-dasharray':'2 3'}, svg);
+  txt(svg, R - 4, Y(15) + 13, T('fan switches on above 15 °C [6]','вентилятор включается выше 15 °C [6]'), 'svg-small svg-halo', 'end');
+  txt(svg, L, 13, T('modelled cabin temperature, °C (not telemetry)','модельная температура в кабине, °C (не телеметрия)'), 'svg-small');
+  txt(svg, R, B + 36, T('hours after launch · bands = orbits 1, 2, 3…','часы после старта · полосы — витки 1, 2, 3…'), 'svg-small', 'end');
+  var other = heatRun(hCfg === 'flown' ? 'alone' : 'flown', HEAT.cfg[hCfg === 'flown' ? 'alone' : 'flown'].UA, Qd, 10);
+  function line(pts, col, w, dash){ var d = ''; pts.forEach(function(p, i){ d += (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(Math.min(ymax, p[1])).toFixed(1); }); var o = {d:d, fill:'none', stroke:col, 'stroke-width':w}; if(dash) o['stroke-dasharray'] = dash; ns('path', o, svg); }
+  line(other.pts, '#8f8f88', 1.4, '4 3');
+  line(r.pts, '#0b0b0c', 2.2);
+  if(r.cross !== null) ns('circle', {cx:X(r.cross), cy:Y(40), r:5, fill:'#b5452a'}, svg);
+  var ttl = r.cross === null ? T('not within 10 h','не за 10 ч') : fmt(r.cross, 1) + T(' h (orbit ',' ч (виток ') + orbitAt(r.cross) + ')';
+  cells(document.getElementById('heatReadout'), [
+    [T('TIME TO REACH 40 °C','ВРЕМЯ ДО 40 °C'), ttl],
+    [T('TEMPERATURE AT 7 h','ТЕМПЕРАТУРА ЧЕРЕЗ 7 ч'), fmt(r.T7, 1) + ' °C'],
+    [T('WHERE IT IS HEADING (Tₑq)','К ЧЕМУ ИДЁТ (Tₑq)'), fmt(r.Teq, 0) + ' °C'],
+    [T('HOW FAST (τ = C/UA)','КАК БЫСТРО (τ = C/UA)'), fmt(r.tau, 1) + T(' h',' ч')]
+  ]);
+  hud1.textContent = fmt(r.T7, 0) + T(' °C at 7 h',' °C за 7 ч');
+  document.getElementById('heatStatus').innerHTML = r.cross !== null && r.cross <= 7
+    ? T('In this model the cabin passes 40 °C ','В этой модели кабина переходит 40 °C через ') + fmt(r.cross, 1) + T(' hours after launch, in orbit ',' ч после старта, на ') + orbitAt(r.cross) + T('. With these assumed numbers nothing can outrun that: the temperature heads for T<sub>eq</sub> = T<sub>s</sub> + Q/UA no matter how calm the passenger is.','-м витке. При этих допущениях от этого не убежать: температура стремится к T<sub>eq</sub> = T<sub>s</sub> + Q/UA, как бы спокойно ни вёл себя пассажир.')
+    : r.Teq < 40
+      ? T('Heat in and heat out balance below 40 °C (equilibrium ','Приток и отвод тепла уравновешиваются ниже 40 °C (равновесие ') + fmt(r.Teq, 0) + T(' °C). That is what a cabin able to shed more heat would do; it says nothing about whether this design would have lasted seven days.',' °C). Так вела бы себя кабина, способная отдавать больше тепла; о том, проработала бы эта конструкция семь суток, это ничего не говорит.')
+      : T('The cabin still overheats, but more slowly: 40 °C ','Кабина всё равно перегревается, только медленнее: 40 °C ') + (r.cross === null ? T('is reached after the 10 hours shown',' достигается позже показанных 10 ч') : T('is reached after ',' — через ') + fmt(r.cross, 1) + T(' h',' ч')) + T('. With equilibrium at ','. При равновесии ') + fmt(r.Teq, 0) + T(' °C, more time only delays the outcome.',' °C лишнее время лишь откладывает исход.');
+}
+hUA.addEventListener('input', function(){ renderHeat(); });
+hDog.addEventListener('input', function(){ pressGroup(document.getElementById('hDogPre'), null); renderHeat(); });
+Array.prototype.forEach.call(document.querySelectorAll('#hCfg .btn'), function(btn){ btn.addEventListener('click', function(){ hCfg = this.getAttribute('data-c'); hUA.value = HEAT.cfg[hCfg].UA; pressGroup(this.parentNode, this); renderHeat(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#hDogPre .btn'), function(btn){ btn.addEventListener('click', function(){ var w = this.getAttribute('data-w'); hDog.value = w === 'k' ? kleiberW(6) : w; pressGroup(this.parentNode, this); renderHeat(); }); });
+
+/* ============ CH4 — RENDER ============ */
+var bV = document.getElementById('bV'), bG = document.getElementById('bG');
+bV.value = HAM_V;
+function renderBal(){
+  var v = +bV.value, gd = +bG.value, r = fly(v, gd);
+  document.getElementById('bVVal').textContent = num(Math.round(v)) + T(' m/s (',' м/с (') + num(Math.round(v/MPH)) + T(' mph)',' миль/ч)'); bV.setAttribute('aria-valuetext', document.getElementById('bVVal').textContent);
+  document.getElementById('bGVal').textContent = fmt(gd, 1) + '°'; bG.setAttribute('aria-valuetext', document.getElementById('bGVal').textContent + T(' above the horizon',' над горизонтом'));
+  var svg = document.getElementById('balSvg'); svg.innerHTML = '';
+  var L = 46, R = 468, Tp = 22, B = 168, xmax = 900, ymax = Math.max(350, Math.ceil(r.apo/50)*50 + 20);
+  function X(x){ return L + x/xmax*(R - L); } function Y(h){ return B - h/ymax*(B - Tp); }
+  [0, 100, 200, 300, 400].filter(function(h){ return h < ymax; }).forEach(function(h){ ns('line', {x1:L, y1:Y(h), x2:R, y2:Y(h), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(h) + 4, h + '', 'svg-small', 'end'); });
+  [0, 200, 400, 600, 800].forEach(function(x){ txt(svg, X(x), B + 14, num(x), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 13, T('altitude, km','высота, км'), 'svg-small');
+  txt(svg, R, B + 30, T('downrange, km','дальность, км'), 'svg-small', 'end');
+  function mark(x, h, col, lab, anchor){ ns('circle', {cx:X(x), cy:Y(h), r:4, fill:col}, svg); txt(svg, X(x) + (anchor === 'end' ? -7 : 7), Y(h) - 6, lab, 'svg-small svg-halo', anchor || 'start'); }
+  var d = ''; r.path.forEach(function(p, i){ d += (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1); });
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+  mark(MR2.rng*0.47, MR2.apo, '#b5452a', T('Ham: 252 km [16]','Хэм: 252 км [16]'), 'end');
+  mark(MR2.rng, 0, '#b5452a', T('672 km','672 км'), 'start');
+  mark(MR3.rng, 0, '#2f5aa1', T('Shepard 486','Шепард 486'), 'end');
+  /* g against time */
+  var g2 = document.getElementById('gSvg'); g2.innerHTML = '';
+  var L2 = 46, R2 = 468, T2 = 18, B2 = 150, tmax = 700, gmax = Math.max(20, Math.ceil(r.peak/5)*5);
+  function X2(t){ return L2 + t/tmax*(R2 - L2); } function Y2(g){ return B2 - Math.min(g, gmax)/gmax*(B2 - T2); }
+  [0, 5, 10, 15, 20, 25].filter(function(g){ return g <= gmax; }).forEach(function(g){ ns('line', {x1:L2, y1:Y2(g), x2:R2, y2:Y2(g), stroke:'#e4e4de'}, g2); txt(g2, L2 - 6, Y2(g) + 4, g + '', 'svg-small', 'end'); });
+  [0, 100, 200, 300, 400, 500, 600, 700].forEach(function(t){ txt(g2, X2(t), B2 + 14, t + '', 'svg-small', 'middle'); });
+  ns('line', {x1:L2, y1:B2, x2:R2, y2:B2, stroke:'#0b0b0c'}, g2);
+  txt(g2, L2, 11, T('deceleration, g','перегрузка торможения, g'), 'svg-small');
+  txt(g2, R2, B2 + 32, T('seconds after cutoff','секунды после выключения'), 'svg-small', 'end');
+  ns('line', {x1:L2, y1:Y2(MR2.peak), x2:R2, y2:Y2(MR2.peak), stroke:'#b5452a', 'stroke-dasharray':'5 3'}, g2);
+  txt(g2, L2 + 4, Y2(MR2.peak) - 4, T('Ham 14.6 g [16]','Хэм 14,6 g [16]'), 'svg-small svg-halo');
+  ns('line', {x1:L2, y1:Y2(MR3.peak), x2:R2, y2:Y2(MR3.peak), stroke:'#2f5aa1', 'stroke-dasharray':'2 3'}, g2);
+  txt(g2, L2 + 4, Y2(MR3.peak) + 12, T('Shepard 11.0 g [19]','Шепард 11,0 g [19]'), 'svg-small svg-halo');
+  var dg = ''; r.gt.forEach(function(p, i){ dg += (i ? 'L' : 'M') + X2(p[0]).toFixed(1) + ',' + Y2(p[1]).toFixed(1); });
+  ns('path', {d:dg, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, g2);
+  var hasEntry = r.entry && r.apo >= 80, ae = hasEntry ? allenEggersG(r.entry.v, r.entry.gam) : 0;
+  cells(document.getElementById('balReadout'), [
+    [T('APOGEE','АПОГЕЙ'), num(Math.round(r.apo)) + T(' km',' км')],
+    [T('RANGE (TO 5 km)','ДАЛЬНОСТЬ (ДО 5 км)'), num(Math.round(r.rng)) + T(' km',' км')],
+    [T('WEIGHTLESS (< 0.05 g)','НЕВЕСОМОСТЬ (< 0,05 g)'), fmt(r.wt, 1) + T(' min',' мин')],
+    [T('PEAK RE-ENTRY LOAD','ПИКОВАЯ ПЕРЕГРУЗКА ВХОДА'), fmt(r.peak, 1) + T(' g at ',' g на высоте ') + fmt(r.hPeak, 0) + T(' km',' км')],
+    [T('ALLEN–EGGERS AT 80 km (NO GRAVITY)','АЛЛЕН–ЭГГЕРС НА 80 км (БЕЗ ТЯГОТЕНИЯ)'), hasEntry ? fmt(ae, 1) + ' g' : T('— (apogee below 80 km)','— (апогей ниже 80 км)')],
+    [T('ENTRY AT 80 km','ВХОД НА 80 км'), hasEntry ? num(Math.round(r.entry.v)) + T(' m/s, ',' м/с, ') + fmt(r.entry.gam, 0) + '°' : '—']
+  ]);
+  hud2.textContent = fmt(r.peak, 1) + ' g';
+  var st;
+  if(r.peak > 13.5) st = T('A hotter, faster arc: the capsule climbs higher, falls back steeper and faster, and the air has to take that speed away over a shorter path. That is Ham\'s flight — 14.6 g measured, more than Shepard\'s 11.0 g on the profile MR-2 was meant to fly [16][19].','Более «горячая» и быстрая дуга: капсула поднимается выше, падает круче и быстрее, и воздуху приходится гасить эту скорость на более коротком пути. Это полёт Хэма — измерено 14,6 g, больше, чем 11,0 g у Шепарда на том профиле, по которому должен был лететь MR-2 [16][19].');
+  else if(r.peak > 9.5) st = T('Close to the nominal Mercury-Redstone profile that Shepard flew on 5 May 1961: about 11 g on re-entry and about five minutes weightless [18][19].','Близко к номинальному профилю «Меркурий-Редстоун», по которому 5 мая 1961 года летал Шепард: около 11 g на входе и около пяти минут невесомости [18][19].');
+  else st = T('A gentler arc: lower, shorter, less time weightless and a softer re-entry — but less of the flight was spent in the condition the test was meant to probe.','Более мягкая дуга: ниже, короче, меньше невесомости и мягче вход — но и меньше времени в том состоянии, ради которого затевалось испытание.');
+  document.getElementById('balStatus').innerHTML = st;
+}
+bV.addEventListener('input', function(){ pressGroup(document.getElementById('bPre'), null); renderBal(); });
+bG.addEventListener('input', function(){ pressGroup(document.getElementById('bPre'), null); renderBal(); });
+Array.prototype.forEach.call(document.querySelectorAll('#bPre .btn'), function(btn){ btn.addEventListener('click', function(){
+  var k = this.getAttribute('data-v'); bV.value = k === 'ham' ? HAM_V : k === 'shepard' ? SHEPARD_V : +k; bG.value = BAL.gam; pressGroup(this.parentNode, this); renderBal(); }); });
+
+/* ============ CH7 — WHAT EACH FLIGHT ANSWERED ============ */
+/* q: [launch loads, weightlessness, hours-days in orbit, task performance, return from orbit, radiation, beyond Earth orbit]; 2 = answered, 1 = partly */
+var QS = [
+  ['LAUNCH AND RE-ENTRY LOADS','ПЕРЕГРУЗКИ СТАРТА И ВХОДА'], ['MINUTES OF WEIGHTLESSNESS','МИНУТЫ НЕВЕСОМОСТИ'], ['HOURS TO DAYS IN ORBIT','ЧАСЫ И СУТКИ НА ОРБИТЕ'],
+  ['DOING A TASK','ВЫПОЛНЕНИЕ ЗАДАЧИ'], ['COMING HOME FROM ORBIT','ВОЗВРАЩЕНИЕ С ОРБИТЫ'], ['RADIATION','РАДИАЦИЯ'], ['BEYOND EARTH ORBIT','ЗА ПРЕДЕЛАМИ ОКОЛОЗЕМНОЙ ОРБИТЫ']];
+var FLIGHTS = [
+  {y:'1947', n:['V-2 “Blossom” capsule','V-2, капсула Blossom'], w:['fruit flies, seeds','плодовые мушки, семена'], o:'alive', q:[1,0,0,0,0,1,0],
+   d:['20 February 1947, White Sands: a canister of fruit flies and seeds was ejected near the top of the flight and parachuted back. The aim was cosmic radiation; the flies were recovered alive. It showed that living things could be sent up and brought back, nothing more [1][2].','20 февраля 1947 года, Уайт-Сэндс: контейнер с плодовыми мушками и семенами отделился у вершины траектории и спустился на парашюте. Цель — космические лучи; мушек нашли живыми. Полёт показал, что живое можно поднять и вернуть, — не более того [1][2].']},
+  {y:'1949', n:['Albert II, V-2','Альберт II, V-2'], w:['rhesus monkey','макак-резус'], o:'died', q:[1,1,0,0,0,0,0],
+   d:['14 June 1949: Albert II reached 83 miles (134 km) and was alive through the flight, but the parachute failed and he died on impact. Albert I had died a year earlier inside a cramped capsule; Albert IV also died at impact [1][2].','14 июня 1949 года: Альберт II поднялся на 83 мили (134 км) и пережил полёт, но парашют не раскрылся, и он погиб при ударе о землю. Альберт I погиб годом раньше в тесной капсуле; Альберт IV тоже погиб при ударе [1][2].']},
+  {y:'1951', n:['Dezik and Tsygan, R-1V','Дезик и Цыган, Р-1В'], w:['two dogs','две собаки'], o:'alive', q:[2,1,0,0,0,0,0],
+   d:['22 July 1951: two stray dogs rode a Soviet copy of the V-2 to about 110 km and were recovered unharmed [3]. Dezik died on a later flight with a dog named Lisa when the parachute failed [1]. The dog flights of 1951–52 established that a mammal comes through launch, a few minutes of free fall and a parachute return.','22 июля 1951 года: две бродячие собаки поднялись на советской копии V-2 примерно на 110 км и вернулись невредимыми [3]. Дезик погиб в следующем полёте вместе с собакой Лисой, когда не раскрылся парашют [1]. Собачьи полёты 1951–1952 годов показали, что млекопитающее переносит старт, несколько минут свободного падения и спуск на парашюте.']},
+  {y:'1957', n:['Sputnik 2','«Спутник-2»'], w:['Laika (dog)','Лайка (собака)'], o:'died', q:[2,2,1,0,0,0,0],
+   d:['3 November 1957: Laika\'s pulse tripled at launch and settled in weightlessness, more slowly than after a centrifuge run. Then the cabin overheated; no life signs came after 5–7 hours. There was never a way to bring her back [6][7]. It answered one question — a mammal tolerates orbital launch and hours of weightlessness — at the cost of her life.','3 ноября 1957 года: при старте пульс Лайки утроился и затем снизился в невесомости — медленнее, чем после центрифуги. Потом кабина перегрелась; через 5–7 часов признаков жизни уже не было. Способа вернуть её не существовало [6][7]. Полёт ответил на один вопрос — млекопитающее переносит выведение на орбиту и часы невесомости — ценой её жизни.']},
+  {y:'1960', n:['Korabl-Sputnik 2','Второй корабль-спутник'], w:['Belka, Strelka, 40 mice, 2 rats','Белка, Стрелка, 40 мышей, 2 крысы'], o:'mixed', q:[2,2,2,0,2,1,0],
+   d:['19–20 August 1960: 17–18 orbits in a test version of Vostok and the first return of animals from orbit; both dogs came back, but 28 of the 40 mice died in flight [11]. On the fourth orbit Belka moved anxiously, barked and vomited — an early sign of the space sickness humans would later feel. Air Force medical chief Vladimir Yazdovsky then demanded that the first crewed flight last no more than one orbit [11].','19–20 августа 1960 года: 17–18 витков на испытательном варианте «Востока» и первое возвращение животных с орбиты; обе собаки вернулись, но 28 из 40 мышей погибли в полёте [11]. На четвёртом витке Белка беспокойно металась, лаяла, и её вырвало — ранний признак той космической болезни, которую потом испытают люди. Начальник медицинских исследований ВВС Владимир Яздовский потребовал, чтобы первый пилотируемый полёт длился не больше одного витка [11].']},
+  {y:'1960', n:['Korabl-Sputnik 3','Третий корабль-спутник'], w:['Pchyolka and Mushka','Пчёлка и Мушка'], o:'died', q:[2,2,2,0,0,0,0],
+   d:['1–2 December 1960: a day in orbit went well, but the braking burn came out short and the descent module was destroyed by its self-destruct system on the way down, killing both dogs [12]. It showed the return was the least reliable part of the system — four months before Gagarin.','1–2 декабря 1960 года: сутки на орбите прошли нормально, но тормозной импульс оказался недостаточным, и спускаемый аппарат был уничтожен системой аварийного подрыва при снижении; обе собаки погибли [12]. Полёт показал, что возвращение — самое ненадёжное звено системы, за четыре месяца до Гагарина.']},
+  {y:'1961', n:['Mercury-Redstone 2','«Меркурий-Редстоун-2»'], w:['Ham (chimpanzee)','Хэм (шимпанзе)'], o:'alive', q:[2,2,0,2,0,0,0],
+   d:['31 January 1961: the booster over-performed, the escape rocket fired and Ham took 17 g at launch and 14.6 g on re-entry, with 6½ minutes weightless. He kept working his levers: his mean reaction time was 0.82 s against 0.80 s before flight [16]. The first proof that a primate can do a job in space — and the reason a further booster test flew before Shepard [17].','31 января 1961 года: ракета-носитель перестаралась, сработала двигательная установка системы аварийного спасения, и Хэм испытал 17 g на старте и 14,6 g на входе при 6,5 минуты невесомости. Он продолжал работать рычагами: среднее время реакции 0,82 с против 0,80 с до полёта [16]. Первое доказательство того, что примат может выполнять работу в космосе, — и причина, по которой перед полётом Шепарда понадобился ещё один испытательный пуск носителя [17].']},
+  {y:'1961', n:['Korabl-Sputniks 4 and 5','Четвёртый и пятый корабли-спутники'], w:['Chernushka, Zvezdochka, mannequin','Чернушка, Звёздочка, манекен'], o:'alive', q:[2,2,0,0,2,0,0],
+   d:['9 and 25 March 1961: each flew the exact one-orbit plan of Vostok 1 in a ship built for a pilot, with a mannequin in the ejection seat and a single dog alongside. Both dogs came back alive [14][15]. Two clean rehearsals were the last condition for Gagarin\'s flight on 12 April.','9 и 25 марта 1961 года: каждый корабль выполнил точную одновитковую программу «Востока-1» на аппарате, построенном для лётчика, с манекеном в катапультном кресле и одной собакой рядом. Обе собаки вернулись живыми [14][15]. Две чистые генеральные репетиции стали последним условием полёта Гагарина 12 апреля.']},
+  {y:'1961', n:['Mercury-Atlas 5','«Меркурий-Атлас-5»'], w:['Enos (chimpanzee)','Энос (шимпанзе)'], o:'alive', q:[2,2,2,2,2,0,0],
+   d:['29 November 1961: two orbits instead of three, cut short by a failed roll-control jet and an overheating inverter [18]; 7.8 g on re-entry [16]. Enos worked his tasks for over three hours, although a faulty lever shocked him for correct answers [16]. He died of shigella dysentery in November 1962, which NASA said was unrelated to the flight [21]. Glenn flew the same mission in February 1962.','29 ноября 1961 года: два витка вместо трёх — полёт сократили из-за отказа реактивного сопла управления по крену и перегрева инвертора [18]; 7,8 g на входе [16]. Энос выполнял задачи больше трёх часов, хотя неисправный рычаг бил его током за правильные ответы [16]. Он умер от шигеллёзной дизентерии в ноябре 1962 года; по данным NASA, болезнь не была связана с полётом [21]. Гленн выполнил ту же программу в феврале 1962 года.']},
+  {y:'1963', n:['Véronique AGI 47','«Вероника» AGI 47'], w:['Félicette (cat)','Фелисетт (кошка)'], o:'killed', q:[1,1,0,1,0,0,0],
+   d:['18 October 1963, Algerian Sahara: Félicette flew with electrodes in her skull to record brain activity, spent about five minutes weightless and was recovered alive [22][23]. Two months later she was killed so her brain could be examined; the autopsy taught little [22].','18 октября 1963 года, алжирская Сахара: Фелисетт летала с электродами в черепе для записи активности мозга, около пяти минут провела в невесомости и была найдена живой [22][23]. Через два месяца её умертвили, чтобы исследовать мозг; вскрытие почти ничего не дало [22].']},
+  {y:'1966', n:['Kosmos 110','«Космос-110»'], w:['Veterok and Ugolyok','Ветерок и Уголёк'], o:'alive', q:[0,2,2,0,2,2,0],
+   d:['22 February 1966: 21 days in orbit to study radiation effects, a canine record that still stands [1]. It came after the Vostok and Voskhod crews had already flown, and probed durations they had not.','22 февраля 1966 года: 21 сутки на орбите для изучения действия радиации — собачий рекорд, который не побит до сих пор [1]. Полёт состоялся уже после экипажей «Востоков» и «Восходов» и исследовал длительности, до которых они не дошли.']},
+  {y:'1968', n:['Zond 5','«Зонд-5»'], w:['two steppe tortoises, insects, plants','две степные черепахи, насекомые, растения'], o:'alive', q:[1,2,2,0,2,1,2],
+   d:['14–21 September 1968: around the Moon at 1,950 km and back to a splashdown in the Indian Ocean after a steep ballistic re-entry [24]. The tortoises lost about 10 % of their weight but stayed active [24]. The first animals to travel around the Moon, three months before Apollo 8\'s crew.','14–21 сентября 1968 года: облёт Луны на расстоянии 1950 км и приводнение в Индийском океане после крутого баллистического входа [24]. Черепахи потеряли около 10 % веса, но остались активными [24]. Первые животные, облетевшие Луну, — за три месяца до экипажа «Аполлона-8».']},
+  {y:'1973–96', n:['Bion / Kosmos biosatellites','Биоспутники «Бион» («Космос»)'], w:['rats, monkeys, fish, insects, plants','крысы, обезьяны, рыбы, насекомые, растения'], o:'mixed', q:[0,2,2,0,2,2,0],
+   d:['Eleven flights from Kosmos 605 (1973) to Bion 11 (1996), of five to 22 days each [1]. They asked what weeks in orbit do to animals — questions for long stays, not first flights. Not every animal survived: the monkey Multik died the day after Bion 11 landed, during his post-landing examination [1].','Одиннадцать полётов — от «Космоса-605» (1973) до «Биона-11» (1996), от 5 до 22 суток каждый [1]. Изучалось, что недели на орбите делают с животными, — вопросы долгих экспедиций, а не первых полётов. Выжили не все: обезьяна Мультик умерла на следующий день после посадки «Биона-11», во время послеполётного обследования [1].']},
+  {y:'2025', n:['Bion-M No. 2','«Бион-М» № 2'], w:['75 mice, fruit flies, cells, plants','75 мышей, дрозофилы, клетки, растения'], o:'mixed', q:[0,2,2,0,2,2,0],
+   d:['20 August – 19 September 2025: 30 days in a near-polar orbit at about 97° to measure radiation and weightlessness [27]. Ten of the 75 mice died during the flight; the institute attributed this partly to fighting between male mice [26]. As of October 2026 it is the most recent flight in the series.','20 августа – 19 сентября 2025 года: 30 суток на почти полярной орбите (около 97°) для изучения радиации и невесомости [27]. Десять из 75 мышей погибли в полёте; институт объяснил это в том числе драками между самцами [26]. На октябрь 2026 года это последний полёт серии.']}
+];
+var mxQ = -1, mxSel = 3;
+function outcomeLabel(o){ return {alive:T('survived','выжили'), died:T('died','погибли'), killed:T('survived, then killed','выжила, затем умерщвлена'), mixed:T('some died','часть погибла')}[o]; }
+function renderMatrix(){
+  var head = '<thead><tr><th scope="col" class="mx-fl">' + T('FLIGHT','ПОЛЁТ') + '</th>' + QS.map(function(q, i){ return '<th scope="col" class="mx-q' + (i === mxQ ? ' on' : '') + '" title="' + T(q[0], q[1]) + '"><abbr title="' + T(q[0], q[1]) + '">Q' + (i + 1) + '</abbr></th>'; }).join('') + '</tr></thead>';
+  var rows = FLIGHTS.map(function(f, k){
+    var hit = mxQ >= 0 && f.q[mxQ] === 2, dim = mxQ >= 0 && !f.q[mxQ];
+    return '<tr class="' + (k === mxSel ? 'sel ' : '') + (hit ? 'hit ' : '') + (dim ? 'dim' : '') + '"><th scope="row" class="mx-fl"><button class="mx-row" data-k="' + k + '" aria-pressed="' + (k === mxSel) + '"><span class="mx-y">' + f.y + '</span> ' + T(f.n[0], f.n[1]) + '<span class="mx-o mx-' + f.o + '">' + T(f.w[0], f.w[1]) + ' — ' + outcomeLabel(f.o) + '</span></button></th>' +
+      f.q.map(function(v, i){ return '<td class="mx-c' + (i === mxQ ? ' on' : '') + '" aria-label="' + T(QS[i][0], QS[i][1]) + ': ' + (v === 2 ? T('answered','ответил') : v === 1 ? T('partly','частично') : T('no','нет')) + '">' + (v === 2 ? '●' : v === 1 ? '◐' : '·') + '</td>'; }).join('') + '</tr>';
+  }).join('');
+  document.getElementById('mxTable').innerHTML = head + '<tbody>' + rows + '</tbody>';
+  Array.prototype.forEach.call(document.querySelectorAll('#mxTable .mx-row'), function(b){ b.addEventListener('click', function(){ mxSel = +this.getAttribute('data-k'); renderMatrix(); }); });
+  var f = FLIGHTS[mxSel];
+  document.getElementById('mxDetail').innerHTML = '<b>' + f.y + ' · ' + T(f.n[0], f.n[1]) + '</b> — ' + T(f.d[0], f.d[1]);
+  var st;
+  if(mxQ < 0) st = T('Choose a question to see which flights answered it, or a flight to read what it measured.','Выберите вопрос, чтобы увидеть, какие полёты на него ответили, или полёт — чтобы прочитать, что он измерил.');
+  else {
+    var hits = FLIGHTS.filter(function(x){ return x.q[mxQ] === 2; });
+    st = T('“','«') + T(QS[mxQ][0], QS[mxQ][1]).toLowerCase() + T('”: answered by ','»: ответили ') + hits.length + T(' of the ',' из ') + FLIGHTS.length + T(' flights here, first by ',' полётов, первым — ') + T(hits[0].n[0], hits[0].n[1]) + ' (' + hits[0].y + ').';
+  }
+  document.getElementById('mxStatus').innerHTML = st;
+}
+Array.prototype.forEach.call(document.querySelectorAll('#mxQ .btn'), function(btn){ btn.addEventListener('click', function(){
+  var q = +this.getAttribute('data-q'); mxQ = (mxQ === q) ? -1 : q; pressGroup(this.parentNode, mxQ < 0 ? null : this); renderMatrix(); }); });
+
+/* ============ CH8 — LEGACY ============ */
+var TIMELINE = [
+  ['1947', '<b>20 February:</b> fruit flies ride a V-2 from White Sands and come back alive [1][2].', '<b>20 февраля:</b> плодовые мушки поднимаются на V-2 с полигона Уайт-Сэндс и возвращаются живыми [1][2].'],
+  ['1948–49', 'Albert I dies in a cramped capsule; Albert II reaches 134 km and dies on impact when the parachute fails [1][2].', 'Альберт I гибнет в тесной капсуле; Альберт II достигает 134 км и гибнет при ударе — не раскрылся парашют [1][2].'],
+  ['1951', '<b>22 July:</b> Dezik and Tsygan, the first dogs above 100 km, are recovered alive [3].', '<b>22 июля:</b> Дезик и Цыган — первые собаки выше 100 км — возвращаются живыми [3].'],
+  ['1957', '<b>3 November:</b> Sputnik 2 carries Laika into orbit. She dies of overheating within hours [4][6].', '<b>3 ноября:</b> «Спутник-2» выводит на орбиту Лайку. Она погибает от перегрева в первые часы [4][6].'],
+  ['1958', '<b>14 April:</b> Sputnik 2 re-enters after 162 days [4].', '<b>14 апреля:</b> «Спутник-2» входит в атмосферу через 162 дня [4].'],
+  ['1960', '<b>28 July:</b> Lisichka and Chaika die in a launch failure. <b>19–20 August:</b> Belka and Strelka orbit and return; 28 of 40 mice die in flight. <b>1–2 December:</b> Pchyolka and Mushka are lost on re-entry [11][12].', '<b>28 июля:</b> Лисичка и Чайка гибнут в аварии носителя. <b>19–20 августа:</b> Белка и Стрелка летают на орбите и возвращаются; 28 из 40 мышей гибнут в полёте. <b>1–2 декабря:</b> Пчёлка и Мушка гибнут при спуске [11][12].'],
+  ['1961', '<b>31 January:</b> Ham. <b>9 and 25 March:</b> Chernushka and Zvezdochka rehearse Vostok 1. <b>12 April:</b> Gagarin. <b>5 May:</b> Shepard. <b>29 November:</b> Enos orbits twice [14][15][16][18].', '<b>31 января:</b> Хэм. <b>9 и 25 марта:</b> Чернушка и Звёздочка репетируют «Восток-1». <b>12 апреля:</b> Гагарин. <b>5 мая:</b> Шепард. <b>29 ноября:</b> Энос делает два витка [14][15][16][18].'],
+  ['1963', '<b>18 October:</b> Félicette flies from the Sahara; she is killed two months later [22].', '<b>18 октября:</b> полёт Фелисетт из Сахары; через два месяца её умерщвляют [22].'],
+  ['1966', '<b>22 February:</b> Veterok and Ugolyok begin 21 days on Kosmos 110 [1].', '<b>22 февраля:</b> Ветерок и Уголёк начинают 21-суточный полёт на «Космосе-110» [1].'],
+  ['1968', '<b>18 September:</b> Zond 5\'s tortoises pass 1,950 km from the Moon; recovered on 21 September [24].', '<b>18 сентября:</b> черепахи «Зонда-5» проходят в 1950 км от Луны; 21 сентября их поднимают из океана [24].'],
+  ['1973–96', 'Eleven Bion biosatellites, from Kosmos 605 to Bion 11 [1].', 'Одиннадцать биоспутников «Бион» — от «Космоса-605» до «Биона-11» [1].'],
+  ['1998', 'Oleg Gazenko says publicly that the Sputnik 2 mission did not justify Laika\'s death [28].', 'Олег Газенко публично говорит, что полёт «Спутника-2» не оправдал гибели Лайки [28].'],
+  ['2002', 'Dimitri Malashenkov tells the World Space Congress that Laika died within 5–7 hours [6][7].', 'Дмитрий Малашенков сообщает Всемирному космическому конгрессу, что Лайка погибла в первые 5–7 часов [6][7].'],
+  ['2013', 'Bion-M No. 1: fewer than half of its 53 mice and other rodents survive 30 days [25].', '«Бион-М» № 1: меньше половины из 53 мышей и других грызунов переживают 30 суток [25].'],
+  ['2025', 'Bion-M No. 2: 65 of 75 mice return after 30 days in a polar orbit [26][27].', '«Бион-М» № 2: 65 из 75 мышей возвращаются после 30 суток на полярной орбите [26][27].']
+];
+
+/* ============ CH9 — REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA History Office, “A Brief History of Animals in Space”', url:'https://www.nasa.gov/history/a-brief-history-of-animals-in-space/', note:{en:'Albert II (14 June 1949, 83 miles, died on impact); R-1 dog flights 1951–52; Laika; Ham (5,857 mph, 157 miles, 422 miles, 6.6 min weightless); Enos; Félicette; Kosmos 110 (21 days); Zond 5 (about 20 g ballistic re-entry); Bion missions. Gives 15 August 1951 for Dezik and Tsygan, against 22 July in [3].', ru:'Альберт II (14 июня 1949 года, 83 мили, погиб при ударе); собачьи полёты на Р-1 в 1951–1952 годах; Лайка; Хэм (5857 миль/ч, 157 миль, 422 мили, 6,6 мин невесомости); Энос; Фелисетт; «Космос-110» (21 сутки); «Зонд-5» (баллистический вход около 20 g); миссии «Бион». Для Дезика и Цыгана указано 15 августа 1951 года, а не 22 июля, как в [3].'}},
+  {title:'White Sands Missile Range Museum, “The V-2 Program: Operation Backfire to the Hermes Project”', url:'https://wsmrmuseum.com/2020/10/06/the-v-2-program-operation-backfire-to-the-hermes-project/5/amp/', note:{en:'The Blossom series: first firing 20 February 1947 with fruit flies and seeds to study cosmic radiation; the Albert flights.', ru:'Серия Blossom: первый пуск 20 февраля 1947 года с плодовыми мушками и семенами для изучения космических лучей; полёты «Альбертов».'}},
+  {title:'Guinness World Records, “First dog in space”', url:'https://www.guinnessworldrecords.com/world-records/601672-first-dog-in-space', note:{en:'Dezik and Tsygan, 22 July 1951, R-1V, about 110 km.', ru:'Дезик и Цыган, 22 июля 1951 года, Р-1В, около 110 км.'}},
+  {title:'NASA NSSDCA, “Sputnik 2” (archived 29 May 2019)', url:'https://web.archive.org/web/20190529081812/https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1957-002A', note:{en:'212 × 1,660 km, 103.7 min; the Blok A core “did not separate as planned”; insulation tore loose; interior reached 40 °C; Laika about 6 kg; re-entry 14 April 1958 after 162 days. Its estimate that she lived “a day or two” predates [6].', ru:'212 × 1660 км, 103,7 мин; блок А «не отделился, как планировалось»; часть теплоизоляции оторвалась; температура внутри достигла 40 °C; Лайка весила около 6 кг; вход в атмосферу 14 апреля 1958 года через 162 дня. Оценка «день-два» жизни Лайки появилась раньше [6].'}},
+  {title:'NASA History Office, Chronology of Sputnik/Vanguard/Explorer Events 1957–58', url:'https://www.nasa.gov/history/sputnik/chronology.html', note:{en:'3 November 1957: Sputnik 2 (508.3 kg) with Laika.', ru:'3 ноября 1957 года: «Спутник-2» (508,3 кг) с Лайкой.'}},
+  {title:'D. Whitehouse, “First dog in space died within hours”, BBC News, 28 October 2002', url:'http://news.bbc.co.uk/2/hi/science/nature/2367681.stm', note:{en:'Malashenkov (Institute for Biomedical Problems) at the World Space Congress: fan above 15 °C; pulse tripled at launch; temperature and humidity rose; no life signs after 5–7 hours.', ru:'Малашенков (Институт медико-биологических проблем) на Всемирном космическом конгрессе: вентилятор выше 15 °C; пульс при старте утроился; температура и влажность росли; признаков жизни нет через 5–7 часов.'}},
+  {title:'S. Grahn, “Sputnik-2, more news from distant history” (archived)', url:'https://web.archive.org/web/2015/http://www.svengrahn.pp.se/histind/Sputnik2/sputnik2more.html', note:{en:'Summary of Malashenkov, paper IAC-02-IAA.2.2.05 (2002): life support for 7 days; no data after 5–7 hours; post-flight simulations put death on the third or fourth orbit.', ru:'Изложение доклада Малашенкова IAC-02-IAA.2.2.05 (2002): системы жизнеобеспечения на 7 суток; данных нет после 5–7 часов; послеполётное моделирование относит гибель к третьему–четвёртому витку.'}},
+  {title:'A. Zak, “Sputnik-2”, RussianSpaceWeb', url:'https://www.russianspaceweb.com/sputnik2.html', note:{en:'Polished transfer cone, extra blankets and copper panels for thermal control; states that Sputnik 2 was designed from the outset to remain attached to the rocket\'s core stage.', ru:'Полированный переходный конус, дополнительные экраны и медные панели для терморегулирования; утверждается, что «Спутник-2» изначально проектировался неотделяемым от центрального блока.'}},
+  {title:'A. Zak, “Design of Sputnik-2”, RussianSpaceWeb', url:'https://www.russianspaceweb.com/sputnik2_design.html', note:{en:'Korolev\'s 16 October 1957 note: satellite mounted on the second stage, total 7.5 t; orbiting mass with the core stage 7.79 t.', ru:'Записка Королёва от 16 октября 1957 года: спутник установлен на второй ступени, общая масса 7,5 т; на орбите вместе с центральным блоком 7,79 т.'}},
+  {title:'NASA NSSDCA, Earth Fact Sheet', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html', note:{en:'GM = 0.39860 × 10⁶ km³/s², mean radius 6,371 km, used for every orbit and trajectory here.', ru:'GM = 0,39860 × 10⁶ км³/с², средний радиус 6371 км — во всех расчётах орбит и траекторий.'}},
+  {title:'A. Zak, “Belka and Strelka pioneer a two-way trip to orbit”, RussianSpaceWeb', url:'https://www.russianspaceweb.com/vostok-1k-2.html', note:{en:'Korabl-Sputnik 2: 306 × 339 km, 90.6 min; 1 day 2 h 23 min (17–18 orbits); two rats, 40 mice, of which 28 died in orbit; Lisichka and Chaika lost on 28 July 1960; Belka vomited on the fourth orbit and Yazdovsky demanded a one-orbit first crewed flight.', ru:'Второй корабль-спутник: 306 × 339 км, 90,6 мин; 1 сутки 2 ч 23 мин (17–18 витков); две крысы, 40 мышей, из которых 28 погибли на орбите; Лисичка и Чайка погибли 28 июля 1960 года; Белку вырвало на четвёртом витке, и Яздовский потребовал ограничить первый пилотируемый полёт одним витком.'}},
+  {title:'A. Zak, “Vostok prototype lost on reentry”, RussianSpaceWeb', url:'https://www.russianspaceweb.com/vostok-1k-3.html', note:{en:'Korabl-Sputnik 3, 1–2 December 1960, Pchyolka and Mushka; insufficient braking burn and activation of the self-destruct system.', ru:'Третий корабль-спутник, 1–2 декабря 1960 года, Пчёлка и Мушка; недостаточный тормозной импульс и срабатывание системы подрыва.'}},
+  {title:'A. Zak, “Vostok-1K No. 4”, RussianSpaceWeb', url:'https://www.russianspaceweb.com/vostok-1k-4.html', note:{en:'22 December 1960: third-stage failure; the capsule with Kometa and Shutka landed in Siberia and the dogs survived two days in deep cold.', ru:'22 декабря 1960 года: авария третьей ступени; капсула с Кометой и Шуткой села в Сибири, и собаки пережили двое суток на сильном морозе.'}},
+  {title:'A. Zak, “Vostok-3KA No. 1”, RussianSpaceWeb', url:'https://www.russianspaceweb.com/vostok-3ka-1.html', note:{en:'9 March 1961: one-orbit test with Chernushka and the mannequin “Ivan Ivanovich”, simulating Vostok 1.', ru:'9 марта 1961 года: одновитковое испытание с Чернушкой и манекеном «Иваном Ивановичем», имитация «Востока-1».'}},
+  {title:'A. Zak, “Vostok-3KA No. 2”, RussianSpaceWeb', url:'https://www.russianspaceweb.com/vostok-3ka-2.html', note:{en:'25 March 1961: final dress rehearsal with Zvezdochka; the animals were reported alive.', ru:'25 марта 1961 года: последняя генеральная репетиция со Звёздочкой; животные живы.'}},
+  {title:'J. P. Henry, J. D. Mosely (eds.) (1963), “Results of the Project Mercury Ballistic and Orbital Chimpanzee Flights”, NASA SP-39', url:'https://www.nasa.gov/wp-content/uploads/static/history/PDFs/sp39chimpanzee.pdf', note:{en:'MR-2: apogee 136.2 nmi, range 363 nmi; 17.0 g when the escape rocket fired; 14.6 g at T+9 min 36 s; 6½ min weightless; heart rate 94 → 158 → 173 /min; reaction time 0.82 s vs 0.80 s. MA-5: 99.5 × 147.4 statute miles, 88 min 26 s, two orbits, 7.8 g, landing at 3 h 21 min; lever malfunction.', ru:'MR-2: апогей 136,2 морской мили, дальность 363 мили; 17,0 g при срабатывании двигателя САС; 14,6 g на T+9 мин 36 с; 6,5 мин невесомости; пульс 94 → 158 → 173 в минуту; время реакции 0,82 с против 0,80 с. MA-5: 99,5 × 147,4 сухопутной мили, 88 мин 26 с, два витка, 7,8 g, посадка через 3 ч 21 мин; неисправность рычага.'}},
+  {title:'NASA SP-4001, “Project Mercury: A Chronology”, Part II (B)', url:'https://www.nasa.gov/history/SP-4001/p2b.htm', note:{en:'31 January 1961: thrust “considerably higher than planned”, early LOX depletion, escape rocket; 24 March 1961: Mercury-Redstone Booster Development flight before any crewed launch.', ru:'31 января 1961 года: тяга «значительно выше запланированной», раннее исчерпание жидкого кислорода, срабатывание САС; 24 марта 1961 года: испытательный пуск носителя «Меркурий-Редстоун» перед пилотируемыми полётами.'}},
+  {title:'NASA SP-4001, “Project Mercury: A Chronology”, Part III (A)', url:'https://www.nasa.gov/history/SP-4001/p3a.htm', note:{en:'5 May 1961, Freedom 7: 116.5 statute miles, 302 miles downrange, slightly less than 12 g on re-entry, about 5 minutes weightless. 29 November 1961: MA-5 with Enos, returned after two orbits instead of three because a roll reaction jet failed and an inverter overheated.', ru:'5 мая 1961 года, «Фридом-7»: 116,5 сухопутной мили, 302 мили дальности, чуть меньше 12 g на входе, около 5 минут невесомости. 29 ноября 1961 года: MA-5 с Эносом, возвращённый после двух витков вместо трёх из-за отказа реактивного сопла управления по крену и перегрева инвертора.'}},
+  {title:'NASA (1961), “Proceedings of a Conference on Results of the First U.S. Manned Suborbital Space Flight”', url:'https://ntrs.nasa.gov/api/citations/19720065957/downloads/19720065957.pdf', note:{en:'MR-3: inertial cutoff velocity 7,388 ft/s at T+2 min 22 s; peak 11.0 g at about 83,000 ft; re-entry attitude 40° heat shield down.', ru:'MR-3: инерциальная скорость в момент выключения 7388 фут/с на T+2 мин 22 с; пик 11,0 g на высоте около 83 000 футов.'}},
+  {title:'NOAA, NASA, US Air Force (1976), “U.S. Standard Atmosphere, 1976”, NASA-TM-X-74335', url:'https://ntrs.nasa.gov/citations/19770009539', note:{en:'Air density at 0–120 km used in the re-entry model.', ru:'Плотность воздуха на высотах 0–120 км в модели входа.'}},
+  {title:'NASA SP-4001, “Project Mercury: A Chronology”, Part III (B)', url:'https://www.nasa.gov/history/SP-4001/p3b.htm', note:{en:'4 November 1962: Enos died of shigella dysentery, “in no way related” to his flight.', ru:'4 ноября 1962 года: Энос умер от шигеллёзной дизентерии, «никак не связанной» с полётом.'}},
+  {title:'Guinness World Records, “The cat who reached the Milky Way”, 17 October 2025', url:'https://www.guinnessworldrecords.com/news/2025/10/the-cat-who-reached-the-milky-way-anniversary-of-the-first-feline-to-fly-to-space', note:{en:'18 October 1963, Véronique AGI from the Sahara; about five minutes weightless; euthanised two months later; little learned from the autopsy; statue at the International Space University.', ru:'18 октября 1963 года, ракета «Вероника» AGI из Сахары; около пяти минут невесомости; умерщвлена через два месяца; вскрытие почти ничего не дало; памятник в Международном космическом университете.'}},
+  {title:'National Space Society, “Corrections section: Félicette, not Félix”, 2017', url:'https://nss.org/this-space-availables-corrections-section-felicette-not-felix/', note:{en:'Launched from Hammaguir, Algeria; about 157 km; flight of about 15 minutes.', ru:'Старт с полигона Хаммагир (Алжир); около 157 км; полёт около 15 минут.'}},
+  {title:'NASA NSSDCA, “Zond 5” (archived)', url:'https://web.archive.org/web/2020/https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-076A', note:{en:'Launch 14 September 1968; around the Moon on 18 September at 1,950 km; ballistic re-entry and Indian Ocean splashdown on 21 September; tortoises lost about 10 % of body weight but stayed active.', ru:'Запуск 14 сентября 1968 года; облёт Луны 18 сентября на расстоянии 1950 км; баллистический вход и приводнение в Индийском океане 21 сентября; черепахи потеряли около 10 % веса, но остались активными.'}},
+  {title:'The Moscow Times, “Mice Die but Lizards Survive a Month in Space”, 21 May 2013', url:'https://themoscowtimes.com/archive/mice-die-but-lizards-survive-a-month-in-space', note:{en:'Bion-M No. 1: fewer than half of 53 mice and other rodents survived; all 15 lizards survived.', ru:'«Бион-М» № 1: выжило меньше половины из 53 мышей и других грызунов; все 15 ящериц выжили.'}},
+  {title:'Interfax, “Ten mice didn\'t survive space flight in Bion-M No. 2 capsule”, 19 September 2025', url:'https://interfax.com/newsroom/top-stories/113900/', note:{en:'Oleg Orlov (IBMP): 10 of 75 mice died; launch 20 August from Baikonur; landing in the Orenburg region.', ru:'Олег Орлов (ИМБП): погибли 10 из 75 мышей; запуск 20 августа с Байконура; посадка в Оренбургской области.'}},
+  {title:'L. David, “Russia\'s Noah\'s Ark returns to Earth”, 19 September 2025', url:'https://www.leonarddavid.com/russias-noahs-ark-returns-to-earth/', note:{en:'Bion-M No. 2: 30 days, nearly circular orbit at about 97°, radiation at least ten times that of Bion-M No. 1.', ru:'«Бион-М» № 2: 30 суток, почти круговая орбита наклонением около 97°, радиация как минимум в десять раз выше, чем у «Биона-М» № 1.'}},
+  {title:'“Message from the First Dog in Space Received 45 Years Too Late”, Dogs in the News, 3 November 2002 (archived)', url:'https://web.archive.org/web/20060108184335/http://www.dogsinthenews.com/issues/0211/articles/021103a.htm', note:{en:'Quotes Oleg Gazenko at a Moscow news conference in 1998.', ru:'Цитата Олега Газенко на пресс-конференции в Москве в 1998 году.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderHeat(); renderBal(); renderMatrix();
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__passenger = {periodMin:periodMin, freeFallMin:freeFallMin, heatRun:heatRun, kleiberW:kleiberW, orbitAt:orbitAt, HEAT:HEAT, rho:rho, SCALE_H:SCALE_H,
+  fly:fly, allenEggersG:allenEggersG, BAL:BAL, SHEPARD_V:SHEPARD_V, HAM_V:HAM_V, MR2:MR2, MR3:MR3, FLIGHTS:FLIGHTS, QS:QS, MPH:MPH, NMI:NMI, SMI:SMI, FT:FT};
+
+})();
+</script>
+</body>
+</html>

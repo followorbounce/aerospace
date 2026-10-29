@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ru" data-edition="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Окололунная станция Gateway — Аэрокосмический справочник</title>
+<meta name="description" content="Десять глав о небольшой международной космической станции, спроектированной для необычной, изящной окололунной орбиты, на которой ещё не бывало ни одной обитаемой станции, — и о решении NASA 2026…">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/ru/the-lunar-gateway">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Окололунная станция Gateway — Аэрокосмический справочник">
+<meta property="og:description" content="Десять глав о небольшой международной космической станции, спроектированной для необычной, изящной окололунной орбиты, на которой ещё не бывало ни одной обитаемой станции, — и о решении NASA 2026…">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/ru/the-lunar-gateway">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+.notice{font-family:var(--font-mono); font-size:12px; color:var(--mid); border:1px dashed var(--line); padding:10px 14px; margin-bottom:32px; max-width:640px;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,32px);}
+.sim-viewport{width:100%; aspect-ratio:1/1; max-width:420px; margin:0 auto;}
+.sim-verdict{margin-top:16px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:13px; min-height:20px;}
+.dash-card .dc-status.dead{background:var(--ink); color:var(--white);}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/the-lunar-gateway">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/the-lunar-gateway">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/the-lunar-gateway">
+<!-- /hreflang -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Окололунная станция Gateway","description":"Десять глав о небольшой международной космической станции, спроектированной для необычной, изящной окололунной орбиты, на которой ещё не бывало ни одной обитаемой станции, — и о решении NASA 2026…","url":"https://followorbounce.github.io/aerospace/ru/the-lunar-gateway","mainEntityOfPage":"https://followorbounce.github.io/aerospace/ru/the-lunar-gateway","image":"","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"ru","isPartOf":{"@type":"WebSite","name":"Аэрокосмический справочник","url":"https://followorbounce.github.io/aerospace/ru/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Аэрокосмический справочник","item":"https://followorbounce.github.io/aerospace/ru/"},{"@type":"ListItem","position":2,"name":"Окололунная станция Gateway","item":"https://followorbounce.github.io/aerospace/ru/the-lunar-gateway"}]}</script>
+<!-- /fob-ld -->
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">HALO — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="">EN</button>
+    <button data-lang="ru" class="active">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">CONCEPT</span></div>
+  <div class="hud-row"><span class="hud-label">ORBIT</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">PLANNED</span></div>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero" class="section" data-phase="CONCEPT" data-alt="—" data-vel="PLANNED" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span data-en="FIG. 00 — A STATION BUILT FOR AN ORBIT NOBODY HAD USED" data-ru="РИС. 00 — СТАНЦИЯ ДЛЯ ОРБИТЫ, КОТОРУЮ ЕЩЁ НИКТО НЕ ИСПОЛЬЗОВАЛ">РИС. 00 — СТАНЦИЯ ДЛЯ ОРБИТЫ, КОТОРУЮ ЕЩЁ НИКТО НЕ ИСПОЛЬЗОВАЛ</span>
+        <span data-en="2020 → PAUSED 2026" data-ru="2020 → ПРИОСТАНОВЛЕНА В 2026">2020 → ПРИОСТАНОВЛЕНА В 2026</span>
+      </div>
+      <h1><span data-en="HALO" data-ru="ГАЛО">ГАЛО</span><br><em data-en="A FIELD GUIDE TO THE LUNAR GATEWAY" data-ru="ПОЛЕВОЙ СПРАВОЧНИК ПО СТАНЦИИ GATEWAY">ПОЛЕВОЙ СПРАВОЧНИК ПО СТАНЦИИ GATEWAY</em></h1>
+      <p class="sub lede" data-en="Ten chapters on the small international space station designed for a strange, elegant lunar orbit no crewed station had ever occupied — and on NASA’s 2026 decision to pause it, with hardware partly built and its reuse still being worked out. Status as of 10 October 2026. Scroll to begin." data-ru="Десять глав о небольшой международной космической станции, спроектированной для необычной, изящной окололунной орбиты, на которой ещё не бывало ни одной обитаемой станции, — и о решении NASA 2026 года приостановить её, когда оборудование было построено лишь частично, а его повторное использование ещё прорабатывается. Статус на 10 октября 2026 года. Пролистайте вниз, чтобы начать.">Десять глав о небольшой международной космической станции, спроектированной для необычной, изящной окололунной орбиты, на которой ещё не бывало ни одной обитаемой станции, — и о решении NASA 2026 года приостановить её, когда оборудование было построено лишь частично, а его повторное использование ещё прорабатывается. Статус на 10 октября 2026 года. Пролистайте вниз, чтобы начать.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">НАЧАТЬ — ГЛАВА 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — A DIFFERENT KIND OF STATION -->
+<section id="ch1" class="section" data-phase="A DIFFERENT KIND OF STATION" data-alt="LEO VS NRHO" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="A DIFFERENT KIND OF STATION" data-ru="СТАНЦИЯ ИНОГО ТИПА">СТАНЦИЯ ИНОГО ТИПА</span></div>
+    <h2 class="h-lg" data-en="Not permanently crewed, and not meant to be" data-ru="Не постоянно обитаема — и не должна была быть">Не постоянно обитаема — и не должна была быть</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The ISS is always occupied, resupplied every few weeks, and reachable by a rescue vehicle within hours. Gateway was designed for the opposite environment: crews of up to four visiting during Artemis missions [1], then the station left to operate on its own, sometimes for months, far outside Earth’s protective magnetosphere." data-ru="МКС всегда обитаема, снабжается каждые несколько недель и досягаема для спасательного корабля за считанные часы. Gateway проектировали для противоположных условий: экипажи до четырёх человек прилетают во время миссий Artemis [1], а затем станция работает сама, порой месяцами, далеко за пределами защитной магнитосферы Земли.">МКС всегда обитаема, снабжается каждые несколько недель и досягаема для спасательного корабля за считанные часы. Gateway проектировали для противоположных условий: экипажи до четырёх человек прилетают во время миссий Artemis [1], а затем станция работает сама, порой месяцами, далеко за пределами защитной магнитосферы Земли.</p>
+      <p class="body-col" data-en="That meant designing systems that could diagnose their own faults and work around them, with no possibility of a repair crew launching within days the way the ISS has always allowed." data-ru="Это означало необходимость проектировать системы, способные самостоятельно диагностировать неполадки и обходить их, — без возможности за несколько дней отправить ремонтный экипаж, как это всегда было возможно для МКС.">Это означало необходимость проектировать системы, способные самостоятельно диагностировать неполадки и обходить их, — без возможности за несколько дней отправить ремонтный экипаж, как это всегда было возможно для МКС.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — NRHO -->
+<section id="ch2" class="section" data-phase="THE NRHO ORBIT" data-alt="1,500–70,000 KM" data-vel="6.5-DAY PERIOD">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="THE ORBIT: NRHO EXPLAINED" data-ru="ОРБИТА: ЧТО ТАКОЕ NRHO">ОРБИТА: ЧТО ТАКОЕ NRHO</span></div>
+    <h2 class="h-lg" data-en="A one-week loop that costs almost no fuel" data-ru="Недельная петля, почти не требующая топлива">Недельная петля, почти не требующая топлива</h2>
+    <div class="grid-2">
+      <div class="body-col">
+        <p style="margin-bottom:16px;" data-en="Gateway’s chosen path is a near-rectilinear halo orbit — a highly elongated loop around the Moon that swings within about 1,500 km (1,000 miles) of the surface at its closest and out to about 70,000 km at its farthest, completing one orbit roughly every 6.5 days. [1]" data-ru="Выбранная для Gateway траектория — почти прямолинейная гало-орбита: сильно вытянутая петля вокруг Луны, которая в ближайшей точке подходит примерно на 1500 км (1000 миль) к поверхности, а в дальней удаляется примерно на 70 000 км, совершая один виток примерно за 6,5 суток. [1]">Выбранная для Gateway траектория — почти прямолинейная гало-орбита: сильно вытянутая петля вокруг Луны, которая в ближайшей точке подходит примерно на 1500 км (1000 миль) к поверхности, а в дальней удаляется примерно на 70 000 км, совершая один виток примерно за 6,5 суток. [1]</p>
+        <p data-en="It’s a close cousin of the same family of orbits governed by the Lagrange-point physics of the Earth-Moon system — stable enough to hold with very little propellant, while keeping an uninterrupted link to Earth and good coverage of the south pole. [1]" data-ru="Это близкий родственник того же семейства орбит, определяемого физикой точек Лагранжа системы Земля — Луна, — достаточно устойчивый, чтобы удерживаться на нём с минимальным расходом топлива, сохраняя непрерывную связь с Землёй и хороший обзор южного полюса. [1]">Это близкий родственник того же семейства орбит, определяемого физикой точек Лагранжа системы Земля — Луна, — достаточно устойчивый, чтобы удерживаться на нём с минимальным расходом топлива, сохраняя непрерывную связь с Землёй и хороший обзор южного полюса. [1]</p>
+      </div>
+      <div class="grid-3" style="margin-top:0;">
+        <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.3rem;">6.5 days</div><div class="fig-num" data-en="ORBITAL PERIOD" data-ru="ПЕРИОД ОБРАЩЕНИЯ">ПЕРИОД ОБРАЩЕНИЯ</div></div>
+        <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.3rem;">~1,500 km</div><div class="fig-num" data-en="CLOSEST APPROACH" data-ru="БЛИЖАЙШАЯ ТОЧКА">БЛИЖАЙШАЯ ТОЧКА</div></div>
+        <div class="dash-card" style="text-align:center;"><div class="dc-name" style="font-size:1.3rem;">~70,000 km</div><div class="fig-num" data-en="FARTHEST POINT" data-ru="ДАЛЬНЯЯ ТОЧКА">ДАЛЬНЯЯ ТОЧКА</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH3 — STATION ANATOMY -->
+<section id="ch3" class="section" data-phase="STATION ANATOMY" data-alt="NRHO" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="ANATOMY OF GATEWAY" data-ru="УСТРОЙСТВО GATEWAY">УСТРОЙСТВО GATEWAY</span></div>
+    <h2 class="h-lg" data-en="Five planned modules from four providers" data-ru="Пять запланированных модулей от четырёх поставщиков">Пять запланированных модулей от четырёх поставщиков</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Work concentrated on the first two elements, PPE and HALO; neither had flown when NASA announced the pause. [1] [4] Select a component to see its planned role." data-ru="Работа шла прежде всего над первыми двумя элементами — PPE и HALO; ни один из них не успел полететь к моменту объявления о приостановке. [1] [4] Выберите компонент, чтобы увидеть его планируемую роль.">Работа шла прежде всего над первыми двумя элементами — PPE и HALO; ни один из них не успел полететь к моменту объявления о приостановке. [1] [4] Выберите компонент, чтобы увидеть его планируемую роль.</p>
+    <div class="schematic-wrap">
+      <svg id="gatewaySvg" class="schematic-svg" viewBox="0 0 720 320"></svg>
+      <div class="module-panel corner-frame" id="gatewayPanel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — INTERNATIONAL BUILD -->
+<section id="ch4" class="section" data-phase="INTERNATIONAL BUILD" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="THE INTERNATIONAL BUILD" data-ru="МЕЖДУНАРОДНОЕ СТРОИТЕЛЬСТВО">МЕЖДУНАРОДНОЕ СТРОИТЕЛЬСТВО</span></div>
+    <h2 class="h-lg" data-en="Five partners, one small station" data-ru="Пять партнёров — одна небольшая станция">Пять партнёров — одна небольшая станция</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Like the ISS before it, Gateway was structured as an international barter — each partner contributing hardware in exchange for crew time and access, rather than cash." data-ru="Как и МКС до неё, Gateway строилась по принципу международного бартера — каждый партнёр предоставлял оборудование в обмен на время экипажа и доступ к станции, а не деньги.">Как и МКС до неё, Gateway строилась по принципу международного бартера — каждый партнёр предоставлял оборудование в обмен на время экипажа и доступ к станции, а не деньги.</p>
+    <div class="dash-grid" id="partnersGrid"></div>
+  </div>
+</section>
+
+<!-- CH5 — PPE -->
+<section id="ch5" class="section" data-phase="PPE — THE POWERHOUSE" data-alt="NRHO" data-vel="60 KW">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="PPE — THE POWERHOUSE" data-ru="PPE — ЭНЕРГЕТИЧЕСКОЕ СЕРДЦЕ">PPE — ЭНЕРГЕТИЧЕСКОЕ СЕРДЦЕ</span></div>
+    <h2 class="h-lg" data-en="A 60-kilowatt solar-electric powerhouse" data-ru="Солнечно-электрическая «электростанция» на 60 кВт">Солнечно-электрическая «электростанция» на 60 кВт</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Power and Propulsion Element is a 60-kilowatt solar-electric spacecraft — NASA’s FAQ calls it the most powerful solar-electric spacecraft ever flown, although it has not yet flown — using that power for high-efficiency ion thrusters that would hold Gateway in its orbit with a fraction of the propellant a chemical rocket needs. It was first powered on in 2025. [1] [2]" data-ru="Модуль энергетики и двигательной установки (PPE) — космический аппарат с солнечно-электрической двигательной установкой мощностью 60 кВт; в FAQ NASA он назван самым мощным солнечно-электрическим аппаратом из когда-либо летавших, хотя сам он ещё не летал. Эта мощность питает высокоэффективные ионные двигатели, которые удерживали бы Gateway на орбите при расходе топлива, во много раз меньшем, чем у химической ракеты. Впервые его включили в 2025 году. [1] [2]">Модуль энергетики и двигательной установки (PPE) — космический аппарат с солнечно-электрической двигательной установкой мощностью 60 кВт; в FAQ NASA он назван самым мощным солнечно-электрическим аппаратом из когда-либо летавших, хотя сам он ещё не летал. Эта мощность питает высокоэффективные ионные двигатели, которые удерживали бы Gateway на орбите при расходе топлива, во много раз меньшем, чем у химической ракеты. Впервые его включили в 2025 году. [1] [2]</p>
+      <p class="body-col" data-en="Built by Lanteris Space Systems in Palo Alto, California (formerly Maxar Space Systems, which won the $375 million contract in May 2019), PPE also carries Gateway’s primary communications and attitude-control systems — everything else on the station depends on it working. [2] [8]" data-ru="Изготовитель — Lanteris Space Systems в Пало-Альто, Калифорния (бывшая Maxar Space Systems, выигравшая контракт на 375 млн долларов в мае 2019 года); PPE несёт также основные системы связи и ориентации Gateway — от его работы зависит всё остальное на станции. [2] [8]">Изготовитель — Lanteris Space Systems в Пало-Альто, Калифорния (бывшая Maxar Space Systems, выигравшая контракт на 375 млн долларов в мае 2019 года); PPE несёт также основные системы связи и ориентации Gateway — от его работы зависит всё остальное на станции. [2] [8]</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH6 — HALO -->
+<section id="ch6" class="section" data-phase="HALO — LIVING QUARTERS" data-alt="NRHO" data-vel="INTERMITTENT STAYS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="HALO — WHERE ASTRONAUTS LIVE" data-ru="HALO — ГДЕ ЖИВУТ АСТРОНАВТЫ">HALO — ГДЕ ЖИВУТ АСТРОНАВТЫ</span></div>
+    <h2 class="h-lg" data-en="A pressurised cabin built on two continents" data-ru="Герметичная кабина, построенная на двух континентах">Герметичная кабина, построенная на двух континентах</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Habitation and Logistics Outpost was to be the first place astronauts actually lived aboard Gateway. Its primary structure was built by Thales Alenia Space in Turin, Italy, and flown to Arizona on 1 April 2025 for outfitting by Northrop Grumman in Gilbert. [3]" data-ru="Модуль HALO должен был стать первым местом, где астронавты действительно жили бы на Gateway. Его основную конструкцию изготовила Thales Alenia Space в Турине (Италия) и 1 апреля 2025 года доставила самолётом в Аризону для оснащения на предприятии Northrop Grumman в Гилберте. [3]">Модуль HALO должен был стать первым местом, где астронавты действительно жили бы на Gateway. Его основную конструкцию изготовила Thales Alenia Space в Турине (Италия) и 1 апреля 2025 года доставила самолётом в Аризону для оснащения на предприятии Northrop Grumman в Гилберте. [3]</p>
+      <p class="body-col" data-en="Unlike the ISS, which has hosted continuous crews since 2000, HALO was designed for intermittent occupancy — visits timed to Artemis missions, with the station otherwise running unattended. [1]" data-ru="В отличие от МКС, где экипажи живут непрерывно с 2000 года, HALO рассчитывали на периодическое пребывание — визиты во время миссий Artemis, а в остальное время станция работала бы без людей. [1]">В отличие от МКС, где экипажи живут непрерывно с 2000 года, HALO рассчитывали на периодическое пребывание — визиты во время миссий Artemis, а в остальное время станция работала бы без людей. [1]</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — DEEP SPACE SCIENCE -->
+<section id="ch7" class="section" data-phase="DEEP SPACE SCIENCE" data-alt="NRHO" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="SCIENCE NO ONE ELSE CAN DO" data-ru="НАУКА, НЕДОСТУПНАЯ БОЛЬШЕ НИГДЕ">НАУКА, НЕДОСТУПНАЯ БОЛЬШЕ НИГДЕ</span></div>
+    <h2 class="h-lg" data-en="Outside the magnetosphere, on purpose" data-ru="Намеренно за пределами магнитосферы">Намеренно за пределами магнитосферы</h2>
+    <div id="scienceList" style="margin-top:8px;"></div>
+  </div>
+</section>
+
+<!-- CH8 — THE PAUSE -->
+<section id="ch8" class="section" data-phase="THE MARCH 2026 PAUSE" data-alt="—" data-vel="PAUSE ANNOUNCED">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="THE MARCH 2026 PAUSE" data-ru="ПРИОСТАНОВКА В МАРТЕ 2026">ПРИОСТАНОВКА В МАРТЕ 2026</span></div>
+    <h2 class="h-lg" data-en="Paused in its current form" data-ru="Приостановлена в нынешнем виде">Приостановлена в нынешнем виде</h2>
+    <div class="notice" data-en="Status as of 10 October 2026. This is a recent, still-developing decision." data-ru="Статус на 10 октября 2026 года. Это недавнее, всё ещё развивающееся решение.">Статус на 10 октября 2026 года. Это недавнее, всё ещё развивающееся решение.</div>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 24 March 2026 NASA said it intends to pause Gateway “in its current form” and shift to infrastructure for sustained surface operations — a Moon Base — repurposing applicable equipment and building on partner commitments. [4] It was part of the same reformulation that turned Artemis III into an Earth-orbit lander test and made Artemis IV the first landing. [9]" data-ru="24 марта 2026 года NASA заявило о намерении приостановить Gateway «в её нынешнем виде» и переключиться на инфраструктуру для длительной работы на поверхности — Лунную базу, — используя пригодное оборудование и обязательства партнёров. [4] Это часть той же перестройки, что превратила Artemis III в испытание посадочных модулей на околоземной орбите и сделала Artemis IV первой посадкой. [9]">24 марта 2026 года NASA заявило о намерении приостановить Gateway «в её нынешнем виде» и переключиться на инфраструктуру для длительной работы на поверхности — Лунную базу, — используя пригодное оборудование и обязательства партнёров. [4] Это часть той же перестройки, что превратила Artemis III в испытание посадочных модулей на околоземной орбите и сделала Artemis IV первой посадкой. [9]</p>
+      <p class="body-col" data-en="In April 2026 NASA issued a stop-work order on HALO. Its combined contract value — $1.3 billion when it was converted to a firm fixed price in 2021 — had grown to $1.9 billion, and Northrop Grumman was working to fix corrosion found in 2025 throughout the module’s primary structure. The Inspector General projected that, had work continued, HALO would not have been delivered until July 2031 and Gateway would not have operated before 2032. [5]" data-ru="В апреле 2026 года NASA выдало распоряжение об остановке работ по HALO. Общая стоимость контракта — 1,3 млрд долларов при переходе на твёрдую цену в 2021 году — выросла до 1,9 млрд, а Northrop Grumman устраняла коррозию, обнаруженную в 2025 году по всей основной конструкции модуля. По прогнозу Генерального инспектора, при продолжении работ HALO был бы сдан не раньше июля 2031 года, а Gateway заработала бы не ранее 2032-го. [5]">В апреле 2026 года NASA выдало распоряжение об остановке работ по HALO. Общая стоимость контракта — 1,3 млрд долларов при переходе на твёрдую цену в 2021 году — выросла до 1,9 млрд, а Northrop Grumman устраняла коррозию, обнаруженную в 2025 году по всей основной конструкции модуля. По прогнозу Генерального инспектора, при продолжении работ HALO был бы сдан не раньше июля 2031 года, а Gateway заработала бы не ранее 2032-го. [5]</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — HARDWARE STATUS -->
+<section id="ch9" class="section" data-phase="HARDWARE STATUS" data-alt="—" data-vel="UNCERTAIN">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="WHAT HAPPENS TO THE HARDWARE" data-ru="ЧТО БУДЕТ С ОБОРУДОВАНИЕМ">ЧТО БУДЕТ С ОБОРУДОВАНИЕМ</span></div>
+    <h2 class="h-lg" data-en="Two modules, two different fates" data-ru="Два модуля — две разные судьбы">Два модуля — две разные судьбы</h2>
+    <p class="lede" data-en="Status of each piece as of 10 October 2026, from NASA and its Inspector General. Decisions on reusing the hardware were not final as of June 2026. [5]" data-ru="Состояние каждой части на 10 октября 2026 года — по данным NASA и его Генерального инспектора. На июнь 2026 года решения о повторном использовании оборудования окончательно не приняты. [5]">Состояние каждой части на 10 октября 2026 года — по данным NASA и его Генерального инспектора. На июнь 2026 года решения о повторном использовании оборудования окончательно не приняты. [5]</p>
+    <div class="dash-grid" id="hardwareGrid"></div>
+  </div>
+</section>
+
+<!-- CH10 — LEGACY -->
+<section id="ch10" class="section" data-phase="LEGACY" data-alt="—" data-vel="—">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 11</span> — <span data-en="LEGACY" data-ru="НАСЛЕДИЕ">НАСЛЕДИЕ</span></div>
+    <h2 class="h-lg" data-en="An idea that outlasts its own timeline" data-ru="Идея, переживающая собственный график">Идея, переживающая собственный график</h2>
+    <p class="lede" style="margin-bottom:8px;" data-en="Whatever becomes of PPE and HALO specifically, the underlying idea — a durable staging point in deep space, built once and reused for years — is very unlikely to disappear from lunar and Mars planning entirely." data-ru="Что бы ни случилось конкретно с PPE и HALO, сама идея — долговечный пересадочный пункт в дальнем космосе, построенный один раз и используемый годами, — вряд ли полностью исчезнет из планов освоения Луны и Марса.">Что бы ни случилось конкретно с PPE и HALO, сама идея — долговечный пересадочный пункт в дальнем космосе, построенный один раз и используемый годами, — вряд ли полностью исчезнет из планов освоения Луны и Марса.</p>
+    <div class="legacy-row" id="legacyRow"></div>
+  </div>
+</section>
+
+
+<!-- CH11 - REFERENCES -->
+<section id="ch11" class="section" data-phase="REFERENCES" data-alt="—" data-vel="—" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 11</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">ИСТОЧНИКИ</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Источники, на которые ссылается этот справочник</h2>
+    <p class="lede" style="margin-bottom:0;" data-en="Bracketed numbers in the text above correspond to the sources below." data-ru="Номера в квадратных скобках в тексте выше соответствуют источникам ниже.">Номера в квадратных скобках в тексте выше соответствуют источникам ниже.</p>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-en="HALO — A FIELD GUIDE TO THE LUNAR GATEWAY" data-ru="HALO — ПОЛЕВОЙ СПРАВОЧНИК ПО СТАНЦИИ GATEWAY">HALO — ПОЛЕВОЙ СПРАВОЧНИК ПО СТАНЦИИ GATEWAY</span>
+  <span data-en="REFLECTS NASA’S PUBLISHED STATUS AS OF 10 OCTOBER 2026 — PLANS MAY CHANGE" data-ru="ОТРАЖАЕТ ОПУБЛИКОВАННЫЙ СТАТУС NASA НА 10 ОКТЯБРЯ 2026 ГОДА — ПЛАНЫ МОГУТ ИЗМЕНИТЬСЯ">ОТРАЖАЕТ ОПУБЛИКОВАННЫЙ СТАТУС NASA НА 10 ОКТЯБРЯ 2026 ГОДА — ПЛАНЫ МОГУТ ИЗМЕНИТЬСЯ</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function ns(tag,attrs,parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v!==null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+
+/* SCROLL PROGRESS + HUD */
+var progressEl = document.getElementById('progress');
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var hudPhase = document.getElementById('hud-phase'), hudAlt = document.getElementById('hud-alt'), hudVel = document.getElementById('hud-vel');
+function onScroll(){
+  var doc = document.documentElement;
+  var pct = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = pct+'%';
+  var mid = window.scrollY + window.innerHeight*0.4;
+  var current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+  hudAlt.textContent = current.dataset.alt||'—';
+  hudVel.textContent = current.dataset.vel||'—';
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ============ CH3 — STATION SCHEMATIC ============ */
+var GATEWAY_PARTS = [
+  {id:'ppe', en:'Power and Propulsion Element', ru:'Энергодвигательный модуль (PPE)', cEn:'Built, Maxar / Lanteris Space Systems', cRu:'Построен, Maxar / Lanteris Space Systems', x:60, y:150, w:150, h:34,
+   dEn:'A 60-kilowatt solar-electric propulsion spacecraft providing power, attitude control, and high-rate communications for the whole station.', dRu:'Солнечно-электрический двигательный аппарат мощностью 60 киловатт, обеспечивающий питание, ориентацию и высокоскоростную связь для всей станции.'},
+  {id:'halo', en:'HALO', ru:'HALO', cEn:'Structure built; stop-work order Apr 2026', cRu:'Конструкция изготовлена; работы остановлены в апр. 2026', x:280, y:110, w:150, h:34,
+   dEn:'The initial crew cabin, which was to be integrated with PPE before launch and provide life support, docking ports, and storage for visiting astronauts.', dRu:'Первая жилая кабина экипажа, которая должна была быть интегрирована с PPE перед запуском и обеспечивать жизнеобеспечение, стыковочные порты и хранение для прибывающих астронавтов.'},
+  {id:'esprit', en:'Lunar View / Lunar Link', ru:'Lunar View / Lunar Link', cEn:'Planned, ESA (formerly ESPRIT)', cRu:'В планах, ЕКА (бывший ESPRIT)', x:280, y:210, w:150, h:34,
+   dEn:'A planned European module intended to add refuelling capability and an extra window for observing the Moon and the station\'s surroundings.', dRu:'Планируемый европейский модуль, призванный добавить возможность дозаправки и дополнительный иллюминатор для наблюдения Луны и окрестностей станции.'},
+  {id:'ihab', en:'I-Hab', ru:'I-Hab', cEn:'Planned, ESA / JAXA', cRu:'В планах, ЕКА / JAXA', x:460, y:150, w:150, h:34,
+   dEn:'A planned second habitation module intended to expand crew living space beyond what HALO alone could provide.', dRu:'Планируемый второй жилой модуль, призванный расширить жилое пространство экипажа сверх того, что мог обеспечить один HALO.'},
+  {id:'airlock2', en:'Airlock', ru:'Шлюзовая камера', cEn:'Planned, UAE / MBRSC', cRu:'В планах, ОАЭ / MBRSC', x:460, y:210, w:150, h:34,
+   dEn:'A planned airlock module, the UAE\'s contribution, meant to allow spacewalks directly from the station.', dRu:'Планируемый шлюзовой модуль — вклад ОАЭ, призванный обеспечить выходы в открытый космос прямо со станции.'}
+];
+function renderGateway(){
+  var svg = document.getElementById('gatewaySvg');
+  var panel = document.getElementById('gatewayPanel');
+  svg.innerHTML = '';
+  ns('line',{x1:20,y1:130,x2:700,y2:130,stroke:'#c9c9c1','stroke-width':1},svg);
+  ns('circle',{cx:360,cy:130,r:24,fill:'none',stroke:'#0b0b0c','stroke-width':1.4},svg);
+  GATEWAY_PARTS.forEach(function(m){
+    var g = ns('g',{class:'hotspot','data-id':m.id},svg);
+    ns('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'#ffffff',stroke:'#0b0b0c','stroke-width':1.4},g);
+    var label = ns('text',{x:m.x+m.w/2,y:m.y+m.h/2+3,'text-anchor':'middle'},g);
+    label.textContent = (lang==='en'?m.en:m.ru);
+    ns('line',{x1:m.x+m.w/2,y1:(m.y<130? m.y+m.h : m.y),x2:360,y2:130,stroke:'#c9c9c1','stroke-width':1,'stroke-dasharray':'2 3'},svg);
+    g.addEventListener('click', function(){ selectPart(svg, panel, GATEWAY_PARTS, m.id); });
+  });
+  selectPart(svg, panel, GATEWAY_PARTS, GATEWAY_PARTS[0].id);
+}
+function selectPart(svg, panel, parts, id){
+  svg.querySelectorAll('.hotspot').forEach(function(h){ h.classList.toggle('active', h.dataset.id===id); });
+  var m = parts.filter(function(x){return x.id===id;})[0];
+  panel.innerHTML =
+    '<div class="fig-num" style="margin-bottom:10px;">'+(lang==='en'?'COMPONENT SELECTED':'ВЫБРАННЫЙ КОМПОНЕНТ')+'</div>'+
+    '<div class="mp-name">'+(lang==='en'?m.en:m.ru)+'</div>'+
+    '<div class="mp-meta">'+(lang==='en'?m.cEn:m.cRu)+'</div>'+
+    '<div class="mp-desc">'+(lang==='en'?m.dEn:m.dRu)+'</div>'+
+    '<div class="module-list">'+parts.map(function(x){return '<span class="module-chip'+(x.id===id?' active':'')+'" data-jump="'+x.id+'">'+(lang==='en'?x.en:x.ru)+'</span>';}).join('')+'</div>';
+  panel.querySelectorAll('.module-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){ selectPart(svg, panel, parts, chip.dataset.jump); });
+  });
+}
+
+/* ============ CH4 — PARTNERS ============ */
+function renderPartners(){
+  var wrap = document.getElementById('partnersGrid');
+  wrap.innerHTML='';
+  var data = [
+    {en:'NASA (USA)', ru:'NASA (США)', statusEn:'LEAD AGENCY', statusRu:'ГОЛОВНОЕ АГЕНТСТВО', dead:false,
+     rows:[{lEn:'CONTRIBUTION', lRu:'ВКЛАД', vEn:'PPE, HALO funding, overall integration', vRu:'PPE, финансирование HALO, общая интеграция'},{lEn:'ROLE', lRu:'РОЛЬ', vEn:'Program lead, launch, mission control', vRu:'Руководство программой, запуск, управление полётом'}]},
+    {en:'ESA (Europe)', ru:'ЕКА (Европа)', statusEn:'PARTNER', statusRu:'ПАРТНЁР', dead:false,
+     rows:[{lEn:'CONTRIBUTION', lRu:'ВКЛАД', vEn:'Lunar I-Hab, Lunar View, Lunar Link [1]', vRu:'Lunar I-Hab, Lunar View, Lunar Link [1]'},{lEn:'AFTER THE PAUSE', lRu:'ПОСЛЕ ПРИОСТАНОВКИ', vEn:'NASA plans to build on partner commitments for the Moon Base [4]', vRu:'NASA намерено опираться на обязательства партнёров при создании Лунной базы [4]'}]},
+    {en:'JAXA (Japan)', ru:'JAXA (Япония)', statusEn:'PARTNER', statusRu:'ПАРТНЁР', dead:false,
+     rows:[{lEn:'CONTRIBUTION', lRu:'ВКЛАД', vEn:'I-Hab environmental control, logistics', vRu:'Системы жизнеобеспечения I-Hab, логистика'},{lEn:'ROLE', lRu:'РОЛЬ', vEn:'Life-support systems for habitation modules', vRu:'Системы жизнеобеспечения жилых модулей'}]},
+    {en:'CSA (Canada) &amp; MBRSC (UAE)', ru:'ККА (Канада) и MBRSC (ОАЭ)', statusEn:'PARTNERS', statusRu:'ПАРТНЁРЫ', dead:false,
+     rows:[{lEn:'CONTRIBUTION', lRu:'ВКЛАД', vEn:'Canadarm3 robotic arm; UAE airlock module [1]', vRu:'Манипулятор Canadarm3; шлюзовой модуль ОАЭ [1]'},{lEn:'ROLE', lRu:'РОЛЬ', vEn:'Robotics and spacewalk infrastructure', vRu:'Робототехника и инфраструктура для выходов в открытый космос'}]}
+  ];
+  data.forEach(function(d){
+    var card = document.createElement('div');
+    card.className='dash-card';
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+(lang==='en'?r.vEn:r.vRu)+'</span></div>'; }).join('');
+    card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span><span class="dc-status">'+(lang==='en'?d.statusEn:d.statusRu)+'</span></div>'+rowsHtml;
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH7 — SCIENCE ============ */
+var SCIENCE = [
+  {en:'Deep-space radiation exposure', ru:'Радиационное облучение в дальнем космосе',
+   bEn:'Beyond Earth\'s magnetosphere, Gateway would measure galactic cosmic rays and solar particle events directly — data the ISS, shielded by Earth\'s magnetic field, simply can\'t collect.', bRu:'За пределами магнитосферы Земли Gateway напрямую измеряла бы галактические космические лучи и вспышки солнечных частиц — данные, которые МКС, защищённая земным магнитным полем, попросту не может собрать.'},
+  {en:'Human health in a deep-space environment', ru:'Здоровье человека в условиях дальнего космоса',
+   bEn:'Studying how astronauts\' bodies respond to intermittent, deep-space missions rather than continuous low-Earth-orbit stays — directly relevant to planning a Mars mission.', bRu:'Изучение того, как организм астронавтов реагирует на периодические миссии в дальнем космосе, а не на непрерывное пребывание на низкой околоземной орбите, — напрямую связано с планированием миссии на Марс.'},
+  {en:'Lunar surface support', ru:'Поддержка лунной поверхности',
+   bEn:'As a relay and staging point, Gateway would extend communications coverage and serve as a rendezvous point between Orion and lunar landers.', bRu:'В роли ретранслятора и пересадочного пункта Gateway расширяла бы зону связи и служила бы точкой встречи между «Орионом» и лунными посадочными модулями.'},
+  {en:'Autonomous systems engineering', ru:'Инженерия автономных систем',
+   bEn:'Operating for months without a crew forces genuinely new engineering — fault-tolerant systems that anticipate problems rather than waiting for a human fix, technology directly applicable to future Mars-bound spacecraft.', bRu:'Работа месяцами без экипажа требует по-настоящему новой инженерии — отказоустойчивых систем, предвосхищающих проблемы, а не ждущих вмешательства человека, — технологий, напрямую применимых к будущим марсианским аппаратам.'}
+];
+function renderScience(){
+  var wrap = document.getElementById('scienceList');
+  wrap.innerHTML='';
+  SCIENCE.forEach(function(f,i){
+    var card = document.createElement('div');
+    card.className='exp-card'+(i===0?' open':'');
+    card.innerHTML = '<div class="exp-head"><h4>'+(lang==='en'?f.en:f.ru)+'</h4><span class="exp-toggle">'+(i===0?'−':'+')+'</span></div><div class="exp-body"><div class="exp-body-inner">'+(lang==='en'?f.bEn:f.bRu)+'</div></div>';
+    card.querySelector('.exp-head').addEventListener('click', function(){
+      card.classList.toggle('open');
+      card.querySelector('.exp-toggle').textContent = card.classList.contains('open') ? '−' : '+';
+    });
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH9 — HARDWARE STATUS ============ */
+function renderHardware(){
+  var wrap = document.getElementById('hardwareGrid');
+  wrap.innerHTML='';
+  var data = [
+    {en:'PPE', ru:'PPE', statusEn:'POWERED ON 2025 · REUSE PLANNED', statusRu:'ВКЛЮЧЁН В 2025 · ПЛАНИРУЕТСЯ ПОВТОРНОЕ ИСПОЛЬЗОВАНИЕ', dead:false,
+     rows:[{lEn:'BUILDER', lRu:'ИЗГОТОВИТЕЛЬ', vEn:'Lanteris Space Systems (formerly Maxar) [2]', vRu:'Lanteris Space Systems (ранее Maxar) [2]'},{lEn:'CONTRACT AT AWARD', lRu:'КОНТРАКТ ПРИ ЗАКЛЮЧЕНИИ', vEn:'$375M, May 2019 [8]', vRu:'375 млн долл., май 2019 [8]'},{lEn:'FATE', lRu:'СУДЬБА', vEn:'Core of the SR-1 nuclear-electric spacecraft to Mars, per NASA\'s Moon Base manager (Sep 2026) [7]', vRu:'Основа ядерно-электрического аппарата SR-1 для полёта к Марсу — по словам руководителя Лунной базы NASA (сент. 2026) [7]'}]},
+    {en:'HALO', ru:'HALO', statusEn:'STOP-WORK ORDER, APR 2026', statusRu:'РАБОТЫ ОСТАНОВЛЕНЫ, АПР. 2026', dead:true,
+     rows:[{lEn:'BUILDER', lRu:'ИЗГОТОВИТЕЛЬ', vEn:'Northrop Grumman; structure by Thales Alenia Space, Turin [3]', vRu:'Northrop Grumman; конструкция — Thales Alenia Space, Турин [3]'},{lEn:'CONTRACT', lRu:'КОНТРАКТ', vEn:'$1.9B by Apr 2026 [5]', vRu:'1,9 млрд долл. к апр. 2026 [5]'},{lEn:'FATE', lRu:'СУДЬБА', vEn:'Power and avionics hardware repurposed for lunar-surface payloads [6]', vRu:'Силовая электроника и авионика перепрофилированы для грузов на поверхность Луны [6]'}]},
+    {en:'ESA modules (Lunar I-Hab, Lunar View, Lunar Link)', ru:'Модули ЕКА (Lunar I-Hab, Lunar View, Lunar Link)', statusEn:'PARTNER CONTRIBUTIONS', statusRu:'ВКЛАД ПАРТНЁРА', dead:false,
+     rows:[{lEn:'NASA PLAN', lRu:'ПЛАН NASA', vEn:'Leverage partner commitments for the Moon Base [4]', vRu:'Использовать обязательства партнёров для Лунной базы [4]'},{lEn:'MODULES', lRu:'МОДУЛИ', vEn:'As listed by NASA [1]', vRu:'Согласно списку NASA [1]'}]},
+    {en:'Overall program', ru:'Программа в целом', statusEn:'PAUSE ANNOUNCED', statusRu:'ОБЪЯВЛЕНА ПРИОСТАНОВКА', dead:true,
+     rows:[{lEn:'ANNOUNCED', lRu:'ОБЪЯВЛЕНО', vEn:'24 Mar 2026 [4]', vRu:'24 марта 2026 [4]'},{lEn:'IF WORK HAD CONTINUED', lRu:'ПРИ ПРОДОЛЖЕНИИ РАБОТ', vEn:'Operational no earlier than 2032 (OIG projection) [5]', vRu:'Не ранее 2032 года (прогноз OIG) [5]'}]}
+  ];
+  data.forEach(function(d){
+    var card = document.createElement('div');
+    card.className='dash-card';
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+(lang==='en'?r.vEn:r.vRu)+'</span></div>'; }).join('');
+    card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span><span class="dc-status'+(d.dead?' dead':'')+'">'+(lang==='en'?d.statusEn:d.statusRu)+'</span></div>'+rowsHtml;
+    wrap.appendChild(card);
+  });
+}
+
+/* ============ CH10 — LEGACY ============ */
+var LEGACY = [
+  {y:'1998', en:'ISS Assembly', ru:'Сборка МКС', noteEn:'Permanent low-Earth-orbit station', noteRu:'Постоянная станция на низкой орбите', h:44},
+  {y:'2019', en:'Gateway Contracts', ru:'Контракты Gateway', noteEn:'PPE (May) and HALO (July) awarded', noteRu:'Контракты на PPE (май) и HALO (июль)', h:26},
+  {y:'2025', en:'Hardware in Work', ru:'Оборудование в работе', noteEn:'PPE powered on; HALO structure to Arizona', noteRu:'PPE включён; конструкция HALO в Аризоне', h:32},
+  {y:'2026', en:'Pause Announced', ru:'Объявлена приостановка', noteEn:'Focus shifts to a Moon Base', noteRu:'Фокус смещается на Лунную базу', h:22},
+  {y:'Future', en:'Deep-Space Staging', ru:'Пересадочный пункт дальнего космоса', noteEn:'Concept likely to resurface for Mars', noteRu:'Концепция, вероятно, вернётся ради Марса', h:38}
+];
+function renderLegacy(){
+  var row = document.getElementById('legacyRow');
+  row.innerHTML='';
+  LEGACY.forEach(function(l){
+    var item = document.createElement('div');
+    item.className='legacy-item';
+    item.innerHTML =
+      '<div class="ly-year">'+l.y+'</div>'+
+      '<svg viewBox="0 0 100 '+(l.h+20)+'"><circle cx="50" cy="'+(10+l.h/2)+'" r="'+(l.h/2)+'" fill="none" stroke="#0b0b0c" stroke-width="2"/></svg>'+
+      '<div class="ly-name">'+(lang==='en'?l.en:l.ru)+'</div>'+
+      '<div class="ly-note">'+(lang==='en'?l.noteEn:l.noteRu)+'</div>';
+    row.appendChild(item);
+  });
+}
+
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {title:'Gateway: Frequently Asked Questions (NASA, updated 23 Jul 2026)', url:'https://www.nasa.gov/gateway-frequently-asked-questions/', note:{en:'NASA. NRHO within about 1,500 km and out to about 70,000 km, period about 6.5 days; crews of up to four; PPE 60 kW by Lanteris; HALO by Northrop Grumman; ESA Lunar I-Hab, Lunar View, Lunar Link; UAE airlock; Canadarm3. NASA notes the page is being updated for the 2026 changes.', ru:'NASA. NRHO: ближайшая точка около 1500 км, дальняя около 70 000 км, период около 6,5 суток; экипаж до четырёх человек; PPE 60 кВт от Lanteris; HALO от Northrop Grumman; модули ЕКА Lunar I-Hab, Lunar View, Lunar Link; шлюз ОАЭ; Canadarm3. NASA отмечает, что страница обновляется с учётом изменений 2026 года.'}},
+  {title:'NASA Starts Up Gateway\'s Power System for First Time (8 Jan 2026)', url:'https://www.nasa.gov/centers-and-facilities/glenn/nasa-starts-up-gateways-power-system-for-first-time/', note:{en:'NASA Glenn. PPE, 60 kW, powered on in 2025; built by Lanteris Space Systems in Palo Alto.', ru:'NASA, Центр Гленна. PPE мощностью 60 кВт включён в 2025 году; изготовитель — Lanteris Space Systems в Пало-Альто.'}},
+  {title:'NASA Welcomes Gateway Lunar Space Station\'s HALO Module to US (4 Apr 2025)', url:'https://www.nasa.gov/missions/artemis/nasa-welcomes-gateway-lunar-space-stations-halo-module-to-us/', note:{en:'NASA. Primary structure built by Thales Alenia Space in Turin; arrived in Mesa, Arizona, on 1 April 2025 for outfitting in Gilbert.', ru:'NASA. Основная конструкция изготовлена Thales Alenia Space в Турине; 1 апреля 2025 года доставлена в Месу (Аризона) для оснащения в Гилберте.'}},
+  {title:'NASA Unveils Initiatives to Achieve America\'s National Space Policy (24 Mar 2026)', url:'https://www.nasa.gov/news-release/nasa-unveils-initiatives-to-achieve-americas-national-space-policy/', note:{en:'NASA. Intent to pause Gateway in its current form, repurpose applicable equipment and leverage international partner commitments for a Moon Base.', ru:'NASA. Намерение приостановить Gateway в нынешнем виде, использовать пригодное оборудование и обязательства международных партнёров для Лунной базы.'}},
+  {title:'NASA OIG, Interim Memorandum ML-26-002 (24 Jun 2026)', url:'https://oig.nasa.gov/wp-content/uploads/2026/06/interim-memo-ml-26-002-nasas-management-of-programs-and-projects-after-mission-termination-artemis-campaign-systems.pdf', note:{en:'NASA Office of Inspector General. HALO: sole-sourced July 2019; $1.3B combined when converted to firm fixed price (2021) → $1.8B cost-plus (2024) → $1.9B and stop-work order (April 2026); corrosion found 2025; projected delivery July 2031 and Gateway not operational before 2032 had work continued; reuse decisions not final.', ru:'Управление генерального инспектора NASA. HALO: контракт без конкурса в июле 2019 года; 1,3 млрд долларов в сумме при переходе на твёрдую цену (2021) → 1,8 млрд по схеме «затраты плюс» (2024) → 1,9 млрд и остановка работ (апрель 2026); коррозия обнаружена в 2025 году; прогноз: сдача в июле 2031 года и Gateway не ранее 2032-го при продолжении работ; решения о повторном использовании не окончательны.'}},
+  {title:'NASA Provides Updates on Moon Base Cargo Landers, Tech Demonstrations (4 Aug 2026)', url:'https://www.nasa.gov/missions/moon-base/nasa-provides-updates-on-moon-base-cargo-landers-tech-demonstrations/', note:{en:'NASA. Northrop Grumman lunar-surface payloads build on HALO power and avionics hardware now being repurposed.', ru:'NASA. Грузы Northrop Grumman для поверхности Луны используют перепрофилированные силовую электронику и авионику HALO.'}},
+  {title:'Houston We Have a Podcast: The Moon Base (NASA, 11 Sep 2026)', url:'https://www.nasa.gov/podcasts/houston-we-have-a-podcast/the-moon-base/', note:{en:'NASA. Moon Base program manager Carlos García-Galán: PPE to be the core of the SR-1 spacecraft to Mars, paired with a nuclear reactor; HALO power and avionics repurposed for a lunar demonstration.', ru:'NASA. Руководитель программы Лунной базы Карлос Гарсия-Галан: PPE станет основой аппарата SR-1 для полёта к Марсу в паре с ядерным реактором; силовая электроника и авионика HALO перепрофилируются для демонстрации на Луне.'}},
+  {title:'NASA Awards Artemis Contract for Lunar Gateway Power, Propulsion (23 May 2019)', url:'https://www.nasa.gov/news-release/nasa-awards-artemis-contract-for-lunar-gateway-power-propulsion/', note:{en:'NASA. Maxar Technologies selected for PPE; total contract value including options $375 million.', ru:'NASA. Для PPE выбрана Maxar Technologies; общая стоимость контракта с опционами — 375 млн долларов.'}},
+  {title:'NASA Strengthens Artemis: Adds Mission, Refines Overall Architecture (3 Mar 2026)', url:'https://www.nasa.gov/directorates/esdmd/nasa-strengthens-artemis-adds-mission-refines-overall-architecture/', note:{en:'NASA. The 27 February 2026 changes to Artemis III and IV.', ru:'NASA. Изменения Artemis III и IV от 27 февраля 2026 года.'}}
+];
+function renderRefs(){
+  var wrap = document.getElementById('refList');
+  wrap.innerHTML='';
+  REFERENCES.forEach(function(r,i){
+    var item = document.createElement('div');
+    item.className='ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" target="_blank" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang==='en'?r.note.en:r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderGateway();
+  renderPartners();
+  renderScience();
+  renderHardware();
+  renderLegacy(); renderRefs();
+}
+renderAll();
+
+})();
+</script>
+</body>
+</html>
