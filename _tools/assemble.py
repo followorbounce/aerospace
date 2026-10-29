@@ -1,7 +1,7 @@
 """Assemble a self-contained aerospace article: shared <head>/<style>/chrome from PARABOLA + per-article parts.
 usage: assemble.py <dir with meta.json, body.html, extra.css, script.js> [out.html]
 The output defaults to <repo>/<slug>.html."""
-import json, re, sys, os
+import json, re, subprocess, sys, os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 src = open(os.path.join(ROOT, 'parabola-mirrors-and-dishes.html')).read()
 style = re.search(r'<style>\n(.*?)</style>', src, re.S).group(1)
@@ -31,7 +31,12 @@ out = f'''<!DOCTYPE html>
 <meta property="og:site_name" content="Aerospace Knowledge Hub">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ru_RU">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{url.replace("/aerospace/", "/aerospace/og/")}.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{esc(title)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{url.replace("/aerospace/", "/aerospace/og/")}.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
@@ -78,3 +83,8 @@ out = f'''<!DOCTYPE html>
 dest = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, m['slug'] + '.html')
 open(dest, 'w').write(out)
 print('wrote', dest, len(out.splitlines()), 'lines')
+if len(sys.argv) <= 2:
+    # share pictures and the "More from Follow or Bounce" block (engine/og_cards.py in the homepage repo, when it sits next to this one)
+    og_pass = os.path.join(ROOT, '..', 'followorbounce.github.io', 'engine', 'og_cards.py')
+    if os.path.exists(og_pass):
+        subprocess.run([sys.executable, og_pass, 'aerospace', '--only', m['slug']])
