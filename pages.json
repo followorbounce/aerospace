@@ -78,7 +78,10 @@
         { "slug": "scout-lunar-reconnaissance-orbiter", "codename": "SCOUT", "label": { "en": "Lunar Reconnaissance Orbiter", "ru": "Орбитальный разведчик Луны" } },
         { "slug": "valor-the-chandrayaan-mission", "codename": "VALOR", "label": { "en": "The Chandrayaan Missions", "ru": "Миссии «Чандраян»" } },
         { "slug": "campaign-artemis-program", "codename": "CAMPAIGN", "label": { "en": "The Artemis Program", "ru": "Программа Artemis" } },
-        { "slug": "rabbit-change-far-side", "codename": "RABBIT", "label": { "en": "Chang'e & the Far Side of the Moon", "ru": "«Чанъэ» и обратная сторона Луны" } }
+        { "slug": "rabbit-change-far-side", "codename": "RABBIT", "label": { "en": "Chang'e & the Far Side of the Moon", "ru": "«Чанъэ» и обратная сторона Луны" } },
+        { "slug": "footing-ranger-surveyor", "codename": "FOOTING", "label": { "en": "Ranger, Surveyor & the Ground under Apollo", "ru": "«Рейнджер», «Сервейер» и грунт под «Аполлоном»" } },
+        { "slug": "mascon-grail-lunar-gravity", "codename": "MASCON", "label": { "en": "Mascons & GRAIL: the Moon's Lumpy Gravity", "ru": "Масконы и GRAIL: неровная гравитация Луны" } },
+        { "slug": "touchdown-commercial-lunar-landers", "codename": "TOUCHDOWN", "label": { "en": "The New Lunar Landers, 2019–2026", "ru": "Новые лунные посадочные аппараты, 2019–2026" } }
       ]
     },
     {
@@ -91,7 +94,9 @@
         { "slug": "marathon-opportunity-rover", "codename": "MARATHON", "label": { "en": "The Opportunity Rover", "ru": "Марсоход Opportunity" } },
         { "slug": "skycrane-curiosity-rover", "codename": "SKYCRANE", "label": { "en": "The Curiosity Rover", "ru": "Марсоход Curiosity" } },
         { "slug": "jezero-perseverance-rover", "codename": "JEZERO", "label": { "en": "The Perseverance Rover", "ru": "Марсоход Perseverance" } },
-        { "slug": "transfer-earth-to-mars", "codename": "TRANSFER", "label": { "en": "Earth to Mars: The Transfer", "ru": "Перелёт Земля — Марс" } }
+        { "slug": "transfer-earth-to-mars", "codename": "TRANSFER", "label": { "en": "Earth to Mars: The Transfer", "ru": "Перелёт Земля — Марс" } },
+        { "slug": "quake-insight-mars", "codename": "QUAKE", "label": { "en": "InSight & Marsquakes", "ru": "InSight и марсотрясения" } },
+        { "slug": "escape-maven-mars-atmosphere", "codename": "ESCAPE", "label": { "en": "MAVEN & Where Mars's Air Went", "ru": "MAVEN: куда делся воздух Марса" } }
       ]
     },
     {

@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOOTING — RANGER, SURVEYOR &amp; THE GROUND UNDER APOLLO / ОПОРА — «РЕЙНДЖЕР», «СЕРВЕЙЕР» И ГРУНТ ПОД «АПОЛЛОНОМ»</title>
+<meta name="description" content="An interactive field guide to how NASA learned the Moon would hold a lander: six Ranger failures, then Ranger 7–9's cameras sharpening to 0.3 m in the last seconds before impact, Surveyor's retro rocket and three verniers bringing it to a free fall from 12 feet, footpads that answered “will the LM sink?”, Lunar Orbiter's 1-metre maps, and Apollo 12 walking over to Surveyor 3 — with the bacteria story told honestly.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/footing-ranger-surveyor">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FOOTING — RANGER, SURVEYOR &amp; THE GROUND UNDER APOLLO / ОПОРА — «РЕЙНДЖЕР», «СЕРВЕЙЕР» И ГРУНТ ПОД «АПОЛЛОНОМ»">
+<meta property="og:description" content="Picture sharpness against seconds to impact, Surveyor 1's descent window from its own flight report, footpad pressure against the soil the Surveyors measured, and Lunar Orbiter's telephoto, interactive and checked against NSSDC, JPL and Hughes data.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/footing-ranger-surveyor">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:image" content="https://followorbounce.github.io/aerospace/og/footing-ranger-surveyor.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FOOTING — RANGER, SURVEYOR &amp; THE GROUND UNDER APOLLO / ОПОРА — «РЕЙНДЖЕР», «СЕРВЕЙЕР» И ГРУНТ ПОД «АПОЛЛОНОМ»">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://followorbounce.github.io/aerospace/og/footing-ranger-surveyor.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* FOOTING: 44 px touch targets, readable small SVG text */
+.btn{min-height:44px; min-width:44px; padding:10px 12px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+.svg-small{fill:#5f5f59; font-size:10.5px;}
+.svg-tiny{fill:#5f5f59; font-size:9px;}
+.svg-halo{paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round;}
+@media (max-width:520px){ .svg-small{font-size:13px;} .svg-tiny{font-size:11px;} .svg-label{font-size:14px;} }
+@media (pointer:coarse){
+  input[type=range]{background:transparent;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+.grid-2 + p.body-col, p.body-col + .sim-wrap{margin-top:20px;}
+.note + .grid-2{margin-top:28px;}
+.sim-wrap + .grid-2{margin-top:28px;}
+.eq-box + .grid-2{margin-top:28px;}
+.note + p.body-col{margin-top:20px;}
+
+/* two text rows in a row (coordinator, 2026-11-12): same gap as after a note or an instrument */
+.grid-2 + .grid-2{margin-top:28px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/footing-ranger-surveyor">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/footing-ranger-surveyor">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/footing-ranger-surveyor">
+<!-- /hreflang -->
+<!-- fob-ga --><script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CE86H6X7Z7');</script><!-- /fob-ga -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"FOOTING — RANGER, SURVEYOR & THE GROUND UNDER APOLLO","description":"An interactive field guide to how NASA learned the Moon would hold a lander: six Ranger failures, then Ranger 7–9's cameras sharpening to 0.3 m in the last seconds before impact, Surveyor's retro rocket and three verniers bringing it to a free fall from 12 feet, footpads that answered “will the LM sink?”, Lunar Orbiter's 1-metre maps, and Apollo 12 walking over to Surveyor 3 — with the bacteria story told honestly.","url":"https://followorbounce.github.io/aerospace/footing-ranger-surveyor","mainEntityOfPage":"https://followorbounce.github.io/aerospace/footing-ranger-surveyor","image":"https://followorbounce.github.io/aerospace/og/footing-ranger-surveyor.jpg","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"Aerospace Knowledge Hub","url":"https://followorbounce.github.io/aerospace/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Aerospace Knowledge Hub","item":"https://followorbounce.github.io/aerospace/"},{"@type":"ListItem","position":2,"name":"FOOTING — RANGER, SURVEYOR & THE GROUND UNDER APOLLO","item":"https://followorbounce.github.io/aerospace/footing-ranger-surveyor"}]}</script>
+<!-- /fob-ld -->
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">FOOTING — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">RANGER</span></div>
+  <div class="hud-row"><span class="hud-label">ALTITUDE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">SPEED</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+<!-- HERO -->
+<section id="hero" class="section" data-phase="RANGER">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 2.62 KM/S · 3.7 M/S · 2.7 N/CM²" data-ru="РИС. 00 — 2,62 КМ/С · 3,7 М/С · 2,7 Н/СМ²">FIG. 00 — 2.62 KM/S · 3.7 M/S · 2.7 N/CM²</span></span>
+        <span>v = √(v₀² + 2gh)</span>
+      </div>
+      <h1><span data-en="FOOTING" data-ru="ОПОРА">FOOTING</span><br><em data-en="RANGER, SURVEYOR &amp; THE GROUND UNDER APOLLO" data-ru="«РЕЙНДЖЕР», «СЕРВЕЙЕР» И ГРУНТ ПОД «АПОЛЛОНОМ»">RANGER, SURVEYOR &amp; THE GROUND UNDER APOLLO</em></h1>
+      <p class="sub lede" data-en="In 1961 nobody knew whether the Moon's surface was rock, crust or a deep powder that would swallow a landing craft. NASA found out the hard way: six Ranger probes failed before the seventh sent back pictures in the last minutes of its fall, then five of seven Surveyors set down softly and pressed their feet into the soil, and five Lunar Orbiters mapped the landing sites to a metre. Eight chapters and four instruments: watch a Ranger camera sharpen as it falls, fly Surveyor 1's descent and find the narrow window of a working retro burn, weigh a footpad against the soil the Surveyors measured, and see why the orbiters' film had to move during each exposure." data-ru="В 1961 году никто не знал, из чего состоит поверхность Луны — скала, корка или глубокая пыль, которая поглотит посадочный аппарат. НАСА выясняло это трудным путём: шесть «Рейнджеров» потерпели неудачу, прежде чем седьмой передал снимки в последние минуты падения; затем пять из семи «Сервейеров» мягко сели и вдавили опоры в грунт, а пять «Лунар орбитеров» сняли места посадки с точностью до метра. Восемь глав и четыре прибора: посмотрите, как камера «Рейнджера» становится зорче по мере падения, проведите спуск «Сервейера-1» и найдите узкое окно, в котором работает торможение, сравните давление опоры с грунтом, измеренным «Сервейерами», и узнайте, почему плёнке «Лунар орбитеров» приходилось двигаться во время каждой экспозиции.">In 1961 nobody knew what the Moon's surface was made of.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — RANGER FAILURES -->
+<section id="ch1" class="section" data-phase="RANGER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 08</span> — <span data-en="SIX TRIES" data-ru="ШЕСТЬ ПОПЫТОК">SIX TRIES</span></div>
+    <h2 class="h-lg" data-en="The failures came first" data-ru="Сначала были неудачи">The failures came first</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Ranger was the Jet Propulsion Laboratory's plan to hit the Moon with a camera. The first two, launched on 23 August and 18 November 1961 as engineering tests, never left Earth orbit: Ranger 1's Agena upper stage did not restart, and on Ranger 2 a dead roll gyro stopped the restart [1][2]. Ranger 3, in January 1962, was thrown too fast by its booster, received reversed commands and missed the Moon by about 36,800 km [3]. Ranger 4 hit the Moon in April — but on the far side, blind: a timer in its central sequencer had failed, so its solar panels never opened and its instruments died after ten hours [4]. Ranger 5 lost power on the way and missed by 725 km [5]." data-ru="«Рейнджер» — проект Лаборатории реактивного движения: врезаться в Луну с камерой на борту. Первые два аппарата, запущенные 23 августа и 18 ноября 1961 года для инженерных испытаний, так и не покинули околоземную орбиту: у «Рейнджера-1» не включилась повторно верхняя ступень «Аджена», у «Рейнджера-2» повторный запуск сорвал отказавший гироскоп крена [1][2]. «Рейнджер-3» в январе 1962 года получил от ракеты слишком большую скорость, принял перепутанные команды и прошёл мимо Луны примерно в 36 800 км [3]. «Рейнджер-4» в апреле попал в Луну — но в обратную сторону и вслепую: отказал таймер центрального программного устройства, солнечные батареи так и не раскрылись, и приборы умерли через десять часов [4]. «Рейнджер-5» потерял питание в полёте и промахнулся на 725 км [5].">Rangers 1–5 failed [1]–[5].</p>
+      <p class="body-col" data-en="Ranger 6 did everything right. On 2 February 1964 it struck the eastern edge of Mare Tranquillitatis on target and correctly pointed — and sent no pictures at all. A review board traced the failure to the moment two minutes after launch when the television system had switched itself on for 67 seconds during booster separation and arced over [6]. Each loss was different, and each was fixed; the whole series, Rangers 1 to 9, cost about $170 million [3]. Their goal for Apollo was simple: find out, before people went, what the surface looked like at the scale of a boot." data-ru="«Рейнджер-6» сделал всё правильно. 2 февраля 1964 года он точно попал в восточный край Моря Спокойствия, правильно сориентированный, — и не передал ни одного снимка. Комиссия установила причину: через две минуты после старта, при отделении ускорителей, телесистема сама включилась на 67 секунд, и в ней произошёл пробой [6]. Каждая потеря была иной, и каждую устраняли; вся серия, «Рейнджеры» с 1-го по 9-й, обошлась примерно в 170 млн долларов [3]. Цель для «Аполлона» была простой: ещё до полёта людей узнать, как выглядит поверхность в масштабе ботинка.">Ranger 6: on target, no pictures [6].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="WHY EVERY RANGER HIT AT ABOUT 2.6 KM/S" data-ru="ПОЧЕМУ ВСЕ «РЕЙНДЖЕРЫ» БИЛИ СО СКОРОСТЬЮ ОКОЛО 2,6 КМ/С">WHY EVERY RANGER HIT AT ABOUT 2.6 KM/S</div>
+      <div class="eq-body">v<sub>impact</sub>² = v<sub>∞</sub>² + v<sub>esc</sub>² &nbsp;·&nbsp; v<sub>esc</sub> = √(2GM/R) = 2.38 km/s &nbsp;→&nbsp; 2.62 km/s <span data-en="needs" data-ru="требует">needs</span> v<sub>∞</sub> = <span id="eqVinf">1.10</span> km/s</div>
+      <div class="eq-note" data-en="Energy conservation on the way in: a probe arriving from Earth falls into the Moon's gravity well, so even a slow approach ends at more than the Moon's escape speed. With GM = 4,902.8 km³/s² [30] and R = 1,737.4 km [29], escape speed is 2.38 km/s; Ranger 7's 2.62 km/s [7] means it was approaching at only about 1.1 km/s before the Moon pulled it in. No camera could slow that down — the pictures had to be taken and sent on the way." data-ru="Закон сохранения энергии на подлёте: зонд, прилетающий с Земли, падает в гравитационную яму Луны, поэтому даже медленный подлёт заканчивается скоростью выше второй космической для Луны. При GM = 4902,8 км³/с² [30] и R = 1737,4 км [29] вторая космическая — 2,38 км/с; 2,62 км/с «Рейнджера-7» [7] означают, что до захвата Луной он приближался всего примерно на 1,1 км/с. Затормозить это камера не могла — снимки приходилось делать и передавать на лету.">Escape speed 2.38 km/s [29][30].</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — RANGER CAMERAS -->
+<section id="ch2" class="section" data-phase="IMPACT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 08</span> — <span data-en="THE LAST SEVENTEEN MINUTES" data-ru="ПОСЛЕДНИЕ СЕМНАДЦАТЬ МИНУТ">THE LAST SEVENTEEN MINUTES</span></div>
+    <h2 class="h-lg" data-en="Pictures that sharpen as they fall" data-ru="Снимки, которые становятся резче при падении">Pictures that sharpen as they fall</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Rangers 6 to 9 carried six slow-scan vidicon cameras on two independent chains: a wide A camera (25° field, 25 mm lens) and a narrow B camera (8.4°, 76 mm) scanning 1,150 lines every 2.5 seconds, and four partial-scan P cameras of 300 lines, the narrowest seeing only 2.1° [8]. The experiment was led by Gerard Kuiper, with Eugene Shoemaker, Ewen Whitaker, Harold Urey and JPL's Raymond Heacock [8]. On 31 July 1964 Ranger 7 took its first picture from 2,110 km and kept sending for 17 minutes, 4,308 pictures in all; it hit Mare Cognitum at 2.62 km/s, and its last frame showed detail down to 0.5 m [7]." data-ru="«Рейнджеры» с 6-го по 9-й несли шесть видиконных камер медленной развёртки на двух независимых цепях: широкоугольную камеру A (поле 25°, объектив 25 мм) и узкоугольную B (8,4°, 76 мм) на 1150 строк с кадром каждые 2,5 секунды и четыре камеры P с частичной развёрткой на 300 строк, самая узкая из которых видела лишь 2,1° [8]. Экспериментом руководил Джерард Койпер вместе с Юджином Шумейкером, Юэном Уитакером, Гарольдом Юри и Реймондом Хикоком из JPL [8]. 31 июля 1964 года «Рейнджер-7» сделал первый снимок с высоты 2110 км и передавал 17 минут — всего 4308 снимков; он врезался в Море Познанное на 2,62 км/с, а последний кадр показал детали размером до 0,5 м [7].">Ranger 7: 4,308 pictures, 0.5 m [7][8].</p>
+      <p class="body-col" data-en="Ranger 8 followed on 20 February 1965 with 7,137 pictures of Mare Tranquillitatis, its cameras left pointing obliquely to cover more ground, the last at 1.5 m [9]. Ranger 9 was turned so that its cameras looked more nearly along its path, and dived into the crater Alphonsus on 24 March while American television carried the pictures live; its last frame reached 0.3 m [10]. A camera at distance d sees a patch d × field of view wide, so every halving of the distance halves the size of the smallest thing it can see. Slide the time before impact: the scan line's footprint shrinks from kilometres to centimetres. Notice that cameras B and P resolve almost the same ground per line (8.4° over 1,150 lines against 2.1° over 300); P's advantage was speed — a frame every fraction of a second, so it kept shooting until the very last moment [8]." data-ru="«Рейнджер-8» 20 февраля 1965 года передал 7137 снимков Моря Спокойствия; его камеры оставили смотреть наискосок, чтобы охватить больше площади, и последний кадр дал 1,5 м [9]. «Рейнджер-9» развернули так, чтобы камеры смотрели почти вдоль траектории, и 24 марта он нырнул в кратер Альфонс, пока американское телевидение показывало снимки в прямом эфире; его последний кадр дал 0,3 м [10]. Камера на расстоянии d видит участок шириной d × поле зрения, поэтому каждое уменьшение расстояния вдвое вдвое уменьшает и размер самой мелкой различимой детали. Двигайте время до удара: след строки развёртки на поверхности сжимается от километров до сантиметров. Заметьте, что камеры B и P различают на одну строку почти одинаковый участок (8,4° на 1150 строк против 2,1° на 300); преимущество P — скорость: кадр за доли секунды, поэтому она снимала до самого последнего мгновения [8].">Rangers 8 and 9 [9][10].</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="rgSvg" class="sim-svg" viewBox="0 0 480 300" role="img" data-aria-en="Ground covered by one scan line of Ranger's A, B and P cameras against seconds before impact, on logarithmic axes, with the published resolution of the last picture" data-aria-ru="Участок поверхности на одну строку развёртки камер A, B и P «Рейнджера» в зависимости от времени до удара в логарифмическом масштабе, с опубликованным разрешением последнего кадра" aria-label="Scan-line footprint against time before impact"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Mission" data-aria-en="Mission" data-aria-ru="Миссия" id="rgMis">
+          <button class="btn" data-m="r7" aria-pressed="false" data-en="RANGER 7" data-ru="«РЕЙНДЖЕР-7»">RANGER 7</button>
+          <button class="btn" data-m="r8" aria-pressed="false" data-en="RANGER 8" data-ru="«РЕЙНДЖЕР-8»">RANGER 8</button>
+          <button class="btn active" data-m="r9" aria-pressed="true" data-en="RANGER 9" data-ru="«РЕЙНДЖЕР-9»">RANGER 9</button>
+        </div>
+        <div class="btn-row" role="group" aria-label="Camera" data-aria-en="Camera" data-aria-ru="Камера" id="rgCam">
+          <button class="btn" data-c="A" aria-pressed="false" data-en="A · 25°" data-ru="A · 25°">A · 25°</button>
+          <button class="btn" data-c="B" aria-pressed="false" data-en="B · 8.4°" data-ru="B · 8,4°">B · 8.4°</button>
+          <button class="btn active" data-c="P" aria-pressed="true" data-en="P · 2.1°" data-ru="P · 2,1°">P · 2.1°</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="rgT" data-en="TIME BEFORE IMPACT" data-ru="ВРЕМЯ ДО УДАРА">TIME BEFORE IMPACT</label><span class="v" id="rgTVal">—</span></div>
+          <input id="rgT" type="range" min="-0.7" max="3.049" step="0.001" value="2">
+        </div>
+        <div class="btn-row" role="group" aria-label="Moments" data-aria-en="Moments" data-aria-ru="Моменты" id="rgTPre">
+          <button class="btn" data-t="100000" aria-pressed="false" data-en="FIRST PICTURE" data-ru="ПЕРВЫЙ СНИМОК">FIRST PICTURE</button>
+          <button class="btn" data-t="60" aria-pressed="false" data-en="1 MIN" data-ru="1 МИН">1 MIN</button>
+          <button class="btn" data-t="0.3" aria-pressed="false" data-en="0.3 S" data-ru="0,3 С">0.3 S</button>
+        </div>
+        <div class="readout-grid" id="rgReadout"></div>
+        <div class="status" id="rgStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: a two-body hyperbola that meets the surface at the NSSDC impact speed; its path angle is the one that reproduces NSSDC's time between the first picture and impact (a fit — the real angles are not in our sources), and it comes out near 64° below the horizontal for Rangers 7 and 9 and 40° for Ranger 8. The camera is assumed to look at the impact point, which Ranger 9 nearly did; Ranger 8's oblique cameras saw less sharply than this. One scan line is the field of view divided by the line count; the 'smallest object' uses four lines, the rule Lunar Orbiter's camera was specified by [26]. The published last-frame resolutions are plotted at 0.3 s, inside the 0.2–0.4 s in which Ranger 7's last P picture was taken [8]." data-ru="Модель: гипербола задачи двух тел, встречающая поверхность с опубликованной NSSDC скоростью удара; угол траектории подобран так, чтобы воспроизвести опубликованное NSSDC время между первым снимком и ударом (это подгонка — реальных углов в наших источниках нет), и получается около 64° к горизонту для «Рейнджеров-7» и «-9» и 40° для «Рейнджера-8». Считается, что камера смотрит на точку удара — «Рейнджер-9» почти так и делал; наклонные камеры «Рейнджера-8» видели хуже. Одна строка — поле зрения, делённое на число строк; «наименьший объект» занимает четыре строки — по правилу, по которому задавали камеру «Лунар орбитеров» [26]. Опубликованное разрешение последних кадров показано на отметке 0,3 с — внутри интервала 0,2–0,4 с, когда был сделан последний кадр P «Рейнджера-7» [8].">Model note.</p>
+  </div>
+</section>
+
+<!-- CH3 — SURVEYOR DESCENT -->
+<section id="ch3" class="section" data-phase="DESCENT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 08</span> — <span data-en="THREE MINUTES TO TOUCHDOWN" data-ru="ТРИ МИНУТЫ ДО КАСАНИЯ">THREE MINUTES TO TOUCHDOWN</span></div>
+    <h2 class="h-lg" data-en="From 2.6 km/s to a twelve-foot drop" data-ru="От 2,6 км/с до падения с четырёх метров">From 2.6 km/s to a twelve-foot drop</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Surveyor, built by Hughes Aircraft for JPL, had to arrive at the same 2.6 km/s and stop. A spherical solid-fuel retro rocket in its belly did almost all the braking; three throttleable liquid verniers of 130–460 N each steered and finished the job, guided by Doppler and altimeter radars [11]. Luna 9 had made the first survivable landing that February [31]. On 2 June 1966 Surveyor 1 followed: its altitude-marking radar fired the retro 75.3 km up at 2,612 m/s [11], 2 minutes 46 seconds before touchdown [12]. The motor delivered 358,556 lb·s of impulse at a specific impulse of 288.4 s [13] and was dropped about 11 km up [11]." data-ru="«Сервейер», построенный фирмой Hughes Aircraft для JPL, прилетал с теми же 2,6 км/с и должен был остановиться. Почти всё торможение выполнял сферический твердотопливный двигатель в днище; три дросселируемых жидкостных верньерных двигателя по 130–460 Н каждый управляли спуском и заканчивали его по данным доплеровского радара и радиовысотомера [11]. В феврале того же года «Луна-9» совершила первую посадку, после которой аппарат продолжил работу [31]. 2 июня 1966 года за ней последовал «Сервейер-1»: радар-отметчик высоты включил тормозной двигатель на высоте 75,3 км при скорости 2612 м/с [11], за 2 минуты 46 секунд до касания [12]. Двигатель выдал импульс 358 556 фунт·с при удельном импульсе 288,4 с [13] и был сброшен примерно на высоте 11 км [11].">Surveyor 1's retro burn [11]–[13].</p>
+      <p class="body-col" data-en="Hughes's flight report gives the hand-over: the verniers took over 27,820 ft (8.5 km) up at 430 ft/s with a 727.6 lb spacecraft, flew a speed-versus-height contour down to 71.4 mph (32 m/s) at 1,000 ft [12], passed a '10 ft/s' mark at 43 ft, and were cut off at 4 ft/s about 12 ft above the ground. The 294 kg lander fell freely for 1.5 s and touched at about 12 ft/s, 3.7 m/s [13]. Other sources round differently — NSSDC gives a cut-off at 3.4 m and 'about 3 m/s', JPL's release 'about 7.5 mph' (3.4 m/s) [11][12] — but all describe the same trick: stop just above the ground, so that the rockets never blast the surface they are trying to measure." data-ru="Отчёт Hughes о полёте описывает передачу управления: верньеры приняли аппарат массой 727,6 фунта на высоте 27 820 футов (8,5 км) при 430 фут/с, вели его по заданной кривой «скорость — высота» до 71,4 мили/ч (32 м/с) на высоте 1000 футов [12], прошли отметку «10 фут/с» на 43 футах и были выключены при 4 фут/с примерно в 12 футах над грунтом. Посадочный аппарат массой 294 кг 1,5 с падал свободно и коснулся грунта примерно на 12 фут/с, то есть 3,7 м/с [13]. Другие источники округляют иначе — NSSDC даёт отсечку на 3,4 м и «около 3 м/с», пресс-релиз JPL — «около 7,5 мили/ч» (3,4 м/с) [11][12], — но все описывают один приём: остановиться чуть выше грунта, чтобы двигатели не разметали поверхность, которую предстоит измерять.">Vernier phase and touchdown [13].</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="sdSvg" class="sim-svg" viewBox="0 0 480 300" role="img" data-aria-en="Surveyor 1's speed against altitude on logarithmic axes: the retro burn, the vernier descent contour, the free fall, and the limit beyond which the verniers cannot stop in time" data-aria-ru="Скорость «Сервейера-1» в зависимости от высоты в логарифмическом масштабе: работа тормозного двигателя, спуск на верньерах, свободное падение и предел, за которым верньеры не успевают затормозить" aria-label="Surveyor descent: speed against altitude"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Retro ignition" data-aria-en="Retro ignition" data-aria-ru="Включение тормозного двигателя" id="sdPre">
+          <button class="btn active" data-h="75.3" aria-pressed="true" data-en="AS FLOWN · 75.3 KM" data-ru="КАК В ПОЛЁТЕ · 75,3 КМ">AS FLOWN · 75.3 KM</button>
+          <button class="btn" data-h="69.3" aria-pressed="false" data-en="6 KM LATE" data-ru="НА 6 КМ ПОЗЖЕ">6 KM LATE</button>
+          <button class="btn" data-h="90.3" aria-pressed="false" data-en="15 KM EARLY" data-ru="НА 15 КМ РАНЬШЕ">15 KM EARLY</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="sdH" data-en="RETRO IGNITION ALTITUDE" data-ru="ВЫСОТА ВКЛЮЧЕНИЯ ТОРМОЗНОГО ДВИГАТЕЛЯ">RETRO IGNITION ALTITUDE</label><span class="v" id="sdHVal">—</span></div>
+          <input id="sdH" type="range" min="60" max="100" step="0.1" value="75.3">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="sdC" data-en="VERNIER CUT-OFF HEIGHT" data-ru="ВЫСОТА ВЫКЛЮЧЕНИЯ ВЕРНЬЕРОВ">VERNIER CUT-OFF HEIGHT</label><span class="v" id="sdCVal">—</span></div>
+          <input id="sdC" type="range" min="0.5" max="10" step="0.0001" value="3.6576">
+        </div>
+        <div class="readout-grid" id="sdReadout"></div>
+        <div class="status" id="sdStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model, built from Surveyor 1's own numbers: the retro phase is treated as a black box that always takes the spacecraft from 2,612 m/s to 430 ft/s and drops it by the same 66.8 km [11][13] (starting higher or lower shifts it bodily; the shape of the burn is not modelled). The verniers then decelerate uniformly between the published contour points; their best braking is three engines at 460 N on 727.6 lb, less lunar gravity. Propellant uses an effective specific impulse of 275 s worked out from Surveyor 1's mass before and after the vernier phase and its flight times [13]; the budget is what it used plus the 42.79 lb it had left. As flown, the model takes 178 s from ignition to touchdown (actual 167 s [13]) and burns 37.6 kg of vernier propellant (actual about 35.7 kg)." data-ru="Модель построена по собственным данным «Сервейера-1»: фаза тормозного двигателя — «чёрный ящик», который всегда переводит аппарат с 2612 м/с на 430 фут/с и опускает на те же 66,8 км [11][13] (если начать выше или ниже, она целиком сдвигается; форма импульса не моделируется). Затем верньеры тормозят равномерно между опубликованными точками кривой спуска; их максимальное торможение — три двигателя по 460 Н на 727,6 фунта массы минус лунное притяжение. Расход топлива рассчитан по эффективному удельному импульсу 275 с, выведенному из массы «Сервейера-1» до и после фазы верньеров и времени полёта [13]; запас — израсходованное плюс оставшиеся 42,79 фунта. Для реального полёта модель даёт 178 с от включения до касания (на деле 167 с [13]) и расход 37,6 кг топлива верньеров (на деле около 35,7 кг).">Model note.</p>
+    <div class="grid-2">
+      <p class="body-col" data-en="Not every Surveyor got this far. Surveyor 2, in September 1966, had one vernier fail to fire at its mid-course manoeuvre; the unbalanced thrust set it tumbling at about 1.2 turns a second, and it hit the Moon near Copernicus [14]. Surveyor 4, in July 1967, fell silent 41 seconds after retro ignition, two and a half minutes before touchdown; whether the retro exploded or only the radio failed is still unknown [16]." data-ru="Не каждый «Сервейер» добирался до этой точки. У «Сервейера-2» в сентябре 1966 года при коррекции траектории не включился один верньер; несимметричная тяга закрутила его примерно на 1,2 оборота в секунду, и он упал на Луну близ Коперника [14]. «Сервейер-4» в июле 1967 года умолк через 41 секунду после включения тормозного двигателя, за две с половиной минуты до касания; взорвался ли двигатель или отказало только радио, неизвестно до сих пор [16].">Surveyors 2 and 4 were lost [14][16].</p>
+      <p class="body-col" data-en="The survivors improvised. Surveyor 3's radars lost lock just above the surface, so its verniers never cut off: it touched down three times, 20 m and then 11 m apart, until Earth shut the engines down 34 s after the first contact [15]. Surveyor 5 sprang a helium leak on the way; controllers used the verniers early and moved the retro burn down so that it ended at 1,300 m and 30 m/s instead of about 10,700 m — and it landed [17]. Surveyor 6 then fired its verniers on the surface for 2.5 s, rose 3–4 m and set down about 2.4 m away: the first take-off from the Moon [18]." data-ru="Уцелевшие импровизировали. У «Сервейера-3» над самой поверхностью радары потеряли захват, и верньеры не выключились: он коснулся грунта трижды, с промежутками 20 и затем 11 м, пока Земля не выключила двигатели через 34 с после первого касания [15]. У «Сервейера-5» в полёте открылась утечка гелия; операторы заранее включили верньеры и перенесли работу тормозного двигателя ниже, так что она закончилась на 1300 м при 30 м/с вместо примерно 10 700 м, — и аппарат сел [17]. «Сервейер-6» затем включил верньеры на грунте на 2,5 с, поднялся на 3–4 м и опустился примерно в 2,4 м от прежнего места — первый взлёт с Луны [18].">Surveyors 3, 5 and 6 [15][17][18].</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — SOIL -->
+<section id="ch4" class="section" data-phase="SOIL">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 08</span> — <span data-en="WILL THE LM SINK?" data-ru="НЕ УТОНЕТ ЛИ ЛУННЫЙ МОДУЛЬ?">WILL THE LM SINK?</span></div>
+    <h2 class="h-lg" data-en="Footpads as soil instruments" data-ru="Опоры как приборы для изучения грунта">Footpads as soil instruments</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Before Surveyor, some estimates of the lunar soil assumed densities as low as 0.3–0.4 g/cm³, and even after the landings a few scientists urged snowshoes for the astronauts and a long radio antenna in case the Lunar Module sank into the dust [21]. The engineers had to design for something definite: in 1964 the LM's landing gear was sized for a soil in which a steady 1.0 psi would sink a pad at most 4 inches, and a dynamic 12 psi at most 24 inches [22]. Surveyor's footpads — crushable aluminium honeycomb, 29.8 cm across [23] — were built to press on the ground with about 2.2 kPa [21], and every landing recorded how far they went in." data-ru="До «Сервейеров» некоторые оценки лунного грунта исходили из плотности всего 0,3–0,4 г/см³, и даже после посадок отдельные учёные предлагали снабдить астронавтов снегоступами, а лунный модуль — длинной антенной на случай, если он утонет в пыли [21]. Инженерам нужно было проектировать под что-то определённое: в 1964 году шасси лунного модуля рассчитали на грунт, в котором постоянное давление 1,0 psi вдавливает опору не больше чем на 4 дюйма, а динамическое 12 psi — не больше чем на 24 дюйма [22]. Опоры «Сервейера» — сминаемые алюминиевые соты диаметром 29,8 см [23] — давили на грунт примерно с 2,2 кПа [21], и каждая посадка фиксировала, насколько глубоко они ушли.">Design soil and Surveyor's pads [21]–[23].</p>
+      <p class="body-col" data-en="From Surveyor 1's footprints and pictures, Christensen and colleagues deduced a soil density of about 1.5 g/cm³ [21]. Surveyor 3 and 7 carried a surface sampler, a 12 × 5 cm scoop on an arm, that dug trenches up to 18 cm deep, pressed and scraped the ground and on Surveyor 7 moved rocks [15][19]. Fitting the trenches Surveyor 5's footpads dug as it landed on a 20° slope, E. M. Christensen and eleven colleagues, among them JPL's Leonard Jaffe and Caltech's Ronald Scott, found granular, slightly cohesive soil with a static bearing capacity of about 2.7 N/cm², 27 kPa [20][17]. That answered the question: the surface was weak at the very top but carried many times what a footpad pressed on it." data-ru="По следам опор и снимкам «Сервейера-1» Кристенсен и коллеги оценили плотность грунта примерно в 1,5 г/см³ [21]. «Сервейеры-3» и «-7» несли грунтозаборник — ковш 12 × 5 см на штанге, который рыл траншеи глубиной до 18 см, вдавливал и скоблил грунт, а на «Сервейере-7» передвигал камни [15][19]. Сопоставив с моделью траншеи, которые прорыли опоры «Сервейера-5» при посадке на склон 20°, Э. М. Кристенсен и одиннадцать соавторов, среди них Леонард Джаффе из JPL и Рональд Скотт из Калтеха, нашли зернистый, слабо связный грунт со статической несущей способностью около 2,7 Н/см², то есть 27 кПа [20][17]. Это и был ответ: на самом верху поверхность слабая, но выдерживает во много раз больше, чем давит опора.">Surveyor 5: 2.7 N/cm² [20].</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="ftSvg" class="sim-svg" viewBox="0 0 480 300" role="img" data-aria-en="Pressure under each footpad against pad diameter for the chosen mass and number of legs, on logarithmic axes, with Surveyor 5's measured bearing capacity and the 1964 Lunar Module design soil" data-aria-ru="Давление под каждой опорой в зависимости от её диаметра при выбранных массе и числе опор в логарифмическом масштабе, с измеренной «Сервейером-5» несущей способностью и расчётным грунтом лунного модуля 1964 года" aria-label="Footpad pressure against diameter"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Lander" data-aria-en="Lander" data-aria-ru="Посадочный аппарат" id="ftPre">
+          <button class="btn active" data-f="surveyor" aria-pressed="true" data-en="SURVEYOR" data-ru="«СЕРВЕЙЕР»">SURVEYOR</button>
+          <button class="btn" data-f="lm" aria-pressed="false" data-en="LUNAR MODULE" data-ru="ЛУННЫЙ МОДУЛЬ">LUNAR MODULE</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="ftM" data-en="LANDED MASS" data-ru="ПОСАДОЧНАЯ МАССА">LANDED MASS</label><span class="v" id="ftMVal">—</span></div>
+          <input id="ftM" type="range" min="2" max="4.5" step="0.001" value="2.469">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="ftD" data-en="PAD DIAMETER" data-ru="ДИАМЕТР ОПОРЫ">PAD DIAMETER</label><span class="v" id="ftDVal">—</span></div>
+          <input id="ftD" type="range" min="0.1" max="1.5" step="0.0001" value="0.298">
+        </div>
+        <div class="btn-row" role="group" aria-label="Legs" data-aria-en="Legs" data-aria-ru="Опоры" id="ftLegs">
+          <button class="btn active" data-n="3" aria-pressed="true" data-en="3 LEGS" data-ru="3 ОПОРЫ">3 LEGS</button>
+          <button class="btn" data-n="4" aria-pressed="false" data-en="4 LEGS" data-ru="4 ОПОРЫ">4 LEGS</button>
+        </div>
+        <div class="btn-row" role="group" aria-label="Soil stiffness" data-aria-en="Soil stiffness" data-aria-ru="Жёсткость грунта" id="ftSoil">
+          <button class="btn active" data-k="8" aria-pressed="true" data-en="TYPICAL SOIL · k = 8" data-ru="ТИПИЧНЫЙ ГРУНТ · k = 8">TYPICAL SOIL · k = 8</button>
+          <button class="btn" data-k="2" aria-pressed="false" data-en="SOFT (95 %) · k = 2" data-ru="МЯГКИЙ (95 %) · k = 2">SOFT (95 %) · k = 2</button>
+        </div>
+        <div class="readout-grid" id="ftReadout"></div>
+        <div class="status" id="ftStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Static model: the landed weight shared equally by the pads, pressure = weight ÷ (legs × pad area); sinkage = pressure ÷ k, the modulus of subgrade reaction the Lunar Sourcebook derives from astronaut bootprints (8 kPa/cm on average, 2 kPa/cm to be 95 % sure) for loads under about 0.5 m wide [21] — for a metre-wide LM pad this is an extrapolation. Touchdown is dynamic: a moving pad digs deeper, which is why the 1964 specification had a separate dynamic case [22]. The Lunar Module preset uses Rogers's design weight of 16,000 Earth pounds and pads of about 3 ft [22]." data-ru="Статическая модель: посадочный вес поровну делится между опорами, давление = вес ÷ (число опор × площадь опоры); осадка = давление ÷ k — коэффициент постели, который «Справочник по Луне» выводит из следов ботинок астронавтов (в среднем 8 кПа/см, 2 кПа/см с вероятностью 95 %) для нагрузок шириной меньше примерно 0,5 м [21]; для опоры лунного модуля шириной около метра это экстраполяция. Касание — процесс динамический: движущаяся опора уходит глубже, поэтому в спецификации 1964 года был отдельный динамический случай [22]. Для лунного модуля взяты расчётный вес 16 000 земных фунтов и опоры около 3 футов по Роджерсу [22].">Model note.</p>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Lunar Module, at its 16,000-pound design weight spread over four pads about 3 ft across, presses with about 4.5 kPa — twice a Surveyor's footpad and about one sixth of what the soil under Surveyor 5 carried. The Lunar Sourcebook puts the Apollo 11 pads at about 5 kPa against an ultimate capacity of 3,000–11,000 kPa for a footing that size, a safety factor of 600 to 2,200 [21]. The two margins differ because bearing capacity is not a fixed property of the soil: it grows roughly in proportion to the width of the footing [21], and the 2.7 N/cm² was fitted to the 30 cm pads of a landing Surveyor. The instrument's factor against Surveyor 5 is therefore a deliberately conservative floor, not the LM's real margin." data-ru="Лунный модуль при расчётном весе 16 000 фунтов на четырёх опорах диаметром около 3 футов давит примерно с 4,5 кПа — вдвое больше опоры «Сервейера» и примерно в шесть раз меньше того, что выдержал грунт под «Сервейером-5». «Справочник по Луне» оценивает давление опор «Аполлона-11» примерно в 5 кПа при предельной несущей способности 3000–11 000 кПа для опоры такого размера — коэффициент запаса от 600 до 2200 [21]. Запасы так различаются потому, что несущая способность — не постоянное свойство грунта: она растёт примерно пропорционально ширине опоры [21], а 2,7 Н/см² подобраны по 30-сантиметровым опорам садящегося «Сервейера». Поэтому запас по грунту «Сервейера-5» в приборе — заведомо осторожная нижняя граница, а не настоящий запас лунного модуля.">LM: about 4.5 kPa [21][22].</p>
+      <p class="body-col" data-en="Data from Surveyor, Lunar Orbiter and then Apollo 11 itself confirmed the 1964 specification and showed its soil assumptions to be on the safe side; a post-flight simulation of Eagle's landing put the deepest footpad penetration at only 0.5–1.5 inches [22]. The Moon would hold a spacecraft. Whether it would hold it on a slope or among boulders was a question for pictures — the next chapter." data-ru="Данные «Сервейеров», «Лунар орбитеров», а затем и самого «Аполлона-11» подтвердили спецификацию 1964 года и показали, что её допущения о грунте были с запасом; послеполётное моделирование посадки «Игла» дало наибольшее погружение опоры всего 0,5–1,5 дюйма [22]. Луна выдержит космический аппарат. Выдержит ли она его на склоне или среди валунов — это был вопрос для снимков, о которых следующая глава.">Apollo 11: 0.5–1.5 in [22].</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — LUNAR ORBITER -->
+<section id="ch5" class="section" data-phase="ORBITER">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 08</span> — <span data-en="MAPS FOR APOLLO" data-ru="КАРТЫ ДЛЯ «АПОЛЛОНА»">MAPS FOR APOLLO</span></div>
+    <h2 class="h-lg" data-en="One metre from 46 kilometres" data-ru="Один метр с 46 километров">One metre from 46 kilometres</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="A Surveyor knew one spot; Apollo needed to choose among many. Between August 1966 and August 1967 NASA's Langley Research Center flew five Lunar Orbiters, each carrying a camera with two lenses on one roll of 70 mm film: a 610 mm telephoto and an 80 mm wide angle [24][26]. The film was developed on board, scanned by a flying spot and radioed home [26]. The requirement was to detect a 1 m object with the telephoto and an 8 m object with the wide angle from 46 km, which needed 76 lines per millimetre on the film [26]." data-ru="«Сервейер» знал одну точку; «Аполлону» нужно было выбирать среди многих. С августа 1966 по август 1967 года Исследовательский центр Лэнгли НАСА запустил пять «Лунар орбитеров»; каждый нёс камеру с двумя объективами на одной 70-мм плёнке: телеобъектив 610 мм и широкоугольный 80 мм [24][26]. Плёнку проявляли на борту, сканировали бегущим лучом и передавали на Землю по радио [26]. Требование — обнаружить объект размером 1 м телеобъективом и 8 м широкоугольным объективом с высоты 46 км, для чего на плёнке нужно было 76 линий на миллиметр [26].">Two lenses, one film [24][26].</p>
+      <p class="body-col" data-en="The arithmetic is one line: the smallest object is altitude ÷ (focal length × lines per millimetre), 46 km ÷ (610 mm × 76/mm) ≈ 1 m. Lunar Orbiter 1 dropped its low point to 40.5 km [24]; Lunar Orbiter 5, in a near-polar orbit with a low point of 99 km, reached about 2 m, and by its end the five spacecraft had photographed 99 % of the Moon in 2,180 telephoto and 882 wide-angle frames, for $163 million [25]. Lunar Orbiter 1 also took the first two pictures of the Earth from the Moon's distance [24]." data-ru="Арифметика укладывается в одну строку: наименьший объект = высота ÷ (фокусное расстояние × число линий на миллиметр), 46 км ÷ (610 мм × 76/мм) ≈ 1 м. «Лунар орбитер-1» снизил периселений до 40,5 км [24]; «Лунар орбитер-5» на почти полярной орбите с периселением 99 км достигал примерно 2 м, а к концу его работы пять аппаратов сняли 99 % Луны — 2180 кадров телеобъективом и 882 широкоугольных, за 163 млн долларов [25]. «Лунар орбитер-1» сделал и первые два снимка Земли с расстояния Луны [24].">99 % of the Moon [25].</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="loSvg" class="sim-svg" viewBox="0 0 480 300" role="img" data-aria-en="Smallest object detectable on Lunar Orbiter's film against altitude for the 610 mm and 80 mm lenses, on logarithmic axes, with the 46 km requirement marked" data-aria-ru="Наименьший различимый на плёнке «Лунар орбитера» объект в зависимости от высоты для объективов 610 и 80 мм в логарифмическом масштабе, с отметкой требования для 46 км" aria-label="Lunar Orbiter resolution against altitude"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Altitude presets" data-aria-en="Altitude presets" data-aria-ru="Готовые высоты" id="loPre">
+          <button class="btn" data-h="40.5" aria-pressed="false" data-en="LO 1 · 40.5 KM" data-ru="LO-1 · 40,5 КМ">LO 1 · 40.5 KM</button>
+          <button class="btn active" data-h="46" aria-pressed="true" data-en="REQUIREMENT · 46 KM" data-ru="ТРЕБОВАНИЕ · 46 КМ">REQUIREMENT · 46 KM</button>
+          <button class="btn" data-h="99" aria-pressed="false" data-en="LO 5 · 99 KM" data-ru="LO-5 · 99 КМ">LO 5 · 99 KM</button>
+          <button class="btn" data-h="1850" aria-pressed="false" data-en="FAR SIDE · 1,850 KM" data-ru="ОБРАТНАЯ СТОРОНА · 1850 КМ">FAR SIDE · 1,850 KM</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="loH" data-en="ALTITUDE" data-ru="ВЫСОТА">ALTITUDE</label><span class="v" id="loHVal">—</span></div>
+          <input id="loH" type="range" min="1.5" max="3.4" step="0.001" value="1.663">
+        </div>
+        <div class="readout-grid" id="loReadout"></div>
+        <div class="status" id="loStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Smallest object = altitude ÷ (focal length × 76 lines/mm), the film resolution the requirement was built on [26]; frame sizes scale with altitude from the PDS figures for 55 km (4.15 × 16.6 km and 31.6 × 37.4 km) [26]. Orbital speed is for a circular orbit at that height, a simplification: the real orbits were elliptical and the photographs were taken near the low point, where the spacecraft moved somewhat faster. The blur assumes the slowest shutter, 1/25 s [26]." data-ru="Наименьший объект = высота ÷ (фокусное расстояние × 76 линий/мм) — разрешение плёнки, на котором построено требование [26]; размеры кадров пересчитаны пропорционально высоте из данных PDS для 55 км (4,15 × 16,6 км и 31,6 × 37,4 км) [26]. Орбитальная скорость — для круговой орбиты на этой высоте, это упрощение: реальные орбиты были эллиптическими, а съёмка шла вблизи периселения, где аппарат летел несколько быстрее. Смаз рассчитан для самой длинной выдержки, 1/25 с [26].">Model note.</p>
+    <p class="body-col" data-en="Moving at about 1.66 km/s, 46 km up, a Lunar Orbiter would see the ground slide some 66 m during a 1/25 s exposure — dozens of times its resolution. So an electro-optical sensor looking through the telephoto measured the ratio of speed to height, and the camera moved the film to keep pace with the image during each exposure [26]. Without that, the metre-scale maps Apollo planned its landings on could not have existed." data-ru="Двигаясь примерно на 1,66 км/с в 46 км над поверхностью, «Лунар орбитер» за выдержку 1/25 с видел бы смещение грунта примерно на 66 м — в десятки раз больше своего разрешения. Поэтому электронно-оптический датчик, смотревший через телеобъектив, измерял отношение скорости к высоте, а камера двигала плёнку вслед за изображением во время каждой экспозиции [26]. Без этого не было бы и метровых карт, по которым планировали посадки «Аполлонов».">Image-motion compensation [26].</p>
+  </div>
+</section>
+
+<!-- CH6 — APOLLO 12 -->
+<section id="ch6" class="section" data-phase="APOLLO 12">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 08</span> — <span data-en="A VISIT TO SURVEYOR 3" data-ru="В ГОСТЯХ У «СЕРВЕЙЕРА-3»">A VISIT TO SURVEYOR 3</span></div>
+    <h2 class="h-lg" data-en="The camera that came home" data-ru="Камера, которая вернулась домой">The camera that came home</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Apollo 12 set down next to a robot. On 19 November 1969 Pete Conrad and Alan Bean brought Intrepid down at 06:54:35 UT in Oceanus Procellarum, within about 180 m of Surveyor 3, which had sat there since April 1967 [27]; Richard Gordon waited in orbit. On their second moonwalk the next day they walked over to it, photographed it and cut off about 10 kg of parts, including its television camera, for engineers to study [27][15]. The camera is now in the National Air and Space Museum [15]." data-ru="«Аполлон-12» сел рядом с роботом. 19 ноября 1969 года Пит Конрад и Алан Бин посадили «Интрепид» в 06:54:35 UT в Океане Бурь, примерно в 180 м от «Сервейера-3», стоявшего там с апреля 1967 года [27]; Ричард Гордон ждал на орбите. Во время второго выхода на следующий день они дошли до аппарата, сфотографировали его и срезали около 10 кг деталей, в том числе телекамеру, для изучения инженерами [27][15]. Камера сейчас хранится в Национальном музее авиации и космонавтики [15].">Apollo 12 lands by Surveyor 3 [27][15].</p>
+      <p class="body-col" data-en="Then came the story that has outlived the mission. In 1971 Mitchell and Ellis reported that the bacterium Streptococcus mitis had grown from a piece of foam insulation inside the camera, suggesting it had survived two and a half years on the Moon [28]. In 2011 John Rummel (East Carolina University), Judith Allton (NASA Johnson Space Center) and Don Morrison re-examined the case, including the 16 mm films of the sampling, begun on 8 January 1970 [28]." data-ru="Затем возникла история, пережившая саму миссию. В 1971 году Митчелл и Эллис сообщили, что из кусочка пенопластовой изоляции внутри камеры выросли бактерии Streptococcus mitis, а значит, они будто бы пережили на Луне два с половиной года [28]. В 2011 году Джон Раммел (Университет Восточной Каролины), Джудит Аллтон (Космический центр Джонсона НАСА) и Дон Моррисон заново разобрали этот случай, включая 16-мм киносъёмку отбора проб, начатого 8 января 1970 года [28].">The bacteria report [28].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="HOW CLOSE IS 'NEXT TO'? FROM THE TWO POSITIONS MEASURED BY LRO" data-ru="НАСКОЛЬКО БЛИЗКО «РЯДОМ»? ПО ДВУМ КООРДИНАТАМ, ИЗМЕРЕННЫМ LRO">HOW CLOSE IS 'NEXT TO'? FROM THE TWO POSITIONS MEASURED BY LRO</div>
+      <div class="eq-body">d = 2R·asin√(sin²(Δφ/2) + cos φ₁ cos φ₂ sin²(Δλ/2)) &nbsp;→&nbsp; <span id="eqDist">157</span> m</div>
+      <div class="eq-note" data-en="Surveyor 3 at 3.0162° S, 336.582° E and Intrepid at 3.0128° S, 23.4219° W, both from Lunar Reconnaissance Orbiter images [15][27], on a sphere of radius 1,737.4 km [29]: about 160 m — inside NSSDC's 'about 180 m' and close to the 163 m Rummel and colleagues quote [27][28]." data-ru="«Сервейер-3» в точке 3,0162° ю. ш., 336,582° в. д., «Интрепид» — 3,0128° ю. ш., 23,4219° з. д., обе по снимкам Lunar Reconnaissance Orbiter [15][27], на сфере радиусом 1737,4 км [29]: около 160 м — это внутри «примерно 180 м» NSSDC и близко к 163 м, которые приводят Раммел и соавторы [27][28].">About 160 m [15][27][28].</div>
+    </div>
+    <div class="grid-2">
+      <p class="body-col" data-en="What they found does not support a microbe on the Moon. Of 33 samples from 11 places in the camera, 32 grew nothing; the one that did was the last taken, from foam that a worker had leaned in over just before. The team worked in short-sleeved scrubs, there was no negative control, the camera had travelled home in a zipped sample bag and was sealed in Teflon bags only at the Lunar Receiving Laboratory, and S. mitis was one of the organisms found on the crew in routine testing. The camera was estimated to have reached about 70 °C in the lunar day, and no viable microbe was ever isolated from any Apollo surface sample [28]." data-ru="Найденное не подтверждает микроба на Луне. Из 33 проб из 11 мест камеры в 32 ничего не выросло; единственная положительная проба была взята последней — из пенопласта, над которым незадолго до того склонялся сотрудник. Работали в хирургических костюмах с короткими рукавами, отрицательного контроля не было, камера летела домой в застёгнутой сумке для образцов и была запечатана в тефлоновые пакеты лишь в Лаборатории приёма лунных образцов, а S. mitis был среди микробов, обнаруженных у экипажа при плановых анализах. По оценкам, камера нагревалась лунным днём примерно до 70 °C, и ни из одного образца, привезённого «Аполлонами» с поверхности, жизнеспособный микроб так и не был выделен [28].">32 of 33 samples sterile [28].</p>
+      <p class="body-col" data-en="Their reading: the bacteria most likely came from the people handling the camera on Earth, quite possibly during the sampling itself, not from the Moon. They did not claim proof — Morrison's analysis of the films calls contamination during the foam sampling a 'very real' possibility that the procedure makes impossible to rule out — but nothing they found supports a microbe surviving on the Moon, and that is where most researchers now leave the story. The episode is now a lesson for missions that will bring back samples from other worlds: take a microbial inventory before you go, and treat contamination in both directions as something to be planned for, not discovered afterwards [28]." data-ru="Их прочтение: бактерии, скорее всего, попали в камеру от людей, работавших с ней на Земле, — вполне возможно, во время самого отбора проб, — а не с Луны. Доказательством они это не называли: Моррисон, разобрав киносъёмку, пишет, что загрязнение при отборе пенопласта — «вполне реальная» возможность, которую сама процедура не позволяет исключить. Но ничто из найденного не говорит о том, что микроб выжил на Луне, и на этом большинство исследователей сегодня историю и оставляет. Сегодня этот эпизод — урок для миссий, которые будут привозить образцы с других небесных тел: перед полётом составьте опись микробов, а загрязнение в обе стороны планируйте заранее, а не обнаруживайте задним числом [28].">Contamination on Earth [28].</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH7 — LEGACY -->
+<section id="ch7" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 08</span> — <span data-en="GROUND TRUTH" data-ru="ПРОВЕРЕНО НА МЕСТЕ">GROUND TRUTH</span></div>
+    <h2 class="h-lg" data-en="Eight years from blind impact to footprints" data-ru="Восемь лет от слепого удара до следов ботинок">Eight years from blind impact to footprints</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="Rangers showed the Moon at the scale of a boot, Surveyors stood on it and pressed, and Lunar Orbiters mapped where to put down. By the time Apollo 11 flew, the question 'will it hold us?' had been answered by twenty-one robots, eight of which were lost or blind along the way." data-ru="«Рейнджеры» показали Луну в масштабе ботинка, «Сервейеры» встали на неё и надавили, «Лунар орбитеры» нанесли на карту, куда садиться. К полёту «Аполлона-11» на вопрос «выдержит ли она нас?» ответил двадцать один робот, и восемь из них по пути погибли или ослепли.">Twenty-two robots answered the question.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH8 — REFERENCES -->
+<section id="ch8" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 08</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* Browsers round a slider's value to its step, so a preset such as log10(196) would read back as 2.29 (195 m²).
+   Each range input keeps the exact value it was given until the user moves it. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var MU_M = 4902.800118;               // km³/s², lunar GM, JPL SSD astrodynamic parameters [30]
+var R_M = 1737.4;                     // km, volumetric mean radius, NASA Moon fact sheet [29]
+var G_M = 1.62;                       // m/s², lunar surface gravity [29]
+var G0 = 9.80665;                     // m/s², standard gravity (defines Isp and "Earth pounds")
+var LB = 0.45359237, LBF = 4.4482216152605, FT = 0.3048, MPH = 0.44704, IN = 0.0254, PSI_KPA = 6.894757;
+var D2R = Math.PI/180;
+/* escape speed from the surface, km/s (fact sheet: 2.38) */
+var V_ESC = Math.sqrt(2*MU_M/R_M);
+/* speed far from the Moon for a given impact speed (km/s) */
+function vInf(vImp){ return Math.sqrt(Math.max(0, vImp*vImp - V_ESC*V_ESC)); }
+
+/* ============ RANGER: THE LAST MINUTES ON A HYPERBOLA ============ */
+/* NSSDC [7][9][10]: impact speed, first F-channel image (altitude, UT) and impact time */
+var RANGERS = {
+  r7:{en:'Ranger 7', ru:'«Рейнджер-7»', v:2.62, hFirst:2110, tFirst:(13*3600 + 25*60 + 48.82) - (13*3600 + 8*60 + 45), res:0.5, n:4308},
+  r8:{en:'Ranger 8', ru:'«Рейнджер-8»', v:2.68, hFirst:2510, tFirst:(9*3600 + 57*60 + 36.756) - (9*3600 + 34*60 + 32), res:1.5, n:7137},
+  r9:{en:'Ranger 9', ru:'«Рейнджер-9»', v:2.67, hFirst:2363, tFirst:(14*3600 + 8*60 + 19.994) - (13*3600 + 49*60 + 41), res:0.3, n:5814}
+};
+/* camera fields of view and scan lines, Ranger 7 TV experiment [8]: A 25°, B 8.4° (1150 lines); narrow P camera 2.1° (300 lines) */
+var CAMS = {A:{fov:25, lines:1150}, B:{fov:8.4, lines:1150}, P:{fov:2.1, lines:300}};
+/* inbound hyperbola that meets the surface (r = R_M) at speed v (km/s) and path angle g (degrees below the horizontal) */
+function hyper(v, gDeg){
+  var eps = v*v/2 - MU_M/R_M, a = -MU_M/(2*eps), hA = R_M*v*Math.cos(gDeg*D2R);
+  var p = hA*hA/MU_M, e = Math.sqrt(1 + 2*eps*hA*hA/(MU_M*MU_M));
+  return {a:a, p:p, e:e, v:v};
+}
+/* |true anomaly| at radius r, and time from r to periapsis (s) */
+function nuAt(H, r){ return Math.acos(Math.max(-1, Math.min(1, (H.p/r - 1)/H.e))); }
+function tPeri(H, r){
+  var nu = nuAt(H, r), F = 2*Math.atanh(Math.sqrt((H.e - 1)/(H.e + 1))*Math.tan(nu/2));
+  return Math.sqrt(Math.pow(-H.a, 3)/MU_M)*(H.e*Math.sinh(F) - F);
+}
+/* seconds from altitude h (km) to impact */
+function tToImpact(H, h){ return tPeri(H, R_M + h) - tPeri(H, R_M); }
+/* straight-line distance (km) from altitude h to the impact point */
+function distToImpact(H, h){ var r = R_M + h, dn = nuAt(H, r) - nuAt(H, R_M); return Math.sqrt(r*r + R_M*R_M - 2*r*R_M*Math.cos(dn)); }
+function speedAt(v, h){ return Math.sqrt(v*v - 2*MU_M*(1/R_M - 1/(R_M + h))); }
+/* path angle at impact that reproduces NSSDC's timing of the first picture (a fit, not a published value) */
+function fitGamma(m){
+  var lo = 5, hi = 89.9;
+  for(var k = 0; k < 80; k++){ var mid = (lo + hi)/2; if(tToImpact(hyper(m.v, mid), m.hFirst) > m.tFirst) lo = mid; else hi = mid; }
+  return (lo + hi)/2;
+}
+for(var rk in RANGERS){ RANGERS[rk].gamma = fitGamma(RANGERS[rk]); RANGERS[rk].H = hyper(RANGERS[rk].v, RANGERS[rk].gamma); }
+/* altitude (km) at t seconds before impact */
+function altAt(H, t){
+  var lo = 0, hi = 20000;
+  for(var k = 0; k < 90; k++){ var mid = (lo + hi)/2; if(tToImpact(H, mid) > t) hi = mid; else lo = mid; }
+  return (lo + hi)/2;
+}
+/* ground size of one scan line and of the whole picture (m), camera looking at the impact point from distance d (km) */
+function lineM(d, cam){ return d*1000*cam.fov*D2R/cam.lines; }
+function widthM(d, cam){ return 2*d*1000*Math.tan(cam.fov*D2R/2); }
+
+/* ============ SURVEYOR 1: TERMINAL DESCENT ============ */
+/* retro ignition: NSSDC [11] 75.3 km, 2612 m/s; end of retro phase: Hughes report [13], 27,820 ft, 430 ft/s, 54.68 s */
+var H_IGN = 75300, V_IGN = 2612, H_RE = 27820*FT, V_RE = 430*FT, T_RE = 54.68;
+var DH_RETRO = H_IGN - H_RE;
+/* descent contour points: 71.4 mph at 1,000 ft (JPL [12]); "10 ft/s mark" at 43 ft; cut-off at 4 ft/s, 12 ft above the surface (Hughes [13]) */
+var W1 = {h:1000*FT, v:71.4*MPH}, W2 = {h:43*FT, v:10*FT}, V_CUT = 4*FT, H_CUT = 12*FT;
+/* masses: 727.6 lb at the start of the vernier phase [13]; 294.3 kg landed [11]; 42.79 lb usable propellant left [13] */
+var M_V0 = 727.6*LB, M_LAND = 294.3, M_LEFT = 42.79*LB;
+var F_VMAX = 3*460;                   // N, three verniers at full thrust (130–460 N each) [11]
+var A_VMAX = F_VMAX/M_V0 - G_M;       // best net deceleration at the start of the vernier phase, m/s²
+/* retro ignition 06:14:48.558, touchdown 06:17:35.55 GMT [13] */
+var T_ACTUAL = (17*60 + 35.55) - (14*60 + 48.558), T_FALL_ACTUAL = 1.5;
+/* effective vernier specific impulse from Surveyor 1's own numbers: mass ratio 727.6 lb → 294.3 kg over the thrusting time */
+var ISP_V = ((V_RE - V_CUT) + G_M*(T_ACTUAL - T_RE - T_FALL_ACTUAL))/(G0*Math.log(M_V0/M_LAND));
+function freeFall(hc, vc){ return Math.sqrt(vc*vc + 2*G_M*hc); }
+function earthDrop(v){ return v*v/(2*G0); }
+/* the whole descent for a given retro ignition altitude (m) and cut-off height (m) */
+function descent(hIgn, hc){
+  var hs = hIgn - DH_RETRO, out = {hs:hs, vs:V_RE, hc:hc};
+  if(hs <= W1.h + 1){ out.ok = false; out.crash = true; out.aNeed = Infinity; return out; }
+  var a1 = (V_RE*V_RE - W1.v*W1.v)/(2*(hs - W1.h)), t1 = (V_RE - W1.v)/a1;
+  var a2 = (W1.v*W1.v - W2.v*W2.v)/(2*(W1.h - W2.h)), t2 = (W1.v - W2.v)/a2;
+  var a3 = (W2.v*W2.v - V_CUT*V_CUT)/(2*(W2.h - hc)), t3 = (W2.v - V_CUT)/a3;
+  var vt = freeFall(hc, V_CUT), tf = (vt - V_CUT)/G_M;
+  var tThrust = t1 + t2 + t3, dv = (V_RE - V_CUT) + G_M*tThrust;
+  var prop = M_V0*(1 - Math.exp(-dv/(ISP_V*G0)));
+  out.a1 = a1; out.aNeed = a1; out.t1 = t1; out.t2 = t2; out.t3 = t3; out.tf = tf; out.vt = vt; out.dv = dv; out.prop = prop;
+  out.budget = (M_V0 - M_LAND) + M_LEFT; out.total = T_RE + tThrust + tf;
+  out.crash = a1 > A_VMAX; out.dry = prop > out.budget; out.ok = !out.crash && !out.dry;
+  return out;
+}
+/* lowest ignition altitude from which the verniers can still meet the contour */
+var H_IGN_MIN = DH_RETRO + W1.h + (V_RE*V_RE - W1.v*W1.v)/(2*A_VMAX);
+/* highest ignition altitude before the vernier propellant runs out (bisection) */
+var H_IGN_MAX = (function(){ var lo = H_IGN, hi = 200000; for(var k = 0; k < 80; k++){ var mid = (lo + hi)/2; if(descent(mid, H_CUT).dry) hi = mid; else lo = mid; } return (lo + hi)/2; })();
+
+/* ============ WILL THE LM SINK? ============ */
+var Q_S5 = 2.7*10;                    // kPa: Surveyor 5's static bearing capacity, 2.7 N/cm² [20]
+var K_AVG = 8, K_95 = 2;              // kPa/cm, modulus of subgrade reaction from Apollo bootprints [21]
+var SPEC_P = 1.0*PSI_KPA, SPEC_D = 4*IN*100;   // 1964 LM design soil: 1.0 psi → at most 4 in [22]
+/* contact pressure under each pad (kPa) */
+function padPressure(m, n, D){ return m*G_M/n/(Math.PI*D*D/4)/1000; }
+function sinkCm(p, k){ return p/k; }
+var SURVEYOR_FOOT = {m:294.3, n:3, D:0.298};   // landed mass [11], NASM pad 29.8 cm [23]
+var LM_FOOT = {m:16000*LB, n:4, D:3*FT};       // 16,000 Earth pounds, pads "approximately 3 feet" [22]
+
+/* ============ LUNAR ORBITER CAMERAS ============ */
+/* PDS [26]: 610 mm and 80 mm lenses, 76 lines/mm required on the film; footprints 4.15 × 16.6 km (HR) and 31.6 × 37.4 km (MR) from 55 km */
+var LO_LENS = {HR:610, MR:80}, LO_LPMM = 76, LO_FP = {HR:[4.15, 16.6], MR:[31.6, 37.4]}, LO_FP_H = 55, LO_EXP = 1/25;
+function loObject(hKm, f){ return hKm*1000/(f*LO_LPMM); }          // m
+function loFoot(hKm, which){ var s = hKm/LO_FP_H; return [LO_FP[which][0]*s, LO_FP[which][1]*s]; }
+function circSpeed(hKm){ return Math.sqrt(MU_M/(R_M + hKm)); }     // km/s
+function smearM(hKm){ return circSpeed(hKm)*1000*LO_EXP; }
+
+/* ============ APOLLO 12 AND SURVEYOR 3 ============ */
+/* LRO-derived positions, NSSDC [15][27] */
+var S3_POS = [-3.0162, 336.582 - 360], A12_POS = [-3.0128, -23.4219];
+function surfDist(p, q){
+  var la1 = p[0]*D2R, la2 = q[0]*D2R, dla = la2 - la1, dlo = (q[1] - p[1])*D2R;
+  var s = Math.sin(dla/2)*Math.sin(dla/2) + Math.cos(la1)*Math.cos(la2)*Math.sin(dlo/2)*Math.sin(dlo/2);
+  return 2*R_M*1000*Math.asin(Math.sqrt(s));
+}
+var A12_DIST = surfDist(S3_POS, A12_POS);
+
+/* ============ FORMATTING ============ */
+function num(n){ var s = fmtInt(n); return (lang === 'ru' && Math.abs(n) < 10000) ? s.replace(/\s/g, '') : s; }
+/* sensible significant figures for sizes in metres */
+function metres(m){
+  if(m >= 10000) return num(m/1000) + T(' km',' км');
+  if(m >= 1000) return fmt(m/1000, 1) + T(' km',' км');
+  if(m >= 100) return num(m) + T(' m',' м');
+  if(m >= 10) return fmt(m, 0) + T(' m',' м');
+  if(m >= 1) return fmt(m, 1) + T(' m',' м');
+  if(m >= 0.1) return fmt(m, 2) + T(' m',' м');
+  return fmt(m*100, 1) + T(' cm',' см');
+}
+function secs(s){
+  if(s >= 60){ var mm = Math.floor(s/60), ss = Math.round(s - mm*60); if(ss === 60){ mm++; ss = 0; } return mm + T(' min ',' мин ') + ss + T(' s',' с'); }
+  return (s >= 10 ? fmt(s, 0) : s >= 1 ? fmt(s, 1) : fmt(s, 2)) + T(' s',' с');
+}
+function kpa(p){ return (p >= 10 ? fmt(p, 0) : p >= 1 ? fmt(p, 1) : fmt(p, 2)) + T(' kPa',' кПа'); }
+function aria(svg){ svg.setAttribute('aria-label', svg.getAttribute('data-aria-' + lang)); }
+function logTicks(a, b){ var out = []; for(var e = Math.floor(a); e <= Math.ceil(b); e++) [1, 2, 5].forEach(function(k){ var v = k*Math.pow(10, e); if(Math.log10(v) >= a - 1e-9 && Math.log10(v) <= b + 1e-9) out.push(v); }); return out; }
+function tickLabel(v){ return v >= 1 ? num(v) : fmt(v, v >= 0.1 ? 1 : 2); }
+
+/* ============ CH1 ============ */
+document.getElementById('eqVinf').textContent = fmt(vInf(2.62), 2);
+
+/* ============ CH2 — RANGER CAMERAS ============ */
+var rgT = document.getElementById('rgT'), rgMission = 'r9', rgCam = 'P';
+function rgSetRange(){
+  var m = RANGERS[rgMission];
+  rgT.min = String(-0.7); rgT.max = String(Math.log10(m.tFirst).toFixed(3));
+}
+function renderRG(){
+  var m = RANGERS[rgMission], cam = CAMS[rgCam], t = Math.pow(10, +rgT.value);
+  var h = altAt(m.H, t), d = distToImpact(m.H, h), ln = lineM(d, cam), wd = widthM(d, cam), sp = speedAt(m.v, h);
+  document.getElementById('rgTVal').textContent = secs(t);
+  rgT.setAttribute('aria-valuetext', secs(t) + T(' before impact, altitude ',' до удара, высота ') + metres(h*1000) + T(', one scan line covers ',', одна строка развёртки покрывает ') + metres(ln));
+  var svg = document.getElementById('rgSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 58, R = 466, Tp = 22, B = 250, xa = -0.7, xb = 3.2, ya = -2, yb = 4;
+  function X(tt){ return R - (Math.log10(tt) - xa)/(xb - xa)*(R - L); } function Y(v){ return B - (Math.log10(v) - ya)/(yb - ya)*(B - Tp); }
+  [0.01, 0.1, 1, 10, 100, 1000, 10000].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, v >= 1000 ? num(v/1000) + T(' km',' км') : v >= 1 ? num(v) + T(' m',' м') : num(v*100) + T(' cm',' см'), 'svg-small', 'end'); });
+  [[0.2,'0.2'],[1,'1'],[10,'10'],[100,'100'],[1000,'1000']].forEach(function(p){ ns('line', {x1:X(p[0]), y1:B, x2:X(p[0]), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(p[0]), B + 16, p[0] < 1 ? fmt(p[0], 1) : num(p[0]), 'svg-small', p[0] < 1 ? 'end' : 'middle'); });   // 0.2 s sits on the right edge
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 14, T('ground covered by one scan line (log)','участок поверхности на одну строку (лог.)'), 'svg-small');
+  txt(svg, R, B + 34, T('seconds before impact (log) — impact is to the right →','секунды до удара (лог.) — удар справа →'), 'svg-small', 'end');
+  var cols = {A:'#8f8f88', B:'#2f5aa1', P:'#b5452a'};
+  ['A', 'B', 'P'].forEach(function(c){
+    var dd = '';
+    for(var k = 0; k <= 120; k++){ var tt = Math.pow(10, xa + (Math.log10(m.tFirst) - xa)*k/120), hh = altAt(m.H, tt); dd += (k ? 'L' : 'M') + X(tt).toFixed(1) + ',' + Y(lineM(distToImpact(m.H, hh), CAMS[c])).toFixed(1); }
+    ns('path', {d:dd, fill:'none', stroke:cols[c], 'stroke-width':c === rgCam ? 2.4 : 1.1, 'stroke-dasharray':c === rgCam ? '' : '4 3'}, svg);
+    var tl = Math.pow(10, {A:2.6, B:1.6, P:2.6}[c]), hl = altAt(m.H, tl);
+    txt(svg, X(tl), Y(lineM(distToImpact(m.H, hl), CAMS[c])) + (c === 'P' ? 18 : -8), T('camera ','камера ') + c, 'svg-small svg-halo', 'middle');
+  });
+  /* published resolution of the last picture, plotted at 0.3 s (NSSDC: last P frame 0.2–0.4 s before impact) */
+  ns('path', {d:'M' + (X(0.3) - 5) + ',' + Y(m.res) + 'l5,-5l5,5l-5,5z', fill:'#0b0b0c'}, svg);
+  txt(svg, X(0.3) + 4, Y(m.res) + 22, T('published: last picture ','опубликовано: последний кадр ') + metres(m.res), 'svg-small svg-halo', 'end');
+  ns('circle', {cx:X(t), cy:Y(ln), r:6.5, fill:'none', stroke:'#0b0b0c', 'stroke-width':2.4}, svg);
+  cells(document.getElementById('rgReadout'), [
+    [T('ALTITUDE','ВЫСОТА'), metres(h*1000)],
+    [T('DISTANCE TO THE IMPACT POINT','ДО ТОЧКИ УДАРА'), metres(d*1000)],
+    [T('SPEED','СКОРОСТЬ'), fmt(sp, 2) + T(' km/s',' км/с')],
+    [T('PICTURE WIDTH, CAMERA ','ШИРИНА КАДРА, КАМЕРА ') + rgCam, metres(wd)],
+    [T('ONE SCAN LINE COVERS','ОДНА СТРОКА ПОКРЫВАЕТ'), metres(ln)],
+    [T('SMALLEST OBJECT (≈4 LINES)','НАИМЕНЬШИЙ ОБЪЕКТ (≈4 СТРОКИ)'), metres(4*ln)],
+    [T('PATH ANGLE AT IMPACT (FITTED)','УГОЛ ТРАЕКТОРИИ ПРИ УДАРЕ (ПОДОБРАН)'), fmt(m.gamma, 0) + T('° below horizontal','° к горизонту'), 1]
+  ]);
+  hud1.textContent = metres(h*1000); hud2.textContent = fmt(sp, 2) + T(' km/s',' км/с');
+  var st = document.getElementById('rgStatus');
+  if(t > 60) st.innerHTML = T('Still ','Ещё ') + metres(h*1000) + T(' up: camera ',' над поверхностью: камера ') + rgCam + T(' frames a patch ',' охватывает участок ') + metres(wd) + T(' wide — better than any telescope on Earth once one scan line covers less than about a kilometre.',' в ширину — лучше любого земного телескопа, как только одна строка покрывает меньше километра.');
+  else if(t > 2) st.innerHTML = T('Each second now removes a large share of what is left, and the pictures sharpen in proportion to the distance remaining: ','Теперь каждая секунда отнимает заметную долю оставшегося пути, и снимки становятся резче пропорционально оставшемуся расстоянию: ') + metres(d*1000) + T(' to go.',' до цели.');
+  else st.innerHTML = T('The last frames. ','Последние кадры. ') + T(m.en, m.ru) + T(' saw objects down to about ',' различал объекты размером примерно до ') + metres(m.res) + T(' — the model\'s scan line is ',' — строка развёртки в модели — ') + metres(ln) + T(', so a resolvable object spans a few lines.',', то есть различимый объект занимает несколько строк.');
+}
+rgT.addEventListener('input', renderRG);
+Array.prototype.forEach.call(document.querySelectorAll('#rgMis .btn'), function(btn){ btn.addEventListener('click', function(){ rgMission = this.getAttribute('data-m'); pressGroup(this.parentNode, this); rgSetRange(); if(+rgT.value > +rgT.max) rgT.value = rgT.max; renderRG(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#rgCam .btn'), function(btn){ btn.addEventListener('click', function(){ rgCam = this.getAttribute('data-c'); pressGroup(this.parentNode, this); renderRG(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#rgTPre .btn'), function(btn){ btn.addEventListener('click', function(){ rgT.value = Math.log10(Math.min(RANGERS[rgMission].tFirst, +this.getAttribute('data-t'))); pressGroup(this.parentNode, this); renderRG(); }); });
+rgSetRange();
+
+/* ============ CH3 — SURVEYOR DESCENT ============ */
+var sdH = document.getElementById('sdH'), sdC = document.getElementById('sdC');
+function renderSD(){
+  var hIgn = +sdH.value*1000, hc = +sdC.value, D = descent(hIgn, hc);
+  document.getElementById('sdHVal').textContent = fmt(hIgn/1000, 1) + T(' km',' км');
+  document.getElementById('sdCVal').textContent = fmt(hc, 2) + T(' m',' м');
+  var svg = document.getElementById('sdSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 58, R = 466, Tp = 44, B = 250, xa = 0, xb = 5.2, ya = -0.3, yb = 3.6;
+  function X(h){ return L + (Math.log10(Math.max(1, h)) - xa)/(xb - xa)*(R - L); } function Y(v){ return B - (Math.log10(Math.max(0.5, v)) - ya)/(yb - ya)*(B - Tp); }
+  [1, 10, 100, 1000].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, v >= 1000 ? '1' + T(' km/s',' км/с') : num(v) + T(' m/s',' м/с'), 'svg-small', 'end'); });
+  txt(svg, R, 14, T('dotted: retro · black: verniers · red: free fall','пунктир: РДТТ · чёрный: верньеры · красный: падение'), 'svg-tiny', 'end');
+  txt(svg, R, 27, T('blue dashed: above it the verniers cannot stop in time','синий штрих: выше него верньеры не успевают затормозить'), 'svg-tiny', 'end');
+  [[1,'1 m'],[10,'10 m'],[100,'100 m'],[1000,'1 km'],[10000,'10 km'],[100000,'100 km']].forEach(function(p){ ns('line', {x1:X(p[0]), y1:B, x2:X(p[0]), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(p[0]), B + 16, p[0] >= 1000 ? num(p[0]/1000) + T(' km',' км') : num(p[0]) + T(' m',' м'), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 38, T('speed (log)','скорость (лог.)'), 'svg-small');
+  txt(svg, R, B + 34, T('altitude (log)','высота (лог.)'), 'svg-small', 'end');
+  /* the vernier limit: fastest speed at each altitude from which full thrust still reaches 71.4 mph at 1,000 ft */
+  var lim = '';
+  for(var k = 0; k <= 100; k++){ var hh = W1.h*Math.pow(150000/W1.h, k/100); lim += (k ? 'L' : 'M') + X(hh).toFixed(1) + ',' + Y(Math.sqrt(W1.v*W1.v + 2*A_VMAX*(hh - W1.h))).toFixed(1); }
+  ns('path', {d:lim, fill:'none', stroke:'#2f5aa1', 'stroke-width':1.3, 'stroke-dasharray':'5 4'}, svg);
+  /* retro burn: published end points joined by a straight line (the shape in between is not modelled) */
+  ns('line', {x1:X(hIgn), y1:Y(V_IGN), x2:X(Math.max(1, D.hs)), y2:Y(V_RE), stroke:'#8f8f88', 'stroke-width':2, 'stroke-dasharray':'2 3'}, svg);
+  txt(svg, X(hIgn) - 6, Y(V_IGN) - 8, T('retro ignition','включение РДТТ'), 'svg-small svg-halo', 'end');
+  if(!D.crash){
+    var pts = [[D.hs, V_RE]];
+    for(var j = 1; j <= 60; j++){ var hh2 = D.hs + (W1.h - D.hs)*j/60; pts.push([hh2, Math.sqrt(W1.v*W1.v + 2*D.a1*(hh2 - W1.h))]); }
+    pts.push([W2.h, W2.v]); pts.push([hc, V_CUT]);
+    var dd = ''; pts.forEach(function(p, q){ dd += (q ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1); });
+    ns('path', {d:dd, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
+    ns('line', {x1:X(hc), y1:Y(V_CUT), x2:X(1), y2:Y(freeFall(Math.max(0, hc - 1), V_CUT)), stroke:'#b5452a', 'stroke-width':2.2}, svg);
+    txt(svg, X(2), Y(D.vt) - 10, T('free fall','свободное падение'), 'svg-small svg-halo', 'middle');
+    ns('circle', {cx:X(D.hs), cy:Y(V_RE), r:5, fill:'#0b0b0c'}, svg);
+  } else {
+    ns('circle', {cx:X(Math.max(1, D.hs)), cy:Y(V_RE), r:6, fill:'#b5452a'}, svg);
+    txt(svg, X(Math.max(1, D.hs)) + 8, Y(V_RE) + 16, T('too low, too fast','слишком низко и быстро'), 'svg-small svg-halo');
+  }
+  var rows = [
+    [T('RETRO PHASE ENDS AT','ФАЗА РДТТ ЗАКАНЧИВАЕТСЯ НА'), D.hs > 0 ? metres(D.hs) + ', ' + fmt(V_RE, 0) + T(' m/s',' м/с') : T('below the surface','под поверхностью')],
+    [T('VERNIER DECELERATION NEEDED','НУЖНОЕ ТОРМОЖЕНИЕ ВЕРНЬЕРАМИ'), isFinite(D.aNeed) ? fmt(D.aNeed, 2) + T(' m/s²',' м/с²') : '—'],
+    [T('BEST THE VERNIERS CAN DO','МАКСИМУМ ВЕРНЬЕРОВ'), fmt(A_VMAX, 2) + T(' m/s²',' м/с²')]
+  ];
+  if(!D.crash) rows = rows.concat([
+    [T('VERNIER PROPELLANT USED','РАСХОД ТОПЛИВА ВЕРНЬЕРОВ'), fmt(D.prop, 1) + T(' of ',' из ') + fmt(D.budget, 1) + T(' kg',' кг')],
+    [T('IGNITION TO TOUCHDOWN','ОТ ВКЛЮЧЕНИЯ ДО КАСАНИЯ'), secs(D.total)],
+    [T('TOUCHDOWN SPEED','СКОРОСТЬ КАСАНИЯ'), fmt(D.vt, 2) + T(' m/s',' м/с')],
+    [T('SAME AS A DROP ON EARTH FROM','КАК ПАДЕНИЕ НА ЗЕМЛЕ С ВЫСОТЫ'), fmt(earthDrop(D.vt)*100, 0) + T(' cm',' см'), 1]
+  ]);
+  if(rows.length % 2) rows[rows.length - 1][2] = 1; /* an odd last cell spans the 2-column grid */
+  cells(document.getElementById('sdReadout'), rows);
+  sdH.setAttribute('aria-valuetext', fmt(hIgn/1000, 1) + T(' km; ',' км; ') + (D.crash ? T('the verniers cannot stop in time','верньеры не успевают затормозить') : D.dry ? T('propellant runs out','топливо заканчивается') : T('safe landing at ','мягкая посадка на ') + fmt(D.vt, 2) + T(' m/s',' м/с')));
+  sdC.setAttribute('aria-valuetext', fmt(hc, 2) + T(' m; touchdown at ',' м; касание на ') + fmt(freeFall(hc, V_CUT), 2) + T(' m/s',' м/с'));
+  hud1.textContent = metres(hIgn); hud2.textContent = fmt(V_IGN, 0) + T(' m/s',' м/с');
+  var st = document.getElementById('sdStatus');
+  if(D.crash) st.innerHTML = T('Crash. The retro burn ends only ','Крушение. Фаза РДТТ заканчивается лишь на ') + metres(Math.max(0, D.hs)) + T(' up at 131 m/s; three verniers at full thrust cannot brake hard enough. Anything below ',' над поверхностью при 131 м/с; трём верньерам на полной тяге не хватает торможения. Ниже ') + fmt(H_IGN_MIN/1000, 1) + T(' km is fatal — less than two seconds of flight below the planned ignition point.',' км — гибель: это меньше двух секунд полёта ниже расчётной точки включения.');
+  else if(D.dry) st.innerHTML = T('Lands too slowly: the verniers hover down for so long that they need ','Слишком долгий спуск: верньеры так долго тормозят, что им нужно ') + fmt(D.prop, 1) + T(' kg of propellant, more than the ',' кг топлива — больше, чем ') + fmt(D.budget, 1) + T(' kg Surveyor 1 had. Gravity takes its toll every second of hovering.',' кг, которые были у «Сервейера-1». Гравитация отнимает своё каждую секунду зависания.');
+  else st.innerHTML = T('Safe. Touchdown at ','Мягкая посадка. Касание на ') + fmt(D.vt, 2) + T(' m/s after a free fall from ',' м/с после свободного падения с ') + fmt(hc, 2) + T(' m; ',' м; ') + fmt(D.budget - D.prop, 1) + T(' kg of vernier propellant left over. The window that works: retro ignition between ',' кг топлива верньеров остаётся. Рабочее окно: включение РДТТ между ') + fmt(H_IGN_MIN/1000, 1) + T(' and ',' и ') + fmt(H_IGN_MAX/1000, 1) + T(' km.',' км.');
+}
+sdH.addEventListener('input', function(){ pressGroup(document.getElementById('sdPre'), null); renderSD(); });
+sdC.addEventListener('input', renderSD);
+Array.prototype.forEach.call(document.querySelectorAll('#sdPre .btn'), function(btn){ btn.addEventListener('click', function(){ sdH.value = this.getAttribute('data-h'); pressGroup(this.parentNode, this); renderSD(); }); });
+
+/* ============ CH4 — FOOTPADS ============ */
+var ftM = document.getElementById('ftM'), ftD = document.getElementById('ftD'), ftN = 3, ftK = K_AVG;
+function renderFT(){
+  var m = Math.pow(10, +ftM.value), D = +ftD.value, p = padPressure(m, ftN, D);
+  document.getElementById('ftMVal').textContent = num(m) + T(' kg',' кг');
+  document.getElementById('ftDVal').textContent = fmt(D*100, 1) + T(' cm',' см');
+  ftM.setAttribute('aria-valuetext', num(m) + T(' kg, pressure ',' кг, давление ') + kpa(p));
+  ftD.setAttribute('aria-valuetext', fmt(D*100, 1) + T(' cm, pressure ',' см, давление ') + kpa(p));
+  var svg = document.getElementById('ftSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 58, R = 466, Tp = 22, B = 250, xa = -1.1, xb = 0.3, ya = -1, yb = 2.3;
+  function X(d){ return L + (Math.log10(d) - xa)/(xb - xa)*(R - L); } function Y(v){ return B - (Math.log10(v) - ya)/(yb - ya)*(B - Tp); }
+  [0.1, 1, 10, 100].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, tickLabel(v) + T(' kPa',' кПа'), 'svg-small', 'end'); });
+  [0.1, 0.2, 0.5, 1, 2].forEach(function(v){ ns('line', {x1:X(v), y1:B, x2:X(v), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(v), B + 16, v < 1 ? num(v*100) + T(' cm',' см') : num(v) + T(' m',' м'), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 14, T('pressure under each pad (log)','давление под каждой опорой (лог.)'), 'svg-small');
+  txt(svg, R, B + 34, T('pad diameter (log)','диаметр опоры (лог.)'), 'svg-small', 'end');
+  [[Q_S5, '#2f5aa1', T('Surveyor 5: soil bearing capacity 2.7 N/cm²','«Сервейер-5»: несущая способность грунта 2,7 Н/см²')], [SPEC_P, '#8f8f88', T('1964 design soil: 1 psi sinks ≤ 4 in','расчётный грунт 1964 г.: 1 psi — осадка ≤ 4 дюймов')]].forEach(function(l){
+    ns('line', {x1:L, y1:Y(l[0]), x2:R, y2:Y(l[0]), stroke:l[1], 'stroke-width':1.3, 'stroke-dasharray':'5 4'}, svg);
+    txt(svg, R - 4, Y(l[0]) - 6, l[2], 'svg-small svg-halo', 'end');
+  });
+  var dd = '', pen = false;
+  for(var k = 0; k <= 160; k++){ var dk = Math.pow(10, xa + (xb - xa)*k/160), pk = padPressure(m, ftN, dk), inR = pk >= Math.pow(10, ya) && pk <= Math.pow(10, yb); if(inR){ dd += (pen ? 'L' : 'M') + X(dk).toFixed(1) + ',' + Y(pk).toFixed(1); } pen = inR; }
+  ns('path', {d:dd, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.8}, svg);
+  [SURVEYOR_FOOT, LM_FOOT].forEach(function(f){
+    var pf = padPressure(f.m, f.n, f.D);
+    ns('rect', {x:X(f.D) - 4, y:Y(pf) - 4, width:8, height:8, fill:'#2f5aa1'}, svg);
+  });
+  txt(svg, X(SURVEYOR_FOOT.D) + 10, Y(padPressure(SURVEYOR_FOOT.m, 3, SURVEYOR_FOOT.D)) + 22, T('Surveyor','«Сервейер»'), 'svg-small svg-halo');
+  txt(svg, X(LM_FOOT.D) - 8, Y(padPressure(LM_FOOT.m, 4, LM_FOOT.D)) + 15, T('LM','ЛМ'), 'svg-small svg-halo', 'end');
+  var cx = Math.min(R - 8, Math.max(L + 8, X(D))), cy = Y(Math.min(Math.pow(10, yb), Math.max(Math.pow(10, ya), p)));
+  ns('circle', {cx:cx, cy:cy, r:6.5, fill:'none', stroke:'#b5452a', 'stroke-width':2.4}, svg);
+  var s = sinkCm(p, ftK);
+  cells(document.getElementById('ftReadout'), [
+    [T('WEIGHT ON THE MOON','ВЕС НА ЛУНЕ'), num(m*G_M) + T(' N',' Н')],
+    [T('PRESSURE UNDER EACH PAD','ДАВЛЕНИЕ ПОД ОПОРОЙ'), kpa(p) + ' · ' + fmt(p/PSI_KPA, 2) + ' psi'],
+    [T('MARGIN OVER SURVEYOR 5\'S 27 kPa (LOWER BOUND)','ЗАПАС ПО 27 кПа «СЕРВЕЙЕРА-5» (НИЖНЯЯ ОЦЕНКА)'), '×' + fmt(Q_S5/p, 1)],
+    [T('STATIC SINKAGE (k = ','СТАТИЧЕСКАЯ ОСАДКА (k = ') + ftK + T(' kPa/cm)',' кПа/см)'), fmt(s, s < 1 ? 2 : 1) + T(' cm',' см')]
+  ]);
+  var st = document.getElementById('ftStatus');
+  if(p > Q_S5) st.innerHTML = T('This pad presses harder than the 2.7 N/cm² the soil under Surveyor 5 carried: expect it to punch in. Spread the load — a bigger pad or more legs.','Эта опора давит сильнее 2,7 Н/см², которые выдержал грунт под «Сервейером-5»: она продавит поверхность. Распределите нагрузку — больше опора или больше ног.');
+  else if(p > SPEC_P) st.innerHTML = T('Heavier than the 1964 design case for the Lunar Module: by that pessimistic standard it could sink more than 4 inches, although the measured soil would hold it with a margin of ×','Тяжелее расчётного случая 1964 года для лунного модуля: по тому пессимистичному стандарту осадка могла бы превысить 4 дюйма, хотя измеренный грунт выдержал бы её с запасом ×') + fmt(Q_S5/p, 1) + '.';
+  else st.innerHTML = T('Comfortable. Each pad presses with ','Надёжно. Каждая опора давит с силой ') + kpa(p) + T('; on the bootprint-derived soil it settles about ','; на грунте, оценённом по следам ботинок, она осядет примерно на ') + fmt(s, s < 1 ? 2 : 1) + T(' cm (at the pessimistic 95 % value, k = 2 kPa/cm: ',' см (по пессимистичной оценке с вероятностью 95 %, k = 2 кПа/см: ') + fmt(sinkCm(p, K_95), 1) + T(' cm).',' см).');
+}
+ftM.addEventListener('input', function(){ pressGroup(document.getElementById('ftPre'), null); renderFT(); });
+ftD.addEventListener('input', function(){ pressGroup(document.getElementById('ftPre'), null); renderFT(); });
+Array.prototype.forEach.call(document.querySelectorAll('#ftPre .btn'), function(btn){ btn.addEventListener('click', function(){
+  var f = this.getAttribute('data-f') === 'lm' ? LM_FOOT : SURVEYOR_FOOT;
+  ftM.value = Math.log10(f.m); ftD.value = f.D; ftN = f.n; pressGroup(this.parentNode, this);
+  pressGroup(document.getElementById('ftLegs'), document.querySelector('#ftLegs .btn[data-n="' + f.n + '"]')); renderFT(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#ftLegs .btn'), function(btn){ btn.addEventListener('click', function(){ ftN = +this.getAttribute('data-n'); pressGroup(this.parentNode, this); pressGroup(document.getElementById('ftPre'), null); renderFT(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#ftSoil .btn'), function(btn){ btn.addEventListener('click', function(){ ftK = +this.getAttribute('data-k'); pressGroup(this.parentNode, this); renderFT(); }); });
+ftM.value = Math.log10(SURVEYOR_FOOT.m);
+
+/* ============ CH5 — LUNAR ORBITER ============ */
+var loH = document.getElementById('loH');
+function renderLO(){
+  var h = Math.pow(10, +loH.value), hr = loObject(h, LO_LENS.HR), mr = loObject(h, LO_LENS.MR), fh = loFoot(h, 'HR'), fm = loFoot(h, 'MR'), sm = smearM(h);
+  document.getElementById('loHVal').textContent = fmt(h, h < 100 ? 1 : 0) + T(' km',' км');
+  loH.setAttribute('aria-valuetext', fmt(h, h < 100 ? 1 : 0) + T(' km; telephoto sees ',' км; телеобъектив различает ') + metres(hr));
+  var svg = document.getElementById('loSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 58, R = 466, Tp = 22, B = 250, xa = 1.5, xb = 3.4, ya = -0.3, yb = 2.7;
+  function X(v){ return L + (Math.log10(v) - xa)/(xb - xa)*(R - L); } function Y(v){ return B - (Math.log10(v) - ya)/(yb - ya)*(B - Tp); }
+  [1, 10, 100].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, num(v) + T(' m',' м'), 'svg-small', 'end'); });
+  [50, 100, 200, 500, 1000, 2000].forEach(function(v){ ns('line', {x1:X(v), y1:B, x2:X(v), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(v), B + 16, num(v), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 14, T('smallest object on the film (log)','наименьший объект на плёнке (лог.)'), 'svg-small');
+  txt(svg, R, B + 34, T('altitude, km (log)','высота, км (лог.)'), 'svg-small', 'end');
+  [['HR', '#b5452a', T('610 mm telephoto','телеобъектив 610 мм')], ['MR', '#2f5aa1', T('80 mm wide angle','широкоугольный 80 мм')]].forEach(function(c){
+    ns('line', {x1:X(Math.pow(10, xa)), y1:Y(loObject(Math.pow(10, xa), LO_LENS[c[0]])), x2:X(Math.pow(10, xb)), y2:Y(loObject(Math.pow(10, xb), LO_LENS[c[0]])), stroke:c[1], 'stroke-width':1.8}, svg);
+    txt(svg, X(700), Y(loObject(700, LO_LENS[c[0]])) - 8, c[2], 'svg-small svg-halo', 'end');
+  });
+  ns('line', {x1:X(46), y1:Tp, x2:X(46), y2:B, stroke:'#8f8f88', 'stroke-dasharray':'4 3'}, svg);
+  txt(svg, X(46) + 4, Tp + 12, T('requirement: 1 m from 46 km','требование: 1 м с 46 км'), 'svg-small svg-halo');
+  ns('line', {x1:X(h), y1:Tp + 20, x2:X(h), y2:B, stroke:'#0b0b0c', 'stroke-width':1.2}, svg);
+  ns('circle', {cx:X(h), cy:Y(hr), r:5.5, fill:'#b5452a'}, svg); ns('circle', {cx:X(h), cy:Y(mr), r:5.5, fill:'#2f5aa1'}, svg);
+  cells(document.getElementById('loReadout'), [
+    [T('TELEPHOTO: SMALLEST OBJECT','ТЕЛЕОБЪЕКТИВ: НАИМЕНЬШИЙ ОБЪЕКТ'), metres(hr)],
+    [T('WIDE ANGLE: SMALLEST OBJECT','ШИРОКОУГОЛЬНЫЙ: НАИМЕНЬШИЙ ОБЪЕКТ'), metres(mr)],
+    [T('TELEPHOTO FRAME','КАДР ТЕЛЕОБЪЕКТИВА'), fmt(fh[0], 1) + ' × ' + fmt(fh[1], 1) + T(' km',' км')],
+    [T('WIDE-ANGLE FRAME','ШИРОКОУГОЛЬНЫЙ КАДР'), fmt(fm[0], 0) + ' × ' + fmt(fm[1], 0) + T(' km',' км')],
+    [T('ORBITAL SPEED (CIRCULAR)','ОРБИТАЛЬНАЯ СКОРОСТЬ (КРУГОВАЯ)'), fmt(circSpeed(h), 2) + T(' km/s',' км/с')],
+    [T('BLUR IN 1/25 s WITHOUT MOVING FILM','СМАЗ ЗА 1/25 с БЕЗ ДВИЖЕНИЯ ПЛЁНКИ'), metres(sm) + ' (×' + fmt(sm/hr, 0) + ')']
+  ]);
+  hud1.textContent = fmt(h, h < 100 ? 1 : 0) + T(' km',' км'); hud2.textContent = fmt(circSpeed(h), 2) + T(' km/s',' км/с');
+  document.getElementById('loStatus').innerHTML = T('From ','С высоты ') + fmt(h, h < 100 ? 1 : 0) + T(' km the telephoto resolves ',' км телеобъектив различает ') + metres(hr) + T(' in a strip ',' в полосе ') + fmt(fh[0], 1) + ' × ' + fmt(fh[1], 1) + T(' km. Without image-motion compensation the ground would slide ',' км. Без компенсации сдвига изображения поверхность сместилась бы за выдержку на ') + metres(sm) + T(' during the exposure — the film had to move with it.',' — плёнке приходилось двигаться вслед за ней.');
+}
+loH.addEventListener('input', function(){ pressGroup(document.getElementById('loPre'), null); renderLO(); });
+Array.prototype.forEach.call(document.querySelectorAll('#loPre .btn'), function(btn){ btn.addEventListener('click', function(){ loH.value = Math.log10(+this.getAttribute('data-h')); pressGroup(this.parentNode, this); renderLO(); }); });
+loH.value = Math.log10(46);
+
+/* ============ CH6 ============ */
+function renderA12(){ document.getElementById('eqDist').textContent = num(Math.round(A12_DIST)); }
+
+/* ============ TIMELINE & REFERENCES ============ */
+var TIMELINE = [
+  ['1961', 'Rangers 1 (23 August) and 2 (18 November) are stranded in low Earth orbit when their Agena stages fail to restart [1][2].', '«Рейнджеры-1» (23 августа) и «-2» (18 ноября) остаются на низкой околоземной орбите: верхняя ступень «Аджена» не включается повторно [1][2].'],
+  ['1962', 'Ranger 3 misses the Moon by about 36,800 km; Ranger 4 hits the far side blind on 26 April; Ranger 5 loses power and misses by 725 km [3][4][5].', '«Рейнджер-3» проходит мимо Луны примерно в 36 800 км; «Рейнджер-4» 26 апреля вслепую падает на обратную сторону; «Рейнджер-5» теряет питание и промахивается на 725 км [3][4][5].'],
+  ['1964', 'Ranger 6 hits Mare Tranquillitatis on 2 February with dead cameras; Ranger 7 returns 4,308 pictures on 31 July [6][7].', '«Рейнджер-6» 2 февраля падает в Море Спокойствия с неработающими камерами; «Рейнджер-7» 31 июля передаёт 4308 снимков [6][7].'],
+  ['1965', 'Ranger 8 (20 February, 7,137 pictures) and Ranger 9 (24 March, Alphonsus, shown live on television) [9][10].', '«Рейнджер-8» (20 февраля, 7137 снимков) и «Рейнджер-9» (24 марта, кратер Альфонс, в прямом телеэфире) [9][10].'],
+  ['1966', 'Luna 9 makes the first survivable landing in February [31]; Surveyor 1 lands on 2 June [11]; Lunar Orbiter 1 starts photographing landing sites in August [24]; Surveyor 2 tumbles and crashes in September [14].', 'В феврале «Луна-9» совершает первую посадку, после которой аппарат продолжил работу [31]; 2 июня садится «Сервейер-1» [11]; в августе «Лунар орбитер-1» начинает съёмку мест посадки [24]; в сентябре «Сервейер-2» кувыркается и разбивается [14].'],
+  ['1967', 'Surveyor 3 bounces twice and digs the first trenches (April); Surveyor 4 falls silent (July); Lunar Orbiter 5 completes coverage of 99 % of the Moon (August); Surveyors 5 and 6 land, and 6 makes the first hop (17 November) [15][16][17][18][25].', '«Сервейер-3» дважды подпрыгивает и роет первые траншеи (апрель); «Сервейер-4» умолкает (июль); «Лунар орбитер-5» доводит съёмку до 99 % Луны (август); садятся «Сервейеры-5» и «-6», и «-6» совершает первый подскок (17 ноября) [15][16][17][18][25].'],
+  ['1968', 'Surveyor 7 lands in the highlands north of Tycho on 10 January [19].', '10 января «Сервейер-7» садится в материковой области к северу от Тихо [19].'],
+  ['1969', 'Apollo 12 lands about 160 m from Surveyor 3 on 19 November; Conrad and Bean bring back its camera [15][27].', '19 ноября «Аполлон-12» садится примерно в 160 м от «Сервейера-3»; Конрад и Бин забирают его камеру [15][27].'],
+  ['1971', 'Mitchell and Ellis report Streptococcus mitis cultured from foam inside the camera [28].', 'Митчелл и Эллис сообщают о культуре Streptococcus mitis из пенопласта внутри камеры [28].'],
+  ['2011', 'Rummel, Allton and Morrison review the films of the 1970 sampling and conclude that contamination on Earth, quite possibly during the sampling itself, is far likelier than survival on the Moon [28].', 'Раммел, Аллтон и Моррисон изучают киносъёмку отбора проб 1970 года и заключают, что загрязнение на Земле — вполне возможно, при самом отборе — гораздо вероятнее, чем выживание на Луне [28].']
+];
+var REFERENCES = [
+  {title:'NASA NSSDCA, “Ranger 1” (1961-021A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1961-021A', note:{en:'Launched 23 August 1961; failure of the Agena B to re-ignite left Ranger 1 stranded in low Earth orbit.', ru:'Запуск 23 августа 1961 года; «Аджена-Б» не включилась повторно, и «Рейнджер-1» остался на низкой околоземной орбите.'}},
+  {title:'NASA NSSDCA, “Ranger 2” (1961-032A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1961-032A', note:{en:'Launched 18 November 1961; an inoperative roll gyro prevented the Agena restart; re-entered on 19 November.', ru:'Запуск 18 ноября 1961 года; отказ гироскопа крена не дал «Аджене» включиться повторно; сошёл с орбиты 19 ноября.'}},
+  {title:'NASA NSSDCA, “Ranger 3” (1962-001A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1962-001A', note:{en:'Launched 26 January 1962; booster guidance fault, reversed commands; missed the Moon by about 36,800 km. Rangers 1–9 cost about $170 million.', ru:'Запуск 26 января 1962 года; сбой системы наведения ракеты и перепутанные команды; прошёл мимо Луны примерно в 36 800 км. «Рейнджеры» 1–9 обошлись примерно в 170 млн долларов.'}},
+  {title:'NASA NSSDCA, “Ranger 4” (1962-012A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1962-012A', note:{en:'A timer in the central computer and sequencer failed after launch; impacted the far side at 9,600 km/h on 26 April 1962.', ru:'После запуска отказал таймер центрального программного устройства; 26 апреля 1962 года аппарат упал на обратную сторону со скоростью 9600 км/ч.'}},
+  {title:'NASA NSSDCA, “Ranger 5” (1962-055A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1962-055A', note:{en:'Launched 18 October 1962; lost power, batteries ran down after 8 h 44 min; missed the Moon by 725 km.', ru:'Запуск 18 октября 1962 года; потеря питания, батареи сели через 8 ч 44 мин; промах мимо Луны — 725 км.'}},
+  {title:'NASA NSSDCA, “Ranger 6” (1964-007A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-007A', note:{en:'Impacted Mare Tranquillitatis on 2 February 1964 on target, but no video: the TV system had arced over when it switched on for 67 s during booster separation.', ru:'2 февраля 1964 года точно попал в Море Спокойствия, но без видео: телесистема пробилась дугой, когда случайно включилась на 67 с при отделении ускорителей.'}},
+  {title:'NASA NSSDCA, “Ranger 7” (1964-041A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1964-041A', note:{en:'First image at 13:08:45 UT from 2,110 km; 4,308 photographs over the final 17 minutes; final image 0.5 m resolution; impact at 13:25:48.82 UT at 2.62 km/s in Mare Cognitum.', ru:'Первый снимок в 13:08:45 UT с высоты 2110 км; 4308 снимков за последние 17 минут; разрешение последнего кадра 0,5 м; удар в 13:25:48,82 UT со скоростью 2,62 км/с в Море Познанном.'}},
+  {title:'NASA NSSDCA, “Ranger 7 Television” experiment (1964-041A-01)', url:'https://nssdc.gsfc.nasa.gov/nmc/experiment/display.action?id=1964-041A-01', note:{en:'Six vidicon cameras: A (25°, 25 mm) and B (8.4°, 76 mm) with 1,150 lines; four P cameras with 300 lines, fields down to 2.1°; last P picture 0.2–0.4 s before impact. PI Gerard P. Kuiper; co-investigators E. M. Shoemaker, E. A. Whitaker, H. C. Urey, R. L. Heacock.', ru:'Шесть видиконных камер: A (25°, 25 мм) и B (8,4°, 76 мм) с 1150 строками; четыре камеры P с 300 строками и полем зрения до 2,1°; последний кадр P — за 0,2–0,4 с до удара. Руководитель Джерард Койпер; соисследователи Ю. Шумейкер, Ю. Уитакер, Г. Юри, Р. Хикок.'}},
+  {title:'NASA NSSDCA, “Ranger 8” (1965-010A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-010A', note:{en:'First image 09:34:32 UT from 2,510 km; 7,137 photographs over 23 minutes; final image 1.5 m; impact 09:57:36.756 UT at slightly under 2.68 km/s; terminal pointing manoeuvre cancelled to cover more area.', ru:'Первый снимок в 09:34:32 UT с 2510 км; 7137 снимков за 23 минуты; последний кадр — 1,5 м; удар в 09:57:36,756 UT со скоростью чуть меньше 2,68 км/с; разворот камер перед ударом отменили ради большей площади.'}},
+  {title:'NASA NSSDCA, “Ranger 9” (1965-023A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-023A', note:{en:'Cameras turned to look along the flight path; first image 13:49:41 UT from 2,363 km; 5,814 photographs; final image 0.3 m; impact in Alphonsus at 14:08:19.994 UT, 2.67 km/s; live network television.', ru:'Камеры развёрнуты вдоль траектории; первый снимок в 13:49:41 UT с 2363 км; 5814 снимков; последний кадр — 0,3 м; удар в кратере Альфонс в 14:08:19,994 UT, 2,67 км/с; прямая трансляция по телевидению.'}},
+  {title:'NASA NSSDCA, “Surveyor 1” (1966-045A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-045A', note:{en:'Retro ignition at 75.3 km and 2,612 m/s, a 40 s burn, jettisoned at roughly 11 km and 110 m/s; engines off 3.4 m up; landed 2 June 1966 at about 3 m/s; 294.3 kg landed; verniers 130–460 N each; footpads 4.3 m from the centre; 11,240 pictures. Programme cost $469 million.', ru:'Включение РДТТ на 75,3 км при 2612 м/с, работа 40 с, сброс примерно на 11 км при 110 м/с; двигатели выключены на высоте 3,4 м; посадка 2 июня 1966 года примерно на 3 м/с; посадочная масса 294,3 кг; верньеры по 130–460 Н; опоры в 4,3 м от центра; 11 240 снимков. Программа стоила 469 млн долларов.'}},
+  {title:'NASA JPL news release, “Surveyor I lands on the Moon” (16 June 1966)', url:'https://www.jpl.nasa.gov/news/surveyor-i-lands-on-the-moon/', note:{en:'Retro ignited 2 min 46 s before touchdown, 46.75 miles up; 38 s burn; verniers slowed it to 71.4 mph at 1,000 ft; free fall over the last 10 ft; landing speed about 7.5 mph; a bounce of four or five inches.', ru:'РДТТ включён за 2 мин 46 с до касания на высоте 46,75 мили; работа 38 с; верньеры снизили скорость до 71,4 мили/ч на высоте 1000 футов; последние 10 футов — свободное падение; скорость посадки около 7,5 мили/ч; отскок на 4–5 дюймов.'}},
+  {title:'K. C. Beall (Hughes Aircraft), “Surveyor spacecraft system — Surveyor 1 flight performance, vol. 3, final report”, SSD-68223R / NASA CR-93494 (1968)', url:'https://ntrs.nasa.gov/citations/19680009187', note:{en:'Retro total impulse 358,556 lb·s, Isp 288.4 s, max thrust 9,850 lb; vernier phase from 27,820 ft at 430 ft/s with 727.6 lb after a 54.68 s retro phase; retro ignition 06:14:48.558, touchdown 06:17:35.55 GMT; best estimates: cut-off at 4 ft/s, 12 ft high, 1.5 s fall, 12 ft/s at touchdown; 42.79 lb of usable propellant left.', ru:'Полный импульс РДТТ 358 556 фунт·с, удельный импульс 288,4 с, максимальная тяга 9850 фунтов; фаза верньеров с высоты 27 820 футов при 430 фут/с и массе 727,6 фунта после 54,68 с фазы РДТТ; включение РДТТ в 06:14:48,558, касание в 06:17:35,55 GMT; лучшие оценки: отсечка при 4 фут/с на высоте 12 футов, падение 1,5 с, касание на 12 фут/с; осталось 42,79 фунта рабочего топлива.'}},
+  {title:'NASA NSSDCA, “Surveyor 2” (1966-084A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-084A', note:{en:'One vernier failed to ignite at midcourse on 21 September 1966; the spacecraft tumbled at about 1.22 rev/s and hit the Moon near Copernicus on 22 September.', ru:'21 сентября 1966 года при коррекции не включился один верньер; аппарат закрутился примерно на 1,22 оборота в секунду и 22 сентября упал на Луну близ Коперника.'}},
+  {title:'NASA NSSDCA, “Surveyor 3” (1967-035A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A', note:{en:'Landed 20 April 1967; radars lost lock and the verniers kept firing: three touchdowns, 20 m and 11 m apart, engines shut off from Earth after 34 s; 14° slope; surface sampler (12 × 5 cm scoop) dug trenches up to 18 cm; 6,326 pictures; Apollo 12 removed about 10 kg of parts including the camera.', ru:'Посадка 20 апреля 1967 года; радары потеряли захват, и верньеры продолжали работать: три касания с промежутками 20 и 11 м, двигатели выключили с Земли через 34 с; склон 14°; грунтозаборник (ковш 12 × 5 см) рыл траншеи глубиной до 18 см; 6326 снимков; экипаж «Аполлона-12» снял около 10 кг деталей, в том числе камеру.'}},
+  {title:'NASA NSSDCA, “Surveyor 4” (1967-068A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-068A', note:{en:'Signals ceased 41 s after retro ignition on 17 July 1967, about 2.5 min before touchdown; whether it crashed or the retro exploded is unknown.', ru:'Сигнал пропал через 41 с после включения РДТТ 17 июля 1967 года, примерно за 2,5 минуты до касания; разбился ли аппарат или взорвался двигатель, неизвестно.'}},
+  {title:'NASA NSSDCA, “Surveyor 5” (1967-084A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-084A', note:{en:'Helium leak after midcourse; retro burn moved down to end at 1,300 m and 30 m/s instead of 10,700 m at 120–150 m/s; landed 11 September 1967 on a 20° slope; first in-situ analysis by alpha scattering; a 0.55 s vernier firing on the ground.', ru:'Утечка гелия после коррекции; работу РДТТ перенесли так, чтобы она закончилась на 1300 м при 30 м/с вместо 10 700 м при 120–150 м/с; посадка 11 сентября 1967 года на склон 20°; первый анализ грунта на месте методом альфа-рассеяния; включение верньеров на 0,55 с на грунте.'}},
+  {title:'NASA NSSDCA, “Surveyor 6” (1967-112A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-112A', note:{en:'Landed in Sinus Medii on 10 November 1967; on 17 November a 2.5 s vernier firing lifted it 3–4 m and set it down about 2.4 m west — the first powered take-off from the Moon; 29,952 images.', ru:'Посадка в Центральном Заливе 10 ноября 1967 года; 17 ноября верньеры, включённые на 2,5 с, подняли его на 3–4 м и опустили примерно в 2,4 м к западу — первый взлёт с Луны на двигателях; 29 952 снимка.'}},
+  {title:'NASA NSSDCA, “Surveyor 7” (1968-001A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1968-001A', note:{en:'Landed 10 January 1968 on the ejecta north of Tycho; the surface sampler dug trenches and moved four rocks; highland crust poorer in iron-group elements than the maria; 21,038 pictures.', ru:'Посадка 10 января 1968 года на выбросах к северу от Тихо; грунтозаборник рыл траншеи и передвинул четыре камня; материковая кора беднее элементами группы железа, чем моря; 21 038 снимков.'}},
+  {title:'E. M. Christensen, S. A. Batterson, H. E. Benson, R. Choate, R. E. Hutton, L. D. Jaffe, R. H. Jones, H. Y. Ko, F. N. Schmidt, R. F. Scott, R. L. Spencer, G. H. Sutton (1968), “Lunar surface mechanical properties”, J. Geophys. Res. 73(22), 7169–7192', url:'https://doi.org/10.1029/JB073i022p07169', note:{en:'Surveyor 5 footpad trenching: granular, slightly cohesive soil; a compressible-soil model fits best with a static bearing capacity of about 2.7 N/cm².', ru:'Траншеи от опор «Сервейера-5»: зернистый, слабо связный грунт; модель сжимаемого грунта лучше всего совпадает с наблюдениями при статической несущей способности около 2,7 Н/см².'}},
+  {title:'W. D. Carrier III, G. R. Olhoeft, W. Mendell (1991), “Physical properties of the lunar surface”, ch. 9 in Lunar Sourcebook (Heiken, Vaniman, French, eds.), Cambridge University Press', url:'https://www.lpi.usra.edu/publications/books/lunar_sourcebook/pdf/Chapter09.pdf', note:{en:'Surveyor pads were sized for 2.2 kPa; Apollo 11 LM pads pressed about 5 kPa against an ultimate capacity of 3,000–11,000 kPa; modulus of subgrade reaction k ≈ 8 kPa/cm on average, 2 kPa/cm at 95 % confidence; Christensen et al. (1967) found 1.5 g/cm³ at the Surveyor 1 site.', ru:'Опоры «Сервейеров» рассчитаны на 2,2 кПа; опоры лунного модуля «Аполлона-11» давили около 5 кПа при предельной несущей способности 3000–11 000 кПа; коэффициент постели k ≈ 8 кПа/см в среднем и 2 кПа/см с вероятностью 95 %; Кристенсен и др. (1967) получили 1,5 г/см³ на месте посадки «Сервейера-1».'}},
+  {title:'W. F. Rogers (1972), “Apollo experience report — Lunar Module landing gear subsystem”, NASA TN D-6850', url:'https://ntrs.nasa.gov/citations/19720018253', note:{en:'Design soil: a static 1.0 psi would sink at most 4 in, a dynamic 12 psi at most 24 in; Surveyor and Lunar Orbiter data verified the specification; footpads about 3 ft across; design touchdown weight 16,000 Earth pounds; Apollo 11 simulated penetration 0.5–1.5 in.', ru:'Расчётный грунт: статическая нагрузка 1,0 psi даёт осадку не больше 4 дюймов, динамическая 12 psi — не больше 24 дюймов; данные «Сервейеров» и «Лунар орбитеров» подтвердили эту спецификацию; опоры около 3 футов в диаметре; расчётный посадочный вес 16 000 земных фунтов; моделирование для «Аполлона-11» — погружение 0,5–1,5 дюйма.'}},
+  {title:'Smithsonian National Air and Space Museum, “Pad, Landing Leg, Surveyor” (A19721105000)', url:'https://airandspace.si.edu/collection-objects/pad-landing-leg-surveyor/nasm_A19721105000', note:{en:'Backup crushable aluminium-honeycomb footpad, 29.8 cm (11¾ in) in diameter, identical to those on the five landed Surveyors.', ru:'Запасная сминаемая опора из алюминиевых сот диаметром 29,8 см (11¾ дюйма), такая же, как у пяти севших «Сервейеров».'}},
+  {title:'NASA NSSDCA, “Lunar Orbiter 1” (1966-073A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1966-073A', note:{en:'Launched 10 August 1966 to photograph landing sites for Surveyor and Apollo; perilune lowered to 40.5 km; 42 high- and 187 medium-resolution frames; first pictures of the Earth from the Moon\'s distance.', ru:'Запущен 10 августа 1966 года для съёмки мест посадки «Сервейеров» и «Аполлонов»; периселений снижен до 40,5 км; 42 кадра высокого и 187 среднего разрешения; первые снимки Земли с расстояния Луны.'}},
+  {title:'NASA NSSDCA, “Lunar Orbiter 5” (1967-075A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-075A', note:{en:'Near-polar orbit, perilune lowered to 99 km; cumulative coverage by the five Lunar Orbiters 99 % of the Moon, down to 1 m; 2,180 high- and 882 medium-resolution frames in all; programme cost $163 million.', ru:'Почти полярная орбита, периселений снижен до 99 км; пять «Лунар орбитеров» вместе сняли 99 % Луны с разрешением до 1 м; всего 2180 кадров высокого и 882 среднего разрешения; программа стоила 163 млн долларов.'}},
+  {title:'PDS Geosciences Node, Lunar Orbiter III instrument description (L. Gaddis, C. Isbell, 2009–2010; after Kosofsky & El-Baz 1970, Bowker & Hughes 1971)', url:'https://pds-geosciences.wustl.edu/geocopy/imaging/lunar_orbiter/LO3_0001/catalog/lo3_inst.cat.txt', note:{en:'610 mm and 80 mm lenses on one 70 mm film; detect 1 m and 8 m objects from 46 km, requiring 76 lines/mm on the film; shutter 1/25, 1/50 or 1/100 s; film moved during exposure for image-motion compensation; from 55 km frames of 4.15 × 16.6 km and 31.6 × 37.4 km; film developed on board and scanned.', ru:'Объективы 610 и 80 мм на одной 70-мм плёнке; обнаружение объектов 1 м и 8 м с высоты 46 км, для чего на плёнке нужно 76 линий/мм; выдержка 1/25, 1/50 или 1/100 с; плёнка двигалась во время экспозиции для компенсации сдвига изображения; с высоты 55 км кадры 4,15 × 16,6 км и 31,6 × 37,4 км; плёнку проявляли на борту и сканировали.'}},
+  {title:'NASA NSSDCA, “Apollo 12 Lunar Module / ALSEP” (1969-099C)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C', note:{en:'Intrepid landed at 06:54:35 UT on 19 November 1969 within about 180 m of Surveyor 3 (LRO-derived position 3.0128 S, 23.4219 W); Conrad and Bean visited Surveyor 3 on the second moonwalk and brought back about 10 kg of parts.', ru:'«Интрепид» сел в 06:54:35 UT 19 ноября 1969 года примерно в 180 м от «Сервейера-3» (координаты по снимкам LRO: 3,0128° ю. ш., 23,4219° з. д.); Конрад и Бин осмотрели «Сервейер-3» во время второго выхода и привезли около 10 кг деталей.'}},
+  {title:'J. D. Rummel, J. H. Allton, D. Morrison (2011), “A microbe on the Moon? Surveyor III and lessons learned for future sample return missions” (presentation slides, NASA)', url:'https://smd-cms.nasa.gov/wp-content/uploads/2023/04/A_Microbe_on_the_Moon_TAGGED.pdf', note:{en:'No viable microbes from 10 of 11 sampling locations (32 of 33 samples); S. mitis grew from one piece of polyurethane foam; S. mitis was also found on the crew; no negative control; workers in short-sleeved scrubs; camera estimated to have reached about 70 °C; cites Mitchell & Ellis (1971), Proc. Second Lunar Sci. Conf. 3, 2721–2733.', ru:'Ни одного жизнеспособного микроба в 10 из 11 мест отбора (32 из 33 проб); S. mitis вырос из одного кусочка пенополиуретана; S. mitis находили и у экипажа; отрицательного контроля не было; сотрудники работали в хирургических костюмах с короткими рукавами; камера, по оценке, нагревалась примерно до 70 °C; ссылка на Mitchell & Ellis (1971), Proc. Second Lunar Sci. Conf. 3, 2721–2733.'}},
+  {title:'NASA NSSDCA, “Moon Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html', note:{en:'Volumetric mean radius 1,737.4 km; surface gravity 1.62 m/s²; escape velocity 2.38 km/s.', ru:'Средний радиус 1737,4 км; ускорение свободного падения 1,62 м/с²; вторая космическая скорость 2,38 км/с.'}},
+  {title:'NASA JPL Solar System Dynamics, “Astrodynamic parameters”', url:'https://ssd.jpl.nasa.gov/astro_par.html', note:{en:'Lunar GM = 4,902.800118 km³/s².', ru:'GM Луны = 4902,800118 км³/с².'}},
+  {title:'NASA Science, “First photo from the surface of the Moon” (Luna 9)', url:'https://science.nasa.gov/resource/first-photo-from-the-surface-of-the-moon-2', note:{en:'Luna 9, February 1966: the first survivable landing on the Moon and the first photos from its surface.', ru:'«Луна-9», февраль 1966 года: первая посадка на Луну, после которой аппарат продолжил работу, и первые снимки с её поверхности.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderRG(); renderSD(); renderFT(); renderLO(); renderA12();
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__footing = {MU_M:MU_M, R_M:R_M, G_M:G_M, V_ESC:V_ESC, vInf:vInf, RANGERS:RANGERS, CAMS:CAMS, hyper:hyper, tToImpact:tToImpact, distToImpact:distToImpact,
+  speedAt:speedAt, fitGamma:fitGamma, altAt:altAt, lineM:lineM, widthM:widthM, H_IGN:H_IGN, V_IGN:V_IGN, H_RE:H_RE, V_RE:V_RE, T_RE:T_RE, W1:W1, W2:W2,
+  V_CUT:V_CUT, H_CUT:H_CUT, M_V0:M_V0, M_LAND:M_LAND, M_LEFT:M_LEFT, A_VMAX:A_VMAX, T_ACTUAL:T_ACTUAL, ISP_V:ISP_V, freeFall:freeFall, earthDrop:earthDrop,
+  descent:descent, H_IGN_MIN:H_IGN_MIN, H_IGN_MAX:H_IGN_MAX, Q_S5:Q_S5, K_AVG:K_AVG, K_95:K_95, SPEC_P:SPEC_P, SPEC_D:SPEC_D, padPressure:padPressure,
+  sinkCm:sinkCm, SURVEYOR_FOOT:SURVEYOR_FOOT, LM_FOOT:LM_FOOT, loObject:loObject, loFoot:loFoot, circSpeed:circSpeed, smearM:smearM, A12_DIST:A12_DIST,
+  surfDist:surfDist, TIMELINE:TIMELINE, REFERENCES:REFERENCES};
+
+})();
+</script>
+<!-- fob-network -->
+<aside class="fob-net" aria-label="More from Follow or Bounce"><style>.fob-net{border-top:1px solid;border-color:color-mix(in srgb,currentColor 22%,transparent);margin-top:48px;padding:28px max(16px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));font-size:15px;line-height:1.45;clear:both}.fob-net>div{max-width:72rem;margin:0 auto}.fob-net p{margin:0 0 14px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}.fob-net p a{color:inherit;font-weight:600}.fob-net ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:10px 28px}.fob-net li a{display:block;min-height:44px;color:inherit;text-decoration:none}.fob-net li b{display:block;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}.fob-net li span{display:block;opacity:.72}.fob-net a:focus-visible{outline:2px solid currentColor;outline-offset:3px}</style><div><p><a href="https://followorbounce.github.io/">Follow or Bounce</a> · more from the studio</p><ul><li><a href="https://followorbounce.github.io/planck-to-horizon"><b>Planck to Horizon</b><span>Every size in nature, in one zoom</span></a></li><li><a href="https://followorbounce.github.io/reckoning/"><b>Reckoning</b><span>Units, sky and sea, signals, weather and ships</span></a></li><li><a href="https://followorbounce.github.io/machinery/"><b>Heavy Machinery Encyclopedia</b><span>The largest machines and the physics behind them</span></a></li></ul></div></aside>
+<!-- /fob-network -->
+</body>
+</html>

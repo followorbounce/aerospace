@@ -1,0 +1,11 @@
+{
+ "slug": "mascon-grail-lunar-gravity",
+ "title_en": "MASCON — GRAIL & THE LUMPY GRAVITY OF THE MOON",
+ "title_ru": "МАСКОН — GRAIL И НЕРОВНАЯ ГРАВИТАЦИЯ ЛУНЫ",
+ "description": "An interactive field guide to lunar gravity: Muller and Sjogren's 1968 discovery of mascons under the lunar seas, why low lunar orbits are unstable (PFS-2 fell after 35 days; frozen orbits at 27°, 50°, 76° and 86°), the GRAIL twins Ebb and Flow and their Ka-band ranging to 0.05 micrometres per second, gravity fields from degree 420 to 1800, and the thin, fractured crust they revealed.",
+ "og": "Why did PFS-2 hit the Moon after 35 days? Integrate an orbit in the real GRAIL gravity field, feel a buried mascon from orbit, read the micron-per-second signal of Ebb and Flow and see how low you must fly to map a crater, checked against NASA, JPL and Science papers.",
+ "brand": "MASCON — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE LUMPS",
+ "hud1": "ALTITUDE",
+ "hud2": "ANOMALY"
+}

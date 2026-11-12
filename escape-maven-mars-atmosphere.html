@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESCAPE — WHERE MARS'S AIR WENT: MAVEN &amp; ATMOSPHERIC LOSS / УБЕГАНИЕ — КУДА ДЕЛСЯ ВОЗДУХ МАРСА: MAVEN И ПОТЕРЯ АТМОСФЕРЫ</title>
+<meta name="description" content="An interactive field guide to how Mars lost its air: scale height and the exobase, Jeans escape of hydrogen, hot oxygen from recombination, ion pickup and sputtering, why gravity matters more than the missing magnetic field, NASA's MAVEN orbiter (2014–2025) and its 2–3 kg/s loss budget, solar storms, argon and deuterium isotopes, and four billion years of leak.">
+<link rel="canonical" href="https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/aerospace/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ESCAPE — WHERE MARS'S AIR WENT: MAVEN &amp; ATMOSPHERIC LOSS / УБЕГАНИЕ — КУДА ДЕЛСЯ ВОЗДУХ МАРСА: MAVEN И ПОТЕРЯ АТМОСФЕРЫ">
+<meta property="og:description" content="Mars leaks 2–3 kg of gas a second. Find its exobase and the Jeans flux of hydrogen, see why hot oxygen escapes Mars but not Earth, turn up a solar storm, read the loss in argon 38/36 and D/H, and run the leak back four billion years, checked against MAVEN, Curiosity, Mars Express and NASA data.">
+<meta property="og:url" content="https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere">
+<meta property="og:site_name" content="Aerospace Knowledge Hub">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:image" content="https://followorbounce.github.io/aerospace/og/escape-maven-mars-atmosphere.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ESCAPE — WHERE MARS'S AIR WENT: MAVEN &amp; ATMOSPHERIC LOSS / УБЕГАНИЕ — КУДА ДЕЛСЯ ВОЗДУХ МАРСА: MAVEN И ПОТЕРЯ АТМОСФЕРЫ">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://followorbounce.github.io/aerospace/og/escape-maven-mars-atmosphere.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/aerospace/assets/site.css">
+<style>
+
+sup,sub{font-size:0.68em;}
+.eq-box{border:1px solid var(--ink); background:var(--white); padding:20px 24px; margin:24px 0; text-align:center;}
+.eq-box .eq-label{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;}
+.eq-box .eq-body{font-family:var(--font-mono); font-size:clamp(15px,2.2vw,19px);}
+.eq-box .eq-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; text-align:left;}
+.sim-panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.sim-wrap{display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:28px; align-items:start; margin-top:28px;}
+@media (max-width:900px){.sim-wrap{grid-template-columns:minmax(0,1fr);}}
+.sim-svg,.sim-canvas{border:1px solid var(--ink); background:var(--white); width:100%; height:auto; display:block;}
+.sim-canvas{image-rendering:pixelated;}
+.ctl{margin-top:14px;}
+.ctl-row{display:flex; justify-content:space-between; gap:12px; font-family:var(--font-mono); font-size:12px;}
+.ctl-row .v{font-weight:600;}
+input[type=range]{width:100%; appearance:none; -webkit-appearance:none; height:2px; background:var(--ink); outline:none; margin:14px 0 6px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px; height:18px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]::-moz-range-thumb{width:16px; height:16px; background:var(--ink); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+input[type=range]:focus-visible{outline:2px solid var(--ink); outline-offset:6px;}
+.btn-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+.btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:8px 11px; line-height:1.2; cursor:pointer;}
+.btn:hover{border-color:var(--ink);}
+.btn.active,.btn.primary{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.btn.primary:hover{background:var(--paper); color:var(--ink);}
+.btn:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.readout-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); margin-top:16px;}
+.readout-cell{background:var(--white); padding:10px 12px; font-family:var(--font-mono); font-size:13px; min-width:0;}
+.readout-cell .rl{color:var(--mid); display:block; font-size:9.5px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px;}
+.readout-cell.wide{grid-column:1/-1;}
+.status{margin-top:14px; padding:10px 12px; border:1px dashed var(--ink); font-family:var(--font-mono); font-size:12.5px; min-height:20px;}
+.status b{font-weight:600;}
+.note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:12px; line-height:1.55; max-width:760px;}
+.legend{display:flex; flex-wrap:wrap; gap:14px; font-family:var(--font-mono); font-size:10.5px; color:var(--mid); margin-top:10px;}
+.legend i{display:inline-block; width:10px; height:10px; margin-right:6px; vertical-align:-1px;}
+.cmp-table{width:100%; border-collapse:collapse; font-size:14px; background:var(--white);}
+.cmp-table th,.cmp-table td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.cmp-table th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.cmp-table td.n{font-family:var(--font-mono); font-size:13px; white-space:nowrap;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:20px;}
+.timeline{margin-top:24px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5.5em minmax(0,1fr); gap:16px; padding:14px 0; border-bottom:1px solid var(--line);}
+.tl-y{font-family:var(--font-mono); font-size:13px; font-weight:600;}
+.tl-t{font-size:14.5px;}
+.tl-t b{font-weight:600;}
+.ref-list{margin-top:24px;}
+.ref-item{display:grid; grid-template-columns:36px 1fr; gap:16px; padding:18px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:last-child{border-bottom:1px solid var(--line);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-size:14.5px; font-weight:600; margin-bottom:5px; line-height:1.4;}
+.ref-url{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all; line-height:1.5;}
+.ref-url a{color:inherit;}
+.ref-note{font-size:13.5px; margin-top:6px; color:#28282a;}
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:40px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.2rem,2.4vw,1.7rem); font-style:italic; max-width:760px; line-height:1.3;}
+.svg-label{font-family:'IBM Plex Mono',monospace; font-size:11px; fill:#0b0b0c;}
+.svg-small{font-family:'IBM Plex Mono',monospace; font-size:9.5px; fill:#7a7a74;}
+.size-pick{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.h-md{font-size:clamp(1.3rem,2.4vw,1.8rem); line-height:1.1; margin-bottom:20px;}
+.fig-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:8px;}
+/* ESCAPE: 44 px touch targets, readable small SVG text */
+.btn{min-height:44px; min-width:44px; padding:10px 12px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+.svg-small{fill:#5f5f59; font-size:10.5px;}
+.svg-tiny{fill:#5f5f59; font-size:9px;}
+.svg-halo{paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round;}
+.ctl[hidden]{display:none;}
+@media (max-width:520px){ .svg-small{font-size:13px;} .svg-tiny{font-size:11px;} .svg-label{font-size:14px;} }
+@media (pointer:coarse){
+  input[type=range]{background:transparent;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+.grid-2 + p.body-col, p.body-col + .sim-wrap{margin-top:20px;}
+.note + .grid-2{margin-top:28px;}
+.sim-wrap + .grid-2{margin-top:28px;}
+.eq-box + .sim-wrap, .eq-box + .grid-2{margin-top:28px;}
+
+/* two text rows in a row (coordinator, 2026-11-12): same gap as after a note or an instrument */
+.grid-2 + .grid-2{margin-top:28px;}
+</style>
+<script src="/aerospace/assets/site.js" defer></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<!-- hreflang -->
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/escape-maven-mars-atmosphere">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere">
+<!-- /hreflang -->
+<!-- fob-ga --><script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CE86H6X7Z7');</script><!-- /fob-ga -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ESCAPE — WHERE MARS'S AIR WENT: MAVEN & ATMOSPHERIC LOSS","description":"An interactive field guide to how Mars lost its air: scale height and the exobase, Jeans escape of hydrogen, hot oxygen from recombination, ion pickup and sputtering, why gravity matters more than the missing magnetic field, NASA's MAVEN orbiter (2014–2025) and its 2–3 kg/s loss budget, solar storms, argon and deuterium isotopes, and four billion years of leak.","url":"https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere","mainEntityOfPage":"https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere","image":"https://followorbounce.github.io/aerospace/og/escape-maven-mars-atmosphere.jpg","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"Aerospace Knowledge Hub","url":"https://followorbounce.github.io/aerospace/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Aerospace Knowledge Hub","item":"https://followorbounce.github.io/aerospace/"},{"@type":"ListItem","position":2,"name":"ESCAPE — WHERE MARS'S AIR WENT: MAVEN & ATMOSPHERIC LOSS","item":"https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere"}]}</script>
+<!-- /fob-ld -->
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">ESCAPE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК</div>
+  <div id="langtoggle">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="ru">RU</button>
+  </div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">THE EVIDENCE</span></div>
+  <div class="hud-row"><span class="hud-label">READING</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">RESULT</span><span id="hud-vel">—</span></div>
+</div>
+
+<main>
+<!-- HERO -->
+<section id="hero" class="section" data-phase="THE EVIDENCE">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/aerospace/" style="color:inherit;"><span data-en="← INDEX" data-ru="← ОГЛАВЛЕНИЕ">← INDEX</span></a> — <span data-en="FIG. 00 — 6.36 MBAR · 200 KM · 2–3 KG/S" data-ru="РИС. 00 — 6,36 МБАР · 200 КМ · 2–3 КГ/С">FIG. 00 — 6.36 MBAR · 200 KM · 2–3 KG/S</span></span>
+        <span>λ = GMm / kT r</span>
+      </div>
+      <h1><span data-en="ESCAPE" data-ru="УБЕГАНИЕ">ESCAPE</span><br><em data-en="WHERE MARS'S AIR WENT — MAVEN AND THE LEAKING ATMOSPHERE" data-ru="КУДА ДЕЛСЯ ВОЗДУХ МАРСА — MAVEN И УТЕКАЮЩАЯ АТМОСФЕРА">WHERE MARS'S AIR WENT — MAVEN AND THE LEAKING ATMOSPHERE</em></h1>
+      <p class="sub lede" data-en="Rivers once built deltas on Mars; today its air presses on the ground with 6.36 millibars, about 0.6 % of Earth's. Some of the missing gas may be locked in rock, but most of it, the evidence says, went up and out — and is still going, at two to three kilograms a second. Nine chapters and five instruments: find the top of the atmosphere and how fast hydrogen boils off it, see why hot oxygen escapes Mars but not Earth, follow NASA's MAVEN orbiter from 2014 to its loss in December 2025, turn up a solar storm, read the losses in argon and deuterium, and run the leak backwards four billion years." data-ru="Когда-то реки строили на Марсе дельты; сегодня его воздух давит на грунт с силой 6,36 миллибара — около 0,6 % земного. Часть недостающего газа, возможно, связана в горных породах, но бо́льшая часть, судя по всему, ушла вверх и прочь — и уходит до сих пор, по два-три килограмма в секунду. Девять глав и пять приборов: найдите верхнюю границу атмосферы и скорость, с которой с неё «выкипает» водород, узнайте, почему горячий кислород покидает Марс, но не Землю, проследите за орбитальным аппаратом НАСА MAVEN с 2014 года до его потери в декабре 2025-го, включите солнечную бурю, прочитайте потери по изотопам аргона и дейтерию и прокрутите утечку на четыре миллиарда лет назад.">Rivers once built deltas on Mars; today its air is 0.6 % of Earth's.</p>
+      <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH1 — THE EVIDENCE -->
+<section id="ch1" class="section" data-phase="THE EVIDENCE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 09</span> — <span data-en="A THICKER PAST" data-ru="БОЛЕЕ ПЛОТНОЕ ПРОШЛОЕ">A THICKER PAST</span></div>
+    <h2 class="h-lg" data-en="Deltas under a sky that can't hold water" data-ru="Дельты под небом, которое не удержит воду">Deltas under a sky that can't hold water</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Mars today has a surface pressure of 6.36 millibars at the mean radius, swinging between 4.0 and 8.7 with the seasons as carbon dioxide freezes onto one pole and the other; the air is 95.1 % CO₂ and averages about 214 K [1]. Weigh the whole column — pressure times the area of the planet, divided by gravity — and the atmosphere comes to about 2.5 × 10¹⁶ kg; Earth's is about 200 times heavier [1][2]. At that pressure liquid water on the surface boils or freezes almost at once." data-ru="Сегодня давление у поверхности Марса на среднем радиусе — 6,36 миллибара; по сезонам оно меняется от 4,0 до 8,7, пока углекислый газ намерзает то на один, то на другой полюс; воздух на 95,1 % состоит из CO₂, его средняя температура около 214 K [1]. Взвесьте весь столб — давление, умноженное на площадь планеты и делённое на ускорение свободного падения, — и масса атмосферы выйдет около 2,5 × 10¹⁶ кг; земная примерно в 200 раз тяжелее [1][2]. При таком давлении жидкая вода на поверхности почти сразу закипает или замерзает.">Today: 6.36 mbar, 2.5 × 10¹⁶ kg [1].</p>
+      <p class="body-col" data-en="Yet the ground remembers water. In Jezero crater, Perseverance's cameras showed inclined layers of a fan that are deltas built out into a lake, capped by boulder beds from later floods [3] — see the <a href=&quot;/aerospace/jezero-perseverance-rover&quot;>JEZERO</a> guide. That needs a warmer, thicker atmosphere than today's, though not necessarily a very thick one: the smallest ancient craters near Gale, which a dense atmosphere would have prevented, cap the pressure of the river era at about 0.9 bar, or 1.9 bar on a looser reading [4]. The gas that has gone missing either sank into the ground or left the planet. The MAVEN team found no large reservoir of CO₂ on or below the surface and concluded that loss to space dominated [5]." data-ru="Но грунт помнит воду. В кратере Езеро камеры Perseverance показали наклонные слои конуса выноса — дельты, выдвигавшиеся в озеро, — перекрытые валунными слоями поздних паводков [3] (см. справочник <a href=&quot;/aerospace/jezero-perseverance-rover&quot;>JEZERO</a>). Для этого нужна атмосфера теплее и плотнее нынешней, хотя и не обязательно очень плотная: самые маленькие древние кратеры у Гейла, которых не было бы под плотной атмосферой, ограничивают давление эпохи рек примерно 0,9 бар, а при менее строгом подходе — 1,9 бар [4]. Пропавший газ либо ушёл в грунт, либо покинул планету. Команда MAVEN не нашла крупных запасов CO₂ ни на поверхности, ни под ней и пришла к выводу, что главную роль сыграл уход в космос [5].">Deltas need a thicker atmosphere [3][4][5].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE WEIGHT OF AN ATMOSPHERE" data-ru="ВЕС АТМОСФЕРЫ">THE WEIGHT OF AN ATMOSPHERE</div>
+      <div class="eq-body">M = p · 4πR² / g &nbsp;·&nbsp; <span data-en="Mars: 636 Pa × 4π (3,389.5 km)² / 3.73 m/s² = 2.46 × 10¹⁶ kg" data-ru="Марс: 636 Па × 4π (3389,5 км)² / 3,73 м/с² = 2,46 × 10¹⁶ кг">Mars: 636 Pa × 4π (3,389.5 km)² / 3.73 m/s² = 2.46 × 10¹⁶ kg</span></div>
+      <div class="eq-note" data-en="Every kilogram of gas above a square metre presses down with its weight, so pressure is a direct measure of mass. The same sum turns any mass lost to space back into millibars of today's air — chapter 7 uses it. NASA lists ~2.5 × 10¹⁶ kg for Mars and 5.1 × 10¹⁸ kg for Earth [1][2]; for Earth the formula gives 5.3 × 10¹⁸, a few per cent high, because the land stands above the sea level where 1,014 mb applies." data-ru="Каждый килограмм газа над квадратным метром давит своим весом, поэтому давление прямо измеряет массу. Та же формула переводит любую массу, ушедшую в космос, обратно в миллибары нынешнего воздуха — это понадобится в главе 7. НАСА даёт ~2,5 × 10¹⁶ кг для Марса и 5,1 × 10¹⁸ кг для Земли [1][2]; для Земли формула даёт 5,3 × 10¹⁸ — на несколько процентов больше, потому что суша выше уровня моря, к которому относятся 1014 мбар.">Pressure measures mass.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CH2 — THE TOP OF THE AIR -->
+<section id="ch2" class="section" data-phase="JEANS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 09</span> — <span data-en="SCALE HEIGHT, EXOBASE, JEANS ESCAPE" data-ru="ВЫСОТА ОДНОРОДНОЙ АТМОСФЕРЫ, ЭКЗОБАЗА, ДЖИНСОВСКОЕ УБЕГАНИЕ">SCALE HEIGHT, EXOBASE, JEANS ESCAPE</span></div>
+    <h2 class="h-lg" data-en="The air has a top, and it evaporates" data-ru="У воздуха есть верх, и он испаряется">The air has a top, and it evaporates</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Air thins with height by a factor of e every scale height, H = kT/mg: the temperature against the weight of one molecule. For Mars's CO₂ at 214 K that is 11.0 km, for Earth's air at 288 K 8.4 km — NASA's tables give 11.0 and 8.5 [1][2]. Climb far enough and the gas is so thin that a molecule moving upward is unlikely ever to hit another. That level is the exobase: about 200 km up on Mars, where MAVEN's hydrogen models put it [8], and about 500 km on Earth [6]. Below it, collisions keep a fast atom from leaving; above it, nothing does." data-ru="С высотой воздух разрежается в e раз на каждой высоте однородной атмосферы H = kT/mg — это температура, отнесённая к весу одной молекулы. Для марсианского CO₂ при 214 K это 11,0 км, для земного воздуха при 288 K — 8,4 км; в таблицах НАСА 11,0 и 8,5 [1][2]. Поднимитесь достаточно высоко — и газ так разрежен, что молекула, летящая вверх, скорее всего ни с чем больше не столкнётся. Этот уровень — экзобаза: около 200 км над Марсом, где её принимают модели водорода MAVEN [8], и около 500 км над Землёй [6]. Ниже столкновения не дают быстрому атому уйти; выше его ничто не держит.">Scale height and exobase [1][6][8].</p>
+      <p class="body-col" data-en="At the exobase the atoms have a spread of speeds set by the temperature, and the fastest few exceed the escape speed — 4.88 km/s at 200 km above Mars, 10.77 km/s at 500 km above Earth. This slow evaporation is Jeans escape, after James Jeans [6]; its flux depends on one number, λ, the escape energy over kT, which is also the exobase radius measured in scale heights [7]. At 1,000 K, Earth's hydrogen averages about 4.6 km/s, not enough on average, yet the tail of the distribution leaks [6]. On Mars at 240 K hydrogen's λ is about 6 and oxygen's about 96: one leaves, the other effectively never does." data-ru="У экзобазы скорости атомов распределены в зависимости от температуры, и самые быстрые превышают скорость убегания — 4,88 км/с на высоте 200 км над Марсом и 10,77 км/с на высоте 500 км над Землёй. Это медленное испарение — джинсовское убегание, названное по имени Джеймса Джинса [6]; его поток зависит от одного числа λ — энергии убегания, делённой на kT; это ещё и радиус экзобазы, измеренный в высотах однородной атмосферы [7]. При 1000 K средняя скорость земного водорода около 4,6 км/с — в среднем мало, но «хвост» распределения утекает [6]. На Марсе при 240 K у водорода λ около 6, у кислорода около 96: первый уходит, второй практически никогда.">Jeans escape: λ decides [6][7].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="JEANS FLUX FROM THE EXOBASE" data-ru="ДЖИНСОВСКИЙ ПОТОК С ЭКЗОБАЗЫ">JEANS FLUX FROM THE EXOBASE</div>
+      <div class="eq-body">Φ = n v₀ (1 + λ) e<sup>−λ</sup> / 2√π &nbsp;·&nbsp; v₀ = √(2kT/m) &nbsp;·&nbsp; λ = GMm / kT r = (v<sub>esc</sub>/v₀)² = r/H</div>
+      <div class="eq-note" data-en="n is the density of the escaping gas at the exobase, r the exobase radius [7]. Because λ sits in an exponent, doubling the mass of the atom or halving the temperature cuts the flux by a factor of about 300 for Mars's hydrogen, and by far more for heavier gases. MAVEN's ultraviolet spectrograph inferred hydrogen fluxes of 1–8 × 10⁸ cm⁻² s⁻¹, or 10²⁶–10²⁷ atoms a second from the whole planet, using models such as 10⁵ cm⁻³ at 240 K [9] — the “MARS TODAY” preset, which gives 1.5 × 10²⁶ s⁻¹." data-ru="n — плотность уходящего газа у экзобазы, r — радиус экзобазы [7]. Поскольку λ стоит в показателе экспоненты, удвоение массы атома или уменьшение температуры вдвое уменьшает поток для марсианского водорода примерно в 300 раз, а для более тяжёлых газов — несравнимо сильнее. Ультрафиолетовый спектрограф MAVEN дал потоки водорода 1–8 × 10⁸ см⁻² с⁻¹, то есть 10²⁶–10²⁷ атомов в секунду со всей планеты, по моделям вроде 10⁵ см⁻³ при 240 K [9] — это готовая настройка «МАРС СЕГОДНЯ», дающая 1,5 × 10²⁶ с⁻¹.">Jeans flux [7][9].</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="jsSvg" class="sim-svg" viewBox="0 0 480 290" role="img" data-aria-en="Jeans escape speed of the chosen gas against exobase temperature on a logarithmic scale, for Mars and Earth, with a ring at the current setting" data-aria-ru="Скорость джинсовского ухода выбранного газа в зависимости от температуры экзобазы в логарифмическом масштабе для Марса и Земли; кольцо отмечает текущую настройку" aria-label="Jeans escape against temperature"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Presets" data-aria-en="Presets" data-aria-ru="Готовые настройки" id="jsPre">
+          <button class="btn active" data-p="mars" data-s="H" data-t="240" aria-pressed="true" data-en="MARS TODAY · H · 240 K" data-ru="МАРС СЕГОДНЯ · H · 240 K">MARS TODAY · H · 240 K</button>
+          <button class="btn" data-p="earth" data-s="H" data-t="1000" aria-pressed="false" data-en="EARTH · H · 1,000 K" data-ru="ЗЕМЛЯ · H · 1000 K">EARTH · H · 1,000 K</button>
+          <button class="btn" data-p="mars" data-s="O" data-t="240" aria-pressed="false" data-en="MARS · O · 240 K" data-ru="МАРС · O · 240 K">MARS · O · 240 K</button>
+        </div>
+        <div class="btn-row" role="group" aria-label="Planet" data-aria-en="Planet" data-aria-ru="Планета" id="jsPlanet">
+          <button class="btn" data-p="mars" aria-pressed="false" data-en="MARS · EXOBASE 200 KM" data-ru="МАРС · ЭКЗОБАЗА 200 КМ">MARS · EXOBASE 200 KM</button>
+          <button class="btn" data-p="earth" aria-pressed="false" data-en="EARTH · 500 KM" data-ru="ЗЕМЛЯ · 500 КМ">EARTH · 500 KM</button>
+        </div>
+        <div class="btn-row" role="group" aria-label="Gas" data-aria-en="Gas" data-aria-ru="Газ" id="jsGas">
+          <button class="btn active" data-s="H" aria-pressed="true">H</button>
+          <button class="btn" data-s="D" aria-pressed="false">D</button>
+          <button class="btn" data-s="He" aria-pressed="false">He</button>
+          <button class="btn" data-s="O" aria-pressed="false">O</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="jsT" data-en="EXOBASE TEMPERATURE" data-ru="ТЕМПЕРАТУРА ЭКЗОБАЗЫ">EXOBASE TEMPERATURE</label><span class="v" id="jsTVal">—</span></div>
+          <input id="jsT" type="range" min="100" max="2000" step="1" value="240">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="jsN" data-en="DENSITY OF THE GAS AT THE EXOBASE" data-ru="ПЛОТНОСТЬ ГАЗА У ЭКЗОБАЗЫ">DENSITY OF THE GAS AT THE EXOBASE</label><span class="v" id="jsNVal">—</span></div>
+          <input id="jsN" type="range" min="3" max="8" step="0.01" value="5">
+        </div>
+        <div class="readout-grid" id="jsReadout"></div>
+        <div class="status" id="jsStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: a single isothermal exobase at a fixed height, Maxwellian speeds, no collisions above it (the Chamberlain picture behind most corona analyses [8]). Real exobases move with season, local time and solar activity, and the density of each gas there must come from observation; the slider only scales the flux. Below λ ≈ 1.5 the formula no longer applies, because the gas flows away as a whole." data-ru="Модель: одна изотермическая экзобаза на фиксированной высоте, максвелловское распределение скоростей, выше неё нет столкновений (картина Чемберлена, лежащая в основе большинства анализов короны [8]). Настоящая экзобаза смещается с сезоном, местным временем и солнечной активностью, а плотность каждого газа на ней приходится брать из наблюдений; ползунок лишь масштабирует поток. При λ меньше примерно 1,5 формула неприменима: газ уходит как целое.">Model note.</div>
+  </div>
+</section>
+
+<!-- CH3 — OTHER WAYS OUT -->
+<section id="ch3" class="section" data-phase="NON-THERMAL">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 09</span> — <span data-en="PHOTOCHEMISTRY, SPUTTERING, PICKUP" data-ru="ФОТОХИМИЯ, РАСПЫЛЕНИЕ, ЗАХВАТ ИОНОВ">PHOTOCHEMISTRY, SPUTTERING, PICKUP</span></div>
+    <h2 class="h-lg" data-en="Why Mars and not Earth" data-ru="Почему Марс, а не Земля">Why Mars and not Earth</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Heavy atoms need a kick, not warmth. Sunlight ionises the upper atmosphere, and when an O₂⁺ ion recombines with an electron it splits into two oxygen atoms that share the released energy: 6.99, 5.02 or 3.05 eV, depending on which states the atoms end in [10]. Half each — 3.50, 2.51 or 1.53 eV — against an escape energy for oxygen of 1.98 eV at Mars's exobase: two channels out of three, 64 % of recombinations, launch atoms that can leave if they head upward. From Earth's exobase oxygen needs 9.6 eV, and none can. This photochemical escape is the largest loss MAVEN measured [11][18]." data-ru="Тяжёлым атомам нужен толчок, а не тепло. Солнечный свет ионизует верхнюю атмосферу, и когда ион O₂⁺ рекомбинирует с электроном, он распадается на два атома кислорода, которые делят выделившуюся энергию: 6,99, 5,02 или 3,05 эВ в зависимости от того, в каких состояниях окажутся атомы [10]. По половине — 3,50, 2,51 или 1,53 эВ — против энергии убегания кислорода с экзобазы Марса 1,98 эВ: два канала из трёх, 64 % рекомбинаций, выбрасывают атомы, которые уйдут, если летят вверх. С экзобазы Земли кислороду нужно 9,6 эВ, и не уходит ни один. Это фотохимическое убегание — самый крупный канал потерь, измеренный MAVEN [11][18].">Hot O: two of three channels escape Mars [10][11].</p>
+      <p class="body-col" data-en="The other routes go through the solar wind. New ions in Mars's extended upper atmosphere feel the wind's electric field and are picked up and swept away — ion pickup and escape down the planet's magnetic tail. Some picked-up ions are driven back into the atmosphere instead and knock atoms out like a billiard break: sputtering, the only way to remove argon [6][18]. With no global magnetic field the upper atmosphere takes this head on. Mars had one: Mario Acuña's team found strongly magnetised ancient crust from Mars Global Surveyor [12], and Anna Mittelholz, Catherine Johnson and colleagues used MAVEN's low passes to show a dynamo ran both 4.5 and 3.7 billion years ago [13]." data-ru="Остальные пути проходят через солнечный ветер. Новые ионы в протяжённой верхней атмосфере Марса чувствуют электрическое поле ветра, захватываются и уносятся — это захват ионов и их уход через магнитный хвост планеты. Часть захваченных ионов, наоборот, врезается обратно в атмосферу и выбивает атомы, как удар по бильярдной пирамиде, — это распыление, единственный способ удалить аргон [6][18]. Без глобального магнитного поля верхняя атмосфера принимает всё это в лоб. Когда-то поле у Марса было: группа Марио Акуньи нашла по данным Mars Global Surveyor сильно намагниченную древнюю кору [12], а Анна Миттельхольц, Кэтрин Джонсон и соавторы по низким пролётам MAVEN показали, что динамо работало и 4,5, и 3,7 млрд лет назад [13].">Pickup, sputtering, the lost field [12][13].</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="hoSvg" class="sim-svg" viewBox="0 0 480 200" role="img" data-aria-en="Energy per oxygen atom from the three O2+ recombination channels as bars, against a dashed line at the oxygen escape energy of a world of the chosen size" data-aria-ru="Энергия на атом кислорода в трёх каналах рекомбинации O2+ в виде полос и пунктир — энергия убегания кислорода для планеты выбранного размера" aria-label="Hot oxygen energies against escape energy"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset worlds" data-aria-en="Preset worlds" data-aria-ru="Готовые планеты" id="hoPre">
+          <button class="btn active" data-r="3389.5" aria-pressed="true" data-en="MARS" data-ru="МАРС">MARS</button>
+          <button class="btn" data-r="4500" aria-pressed="false" data-en="A BIGGER MARS · 4,500 KM" data-ru="МАРС ПОБОЛЬШЕ · 4500 КМ">A BIGGER MARS · 4,500 KM</button>
+          <button class="btn" data-r="6371" aria-pressed="false" data-en="EARTH-SIZED" data-ru="РАЗМЕРОМ С ЗЕМЛЮ">EARTH-SIZED</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="hoR" data-en="RADIUS OF A WORLD WITH MARS'S DENSITY" data-ru="РАДИУС ПЛАНЕТЫ С ПЛОТНОСТЬЮ МАРСА">RADIUS OF A WORLD WITH MARS'S DENSITY</label><span class="v" id="hoRVal">—</span></div>
+          <input id="hoR" type="range" min="1500" max="7000" step="10" value="3389.5">
+        </div>
+        <div class="readout-grid" id="hoReadout"></div>
+        <div class="status" id="hoStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: O₂⁺ at rest, the two atoms share the excess energy equally (equal masses); branching ratios from [10] at near-zero collision energy; escape energy at 200 km above a sphere of Mars's mean density, 3,934 kg/m³ [1]. Real atoms also lose energy in collisions on the way out, and only those heading upward leave, so the escaping share is smaller than the bar suggests. The “EARTH-SIZED” preset keeps Mars's density; Earth itself (exobase 500 km) gives 9.6 eV." data-ru="Модель: ион O₂⁺ покоится, два атома делят избыток энергии поровну (массы равны); доли каналов — из [10] при почти нулевой энергии столкновения; энергия убегания — на высоте 200 км над шаром со средней плотностью Марса 3934 кг/м³ [1]. Настоящие атомы ещё и теряют энергию в столкновениях на пути наверх, а уходят только летящие вверх, так что реальная доля меньше. Настройка «РАЗМЕРОМ С ЗЕМЛЮ» сохраняет плотность Марса; для самой Земли (экзобаза 500 км) получается 9,6 эВ.">Hot-O model note.</div>
+    <div class="grid-2">
+      <p class="body-col" data-en="So the honest answer to “why Mars?” is mostly gravity: a third of Earth's pull at the surface [21] puts the escape energy within reach of chemistry. The magnetic field matters less than the popular story says. Herbert Gunell and colleagues pointed out that the measured escape rates of Earth, Venus and Mars are similar, and that a magnetised planet can lose more, through its polar cusps [14]. Earth's field does not stop leakage; it changes the route." data-ru="Поэтому честный ответ на вопрос «почему Марс?» — в основном гравитация: притяжение у поверхности втрое слабее земного [21], и энергия убегания оказывается в пределах досягаемости химии. Магнитное поле значит меньше, чем говорит популярная версия. Герберт Гунелл и соавторы обратили внимание, что измеренные скорости ухода с Земли, Венеры и Марса близки, а намагниченная планета может терять даже больше — через полярные каспы [14]. Поле Земли не останавливает утечку, а меняет её путь.">Gravity first; the field changes the route [14].</p>
+      <p class="body-col" data-en="Earth still leaks: about 3 kg of hydrogen and 50 g of helium a second, Jeans escape accounting for 10–40 % of the hydrogen [6]. But Earth's hydrogen has to get past a cold trap where water freezes out low in the atmosphere, and its oxygen stays. On Mars water reaches the upper atmosphere more easily, especially in the dusty season [18], and the 2018 global dust storm lofted enough to speed hydrogen loss markedly [20]." data-ru="Земля тоже теряет газ: около 3 кг водорода и 50 г гелия в секунду, причём на джинсовское убегание приходится 10–40 % водорода [6]. Но земному водороду нужно пройти «холодную ловушку», где вода вымерзает в нижней атмосфере, а кислород остаётся на месте. На Марсе вода легче добирается до верхней атмосферы, особенно в пыльный сезон [18], а глобальная пылевая буря 2018 года подняла её столько, что уход водорода заметно ускорился [20].">Earth leaks too, but keeps its oxygen [6][20].</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH4 — MAVEN -->
+<section id="ch4" class="section" data-phase="MAVEN">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 09</span> — <span data-en="MAVEN, 2013–2026" data-ru="MAVEN, 2013–2026">MAVEN, 2013–2026</span></div>
+    <h2 class="h-lg" data-en="An orbiter that dived into the leak" data-ru="Аппарат, нырявший в утечку">An orbiter that dived into the leak</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="The Mars Atmosphere and Volatile EvolutioN mission launched on an Atlas V on 18 November 2013 and entered Mars orbit at 02:24 UT on 22 September 2014 [15]. Its science orbit took 4.5 hours, tilted 75°, with a periapsis of 150 km — inside the upper atmosphere it was built to sample — and five-day “deep dips” to 125 km; Kepler's law puts the far end of such an orbit about 6,200 km up. Eight instruments measured the neutral gas and ions, the ultraviolet glow of the hydrogen corona, the solar wind and its magnetic field, and energetic particles [15]." data-ru="Миссия Mars Atmosphere and Volatile EvolutioN стартовала на ракете Atlas V 18 ноября 2013 года и вышла на орбиту Марса 22 сентября 2014 года в 02:24 UT [15]. Научная орбита с периодом 4,5 часа и наклонением 75° имела перицентр 150 км — внутри той самой верхней атмосферы, которую аппарат должен был исследовать, — и пятидневные «глубокие погружения» до 125 км; по закону Кеплера дальний конец такой орбиты лежит примерно на 6200 км. Восемь приборов измеряли нейтральный газ и ионы, ультрафиолетовое свечение водородной короны, солнечный ветер с его магнитным полем и энергичные частицы [15].">MAVEN: launch, orbit, eight instruments [15].</p>
+      <p class="body-col" data-en="Bruce Jakosky of the University of Colorado led it from its conception in 2003; on 31 August 2021 Shannon Curry, on the science team since 2013, took over as principal investigator [17]. Its tally of today's loss, after one full Mars year: photochemical oxygen about 1.3 kg/s, oxygen ions about 130 g/s, sputtered oxygen about 80 g/s, and hydrogen — 2–3 kg/s altogether [5][18]. Ions leave mostly down the tail (almost 75 %) and in a plume over the pole (nearly 25 %) [19]. Hydrogen loss swings strongly with the seasons [9], driven by how much water reaches the top of the atmosphere [20]." data-ru="Руководил ею с замысла в 2003 году Брюс Якоски из Колорадского университета; 31 августа 2021 года научным руководителем стала Шеннон Карри, работавшая в научной группе с 2013 года [17]. Итог сегодняшних потерь после полного марсианского года: фотохимический кислород около 1,3 кг/с, ионы кислорода около 130 г/с, распылённый кислород около 80 г/с и водород — всего 2–3 кг/с [5][18]. Ионы уходят в основном через хвост (почти 75 %) и через шлейф над полюсом (почти 25 %) [19]. Уход водорода сильно меняется по сезонам [9] в зависимости от того, сколько воды добирается до верха атмосферы [20].">Loss budget: 2–3 kg/s [5][18][19].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="THE SCIENCE ORBIT FROM KEPLER'S THIRD LAW" data-ru="НАУЧНАЯ ОРБИТА ПО ТРЕТЬЕМУ ЗАКОНУ КЕПЛЕРА">THE SCIENCE ORBIT FROM KEPLER'S THIRD LAW</div>
+      <div class="eq-body">a = (GM T² / 4π²)<sup>1/3</sup> = <span data-en="6,579 km" data-ru="6579 км">6,579 km</span> &nbsp;·&nbsp; <span data-en="apoapsis = 2a − 2R − 150 km ≈ 6,215 km" data-ru="апоцентр = 2a − 2R − 150 км ≈ 6215 км">apoapsis = 2a − 2R − 150 km ≈ 6,215 km</span></div>
+      <div class="eq-note" data-en="T = 4.5 h, GM = 42,828 km³/s², equatorial radius R = 3,396.2 km [1][15]. An eccentric orbit gave both: a few minutes each orbit deep in the gas that is escaping, and hours far out, watching the solar wind arrive and the hydrogen corona glow." data-ru="T = 4,5 ч, GM = 42 828 км³/с², экваториальный радиус R = 3396,2 км [1][15]. Вытянутая орбита давала и то и другое: несколько минут за виток глубоко в уходящем газе и часы вдали, где видно приходящий солнечный ветер и свечение водородной короны.">Orbit from Kepler.</div>
+    </div>
+    <div class="grid-2">
+      <p class="body-col" data-en="MAVEN was not alone. ESA's Mars Express, launched on 2 June 2003, has watched ions escape since 2004 across a whole solar cycle with Sweden's ASPERA-3 instrument, analysed by Robin Ramstad, Stas Barabash and colleagues [21]; ESA had confirmed its operations to the end of 2026 with an indicative extension to 2028 [32], and in June 2026 its Science Programme Committee endorsed a further extension; as of November 2026 we found no published new end date [33]. The United Arab Emirates' Hope (launched 19 July 2020) maps the hydrogen and oxygen corona far out, finding hydrogen that brightens tenfold or more between perihelion and aphelion [22][24], and China's Tianwen-1 (23 July 2020) has measured the magnetic field since 13 November 2021, crossing the bow shock at the same time as MAVEN five times in its first weeks [23][24]." data-ru="MAVEN был не один. Mars Express ЕКА, запущенный 2 июня 2003 года, с 2004 года на протяжении целого солнечного цикла следит за уходом ионов шведским прибором ASPERA-3; эти данные анализировали Робин Рамстад, Стас Барабаш и коллеги [21]; ЕКА подтвердило его работу до конца 2026 года с ориентировочным продлением до 2028-го [32], а в июне 2026 года Комитет научной программы ЕКА одобрил дальнейшее продление; новой даты окончания на ноябрь 2026 года мы в открытых источниках не нашли [33]. «Надежда» ОАЭ (запуск 19 июля 2020 года) картирует водородную и кислородную корону далеко от планеты и видит, что водород между перигелием и афелием становится ярче в десять раз и более [22][24], а китайский «Тяньвэнь-1» (23 июля 2020 года) с 13 ноября 2021 года измеряет магнитное поле и за первые недели пять раз пересёк головную ударную волну одновременно с MAVEN [23][24].">Mars Express, Hope, Tianwen-1 [21][22][23].</p>
+      <p class="body-col" data-en="On 6 December 2025 MAVEN passed behind Mars and did not come back on the air. A fragment of telemetry showed it spinning faster than normal; the review board's preliminary finding was that the rotation drained its batteries and cut power to the radio. On 3 June 2026 NASA declared the mission over: the spacecraft is not recoverable [16][25]. As of November 2026 we found no published final root cause. Planned for a one-year science mission [15], it worked for more than eleven years and left more than 800 papers [25]." data-ru="6 декабря 2025 года MAVEN зашёл за Марс и больше не вышел на связь. Фрагмент телеметрии показал, что аппарат вращается быстрее обычного; по предварительному выводу комиссии вращение разрядило аккумуляторы и обесточило радиосистему. 3 июня 2026 года НАСА объявило миссию завершённой: аппарат восстановить нельзя [16][25]. По состоянию на ноябрь 2026 года опубликованной окончательной причины мы не нашли. Рассчитанный на год научной работы [15], аппарат проработал больше одиннадцати лет, и после него остались более 800 статей [25].">Lost 6 Dec 2025; ended 3 Jun 2026 [16][25].</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH5 — STORMS -->
+<section id="ch5" class="section" data-phase="STORMS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 09</span> — <span data-en="SOLAR STORMS" data-ru="СОЛНЕЧНЫЕ БУРИ">SOLAR STORMS</span></div>
+    <h2 class="h-lg" data-en="A day of storm, two weeks of leak" data-ru="Сутки бури — две недели утечки">A day of storm, two weeks of leak</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="On 8 March 2015 a coronal mass ejection hit Mars while MAVEN watched. For about seven hours the solar wind ran faster than 800 km/s, its ram pressure more than ten times the usual; the bow shock was squeezed, aurora spread across the planet and the flux of planetary ions streaming away on the dayside rose to among the highest of the mission [26]. A global model that matched the data put the ion escape at about 1.5 × 10²⁴ ions a second before the storm, mostly O₂⁺ — some 80 grams a second, the same order as NASA's “about 100 grams” [19] — rising to about 10²⁵ when the wind's pressure quadrupled and 3 × 10²⁵ when it rose fifteenfold [26]." data-ru="8 марта 2015 года на глазах у MAVEN в Марс ударил корональный выброс массы. Около семи часов солнечный ветер дул быстрее 800 км/с, его динамическое давление превышало обычное больше чем в десять раз; головная ударная волна сжалась, по всей планете разлилось полярное сияние, а поток планетных ионов, уходящих с дневной стороны, стал одним из самых сильных за всю миссию [26]. Глобальная модель, согласующаяся с данными, дала уход ионов около 1,5 × 10²⁴ в секунду до бури, в основном O₂⁺, — около 80 граммов в секунду, тот же порядок, что «около 100 граммов» НАСА [19], — и рост примерно до 10²⁵ при вчетверо большем давлении ветра и до 3 × 10²⁵ при пятнадцатикратном [26].">March 2015 ICME: ×7 to ×20 [26].</p>
+      <p class="body-col" data-en="Earlier spacecraft had reported 10–100 times more escape during storms [26]. The largest event of MAVEN's first years, on 10 September 2017, was seen by several Mars spacecraft; models checked against MAVEN gave 3–20 times the usual heavy-ion loss [18]. A single spacecraft cannot measure the loss in all directions during one storm, so these are model numbers. What makes them matter is history: the young Sun produced storms far more often, and the team suggests they may have been the main ion loss early on [18][26]." data-ru="Прежние аппараты сообщали об усилении ухода во время бурь в 10–100 раз [26]. Крупнейшее событие первых лет MAVEN, 10 сентября 2017 года, наблюдали несколько марсианских аппаратов; модели, проверенные по данным MAVEN, дали уход тяжёлых ионов в 3–20 раз больше обычного [18]. Один аппарат не может измерить потери по всем направлениям за одну бурю, поэтому это модельные цифры. Важны они из-за истории: молодое Солнце бушевало гораздо чаще, и команда считает, что в ранние эпохи именно бури могли быть главным каналом ухода ионов [18][26].">Sept 2017: 3–20× [18].</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="stSvg" class="sim-svg" viewBox="0 0 480 205" role="img" data-aria-en="Ion escape rate over four days as a multiple of the quiet rate, with the storm shown as a raised block starting on day one" data-aria-ru="Скорость ухода ионов за четверо суток, кратная спокойной; буря — приподнятый участок, начинающийся на первые сутки" aria-label="Storm-time ion escape"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Preset storms" data-aria-en="Preset storms" data-aria-ru="Готовые бури" id="stPre">
+          <button class="btn" data-b="7" data-h="20" aria-pressed="false" data-en="MARCH 2015 · ×7 · 20 H" data-ru="МАРТ 2015 · ×7 · 20 Ч">MARCH 2015 · ×7 · 20 H</button>
+          <button class="btn active" data-b="20" data-h="20" aria-pressed="true" data-en="STRONG · ×20 · 20 H" data-ru="СИЛЬНАЯ · ×20 · 20 Ч">STRONG · ×20 · 20 H</button>
+          <button class="btn" data-b="1" data-h="20" aria-pressed="false" data-en="QUIET" data-ru="ТИШИНА">QUIET</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="stB" data-en="ESCAPE DURING THE STORM" data-ru="УХОД ВО ВРЕМЯ БУРИ">ESCAPE DURING THE STORM</label><span class="v" id="stBVal">—</span></div>
+          <input id="stB" type="range" min="1" max="30" step="0.5" value="20">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="stH" data-en="STORM DURATION" data-ru="ДЛИТЕЛЬНОСТЬ БУРИ">STORM DURATION</label><span class="v" id="stHVal">—</span></div>
+          <input id="stH" type="range" min="1" max="96" step="1" value="20">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="stY" data-en="SUCH STORMS PER YEAR" data-ru="ТАКИХ БУРЬ В ГОД">SUCH STORMS PER YEAR</label><span class="v" id="stYVal">—</span></div>
+          <input id="stY" type="range" min="0" max="100" step="1" value="5">
+        </div>
+        <div class="readout-grid" id="stReadout"></div>
+        <div class="status" id="stStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: quiet ion escape 1.5 × 10²⁴ s⁻¹ (the pre-storm model value of [26]), all counted as O₂⁺ (32 u); the storm multiplies it by a constant factor for its whole duration. The 20-hour presets follow the interval [26] compared with the quiet months, 16:00 on 8 March to 12:00 on 9 March 2015. Ion escape is only a small part of today's 2–3 kg/s; the storm-per-year slider is for imagining a younger, stormier Sun, not a measured rate." data-ru="Модель: спокойный уход ионов 1,5 × 10²⁴ с⁻¹ (модельное значение до бури из [26]), всё считается ионами O₂⁺ (32 а. е. м.); буря умножает его на постоянный множитель на всё своё время. 20-часовые настройки соответствуют интервалу, который [26] сравнивает со спокойными месяцами: с 16:00 8 марта до 12:00 9 марта 2015 года. Уход ионов — лишь малая часть сегодняшних 2–3 кг/с; ползунок числа бурь в год нужен, чтобы представить молодое, бурное Солнце, и это не измеренная величина.">Storm model note.</div>
+  </div>
+</section>
+
+<!-- CH6 — ISOTOPES -->
+<section id="ch6" class="section" data-phase="ISOTOPES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 09</span> — <span data-en="ARGON 38/36 AND D/H" data-ru="АРГОН 38/36 И D/H">ARGON 38/36 AND D/H</span></div>
+    <h2 class="h-lg" data-en="What the heavy atoms remember" data-ru="Что помнят тяжёлые атомы">What the heavy atoms remember</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Escape is choosy. Above the homopause, about where the air stops being stirred, each gas thins out with its own scale height, so at the exobase the lighter isotope is over-represented and leaves first. What stays behind grows heavier, step by step — a Rayleigh distillation. Argon is ideal for reading this: it is inert, never freezes or joins rocks, and only sputtering can remove it [18]. Curiosity's SAM measured ³⁶Ar/³⁸Ar = 4.2 ± 0.1, against 5.5 in the Sun, and concluded that at least half and perhaps 85–95 % had been lost [27]." data-ru="Убегание разборчиво. Выше гомопаузы — примерно там, где воздух перестаёт перемешиваться, — каждый газ разрежается со своей высотой однородной атмосферы, поэтому у экзобазы лёгкого изотопа больше и он уходит первым. Остающийся газ шаг за шагом тяжелеет — это рэлеевская дистилляция. Читать её лучше всего по аргону: он инертен, не замерзает, не входит в породы, и удалить его может только распыление [18]. Прибор SAM марсохода Curiosity измерил ³⁶Ar/³⁸Ar = 4,2 ± 0,1 против 5,5 у Солнца и пришёл к выводу, что потеряно не меньше половины, а возможно, 85–95 % [27].">Argon: 4.2 against 5.5 [27].</p>
+      <p class="body-col" data-en="MAVEN measured how strongly the two isotopes separate between the homopause and the exobase, orbit by orbit, and found that about two-thirds of Mars's argon — 66 ± 4.5 % in the team's model, which also allows for gas from the interior and from impacts — has been lost to space [18][28]. Water tells a similar story in deuterium. Geronimo Villanueva, Michael Mumma and colleagues mapped HDO and H₂O from telescopes in Hawaii and Chile and found water near the pole enriched seven times over Earth's oceans and the ice caps eight times [30]; they estimate Mars lost 6.5 times the water now in its caps — a global layer about 137 m deep, 87 % of the original [29]." data-ru="MAVEN виток за витком измерял, насколько сильно расходятся два изотопа между гомопаузой и экзобазой, и выяснил, что около двух третей аргона Марса — 66 ± 4,5 % в модели команды, которая учитывает и газ из недр, и принесённый ударами, — ушло в космос [18][28]. Вода рассказывает похожую историю через дейтерий. Херонимо Вильянуэва, Майкл Мамма и соавторы с помощью телескопов на Гавайях и в Чили картировали HDO и H₂O и обнаружили, что вода у полюса обогащена дейтерием в семь раз относительно земного океана, а полярные шапки — в восемь [30]; по их оценке, Марс потерял воды в 6,5 раза больше, чем сейчас в его шапках, — глобальный слой глубиной около 137 м, 87 % первоначального запаса [29].">MAVEN argon 66 %; D/H 7–8× [28][29][30].</p>
+    </div>
+    <div class="eq-box corner-frame">
+      <div class="eq-label" data-en="RAYLEIGH DISTILLATION" data-ru="РЭЛЕЕВСКАЯ ДИСТИЛЛЯЦИЯ">RAYLEIGH DISTILLATION</div>
+      <div class="eq-body">R / R₀ = f<sup>x − 1</sup> &nbsp;·&nbsp; <span data-en="argon: x = exp(−Δm Δz / m₄₀ H₄₀)" data-ru="аргон: x = exp(−Δm Δz / m₄₀ H₄₀)">argon: x = exp(−Δm Δz / m₄₀ H₄₀)</span></div>
+      <div class="eq-note" data-en="R is the heavy/light ratio, f the fraction of the light isotope still there, x how readily a heavy atom escapes compared with a light one. For argon x comes from the separation Δz between homopause and exobase, measured in scale heights of ⁴⁰Ar. With x = 0 the heavy isotope never leaves and f = R₀/R: a ×8 enrichment then means at least 87.5 % gone, practically the 87 % Villanueva's team found." data-ru="R — отношение тяжёлого изотопа к лёгкому, f — оставшаяся доля лёгкого изотопа, x — во сколько раз легче уходит тяжёлый атом по сравнению с лёгким. Для аргона x определяется расстоянием Δz между гомопаузой и экзобазой в высотах однородной атмосферы ⁴⁰Ar. При x = 0 тяжёлый изотоп не уходит вовсе и f = R₀/R: обогащение ×8 тогда означает потерю не меньше 87,5 % — практически те 87 %, которые получила группа Вильянуэвы.">Rayleigh.</div>
+    </div>
+    <div class="sim-wrap">
+      <svg id="isSvg" class="sim-svg" viewBox="0 0 480 270" role="img" data-aria-en="Enrichment of the heavy isotope against the fraction of gas lost, for the chosen escape efficiency, with a dashed line at the measured enrichment" data-aria-ru="Обогащение тяжёлым изотопом в зависимости от потерянной доли газа при выбранной относительной лёгкости ухода; пунктир — измеренное обогащение" aria-label="Isotope enrichment against loss"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="Tracer" data-aria-en="Tracer" data-aria-ru="Индикатор" id="isMode">
+          <button class="btn active" data-m="ar" aria-pressed="true" data-en="ARGON ³⁸Ar/³⁶Ar" data-ru="АРГОН ³⁸Ar/³⁶Ar">ARGON ³⁸Ar/³⁶Ar</button>
+          <button class="btn" data-m="dh" aria-pressed="false">D/H</button>
+        </div>
+        <div class="btn-row" role="group" aria-label="Presets" data-aria-en="Presets" data-aria-ru="Готовые настройки" id="isPre">
+          <button class="btn active" data-m="ar" data-z="5.761" aria-pressed="true" data-en="AR · MAVEN'S 66 %" data-ru="AR · 66 % MAVEN">AR · MAVEN'S 66 %</button>
+          <button class="btn" data-m="dh" data-e="8" data-x="0" aria-pressed="false" data-en="ICE CAPS ×8 · NO D LOSS" data-ru="ШАПКИ ×8 · D НЕ УХОДИТ">ICE CAPS ×8 · NO D LOSS</button>
+          <button class="btn" data-m="dh" data-e="7" data-x="jeans" aria-pressed="false" data-en="ATMOSPHERE ×7 · JEANS AT 240 K" data-ru="АТМОСФЕРА ×7 · ДЖИНС ПРИ 240 K">ATMOSPHERE ×7 · JEANS AT 240 K</button>
+        </div>
+        <div class="ctl" id="isArCtl">
+          <div class="ctl-row"><label for="isZ" data-en="HOMOPAUSE-TO-EXOBASE DISTANCE" data-ru="РАССТОЯНИЕ ОТ ГОМОПАУЗЫ ДО ЭКЗОБАЗЫ">HOMOPAUSE-TO-EXOBASE DISTANCE</label><span class="v" id="isZVal">—</span></div>
+          <input id="isZ" type="range" min="1" max="12" step="0.01" value="5.76">
+        </div>
+        <div class="ctl" id="isDhCtl" hidden>
+          <div class="ctl-row"><label for="isX" data-en="HOW READILY D ESCAPES COMPARED WITH H (x)" data-ru="ОТНОСИТЕЛЬНАЯ ЛЁГКОСТЬ УХОДА D ПО СРАВНЕНИЮ С H (x)">HOW READILY D ESCAPES COMPARED WITH H (x)</label><span class="v" id="isXVal">—</span></div>
+          <input id="isX" type="range" min="0" max="0.5" step="0.001" value="0">
+        </div>
+        <div class="readout-grid" id="isReadout"></div>
+        <div class="status" id="isStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: one closed reservoir losing gas steadily, no resupply (pure Rayleigh). The argon preset is the separation, about 5.8 ⁴⁰Ar scale heights, at which this simple model reproduces MAVEN's 66 % from 5.5 → 4.2; MAVEN's own analysis also included outgassing and impacts [18]. For D/H the real x is not well known — Jeans escape alone gives 0.003 at 240 K, non-thermal routes raise it — and water trades with ice and rock, so treat the D/H numbers as a minimum argument, not a measurement." data-ru="Модель: один замкнутый резервуар, который постоянно теряет газ без пополнения (чистая модель Рэлея). Настройка для аргона — расстояние около 5,8 высоты однородной атмосферы ⁴⁰Ar, при котором эта простая модель воспроизводит 66 % MAVEN при переходе 5,5 → 4,2; собственный анализ MAVEN учитывал ещё дегазацию и удары [18]. Для D/H настоящее x известно плохо — одно джинсовское убегание даёт 0,003 при 240 K, нетепловые пути увеличивают его, — а вода обменивается со льдом и породами, так что числа по D/H — аргумент о минимуме, а не измерение.">Isotope model note.</div>
+  </div>
+</section>
+
+<!-- CH7 — FOUR BILLION YEARS -->
+<section id="ch7" class="section" data-phase="DEEP TIME">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 09</span> — <span data-en="FOUR BILLION YEARS" data-ru="ЧЕТЫРЕ МИЛЛИАРДА ЛЕТ">FOUR BILLION YEARS</span></div>
+    <h2 class="h-lg" data-en="Running the leak backwards" data-ru="Прокрутить утечку назад">Running the leak backwards</h2>
+    <div class="grid-2">
+      <p class="body-col" data-en="Two or three kilograms a second sounds like nothing, but a constant 2.5 kg/s for four billion years adds up to 3.2 × 10¹⁷ kg — thirteen times the air Mars has now, a layer of about 80 mbar. And the leak was faster: young Sun-like stars show that the Sun's ultraviolet and X-ray output, which drives most escape, was about 6 times today's 3.5 billion years ago and about 2.5 times a billion years later [31]. A power law through those points makes the flux about 13 times today's four billion years ago." data-ru="Два-три килограмма в секунду кажутся пустяком, но постоянные 2,5 кг/с за четыре миллиарда лет складываются в 3,2 × 10¹⁷ кг — в тринадцать раз больше воздуха, чем у Марса сейчас, слой около 80 мбар. А утечка была быстрее: по молодым солнцеподобным звёздам видно, что ультрафиолетовое и рентгеновское излучение Солнца, движущее бо́льшую часть убегания, 3,5 млрд лет назад было примерно в 6 раз сильнее нынешнего, а миллиардом лет позже — примерно в 2,5 раза [31]. Степенной закон через эти точки даёт поток примерно в 13 раз больше нынешнего четыре миллиарда лет назад.">2.5 kg/s × 4 Gyr; a brighter young Sun [31].</p>
+      <p class="body-col" data-en="How loss scales with that output is the hard part. If it simply follows the EUV, the total triples, to about 250 mbar; if it follows the square, it passes a bar. The MAVEN team ran its measured processes back through a model of the Sun's history and got as much as 0.8 bar of CO₂, or a 23 m global layer of water, calling these lower limits [5]. That is in the range the crater counts allow for the river era [4]. The uncertainties are large — one Mars year of data near one point in the solar cycle, stretched across four billion years — but every version points the same way: space took most of the air." data-ru="Самое трудное — как потери зависят от этого излучения. Если просто пропорционально ЭУФ, сумма утраивается, примерно до 250 мбар; если пропорционально квадрату — превышает бар. Команда MAVEN прогнала измеренные процессы назад через модель истории Солнца и получила до 0,8 бар CO₂ или 23-метровый глобальный слой воды, назвав эти цифры нижними пределами [5]. Это в том диапазоне, который допускают подсчёты кратеров для эпохи рек [4]. Неопределённости велики — один марсианский год данных в одной точке солнечного цикла, растянутый на четыре миллиарда лет, — но все варианты указывают в одну сторону: бо́льшую часть воздуха забрал космос.">0.8 bar CO₂, a lower limit [5].</p>
+    </div>
+    <div class="sim-wrap">
+      <svg id="hsSvg" class="sim-svg" viewBox="0 0 480 280" role="img" data-aria-en="Cumulative mass lost to space, expressed as millibars of today's Martian air on a logarithmic scale, from the chosen start to the present, with lines at today's whole atmosphere and at the MAVEN team's 0.8 bar" data-aria-ru="Накопленная масса, ушедшая в космос, в миллибарах нынешнего марсианского воздуха (логарифмический масштаб) от выбранного начала до наших дней; линии — вся нынешняя атмосфера и 0,8 бар команды MAVEN" aria-label="Cumulative loss over time"></svg>
+      <div class="sim-panel corner-frame">
+        <div class="btn-row" role="group" aria-label="How loss follows the Sun" data-aria-en="How loss follows the Sun" data-aria-ru="Как потери следуют за Солнцем" id="hsPre">
+          <button class="btn" data-s="0" aria-pressed="false" data-en="CONSTANT RATE" data-ru="ПОСТОЯННАЯ СКОРОСТЬ">CONSTANT RATE</button>
+          <button class="btn active" data-s="1" aria-pressed="true" data-en="∝ EUV" data-ru="∝ ЭУФ">∝ EUV</button>
+          <button class="btn" data-s="2" aria-pressed="false" data-en="∝ EUV²" data-ru="∝ ЭУФ²">∝ EUV²</button>
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="hsR" data-en="LOSS RATE TODAY" data-ru="СКОРОСТЬ ПОТЕРЬ СЕГОДНЯ">LOSS RATE TODAY</label><span class="v" id="hsRVal">—</span></div>
+          <input id="hsR" type="range" min="1" max="4" step="0.1" value="2.5">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="hsS" data-en="EXPONENT: LOSS ∝ EUV^s" data-ru="ПОКАЗАТЕЛЬ: ПОТЕРИ ∝ ЭУФ^s">EXPONENT: LOSS ∝ EUV^s</label><span class="v" id="hsSVal">—</span></div>
+          <input id="hsS" type="range" min="0" max="2.5" step="0.05" value="1">
+        </div>
+        <div class="ctl">
+          <div class="ctl-row"><label for="hsT" data-en="START" data-ru="НАЧАЛО">START</label><span class="v" id="hsTVal">—</span></div>
+          <input id="hsT" type="range" min="1" max="4.2" step="0.1" value="4">
+        </div>
+        <div class="readout-grid" id="hsReadout"></div>
+        <div class="status" id="hsStatus" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note" data-en="Model: loss = today's rate × (F/F_now)^s, with F ∝ τ^−β, τ the Sun's age (4.6 billion years today [21]) and β = 1.25 fitted to Ribas et al.'s “6 times 3.5 billion years ago” (it gives 2.7 times 2.5 billion years ago, against their 2.5) [31]. Mass is converted to pressure as if it were today's air on today's Mars (chapter 1); the lost H and O came from both water and CO₂, so this is a mass scale, not a CO₂ inventory. The MAVEN team used a different solar model [5]. Not modelled: early hydrodynamic escape, impacts, outgassing, gas taken into rock." data-ru="Модель: потери = сегодняшняя скорость × (F/F_сейчас)^s, где F ∝ τ^−β, τ — возраст Солнца (сегодня 4,6 млрд лет [21]), а β = 1,25 подобрано по оценке Рибаса и соавторов «в 6 раз 3,5 млрд лет назад» (2,5 млрд лет назад это даёт 2,7 раза против их 2,5) [31]. Масса переводится в давление так, будто это нынешний воздух на нынешнем Марсе (глава 1); потерянные H и O пришли и из воды, и из CO₂, так что это шкала массы, а не баланс CO₂. Команда MAVEN использовала другую модель Солнца [5]. Не учтены раннее гидродинамическое убегание, удары, дегазация и связывание газа породами.">History model note.</div>
+  </div>
+</section>
+
+<!-- CH8 — LEGACY -->
+<section id="ch8" class="section" data-phase="LEGACY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 09</span> — <span data-en="FROM A GLOW TO A BUDGET" data-ru="ОТ СВЕЧЕНИЯ К БАЛАНСУ">FROM A GLOW TO A BUDGET</span></div>
+    <h2 class="h-lg" data-en="Fifty years of watching Mars leak" data-ru="Пятьдесят лет наблюдений за утечкой">Fifty years of watching Mars leak</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="quote-block">
+      <p data-en="The deltas were built under an air Mars no longer has. MAVEN's decade turned a guess into a budget — kilograms a second, process by process — and the isotopes confirm it: most of that air did not sink into the ground. It went to space, and a little more goes every second. For the trip itself, see the TRANSFER guide; for the lake, JEZERO." data-ru="Дельты строились под воздухом, которого у Марса больше нет. Десятилетие MAVEN превратило догадку в баланс — килограммы в секунду, процесс за процессом, — и изотопы это подтверждают: бо́льшая часть этого воздуха не ушла в грунт. Она ушла в космос, и каждую секунду уходит ещё немного. О самом перелёте — справочник TRANSFER, об озере — JEZERO.">The deltas were built under an air Mars no longer has.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH9 — REFERENCES -->
+<section id="ch9" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 09</span> — <span data-en="REFERENCES" data-ru="ИСТОЧНИКИ">REFERENCES</span></div>
+    <h2 class="h-lg" data-en="Sources cited throughout this guide" data-ru="Источники, на которые ссылается этот справочник">Sources cited throughout this guide</h2>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+var lang = 'en';
+function T(en, ru){ return lang === 'en' ? en : ru; }
+function ns(tag, attrs, parent){
+  var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(var k in attrs) el.setAttribute(k, attrs[k]);
+  if(parent) parent.appendChild(el);
+  return el;
+}
+function txt(parent, x, y, s, cls, anchor){
+  var t = ns('text', {x:x, y:y, 'class':cls || 'svg-label', 'text-anchor':anchor || 'start'}, parent);
+  t.textContent = s; return t;
+}
+function fmt(n, d){
+  var s = n.toFixed(d);
+  if(lang === 'ru') s = s.replace('.', ',').replace('-', '−');
+  else s = s.replace('-', '−');
+  return s;
+}
+function fmtInt(n){
+  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  return (n < 0 ? '−' : '') + s;
+}
+function cells(el, rows){
+  el.innerHTML = rows.map(function(r){
+    return '<div class="readout-cell'+(r[2] ? ' wide' : '')+'"><span class="rl">'+r[0]+'</span>'+r[1]+'</div>';
+  }).join('');
+}
+function reduced(){ return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+function pressGroup(container, active){
+  Array.prototype.forEach.call(container.querySelectorAll('.btn'), function(b){
+    var on = b === active; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* Animation loops run only while their figure is on screen and the tab is visible. */
+function visibleLoop(el, step){
+  var on = false, raf = 0, last = 0, vis = false;
+  function frame(t){ if(!on) return; var dt = Math.min(0.05, (t - last)/1000 || 0); last = t; step(dt); raf = requestAnimationFrame(frame); }
+  function start(){ if(on || document.hidden || !vis) return; on = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop(){ on = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ vis = es[0].isIntersecting; vis ? start() : stop(); }).observe(el); }
+  else { vis = true; start(); }
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+}
+
+/* Browsers round a slider's value to its step, so a preset such as log10(196) would read back as 2.29 (195 m²).
+   Each range input keeps the exact value it was given until the user moves it. */
+Array.prototype.forEach.call(document.querySelectorAll('input[type=range]'), function(el){
+  var d = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value'), exact = null, native = null;
+  Object.defineProperty(el, 'value', {configurable:true,
+    get: function(){ var v = d.get.call(el); return (exact !== null && v === native) ? exact : v; },
+    set: function(x){ d.set.call(el, x); exact = String(x); native = d.get.call(el); }});
+});
+/* ============ HUD / SCROLL ============ */
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase'), hud1 = document.getElementById('hud-alt'), hud2 = document.getElementById('hud-vel');
+var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+function onScroll(){
+  var doc = document.documentElement;
+  progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
+  var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
+  sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
+  hudPhase.textContent = current.dataset.phase;
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+function applyLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var v = el.getAttribute('data-'+l);
+    if(v !== null) el.innerHTML = v;
+  });
+  document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
+  renderAll();
+}
+document.querySelectorAll('#langtoggle button').forEach(function(b){
+  b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
+});
+function renderTimelineFrom(list){
+  var wrap = document.getElementById('timeline'); wrap.innerHTML = '';
+  list.forEach(function(e){
+    var row = document.createElement('div'); row.className = 'tl';
+    row.innerHTML = '<div class="tl-y">'+e[0]+'</div><div class="tl-t">'+(lang === 'en' ? e[1] : e[2])+'</div>';
+    wrap.appendChild(row);
+  });
+}
+function renderRefsFrom(list){
+  var wrap = document.getElementById('refList'); wrap.innerHTML = '';
+  list.forEach(function(r, i){
+    var item = document.createElement('div'); item.className = 'ref-item';
+    item.innerHTML = '<div class="ref-num">['+(i+1)+']</div><div><div class="ref-title">'+r.title+'</div><div class="ref-url"><a href="'+r.url+'" rel="noopener">'+r.url+'</a></div><div class="ref-note">'+(lang === 'en' ? r.note.en : r.note.ru)+'</div></div>';
+    wrap.appendChild(item);
+  });
+}
+/* Physical constants (NASA Earth fact sheet) */
+var MU_E = 398600.4418, R_E = 6371.0, C_LIGHT = 299792.458;
+
+/* ============ CONSTANTS ============ */
+var KB = 1.380649e-23, AMU = 1.66053907e-27, EV = 1.602176634e-19, YEAR = 3.15576e7, SQPI = Math.sqrt(Math.PI);
+/* NSSDC fact sheets [1][2]: GM (m³/s²), volumetric mean radius (m), mean surface gravity, surface pressure (Pa),
+   mean temperature (K), mean molecular weight; exobase altitudes from [8] (Mars, 200 km) and [6] (Earth, ~500 km) */
+var PLANETS = {
+  mars:  {GM:4.2828e13, R:3389.5e3, Req:3396.2e3, g:3.73, p0:636, T0:214, mu:43.49, zExo:200e3, en:'Mars', ru:'Марс'},
+  earth: {GM:3.98600e14, R:6371.0e3, Req:6378.1e3, g:9.82, p0:101400, T0:288, mu:28.97, zExo:500e3, en:'Earth', ru:'Земля'}
+};
+/* atomic masses, u */
+var SPECIES = {
+  H:{m:1.00794, en:'H', ru:'H'}, D:{m:2.01410, en:'D', ru:'D'}, He:{m:4.002602, en:'He', ru:'He'}, O:{m:15.999, en:'O', ru:'O'}
+};
+var AR36 = 35.967545, AR38 = 37.962732, AR40 = 39.962383;
+
+/* ============ FORMATTING ============ */
+var SUP = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'};
+function sup(n){ return String(n).split('').map(function(c){ return SUP[c] || c; }).join(''); }
+function sci(x, d){
+  if(!isFinite(x)) return '—';
+  if(x === 0) return '0';
+  var e = Math.floor(Math.log10(Math.abs(x))), m = x/Math.pow(10, e);
+  if(+Math.abs(m).toFixed(d) >= 10){ m /= 10; e++; }
+  if(e >= -2 && e <= 3) return fmt(x, Math.max(0, d - e));
+  return fmt(m, d) + ' × 10' + sup(e);
+}
+function num(n){ var s = fmtInt(n); return (lang === 'ru' && Math.abs(n) < 10000) ? s.replace(/\s/g, '') : s; }
+function aria(svg){ svg.setAttribute('aria-label', svg.getAttribute('data-aria-' + lang)); }
+function pct(x, d){ return fmt(100*x, d) + ' %'; }
+
+/* ============ PHYSICS ============ */
+function gAt(P, z){ return P.GM/Math.pow(P.R + z, 2); }
+function vEsc(P, z){ return Math.sqrt(2*P.GM/(P.R + z)); }                 // m/s
+function scaleHeight(T, mAmu, g){ return KB*T/(mAmu*AMU*g); }               // m
+function atmMass(P){ return P.p0*4*Math.PI*P.R*P.R/P.g; }                  // kg
+function massToMbar(P, M){ return M*P.g/(4*Math.PI*P.R*P.R)/100; }          // as a layer of today's air
+function v0(T, mAmu){ return Math.sqrt(2*KB*T/(mAmu*AMU)); }                // most probable speed
+function vMean(T, mAmu){ return Math.sqrt(8*KB*T/(Math.PI*mAmu*AMU)); }
+/* Jeans escape parameter at the exobase: gravitational energy over kT = (v_esc/v0)² = r/H */
+function jeansLambda(P, T, mAmu){ return P.GM*mAmu*AMU/(KB*T*(P.R + P.zExo)); }
+/* Jeans effusion velocity Φ/n (m/s) [7] */
+function jeansVel(P, T, mAmu){ var l = jeansLambda(P, T, mAmu); return v0(T, mAmu)/(2*SQPI)*(1 + l)*Math.exp(-l); }
+function jeansFlux(P, T, mAmu, nCm3){ return nCm3*1e6*jeansVel(P, T, mAmu); }   // m⁻² s⁻¹
+function jeansRate(P, T, mAmu, nCm3){ var r = P.R + P.zExo; return jeansFlux(P, T, mAmu, nCm3)*4*Math.PI*r*r; }  // s⁻¹
+/* complementary error function (Numerical Recipes erfcc, |error| < 1.2e-7 relative) */
+function erfc(x){
+  var z = Math.abs(x), t = 1/(1 + 0.5*z);
+  var r = t*Math.exp(-z*z - 1.26551223 + t*(1.00002368 + t*(0.37409196 + t*(0.09678418 + t*(-0.18628806 + t*(0.27886807 + t*(-1.13520398 + t*(1.48851587 + t*(-0.82215223 + t*0.17087277)))))))));
+  return x >= 0 ? r : 2 - r;
+}
+/* fraction of a Maxwellian gas moving faster than v_esc (any direction) */
+function tailFraction(l){ return erfc(Math.sqrt(l)) + 2*Math.sqrt(l/Math.PI)*Math.exp(-l); }
+/* D escapes this many times less efficiently per atom than H, by Jeans escape alone */
+function jeansX(P, T){ return jeansVel(P, T, SPECIES.D.m)/jeansVel(P, T, SPECIES.H.m); }
+function escEnergyEV(P, z, mAmu){ return P.GM*mAmu*AMU/(P.R + z)/EV; }
+
+/* ============ HOT OXYGEN ============ */
+/* O₂⁺ + e → O + O, excess energy (eV) and branching (%) [10]; equal masses share the energy equally */
+var DR = [{e:6.99, b:20.4, en:'O(³P) + O(³P)', ru:'O(³P) + O(³P)'}, {e:5.02, b:44.0, en:'O(³P) + O(¹D)', ru:'O(³P) + O(¹D)'}, {e:3.05, b:31.5, en:'O(¹D) + O(¹D)', ru:'O(¹D) + O(¹D)'}];
+function hotShare(Eesc){ return DR.reduce(function(s, c){ return s + (c.e/2 > Eesc ? c.b : 0); }, 0)/100; }
+/* a Mars-density world (3,934 kg/m³ [1]) of radius R: escape energy of O at 200 km */
+var RHO_MARS = 3934;
+function worldEsc(Rkm){ var R = Rkm*1e3, GM = PLANETS.mars.GM*Math.pow(R/PLANETS.mars.R, 3); return GM*SPECIES.O.m*AMU/(R + 200e3)/EV; }
+function radiusFor(Eev){ var a = 500, b = 20000; for(var k = 0; k < 80; k++){ var c = (a + b)/2; if(worldEsc(c) < Eev) a = c; else b = c; } return (a + b)/2; }
+
+/* ============ MAVEN ORBIT ============ */
+function apoForPeriod(P, Th, periKm){ var a = Math.cbrt(P.GM*Math.pow(Th*3600/(2*Math.PI), 2)); return (2*a - 2*P.Req)/1e3 - periKm; }
+
+/* ============ STORMS ============ */
+var Q_QUIET = 1.5e24, M_ION = 32;            // model ion escape before the 8 March 2015 ICME, dominated by O₂⁺ [26]
+function stormExtra(boost, hours){ var ions = Q_QUIET*(boost - 1)*hours*3600; return {ions:ions, kg:ions*M_ION*AMU, days:(boost - 1)*hours/24}; }
+function stormYearShare(boost, hours, perYear){ var quiet = Q_QUIET*YEAR, extra = Q_QUIET*(boost - 1)*hours*3600*perYear; return extra/(quiet + extra); }
+
+/* ============ ISOTOPES ============ */
+/* Rayleigh distillation: the heavy isotope escapes x times as readily as the light one. R/R₀ = f^(x−1), f = light fraction left */
+function rayEnrich(f, x){ return Math.pow(f, x - 1); }
+function rayLeft(E, x){ return Math.pow(E, 1/(x - 1)); }
+/* diffusive separation above the homopause: Δz in units of the ⁴⁰Ar scale height */
+function argonX(dzH40){ return Math.exp(-(AR38 - AR36)/AR40*dzH40); }
+var AR_SUN = 5.5, AR_MARS = 4.2;            // ³⁶Ar/³⁸Ar: solar [27], Curiosity SAM [27]
+var AR_E = AR_SUN/AR_MARS;                  // enrichment of ³⁸Ar relative to ³⁶Ar
+function dzForLoss(lost){ var x = 1 + Math.log(AR_E)/Math.log(1 - lost); return -Math.log(x)*AR40/(AR38 - AR36); }
+
+/* ============ HISTORY ============ */
+var SUN_AGE = 4.6;                           // Gyr [21]
+/* Ribas et al. [31]: 1–1200 Å flux ≈ 6× today 3.5 Gyr ago and ≈ 2.5× 2.5 Gyr ago. Fit F ∝ τ^−β to the first point. */
+var BETA = Math.log(6)/Math.log(SUN_AGE/(SUN_AGE - 3.5));
+function euvRatio(gyrAgo){ return Math.pow(SUN_AGE/(SUN_AGE - gyrAgo), BETA); }
+/* ∫ (F/F_now)^s dt from `start` Gyr ago to now, in Gyr */
+function weightedGyr(start, s){
+  var k = BETA*s, t1 = SUN_AGE - start, t2 = SUN_AGE;
+  if(Math.abs(k - 1) < 1e-9) return SUN_AGE*Math.log(t2/t1);
+  return Math.pow(SUN_AGE, k)*(Math.pow(t2, 1 - k) - Math.pow(t1, 1 - k))/(1 - k);
+}
+function massLost(rateKgS, start, s){ return rateKgS*weightedGyr(start, s)*1e9*YEAR; }
+function lostUntil(rateKgS, start, s, gyrAgo){ return massLost(rateKgS, start, s) - massLost(rateKgS, gyrAgo, s); }
+
+/* ============ CH1 ============ */
+var M_MARS_AIR = atmMass(PLANETS.mars), M_EARTH_AIR = atmMass(PLANETS.earth);
+
+/* ============ CH2 — JEANS ============ */
+var jsP = 'mars', jsS = 'H';
+var jsT = document.getElementById('jsT'), jsN = document.getElementById('jsN');
+function renderJS(){
+  var P = PLANETS[jsP], S = SPECIES[jsS], Tk = +jsT.value, n = Math.pow(10, +jsN.value);
+  var l = jeansLambda(P, Tk, S.m), ve = vEsc(P, P.zExo), vo = v0(Tk, S.m), H = scaleHeight(Tk, S.m, gAt(P, P.zExo));
+  var rate = jeansRate(P, Tk, S.m, n), fl = jeansFlux(P, Tk, S.m, n)/1e4;
+  document.getElementById('jsTVal').textContent = num(Tk) + ' K'; jsT.setAttribute('aria-valuetext', num(Tk) + T(' kelvin, Jeans parameter ',' кельвинов, параметр Джинса ') + fmt(l, 1));
+  document.getElementById('jsNVal').innerHTML = sci(n, 1) + T(' cm⁻³',' см⁻³'); jsN.setAttribute('aria-valuetext', sci(n, 1) + T(' per cubic centimetre',' в кубическом сантиметре'));
+  var svg = document.getElementById('jsSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 58, R = 465, Tp = 22, B = 250, xa = 100, xb = 2000, ya = -40, yb = 6;
+  function X(t){ return L + (t - xa)/(xb - xa)*(R - L); } function Y(v){ return B - (Math.max(ya, Math.min(yb, v)) - ya)/(yb - ya)*(B - Tp); }
+  [-40, -30, -20, -10, 0, 5].forEach(function(e){ ns('line', {x1:L, y1:Y(e), x2:R, y2:Y(e), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(e) + 4, '10' + sup(e), 'svg-small', 'end'); });
+  [100, 500, 1000, 1500, 2000].forEach(function(t){ ns('line', {x1:X(t), y1:B, x2:X(t), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(t), B + 16, num(t), 'svg-small', t === 2000 ? 'end' : 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 13, T('escape speed of the gas, Φ/n, cm/s (log)','скорость ухода газа Φ/n, см/с (лог.)'), 'svg-small');
+  txt(svg, R, B + 32, T('exobase temperature, K','температура экзобазы, К'), 'svg-small', 'end');
+  ['earth', 'mars'].forEach(function(pk){
+    var PP = PLANETS[pk], d = '';
+    for(var k = 0; k <= 190; k++){ var t = xa + (xb - xa)*k/190; d += (k ? 'L' : 'M') + X(t).toFixed(1) + ',' + Y(Math.log10(jeansVel(PP, t, S.m)*100)).toFixed(1); }
+    ns('path', {d:d, fill:'none', stroke:pk === 'mars' ? '#b5452a' : '#2f5aa1', 'stroke-width':pk === jsP ? 2.4 : 1.4, 'stroke-dasharray':pk === jsP ? '' : '5 4'}, svg);
+    var yEnd = Y(Math.log10(jeansVel(PP, xb, S.m)*100));
+    txt(svg, R - 4, yEnd + (pk === 'mars' ? -7 : 14), T(PP.en, PP.ru), 'svg-small svg-halo', 'end');
+  });
+  var yv = Math.log10(jeansVel(P, Tk, S.m)*100);
+  ns('circle', {cx:X(Tk), cy:Y(yv), r:6, fill:'none', stroke:'#0b0b0c', 'stroke-width':2.2}, svg);
+  txt(svg, R - 6, B - 10, T('gas: ','газ: ') + S.en, 'svg-small svg-halo', 'end');   // lower right: the curves run along the top
+  cells(document.getElementById('jsReadout'), [
+    [T('SCALE HEIGHT AT THE EXOBASE','ВЫСОТА ОДНОРОДНОЙ АТМОСФЕРЫ У ЭКЗОБАЗЫ'), fmt(H/1e3, H < 1e5 ? 1 : 0) + T(' km',' км')],
+    [T('ESCAPE SPEED AT THE EXOBASE','СКОРОСТЬ УБЕГАНИЯ У ЭКЗОБАЗЫ'), fmt(ve/1e3, 2) + T(' km/s',' км/с')],
+    [T('MOST PROBABLE THERMAL SPEED','НАИВЕРОЯТНЕЙШАЯ ТЕПЛОВАЯ СКОРОСТЬ'), fmt(vo/1e3, 2) + T(' km/s',' км/с')],
+    [T('JEANS PARAMETER λ = r/H','ПАРАМЕТР ДЖИНСА λ = r/H'), fmt(l, 1)],
+    [T('ATOMS FASTER THAN ESCAPE SPEED','АТОМОВ БЫСТРЕЕ СКОРОСТИ УБЕГАНИЯ'), sci(tailFraction(l), 1)],
+    [T('ESCAPE FLUX','ПОТОК УХОДА'), sci(fl, 1) + T(' cm⁻² s⁻¹',' см⁻² с⁻¹')],
+    [T('WHOLE PLANET','СО ВСЕЙ ПЛАНЕТЫ'), sci(rate, 1) + T(' atoms/s',' атомов/с') + ' · ' + sci(rate*S.m*AMU, 1) + T(' kg/s',' кг/с'), 1]
+  ]);
+  hud1.textContent = fmt(l, 1); hud2.textContent = sci(rate, 1) + T(' /s',' /с');
+  document.getElementById('jsStatus').innerHTML = l < 1.5
+    ? T('λ is below about 1.5: the gas is no longer bound at the top — it would stream away as a planetary wind, which the Jeans formula does not describe.','λ меньше примерно 1,5: газ у верхней границы уже не удерживается и уходил бы сплошным «планетным ветром», который формула Джинса не описывает.')
+    : l < 30 ? T('Light gas, weak grip: the tail of the speed distribution is thick enough that a steady trickle leaves. This is how hydrogen leaves Mars — and Earth — today.','Лёгкий газ, слабое притяжение: «хвост» распределения скоростей достаточно толст, и газ уходит непрерывной струйкой. Так сегодня водород покидает Марс — и Землю.')
+    : T('Effectively bound: fewer than one atom in 10¹¹ is fast enough, and the flux is negligible over the age of the Solar System. Heavier gases need a non-thermal kick (chapter 3).','Практически удерживается: быстрых атомов меньше одного на 10¹¹, и за время существования Солнечной системы поток ничтожен. Тяжёлым газам нужен нетепловой «толчок» (глава 3).');
+}
+jsT.addEventListener('input', function(){ pressGroup(document.getElementById('jsPre'), null); renderJS(); });
+jsN.addEventListener('input', renderJS);
+Array.prototype.forEach.call(document.querySelectorAll('#jsPre .btn'), function(btn){ btn.addEventListener('click', function(){
+  jsP = this.getAttribute('data-p'); jsS = this.getAttribute('data-s'); jsT.value = this.getAttribute('data-t');
+  pressGroup(this.parentNode, this); pressGroup(document.getElementById('jsGas'), document.querySelector('#jsGas .btn[data-s="' + jsS + '"]')); renderJS(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#jsGas .btn'), function(btn){ btn.addEventListener('click', function(){
+  jsS = this.getAttribute('data-s'); pressGroup(this.parentNode, this); pressGroup(document.getElementById('jsPre'), null); renderJS(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#jsPlanet .btn'), function(btn){ btn.addEventListener('click', function(){
+  jsP = this.getAttribute('data-p'); pressGroup(this.parentNode, this); pressGroup(document.getElementById('jsPre'), null); renderJS(); }); });
+
+/* ============ CH3 — HOT OXYGEN ============ */
+var hoR = document.getElementById('hoR');
+function renderHO(){
+  var Rkm = +hoR.value, Ee = worldEsc(Rkm), sh = hotShare(Ee);
+  document.getElementById('hoRVal').textContent = num(Math.round(Rkm)) + T(' km',' км');
+  hoR.setAttribute('aria-valuetext', num(Math.round(Rkm)) + T(' km radius, oxygen escape energy ',' км, энергия убегания кислорода ') + fmt(Ee, 2) + T(' eV',' эВ'));
+  var svg = document.getElementById('hoSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 150, R = 465, Tp = 26, rowH = 46, xb = 10;
+  function X(e){ return L + Math.min(e, xb)/xb*(R - L); }
+  [0, 2, 4, 6, 8, 10].forEach(function(e){ ns('line', {x1:X(e), y1:Tp - 6, x2:X(e), y2:Tp + rowH*3 + 4, stroke:'#e4e4de'}, svg); txt(svg, X(e), Tp + rowH*3 + 20, fmt(e, 0), 'svg-small', 'middle'); });
+  txt(svg, R, Tp + rowH*3 + 36, T('energy per oxygen atom, eV','энергия на атом кислорода, эВ'), 'svg-small', 'end');
+  DR.forEach(function(c, j){
+    var y = Tp + j*rowH, esc = c.e/2 > Ee;
+    ns('rect', {x:L, y:y, width:X(c.e/2) - L, height:22, fill:esc ? '#b5452a' : '#9aa3aa'}, svg);
+    txt(svg, L - 8, y + 11, c.en, 'svg-small', 'end');
+    txt(svg, L - 8, y + 24, fmt(c.b, 1) + T(' % of recombinations',' % рекомбинаций'), 'svg-tiny', 'end');
+    txt(svg, X(c.e/2) + 6, y + 15, fmt(c.e/2, 2) + T(' eV',' эВ') + (esc ? T(' · escapes upward',' · уходит, если летит вверх') : T(' · bound',' · удерживается')), 'svg-small svg-halo');
+  });
+  var xe = X(Ee);
+  ns('line', {x1:xe, y1:Tp - 10, x2:xe, y2:Tp + rowH*3 + 4, stroke:'#0b0b0c', 'stroke-width':2, 'stroke-dasharray':'5 3'}, svg);
+  txt(svg, Math.min(xe, R - 2), 14, (Ee > xb ? '→ ' : '') + T('escape energy ','энергия убегания ') + fmt(Ee, 2) + T(' eV',' эВ'), 'svg-small svg-halo', xe > R - 120 ? 'end' : 'middle');
+  cells(document.getElementById('hoReadout'), [
+    [T('WORLD RADIUS','РАДИУС ПЛАНЕТЫ'), num(Math.round(Rkm)) + T(' km',' км') + ' (' + fmt(Rkm/3389.5, 2) + T(' × Mars',' × Марс') + ')'],
+    [T('O ESCAPE ENERGY AT 200 KM','ЭНЕРГИЯ УБЕГАНИЯ O НА 200 КМ'), fmt(Ee, 2) + T(' eV',' эВ')],
+    [T('RECOMBINATIONS GIVING ESCAPERS','РЕКОМБИНАЦИИ, ДАЮЩИЕ БЕГЛЕЦОВ'), pct(sh, 1)],
+    [T('HOT O STOPS ESCAPING ABOVE','ГОРЯЧИЙ O ПЕРЕСТАЁТ УХОДИТЬ ПРИ R >'), num(Math.round(radiusFor(3.495)/10)*10) + T(' km',' км')]
+  ]);
+  hud1.textContent = fmt(Ee, 2) + T(' eV',' эВ'); hud2.textContent = pct(sh, 0);
+  document.getElementById('hoStatus').innerHTML = sh > 0.6
+    ? T('Two of the three channels throw oxygen out: this is Mars today, and the largest single loss process MAVEN measured.','Два из трёх каналов выбрасывают кислород: это сегодняшний Марс и самый крупный канал потерь, измеренный MAVEN.')
+    : sh > 0 ? T('Only the most energetic channel still escapes: a world this size keeps most of its hot oxygen.','Уходит только самый энергичный канал: планета такого размера удерживает большую часть горячего кислорода.')
+    : T('No channel is fast enough. Earth\'s oxygen (9.6 eV to escape from its 500 km exobase) is safe from this process.','Ни один канал не даёт нужной скорости. Кислороду Земли (9,6 эВ, чтобы уйти с экзобазы на 500 км) этот процесс не грозит.');
+}
+hoR.addEventListener('input', function(){ pressGroup(document.getElementById('hoPre'), null); renderHO(); });
+Array.prototype.forEach.call(document.querySelectorAll('#hoPre .btn'), function(btn){ btn.addEventListener('click', function(){ hoR.value = this.getAttribute('data-r'); pressGroup(this.parentNode, this); renderHO(); }); });
+
+/* ============ CH5 — STORMS ============ */
+var stB = document.getElementById('stB'), stH = document.getElementById('stH'), stY = document.getElementById('stY');
+function renderST(){
+  var b = +stB.value, h = +stH.value, yr = +stY.value, x = stormExtra(b, h), share = stormYearShare(b, h, yr);
+  document.getElementById('stBVal').textContent = '× ' + fmt(b, 1); stB.setAttribute('aria-valuetext', T('escape ',' уход в ') + fmt(b, 1) + T(' times the quiet rate',' раза выше спокойного'));
+  document.getElementById('stHVal').textContent = num(h) + T(' h',' ч'); stH.setAttribute('aria-valuetext', num(h) + T(' hours',' ч'));
+  document.getElementById('stYVal').textContent = num(yr); stY.setAttribute('aria-valuetext', num(yr) + T(' storms a year',' бурь в год'));
+  var svg = document.getElementById('stSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 58, R = 465, Tp = 24, B = 180, days = 4, ymax = 32;
+  function X(hh){ return L + hh/(days*24)*(R - L); } function Y(v){ return B - Math.min(v, ymax)/ymax*(B - Tp); }
+  [1, 10, 20, 30].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, '×' + v, 'svg-small', 'end'); });
+  for(var d = 0; d <= days; d++){ ns('line', {x1:X(d*24), y1:B, x2:X(d*24), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(d*24), B + 16, T('day ','сут. ') + d, 'svg-small', 'middle'); }
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  var t0 = 24, t1 = Math.min(days*24, t0 + h);
+  ns('rect', {x:X(t0), y:Y(b), width:X(t1) - X(t0), height:Y(1) - Y(b), fill:'#b5452a', opacity:0.25}, svg);
+  ns('path', {d:'M' + X(0) + ',' + Y(1) + 'L' + X(t0) + ',' + Y(1) + 'L' + X(t0) + ',' + Y(b) + 'L' + X(t1) + ',' + Y(b) + 'L' + X(t1) + ',' + Y(1) + 'L' + X(days*24) + ',' + Y(1), fill:'none', stroke:'#b5452a', 'stroke-width':2}, svg);
+  txt(svg, L, 13, T('ion escape rate, × quiet (model)','скорость ухода ионов, × спокойная (модель)'), 'svg-small');
+  if(h > days*24 - t0) txt(svg, R, Y(b) - 5, T('storm continues →','буря продолжается →'), 'svg-tiny svg-halo', 'end');
+  cells(document.getElementById('stReadout'), [
+    [T('QUIET ION ESCAPE (MODEL)','СПОКОЙНЫЙ УХОД ИОНОВ (МОДЕЛЬ)'), sci(Q_QUIET, 1) + T(' ions/s ≈ ',' ионов/с ≈ ') + fmt(Q_QUIET*M_ION*AMU*1000, 0) + T(' g/s',' г/с')],
+    [T('EXTRA IONS LOST IN THE STORM','ДОПОЛНИТЕЛЬНО ПОТЕРЯНО ИОНОВ'), sci(x.ions, 1)],
+    [T('EXTRA MASS (AS O₂⁺)','ДОПОЛНИТЕЛЬНАЯ МАССА (КАК O₂⁺)'), fmt(x.kg/1000, x.kg < 1e4 ? 1 : 0) + T(' t',' т')],
+    [T('= QUIET DAYS OF LOSS','= СУТОК СПОКОЙНОГО УХОДА'), fmt(x.days, 1)],
+    [T('STORMS\' SHARE OF A YEAR\'S ION LOSS','ДОЛЯ БУРЬ В ГОДОВОМ УХОДЕ ИОНОВ'), pct(share, 0), 1]
+  ]);
+  hud1.textContent = '× ' + fmt(b, 1); hud2.textContent = fmt(x.kg/1000, 0) + T(' t',' т');
+  document.getElementById('stStatus').innerHTML = b <= 1
+    ? T('No storm: the ion leak runs at its quiet rate, a few tens of grams a second.','Бури нет: ионы утекают со спокойной скоростью — несколько десятков граммов в секунду.')
+    : T('One storm of ','Одна буря длительностью ') + num(h) + T(' hours at ×',' ч при ×') + fmt(b, 1) + T(' removes as many ions as ',' уносит столько же ионов, сколько уходит за ') + fmt(x.days, 1) + T(' quiet days. With ',' спокойных суток. При ') + num(yr) + T(' such storms a year, storms carry ',' таких бурях в год на них приходится ') + pct(share, 0) + T(' of the ion loss — the young Sun stormed far more often.',' ухода ионов, — а молодое Солнце бушевало гораздо чаще.');
+}
+[stB, stH, stY].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById('stPre'), null); renderST(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#stPre .btn'), function(btn){ btn.addEventListener('click', function(){ stB.value = this.getAttribute('data-b'); stH.value = this.getAttribute('data-h'); pressGroup(this.parentNode, this); renderST(); }); });
+
+/* ============ CH6 — ISOTOPES ============ */
+var isMode = 'ar', isE = 8;
+var isZ = document.getElementById('isZ'), isX = document.getElementById('isX');
+function isState(){
+  if(isMode === 'ar'){ var x = argonX(+isZ.value); return {x:x, E:AR_E, left:rayLeft(AR_E, x)}; }
+  var xx = +isX.value; return {x:xx, E:isE, left:rayLeft(isE, xx)};
+}
+function renderIS(){
+  var s = isState();
+  document.getElementById('isArCtl').hidden = isMode !== 'ar'; document.getElementById('isDhCtl').hidden = isMode === 'ar';
+  document.getElementById('isZVal').textContent = fmt(+isZ.value, 2) + ' H₄₀'; isZ.setAttribute('aria-valuetext', fmt(+isZ.value, 2) + T(' argon scale heights',' высот однородной атмосферы аргона'));
+  document.getElementById('isXVal').textContent = fmt(+isX.value, 3); isX.setAttribute('aria-valuetext', fmt(+isX.value, 3));
+  var svg = document.getElementById('isSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 58, R = 465, Tp = 22, B = 230, ymax = isMode === 'ar' ? 2 : 12;
+  function X(lost){ return L + lost*(R - L); } function Y(e){ return B - (Math.min(e, ymax) - 1)/(ymax - 1)*(B - Tp); }
+  (isMode === 'ar' ? [1, 1.25, 1.5, 1.75, 2] : [1, 2, 4, 6, 8, 10, 12]).forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, '×' + fmt(v, v % 1 ? 2 : 0), 'svg-small', 'end'); });
+  [0, 0.2, 0.4, 0.6, 0.8, 1].forEach(function(v){ ns('line', {x1:X(v), y1:B, x2:X(v), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(v), B + 16, fmt(100*v, 0) + ' %', 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 13, isMode === 'ar' ? T('³⁸Ar/³⁶Ar relative to the start','³⁸Ar/³⁶Ar относительно начального') : T('D/H relative to the start','D/H относительно начального'), 'svg-small');
+  txt(svg, R, B + 32, T('fraction of the light isotope lost to space','доля лёгкого изотопа, ушедшая в космос'), 'svg-small', 'end');
+  var d = '';
+  for(var k = 0; k <= 200; k++){ var lost = Math.min(0.995, k/200); d += (k ? 'L' : 'M') + X(lost).toFixed(1) + ',' + Y(rayEnrich(1 - lost, s.x)).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#0b0b0c', 'stroke-width':1.8}, svg);
+  ns('line', {x1:L, y1:Y(s.E), x2:R, y2:Y(s.E), stroke:'#b5452a', 'stroke-dasharray':'5 4', 'stroke-width':1.3}, svg);
+  txt(svg, L + 4, Y(s.E) - 6, isMode === 'ar' ? T('measured: 5.5 → 4.2 (×1.31)','измерено: 5,5 → 4,2 (×1,31)') : T('measured: ×','измерено: ×') + fmt(s.E, 0), 'svg-small svg-halo');
+  ns('circle', {cx:X(1 - s.left), cy:Y(s.E), r:6, fill:'none', stroke:'#2f5aa1', 'stroke-width':2.4}, svg);
+  cells(document.getElementById('isReadout'), [
+    [T('HEAVY/LIGHT ESCAPE EFFICIENCY x','ОТНОСИТЕЛЬНАЯ ЛЁГКОСТЬ УХОДА x'), fmt(s.x, 3)],
+    [T('ENRICHMENT TO EXPLAIN','ОБЪЯСНЯЕМОЕ ОБОГАЩЕНИЕ'), '×' + fmt(s.E, 2)],
+    [T('LEFT TODAY','ОСТАЛОСЬ СЕГОДНЯ'), pct(s.left, 1)],
+    [T('LOST TO SPACE','УШЛО В КОСМОС'), pct(1 - s.left, 1)]
+  ]);
+  hud1.textContent = '×' + fmt(s.E, 2); hud2.textContent = pct(1 - s.left, 0);
+  document.getElementById('isStatus').innerHTML = isMode === 'ar'
+    ? T('With the heavy isotope thinned out by ','Если тяжёлый изотоп разрежен на ') + pct(1 - s.x, 0) + T(' at the exobase, the measured shift needs ',' у экзобазы, измеренный сдвиг требует потери ') + pct(1 - s.left, 0) + T(' of the argon gone. Pure Rayleigh model: no volcanic resupply, no impacts.',' аргона. Чистая модель Рэлея: без вулканического пополнения и ударов.')
+    : T('Even if deuterium never escaped at all (x = 0), a ×','Даже если дейтерий не уходил вовсе (x = 0), обогащение ×') + fmt(s.E, 0) + T(' enrichment means at least ',' означает, что ушло как минимум ') + pct(1 - 1/s.E, 1) + T(' of the hydrogen is gone; letting D escape too raises it to ',' водорода; если уходит и D, получается ') + pct(1 - s.left, 1) + '.';
+}
+isZ.addEventListener('input', function(){ pressGroup(document.getElementById('isPre'), null); renderIS(); });
+isX.addEventListener('input', function(){ pressGroup(document.getElementById('isPre'), null); renderIS(); });
+Array.prototype.forEach.call(document.querySelectorAll('#isMode .btn'), function(btn){ btn.addEventListener('click', function(){ isMode = this.getAttribute('data-m'); pressGroup(this.parentNode, this); pressGroup(document.getElementById('isPre'), null); renderIS(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#isPre .btn'), function(btn){ btn.addEventListener('click', function(){
+  var m = this.getAttribute('data-m'); isMode = m; pressGroup(document.getElementById('isMode'), document.querySelector('#isMode .btn[data-m="' + m + '"]'));
+  if(m === 'ar') isZ.value = this.getAttribute('data-z');
+  else { isE = +this.getAttribute('data-e'); isX.value = this.getAttribute('data-x') === 'jeans' ? jeansX(PLANETS.mars, 240) : this.getAttribute('data-x'); }
+  pressGroup(this.parentNode, this); renderIS(); }); });
+
+/* ============ CH7 — FOUR BILLION YEARS ============ */
+var hsR = document.getElementById('hsR'), hsS = document.getElementById('hsS'), hsT = document.getElementById('hsT');
+function renderHS(){
+  var P = PLANETS.mars, r = +hsR.value, s = +hsS.value, st = +hsT.value, M = massLost(r, st, s), mb = massToMbar(P, M);
+  document.getElementById('hsRVal').textContent = fmt(r, 1) + T(' kg/s',' кг/с'); hsR.setAttribute('aria-valuetext', fmt(r, 1) + T(' kilograms a second today',' кг в секунду сегодня'));
+  document.getElementById('hsSVal').textContent = fmt(s, 2); hsS.setAttribute('aria-valuetext', T('loss rate scales as solar EUV to the power ','потери растут как степень ') + fmt(s, 2) + T('',' потока ЭУФ'));
+  document.getElementById('hsTVal').textContent = fmt(st, 1) + T(' Gyr ago',' млрд лет назад'); hsT.setAttribute('aria-valuetext', fmt(st, 1) + T(' billion years ago',' млрд лет назад'));
+  var svg = document.getElementById('hsSvg'); svg.innerHTML = ''; aria(svg);
+  var L = 62, R = 465, Tp = 22, B = 240, ya = -1, yb = 4;
+  function X(ago){ return L + (4.2 - ago)/4.2*(R - L); } function Y(m){ return B - (Math.log10(Math.max(m, 0.1)) - ya)/(yb - ya)*(B - Tp); }
+  [0.1, 1, 10, 100, 1000, 10000].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 4, v < 1 ? fmt(v, 1) : num(v), 'svg-small', 'end'); });
+  [4, 3, 2, 1, 0].forEach(function(a){ ns('line', {x1:X(a), y1:B, x2:X(a), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(a), B + 16, fmt(a, 0), 'svg-small', 'middle'); });
+  ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
+  txt(svg, L, 13, T('mass lost so far, as mbar of today\'s air (log)','потеряно к этому времени, мбар нынешнего воздуха (лог.)'), 'svg-small');
+  txt(svg, R, B + 32, T('billion years ago','млрд лет назад'), 'svg-small', 'end');
+  [[P.p0/100, T('today\'s whole atmosphere, 6.36 mbar','вся нынешняя атмосфера, 6,36 мбар'), '#2f5aa1'], [800, T('MAVEN team estimate, ≥ 0.8 bar CO₂','оценка команды MAVEN: ≥ 0,8 бар CO₂'), '#5f5f59']].forEach(function(q){
+    ns('line', {x1:L, y1:Y(q[0]), x2:R, y2:Y(q[0]), stroke:q[2], 'stroke-dasharray':'5 4', 'stroke-width':1.2}, svg); txt(svg, L + 4, Y(q[0]) - 5, q[1], 'svg-small svg-halo'); });
+  var d = '';
+  for(var k = 0; k <= 160; k++){ var ago = st - st*k/160; d += (k ? 'L' : 'M') + X(ago).toFixed(1) + ',' + Y(massToMbar(P, lostUntil(r, st, s, ago))).toFixed(1); }
+  ns('path', {d:d, fill:'none', stroke:'#b5452a', 'stroke-width':2.2}, svg);
+  cells(document.getElementById('hsReadout'), [
+    [T('SOLAR EUV AT THE START','ЭУФ СОЛНЦА В НАЧАЛЕ'), '×' + fmt(euvRatio(st), 1) + T(' today',' от нынешнего')],
+    [T('LOSS RATE AT THE START','СКОРОСТЬ ПОТЕРЬ В НАЧАЛЕ'), fmt(r*Math.pow(euvRatio(st), s), 1) + T(' kg/s',' кг/с')],
+    [T('MASS LOST','ПОТЕРЯННАЯ МАССА'), sci(M, 2) + T(' kg',' кг')],
+    [T('× TODAY\'S ATMOSPHERE','× НЫНЕШНЯЯ АТМОСФЕРА'), fmt(M/M_MARS_AIR, M/M_MARS_AIR < 10 ? 1 : 0)],
+    [T('AS A LAYER OF AIR','КАК СЛОЙ ВОЗДУХА'), num(Math.round(mb)) + T(' mbar',' мбар'), 1]
+  ]);
+  hud1.textContent = fmt(6.36, 2) + T(' mbar',' мбар'); hud2.textContent = num(Math.round(mb)) + T(' mbar',' мбар');
+  document.getElementById('hsStatus').innerHTML = (s === 0 ? T('At today\'s rate, unchanged for ','С сегодняшней скоростью, без изменений за ') + fmt(st, 1) + T(' billion years, Mars would have lost ',' млрд лет, Марс потерял бы в ') : T('With loss growing as EUV to the power ','Если потери растут как степень ') + fmt(s, 2) + T(', Mars has lost ',' потока ЭУФ, Марс потерял в ')) + fmt(M/M_MARS_AIR, 0) + T(' times the air it has now — a layer of ',' раз больше воздуха, чем у него есть, — слой в ') + num(Math.round(mb)) + T(' mbar. A model, not a measurement: one Mars year of data, stretched over four billion.',' мбар. Это модель, а не измерение: один марсианский год данных, растянутый на четыре миллиарда лет.');
+}
+[hsR, hsS, hsT].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById('hsPre'), null); renderHS(); }); });
+Array.prototype.forEach.call(document.querySelectorAll('#hsPre .btn'), function(btn){ btn.addEventListener('click', function(){ hsS.value = this.getAttribute('data-s'); pressGroup(this.parentNode, this); renderHS(); }); });
+
+/* ============ TIMELINE ============ */
+var TIMELINE = [
+  ['1969–72', 'Mariner 6, 7 and 9 record the ultraviolet glow of a hydrogen cloud around Mars: the first sign of gas leaving the planet today [9][24].', '«Маринеры-6, -7 и -9» регистрируют ультрафиолетовое свечение водородного облака вокруг Марса — первый признак того, что газ уходит с планеты и сейчас [9][24].'],
+  ['1973', 'Donald Hunten\'s review “The escape of light gases from planetary atmospheres” sets out thermal and non-thermal escape as they are still taught [7].', 'Обзор Дональда Хантена «Убегание лёгких газов из планетных атмосфер» излагает тепловое и нетепловое убегание так, как его преподают до сих пор [7].'],
+  ['1999', 'Mars Global Surveyor\'s magnetometer team, led by Mario Acuña, finds strongly magnetised ancient crust — the fossil of a global field Mars no longer has [12].', 'Группа магнитометра Mars Global Surveyor под руководством Марио Акуньи находит сильно намагниченную древнюю кору — окаменелость глобального поля, которого у Марса больше нет [12].'],
+  ['2003', 'ESA\'s Mars Express launches on 2 June; from 2004 its ASPERA-3 instrument monitors escaping ions through a solar cycle [21][24].', '2 июня запущен Mars Express ЕКА; с 2004 года его прибор ASPERA-3 следит за уходящими ионами на протяжении солнечного цикла [21][24].'],
+  ['2013', 'Curiosity\'s SAM measures ³⁶Ar/³⁸Ar = 4.2 ± 0.1 at the surface [27]. MAVEN launches on 18 November [15].', 'Прибор SAM марсохода Curiosity измеряет у поверхности ³⁶Ar/³⁸Ar = 4,2 ± 0,1 [27]. 18 ноября запущен MAVEN [15].'],
+  ['2014', 'MAVEN enters Mars orbit on 22 September (UTC) [15].', '22 сентября (UTC) MAVEN выходит на орбиту Марса [15].'],
+  ['2015', 'A coronal mass ejection hits Mars on 8 March [26]; in November NASA reports the solar wind stripping about 100 g of gas a second [19]. Villanueva and Mumma\'s team reads an ocean\'s worth of lost water in D/H [29].', '8 марта Марс накрывает корональный выброс массы [26]; в ноябре НАСА сообщает, что солнечный ветер уносит около 100 г газа в секунду [19]. Группа Вильянуэвы и Маммы по D/H восстанавливает потерянный океан воды [29].'],
+  ['2017', 'Argon isotopes at 200 km: about two-thirds of Mars\'s argon has been lost to space [28]. On 10 September the largest solar event MAVEN would see in its first years hits [18].', 'Изотопы аргона на высоте 200 км: около двух третей аргона Марса ушло в космос [28]. 10 сентября приходит самое мощное солнечное событие за первые годы работы MAVEN [18].'],
+  ['2018', 'A full Mars year of data: 2–3 kg/s lost today, as much as 0.8 bar of CO₂ over history, probably a lower limit [5]. A global dust storm lofts water and speeds hydrogen loss [20].', 'Полный марсианский год данных: сегодня теряется 2–3 кг/с, за историю — до 0,8 бар CO₂, и это, вероятно, нижний предел [5]. Глобальная пылевая буря поднимает воду вверх и ускоряет уход водорода [20].'],
+  ['2020', 'The UAE\'s Hope (19 July) and China\'s Tianwen-1 (23 July) launch, both carrying instruments for the upper atmosphere or its plasma [24].', 'Стартуют «Надежда» ОАЭ (19 июля) и китайский «Тяньвэнь-1» (23 июля), оба с приборами для верхней атмосферы или её плазмы [24].'],
+  ['2021', 'Shannon Curry succeeds Bruce Jakosky as MAVEN\'s principal investigator on 31 August [17]; Tianwen-1\'s magnetometer starts routine measurements on 13 November [23].', '31 августа Шеннон Карри сменяет Брюса Якоски на посту научного руководителя MAVEN [17]; 13 ноября магнитометр «Тяньвэня-1» начинает регулярные измерения [23].'],
+  ['2025', '6 December: MAVEN passes behind Mars and is not heard from again [16].', '6 декабря: MAVEN заходит за Марс и больше не выходит на связь [16].'],
+  ['2026', '3 June: NASA declares the mission over; the spacecraft is not recoverable [16][25].', '3 июня: НАСА объявляет миссию завершённой — аппарат восстановить нельзя [16][25].']
+];
+
+/* ============ REFERENCES ============ */
+var REFERENCES = [
+  {title:'NASA NSSDCA, “Mars Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html', note:{en:'Retrieved 12 November 2026: GM 42,828 km³/s², mean radius 3,389.5 km, gravity 3.73 m/s², escape velocity 5.03 km/s, density 3,934 kg/m³; surface pressure 6.36 mb (4.0–8.7 mb with season), scale height 11.0 km, mean temperature ~214 K, mean molecular weight 43.49, atmosphere ~2.5 × 10¹⁶ kg; CO₂ 95.1 %, Ar 1.94 %.', ru:'Получено 12 ноября 2026 года: GM 42 828 км³/с², средний радиус 3389,5 км, ускорение свободного падения 3,73 м/с², скорость убегания 5,03 км/с, плотность 3934 кг/м³; давление у поверхности 6,36 мбар (4,0–8,7 мбар по сезонам), высота однородной атмосферы 11,0 км, средняя температура ~214 K, средняя молярная масса 43,49, масса атмосферы ~2,5 × 10¹⁶ кг; CO₂ 95,1 %, Ar 1,94 %.'}},
+  {title:'NASA NSSDCA, “Earth Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html', note:{en:'Surface pressure 1,014 mb, scale height 8.5 km, mean temperature 288 K, mean molecular weight 28.97, atmosphere 5.1 × 10¹⁸ kg; escape velocity 11.19 km/s.', ru:'Давление у поверхности 1014 мбар, высота однородной атмосферы 8,5 км, средняя температура 288 K, средняя молярная масса 28,97, масса атмосферы 5,1 × 10¹⁸ кг; скорость убегания 11,19 км/с.'}},
+  {title:'N. Mangold et al. (2021), “Perseverance rover reveals an ancient delta-lake system and flood deposits at Jezero crater, Mars”, Science 374, 711–717', url:'https://doi.org/10.1126/science.abl4051', note:{en:'Inclined layers of the Jezero fan are deltas built into a lake; boulder beds on top record later floods.', ru:'Наклонные слои конуса выноса в кратере Езеро — дельты, выдвигавшиеся в озеро; валунные слои сверху говорят о более поздних паводках.'}},
+  {title:'E. S. Kite, J.-P. Williams, A. Lucas, O. Aharonson (2014), “Low palaeopressure of the martian atmosphere estimated from the size distribution of ancient craters”, Nature Geoscience 7, 335–339', url:'https://arxiv.org/abs/1304.4043', note:{en:'Upper limit on the air pressure when rivers flowed near Gale crater: 0.9 ± 0.1 bar, or 1.9 ± 0.2 bar if one class of landforms is excluded.', ru:'Верхний предел давления воздуха в эпоху рек близ кратера Гейл: 0,9 ± 0,1 бар или 1,9 ± 0,2 бар, если исключить один класс форм рельефа.'}},
+  {title:'B. M. Jakosky et al. (2018), “Loss of the Martian atmosphere to space: Present-day loss rates determined from MAVEN observations and integrated loss through time”, Icarus 315, 146–157', url:'https://doi.org/10.1016/j.icarus.2018.05.030', note:{en:'One Mars year of MAVEN data (Nov 2014 – Oct 2016): H and O loss removes ~2–3 kg/s; extrapolated back, up to ~0.8 bar of CO₂ or a 23 m global layer of water lost, probably lower limits; no large CO₂ reservoirs on or under the surface, so loss to space dominated the climate change.', ru:'Один марсианский год данных MAVEN (ноябрь 2014 – октябрь 2016): уход H и O — ~2–3 кг/с; при экстраполяции в прошлое потеряно до ~0,8 бар CO₂ или 23-метровый глобальный слой воды, вероятно, это нижние пределы; крупных запасов CO₂ на поверхности и под ней нет, так что изменение климата определил уход в космос.'}},
+  {title:'D. C. Catling and K. J. Zahnle (2009), “The Planetary Air Leak”, Scientific American 300(5), 36–43 (authors\' copy)', url:'https://faculty.washington.edu/dcatling/Catling2009_SciAm.pdf', note:{en:'Jeans escape and the exobase (on Earth about 500 km, typically about 1,000 K, where hydrogen averages about 5 km/s against an escape speed of 10.8 km/s); Earth loses about 3 kg of hydrogen and 50 g of helium a second; photochemical escape and sputtering on Mars.', ru:'Джинсовское убегание и экзобаза (у Земли около 500 км, обычно около 1000 K, где средняя скорость водорода около 5 км/с при скорости убегания 10,8 км/с); Земля теряет около 3 кг водорода и 50 г гелия в секунду; фотохимическое убегание и распыление на Марсе.'}},
+  {title:'D. M. Hunten (1973), “The Escape of Light Gases from Planetary Atmospheres”, Journal of the Atmospheric Sciences 30, 1481–1494', url:'https://doi.org/10.1175/1520-0469(1973)030%3C1481:TEOLGF%3E2.0.CO;2', note:{en:'The Jeans flux from a Maxwellian exobase, Φ = n v₀ (1 + λ) e^−λ / 2√π, and the limits set by diffusion below.', ru:'Джинсовский поток с максвелловской экзобазы, Φ = n v₀ (1 + λ) e^−λ / 2√π, и ограничения, которые задаёт диффузия ниже.'}},
+  {title:'M. S. Chaffin et al. (2015), “Three-dimensional structure in the Mars H corona revealed by IUVS on MAVEN”, Geophysical Research Letters 42, 9001–9008', url:'https://doi.org/10.1002/2015GL065287', note:{en:'The H corona model takes the density and temperature of hydrogen at an assumed exobase altitude of 200 km; published exobase retrievals span 10⁴–10⁶ cm⁻³ and 100–1,500 K.', ru:'Модель водородной короны задаётся плотностью и температурой водорода на принятой высоте экзобазы 200 км; опубликованные оценки — 10⁴–10⁶ см⁻³ и 100–1500 K.'}},
+  {title:'M. S. Chaffin et al., “Seasonal Variability of Mars H Escape from MAVEN/IUVS”, 52nd ESLAB Symposium, ESA/ESTEC, 17 May 2018 (slides)', url:'https://www.cosmos.esa.int/documents/1700208/1718761/08_Chaffin_Seasonal+variations+of+H+escape+from+IUVS-MAVEN.pdf/284de21f-bf2a-fb8f-d78d-9577f8a49656', note:{en:'H is escaping thermally; MAVEN-derived escape fluxes 1–8 × 10⁸ cm⁻² s⁻¹ (10²⁶–10²⁷ per second), a model with 10⁵ cm⁻³ at 240 K, large seasonal change; earlier corona observations by Mariner 6, 7, 9, Mars Express, Rosetta and Hubble.', ru:'Водород уходит тепловым путём; по данным MAVEN потоки ухода 1–8 × 10⁸ см⁻² с⁻¹ (10²⁶–10²⁷ в секунду), модель с 10⁵ см⁻³ при 240 K, сильные сезонные изменения; более ранние наблюдения короны — «Маринеры-6, -7, -9», Mars Express, «Розетта» и «Хаббл».'}},
+  {title:'H. Gröller, H. Lichtenegger, H. Lammer, V. I. Shematovich (2014), “Hot oxygen and carbon escape from the martian atmosphere”, Planetary and Space Science 98, 93–105', url:'https://arxiv.org/abs/1911.01107', note:{en:'O₂⁺ dissociative recombination channels: 6.99 eV (20.4 %), 5.02 eV (44.0 %), 3.05 eV (31.5 %); total hot-O loss 2.3–2.9 × 10²⁵ s⁻¹ in their model.', ru:'Каналы диссоциативной рекомбинации O₂⁺: 6,99 эВ (20,4 %), 5,02 эВ (44,0 %), 3,05 эВ (31,5 %); полный уход горячего O в их модели — 2,3–2,9 × 10²⁵ с⁻¹.'}},
+  {title:'R. J. Lillis et al. (2017), “Photochemical escape of oxygen from Mars: First results from MAVEN in situ data”, JGR Space Physics 122, 3815–3836', url:'https://doi.org/10.1002/2016JA023525', note:{en:'Hot oxygen from O₂⁺ dissociative recombination, computed from MAVEN\'s measurements of the ionosphere, is the main source of escaping neutral oxygen.', ru:'Горячий кислород от диссоциативной рекомбинации O₂⁺, рассчитанный по измерениям ионосферы MAVEN, — главный источник уходящего нейтрального кислорода.'}},
+  {title:'M. H. Acuña et al. (1999), “Global Distribution of Crustal Magnetization Discovered by the Mars Global Surveyor MAG/ER Experiment”, Science 284, 790–793', url:'https://doi.org/10.1126/science.284.5415.790', note:{en:'Intense magnetic anomalies in the ancient southern crust; Mars has no global field today.', ru:'Интенсивные магнитные аномалии в древней южной коре; глобального поля у Марса сейчас нет.'}},
+  {title:'A. Mittelholz, C. L. Johnson, J. M. Feinberg, B. Langlais, R. J. Phillips (2020), “Timing of the martian dynamo: New constraints for a core field 4.5 and 3.7 Ga ago”, Science Advances 6, eaba0513', url:'https://doi.org/10.1126/sciadv.aba0513', note:{en:'MAVEN low-altitude data: weak fields over the 4.5-Ga Borealis basin and near-surface magnetisation over 3.7-Ga Lucus Planum, so a dynamo ran at both times.', ru:'Данные MAVEN с малых высот: слабые поля над бассейном Борейлис возрастом 4,5 млрд лет и приповерхностная намагниченность над плато Лукус возрастом 3,7 млрд лет — динамо работало в обе эпохи.'}},
+  {title:'H. Gunell et al. (2018), “Why an intrinsic magnetic field does not protect a planet against atmospheric escape”, Astronomy & Astrophysics 614, L3', url:'https://doi.org/10.1051/0004-6361/201832934', note:{en:'Observed escape rates from Earth, Venus and Mars are similar; over a wide range of field strengths a magnetised planet can lose more, through its polar caps and cusps.', ru:'Наблюдаемые скорости ухода с Земли, Венеры и Марса близки; в широком диапазоне напряжённости поля намагниченная планета может терять больше — через полярные шапки и каспы.'}},
+  {title:'NASA NSSDCA Master Catalog, “Mars Atmosphere and Volatile EvolutioN (MAVEN)”, 2013-063A', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2013-063A', note:{en:'Launched 18 November 2013, 18:28 UT, Atlas V 401; orbit insertion completed 02:24 UT on 22 September 2014; 4.5-hour science orbit, 75°, periapsis 150 km, “deep dips” to 125 km; eight instruments; PI Bruce Jakosky.', ru:'Запуск 18 ноября 2013 года в 18:28 UT, Atlas V 401; выход на орбиту — 22 сентября 2014 года в 02:24 UT; научная орбита с периодом 4,5 ч, наклонение 75°, перицентр 150 км, «глубокие погружения» до 125 км; восемь приборов; научный руководитель — Брюс Якоски.'}},
+  {title:'NASA Science, “MAVEN” mission page', url:'https://science.nasa.gov/mission/maven/', note:{en:'Retrieved 12 November 2026: last heard from on 6 December 2025 after an unexpected loss of signal behind Mars; end of mission declared 3 June 2026; a review board found the spacecraft not recoverable.', ru:'Получено 12 ноября 2026 года: последний сигнал 6 декабря 2025 года, после неожиданной потери связи за Марсом; 3 июня 2026 года объявлено о завершении миссии; комиссия признала аппарат невосстановимым.'}},
+  {title:'LASP, “NASA\'s MAVEN mission begins a new chapter with a new leader” (9 September 2021)', url:'https://lasp.colorado.edu/2021/09/09/nasas-maven-mission-begins-a-new-chapter-with-a-new-leader/', note:{en:'Shannon Curry became principal investigator on 31 August 2021, succeeding Bruce Jakosky, PI since the mission\'s inception in 2003.', ru:'Шеннон Карри стала научным руководителем 31 августа 2021 года, сменив Брюса Якоски, руководившего миссией с её зарождения в 2003 году.'}},
+  {title:'B. M. Jakosky and the MAVEN Science Team, “Mars Atmospheric Loss at the Present and Integrated Loss Through Time As Observed by MAVEN”, 52nd ESLAB Symposium, ESA/ESTEC, 14–18 May 2018 (slides; the day of the talk is not printed)', url:'https://www.cosmos.esa.int/documents/1700208/1718761/15_Jakosky_Mars+atmospheric+loss+from+Maven+observations.pdf/8c6036e3-61ef-3fed-955a-cc97164b4f9b', note:{en:'Present-day oxygen loss: photochemical ~1.3 kg/s (largest), ions ~130 g/s, sputtering ~80 g/s; total ~2–3 kg/s; 10 Sept 2017 event: models give 3–20× more heavy-ion loss; argon: average fraction lost 66 ± 4.5 %.', ru:'Сегодняшний уход кислорода: фотохимический ~1,3 кг/с (крупнейший), ионный ~130 г/с, распыление ~80 г/с; всего ~2–3 кг/с; событие 10 сентября 2017 года: модели дают в 3–20 раз больший уход тяжёлых ионов; аргон: средняя потерянная доля 66 ± 4,5 %.'}},
+  {title:'NASA, “NASA Mission Reveals Speed of Solar Wind Stripping Martian Atmosphere” (5 November 2015)', url:'https://www.nasa.gov/news-release/nasa-mission-reveals-speed-of-solar-wind-stripping-martian-atmosphere/', note:{en:'The solar wind strips away gas at about 100 grams a second; almost 75 % of escaping ions leave down the tail and nearly 25 % in a polar plume; erosion increases significantly during solar storms.', ru:'Солнечный ветер уносит газ со скоростью около 100 граммов в секунду; почти 75 % уходящих ионов покидают Марс через хвост и почти 25 % — через полярный шлейф; во время солнечных бурь эрозия резко усиливается.'}},
+  {title:'S. W. Stone et al. (2020), “Hydrogen escape from Mars is driven by seasonal and dust storm transport of water”, Science 370, 824–831', url:'https://doi.org/10.1126/science.aba5229', note:{en:'MAVEN NGIMS: water carried into the upper atmosphere by season and by dust storms (including the 2018 global storm) dominates today\'s loss of hydrogen.', ru:'MAVEN NGIMS: вода, поднимаемая в верхнюю атмосферу сезонами и пылевыми бурями (в том числе глобальной бурей 2018 года), определяет сегодняшний уход водорода.'}},
+  {title:'ESA, “Leaky atmosphere linked to lightweight planet” (8 February 2018), on R. Ramstad et al. (2017), JGR Space Physics 122, 8051–8062', url:'https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/Leaky_atmosphere_linked_to_lightweight_planet', note:{en:'Mars Express (launched 2 June 2003) has monitored escaping ions since 2004, from solar minimum to maximum; Mars\'s gravity is about a third of Earth\'s; the planets\' atmospheres diverged over 4.6 billion years.', ru:'Mars Express (запущен 2 июня 2003 года) следит за уходящими ионами с 2004 года, от минимума солнечной активности до максимума; притяжение Марса — около трети земного; атмосферы планет разошлись за 4,6 млрд лет.'}},
+  {title:'R. Thomas et al., “Seasonal variability of atomic hydrogen and oxygen in the EMM/EMUS cross-exospheric observations during Mars year 36”, EGU General Assembly 2023, EGU23-13324', url:'https://meetingorganizer.copernicus.org/EGU23/EGU23-13324.html', note:{en:'Hope\'s ultraviolet spectrometer, 130 km to beyond 35,000 km: hydrogen emission changes by an order of magnitude or more between perihelion and aphelion, oxygen at high altitude by about a factor of two.', ru:'Ультрафиолетовый спектрометр «Надежды», от 130 км до более чем 35 000 км: излучение водорода меняется на порядок и более между перигелием и афелием, кислорода на больших высотах — примерно вдвое.'}},
+  {title:'Y. Wang et al. (2023), “The Mars Orbiter Magnetometer of Tianwen-1: In-flight Performance and First Science Results”, Earth and Planetary Physics', url:'https://arxiv.org/abs/2301.00677', note:{en:'MOMAG has measured the field around Mars routinely since 13 November 2021; it agrees with MAVEN in the solar wind; 158 bow-shock crossings, 5 of them simultaneous with MAVEN.', ru:'MOMAG регулярно измеряет поле вокруг Марса с 13 ноября 2021 года; в солнечном ветре совпадает с MAVEN; 158 пересечений головной ударной волны, 5 — одновременно с MAVEN.'}},
+  {title:'NASA NSSDCA, “Chronology of Mars Exploration”', url:'https://nssdc.gsfc.nasa.gov/planetary/chronology_mars.html', note:{en:'Launch dates: Mariner 6 and 7 in 1969, Mariner 9 in 1971; Mars Express 2 June 2003, MAVEN 18 November 2013, Hope 19 July 2020, Tianwen-1 23 July 2020.', ru:'Даты запусков: «Маринер-6» и «-7» — 1969 год, «Маринер-9» — 1971 год; Mars Express — 2 июня 2003 года, MAVEN — 18 ноября 2013 года, «Надежда» — 19 июля 2020 года, «Тяньвэнь-1» — 23 июля 2020 года.'}},
+  {title:'collectSPACE, “NASA ends MAVEN Mars atmosphere probe mission” (3 June 2026)', url:'https://www.collectspace.com/news/news-060326a-maven-mars-atmosphere-probe-end-mission.html', note:{en:'A telemetry fragment showed the spacecraft spinning faster than normal; the review board\'s preliminary finding is that the rotation drained the batteries and cut power to the radio; root cause not yet determined, final report expected later in 2026; more than 800 publications.', ru:'Фрагмент телеметрии показал, что аппарат вращался быстрее обычного; по предварительному выводу комиссии вращение разрядило аккумуляторы и обесточило радиосистему; первопричина не установлена, итоговый отчёт ожидался позднее в 2026 году; более 800 публикаций.'}},
+  {title:'B. M. Jakosky et al. (2015), “MAVEN observations of the response of Mars to an interplanetary coronal mass ejection”, Science 350, aad0210', url:'https://doi.org/10.1126/science.aad0210', note:{en:'ICME on 8 March 2015; modelled ion escape ~1.5 × 10²⁴ s⁻¹ before (mostly O₂⁺), ~10²⁵ s⁻¹ (seven times) at four times the solar-wind pressure, 3 × 10²⁵ s⁻¹ at ~15 times; earlier studies: 10–100 times during storms.', ru:'Корональный выброс 8 марта 2015 года; модельный уход ионов ~1,5 × 10²⁴ с⁻¹ до него (в основном O₂⁺), ~10²⁵ с⁻¹ (в семь раз больше) при вчетверо большем давлении солнечного ветра, 3 × 10²⁵ с⁻¹ — примерно при 15-кратном; прежние работы: в 10–100 раз во время бурь.'}},
+  {title:'S. K. Atreya et al. (2013), “Primordial argon isotope fractionation in the atmosphere of Mars measured by the SAM instrument on Curiosity”, Geophysical Research Letters 40, 5605–5609', url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC4373143', note:{en:'³⁶Ar/³⁸Ar = 4.2 ± 0.1 in the atmosphere at Gale crater, against 5.5 in the Sun; at least 50 % and perhaps 85–95 % of the argon lost.', ru:'³⁶Ar/³⁸Ar = 4,2 ± 0,1 в атмосфере у кратера Гейл против 5,5 у Солнца; потеряно не меньше 50 % аргона, а возможно, 85–95 %.'}},
+  {title:'B. M. Jakosky et al. (2017), “Mars\' atmospheric history derived from upper-atmosphere measurements of ³⁸Ar/³⁶Ar”, Science 355, 1408–1410; LASP release, 30 March 2017', url:'https://lasp.colorado.edu/maven/2017/03/30/maven-reveals-most-of-mars-atmosphere-was-lost-to-space/', note:{en:'About 65 % of the argon that was ever in the atmosphere has been lost to space by sputtering; the majority of the CO₂ was lost too.', ru:'Около 65 % всего аргона, когда-либо бывшего в атмосфере, ушло в космос через распыление; ушла и бо́льшая часть CO₂.'}},
+  {title:'G. L. Villanueva et al. (2015), “Strong water isotopic anomalies in the martian atmosphere”, Science 348, 218–221; NASA release, 5 March 2015', url:'https://www.nasa.gov/news-release/nasa-research-suggests-mars-once-had-more-water-than-earths-arctic-ocean', note:{en:'Mars lost a volume of water 6.5 times the present polar caps, a global layer about 137 m deep (19 % of the surface as a northern ocean); 87 % lost to space.', ru:'Марс потерял объём воды в 6,5 раза больше нынешних полярных шапок — глобальный слой глубиной около 137 м (северный океан на 19 % поверхности); 87 % ушло в космос.'}},
+  {title:'W. M. Keck Observatory, “Mars Lost an Ocean\'s Worth of Water” (March 2015)', url:'https://keckobservatory.org/mars_lost_an_oceans_worth_of_water/', note:{en:'Atmospheric water near the pole is enriched in deuterium seven-fold relative to Earth\'s oceans; the permanent ice caps eight-fold.', ru:'Атмосферная вода у полюса обогащена дейтерием в семь раз относительно земного океана, вечные полярные шапки — в восемь.'}},
+  {title:'I. Ribas, E. F. Guinan, M. Güdel, M. Audard (2005), “Evolution of the Solar Activity over Time and Effects on Planetary Atmospheres. I. High-Energy Irradiances (1–1700 Å)”, ApJ 622, 680–694', url:'https://arxiv.org/abs/astro-ph/0412253', note:{en:'From young Sun-like stars: the integrated 1–1200 Å flux was about 6 times today\'s 3.5 billion years ago and about 2.5 times 2.5 billion years ago.', ru:'По молодым солнцеподобным звёздам: суммарный поток в диапазоне 1–1200 Å 3,5 млрд лет назад был примерно в 6 раз больше нынешнего, 2,5 млрд лет назад — примерно в 2,5 раза.'}},
+  {title:'ESA Science, “Extended life for ESA\'s science missions” (7 March 2023)', url:'https://sci.esa.int/web/director-desk/-/extended-life-for-esa-s-science-missions', note:{en:'Mars Express operations confirmed to the end of 2026, with an indicative extension to 31 December 2028 to support JAXA\'s MMX.', ru:'Работа Mars Express подтверждена до конца 2026 года с ориентировочным продлением до 31 декабря 2028 года для поддержки миссии MMX JAXA.'}},
+  {title:'ESA, “ESA science missions get green light for new discoveries” (11 June 2026)', url:'https://www.esa.int/Science_Exploration/Space_Science/ESA_science_missions_get_green_light_for_new_discoveries', note:{en:'Retrieved 12 November 2026: at its 10–11 June 2026 meeting the Science Programme Committee endorsed extensions for all 13 missions whose current science phase ends before the end of 2026, Mars Express among them; no new end dates are given.', ru:'Проверено 12 ноября 2026 года: на заседании 10–11 июня 2026 года Комитет научной программы одобрил продление всех 13 миссий, у которых текущий научный этап заканчивается до конца 2026 года, в том числе Mars Express; новые даты окончания не названы.'}}
+];
+
+/* ============ RENDER ALL ============ */
+function renderAll(){
+  renderJS(); renderHO(); renderST(); renderIS(); renderHS();
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
+  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  onScroll();
+}
+applyLang('en');
+window.__escape = {PLANETS:PLANETS, SPECIES:SPECIES, KB:KB, AMU:AMU, EV:EV, gAt:gAt, vEsc:vEsc, scaleHeight:scaleHeight, atmMass:atmMass, massToMbar:massToMbar,
+  v0:v0, vMean:vMean, jeansLambda:jeansLambda, jeansVel:jeansVel, jeansFlux:jeansFlux, jeansRate:jeansRate, erfc:erfc, tailFraction:tailFraction, jeansX:jeansX,
+  escEnergyEV:escEnergyEV, DR:DR, hotShare:hotShare, worldEsc:worldEsc, radiusFor:radiusFor, apoForPeriod:apoForPeriod, Q_QUIET:Q_QUIET, M_ION:M_ION,
+  stormExtra:stormExtra, stormYearShare:stormYearShare, rayEnrich:rayEnrich, rayLeft:rayLeft, argonX:argonX, AR_E:AR_E, dzForLoss:dzForLoss,
+  BETA:BETA, euvRatio:euvRatio, weightedGyr:weightedGyr, massLost:massLost, lostUntil:lostUntil, M_MARS_AIR:M_MARS_AIR, M_EARTH_AIR:M_EARTH_AIR,
+  TIMELINE:TIMELINE, REFERENCES:REFERENCES};
+
+})();
+</script>
+<!-- fob-network -->
+<aside class="fob-net" aria-label="More from Follow or Bounce"><style>.fob-net{border-top:1px solid;border-color:color-mix(in srgb,currentColor 22%,transparent);margin-top:48px;padding:28px max(16px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));font-size:15px;line-height:1.45;clear:both}.fob-net>div{max-width:72rem;margin:0 auto}.fob-net p{margin:0 0 14px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}.fob-net p a{color:inherit;font-weight:600}.fob-net ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:10px 28px}.fob-net li a{display:block;min-height:44px;color:inherit;text-decoration:none}.fob-net li b{display:block;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}.fob-net li span{display:block;opacity:.72}.fob-net a:focus-visible{outline:2px solid currentColor;outline-offset:3px}</style><div><p><a href="https://followorbounce.github.io/">Follow or Bounce</a> · more from the studio</p><ul><li><a href="https://followorbounce.github.io/planck-to-horizon"><b>Planck to Horizon</b><span>Every size in nature, in one zoom</span></a></li><li><a href="https://followorbounce.github.io/reckoning/"><b>Reckoning</b><span>Units, sky and sea, signals, weather and ships</span></a></li><li><a href="https://followorbounce.github.io/machinery/"><b>Heavy Machinery Encyclopedia</b><span>The largest machines and the physics behind them</span></a></li></ul></div></aside>
+<!-- /fob-network -->
+</body>
+</html>

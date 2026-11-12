@@ -1,0 +1,11 @@
+{
+ "slug": "footing-ranger-surveyor",
+ "title_en": "FOOTING — RANGER, SURVEYOR & THE GROUND UNDER APOLLO",
+ "title_ru": "ОПОРА — «РЕЙНДЖЕР», «СЕРВЕЙЕР» И ГРУНТ ПОД «АПОЛЛОНОМ»",
+ "description": "An interactive field guide to how NASA learned the Moon would hold a lander: six Ranger failures, then Ranger 7–9's cameras sharpening to 0.3 m in the last seconds before impact, Surveyor's retro rocket and three verniers bringing it to a free fall from 12 feet, footpads that answered “will the LM sink?”, Lunar Orbiter's 1-metre maps, and Apollo 12 walking over to Surveyor 3 — with the bacteria story told honestly.",
+ "og": "Picture sharpness against seconds to impact, Surveyor 1's descent window from its own flight report, footpad pressure against the soil the Surveyors measured, and Lunar Orbiter's telephoto, interactive and checked against NSSDC, JPL and Hughes data.",
+ "brand": "FOOTING — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "RANGER",
+ "hud1": "ALTITUDE",
+ "hud2": "SPEED"
+}

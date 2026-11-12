@@ -1,0 +1,11 @@
+{
+ "slug": "escape-maven-mars-atmosphere",
+ "title_en": "ESCAPE — WHERE MARS'S AIR WENT: MAVEN & ATMOSPHERIC LOSS",
+ "title_ru": "УБЕГАНИЕ — КУДА ДЕЛСЯ ВОЗДУХ МАРСА: MAVEN И ПОТЕРЯ АТМОСФЕРЫ",
+ "description": "An interactive field guide to how Mars lost its air: scale height and the exobase, Jeans escape of hydrogen, hot oxygen from recombination, ion pickup and sputtering, why gravity matters more than the missing magnetic field, NASA's MAVEN orbiter (2014–2025) and its 2–3 kg/s loss budget, solar storms, argon and deuterium isotopes, and four billion years of leak.",
+ "og": "Mars leaks 2–3 kg of gas a second. Find its exobase and the Jeans flux of hydrogen, see why hot oxygen escapes Mars but not Earth, turn up a solar storm, read the loss in argon 38/36 and D/H, and run the leak back four billion years, checked against MAVEN, Curiosity, Mars Express and NASA data.",
+ "brand": "ESCAPE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE EVIDENCE",
+ "hud1": "READING",
+ "hud2": "RESULT"
+}

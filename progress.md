@@ -152,3 +152,17 @@ Same process as Wave 5: one author team per guide → independent review panel (
 
 ## 2026-10-28 — Reach plan F4: structured data
 Article + breadcrumbs on 83 guides, WebSite on the front (engine/structured_data.py).
+
+## 2026-11-12 — Wave 8: Moon & Mars gaps (83 → 88 guides; local, not pushed yet)
+Same process as Waves 5–7: shared author brief (`_tools/WAVE8-BRIEF.md`) → one author agent per guide → independent review panel per guide
+(`_tools/WAVE8-REVIEW-BRIEF.md`, REVIEW.md in each folder, all APPROVE WITH CHANGES, every MUST fixed) → coordinator Chrome screenshots at 1300/390 + fixes → wire.
+- **FOOTING** `footing-ranger-surveyor` (moon): Ranger impact cameras (fitted impact paths), Surveyor 1 descent from the Hughes flight report (ignition window 70.3–83.7 km, 3.65 m/s), footpad pressure vs Surveyor 5 soil, Lunar Orbiter 1 m from 46 km, Apollo 12 / Surveyor 3 microbe story as the 2011 re-examination states it. 68 checks, 31 refs.
+- **MASCON** `mascon-grail-lunar-gravity` (moon): buried-mass anomaly, a year of orbit integrated in GRGM1200A degree 30 (PFS-2 model median 34 d vs real 35; frozen inclinations in the survival bands), GRAIL range-rate signal, degree vs altitude. Integration runs in 10 ms slices from near-view. 61 checks, 21 refs.
+- **TOUCHDOWN** `touchdown-commercial-lunar-landers` (moon): 14 landing missions Jan 2019–Jun 2025 scored exactly; descent Δv budget, altitude-filter model of HAKUTO-R M1, landing ellipse on synthetic terrain, tip-over envelope. Status-heavy (AS_OF 12 Nov 2026: no attempt since 5 Jun 2025). 61 checks, 36 refs.
+- **QUAKE** `quake-insight-mars` (mars): moment magnitude, toy ray tracer fitted to S1000a, core radius history to ~1,650–1,675 km and the 2025 inner-core claim, mole friction, dust/solar power. 67 checks, 40 refs.
+- **ESCAPE** `escape-maven-mars-atmosphere` (mars): Jeans escape calculator, hot-oxygen threshold, storm boost, argon/D-H Rayleigh distillation, 4-Gyr power law; MAVEN lost 6 Dec 2025, ended 3 Jun 2026; Mars Express extension June 2026. 73 checks, 33 refs.
+- Wiring: pages.json/index/llms/search/ru index; related.json (5 new + 10 neighbour swaps); mission-of-day.js +21 missions (129), and «Сервейор» → «Сервейер» to match the site; freshness.json +24 rows; share cards for 10 pages (og_cards.py run through a Chrome stand-in for Firefox: this Mac has no Firefox; Pillow from a scratch venv).
+- Coordinator layout fixes after the panels: clipped/overlapping chart labels (ESCAPE, TOUCHDOWN, FOOTING, QUAKE), odd readout cells spanning the row (QUAKE, column-aware), `.grid-2 + .grid-2` gap in four guides.
+- Found, not caused here: `check-all.sh` reports DRIFT on every generated guide since 2026-10-28, because og_cards/structured_data/ga/ru_pages inject blocks after assemble.py. Running wire.py/ru_pages.py/structured_data.py also re-orders those blocks and bumps dates on every page; only the Wave 8 files were kept. Worth fixing (assemble.py should emit the blocks, or check-all should ignore them).
+- Still to do at push: structured_data.py after the commit (new pages get datePublished from git), homepage card "83" → "88" in followorbounce.github.io engine/aero-shader.html + build.
+- Open SHOULDs per guide in each REVIEW.md (e.g. TOUCHDOWN Monte Carlo error in the readout, FOOTING cite Hall SP-4210, MASCON 15–20 s year on phones).
