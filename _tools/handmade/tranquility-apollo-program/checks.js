@@ -72,7 +72,7 @@ module.exports = (w, C) => {
   d.querySelector('#langtoggle button[data-lang="ru"]').click();
   C.setLedger(0);
   const ledRu = d.getElementById('ledgerOut').textContent + d.getElementById('ledgerSvg').textContent + d.getElementById('ledgerSvg').getAttribute('aria-label');
-  ok('RU ledger uses «т», never Latin " t"', /\d т/.test(ledRu) && !/\d t\b/.test(ledRu) && !/фнт/.test(ledRu), (ledRu.match(/\d t\b/g) || []).length);
+  ok('RU ledger uses «т», never Latin " t"', /\d\sт/.test(ledRu) && !/\d t\b/.test(ledRu) && !/фнт/.test(ledRu), (ledRu.match(/\d t\b/g) || []).length);
   ok('RU: Н1-Л3 in Cyrillic, no undefined «ЛМ»', !/N1-Л3/.test(d.body.innerHTML) && !/ОТ ЛМ/.test(d.body.innerHTML));
   d.querySelector('#langtoggle button[data-lang="en"]').click();
   /* CH3 stack */

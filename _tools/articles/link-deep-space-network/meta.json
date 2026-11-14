@@ -7,5 +7,7 @@
  "brand": "LINK — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE NETWORK",
  "hud1": "RECEIVED",
- "hud2": "MAX DATA RATE"
+ "hud2": "MAX DATA RATE",
+ "hud1_ru": "ПРИНЯТО",
+ "hud2_ru": "МАКС. СКОРОСТЬ"
 }

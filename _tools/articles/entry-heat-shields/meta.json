@@ -7,5 +7,7 @@
  "brand": "ENTRY — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE PLUNGE",
  "hud1": "PEAK g",
- "hud2": "PEAK HEATING"
+ "hud2": "PEAK HEATING",
+ "hud1_ru": "ПИК ПЕРЕГРУЗКИ",
+ "hud2_ru": "ПИК НАГРЕВА"
 }

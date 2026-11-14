@@ -7,5 +7,7 @@
  "brand": "ESCAPE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE EVIDENCE",
  "hud1": "READING",
- "hud2": "RESULT"
+ "hud2": "RESULT",
+ "hud1_ru": "ПОКАЗАНИЕ",
+ "hud2_ru": "РЕЗУЛЬТАТ"
 }

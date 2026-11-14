@@ -42,14 +42,14 @@ function renderStage(){
     [T('TOTAL','ВСЕГО'), fmt(tot/1000, 2) + T(' km/s',' км/с')]
   ] : [
     [T('MASS RATIO','ОТНОШЕНИЕ МАСС'), fmt(O.m0/O.mf, 2)],
-    [T('EMPTY MASS CARRIED TO THE END','ПУСТАЯ МАССА ДО КОНЦА'), fmtInt(O.mf*LB/1000) + T(' t',' т')],
+    [T('EMPTY MASS CARRIED TO THE END','ПУСТАЯ МАССА В КОНЦЕ РАЗГОНА'), fmtInt(O.mf*LB/1000) + T(' t',' т')],
     [T('ONE STAGE','ОДНА СТУПЕНЬ'), fmt(O.dv/1000, 2) + T(' km/s',' км/с')],
     [T('THREE STAGES','ТРИ СТУПЕНИ'), fmt(tot/1000, 2) + T(' km/s',' км/с')]
   ]);
   hud1.textContent = fmt(shown/1000, 2) + T(' km/s',' км/с');
   document.getElementById('stageStatus').innerHTML = stageMode === 1
-    ? T('Same propellant, no staging: every empty tank rides to the end. Even with the J-2\'s efficiency throughout, one stage falls well short of the Moon.','То же топливо без разделения ступеней: все пустые баки летят до конца. Даже с экономичностью J-2 на всём пути одна ступень сильно не дотягивает до Луны.')
-    : (tot >= 12200 ? T('About what reaching orbit and leaving for the Moon needs (≈ 12.5 km/s, a rough figure) — the Saturn V was sized for exactly this job, with little to spare.','Примерно столько и нужно, чтобы выйти на орбиту и уйти к Луне (≈ 12,5 км/с, грубая оценка): «Сатурн-5» был рассчитан именно на эту задачу, почти без запаса.')
+    ? T('Same propellant, no staging: every empty tank rides to the end. Even with the J-2\'s efficiency throughout, one stage falls well short of the Moon.','То же топливо, но без деления на ступени: все пустые баки летят до самого конца. Даже если весь путь пройти с экономичностью J-2, одной ступени до Луны далеко.')
+    : (tot >= 12200 ? T('About what reaching orbit and leaving for the Moon needs (≈ 12.5 km/s, a rough figure) — the Saturn V was sized for exactly this job, with little to spare.','Примерно столько и нужно, чтобы выйти на орбиту и уйти к Луне (≈ 12,5 км/с, грубая оценка): «Сатурн-5» был рассчитан именно на эту задачу, почти без запаса.')
                     : T('Not enough for the Moon. Every extra tonne of spacecraft is carried by all three stages, so it costs speed at every step.','Для Луны не хватает. Каждую лишнюю тонну корабля несут все три ступени, поэтому она отнимает скорость на каждом этапе.'));
 }
 [sPay, sIsp].forEach(function(el){ el.addEventListener('input', renderStage); });
@@ -74,7 +74,7 @@ function renderEng(){
   function eng(x, y, isOff){ ns('circle', {cx:x, cy:y, r:15, fill: isOff ? '#f6f6f2' : '#0b0b0c', stroke: isOff ? '#b5452a' : '#0b0b0c', 'stroke-width':1.5}, svg); if(isOff){ ns('path', {d:'M' + (x - 7) + ' ' + (y - 7) + 'L' + (x + 7) + ' ' + (y + 7) + 'M' + (x + 7) + ' ' + (y - 7) + 'L' + (x - 7) + ' ' + (y + 7), stroke:'#b5452a', 'stroke-width':1.5}, svg); } }
   for(var a = 0; a < 24; a++){ var th = a/24*2*Math.PI; eng(cx + Ro*Math.cos(th), cy + Ro*Math.sin(th), off.o[a]); }
   for(var b = 0; b < 6; b++){ var th2 = b/6*2*Math.PI + Math.PI/6; eng(cx + Ri*Math.cos(th2), cy + Ri*Math.sin(th2), off.i[b]); }
-  txt(svg, cx, 20, T('N1 first stage, seen from below: 24 outer + 6 inner NK-15','первая ступень Н-1 снизу: 24 внешних + 6 внутренних НК-15'), 'svg-small', 'middle');
+  txt(svg, cx, 20, T('N1 first stage, seen from below: 24 outer + 6 inner NK-15','первая ступень Н-1, вид снизу: 24 внешних + 6 внутренних НК-15'), 'svg-small', 'middle');
   // T/W gauge
   var gx = 375, gy0 = 300, gy1 = 60;
   function GY(v){ return gy0 - v/2*(gy0 - gy1); }
@@ -89,35 +89,35 @@ function renderEng(){
     [T('ENGINES FIRING','РАБОТАЕТ ДВИГАТЕЛЕЙ'), on + ' / 30'],
     [T('THRUST','ТЯГА'), fmtInt(on*NK15) + T(' t',' т')],
     [T('THRUST ÷ WEIGHT AT LIFTOFF','ТЯГОВООРУЖЁННОСТЬ НА СТАРТЕ'), fmt(tw, 2)],
-    [T('SATURN V, FOR COMPARISON','«САТУРН-5» ДЛЯ СРАВНЕНИЯ'), fmt(SV_TW, 2)]
+    [T('SATURN V, FOR COMPARISON','«САТУРН-5», ДЛЯ СРАВНЕНИЯ'), fmt(SV_TW, 2)]
   ]);
   hud2.textContent = fmt(tw, 2);
   document.getElementById('engStatus').innerHTML = tw >= 1.3
-    ? T('Plenty of margin: on paper the N1 could lose several pairs and still climb. That was the whole idea of thirty engines.','Запас велик: на бумаге Н-1 могла потерять несколько пар и всё равно подниматься. В этом и был смысл тридцати двигателей.')
-    : tw >= 1 ? T('Still climbing, but slowly — more of the thrust goes into holding the rocket up against gravity, and less into speed.','Ещё поднимается, но медленно: всё больше тяги уходит на то, чтобы удерживать ракету против тяготения, и всё меньше — на разгон.')
-    : T('<b>Thrust is less than weight:</b> the rocket cannot leave the ground — or, already in the air, it falls back. On 3 July 1969 KORD shut down all but one engine within about ten seconds [4].','<b>Тяга меньше веса:</b> ракета не может оторваться от земли, а уже взлетевшая падает обратно. 3 июля 1969 года КОРД примерно за десять секунд выключила все двигатели, кроме одного [4].');
+    ? T('Plenty of margin: on paper the N1 could lose several pairs and still climb. That was the whole idea of thirty engines.','Запас большой: на бумаге Н-1 могла потерять несколько пар и всё равно продолжать подъём. В этом и состоял смысл тридцати двигателей.')
+    : tw >= 1 ? T('Still climbing, but slowly — more of the thrust goes into holding the rocket up against gravity, and less into speed.','Ракета ещё поднимается, но медленно: всё больше тяги уходит на преодоление тяготения и всё меньше — на разгон.')
+    : T('<b>Thrust is less than weight:</b> the rocket cannot leave the ground — or, already in the air, it falls back. On 3 July 1969 KORD shut down all but one engine within about ten seconds [4].','<b>Тяга меньше веса:</b> ракета не может оторваться от земли, а если уже взлетела — падает обратно. 3 июля 1969 года КОРД примерно за десять секунд выключила все двигатели, кроме одного [4].');
 }
 eOut.addEventListener('input', renderEng);
 
 /* ============ CH5 — TIMELINE ============ */
 var TIMELINE = [
-  ['1962', '<b>July:</b> the N1 engine contract goes to Kuznetsov\'s bureau; Korolev and Glushko split [4].', '<b>Июль:</b> заказ на двигатели Н-1 получает бюро Кузнецова; разрыв Королёва и Глушко [4].'],
-  ['1964', '<b>December:</b> the uprated N1 for a single-launch lunar landing: 30 first-stage engines, 2,750 t [4].', '<b>Декабрь:</b> усиленная Н-1 для высадки на Луну одним пуском: 30 двигателей первой ступени, 2750 т [4].'],
+  ['1962', '<b>July:</b> the N1 engine contract goes to Kuznetsov\'s bureau; Korolev and Glushko split [4].', '<b>Июль:</b> заказ на двигатели Н-1 получает ОКБ Кузнецова; Королёв и Глушко расходятся [4].'],
+  ['1964', '<b>December:</b> the uprated N1 for a single-launch lunar landing: 30 first-stage engines, 2,750 t [4].', '<b>Декабрь:</b> усиленная Н-1 для высадки на Луну одним пуском: 30 двигателей первой ступени, 2750 т [4].'],
   ['1967', '<b>November:</b> first Saturn V launch (Apollo 4).', '<b>Ноябрь:</b> первый пуск «Сатурна-5» («Аполлон-4»).'],
   ['1968', '<b>21 December:</b> Apollo 8, first crew on a Saturn V, goes around the Moon [1].', '<b>21 декабря:</b> «Аполлон-8» — первый экипаж на «Сатурне-5» — облетает Луну [1].'],
-  ['1969', '<b>21 February:</b> N1 3L lost at T+68.7 s. <b>3 July:</b> N1 5L destroys its pad. <b>16 July:</b> Apollo 11 launches [1][4].', '<b>21 февраля:</b> Н-1 3Л потеряна на T+68,7 с. <b>3 июля:</b> Н-1 5Л разрушает стартовый комплекс. <b>16 июля:</b> старт «Аполлона-11» [1][4].'],
-  ['1971', '<b>27 June:</b> N1 6L lost to uncontrolled roll at T+50.1 s [4].', '<b>27 июня:</b> Н-1 6Л потеряна из-за неуправляемого вращения на T+50,1 с [4].'],
-  ['1972', '<b>23 November:</b> N1 7L explodes at about T+107 s, seconds before staging [4]. <b>7 December:</b> Apollo 17, the last Moon landing launch [1].', '<b>23 ноября:</b> Н-1 7Л взрывается около T+107 с, за секунды до разделения [4]. <b>7 декабря:</b> «Аполлон-17» — последний старт к Луне с высадкой [1].'],
+  ['1969', '<b>21 February:</b> N1 3L lost at T+68.7 s. <b>3 July:</b> N1 5L destroys its pad. <b>16 July:</b> Apollo 11 launches [1][4].', '<b>21 февраля:</b> Н-1 3Л потеряна на T+68,7 с. <b>3 июля:</b> Н-1 5Л разрушает стартовый комплекс. <b>16 июля:</b> старт «Аполлона-11» [1][4].'],
+  ['1971', '<b>27 June:</b> N1 6L lost to uncontrolled roll at T+50.1 s [4].', '<b>27 июня:</b> Н-1 6Л потеряна из-за неуправляемого вращения по крену на T+50,1 с [4].'],
+  ['1972', '<b>23 November:</b> N1 7L explodes at about T+107 s, seconds before staging [4]. <b>7 December:</b> Apollo 17, the last Moon landing launch [1].', '<b>23 ноября:</b> Н-1 7Л взрывается примерно на T+107 с, за несколько секунд до разделения ступеней [4]. <b>7 декабря:</b> «Аполлон-17» — последний старт экспедиции с высадкой на Луну [1].'],
   ['1974', '<b>24 June:</b> N1 work suspended [4].', '<b>24 июня:</b> работы по Н-1 приостановлены [4].'],
   ['1976', '<b>18 February:</b> the N1 programme is formally terminated [4].', '<b>18 февраля:</b> программа Н-1 официально прекращена [4].']
 ];
 
 /* ============ CH6 — REFERENCES ============ */
 var REFERENCES = [
-  {title:'R. W. Orloff (2000), Apollo by the Numbers: A Statistical Reference, NASA SP-2000-4029', url:'https://www.nasa.gov/wp-content/uploads/2023/04/sp-4029.pdf', note:{en:'Launch vehicle key facts (F-1 rated at 1,522,000 lbf, J-2 at 230,000 lbf) and ground-ignition weights for every Saturn V: Apollo 11 total 6,477,875 lb, stage dry and propellant weights, spacecraft 109,646 lb. (The table\'s S-II fuel and oxidizer rows appear swapped; only their sum is used here.)', ru:'Ключевые данные ракет (F-1 — 1 522 000 фунтов тяги, J-2 — 230 000) и массы при зажигании для каждого «Сатурна-5»: «Аполлон-11» — 6 477 875 фунтов, сухие массы и топливо ступеней, корабль — 109 646 фунтов. (Строки горючего и окислителя S-II в таблице, по-видимому, переставлены; здесь используется только их сумма.)'}},
-  {title:'NASA MSFC (1968), Saturn V Flight Manual SA-503, NASA TM X-72151', url:'https://ntrs.nasa.gov/citations/19750063889', note:{en:'Vehicle height 363 ft; engine data and burn times; J-2 specific impulse about 425 s against mixture ratio (figure 5-8); the S-IVB\'s two burns.', ru:'Высота ракеты 363 фута; данные двигателей и время работы; удельный импульс J-2 около 425 с в зависимости от соотношения компонентов (рис. 5-8); два включения S-IVB.'}},
-  {title:'Rocketdyne / NASA MSFC, “F-1 Saturn V First Stage Engine” (NTRS 20100027316)', url:'https://ntrs.nasa.gov/citations/20100027316', note:{en:'History of the F-1: about 1.5 million lbf of thrust and a specific impulse of 265 s.', ru:'История F-1: около 1,5 млн фунтов тяги и удельный импульс 265 с.'}},
-  {title:'A. A. Siddiqi (2000), Challenge to Apollo: The Soviet Union and the Space Race, 1945–1974, NASA SP-2000-4408', url:'https://history.nasa.gov/SP-4408pt2.pdf', note:{en:'The N1: Kuznetsov\'s NK-15 (153.4 t), NK-15V and NK-21 engines; 30 first-stage engines and 2,750 t; KORD; lack of integrated first-stage ground testing; the four launches (3L, 5L, 6L, 7L) and their causes; suspension in 1974 and termination in 1976; the NK-33 and its 1993 import by Aerojet.', ru:'Н-1: двигатели Кузнецова НК-15 (153,4 т), НК-15В и НК-21; 30 двигателей первой ступени и 2750 т; КОРД; отсутствие комплексных наземных испытаний первой ступени; четыре пуска (3Л, 5Л, 6Л, 7Л) и их причины; приостановка в 1974 и прекращение в 1976; НК-33 и его импорт Aerojet в 1993.'}}
+  {title:'R. W. Orloff (2000), Apollo by the Numbers: A Statistical Reference, NASA SP-2000-4029', url:'https://www.nasa.gov/wp-content/uploads/2023/04/sp-4029.pdf', note:{en:'Launch vehicle key facts (F-1 rated at 1,522,000 lbf, J-2 at 230,000 lbf) and ground-ignition weights for every Saturn V: Apollo 11 total 6,477,875 lb, stage dry and propellant weights, spacecraft 109,646 lb. (The table\'s S-II fuel and oxidizer rows appear swapped; only their sum is used here.)', ru:'Основные данные ракеты-носителя (F-1 — 1 522 000 фунтов силы, J-2 — 230 000) и массы в момент зажигания для каждого «Сатурна-5»: у «Аполлона-11» — 6 477 875 фунтов, сухие массы ступеней и массы топлива, корабль — 109 646 фунтов. (Строки горючего и окислителя S-II в таблице, по-видимому, перепутаны местами; здесь используется только их сумма.)'}},
+  {title:'NASA MSFC (1968), Saturn V Flight Manual SA-503, NASA TM X-72151', url:'https://ntrs.nasa.gov/citations/19750063889', note:{en:'Vehicle height 363 ft; engine data and burn times; J-2 specific impulse about 425 s against mixture ratio (figure 5-8); the S-IVB\'s two burns.', ru:'Высота ракеты 363 фута; данные двигателей и время их работы; удельный импульс J-2 около 425 с в зависимости от соотношения компонентов (рис. 5-8); два включения S-IVB.'}},
+  {title:'Rocketdyne / NASA MSFC, “F-1 Saturn V First Stage Engine” (NTRS 20100027316)', url:'https://ntrs.nasa.gov/citations/20100027316', note:{en:'History of the F-1: about 1.5 million lbf of thrust and a specific impulse of 265 s.', ru:'История F-1: тяга около 1,5 млн фунтов силы и удельный импульс 265 с.'}},
+  {title:'A. A. Siddiqi (2000), Challenge to Apollo: The Soviet Union and the Space Race, 1945–1974, NASA SP-2000-4408', url:'https://history.nasa.gov/SP-4408pt2.pdf', note:{en:'The N1: Kuznetsov\'s NK-15 (153.4 t), NK-15V and NK-21 engines; 30 first-stage engines and 2,750 t; KORD; lack of integrated first-stage ground testing; the four launches (3L, 5L, 6L, 7L) and their causes; suspension in 1974 and termination in 1976; the NK-33 and its 1993 import by Aerojet.', ru:'Н-1: двигатели Кузнецова НК-15 (153,4 т), НК-15В и НК-21; 30 двигателей первой ступени и 2750 т; КОРД; отсутствие комплексных наземных испытаний первой ступени; четыре пуска (3Л, 5Л, 6Л, 7Л) и причины аварий; приостановка работ в 1974 году и прекращение в 1976 году; НК-33 и его ввоз в США компанией Aerojet в 1993 году.'}}
 ];
 
 /* ============ RENDER ALL ============ */
@@ -125,6 +125,7 @@ function renderAll(){
   renderStage();
   renderEng();
   renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-aria-en]'), function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
   onScroll();
 }
 applyLang('en');

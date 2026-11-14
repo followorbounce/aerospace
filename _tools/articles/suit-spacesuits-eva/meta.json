@@ -7,5 +7,7 @@
  "brand": "SUIT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE BALLOON",
  "hud1": "SUIT PRESSURE",
- "hud2": "TISSUE RATIO R"
+ "hud2": "TISSUE RATIO R",
+ "hud1_ru": "ДАВЛЕНИЕ В СКАФАНДРЕ",
+ "hud2_ru": "ТКАНЕВЫЙ КОЭФФИЦИЕНТ R"
 }

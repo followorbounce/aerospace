@@ -61,16 +61,16 @@ sup,sub{font-size:0.68em;}
 <link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/aerospace/ru/build-your-own-cubesat">
 <link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/aerospace/build-your-own-cubesat">
 <!-- /hreflang -->
-<!-- fob-ld -->
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ASSEMBLY — BUILD YOUR OWN CUBESAT","description":"A hands-on, interactive guide from Arduino basics and circuit fundamentals to the anatomy of a real CubeSat.","url":"https://followorbounce.github.io/aerospace/build-your-own-cubesat","mainEntityOfPage":"https://followorbounce.github.io/aerospace/build-your-own-cubesat","image":"https://followorbounce.github.io/aerospace/og/build-your-own-cubesat.jpg","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"Aerospace Knowledge Hub","url":"https://followorbounce.github.io/aerospace/"},"datePublished":"2026-09-10","dateModified":"2026-10-28"}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Aerospace Knowledge Hub","item":"https://followorbounce.github.io/aerospace/"},{"@type":"ListItem","position":2,"name":"ASSEMBLY — BUILD YOUR OWN CUBESAT","item":"https://followorbounce.github.io/aerospace/build-your-own-cubesat"}]}</script>
-<!-- /fob-ld -->
 <!-- fob-ga --><script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-CE86H6X7Z7');</script><!-- /fob-ga -->
+<!-- fob-ld -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ASSEMBLY — BUILD YOUR OWN CUBESAT","description":"A hands-on, interactive guide from Arduino basics and circuit fundamentals to the anatomy of a real CubeSat.","url":"https://followorbounce.github.io/aerospace/build-your-own-cubesat","mainEntityOfPage":"https://followorbounce.github.io/aerospace/build-your-own-cubesat","image":"https://followorbounce.github.io/aerospace/og/build-your-own-cubesat.jpg","author":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"publisher":{"@type":"Organization","name":"Follow or Bounce","url":"https://followorbounce.github.io/"},"inLanguage":"en","isPartOf":{"@type":"WebSite","name":"Aerospace Knowledge Hub","url":"https://followorbounce.github.io/aerospace/"},"datePublished":"2026-09-10","dateModified":"2026-10-29"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Aerospace Knowledge Hub","item":"https://followorbounce.github.io/aerospace/"},{"@type":"ListItem","position":2,"name":"ASSEMBLY — BUILD YOUR OWN CUBESAT","item":"https://followorbounce.github.io/aerospace/build-your-own-cubesat"}]}</script>
+<!-- /fob-ld -->
 </head>
 <body>
 
-<a class="skip-link" href="#hero">Skip to content</a>
+<a class="skip-link" href="#hero" data-en="Skip to content" data-ru="Перейти к содержанию">Skip to content</a>
 <div id="progress"></div>
 
 <div id="chrome">
@@ -82,54 +82,54 @@ sup,sub{font-size:0.68em;}
 </div>
 
 <div id="hud">
-  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">GETTING STARTED</span></div>
-  <div class="hud-row"><span class="hud-label">MODULE</span><span id="hud-alt">—</span></div>
-  <div class="hud-row"><span class="hud-label">STATUS</span><span id="hud-vel">—</span></div>
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span><span data-en="PHASE" data-ru="ЭТАП">PHASE</span></span><span id="hud-phase">GETTING STARTED</span></div>
+  <div class="hud-row"><span class="hud-label" data-en="MODULE" data-ru="МОДУЛЬ">MODULE</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label" data-en="STATUS" data-ru="СОСТОЯНИЕ">STATUS</span><span id="hud-vel">—</span></div>
 </div>
 
 <main>
 
 <!-- HERO -->
-<section id="hero" class="section" data-phase="GETTING STARTED" data-alt="—" data-vel="—" style="border-bottom:1px solid var(--ink);">
+<section id="hero" class="section" data-phase="GETTING STARTED" data-alt="—" data-vel="—" data-phase-ru="С ЧЕГО НАЧАТЬ" data-alt-ru="—" data-vel-ru="—" style="border-bottom:1px solid var(--ink);">
   <div class="section-inner">
     <div class="frame corner-frame">
       <div class="kicker">
         <span data-en="FIG. 00 — FROM A BLINKING LED TO A REAL SPACECRAFT" data-ru="РИС. 00 — ОТ МИГАЮЩЕГО СВЕТОДИОДА ДО НАСТОЯЩЕГО АППАРАТА">FIG. 00 — FROM A BLINKING LED TO A REAL SPACECRAFT</span>
         <span data-en="BEGINNER LEVEL" data-ru="УРОВЕНЬ: НАЧИНАЮЩИЙ">BEGINNER LEVEL</span>
       </div>
-      <h1><span data-en="ASSEMBLY" data-ru="СБОРКА">ASSEMBLY</span><br><em data-en="BUILD YOUR OWN CUBESAT, FROM FIRST PRINCIPLES" data-ru="СОБЕРИ СВОЙ КУБСАТ С НУЛЯ">BUILD YOUR OWN CUBESAT, FROM FIRST PRINCIPLES</em></h1>
-      <p class="sub lede" data-en="Ten chapters that start with a single Arduino and a blinking LED, build up the electronics you actually need to understand, and end with an exploded, clickable view of every system inside a real 10-centimetre satellite. Scroll to begin." data-ru="Десять глав, начинающихся с одного Arduino и мигающего светодиода, постепенно выстраивающих понимание электроники, которое действительно нужно, — и заканчивающихся разобранным, кликабельным видом всех систем внутри настоящего 10-сантиметрового спутника. Пролистайте вниз, чтобы начать.">Ten chapters that start with a single Arduino and a blinking LED, build up the electronics you actually need to understand, and end with an exploded, clickable view of every system inside a real 10-centimetre satellite. Scroll to begin.</p>
+      <h1><span data-en="ASSEMBLY" data-ru="СБОРКА">ASSEMBLY</span><br><em data-en="BUILD YOUR OWN CUBESAT, FROM FIRST PRINCIPLES" data-ru="СОБЕРИТЕ СВОЙ КУБСАТ — С САМЫХ ОСНОВ">BUILD YOUR OWN CUBESAT, FROM FIRST PRINCIPLES</em></h1>
+      <p class="sub lede" data-en="Ten chapters that start with a single Arduino and a blinking LED, build up the electronics you actually need to understand, and end with an exploded, clickable view of every system inside a real 10-centimetre satellite. Scroll to begin." data-ru="Десять глав: от одной платы Arduino и мигающего светодиода — через электронику, которую действительно нужно понимать, — к разобранной интерактивной модели всех систем настоящего 10-сантиметрового спутника. Пролистайте вниз, чтобы начать.">Ten chapters that start with a single Arduino and a blinking LED, build up the electronics you actually need to understand, and end with an exploded, clickable view of every system inside a real 10-centimetre satellite. Scroll to begin.</p>
       <a href="#ch1" class="cta"><span data-en="BEGIN — CHAPTER 01" data-ru="НАЧАТЬ — ГЛАВА 01">BEGIN — CHAPTER 01</span> →</a>
     </div>
   </div>
 </section>
 
 <!-- CH1 — WHAT IS A CUBESAT -->
-<section id="ch1" class="section" data-phase="WHAT IS A CUBESAT" data-alt="1U / 2U / 3U" data-vel="STANDARD">
+<section id="ch1" class="section" data-phase="WHAT IS A CUBESAT" data-alt="1U / 2U / 3U" data-vel="STANDARD" data-phase-ru="ЧТО ТАКОЕ КУБСАТ" data-alt-ru="1U / 2U / 3U" data-vel-ru="СТАНДАРТ">
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.01 / 10</span> — <span data-en="WHAT IS A CUBESAT" data-ru="ЧТО ТАКОЕ КУБСАТ">WHAT IS A CUBESAT</span></div>
-    <h2 class="h-lg" data-en="A satellite standardised down to a cube" data-ru="Спутник, стандартизированный до размера куба">A satellite standardised down to a cube</h2>
+    <h2 class="h-lg" data-en="A satellite standardised down to a cube" data-ru="Спутник, сведённый к стандартному кубу">A satellite standardised down to a cube</h2>
     <div class="grid-2" style="margin-bottom:32px;">
-      <p class="body-col" data-en="A CubeSat is a satellite built from standard 10×10×10 cm units, called &quot;U.&quot; One U is the smallest unit; two or three can be stacked into a 2U or 3U satellite. The standard exists so a huge range of student, hobbyist, and professional satellites can all share the same launch hardware and deployment mechanism — that standardisation is what makes building your own remotely realistic." data-ru="Кубсат — это спутник, построенный из стандартных блоков 10×10×10 см, называемых «U». Один U — минимальный блок; два или три можно составить в 2U- или 3U-спутник. Стандарт существует, чтобы огромное множество студенческих, любительских и профессиональных спутников могли использовать одно и то же пусковое оборудование и механизм развёртывания, — именно эта стандартизация делает постройку собственного спутника хоть сколько-нибудь реалистичной задачей.">A CubeSat is a satellite built from standard 10×10×10 cm units, called "U." One U is the smallest unit; two or three can be stacked into a 2U or 3U satellite. The standard exists so a huge range of student, hobbyist, and professional satellites can all share the same launch hardware and deployment mechanism — that standardisation is what makes building your own remotely realistic.</p>
-      <p class="body-col" data-en="This guide builds up the electronics knowledge from scratch, then walks through every system a real 1U CubeSat needs — structure, power, computing, sensing, and communication — before pointing to what an actual first build looks like." data-ru="Этот справочник выстраивает знания об электронике с нуля, а затем разбирает каждую систему, необходимую настоящему 1U-кубсату, — конструкцию, питание, вычисления, датчики и связь, — прежде чем показать, как выглядит реальная первая сборка.">This guide builds up the electronics knowledge from scratch, then walks through every system a real 1U CubeSat needs — structure, power, computing, sensing, and communication — before pointing to what an actual first build looks like.</p>
+      <p class="body-col" data-en="A CubeSat is a satellite built from standard 10×10×10 cm units, called &quot;U.&quot; One U is the smallest unit; two or three can be stacked into a 2U or 3U satellite. The standard exists so a huge range of student, hobbyist, and professional satellites can all share the same launch hardware and deployment mechanism — that standardisation is what makes building your own remotely realistic." data-ru="Кубсат — это спутник, собранный из стандартных блоков 10×10×10&nbsp;см, которые называют «U». Один U — минимальный блок; из двух или трёх блоков собирают спутник 2U или 3U. Стандарт существует для того, чтобы самые разные студенческие, любительские и профессиональные спутники могли пользоваться одним и тем же пусковым оборудованием и механизмом отделения, — именно стандартизация делает постройку собственного спутника хоть сколько-нибудь реальной.">A CubeSat is a satellite built from standard 10×10×10 cm units, called "U." One U is the smallest unit; two or three can be stacked into a 2U or 3U satellite. The standard exists so a huge range of student, hobbyist, and professional satellites can all share the same launch hardware and deployment mechanism — that standardisation is what makes building your own remotely realistic.</p>
+      <p class="body-col" data-en="This guide builds up the electronics knowledge from scratch, then walks through every system a real 1U CubeSat needs — structure, power, computing, sensing, and communication — before pointing to what an actual first build looks like." data-ru="Этот справочник выстраивает знания об электронике с нуля, а затем разбирает каждую систему, которая нужна настоящему 1U-кубсату, — конструкцию, питание, вычисления, датчики и связь — и в конце показывает, как выглядит реальная первая сборка.">This guide builds up the electronics knowledge from scratch, then walks through every system a real 1U CubeSat needs — structure, power, computing, sensing, and communication — before pointing to what an actual first build looks like.</p>
     </div>
     <div class="grid-3">
-      <div class="dash-card" style="text-align:center; background:var(--white); padding:20px;"><div class="dc-name" style="font-size:1.6rem;">1U</div><p style="font-size:12.5px; margin-top:6px;" data-en="10×10×10 cm — the base unit" data-ru="10×10×10 см — базовый блок">10×10×10 cm — the base unit</p></div>
-      <div class="dash-card" style="text-align:center; background:var(--white); padding:20px;"><div class="dc-name" style="font-size:1.6rem;">2U</div><p style="font-size:12.5px; margin-top:6px;" data-en="Two units stacked — more room for instruments" data-ru="Два блока в стеке — больше места для приборов">Two units stacked — more room for instruments</p></div>
-      <div class="dash-card" style="text-align:center; background:var(--white); padding:20px;"><div class="dc-name" style="font-size:1.6rem;">3U</div><p style="font-size:12.5px; margin-top:6px;" data-en="The most common size flown by student teams" data-ru="Самый распространённый размер у студенческих команд">The most common size flown by student teams</p></div>
+      <div class="dash-card" style="text-align:center; background:var(--white); padding:20px;"><div class="dc-name" style="font-size:1.6rem;">1U</div><p style="font-size:12.5px; margin-top:6px;" data-en="10×10×10 cm — the base unit" data-ru="10×10×10&nbsp;см — базовый блок">10×10×10 cm — the base unit</p></div>
+      <div class="dash-card" style="text-align:center; background:var(--white); padding:20px;"><div class="dc-name" style="font-size:1.6rem;">2U</div><p style="font-size:12.5px; margin-top:6px;" data-en="Two units stacked — more room for instruments" data-ru="Два блока друг на друге — больше места для приборов">Two units stacked — more room for instruments</p></div>
+      <div class="dash-card" style="text-align:center; background:var(--white); padding:20px;"><div class="dc-name" style="font-size:1.6rem;">3U</div><p style="font-size:12.5px; margin-top:6px;" data-en="The most common size flown by student teams" data-ru="Самый распространённый формат у студенческих команд">The most common size flown by student teams</p></div>
     </div>
   </div>
 </section>
 
 <!-- CH2 — CIRCUIT BASICS -->
-<section id="ch2" class="section" data-phase="CIRCUIT BASICS" data-alt="OHM'S LAW" data-vel="V = I × R">
+<section id="ch2" class="section" data-phase="CIRCUIT BASICS" data-alt="OHM'S LAW" data-vel="V = I × R" data-phase-ru="ОСНОВЫ ЦЕПЕЙ" data-alt-ru="ЗАКОН ОМА" data-vel-ru="V = I × R">
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.02 / 10</span> — <span data-en="ELECTRICITY IN THREE IDEAS" data-ru="ЭЛЕКТРИЧЕСТВО В ТРЁХ ИДЕЯХ">ELECTRICITY IN THREE IDEAS</span></div>
     <h2 class="h-lg" data-en="Voltage pushes, resistance resists, current flows" data-ru="Напряжение толкает, сопротивление сопротивляется, ток течёт">Voltage pushes, resistance resists, current flows</h2>
     <div class="grid-2">
       <div class="body-col">
-        <p style="margin-bottom:16px;" data-en="Three quantities describe almost any simple circuit. Voltage is the electrical &quot;push&quot; — how hard electrons are being driven around a loop. Current is how many electrons actually flow past a point per second. Resistance is whatever pushes back against that flow — including the resistor you deliberately add to protect a component like an LED." data-ru="Три величины описывают почти любую простую цепь. Напряжение — это электрический «толчок», то, насколько сильно электроны продавливаются по контуру. Ток — сколько электронов реально проходит через точку за секунду. Сопротивление — то, что противодействует этому потоку, включая резистор, который вы намеренно добавляете для защиты компонента вроде светодиода.">Three quantities describe almost any simple circuit. Voltage is the electrical "push" — how hard electrons are being driven around a loop. Current is how many electrons actually flow past a point per second. Resistance is whatever pushes back against that flow — including the resistor you deliberately add to protect a component like an LED.</p>
-        <p data-en="Ohm's law ties all three together. Drag the sliders and watch the current — and the LED — respond." data-ru="Закон Ома связывает все три величины. Потяните ползунки и посмотрите, как реагируют ток и светодиод.">Ohm's law ties all three together. Drag the sliders and watch the current — and the LED — respond.</p>
+        <p style="margin-bottom:16px;" data-en="Three quantities describe almost any simple circuit. Voltage is the electrical &quot;push&quot; — how hard electrons are being driven around a loop. Current is how many electrons actually flow past a point per second. Resistance is whatever pushes back against that flow — including the resistor you deliberately add to protect a component like an LED." data-ru="Три величины описывают почти любую простую цепь. Напряжение — это электрический «напор»: то, насколько сильно электроны гонит по замкнутой цепи. Ток — сколько электронов на самом деле проходит через точку цепи за секунду. Сопротивление — всё, что препятствует этому потоку, включая резистор, который вы нарочно ставите для защиты компонента вроде светодиода.">Three quantities describe almost any simple circuit. Voltage is the electrical "push" — how hard electrons are being driven around a loop. Current is how many electrons actually flow past a point per second. Resistance is whatever pushes back against that flow — including the resistor you deliberately add to protect a component like an LED.</p>
+        <p data-en="Ohm's law ties all three together. Drag the sliders and watch the current — and the LED — respond." data-ru="Закон Ома связывает все три величины. Двигайте ползунки и смотрите, как меняются ток и свечение светодиода.">Ohm's law ties all three together. Drag the sliders and watch the current — and the LED — respond.</p>
       </div>
       <div class="sim-panel corner-frame">
         <div class="sim-viewport" style="max-width:280px;"><svg id="ohmSvg" viewBox="0 0 280 280" width="100%" height="100%"></svg></div>
@@ -150,14 +150,14 @@ sup,sub{font-size:0.68em;}
 </section>
 
 <!-- CH3 — FIRST CIRCUIT -->
-<section id="ch3" class="section" data-phase="FIRST CIRCUIT" data-alt="ARDUINO + LED" data-vel="BLINKING">
+<section id="ch3" class="section" data-phase="FIRST CIRCUIT" data-alt="ARDUINO + LED" data-vel="BLINKING" data-phase-ru="ПЕРВАЯ СХЕМА" data-alt-ru="ARDUINO + СВЕТОДИОД" data-vel-ru="МИГАЕТ">
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.03 / 10</span> — <span data-en="YOUR FIRST CIRCUIT" data-ru="ВАША ПЕРВАЯ СХЕМА">YOUR FIRST CIRCUIT</span></div>
     <h2 class="h-lg" data-en="An Arduino, a resistor, an LED, four wires" data-ru="Arduino, резистор, светодиод, четыре провода">An Arduino, a resistor, an LED, four wires</h2>
     <div class="grid-2">
       <div class="body-col">
-        <p style="margin-bottom:16px;" data-en="An Arduino is a small board with a microcontroller — a tiny computer that can turn its pins on and off under program control. Wire an LED and a resistor to one digital pin and ground, and you have the simplest complete circuit in electronics: a closed loop the microcontroller can switch." data-ru="Arduino — небольшая плата с микроконтроллером: крошечным компьютером, способным включать и выключать свои выводы под управлением программы. Подключите светодиод и резистор к одному цифровому выводу и земле — и вы получите простейшую полную схему в электронике: замкнутый контур, которым может управлять микроконтроллер.">An Arduino is a small board with a microcontroller — a tiny computer that can turn its pins on and off under program control. Wire an LED and a resistor to one digital pin and ground, and you have the simplest complete circuit in electronics: a closed loop the microcontroller can switch.</p>
-        <p data-en="This exact circuit — a microcontroller switching a component on and off on a timer — is the direct ancestor of how a CubeSat blinks its status light, fires a deployment mechanism, or wakes up a sensor." data-ru="Именно эта схема — микроконтроллер, включающий и выключающий компонент по таймеру, — прямой предок того, как кубсат мигает индикатором состояния, срабатывает механизм развёртывания или «будит» датчик.">This exact circuit — a microcontroller switching a component on and off on a timer — is the direct ancestor of how a CubeSat blinks its status light, fires a deployment mechanism, or wakes up a sensor.</p>
+        <p style="margin-bottom:16px;" data-en="An Arduino is a small board with a microcontroller — a tiny computer that can turn its pins on and off under program control. Wire an LED and a resistor to one digital pin and ground, and you have the simplest complete circuit in electronics: a closed loop the microcontroller can switch." data-ru="Arduino — небольшая плата с микроконтроллером: крошечным компьютером, который по команде программы включает и выключает свои выводы. Подключите светодиод и резистор между одним цифровым выводом и землёй — и получится простейшая законченная цепь в электронике: замкнутый контур, которым может управлять микроконтроллер.">An Arduino is a small board with a microcontroller — a tiny computer that can turn its pins on and off under program control. Wire an LED and a resistor to one digital pin and ground, and you have the simplest complete circuit in electronics: a closed loop the microcontroller can switch.</p>
+        <p data-en="This exact circuit — a microcontroller switching a component on and off on a timer — is the direct ancestor of how a CubeSat blinks its status light, fires a deployment mechanism, or wakes up a sensor." data-ru="Именно эта схема — микроконтроллер, включающий и выключающий компонент по таймеру, — прямой предок того, как кубсат мигает индикатором состояния, приводит в действие механизм раскрытия или «будит» датчик.">This exact circuit — a microcontroller switching a component on and off on a timer — is the direct ancestor of how a CubeSat blinks its status light, fires a deployment mechanism, or wakes up a sensor.</p>
       </div>
       <div class="sim-panel corner-frame">
         <svg id="breadboardSvg" viewBox="0 0 320 260" width="100%" height="100%"></svg>
@@ -171,9 +171,9 @@ sup,sub{font-size:0.68em;}
 </section>
 
 <!-- CH4 — SENSORS -->
-<section id="ch4" class="section" data-phase="SENSORS &amp; INPUTS" data-alt="ANALOG / DIGITAL" data-vel="—">
+<section id="ch4" class="section" data-phase="SENSORS &amp; INPUTS" data-alt="ANALOG / DIGITAL" data-vel="—" data-phase-ru="ДАТЧИКИ И ВХОДЫ" data-alt-ru="АНАЛОГОВЫЕ / ЦИФРОВЫЕ" data-vel-ru="—">
   <div class="section-inner">
-    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="SENSORS &amp; INPUTS" data-ru="ДАТЧИКИ И ВХОДНЫЕ СИГНАЛЫ">SENSORS &amp; INPUTS</span></div>
+    <div class="eyebrow"><span class="fig-num">CH.04 / 10</span> — <span data-en="SENSORS &amp; INPUTS" data-ru="ДАТЧИКИ И ВХОДЫ">SENSORS &amp; INPUTS</span></div>
     <h2 class="h-lg" data-en="Teaching a circuit to notice things" data-ru="Учим схему замечать происходящее">Teaching a circuit to notice things</h2>
     <p class="lede" style="margin-bottom:8px;" data-en="A blinking LED is an output. A satellite also needs inputs — sensors that turn a physical quantity into a voltage a microcontroller can read." data-ru="Мигающий светодиод — это выход. Спутнику также нужны входы — датчики, превращающие физическую величину в напряжение, которое может считать микроконтроллер.">A blinking LED is an output. A satellite also needs inputs — sensors that turn a physical quantity into a voltage a microcontroller can read.</p>
     <div id="sensorList" style="margin-top:16px;"></div>
@@ -181,23 +181,23 @@ sup,sub{font-size:0.68em;}
 </section>
 
 <!-- CH5 — THE BRAIN -->
-<section id="ch5" class="section" data-phase="THE BRAIN" data-alt="MICROCONTROLLER" data-vel="—">
+<section id="ch5" class="section" data-phase="THE BRAIN" data-alt="MICROCONTROLLER" data-vel="—" data-phase-ru="МОЗГ" data-alt-ru="МИКРОКОНТРОЛЛЕР" data-vel-ru="—">
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.05 / 10</span> — <span data-en="THE BRAIN: HOBBY BOARD VS FLIGHT COMPUTER" data-ru="МОЗГ: ЛЮБИТЕЛЬСКАЯ ПЛАТА И БОРТОВОЙ КОМПЬЮТЕР">THE BRAIN: HOBBY BOARD VS FLIGHT COMPUTER</span></div>
     <h2 class="h-lg" data-en="Same principle, very different guarantees" data-ru="Тот же принцип, совсем другие гарантии">Same principle, very different guarantees</h2>
-    <p class="lede" style="margin-bottom:0;" data-en="An Arduino is the perfect place to learn the logic every onboard computer (OBC) uses — but a real flight OBC has to survive radiation, temperature swings, and total isolation from a repair technician." data-ru="Arduino — идеальное место, чтобы освоить логику, которую использует любой бортовой компьютер (OBC), — но настоящий полётный OBC должен пережить радиацию, перепады температур и полную изоляцию от техника-ремонтника.">An Arduino is the perfect place to learn the logic every onboard computer (OBC) uses — but a real flight OBC has to survive radiation, temperature swings, and total isolation from a repair technician.</p>
+    <p class="lede" style="margin-bottom:0;" data-en="An Arduino is the perfect place to learn the logic every onboard computer (OBC) uses — but a real flight OBC has to survive radiation, temperature swings, and total isolation from a repair technician." data-ru="На Arduino идеально осваивать логику, по которой работает любой бортовой компьютер (OBC), — но настоящий полётный бортовой компьютер должен выдерживать радиацию, перепады температур и полное отсутствие ремонтника рядом.">An Arduino is the perfect place to learn the logic every onboard computer (OBC) uses — but a real flight OBC has to survive radiation, temperature swings, and total isolation from a repair technician.</p>
     <div class="dash-grid" id="brainGrid"></div>
   </div>
 </section>
 
 <!-- CH6 — POWER -->
-<section id="ch6" class="section" data-phase="POWER SYSTEM" data-alt="SOLAR + BATTERY" data-vel="—">
+<section id="ch6" class="section" data-phase="POWER SYSTEM" data-alt="SOLAR + BATTERY" data-vel="—" data-phase-ru="ЭЛЕКТРОПИТАНИЕ" data-alt-ru="СОЛНЦЕ + АККУМУЛЯТОР" data-vel-ru="—">
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.06 / 10</span> — <span data-en="POWER: SOLAR PANELS &amp; BATTERIES" data-ru="ПИТАНИЕ: СОЛНЕЧНЫЕ БАТАРЕИ И АККУМУЛЯТОРЫ">POWER: SOLAR PANELS &amp; BATTERIES</span></div>
     <h2 class="h-lg" data-en="Wire cells for voltage, or wire them for current" data-ru="Соединяйте элементы ради напряжения — или ради тока">Wire cells for voltage, or wire them for current</h2>
     <div class="grid-2">
-      <p class="body-col" data-en="Connect solar cells in series (end to end) and their voltages add up, while the current stays the same as a single cell. Connect them in parallel (side by side) and it's the reverse — voltage stays the same, current adds up. Real CubeSat solar panels mix both, tuned to charge a specific battery pack at a specific voltage." data-ru="Соедините солнечные элементы последовательно (друг за другом) — и их напряжения складываются, а ток остаётся таким же, как у одного элемента. Соедините их параллельно (бок о бок) — и всё наоборот: напряжение остаётся прежним, а токи складываются. Реальные солнечные панели кубсатов комбинируют оба способа, настроенные на зарядку конкретной батареи при конкретном напряжении.">Connect solar cells in series (end to end) and their voltages add up, while the current stays the same as a single cell. Connect them in parallel (side by side) and it's the reverse — voltage stays the same, current adds up. Real CubeSat solar panels mix both, tuned to charge a specific battery pack at a specific voltage.</p>
-      <p class="body-col" data-en="A small onboard battery — usually lithium-ion — stores charge for the roughly 35 minutes of every 90-minute orbit spent in Earth's shadow, when the solar panels produce nothing at all." data-ru="Небольшая бортовая батарея — обычно литий-ионная — накапливает заряд на примерно 35 минут из каждого 90-минутного витка, проведённых в тени Земли, когда солнечные панели вообще ничего не вырабатывают.">A small onboard battery — usually lithium-ion — stores charge for the roughly 35 minutes of every 90-minute orbit spent in Earth's shadow, when the solar panels produce nothing at all.</p>
+      <p class="body-col" data-en="Connect solar cells in series (end to end) and their voltages add up, while the current stays the same as a single cell. Connect them in parallel (side by side) and it's the reverse — voltage stays the same, current adds up. Real CubeSat solar panels mix both, tuned to charge a specific battery pack at a specific voltage." data-ru="Соедините солнечные элементы последовательно (друг за другом) — и их напряжения сложатся, а ток останется таким же, как у одного элемента. Соедините параллельно (бок о бок) — и всё наоборот: напряжение не меняется, а токи складываются. В настоящих солнечных панелях кубсатов сочетаются оба способа, подобранные так, чтобы заряжать конкретную аккумуляторную батарею при конкретном напряжении.">Connect solar cells in series (end to end) and their voltages add up, while the current stays the same as a single cell. Connect them in parallel (side by side) and it's the reverse — voltage stays the same, current adds up. Real CubeSat solar panels mix both, tuned to charge a specific battery pack at a specific voltage.</p>
+      <p class="body-col" data-en="A small onboard battery — usually lithium-ion — stores charge for the roughly 35 minutes of every 90-minute orbit spent in Earth's shadow, when the solar panels produce nothing at all." data-ru="Небольшой бортовой аккумулятор — обычно литий-ионный — запасает энергию на те примерно 35 минут каждого 90-минутного витка, которые спутник проводит в тени Земли, когда солнечные панели не вырабатывают ничего.">A small onboard battery — usually lithium-ion — stores charge for the roughly 35 minutes of every 90-minute orbit spent in Earth's shadow, when the solar panels produce nothing at all.</p>
     </div>
     <div class="grid-2" style="margin-top:32px;">
       <div class="sim-panel corner-frame">
@@ -213,20 +213,20 @@ sup,sub{font-size:0.68em;}
 </section>
 
 <!-- CH7 — COMMUNICATION -->
-<section id="ch7" class="section" data-phase="COMMUNICATION" data-alt="RADIO" data-vel="UPLINK / DOWNLINK">
+<section id="ch7" class="section" data-phase="COMMUNICATION" data-alt="RADIO" data-vel="UPLINK / DOWNLINK" data-phase-ru="СВЯЗЬ" data-alt-ru="РАДИО" data-vel-ru="ВВЕРХ / ВНИЗ">
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.07 / 10</span> — <span data-en="COMMUNICATION: GETTING DATA HOME" data-ru="СВЯЗЬ: ПЕРЕДАЧА ДАННЫХ НА ЗЕМЛЮ">COMMUNICATION: GETTING DATA HOME</span></div>
-    <h2 class="h-lg" data-en="A satellite that can't talk is just space debris" data-ru="Спутник, который не может говорить, — просто космический мусор">A satellite that can't talk is just space debris</h2>
+    <h2 class="h-lg" data-en="A satellite that can't talk is just space debris" data-ru="Спутник без связи — просто космический мусор">A satellite that can't talk is just space debris</h2>
     <div id="commsList" style="margin-top:8px;"></div>
   </div>
 </section>
 
 <!-- CH8 — EXPLODED VIEW -->
-<section id="ch8" class="section" data-phase="ANATOMY — EXPLODED VIEW" data-alt="1U CUBESAT" data-vel="INTERACTIVE">
+<section id="ch8" class="section" data-phase="ANATOMY — EXPLODED VIEW" data-alt="1U CUBESAT" data-vel="INTERACTIVE" data-phase-ru="УСТРОЙСТВО — РАЗОБРАННЫЙ ВИД" data-alt-ru="КУБСАТ 1U" data-vel-ru="ИНТЕРАКТИВНО">
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.08 / 10</span> — <span data-en="ANATOMY OF A 1U CUBESAT" data-ru="УСТРОЙСТВО 1U-КУБСАТА">ANATOMY OF A 1U CUBESAT</span></div>
-    <h2 class="h-lg" data-en="Every system from this guide, stacked into one cube" data-ru="Все системы из этого справочника — собранные в один куб">Every system from this guide, stacked into one cube</h2>
-    <p class="lede" style="margin-bottom:28px;" data-en="Drag the slider to pull the stack apart, then click any board to see what it does — and which chapter it came from." data-ru="Потяните ползунок, чтобы разъединить стек, затем щёлкните по любой плате, чтобы узнать, что она делает, — и из какой главы она пришла.">Drag the slider to pull the stack apart, then click any board to see what it does — and which chapter it came from.</p>
+    <h2 class="h-lg" data-en="Every system from this guide, stacked into one cube" data-ru="Все системы из этого справочника, собранные в один куб">Every system from this guide, stacked into one cube</h2>
+    <p class="lede" style="margin-bottom:28px;" data-en="Drag the slider to pull the stack apart, then click any board to see what it does — and which chapter it came from." data-ru="Двигайте ползунок, чтобы раздвинуть платы, затем нажмите на любую из них, чтобы узнать, что она делает и из какой она главы.">Drag the slider to pull the stack apart, then click any board to see what it does — and which chapter it came from.</p>
     <div class="schematic-wrap">
       <div class="sim-panel corner-frame">
         <svg id="explodeSvg" viewBox="0 0 400 420" width="100%" height="100%"></svg>
@@ -241,7 +241,7 @@ sup,sub{font-size:0.68em;}
 </section>
 
 <!-- CH9 — TESTING -->
-<section id="ch9" class="section" data-phase="TESTING BEFORE LAUNCH" data-alt="VIBE / TVAC" data-vel="—">
+<section id="ch9" class="section" data-phase="TESTING BEFORE LAUNCH" data-alt="VIBE / TVAC" data-vel="—" data-phase-ru="ИСПЫТАНИЯ ПЕРЕД ЗАПУСКОМ" data-alt-ru="ВИБРО / ТЕРМОВАКУУМ" data-vel-ru="—">
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.09 / 10</span> — <span data-en="TESTING BEFORE LAUNCH" data-ru="ИСПЫТАНИЯ ПЕРЕД ЗАПУСКОМ">TESTING BEFORE LAUNCH</span></div>
     <h2 class="h-lg" data-en="No repair truck goes to orbit" data-ru="Ремонтная машина на орбиту не поедет">No repair truck goes to orbit</h2>
@@ -251,11 +251,11 @@ sup,sub{font-size:0.68em;}
 </section>
 
 <!-- CH10 — ROADMAP -->
-<section id="ch10" class="section" data-phase="YOUR BUILD ROADMAP" data-alt="—" data-vel="—" style="border-bottom:none;">
+<section id="ch10" class="section" data-phase="YOUR BUILD ROADMAP" data-alt="—" data-vel="—" data-phase-ru="ВАШ ПУТЬ К СБОРКЕ" data-alt-ru="—" data-vel-ru="—" style="border-bottom:none;">
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.10 / 10</span> — <span data-en="YOUR BUILD ROADMAP" data-ru="ВАШ ПУТЬ К СБОРКЕ">YOUR BUILD ROADMAP</span></div>
     <h2 class="h-lg" data-en="From a breadboard on your desk to a rideshare to orbit" data-ru="От макетной платы на столе — до попутного запуска на орбиту">From a breadboard on your desk to a rideshare to orbit</h2>
-    <p class="lede" style="margin-bottom:8px;" data-en="Every step here is something you can actually start this weekend." data-ru="Каждый из этих шагов можно реально начать уже в эти выходные.">Every step here is something you can actually start this weekend.</p>
+    <p class="lede" style="margin-bottom:8px;" data-en="Every step here is something you can actually start this weekend." data-ru="Любой из этих шагов можно начать уже в эти выходные.">Every step here is something you can actually start this weekend.</p>
     <div class="legacy-row" id="legacyRow"></div>
   </div>
 </section>
@@ -263,7 +263,7 @@ sup,sub{font-size:0.68em;}
 </main>
 
 <footer>
-  <span data-en="ASSEMBLY — BUILD YOUR OWN CUBESAT" data-ru="ASSEMBLY — СОБЕРИ СВОЙ КУБСАТ">ASSEMBLY — BUILD YOUR OWN CUBESAT</span>
+  <span data-en="ASSEMBLY — BUILD YOUR OWN CUBESAT" data-ru="СБОРКА — СОБЕРИТЕ СВОЙ КУБСАТ">ASSEMBLY — BUILD YOUR OWN CUBESAT</span>
   <span data-en="EDUCATIONAL — SIMPLIFIED FOR LEARNING, CHECK COMPONENT DATASHEETS BEFORE BUILDING" data-ru="УЧЕБНЫЙ МАТЕРИАЛ — УПРОЩЁН ДЛЯ ОБУЧЕНИЯ, ПЕРЕД СБОРКОЙ СВЕРЯЙТЕСЬ С ДОКУМЕНТАЦИЕЙ НА КОМПОНЕНТЫ">EDUCATIONAL — SIMPLIFIED FOR LEARNING, CHECK COMPONENT DATASHEETS BEFORE BUILDING</span>
 </footer>
 
@@ -286,6 +286,7 @@ function applyLang(l){
   });
   document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang===l); });
   renderAll();
+  onScroll();
 }
 document.querySelectorAll('#langtoggle button').forEach(function(b){
   b.addEventListener('click', function(){ applyLang(b.dataset.lang); });
@@ -302,9 +303,10 @@ function onScroll(){
   var mid = window.scrollY + window.innerHeight*0.4;
   var current = sections[0];
   sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
-  hudPhase.textContent = current.dataset.phase;
-  hudAlt.textContent = current.dataset.alt||'—';
-  hudVel.textContent = current.dataset.vel||'—';
+  var ru = lang === 'ru';
+  hudPhase.textContent = (ru && current.dataset.phaseRu) || current.dataset.phase;
+  hudAlt.textContent = (ru && current.dataset.altRu) || current.dataset.alt || '—';
+  hudVel.textContent = (ru && current.dataset.velRu) || current.dataset.vel || '—';
 }
 document.addEventListener('scroll', onScroll, {passive:true});
 onScroll();
@@ -324,9 +326,9 @@ onScroll();
     var r = parseFloat(resSlider.value);
     var i = v/r; // amps
     var mA = i*1000;
-    voltVal.textContent = v.toFixed(1)+' V';
-    resVal.textContent = r.toFixed(0)+' Ω';
-    currentReadout.textContent = mA.toFixed(1)+' mA';
+    voltVal.textContent = lang==='en' ? v.toFixed(1)+' V' : v.toFixed(1).replace('.', ',')+'\u00a0В';
+    resVal.textContent = r.toFixed(0)+(lang==='en' ? ' Ω' : '\u00a0Ом');
+    currentReadout.textContent = lang==='en' ? mA.toFixed(1)+' mA' : mA.toFixed(1).replace('.', ',')+'\u00a0мА';
 
     svg.innerHTML='';
     var cx=140, cy=110;
@@ -341,15 +343,16 @@ onScroll();
     t.textContent = safe ? (lang==='en'?'LED — safe range':'СВЕТОДИОД — безопасный диапазон') : (lang==='en'?'LED — too much current!':'СВЕТОДИОД — слишком большой ток!');
 
     if(mA > 25){
-      verdict.innerHTML = lang==='en' ? 'Over ~20-25 mA, a standard 5mm LED can burn out. This is exactly why every LED circuit needs a resistor.' : 'Свыше ~20–25 мА стандартный светодиод 5 мм может перегореть. Именно поэтому каждой схеме со светодиодом нужен резистор.';
+      verdict.innerHTML = lang==='en' ? 'Over ~20-25 mA, a standard 5mm LED can burn out. This is exactly why every LED circuit needs a resistor.' : 'Свыше ~20–25 мА стандартный 5-миллиметровый светодиод может перегореть. Именно поэтому каждой схеме со светодиодом нужен резистор.';
     } else if(mA < 2){
       verdict.innerHTML = lang==='en' ? 'Too little current — the LED will barely glow, or not light at all.' : 'Слишком малый ток — светодиод почти не светится или не горит вовсе.';
     } else {
-      verdict.innerHTML = lang==='en' ? 'A healthy current for a standard LED — bright, and safely within its rated limit.' : 'Здоровый ток для стандартного светодиода — яркий и безопасно в пределах номинала.';
+      verdict.innerHTML = lang==='en' ? 'A healthy current for a standard LED — bright, and safely within its rated limit.' : 'Нормальный ток для стандартного светодиода: светит ярко и с запасом укладывается в номинал.';
     }
   }
   voltSlider.addEventListener('input', draw);
   resSlider.addEventListener('input', draw);
+  window._ohmRedraw = draw;
   draw();
 })();
 
@@ -399,10 +402,10 @@ onScroll();
 
 /* ============ CH4 — SENSORS ============ */
 var SENSORS = [
-  {en:'Temperature Sensor', ru:'Датчик температуры', bEn:'A simple thermistor or digital IC that reports how hot or cold a part of the satellite is — critical since electronics have narrow safe operating ranges and a spacecraft swings between sun and shadow every orbit.', bRu:'Простой термистор или цифровая микросхема, сообщающая, насколько горячей или холодной стала часть спутника, — критично, поскольку электроника имеет узкий безопасный диапазон, а аппарат каждый виток переходит от света к тени.'},
-  {en:'Light / Sun Sensor', ru:'Датчик света / Солнца', bEn:'A photodiode that reports brightness, used to figure out which way the Sun is — the basic building block of pointing solar panels or a camera toward or away from it.', bRu:'Фотодиод, сообщающий об уровне освещённости, используется, чтобы определить направление на Солнце, — базовый элемент для ориентации солнечных панелей или камеры относительно него.'},
-  {en:'Accelerometer &amp; Gyroscope', ru:'Акселерометр и гироскоп', bEn:'Measures acceleration and rotation rate — the same chip found in a smartphone, used on a CubeSat to sense tumbling and support attitude control.', bRu:'Измеряет ускорение и скорость вращения — та же микросхема, что стоит в смартфоне, используется на кубсате для определения кувыркания и поддержки системы ориентации.'},
-  {en:'Magnetometer', ru:'Магнитометр', bEn:'Measures Earth\'s magnetic field direction, letting a satellite work out its orientation relative to the planet — often paired with small electromagnets to slowly correct tumbling.', bRu:'Измеряет направление магнитного поля Земли, позволяя спутнику определять свою ориентацию относительно планеты, — часто работает в паре с небольшими электромагнитами для медленной коррекции кувыркания.'}
+  {en:'Temperature Sensor', ru:'Датчик температуры', bEn:'A simple thermistor or digital IC that reports how hot or cold a part of the satellite is — critical since electronics have narrow safe operating ranges and a spacecraft swings between sun and shadow every orbit.', bRu:'Простой термистор или цифровая микросхема, показывающие, насколько нагрета или охлаждена та или иная часть спутника. Это критично: у электроники узкий диапазон рабочих температур, а аппарат на каждом витке переходит со света в тень.'},
+  {en:'Light / Sun Sensor', ru:'Датчик света / Солнца', bEn:'A photodiode that reports brightness, used to figure out which way the Sun is — the basic building block of pointing solar panels or a camera toward or away from it.', bRu:'Фотодиод, измеряющий освещённость; по нему определяют направление на Солнце — это основа для того, чтобы поворачивать солнечные панели или камеру к Солнцу или от него.'},
+  {en:'Accelerometer &amp; Gyroscope', ru:'Акселерометр и гироскоп', bEn:'Measures acceleration and rotation rate — the same chip found in a smartphone, used on a CubeSat to sense tumbling and support attitude control.', bRu:'Измеряет ускорение и скорость вращения — та же микросхема, что стоит в смартфоне; на кубсате она обнаруживает беспорядочное вращение и помогает системе ориентации.'},
+  {en:'Magnetometer', ru:'Магнитометр', bEn:'Measures Earth\'s magnetic field direction, letting a satellite work out its orientation relative to the planet — often paired with small electromagnets to slowly correct tumbling.', bRu:'Измеряет направление магнитного поля Земли, позволяя спутнику определить свою ориентацию относительно планеты; часто работает в паре с небольшими электромагнитами, которые постепенно гасят беспорядочное вращение.'}
 ];
 function renderSensors(){
   var wrap = document.getElementById('sensorList');
@@ -425,14 +428,14 @@ function renderBrain(){
   wrap.innerHTML='';
   var data = [
     {en:'Arduino Uno (learning board)', ru:'Arduino Uno (учебная плата)',
-     rows:[{lEn:'PURPOSE', lRu:'НАЗНАЧЕНИЕ', v:'Learning &amp; prototyping'},{lEn:'COST', lRu:'СТОИМОСТЬ', v:'~$20–30'},{lEn:'RADIATION HARDENING', lRu:'РАДИАЦИОННАЯ СТОЙКОСТЬ', v:'None'},{lEn:'GOOD FOR', lRu:'ГОДИТСЯ ДЛЯ', v:'Testing logic on your desk'}]},
+     rows:[{lEn:'PURPOSE', lRu:'НАЗНАЧЕНИЕ', v:'Learning &amp; prototyping', vRu:'Обучение и прототипирование'},{lEn:'COST', lRu:'СТОИМОСТЬ', v:'~$20–30', vRu:'~20–30 долларов'},{lEn:'RADIATION HARDENING', lRu:'РАДИАЦИОННАЯ СТОЙКОСТЬ', v:'None', vRu:'Нет'},{lEn:'GOOD FOR', lRu:'ГОДИТСЯ ДЛЯ', v:'Testing logic on your desk', vRu:'Проверка логики на рабочем столе'}]},
     {en:'A Real CubeSat OBC', ru:'Настоящий бортовой компьютер кубсата',
-     rows:[{lEn:'PURPOSE', lRu:'НАЗНАЧЕНИЕ', v:'Flight operations, years unattended'},{lEn:'COST', lRu:'СТОИМОСТЬ', v:'Hundreds to thousands of dollars'},{lEn:'RADIATION HARDENING', lRu:'РАДИАЦИОННАЯ СТОЙКОСТЬ', v:'Shielded or radiation-tolerant design'},{lEn:'GOOD FOR', lRu:'ГОДИТСЯ ДЛЯ', v:'Surviving months of harsh orbital conditions'}]}
+     rows:[{lEn:'PURPOSE', lRu:'НАЗНАЧЕНИЕ', v:'Flight operations, years unattended', vRu:'Работа в полёте, годами без обслуживания'},{lEn:'COST', lRu:'СТОИМОСТЬ', v:'Hundreds to thousands of dollars', vRu:'От сотен до тысяч долларов'},{lEn:'RADIATION HARDENING', lRu:'РАДИАЦИОННАЯ СТОЙКОСТЬ', v:'Shielded or radiation-tolerant design', vRu:'Экранирование или радиационно стойкая конструкция'},{lEn:'GOOD FOR', lRu:'ГОДИТСЯ ДЛЯ', v:'Surviving months of harsh orbital conditions', vRu:'Месяцы работы в суровых орбитальных условиях'}]}
   ];
   data.forEach(function(d){
     var card = document.createElement('div');
     card.className='dash-card';
-    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+r.v+'</span></div>'; }).join('');
+    var rowsHtml = d.rows.map(function(r){ return '<div class="dash-row"><span>'+(lang==='en'?r.lEn:r.lRu)+'</span><span>'+(lang==='en'?r.v:(r.vRu||r.v))+'</span></div>'; }).join('');
     card.innerHTML = '<div class="dc-head"><span class="dc-name">'+(lang==='en'?d.en:d.ru)+'</span></div>'+rowsHtml;
     wrap.appendChild(card);
   });
@@ -440,10 +443,10 @@ function renderBrain(){
 
 /* ============ CH7 — COMMS ============ */
 var COMMS = [
-  {en:'Downlink — Satellite to Ground', ru:'Даунлинк — от спутника к Земле', bEn:'Telemetry (health data) and payload data (photos, sensor readings) transmitted down to a ground station, often on amateur radio frequencies for student CubeSats.', bRu:'Телеметрия (данные о состоянии) и данные полезной нагрузки (снимки, показания датчиков) передаются на наземную станцию, часто на любительских радиочастотах для студенческих кубсатов.'},
-  {en:'Uplink — Ground to Satellite', ru:'Аплинк — от Земли к спутнику', bEn:'Commands sent up to the satellite — changing settings, requesting specific data, or triggering an action like taking a photo.', bRu:'Команды, отправляемые на спутник, — изменение настроек, запрос конкретных данных или запуск действия, например, съёмки фотографии.'},
-  {en:'The Antenna Deployment Problem', ru:'Проблема развёртывания антенны', bEn:'A usable antenna is often longer than the CubeSat itself, so it launches coiled tightly against the frame and releases — usually via a small burn-wire mechanism — once safely in orbit.', bRu:'Работоспособная антенна часто длиннее самого кубсата, поэтому она запускается плотно свёрнутой у корпуса и высвобождается — обычно через небольшой механизм с пережигаемой проволокой — уже на безопасной орбите.'},
-  {en:'Why Amateur Radio Bands', ru:'Почему любительские радиочастоты', bEn:'Many student CubeSats use licensed amateur (ham) radio frequencies, letting a global network of radio hobbyists help receive and relay their signals — a built-in, free ground-station network.', bRu:'Многие студенческие кубсаты используют лицензированные любительские радиочастоты, позволяя глобальной сети радиолюбителей помогать принимать и ретранслировать их сигналы, — встроенная бесплатная сеть наземных станций.'}
+  {en:'Downlink — Satellite to Ground', ru:'Нисходящий канал — от спутника к Земле', bEn:'Telemetry (health data) and payload data (photos, sensor readings) transmitted down to a ground station, often on amateur radio frequencies for student CubeSats.', bRu:'Телеметрия (данные о состоянии) и данные полезной нагрузки (снимки, показания датчиков) передаются на наземную станцию, часто на любительских радиочастотах для студенческих кубсатов.'},
+  {en:'Uplink — Ground to Satellite', ru:'Восходящий канал — от Земли к спутнику', bEn:'Commands sent up to the satellite — changing settings, requesting specific data, or triggering an action like taking a photo.', bRu:'Команды, отправляемые на спутник, — изменение настроек, запрос конкретных данных или запуск действия, например фотосъёмки.'},
+  {en:'The Antenna Deployment Problem', ru:'Проблема развёртывания антенны', bEn:'A usable antenna is often longer than the CubeSat itself, so it launches coiled tightly against the frame and releases — usually via a small burn-wire mechanism — once safely in orbit.', bRu:'Работоспособная антенна часто длиннее самого кубсата, поэтому на старте она плотно свёрнута вдоль корпуса и раскрывается — обычно с помощью небольшого механизма с пережигаемой проволокой — уже на орбите, когда это безопасно.'},
+  {en:'Why Amateur Radio Bands', ru:'Почему любительские радиочастоты', bEn:'Many student CubeSats use licensed amateur (ham) radio frequencies, letting a global network of radio hobbyists help receive and relay their signals — a built-in, free ground-station network.', bRu:'Многие студенческие кубсаты работают на любительских радиочастотах по лицензии, и всемирная сеть радиолюбителей помогает принимать и ретранслировать их сигналы — готовая бесплатная сеть наземных станций.'}
 ];
 function renderComms(){
   var wrap = document.getElementById('commsList');
@@ -463,17 +466,17 @@ function renderComms(){
 /* ============ CH8 — EXPLODED CUBESAT ============ */
 var STACK = [
   {id:'antenna', en:'Antenna &amp; Top Plate', ru:'Антенна и верхняя панель', chEn:'From Chapter 7', chRu:'Из главы 7',
-   dEn:'The folded deployable antenna and the top structural plate, released once in orbit to establish the radio link home.', dRu:'Сложенная разворачиваемая антенна и верхняя конструкционная панель, освобождаемая на орбите для установления радиосвязи с Землёй.'},
+   dEn:'The folded deployable antenna and the top structural plate, released once in orbit to establish the radio link home.', dRu:'Сложенная раскрываемая антенна и верхняя конструкционная панель; на орбите антенна раскрывается, чтобы установить радиосвязь с Землёй.'},
   {id:'sensor', en:'Sensor Board (ADCS)', ru:'Плата датчиков (система ориентации)', chEn:'From Chapter 4', chRu:'Из главы 4',
    dEn:'Magnetometer, sun sensors, and a gyroscope, feeding the OBC the data it needs to know which way the satellite is pointing.', dRu:'Магнитометр, солнечные датчики и гироскоп, передающие бортовому компьютеру данные, необходимые для определения ориентации спутника.'},
   {id:'radio', en:'Radio / Comms Board', ru:'Плата радио / связи', chEn:'From Chapter 7', chRu:'Из главы 7',
-   dEn:'The transceiver that handles uplink commands and downlink telemetry, tuned to the mission\'s assigned radio frequency.', dRu:'Приёмопередатчик, обрабатывающий команды аплинка и телеметрию даунлинка, настроенный на выделенную миссии радиочастоту.'},
+   dEn:'The transceiver that handles uplink commands and downlink telemetry, tuned to the mission\'s assigned radio frequency.', dRu:'Приёмопередатчик, который принимает команды по восходящему каналу и передаёт телеметрию по нисходящему; настроен на радиочастоту, выделенную миссии.'},
   {id:'obc', en:'OBC — The Brain', ru:'Бортовой компьютер — мозг', chEn:'From Chapter 5', chRu:'Из главы 5',
-   dEn:'The onboard computer, running the same kind of digitalWrite() logic you\'d write on an Arduino, but hardened for the space environment.', dRu:'Бортовой компьютер, выполняющий ту же логику вида digitalWrite(), что вы написали бы на Arduino, но защищённый для условий космоса.'},
-  {id:'battery', en:'Battery &amp; EPS', ru:'Батарея и система энергоснабжения', chEn:'From Chapter 6', chRu:'Из главы 6',
-   dEn:'The battery pack and electrical power system, storing charge from the solar panels and distributing regulated voltage to every other board.', dRu:'Батарейный блок и система энергоснабжения, накапливающая заряд от солнечных панелей и распределяющая стабилизированное напряжение по остальным платам.'},
+   dEn:'The onboard computer, running the same kind of digitalWrite() logic you\'d write on an Arduino, but hardened for the space environment.', dRu:'Бортовой компьютер, выполняющий ту же логику вида digitalWrite(), что вы написали бы на Arduino, но приспособленный к условиям космоса.'},
+  {id:'battery', en:'Battery &amp; EPS', ru:'Аккумулятор и система электропитания', chEn:'From Chapter 6', chRu:'Из главы 6',
+   dEn:'The battery pack and electrical power system, storing charge from the solar panels and distributing regulated voltage to every other board.', dRu:'Аккумуляторная батарея и система электропитания: накапливает энергию от солнечных панелей и распределяет стабилизированное напряжение по всем остальным платам.'},
   {id:'structure', en:'Bottom Structure Plate', ru:'Нижняя конструкционная панель', chEn:'From Chapter 1', chRu:'Из главы 1',
-   dEn:'The base of the 10×10×10 cm frame, milled to the CubeSat standard so it fits a standard deployment mechanism on any compatible rocket.', dRu:'Основание каркаса 10×10×10 см, изготовленное по стандарту CubeSat, чтобы подходить к стандартному механизму развёртывания на любой совместимой ракете.'}
+   dEn:'The base of the 10×10×10 cm frame, milled to the CubeSat standard so it fits a standard deployment mechanism on any compatible rocket.', dRu:'Основание каркаса 10×10×10\u00a0см, фрезерованное по стандарту CubeSat, чтобы подходить к стандартному механизму отделения на любой совместимой ракете.'}
 ];
 var explodePanelEl, explodeSvgEl;
 function renderExplode(){
@@ -528,10 +531,10 @@ function renderExplode(){
 
 /* ============ CH9 — TESTING TABS ============ */
 var TESTS = [
-  {id:'vibe', en:'Vibration Test', ru:'Вибрационные испытания', bEn:'The satellite is bolted to a shaker table and rattled hard enough to simulate a rocket launch, checking that nothing works loose, cracks, or short-circuits under the stress.', bRu:'Спутник крепится на вибростенде и трясётся достаточно сильно, чтобы имитировать запуск ракеты, — проверяется, что ничего не разболталось, не треснуло и не замкнуло под нагрузкой.'},
-  {id:'tvac', en:'Thermal Vacuum Test', ru:'Термовакуумные испытания', bEn:'Placed in a chamber that pumps out the air and cycles temperature from scorching to freezing, mimicking the swing between direct sunlight and Earth\'s shadow.', bRu:'Спутник помещается в камеру, откачивающую воздух и циклически меняющую температуру от палящего зноя до мороза, имитируя переход между прямым солнечным светом и тенью Земли.'},
-  {id:'em', en:'EMI / EMC Test', ru:'Испытания на электромагнитную совместимость', bEn:'Checks that no board\'s electronics interferes with another\'s — a radio transmitter sitting centimetres from a sensitive sensor board is a real risk on a satellite this small.', bRu:'Проверяет, что электроника ни одной платы не мешает другой, — радиопередатчик, находящийся в сантиметрах от чувствительной платы датчиков, представляет реальный риск на столь малом спутнике.'},
-  {id:'burnin', en:'Burn-In Test', ru:'Испытание на приработку', bEn:'The fully assembled satellite runs continuously for days or weeks before launch, powered exactly as it will be in orbit, to catch any component that fails early rather than after deployment.', bRu:'Полностью собранный спутник работает непрерывно в течение дней или недель до запуска, питаясь именно так, как будет на орбите, — чтобы выявить любой компонент, отказывающий рано, а не уже после развёртывания.'}
+  {id:'vibe', en:'Vibration Test', ru:'Вибрационные испытания', bEn:'The satellite is bolted to a shaker table and rattled hard enough to simulate a rocket launch, checking that nothing works loose, cracks, or short-circuits under the stress.', bRu:'Спутник закрепляют на вибростенде и трясут так сильно, чтобы имитировать запуск ракеты, — и проверяют, что ничего не разболталось, не треснуло и не замкнуло под нагрузкой.'},
+  {id:'tvac', en:'Thermal Vacuum Test', ru:'Термовакуумные испытания', bEn:'Placed in a chamber that pumps out the air and cycles temperature from scorching to freezing, mimicking the swing between direct sunlight and Earth\'s shadow.', bRu:'Спутник помещают в камеру, где откачивают воздух и циклически меняют температуру от палящего зноя до мороза, имитируя переходы с прямого солнечного света в тень Земли.'},
+  {id:'em', en:'EMI / EMC Test', ru:'Испытания на электромагнитную совместимость', bEn:'Checks that no board\'s electronics interferes with another\'s — a radio transmitter sitting centimetres from a sensitive sensor board is a real risk on a satellite this small.', bRu:'Проверяют, что электроника одной платы не мешает другим: радиопередатчик в нескольких сантиметрах от чувствительной платы датчиков — реальный риск на таком маленьком спутнике.'},
+  {id:'burnin', en:'Burn-In Test', ru:'Приработочные испытания', bEn:'The fully assembled satellite runs continuously for days or weeks before launch, powered exactly as it will be in orbit, to catch any component that fails early rather than after deployment.', bRu:'Полностью собранный спутник перед запуском работает без перерыва дни или недели, с тем же питанием, что и на орбите, — чтобы рано отказывающие компоненты выявились до отделения, а не после.'}
 ];
 function renderTests(){
   var tabs = document.getElementById('testTabs');
@@ -558,9 +561,9 @@ function renderTests(){
 
 /* ============ CH10 — ROADMAP ============ */
 var ROADMAP = [
-  {y:'1', en:'Learn Arduino', ru:'Освоить Arduino', noteEn:'Blink an LED, read a sensor', noteRu:'Помигать светодиодом, считать датчик', h:22},
+  {y:'1', en:'Learn Arduino', ru:'Освоить Arduino', noteEn:'Blink an LED, read a sensor', noteRu:'Помигать светодиодом, считать показания датчика', h:22},
   {y:'2', en:'Build Real Circuits', ru:'Собрать настоящие схемы', noteEn:'Breadboard, then a soldered prototype', noteRu:'Макетная плата, затем паяный прототип', h:30},
-  {y:'3', en:'Get a CubeSat Kit', ru:'Получить набор кубсата', noteEn:'Structural frame + off-the-shelf boards', noteRu:'Конструкционный каркас и готовые платы', h:38},
+  {y:'3', en:'Get a CubeSat Kit', ru:'Приобрести набор для сборки кубсата', noteEn:'Structural frame + off-the-shelf boards', noteRu:'Конструкционный каркас и готовые платы', h:38},
   {y:'4', en:'Test Everything', ru:'Испытать всё', noteEn:'Vibration, thermal, burn-in', noteRu:'Вибрация, термоцикл, приработка', h:46},
   {y:'5', en:'Find a Rideshare', ru:'Найти попутный запуск', noteEn:'Student &amp; university launch programs', noteRu:'Студенческие и университетские программы запуска', h:54}
 ];
@@ -588,6 +591,7 @@ function renderAll(){
   renderTests();
   renderRoadmap();
   if(window._breadboardRedraw) window._breadboardRedraw();
+  if(window._ohmRedraw) window._ohmRedraw();
 }
 renderAll();
 

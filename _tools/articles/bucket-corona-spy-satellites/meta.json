@@ -7,5 +7,7 @@
  "brand": "BUCKET — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE GAP",
  "hud1": "RESOLUTION",
- "hud2": "CATCH WINDOW"
+ "hud2": "CATCH WINDOW",
+ "hud1_ru": "РАЗРЕШЕНИЕ",
+ "hud2_ru": "ОКНО ПОДХВАТА"
 }

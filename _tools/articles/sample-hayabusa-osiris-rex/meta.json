@@ -7,5 +7,7 @@
  "brand": "SAMPLE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE SAMPLE",
  "hud1": "PROPELLANT",
- "hud2": "ENTRY SPEED"
+ "hud2": "ENTRY SPEED",
+ "hud1_ru": "ТОПЛИВО",
+ "hud2_ru": "СКОРОСТЬ ВХОДА"
 }

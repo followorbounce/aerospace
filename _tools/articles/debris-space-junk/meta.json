@@ -7,5 +7,7 @@
  "brand": "DEBRIS — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE CLOUD",
  "hud1": "IMPACT ENERGY",
- "hud2": "LIFETIME"
+ "hud2": "LIFETIME",
+ "hud1_ru": "ЭНЕРГИЯ УДАРА",
+ "hud2_ru": "СРОК НА ОРБИТЕ"
 }

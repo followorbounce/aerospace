@@ -85,7 +85,7 @@ module.exports = (w, C) => {
   d.querySelector('#cvPre .btn[data-z="1089.92"]').click();
   ok('MUST 5: cvZ aria-valuetext reads "z = 1,090, 371,000 years"', /^z = 1,090, 371,000 years$/.test(d.getElementById('cvZ').getAttribute('aria-valuetext')), d.getElementById('cvZ').getAttribute('aria-valuetext'));
   d.querySelector('#langtoggle button[data-lang="ru"]').click();
-  ok('RU: cvZ readout 2973 К (Cyrillic К, four digits unspaced)', /2973 К/.test(d.getElementById('cvReadout').textContent), d.getElementById('cvReadout').textContent.slice(0, 40));
+  ok('RU: cvZ readout 2973 К (Cyrillic К, four digits unspaced)', /2973[ \u00a0]К/.test(d.getElementById('cvReadout').textContent), d.getElementById('cvReadout').textContent.slice(0, 40));
   let latinK = 0; d.querySelectorAll('[data-ru]').forEach(el => { if(/\d K(?![A-Za-z])/.test(el.getAttribute('data-ru'))) latinK++; });
   ['bbReadout', 'cvReadout', 'dpReadout', 'skReadout', 'bbStatus', 'cvStatus', 'dpStatus', 'skStatus', 'timeline', 'refList'].forEach(id => { if(/\d K(?![A-Za-z])/.test(d.getElementById(id).textContent)) latinK++; });
   ok('RU: no Latin K after a number', latinK === 0, latinK);

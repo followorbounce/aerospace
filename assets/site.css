@@ -252,3 +252,6 @@ a.brand:hover,a.brand:focus-visible{background:var(--ink); color:var(--white);}
 .see-also .sa-c{flex-basis:100%; padding-left:96px; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--mid);}
 .see-also a:hover .cl{text-decoration:underline;}
 @media (max-width:560px){ .see-also .sa-c{padding-left:0;} }
+/* Russian words run long (РАДИОЛОКАЦИОННАЯ): in big headings, hyphenate, and break inside a word rather than push the page
+   wider than a phone (2026-11-12, Russian quality pass) */
+@media (max-width:600px){ html[lang="ru"] h1, html[lang="ru"] h2{hyphens:auto; -webkit-hyphens:auto; hyphenate-limit-chars:10 4 4; overflow-wrap:break-word;} }

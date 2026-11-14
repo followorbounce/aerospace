@@ -60,7 +60,7 @@ module.exports = (w, C) => {
   ok('no NaN/undefined in any state, EN and RU', nan === 0, nan);
   doc.querySelector('#langtoggle button[data-lang="ru"]').click();
   C.setZ(14.44);
-  ok('RU uses a decimal comma (1,88 мкм)', doc.getElementById('irReadout').textContent.indexOf('1,88 мкм') >= 0);
+  ok('RU uses a decimal comma (1,88 мкм)', doc.getElementById('irReadout').textContent.replace(/\u00a0/g, ' ').indexOf('1,88 мкм') >= 0);
   ok('RU aria-label switched', doc.getElementById('irSvg').getAttribute('aria-label').indexOf('Шкала') === 0);
   doc.querySelector('#langtoggle button[data-lang="en"]').click();
   ok('sliders expose aria-valuetext', ['tSlider', 'zSlider', 'lamSlider'].every(id => (doc.getElementById(id).getAttribute('aria-valuetext') || '').length > 0));
@@ -72,7 +72,7 @@ module.exports = (w, C) => {
   ok('deploy caption is announced', doc.getElementById('deployCaption').getAttribute('aria-live') === 'polite');
   doc.querySelector('#langtoggle button[data-lang="ru"]').click();
   C.setT(5772);
-  ok('RU leaves 4-digit numbers unseparated (5772 К)', doc.getElementById('tVal').textContent === '5772 К', doc.getElementById('tVal').textContent);
+  ok('RU leaves 4-digit numbers unseparated (5772 К)', doc.getElementById('tVal').textContent.replace(/\u00a0/g, ' ') === '5772 К', doc.getElementById('tVal').textContent);
   doc.querySelector('#langtoggle button[data-lang="en"]').click();
   console.log(out.join('\n'));
 };

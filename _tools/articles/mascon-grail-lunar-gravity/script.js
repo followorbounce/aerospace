@@ -13,7 +13,7 @@ function gmKg(kg){ return G_N*kg*1e-9; }          // kg → km³/s²
 function vCirc(hKm){ return Math.sqrt(GM_M/(R_M + hKm)); }
 function aria(svg){ svg.setAttribute('aria-label', svg.getAttribute('data-aria-' + lang)); }
 function num(n){ var s = fmtInt(n); return (lang === 'ru' && Math.abs(n) < 10000) ? s.replace(/\s/g, '') : s; }
-function km(v, d){ return (d ? fmt(v, d) : num(Math.round(v))) + T(' km',' км'); }
+function km(v, d){ return (d ? fmt(v, d) : num(Math.round(v))) + T(' km',' км'); }
 function sig(v, d){                 // a positive number with about d significant figures, localised
   if(v === 0) return '0';
   var e = Math.floor(Math.log10(Math.abs(v))), p = Math.max(0, d - 1 - e);
@@ -26,7 +26,7 @@ function sci(v, d){                 // 3.7 × 10¹⁷
   var sup = String(e).replace(/-/g, '⁻').replace(/\d/g, function(c){ return '⁰¹²³⁴⁵⁶⁷⁸⁹'[c]; });
   return fmt(m, d - 1) + ' × 10' + sup;
 }
-function days(n){ return fmt(n, n < 10 ? 1 : 0) + T(' days',' сут'); }
+function days(n){ return fmt(n, n < 10 ? 1 : 0) + T(' days',' сут'); }
 
 /* ============ CH1–2 — A BURIED MASS ============ */
 /* vertical gravity anomaly (mGal) at height h above a point mass buried at depth d, horizontal offset x (flat-Moon model) */
@@ -39,10 +39,10 @@ var bmM = document.getElementById('bmM'), bmD = document.getElementById('bmD'), 
 bmM.value = Math.log10(AESTUUM.m);
 function renderBM(){
   var kg = Math.pow(10, +bmM.value), gm = gmKg(kg), d = +bmD.value, h = +bmH.value;
-  document.getElementById('bmMVal').textContent = sci(kg, 2) + T(' kg',' кг');
+  document.getElementById('bmMVal').textContent = sci(kg, 2) + T(' kg',' кг');
   document.getElementById('bmDVal').textContent = km(d);
   document.getElementById('bmHVal').textContent = km(h);
-  bmM.setAttribute('aria-valuetext', sci(kg, 2) + T(' kilograms',' килограммов'));
+  bmM.setAttribute('aria-valuetext', sci(kg, 2) + T(' kilograms',' килограммов'));
   bmD.setAttribute('aria-valuetext', km(d)); bmH.setAttribute('aria-valuetext', km(h));
   var svg = document.getElementById('bmSvg'); svg.innerHTML = ''; aria(svg);
   var L = 54, R = 466, Tp = 26, B = 196, X0 = 400;
@@ -60,12 +60,12 @@ function renderBM(){
   var hw = halfWidth(d, h);
   ns('line', {x1:X(-hw), y1:Y(ph/2), x2:X(hw), y2:Y(ph/2), stroke:'#b5452a', 'stroke-width':1.4}, svg);
   cells(document.getElementById('bmReadout'), [
-    [T('PEAK AT THE SURFACE','ПИК НА ПОВЕРХНОСТИ'), sig(p0, 3) + T(' mGal',' мГал')],
-    [T('PEAK AT ALTITUDE','ПИК НА ВЫСОТЕ'), sig(ph, 3) + T(' mGal',' мГал')],
+    [T('PEAK AT THE SURFACE','ПИК НА ПОВЕРХНОСТИ'), sig(p0, 3) + T(' mGal',' мГал')],
+    [T('PEAK AT ALTITUDE','ПИК НА ВЫСОТЕ'), sig(ph, 3) + T(' mGal',' мГал')],
     [T('WIDTH AT HALF HEIGHT','ШИРИНА НА ПОЛУВЫСОТЕ'), km(2*hw)],
-    [T('SHARE OF LUNAR GRAVITY (SURFACE)','ДОЛЯ ЛУННОЙ СИЛЫ ТЯЖЕСТИ (ПОВЕРХНОСТЬ)'), sig(p0/(G_SURF*MGAL)*100, 2) + ' %']
+    [T('SHARE OF LUNAR GRAVITY (SURFACE)','ДОЛЯ ЛУННОЙ СИЛЫ ТЯЖЕСТИ (НА ПОВЕРХНОСТИ)'), sig(p0/(G_SURF*MGAL)*100, 2) + ' %']
   ]);
-  hud1.textContent = km(h); hud2.textContent = sig(ph, 3) + T(' mGal',' мГал');
+  hud1.textContent = km(h); hud2.textContent = sig(ph, 3) + T(' mGal',' мГал');
   if(h === 0){ document.getElementById('bmStatus').innerHTML = T('At the surface the bump is as tall and as narrow as it gets. Raise the observer to see what an orbiter would feel.','На поверхности бугор максимально высок и узок. Поднимите наблюдателя, чтобы увидеть, что почувствует орбитальный аппарат.'); return; }
   document.getElementById('bmStatus').innerHTML = T('Seen from ','С высоты ') + km(h) + T(' the bump is ',' бугор в ') + fmt(p0/ph, p0/ph < 10 ? 1 : 0) + T('× weaker and ','× слабее и в ') + fmt((d + h)/Math.max(d, 0.5), 1) + T('× wider than at the surface. Every kilometre of height blurs it: to see small lumps, fly low.','× шире, чем на поверхности. Каждый километр высоты размывает его: чтобы увидеть мелкие неоднородности, надо летать низко.');
 }
@@ -202,7 +202,7 @@ function drawLF(){
   var s2 = document.getElementById('lfStrip'); s2.innerHTML = ''; aria(s2);
   var sL = 50, sR = 466, sT = 22, sB = 82;
   function SX(i){ return sL + i/180*(sR - sL); }
-  txt(s2, sL, 12, T('100 km circular orbit (model): days to impact · blue = survives a year','орбита 100 км (модель): сутки до падения · синее — живёт год'), 'svg-tiny');
+  txt(s2, sL, 12, T('100 km circular orbit (model): days to impact · blue = survives a year','орбита 100 км (модель): сутки до падения · синим — держится весь год'), 'svg-tiny');
   STRIP.forEach(function(c, i){
     var hgt = c ? (sB - sT)*Math.min(c, LIFE_DAYS)/LIFE_DAYS : sB - sT;
     ns('rect', {x:SX(i) - 1.1, y:sB - hgt, width:2.2, height:hgt, fill:c ? '#c9a46a' : '#2f5aa1'}, s2);
@@ -215,13 +215,13 @@ function drawLF(){
   var minA = h.length ? Math.min.apply(null, h) : el.hp;
   cells(document.getElementById('lfReadout'), [
     [T('DAYS COMPUTED','РАССЧИТАНО СУТОК'), fmt(Math.min(run.t, LIFE_DAYS), 0) + ' / ' + LIFE_DAYS],
-    [T('LOWEST ALTITUDE SO FAR','НАИМЕНЬШАЯ ВЫСОТА'), km(Math.max(0, minA), 1)],
+    [T('LOWEST ALTITUDE SO FAR','НАИМЕНЬШАЯ ВЫСОТА НА СЕЙЧАС'), km(Math.max(0, minA), 1)],
     [T('IMPACT','ПАДЕНИЕ'), run.crash !== null ? T('day ' + fmt(run.crash, 1), fmt(run.crash, 1) + ' сут') : (run.t >= LIFE_DAYS ? T('none within a year','за год — нет') : '…')],
     [T('FIELD','ПОЛЕ'), T('degree ','степень ') + lfN + (lfN === 2 ? T(' (smooth, slightly squashed Moon)',' (гладкая, слегка сплюснутая Луна)') : '')]
   ]);
   var st = document.getElementById('lfStatus');
   if(run.crash !== null) st.innerHTML = T('The lumps pump the orbit\'s eccentricity: perilune sinks until the satellite hits the Moon on day ','Неоднородности раскачивают эксцентриситет: периселений опускается, и на ') + fmt(Math.ceil(run.crash), 0) + T('.','-е сутки спутник падает на Луну.');
-  else if(run.t >= LIFE_DAYS) st.innerHTML = T('Still in orbit after a year. The lowest point wanders, but the pulls of the lumps largely cancel at this tilt.','Через год всё ещё на орбите. Нижняя точка гуляет, но при таком наклоне притяжения неоднородностей в основном компенсируют друг друга.')
+  else if(run.t >= LIFE_DAYS) st.innerHTML = T('Still in orbit after a year. The lowest point wanders, but the pulls of the lumps largely cancel at this tilt.','Через год всё ещё на орбите. Нижняя точка блуждает, но при таком наклонении притяжения неоднородностей в основном компенсируют друг друга.')
     + (isPFS1(el) ? T(' A limit of the model: the real PFS-1 came down in January 1973, after less than a year and a half [6].',' Это ограничение модели: настоящий PFS-1 упал в январе 1973 года, не продержавшись и полутора лет [6].')
       : (lfN === 30 && (el.i < 3.5 || el.i > 176.5)) ? T(' A limit of the model: this near-equatorial band is not among the frozen inclinations JPL found [6].',' Это ограничение модели: такой почти экваториальной зоны нет среди «замороженных» наклонений, найденных в JPL [6].') : '');
   else { var msg = T('Integrating a year of orbit…','Идёт расчёт орбиты на год…'); if(st.textContent !== msg) st.textContent = msg; }   // progress lives in the readout, not the live region
@@ -258,9 +258,9 @@ var rrM = document.getElementById('rrM'), rrD = document.getElementById('rrD'), 
 rrM.value = Math.log10(AESTUUM.m);
 function renderRR(){
   var kg = Math.pow(10, +rrM.value), gm = gmKg(kg), d = +rrD.value, h = +rrH.value, Lk = +rrL.value, v = vCirc(h), D = d + h;
-  document.getElementById('rrMVal').textContent = sci(kg, 2) + T(' kg',' кг');
+  document.getElementById('rrMVal').textContent = sci(kg, 2) + T(' kg',' кг');
   document.getElementById('rrDVal').textContent = km(d); document.getElementById('rrHVal').textContent = km(h); document.getElementById('rrLVal').textContent = km(Lk);
-  rrM.setAttribute('aria-valuetext', sci(kg, 2) + T(' kilograms',' килограммов')); rrD.setAttribute('aria-valuetext', km(d)); rrH.setAttribute('aria-valuetext', km(h)); rrL.setAttribute('aria-valuetext', km(Lk));
+  rrM.setAttribute('aria-valuetext', sci(kg, 2) + T(' kilograms',' килограммов')); rrD.setAttribute('aria-valuetext', km(d)); rrH.setAttribute('aria-valuetext', km(h)); rrL.setAttribute('aria-valuetext', km(Lk));
   var pk = rrPeak(gm, D, Lk, v);
   var svg = document.getElementById('rrSvg'); svg.innerHTML = ''; aria(svg);
   var L = 58, R = 466, Tp = 22, B = 202, Mid = (Tp + B)/2, X0 = 500, top = Math.max(pk*1.15, KBR_NOISE*3);
@@ -270,18 +270,18 @@ function renderRR(){
   [-450, -300, -150, 0, 150, 300, 450].forEach(function(x){ ns('line', {x1:X(x), y1:B, x2:X(x), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(x), B + 16, fmt(x/v/60, 1), 'svg-small', 'middle'); });
   ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
   txt(svg, L, 12, T('change in range rate, µm/s','изменение скорости сближения, мкм/с'), 'svg-small');
-  txt(svg, R, B + 32, T('minutes from passing over the mass','минуты от пролёта над массой'), 'svg-small', 'end');
+  txt(svg, R, B + 32, T('minutes from passing over the mass','минуты до и после пролёта над массой'), 'svg-small', 'end');
   var s = ''; for(var k = 0; k <= 300; k++){ var x = -X0 + 2*X0*k/300; s += (k ? 'L' : 'M') + X(x).toFixed(1) + ',' + Y(rangeRate(gm, D, Lk, v, x)).toFixed(1); }
   ns('path', {d:s, fill:'none', stroke:'#2f5aa1', 'stroke-width':2}, svg);
   txt(svg, R - 4, Y(KBR_NOISE) - 4, T('GRAIL noise ±0.05 µm/s','шум GRAIL ±0,05 мкм/с'), 'svg-tiny svg-halo', 'end');
   cells(document.getElementById('rrReadout'), [
-    [T('PEAK SIGNAL','ПИК СИГНАЛА'), sig(pk, 3) + T(' µm/s',' мкм/с')],
+    [T('PEAK SIGNAL','ПИК СИГНАЛА'), sig(pk, 3) + T(' µm/s',' мкм/с')],
     [T('SIGNAL ÷ NOISE','СИГНАЛ ÷ ШУМ'), sig(pk/KBR_NOISE, 2)],
-    [T('ORBITAL SPEED','ОРБИТАЛЬНАЯ СКОРОСТЬ'), fmt(v, 3) + T(' km/s',' км/с')],
-    [T('VS. LUNAR ORBITER\'S 50 mm/s','ПО СРАВНЕНИЮ С 50 мм/с LUNAR ORBITER'), sig(pk/LO_SIGNAL*100, 2) + ' %']
+    [T('ORBITAL SPEED','ОРБИТАЛЬНАЯ СКОРОСТЬ'), fmt(v, 3) + T(' km/s',' км/с')],
+    [T('VS. LUNAR ORBITER\'S 50 mm/s','ДОЛЯ ОТ 50 мм/с У LUNAR ORBITER'), sig(pk/LO_SIGNAL*100, 2) + ' %']
   ]);
   document.getElementById('rrStatus').innerHTML = pk > KBR_NOISE
-    ? T('Detectable: the peak is ','Обнаружимо: пик в ') + sig(pk/KBR_NOISE, 2) + T(' times the noise of GRAIL\'s Ka-band link. The lead spacecraft is pulled ahead first, then the trailing one catches up.',' раз больше шума Ka-диапазонной линии GRAIL. Сначала масса тянет вперёд ведущий аппарат, затем догоняет ведомый.')
+    ? T('Detectable: the peak is ','Сигнал заметен: пик в ') + sig(pk/KBR_NOISE, 2) + T(' times the noise of GRAIL\'s Ka-band link. The lead spacecraft is pulled ahead first, then the trailing one catches up.',' раз больше шума радиолинии Ka-диапазона GRAIL. Сначала масса тянет вперёд ведущий аппарат, затем догоняет ведомый.')
     : T('Lost in the noise: the signal is below the 0.05 µm/s scatter of the measurements. Fly lower, or look for a bigger mass.','Тонет в шуме: сигнал меньше разброса измерений 0,05 мкм/с. Летите ниже или ищите массу побольше.');
 }
 [rrM, rrD, rrH, rrL].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById(el === rrH ? 'rrAlt' : 'rrPre'), null); renderRR(); }); });
@@ -325,11 +325,11 @@ function renderRS(){
   var a = atten(l, h);
   cells(document.getElementById('rsReadout'), [
     [T('SMALLEST FEATURE (HALF-WAVELENGTH)','МЕЛЬЧАЙШАЯ ДЕТАЛЬ (ПОЛУВОЛНА)'), km(blockKm(l), blockKm(l) < 10 ? 1 : 0)],
-    [T('SIGNAL LEFT AT ALTITUDE','ОСТАТОК СИГНАЛА НА ВЫСОТЕ'), a > 1e-3 ? sig(a*100, 2) + ' %' : sci(a, 2)],
+    [T('SIGNAL LEFT AT ALTITUDE','ОСТАТОК СИГНАЛА НА ВЫСОТЕ'), a > 1e-3 ? sig(a*100, 2) + ' %' : sci(a, 2)],
     [T('ALTITUDE THAT WEAKENS IT e-FOLD','ВЫСОТА ОСЛАБЛЕНИЯ В e РАЗ'), km(eFoldKm(l), eFoldKm(l) < 10 ? 1 : 0)],
     [T('TYPICAL COEFFICIENT SIZE','ТИПИЧНЫЙ КОЭФФИЦИЕНТ'), sci(kaula(l), 2)]
   ]);
-  document.getElementById('rsStatus').innerHTML = T('Degree ','Степень ') + num(l) + T(' describes features about ',' описывает детали размером около ') + km(blockKm(l), blockKm(l) < 10 ? 1 : 0) + T(' across. From ','. С высоты ') + km(h) + T(' only ',' от них остаётся лишь ') + (a > 1e-3 ? sig(a*100, 2) + ' %' : sci(a, 2)) + T(' of their pull is left to measure.',' притяжения.');
+  document.getElementById('rsStatus').innerHTML = T('Degree ','Степень ') + num(l) + T(' describes features about ',' описывает детали размером около ') + km(blockKm(l), blockKm(l) < 10 ? 1 : 0) + T(' across. From ','. С высоты ') + km(h) + T(' only ',' от них остаётся лишь ') + (a > 1e-3 ? sig(a*100, 2) + ' %' : sci(a, 2)) + T(' of their pull is left to measure.',' притяжения.');
 }
 [rsL, rsH].forEach(function(el){ el.addEventListener('input', function(){ pressGroup(document.getElementById(el === rsL ? 'rsPre' : 'rsAlt'), null); renderRS(); }); });
 Array.prototype.forEach.call(document.querySelectorAll('#rsPre .btn'), function(b){ b.addEventListener('click', function(){ rsL.value = Math.log10(+this.getAttribute('data-l')); pressGroup(this.parentNode, this); renderRS(); }); });
@@ -348,9 +348,9 @@ var TIMELINE = [
   ['1998–99', 'Lunar Prospector maps gravity from 100 km and then 30 km, firing its engine every two months — more than once a month when low [6]; its field reaches degree 150 [7].', 'Lunar Prospector картирует гравитацию с высоты 100 км, затем 30 км, включая двигатель раз в два месяца, а на малой высоте — чаще раза в месяц [6]; его модель поля доходит до степени 150 [7].'],
   ['2009', 'Japan\'s Kaguya (SELENE) tracks the main orbiter over the far side through the small relay satellite Okina; the far-side gravity results appear in <i>Science</i> in February [8].', 'Японский «Кагуя» (SELENE) отслеживает основной аппарат над обратной стороной через малый спутник-ретранслятор «Окина»; результаты по гравитации обратной стороны выходят в <i>Science</i> в феврале [8].'],
   ['2011', 'GRAIL launches on 10 September; Ebb and Flow reach lunar orbit on 31 December and 1 January [9][11].', '10 сентября стартует GRAIL; Ebb и Flow выходят на окололунную орбиту 31 декабря и 1 января [9][11].'],
-  ['2012', 'Primary mapping 1 March – 29 May at about 55 km; extended mission 30 August – 14 December at 23 km, then 11 km; on 17 December both spacecraft hit a mountain near Goldschmidt crater, named for Sally K. Ride [12][15].', 'Основное картирование 1 марта – 29 мая на высоте около 55 км; расширенная миссия 30 августа – 14 декабря на 23 км, затем на 11 км; 17 декабря оба аппарата врезаются в гору у кратера Гольдшмидт, названную в честь Салли К. Райд [12][15].'],
+  ['2012', 'Primary mapping 1 March – 29 May at about 55 km; extended mission 30 August – 14 December at 23 km, then 11 km; on 17 December both spacecraft hit a mountain near Goldschmidt crater, named for Sally K. Ride [12][15].', 'Основное картирование с 1 марта по 29 мая на высоте около 55 км; продлённая миссия с 30 августа по 14 декабря на 23 км, затем на 11 км; 17 декабря оба аппарата врезаются в гору у кратера Гольдшмидт; место падения названо в честь Салли К. Райд [12][15].'],
   ['2013', 'First results: a field to degree 420; a crust of density 2,550 kg/m³, 12 % porous and 34–43 km thick on average; and a model of how mascon basins form [11][13][14].', 'Первые результаты: поле до степени 420; кора плотностью 2550 кг/м³ с пористостью 12 % и средней толщиной 34–43 км; модель образования масконных бассейнов [11][13][14].'],
-  ['2025', 'JPL\'s field GL1800F, to degree 1800, and a tidal analysis showing the near-side mantle is likely warmer than the far side\'s [17][19].', 'Поле JPL GL1800F до степени 1800 и анализ приливов: мантия видимой стороны, вероятно, теплее, чем обратной [17][19].']
+  ['2025', 'JPL\'s field GL1800F, to degree 1800, and a tidal analysis showing the near-side mantle is likely warmer than the far side\'s [17][19].', 'Поле JPL GL1800F до степени 1800 и анализ приливов: мантия видимой стороны, вероятно, теплее мантии обратной [17][19].']
 ];
 
 /* ============ CH9 — REFERENCES ============ */
@@ -365,15 +365,15 @@ var REFERENCES = [
   {title:'JAXA press release (13 February 2009), “KAGUYA (SELENE) special edition research reports published in Science Magazine”', url:'https://global.jaxa.jp/press/2009/02/20090213_kaguya_e.html', note:{en:'Includes “Farside Gravity Field of the Moon from the Four-way Doppler Measurements of the SELENE (Kaguya)” (Namiki et al.); the relay satellite Okina (Rstar) completed the four-way Doppler mission and hit the Moon on 12 February 2009 (JST).', ru:'Среди статей — «Гравитационное поле обратной стороны Луны по четырёхпутевым доплеровским измерениям SELENE (Kaguya)» (Намики и др.); спутник-ретранслятор «Окина» (Rstar) завершил четырёхпутевые доплеровские измерения и упал на Луну 12 февраля 2009 года (по японскому времени).'}},
   {title:'NASA Science, “GRAIL” mission page', url:'https://science.nasa.gov/mission/grail/', note:{en:'Launch 10 September 2011 on a Delta II; 202.4 kg each; names Ebb and Flow from fourth-graders at Emily Dickinson Elementary School in Bozeman, Montana; MoonKAM run with Sally Ride Science; impact 17 December 2012 at 75.62° N, 26.63° W; mascons discovered at JPL in 1968; GRACE heritage.', ru:'Запуск 10 сентября 2011 года на Delta II; масса каждого аппарата 202,4 кг; имена Ebb и Flow придумали четвероклассники школы Эмили Дикинсон в Бозмене (Монтана); MoonKAM вместе с Sally Ride Science; падение 17 декабря 2012 года в точке 75,62° с. ш., 26,63° з. д.; масконы открыты в JPL в 1968 году; наследие GRACE.'}},
   {title:'NASA NSSDCA, “GRAIL-A (Ebb)” (2011-046A)', url:'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2011-046A', note:{en:'Near-circular polar orbits of about 50 km and 113 minutes, separated by 175–225 km; Ka-band Lunar Gravity Ranging System derived from GRACE; impacts at 75.6088° N 26.5940° W and 75.6508° N 26.8341° W.', ru:'Почти круговые полярные орбиты около 50 км и 113 минут на расстоянии 175–225 км друг от друга; Ka-диапазонная система LGRS на основе GRACE; места падения 75,6088° с. ш. 26,5940° з. д. и 75,6508° с. ш. 26,8341° з. д.'}},
-  {title:'M. T. Zuber et al. (2013), “Gravity Field of the Moon from the Gravity Recovery and Interior Laboratory (GRAIL) Mission”, Science 339, 668–671', url:'https://doi.org/10.1126/science.1231507', note:{en:'Low-energy trajectories via Earth–Moon L1; ~55 km mean altitude; primary mission 1 March – 30 May 2012; separation 82–218 km; RMS Ka-band (32 GHz) range-rate residuals 0.02–0.05 µm/s; field GL0420A, degree 420 = 13 km block size; earlier models degree 100–150 (54–36 km); 98.5 % of the signal between degrees 80 and 320 comes from topography; power law 2.5 × 10⁻⁴ l⁻².', ru:'Низкоэнергетические траектории через точку L1 системы Земля — Луна; средняя высота ~55 км; основная миссия 1 марта – 30 мая 2012 года; расстояние между аппаратами 82–218 км; СКО невязок скорости сближения в Ka-диапазоне (32 ГГц) 0,02–0,05 мкм/с; поле GL0420A, степень 420 = блок 13 км; прежние модели — степень 100–150 (54–36 км); 98,5 % сигнала на степенях 80–320 дают рельефы; степенной закон 2,5 × 10⁻⁴ l⁻².'}},
-  {title:'M. T. Zuber et al. (2013), “GRAIL: Extended Mission and Endgame Status”, 44th Lunar and Planetary Science Conference, NASA NTRS 20130013623', url:'https://ntrs.nasa.gov/api/citations/20130013623/downloads/20130013623.pdf', note:{en:'Primary mission 1 March – 29 May 2012 (55 km); extended mission 30 August – 14 December 2012 at 23 km average, three manoeuvres a week; lowered to 11 km on 6 December for Orientale; controlled deorbit 17 December; a 660 × 660 field.', ru:'Основная миссия 1 марта – 29 мая 2012 года (55 км); расширенная 30 августа – 14 декабря 2012 года на средней высоте 23 км, три манёвра в неделю; 6 декабря снижение до 11 км над Восточным морем; управляемый сход с орбиты 17 декабря; поле 660 × 660.'}},
+  {title:'M. T. Zuber et al. (2013), “Gravity Field of the Moon from the Gravity Recovery and Interior Laboratory (GRAIL) Mission”, Science 339, 668–671', url:'https://doi.org/10.1126/science.1231507', note:{en:'Low-energy trajectories via Earth–Moon L1; ~55 km mean altitude; primary mission 1 March – 30 May 2012; separation 82–218 km; RMS Ka-band (32 GHz) range-rate residuals 0.02–0.05 µm/s; field GL0420A, degree 420 = 13 km block size; earlier models degree 100–150 (54–36 km); 98.5 % of the signal between degrees 80 and 320 comes from topography; power law 2.5 × 10⁻⁴ l⁻².', ru:'Низкоэнергетические траектории через точку L1 системы Земля — Луна; средняя высота около 55 км; основная миссия с 1 марта по 30 мая 2012 года; расстояние между аппаратами 82–218 км; СКО невязок скорости сближения в Ka-диапазоне (32 ГГц) 0,02–0,05 мкм/с; поле GL0420A, степень 420 = блок 13 км; прежние модели — степень 100–150 (54–36 км); 98,5 % сигнала на степенях 80–320 даёт рельеф; степенной закон 2,5 × 10⁻⁴ l⁻².'}},
+  {title:'M. T. Zuber et al. (2013), “GRAIL: Extended Mission and Endgame Status”, 44th Lunar and Planetary Science Conference, NASA NTRS 20130013623', url:'https://ntrs.nasa.gov/api/citations/20130013623/downloads/20130013623.pdf', note:{en:'Primary mission 1 March – 29 May 2012 (55 km); extended mission 30 August – 14 December 2012 at 23 km average, three manoeuvres a week; lowered to 11 km on 6 December for Orientale; controlled deorbit 17 December; a 660 × 660 field.', ru:'Основная миссия с 1 марта по 29 мая 2012 года (55 км); продлённая — с 30 августа по 14 декабря 2012 года на средней высоте 23 км, три манёвра в неделю; 6 декабря снижение до 11 км над Восточным морем; управляемый сход с орбиты 17 декабря; поле 660 × 660.'}},
   {title:'M. A. Wieczorek et al. (2013), “The Crust of the Moon as Seen by GRAIL”, Science 339, 671–675 (summary: NASA NTRS 20130013613)', url:'https://doi.org/10.1126/science.1231530', note:{en:'Bulk density of the highlands crust 2,550 kg/m³; mean porosity about 12 % to depths of at least a few kilometres; average crustal thickness 34–43 km, 10–20 km less than several previous estimates.', ru:'Объёмная плотность коры материков 2550 кг/м³; средняя пористость около 12 % до глубины по крайней мере нескольких километров; средняя толщина коры 34–43 км — на 10–20 км меньше ряда прежних оценок.'}},
   {title:'H. J. Melosh et al. (2013), “The Origin of Lunar Mascon Basins”, Science 340, 1552–1555; Purdue University release, 30 May 2013', url:'https://www.purdue.edu/newsroom/archive/releases/2013/Q2/purdue-led-team-solves-one-of-the-moons-mysteries.html', note:{en:'GRAIL shows bull\'s-eye anomalies: a central positive, a negative collar, a positive outer ring; modelled from the impact through cooling, flexure and isostatic adjustment of the melt pool (Freundlich-Sharonov and Humorum basins).', ru:'GRAIL показывает аномалии «мишень»: положительный центр, отрицательное кольцо, положительное внешнее кольцо; смоделировано от удара до остывания, изгиба и изостатического выравнивания расплава (бассейны Фрейндлиха — Шаронова и Влажности).'}},
   {title:'NASA JPL news (17 December 2012), “NASA\'s GRAIL Lunar Impact Site Named for Astronaut Sally Ride”', url:'https://www.jpl.nasa.gov/news/nasas-grail-lunar-impact-site-named-for-astronaut-sally-ride/', note:{en:'Impacts at 2:28:51 and 2:29:21 p.m. PST on the southern face of a mountain about 2.5 km tall near Goldschmidt crater, at 1.7 km/s; engines fired to depletion beforehand; MoonKAM returned more than 115,000 images; Ride led MoonKAM.', ru:'Падения в 14:28:51 и 14:29:21 по тихоокеанскому времени на южный склон горы высотой около 2,5 км у кратера Гольдшмидт, со скоростью 1,7 км/с; перед этим топливо выработано до конца; MoonKAM передала более 115 000 снимков; руководила MoonKAM Салли Райд.'}},
   {title:'MIT News (September 2011), GRAIL launch announcement', url:'https://news.mit.edu/2011/grail-launch-0908', note:{en:'Maria Zuber, GRAIL principal investigator, becomes the first woman to lead a planetary spacecraft mission.', ru:'Мария Зубер, научный руководитель GRAIL, — первая женщина во главе планетной космической миссии.'}},
-  {title:'PDS Geosciences Node, GRAIL LGRS derived gravity models (SHADR)', url:'https://pds-geosciences.wustl.edu/grail/grail-l-lgrs-5-rdr-v1/grail_1001/shadr/', note:{en:'Archived fields include GL0420A, GL0660B, GL0900D, GRGM900C, GRGM1200A/B, GL1500E and GL1800F (degree 1800, posted 2025). This guide\'s orbit model uses GRGM1200A (Lemoine et al. 2014; GM 4,902.80011526 km³/s², reference radius 1,738.0 km) truncated at degree 30.', ru:'В архиве — поля GL0420A, GL0660B, GL0900D, GRGM900C, GRGM1200A/B, GL1500E и GL1800F (степень 1800, выложено в 2025 году). Модель орбиты в этом справочнике использует GRGM1200A (Lemoine и др., 2014; GM 4902,80011526 км³/с², опорный радиус 1738,0 км), усечённую до степени 30.'}},
+  {title:'PDS Geosciences Node, GRAIL LGRS derived gravity models (SHADR)', url:'https://pds-geosciences.wustl.edu/grail/grail-l-lgrs-5-rdr-v1/grail_1001/shadr/', note:{en:'Archived fields include GL0420A, GL0660B, GL0900D, GRGM900C, GRGM1200A/B, GL1500E and GL1800F (degree 1800, posted 2025). This guide\'s orbit model uses GRGM1200A (Lemoine et al. 2014; GM 4,902.80011526 km³/s², reference radius 1,738.0 km) truncated at degree 30.', ru:'В архиве — поля GL0420A, GL0660B, GL0900D, GRGM900C, GRGM1200A/B, GL1500E и GL1800F (степень 1800, выложено в 2025 году). Модель орбиты в этом справочнике использует GRGM1200A (Лемуан и др., 2014; GM 4902,80011526 км³/с², опорный радиус 1738,0 км), усечённую до степени 30.'}},
   {title:'A. S. Konopliv et al. (2014), “High-resolution lunar gravity fields from the GRAIL Primary and Extended Missions”, Geophysical Research Letters 41', url:'https://doi.org/10.1002/2013GL059066', note:{en:'Degree-900 fields GL0900C/D; surface resolution varies across the Moon because the lowest spacecraft altitude ranged from 3 to 23 km.', ru:'Поля степени 900 GL0900C/D; разрешение у поверхности разное в разных местах, потому что минимальная высота аппаратов составляла от 3 до 23 км.'}},
-  {title:'R. S. Park et al. (2025), “Thermal asymmetry in the Moon\'s mantle inferred from monthly tidal response”, Nature 641, 1188–1192', url:'https://doi.org/10.1038/s41586-025-08949-5', note:{en:'GRAIL data give a degree-3 tidal Love number k₃ = 0.0163, about 72 % above that of a symmetric Moon; explained by a nearside mantle 100–200 K warmer; field GL1800F.', ru:'Данные GRAIL дают приливное число Лява третьей степени k₃ = 0,0163 — примерно на 72 % больше, чем у симметричной Луны; объясняется мантией видимой стороны, тёплой на 100–200 K; поле GL1800F.'}},
+  {title:'R. S. Park et al. (2025), “Thermal asymmetry in the Moon\'s mantle inferred from monthly tidal response”, Nature 641, 1188–1192', url:'https://doi.org/10.1038/s41586-025-08949-5', note:{en:'GRAIL data give a degree-3 tidal Love number k₃ = 0.0163, about 72 % above that of a symmetric Moon; explained by a nearside mantle 100–200 K warmer; field GL1800F.', ru:'Данные GRAIL дают приливное число Лява третьей степени k₃ = 0,0163 — примерно на 72 % больше, чем у симметричной Луны; объясняется мантией видимой стороны, тёплой на 100–200 К; поле GL1800F.'}},
   {title:'NASA NSSDCA, “Moon Fact Sheet”', url:'https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html', note:{en:'Mass 0.07346 × 10²⁴ kg; mean radius 1,737.4 km; surface gravity 1.62 m/s²; J₂ = 202.7 × 10⁻⁶; semimajor axis 384,400 km; sidereal rotation 655.720 h; Earth GM 0.39860 × 10⁶ km³/s².', ru:'Масса 0,07346 × 10²⁴ кг; средний радиус 1737,4 км; ускорение свободного падения 1,62 м/с²; J₂ = 202,7 × 10⁻⁶; большая полуось 384 400 км; звёздный период вращения 655,720 ч; GM Земли 0,39860 × 10⁶ км³/с².'}},
   {title:'NIST, CODATA 2018 value: Newtonian constant of gravitation', url:'https://physics.nist.gov/cgi-bin/cuu/Value?bg', note:{en:'G = 6.67430 × 10⁻¹¹ m³ kg⁻¹ s⁻².', ru:'G = 6,67430 × 10⁻¹¹ м³ кг⁻¹ с⁻².'}}
 ];

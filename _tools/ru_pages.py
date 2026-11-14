@@ -149,6 +149,10 @@ def english(src, slug):
 
 
 def main():
+    # anything but --check (e.g. --help) only prints usage: a stray argument must never regenerate the whole edition
+    extra = [a for a in sys.argv[1:] if a != '--check']
+    if extra:
+        print(__doc__.strip()); sys.exit(0 if extra[0] in ('-h', '--help') else 2)
     check = '--check' in sys.argv
     site, labels = manifest()
     slugs = [s for s in labels if os.path.exists(os.path.join(ROOT, s + '.html'))]

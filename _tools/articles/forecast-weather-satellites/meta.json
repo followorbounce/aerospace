@@ -7,5 +7,7 @@
  "brand": "FORECAST — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "FIRST PICTURE",
  "hud1": "PIXEL STRETCH",
- "hud2": "POLAR GAP"
+ "hud2": "POLAR GAP",
+ "hud1_ru": "РАСТЯЖЕНИЕ ПИКСЕЛЯ",
+ "hud2_ru": "ПОЛЯРНЫЙ ИНТЕРВАЛ"
 }

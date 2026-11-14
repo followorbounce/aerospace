@@ -7,5 +7,7 @@
  "brand": "SUNSYNC — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE BULGE",
  "hud1": "INCLINATION",
- "hud2": "REVISIT"
+ "hud2": "REVISIT",
+ "hud1_ru": "НАКЛОНЕНИЕ",
+ "hud2_ru": "ПЕРИОД ОБЗОРА"
 }

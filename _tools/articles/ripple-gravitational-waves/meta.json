@@ -7,5 +7,7 @@
  "brand": "RIPPLE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "SPACETIME STRETCHES",
  "hud1": "STRAIN",
- "hud2": "FREQUENCY"
+ "hud2": "FREQUENCY",
+ "hud1_ru": "ДЕФОРМАЦИЯ",
+ "hud2_ru": "ЧАСТОТА"
 }

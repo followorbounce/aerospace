@@ -7,5 +7,7 @@
  "brand": "THRUST — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE PROBLEM",
  "hud1": "TOTAL Δv",
- "hud2": "LIFTOFF T/W"
+ "hud2": "LIFTOFF T/W",
+ "hud1_ru": "СУММАРНОЕ Δv",
+ "hud2_ru": "ТЯГОВООРУЖЁННОСТЬ"
 }

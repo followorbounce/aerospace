@@ -7,5 +7,7 @@
  "brand": "POLAR — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "JUPITER",
  "hud1": "ORBIT",
- "hud2": "PERIJOVE SPEED"
+ "hud2": "PERIJOVE SPEED",
+ "hud1_ru": "ОРБИТА",
+ "hud2_ru": "СКОРОСТЬ В ПЕРИЙОВИИ"
 }

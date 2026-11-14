@@ -12,6 +12,8 @@ extra = open(os.path.join(d, 'extra.css')).read() if os.path.exists(os.path.join
 script = open(os.path.join(d, 'script.js')).read()
 helpers = open(os.path.join(os.path.dirname(__file__), 'helpers.js')).read()
 esc = lambda s: s.replace('&', '&amp;').replace('"', '&quot;').replace('<', '&lt;')
+# HUD labels: meta.json 'hud1'/'hud2' (English) with optional 'hud1_ru'/'hud2_ru'; without a Russian label it stays as before
+hudlab = lambda m, k: ('<span data-en="%s" data-ru="%s">%s</span>' % (esc(m[k]), esc(m[k + '_ru']), m[k])) if m.get(k + '_ru') else m[k]
 url = 'https://followorbounce.github.io/aerospace/' + m['slug']
 title = m['title_en'] + ' / ' + m['title_ru']
 out = f'''<!DOCTYPE html>
@@ -49,7 +51,7 @@ out = f'''<!DOCTYPE html>
 </head>
 <body>
 
-<a class="skip-link" href="#hero">Skip to content</a>
+<a class="skip-link" href="#hero" data-en="Skip to content" data-ru="Перейти к содержанию">Skip to content</a>
 <div id="progress"></div>
 
 <div id="chrome">
@@ -61,9 +63,9 @@ out = f'''<!DOCTYPE html>
 </div>
 
 <div id="hud">
-  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>PHASE</span><span id="hud-phase">{m['phase0']}</span></div>
-  <div class="hud-row"><span class="hud-label">{m['hud1']}</span><span id="hud-alt">—</span></div>
-  <div class="hud-row"><span class="hud-label">{m['hud2']}</span><span id="hud-vel">—</span></div>
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span><span data-en="PHASE" data-ru="ЭТАП">PHASE</span></span><span id="hud-phase">{m['phase0']}</span></div>
+  <div class="hud-row"><span class="hud-label">{hudlab(m, 'hud1')}</span><span id="hud-alt">—</span></div>
+  <div class="hud-row"><span class="hud-label">{hudlab(m, 'hud2')}</span><span id="hud-vel">—</span></div>
 </div>
 
 <main>

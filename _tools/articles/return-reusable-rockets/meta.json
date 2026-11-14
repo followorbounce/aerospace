@@ -7,5 +7,7 @@
  "brand": "RETURN — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THROWN AWAY",
  "hud1": "PAYLOAD",
- "hud2": "LANDING"
+ "hud2": "LANDING",
+ "hud1_ru": "ПОЛЕЗНАЯ НАГРУЗКА",
+ "hud2_ru": "ПОСАДКА"
 }

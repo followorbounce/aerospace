@@ -7,5 +7,7 @@
  "brand": "NOZZLE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE THROAT",
  "hud1": "EXIT MACH",
- "hud2": "THRUST COEFF."
+ "hud2": "THRUST COEFF.",
+ "hud1_ru": "ЧИСЛО МАХА НА СРЕЗЕ",
+ "hud2_ru": "КОЭФФ. ТЯГИ"
 }

@@ -7,5 +7,7 @@
  "brand": "SLINGSHOT — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE PROBLEM",
  "hud1": "TURN ANGLE",
- "hud2": "GAIN"
+ "hud2": "GAIN",
+ "hud1_ru": "УГОЛ ПОВОРОТА",
+ "hud2_ru": "ПРИБАВКА"
 }

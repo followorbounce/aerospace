@@ -106,8 +106,8 @@ function renderSky(){
   var even = Math.abs(m - 1/3) < 2*sig;
   document.getElementById('skyStatus').textContent = skyMode === 'iso'
     ? T('Sources spread through the universe: an even sky, as BATSE saw.','Источники по всей Вселенной: равномерное небо, как у BATSE.')
-    : even ? T('Even to this test: we see only nearby sources, well inside the disk, so the disk does not show. Look further and it will.','По этому тесту равномерно: видны лишь близкие источники глубоко внутри диска, и диск не проявляется. Посмотрите дальше — и он проявится.')
-    : T('The sources crowd towards the Milky Way. BATSE saw no such band, so bursts are not a disk population seen this far out.','Источники теснятся к Млечному Пути. BATSE такой полосы не видел — значит, всплески не дисковое население, видимое на такую глубину.');
+    : even ? T('Even to this test: we see only nearby sources, well inside the disk, so the disk does not show. Look further and it will.','По этому критерию небо равномерно: видны лишь близкие источники глубоко внутри диска, и диск не проявляется. Посмотрите дальше — и он проявится.')
+    : T('The sources crowd towards the Milky Way. BATSE saw no such band, so bursts are not a disk population seen this far out.','Источники концентрируются к Млечному Пути. BATSE такой полосы не видел — значит, всплески не принадлежат населению диска, видимому на такую глубину.');
 }
 skyD.addEventListener('input', renderSky);
 document.getElementById('skyNew').addEventListener('click', function(){ skySeed += 1; renderSky(); });
@@ -143,9 +143,8 @@ function renderT90(){
     [T('LONG','ДЛИННЫЕ'), num(sp.longN) + ' · ' + fmt(sp.longN/T90_TOTAL*100, 1) + ' %'],
     [T('ALL BURSTS WITH A T90','ВСЕ ВСПЛЕСКИ С T90'), num(T90_TOTAL), true]
   ]);
-  hud2.textContent = num(sp.shortN) + ' / ' + num(T90_TOTAL);
   document.getElementById('t90Status').textContent = Math.abs(c - 0.3) < 1e-9
-    ? T('At the usual 2 s line, 741 of 4,391 Fermi bursts are short. The bars show a small hump just under a second and a much larger one near half a minute, and they overlap.','При обычной границе 2 с короткие — 741 из 4391 всплеска Fermi. На столбцах видны небольшой горб чуть меньше секунды и гораздо больший — около полуминуты, и они перекрываются.')
+    ? T('At the usual 2 s line, 741 of 4,391 Fermi bursts are short. The bars show a small hump just under a second and a much larger one near half a minute, and they overlap.','При обычной границе 2 с короткие — 741 из 4391 всплеска Fermi. На гистограмме видны небольшой горб чуть меньше секунды и гораздо больший — около полуминуты, и они перекрываются.')
     : T('Moving the line shifts hundreds of bursts between the families: the dip between the two humps is shallow, so any single cut misclassifies some.','Сдвиг границы перебрасывает сотни всплесков из семейства в семейство: провал между горбами неглубокий, и любая граница часть всплесков относит не туда.');
 }
 t90Cut.addEventListener('input', function(){ pressGroup(document.getElementById('t90Pre'), null); renderT90(); });
@@ -203,8 +202,8 @@ function renderEn(){
   var dGly = dl*LY_PER_MPC/1e9;
   cells(document.getElementById('enReadout'), [
     [T('LUMINOSITY DISTANCE','ФОТОМЕТРИЧЕСКОЕ РАССТОЯНИЕ'), num(dl) + T(' Mpc',' Мпк')],
-    [T('LIGHT LEFT WHEN THE UNIVERSE WAS','СВЕТ УШЁЛ, КОГДА ВСЕЛЕННОЙ БЫЛО'), age < 1 ? num(age*1000) + T(' million years',' млн лет') : fmt(age, 2) + T(' billion years',' млрд лет')],
-    [T('LIGHT TRAVEL TIME','ВРЕМЯ В ПУТИ'), fmt(age0 - age, 2) + T(' billion years',' млрд лет')],
+    [T('LIGHT LEFT WHEN THE UNIVERSE WAS','СВЕТ ИСПУЩЕН, КОГДА ВСЕЛЕННОЙ БЫЛО'), age < 1 ? num(age*1000) + T(' million years',' млн лет') : fmt(age, 2) + T(' billion years',' млрд лет')],
+    [T('LIGHT TRAVEL TIME','ВРЕМЯ РАСПРОСТРАНЕНИЯ СВЕТА'), fmt(age0 - age, 2) + T(' billion years',' млрд лет')],
     [T('E_iso','E_iso'), sci(E, 2) + T(' erg',' эрг')],
     [T('IN UNITS OF M☉c²','В ЕДИНИЦАХ M☉c²'), E/MSUN_C2 >= 0.01 ? fmt(E/MSUN_C2, 2) : sci(E/MSUN_C2, 1)],
     [T('PUBLISHED','ОПУБЛИКОВАНО'), exact ? sci(b.pub, 2) + T(' erg (z = ',' эрг (z = ') + zStr(b.pubZ) + ')' : '—']
@@ -212,7 +211,7 @@ function renderEn(){
   hud1.textContent = fmt(dGly, 1) + T(' Gly',' млрд св. лет');
   hud2.textContent = sci(E, 1) + T(' erg',' эрг');
   document.getElementById('enStatus').textContent = exact
-    ? (b.name + T(': at z = ',': при z = ') + zStr(b.pubZ) + T(' this simple estimate gives ',' эта простая оценка даёт ') + sci(Ecmp, 2) + T(' erg, ',' эрг — на ') + fmt(Math.abs(Ecmp/b.pub - 1)*100, 0) + T(' % from the published value, which also corrects for the detector’s energy band.',' % отличается от опубликованного значения, в котором учтён ещё и энергетический диапазон детектора.'))
+    ? (b.name + T(': at z = ',': при z = ') + zStr(b.pubZ) + T(' this simple estimate gives ',' эта простая оценка даёт ') + sci(Ecmp, 2) + T(' erg, ',' эрг, что на ') + fmt(Math.abs(Ecmp/b.pub - 1)*100, 0) + T(' % from the published value, which also corrects for the detector’s energy band.',' % отличается от опубликованного значения, в котором учтён ещё и энергетический диапазон детектора.'))
     : T('Move the same fluence further away and the energy needed to produce it climbs steeply, as the dashed curve shows.','Перенесите тот же флюенс дальше — и требуемая энергия резко растёт, как показывает пунктир.');
 }
 function enFree(){ enKey = null; pressGroup(document.getElementById('enPre'), null); renderEn(); }
@@ -290,7 +289,7 @@ var TIMELINE = [
 /* ============ CH9 — REFERENCES ============ */
 var REFERENCES = [
   {title:'Los Alamos National Laboratory, “The mystery flash that changed astrophysics”, National Security Science', url:'https://www.lanl.gov/media/publications/national-security-science/0720-the-mystery-flash-that-changed-astrophysics', note:{en:'Vela detectors were built to monitor space for nuclear explosions; Klebesadel found the event in 1967 data from two satellites; the result was declassified before publication.', ru:'Детекторы «Вела» создавались для наблюдения за ядерными взрывами в космосе; Клебесадел нашёл событие в данных двух спутников за 1967 год; результат рассекретили до публикации.'}},
-  {title:'NASA HEASARC, “A History of Gamma-Ray Astronomy Including Related Discoveries”', url:'https://heasarc.gsfc.nasa.gov/docs/history/', note:{en:'Vela 4a,b launched 28 April 1967; first burst 2 July 1967; CGRO launched 5 April 1991; BATSE isotropy (1992); BeppoSAX afterglows and z = 0.835 for GRB 970508 (1997); Swift launched 20 November 2004; Fermi 11 June 2008.', ru:'«Вела-4a,b» запущены 28 апреля 1967 года; первый всплеск 2 июля 1967 года; «Комптон» запущен 5 апреля 1991 года; изотропия BATSE (1992); послесвечения BeppoSAX и z = 0,835 для GRB 970508 (1997); Swift запущен 20 ноября 2004 года; Fermi — 11 июня 2008 года.'}},
+  {title:'NASA HEASARC, “A History of Gamma-Ray Astronomy Including Related Discoveries”', url:'https://heasarc.gsfc.nasa.gov/docs/history/', note:{en:'Vela 4a,b launched 28 April 1967; first burst 2 July 1967; CGRO launched 5 April 1991; BATSE isotropy (1992); BeppoSAX afterglows and z = 0.835 for GRB 970508 (1997); Swift launched 20 November 2004; Fermi 11 June 2008.', ru:'«Вела-4А» и «Вела-4Б» запущены 28 апреля 1967 года; первый всплеск 2 июля 1967 года; «Комптон» запущен 5 апреля 1991 года; изотропия BATSE (1992); послесвечения BeppoSAX и z = 0,835 для GRB 970508 (1997); Swift запущен 20 ноября 2004 года; Fermi — 11 июня 2008 года.'}},
   {title:'R. W. Klebesadel, I. B. Strong, R. A. Olson (1973), “Observations of Gamma-Ray Bursts of Cosmic Origin”, ApJ 182, L85 (INSPIRE record)', url:'https://inspirehep.net/literature/87981', note:{en:'Sixteen bursts at 0.2–1.5 MeV, July 1969 – July 1972, durations from under 0.1 s to 30 s; directions rule out the Earth and Sun.', ru:'Шестнадцать всплесков в диапазоне 0,2–1,5 МэВ, июль 1969 — июль 1972 года, длительность от менее 0,1 с до 30 с; направления исключают Землю и Солнце.'}},
   {title:'NASA HEASARC, “CGRO SSC: BATSE All-Sky Plot of Gamma-Ray Burst Locations”', url:'https://heasarc.gsfc.nasa.gov/docs/cgro/cgro/batse_src.html', note:{en:'2,704 bursts in nine years; isotropic, no significant dipole or quadrupole; a deficiency of faint bursts; naturally explained at cosmological distances.', ru:'2704 всплеска за девять лет; изотропны, без значимого диполя или квадруполя; недостаток слабых всплесков; естественно объясняется космологическими расстояниями.'}},
   {title:'C. Kouveliotou et al. (1993), “Identification of two classes of gamma-ray bursts”, ApJ 413, L101 (INSPIRE record)', url:'https://inspirehep.net/literature/370019', note:{en:'Bimodal BATSE durations: short (less than 2 s) and long (more than 2 s); short bursts predominantly harder.', ru:'Бимодальные длительности BATSE: короткие (менее 2 с) и длинные (более 2 с); короткие преимущественно жёстче.'}},

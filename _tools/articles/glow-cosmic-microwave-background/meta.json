@@ -7,5 +7,7 @@
  "brand": "GLOW — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "FIRST LIGHT",
  "hud1": "TEMPERATURE",
- "hud2": "AGE THEN"
+ "hud2": "AGE THEN",
+ "hud1_ru": "ТЕМПЕРАТУРА",
+ "hud2_ru": "ВОЗРАСТ ТОГДА"
 }

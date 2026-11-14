@@ -65,6 +65,7 @@
     {"page": "escape-maven-mars-atmosphere", "claim": "MAVEN \"more than 800 publications\"", "source": "https://www.collectspace.com/news/news-060326a-maven-mars-atmosphere-probe-end-mission.html", "review_by": "2027-06-01"},
     {"page": "escape-maven-mars-atmosphere", "claim": "Tianwen-1 MOMAG measuring since 13 Nov 2021 (implied ongoing)", "source": "https://arxiv.org/abs/2301.00677", "review_by": "2027-05-12"},
     {"page": "escape-maven-mars-atmosphere", "claim": "NSSDC Mars fact sheet values (6.36 mb, 11.0 km, 214 K, 43.49) — revised periodically", "source": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html", "review_by": "2027-11-12"},
-    {"page": "escape-maven-mars-atmosphere", "claim": "MAVEN review board final report (expected later in 2026) still unpublished as of 12 Nov 2026", "source": "https://science.nasa.gov/mission/maven/", "review_by": "2027-01-15"}
+    {"page": "escape-maven-mars-atmosphere", "claim": "MAVEN review board final report (expected later in 2026) still unpublished as of 12 Nov 2026", "source": "https://science.nasa.gov/mission/maven/", "review_by": "2027-01-15"},
+    {"page": "parallax-gaia-mission", "claim": "Gaia DR4 scheduled for 2 December 2026; final release (DR5) expected around the end of the decade", "source": "https://www.cosmos.esa.int/web/gaia/release", "review_by": "2026-12-15"}
   ]
 }

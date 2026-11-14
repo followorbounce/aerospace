@@ -133,10 +133,10 @@
       "id": "future",
       "title": { "en": "Future Exploration", "ru": "Будущее освоение космоса" },
       "pages": [
-        { "slug": "horizon-artemis-base-camp", "codename": "HORIZON", "label": { "en": "Artemis Base Camp", "ru": "Базовый лагерь «Артемида»" } },
+        { "slug": "horizon-artemis-base-camp", "codename": "HORIZON", "label": { "en": "Artemis Base Camp", "ru": "Базовый лагерь Artemis" } },
         { "slug": "the-lunar-gateway", "codename": "HALO", "label": { "en": "The Lunar Gateway", "ru": "Окололунная станция Gateway" } },
         { "slug": "retrieve-mars-sample-return", "codename": "RETRIEVE", "label": { "en": "Mars Sample Return", "ru": "Доставка образцов с Марса" } },
-        { "slug": "flyby-europa-clipper", "codename": "FLYBY", "label": { "en": "Europa Clipper", "ru": "«Европа Клипер»" } },
+        { "slug": "flyby-europa-clipper", "codename": "FLYBY", "label": { "en": "Europa Clipper", "ru": "«Европа Клиппер»" } },
         { "slug": "rotor-dragonfly-titan", "codename": "ROTOR", "label": { "en": "Dragonfly Mission", "ru": "Миссия Dragonfly" } },
         { "slug": "beyond-interstellar-probe", "codename": "BEYOND", "label": { "en": "Interstellar Probe Concept", "ru": "Концепция межзвёздного зонда" } },
         { "slug": "sail-solar-sails", "codename": "SAIL", "label": { "en": "Solar Sails", "ru": "Солнечные паруса" } },

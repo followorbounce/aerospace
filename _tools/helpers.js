@@ -17,7 +17,10 @@ function fmt(n, d){
   return s;
 }
 function fmtInt(n){
-  var s = Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'ru' ? ' ' : ',');
+  var a = Math.round(Math.abs(n)), s = a.toString();
+  // English groups every thousand (1,524); Russian groups only from 10 000 (1524, 10 000) — RU-STYLE.md
+  if(lang !== 'ru') s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  else if(a >= 10000) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   return (n < 0 ? '−' : '') + s;
 }
 function cells(el, rows){
@@ -59,7 +62,7 @@ function onScroll(){
   progressEl.style.width = (doc.scrollTop/Math.max(1, doc.scrollHeight - doc.clientHeight)*100) + '%';
   var mid = window.scrollY + window.innerHeight*0.4, current = sections[0];
   sections.forEach(function(s){ if(s.offsetTop <= mid) current = s; });
-  hudPhase.textContent = current.dataset.phase;
+  hudPhase.textContent = (lang === 'ru' && current.dataset.phaseRu) || current.dataset.phase;   // data-phase-ru on a chapter, when it has one
 }
 document.addEventListener('scroll', onScroll, {passive:true});
 function applyLang(l){
@@ -71,6 +74,7 @@ function applyLang(l){
   });
   document.querySelectorAll('#langtoggle button').forEach(function(b){ b.classList.toggle('active', b.dataset.lang === l); });
   renderAll();
+  onScroll();
 }
 document.querySelectorAll('#langtoggle button').forEach(function(b){
   b.addEventListener('click', function(){ applyLang(b.dataset.lang); });

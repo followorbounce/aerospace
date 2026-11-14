@@ -81,7 +81,7 @@ function renderRec(){
   for(var m = 0; m <= tmax; m += 10){ ns('line', {x1:X(m), y1:B, x2:X(m), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(m), B + 16, String(m), 'svg-small', 'middle'); }
   ns('line', {x1:L, y1:B, x2:Rt, y2:B, stroke:'#0b0b0c'}, svg);
   txt(svg, L, 14, T('altitude, km (log)','высота, км (лог.)'), 'svg-small');
-  txt(svg, Rt, B + 32, T('minutes after the retro-burn','минуты после тормозного импульса'), 'svg-small', 'end');
+  txt(svg, Rt, B + 32, T('minutes after the retro-burn','мин после тормозного импульса'), 'svg-small', 'end');
   ns('rect', {x:L, y:Y(WIN_TOP/1000), width:Rt - L, height:Y(WIN_BOT/1000) - Y(WIN_TOP/1000), fill:'#f3e3dd'}, svg);
   txt(svg, L + 4, Y(WIN_TOP/1000) - 4, T('catch window 15,000–5,000 ft','окно подхвата 15 000–5000 футов'), 'svg-small svg-halo');
   ns('line', {x1:L, y1:Y(H_EI), x2:Rt, y2:Y(H_EI), stroke:'#2f5aa1', 'stroke-dasharray':'3 3'}, svg);
@@ -133,10 +133,10 @@ function renderRec(){
   if(R) hud2.textContent = minStr(R.inWin);
   var sens = R ? Math.abs(dRangeDdv(h0, dv)) : 0;
   document.getElementById('recStatus').innerHTML = !R
-    ? T('Too gentle: the new orbit still clears the atmosphere and the capsule stays up — a failed recovery.','Слишком слабо: новая орбита по-прежнему проходит над атмосферой, капсула остаётся на орбите — возвращение сорвано.')
-    : (ok ? T('Inside the zone. ','Внутри района. ') : T('Outside the zone — the aircraft are in the wrong place. ','За пределами района — самолёты не там. '))
-      + T('Here each 1 m/s of retro Δv moves the splash point about ','Здесь каждый 1 м/с тормозного импульса сдвигает точку падения примерно на ') + fmtInt(sens) + T(' km, so the zone\'s 250-mile depth allows an error of only about ±',' км, поэтому глубина района в 250 миль допускает ошибку лишь около ±') + fmtInt(ZONE_NS/sens) + T(' m/s.',' м/с.')
-      + (recSinkFt === 33 ? T(' At 33 ft/s the window passes in under five minutes: one or two tries.',' При 33 фут/с окно пролетает меньше чем за пять минут: одна-две попытки.') : T(' At 20 ft/s the crews get the three or four passes they asked for.',' При 20 фут/с у экипажей есть три-четыре захода, о которых они просили.'));
+    ? T('Too gentle: the new orbit still clears the atmosphere and the capsule stays up — a failed recovery.','Слишком слабый импульс: новая орбита по-прежнему проходит над атмосферой, капсула остаётся на орбите — возвращение сорвано.')
+    : (ok ? T('Inside the zone. ','Внутри района. ') : T('Outside the zone — the aircraft are in the wrong place. ','За пределами района — самолёты ждут не там. '))
+      + T('Here each 1 m/s of retro Δv moves the splash point about ','Здесь каждый метр в секунду тормозного импульса сдвигает точку падения примерно на ') + fmtInt(sens) + T(' km, so the zone\'s 250-mile depth allows an error of only about ±',' км, поэтому глубина района в 250 миль допускает ошибку лишь около ±') + fmtInt(ZONE_NS/sens) + T(' m/s.',' м/с.')
+      + (recSinkFt === 33 ? T(' At 33 ft/s the window passes in under five minutes: one or two tries.',' При 33 фут/с капсула проходит окно меньше чем за пять минут: одна-две попытки.') : T(' At 20 ft/s the crews get the three or four passes they asked for.',' При 20 фут/с у экипажей есть те три-четыре захода, о которых они просили.'));
 }
 recDv.addEventListener('input', renderRec); recH.addEventListener('input', renderRec);
 Array.prototype.forEach.call(document.querySelectorAll('#recSink .btn'), function(btn){ btn.addEventListener('click', function(){ recSinkFt = +this.getAttribute('data-s'); pressGroup(this.parentNode, this); renderRec(); }); });
@@ -180,7 +180,7 @@ function renderRes(){
   ns('rect', {x:R - 172, y:Tp + 40, width:8, height:8, fill:'#fff', stroke:'#0b0b0c'}, svg); txt(svg, R - 155, Tp + 48, T('USGS best figure [2]','лучшее значение USGS [2]'), 'svg-small');
   var D = F_MM/N;
   var rows = [
-    [T('FILM-LIMITED GROUND RESOLUTION','РАЗРЕШЕНИЕ, ПРЕДЕЛ ПЛЁНКИ'), fmt(g, 2) + T(' m',' м')],
+    [T('FILM-LIMITED GROUND RESOLUTION','РАЗРЕШЕНИЕ ПО ПРЕДЕЛУ ПЛЁНКИ'), fmt(g, 2) + T(' m',' м')],
     [T('DIFFRACTION LIMIT ON THE GROUND','ДИФРАКЦИОННЫЙ ПРЕДЕЛ НА ЗЕМЛЕ'), fmt(gd, 2) + T(' m',' м')],
     [T('APERTURE / LENS LIMIT ON FILM','АПЕРТУРА / ПРЕДЕЛ ОБЪЕКТИВА'), fmtInt(D) + T(' mm · ',' мм · ') + fmtInt(lensLp(N)) + T(' lp/mm',' пар лин./мм')],
     [T('PHOTO SCALE','МАСШТАБ СНИМКА'), '1 : ' + fmtInt(H*1e6/F_MM)]
@@ -191,7 +191,7 @@ function renderRes(){
   document.getElementById('resStatus').innerHTML = k
     ? (k.n === 'KH-1'
       ? T('The film formula gives about half of KH-1\'s published 40 ft. The sources do not say why; the first camera\'s image-motion compensation, fixed for one altitude, and its acetate-based film are likely contributors [4]. The lens alone cannot explain it: KH-2 had the same f/5 Tessar.','Формула для плёнки даёт около половины опубликованных для KH-1 40 футов. Источники не объясняют почему; вероятные причины — компенсация сдвига изображения первой камеры, рассчитанная на одну высоту, и плёнка на ацетатной основе [4]. Один объектив этого не объясняет: у KH-2 был тот же «Тессар» f/5.')
-      : T('The simple film limit comes out at ','Простой предел плёнки составляет ') + fmtInt(g/(k.ft*FT)*100) + T(' % of the published figure — the rest is image motion, haze and low contrast. The lens could resolve ',' % опубликованного значения — остальное дают сдвиг изображения, дымка и низкий контраст. Объектив мог бы разрешить ') + fmt(gd, 2) + T(' m: the film, not the optics, was the bottleneck.',' м: узким местом была плёнка, а не оптика.'))
+      : T('The simple film limit comes out at ','Простой предел плёнки составляет ') + fmtInt(g/(k.ft*FT)*100) + T(' % of the published figure — the rest is image motion, haze and low contrast. The lens could resolve ',' % опубликованного значения — остальное дают сдвиг изображения, дымка и низкий контраст. Объектив позволил бы различить ') + fmt(gd, 2) + T(' m: the film, not the optics, was the bottleneck.',' м: узким местом была плёнка, а не оптика.'))
     : (gd > g ? T('Now diffraction is coarser than the film: a bigger aperture (smaller f-number) would be needed to use this film.','Теперь дифракция грубее плёнки: чтобы использовать такую плёнку, нужна большая апертура (меньшее диафрагменное число).')
       : T('Film-limited: the optics could do better than the film records. Halving the altitude halves the ground resolution.','Предел — плёнка: оптика способна на большее, чем записывает плёнка. Вдвое меньшая высота — вдвое лучшее разрешение.'));
 }
@@ -231,7 +231,7 @@ function renderSw(){
   ns('line', {x1:cx, y1:sy, x2:cx, y2:gy, stroke:'#5f5f59', 'stroke-dasharray':'2 3'}, svg);
   txt(svg, 20, 290, T('cross-section across the track, to scale','разрез поперёк трассы, в масштабе'), 'svg-small');
   var rows = [
-    [T('GROUND SWATH (SPHERICAL EARTH)','ПОЛОСА НА ЗЕМЛЕ (СФЕРА)'), isFinite(st) ? fmtInt(st) + T(' km',' км') : T('beyond the horizon','за горизонтом')],
+    [T('GROUND SWATH (SPHERICAL EARTH)','ПОЛОСА ОБЗОРА (СФЕРИЧЕСКАЯ ЗЕМЛЯ)'), isFinite(st) ? fmtInt(st) + T(' km',' км') : T('beyond the horizon','за горизонтом')],
     [T('FLAT-EARTH 2H tan(θ/2)','ПЛОСКАЯ ЗЕМЛЯ 2H tg(θ/2)'), fmtInt(swathFlat(H, A)) + T(' km',' км')],
     [T('H × θ (TABLE CONVENTION)','H × θ (КАК В ТАБЛИЦЕ)'), fmtInt(swathArc(H, A)) + T(' km',' км')],
     [T('FRAME WIDTH ALONG TRACK','ШИРИНА КАДРА ВДОЛЬ ТРАССЫ'), fmt(frameWidth(H), 1) + T(' km',' км')],
@@ -284,11 +284,11 @@ function renderOrb(){
   var svg = document.getElementById('orbSvg'); svg.innerHTML = '';
   var L = 46, R = 430, Tp = 24, B = 256;
   function X(h){ return L + (h - 120)/280*(R - L); } function Y(dd){ return B - (Math.log10(Math.max(0.01, Math.min(dd, 10000))) + 2)/6*(B - Tp); } function Y2(m){ return B - m/4*(B - Tp); }
-  [[0.01,T('15 min','15 мин')],[0.1,T('2.4 h','2,4 ч')],[1,T('1 d','1 сут')],[10,T('10 d','10 сут')],[100,T('100 d','100 сут')],[1000,T('2.7 yr','2,7 г.')],[10000,T('27 yr','27 лет')]].forEach(function(p){ ns('line', {x1:L, y1:Y(p[0]), x2:R, y2:Y(p[0]), stroke:'#e4e4de'}, svg); txt(svg, L - 4, Y(p[0]) + 4, p[1], 'svg-small', 'end'); });
+  [[0.01,T('15 min','15 мин')],[0.1,T('2.4 h','2,4 ч')],[1,T('1 d','1 сут')],[10,T('10 d','10 сут')],[100,T('100 d','100 сут')],[1000,T('2.7 yr','2,7 года')],[10000,T('27 yr','27 лет')]].forEach(function(p){ ns('line', {x1:L, y1:Y(p[0]), x2:R, y2:Y(p[0]), stroke:'#e4e4de'}, svg); txt(svg, L - 4, Y(p[0]) + 4, p[1], 'svg-small', 'end'); });
   [120, 200, 300, 400].forEach(function(v){ ns('line', {x1:X(v), y1:B, x2:X(v), y2:B + 4, stroke:'#0b0b0c'}, svg); txt(svg, X(v), B + 16, String(v), 'svg-small', 'middle'); });
   [0, 1, 2, 3, 4].forEach(function(v){ txt(svg, R + 6, Y2(v) + 4, v + T(' m',' м'), 'svg-small'); });
   ns('line', {x1:L, y1:B, x2:R, y2:B, stroke:'#0b0b0c'}, svg);
-  txt(svg, L - 40, 14, T('lifetime (log)','срок жизни (лог.)'), 'svg-small');
+  txt(svg, L - 40, 14, T('lifetime (log)','срок существования (лог.)'), 'svg-small');
   txt(svg, R + 46, 14, T('KH-4B resolution','разрешение KH-4B'), 'svg-small', 'end');
   txt(svg, R, B + 32, T('perigee altitude, km','высота перигея, км'), 'svg-small', 'end');
   var d = '', d2 = '';
@@ -301,15 +301,15 @@ function renderOrb(){
   ns('line', {x1:X(150), y1:Y(19), x2:X(150) + 8, y2:Y(19), stroke:'#2f5aa1', 'stroke-width':3}, svg); txt(svg, X(150) + 11, Y(19) + 4, T('KH-4B: 19 days at 150 km, with make-up burns [3]','KH-4B: 19 сут на 150 км, с подъёмами орбиты [3]'), 'svg-small svg-halo');
   var r0 = rates(RE + (hp + ha)/2, (ha - hp)/(2*RE + hp + ha), beta);
   cells(document.getElementById('orbReadout'), [
-    [T('LIFETIME WITHOUT MAKE-UP BURNS','СРОК ЖИЗНИ БЕЗ ПОДЪЁМОВ ОРБИТЫ'), lifeStr(life)],
+    [T('LIFETIME WITHOUT MAKE-UP BURNS','СРОК СУЩЕСТВОВАНИЯ БЕЗ ПОДЪЁМОВ ОРБИТЫ'), lifeStr(life)],
     [T('PERIOD','ПЕРИОД'), fmt(period(hp, ha)/60, 1) + T(' min',' мин')],
     [T('KH-4B RESOLUTION AT PERIGEE','РАЗРЕШЕНИЕ KH-4B В ПЕРИГЕЕ'), fmt(g, 2) + T(' m',' м')],
     [T('INITIAL DECAY OF a','НАЧАЛЬНОЕ СНИЖЕНИЕ a'), fmt(-r0[0]*86400, -r0[0]*86400 < 10 ? 2 : 0) + T(' km/day',' км/сут')]
   ]);
   document.getElementById('orbStatus').innerHTML = life < 2
-    ? T('Razor-sharp and doomed: an unpowered orbit this low lasts hours. CORONA dipped its perigee over the targets and fired drag make-up rockets to stay up [1].','Предельно резко — и обречено: такая низкая орбита без двигателя живёт часы. CORONA опускала перигей над целями и включала компенсаторы торможения, чтобы удержаться [1].')
-    : life < 60 ? T('A workable compromise for a film satellite: weeks of life, and the film runs out about as fast.','Работоспособный компромисс для плёночного спутника: недели жизни, а плёнка кончается примерно так же быстро.')
-    : T('Long-lived but softer pictures: every 50 km of extra perigee costs about half a metre of KH-4B resolution.','Долгая жизнь, но менее резкие снимки: каждые 50 км перигея стоят около полуметра разрешения KH-4B.');
+    ? T('Razor-sharp and doomed: an unpowered orbit this low lasts hours. CORONA dipped its perigee over the targets and fired drag make-up rockets to stay up [1].','Предельно резкие снимки — и обречённый аппарат: без двигателей такая низкая орбита существует лишь несколько часов. CORONA опускала перигей над целями и включала компенсаторы торможения, чтобы удержаться на орбите [1].')
+    : life < 60 ? T('A workable compromise for a film satellite: weeks of life, and the film runs out about as fast.','Рабочий компромисс для плёночного спутника: несколько недель на орбите, а плёнка кончается примерно так же быстро.')
+    : T('Long-lived but softer pictures: every 50 km of extra perigee costs about half a metre of KH-4B resolution.','Долгий срок, но менее резкие снимки: каждые лишние 50 км перигея стоят около полуметра разрешения KH-4B.');
 }
 function orbInput(e){ pressGroup(document.getElementById('orbPre'), null); if(+orbA.value < +orbP.value){ if(e && e.target === orbP) orbA.value = orbP.value; else orbP.value = orbA.value; } renderOrb(); }
 [orbP, orbA, orbB].forEach(function(el){ el.addEventListener('input', orbInput); });
@@ -346,7 +346,7 @@ var REFERENCES = [
   {title:'Intelligence Community News (2021), “NRO releases collection of previously classified documents”', url:'https://intelligencecommunitynews.com/nro-releases-collection-of-previously-classified-documents/', note:{en:'17 November 2021: “From Buckets to Bits”, more than 3,000 documents on the transition from film to electro-optical imaging.', ru:'17 ноября 2021 года: «From Buckets to Bits» («От капсул к битам») — более 3000 документов о переходе от плёнки к оптико-электронной съёмке.'}},
   {title:'Wikipedia, “Zenit (satellite)”', url:'https://en.wikipedia.org/wiki/Zenit_(satellite)', note:{en:'Vostok-derived; 2.3 m, ~2,400 kg capsule with cameras and film; four 1,000 mm and one 200 mm camera on most flights; 10–15 m stated resolution; perigee ~200 km, apogee 250–350 km, 8–15 days; Kosmos 7 a success; last Zenit 1994. Tertiary source, citing Gorin (1998).', ru:'На базе «Востока»; капсула 2,3 м, ~2400 кг с фотоаппаратами и плёнкой; на большинстве полётов — четыре аппарата 1000 мм и один 200 мм; заявленное разрешение 10–15 м; перигей ~200 км, апогей 250–350 км, 8–15 суток; «Космос-7» — успех; последний «Зенит» — 1994 год. Третичный источник со ссылкой на Gorin (1998).'}},
   {title:'Russian-language Wikipedia, “Zenit (spacecraft)”', url:'https://ru.wikipedia.org/wiki/%D0%97%D0%B5%D0%BD%D0%B8%D1%82_%28%D0%BA%D0%BE%D1%81%D0%BC%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D0%B0%D0%BF%D0%BF%D0%B0%D1%80%D0%B0%D1%82%29', note:{en:'Russian article: Zenit-2 «Ftor-2» set with a 200 mm «Orion» and two 1,000 mm «Leningrad-9» cameras, a third long-focus camera added later («Ftor-2R»); 150 km coverage from 250 km; resolution presumed about 10 m; 81 Zenit-2 launches; accepted into service in 1964.', ru:'Комплект «Фтор-2» на «Зените-2»: аппарат «Орион» 200 мм и два аппарата «Ленинград-9» 1000 мм, позже добавлен третий длиннофокусный аппарат («Фтор-2Р»); полоса 150 км с высоты 250 км; разрешение предположительно около 10 м; 81 пуск «Зенита-2»; принят на вооружение в 1964 году.'}},
-  {title:'Wikipedia, “Kosmos 4”', url:'https://en.wikipedia.org/wiki/Kosmos_4', note:{en:'Launched 26 April 1962, 10:02 GMT, from Baikonur on a Vostok-K; returned 29 April 1962 in the Kazakh steppe after an orientation-system problem; previous attempt failed on 11 December 1961.', ru:'Запущен 26 апреля 1962 года в 10:02 по Гринвичу с Байконура ракетой «Восток-К»; возвращён 29 апреля 1962 года в казахстанскую степь после неполадки системы ориентации; предыдущая попытка 11 декабря 1961 года закончилась аварией.'}},
+  {title:'Wikipedia, “Kosmos 4”', url:'https://en.wikipedia.org/wiki/Kosmos_4', note:{en:'Launched 26 April 1962, 10:02 GMT, from Baikonur on a Vostok-K; returned 29 April 1962 in the Kazakh steppe after an orientation-system problem; previous attempt failed on 11 December 1961.', ru:'Запущен 26 апреля 1962 года в 10:02 GMT с Байконура ракетой «Восток-К»; возвращён 29 апреля 1962 года в казахстанскую степь после неполадки системы ориентации; предыдущая попытка 11 декабря 1961 года закончилась аварией.'}},
   {title:'Gunter\'s Space Page, “Zenit-2 (11F61)”', url:'https://space.skyrocket.de/doc_sdat/zenit-2.htm', note:{en:'Launch list of 81 Zenit-2 flights from 11 December 1961; Ftor-2 camera package.', ru:'Список 81 пуска «Зенита-2» начиная с 11 декабря 1961 года; фотоаппаратура «Фтор-2».'}},
   {title:'Wikipedia, “Yantar (satellite)”', url:'https://en.wikipedia.org/wiki/Yantar_(satellite)', note:{en:'Yantar-2K with two film-return capsules for about a month in orbit; Yantar-4KS1 Terilen, first launched 28 December 1982, the first Soviet real-time digital system.', ru:'«Янтарь-2К» с двумя капсулами для возврата плёнки, около месяца на орбите; «Янтарь-4КС1» («Терилен»), впервые запущенный 28 декабря 1982 года, — первая советская система цифровой съёмки в реальном времени.'}},
   {title:'D. Vergano (2014), “Cold War Spy-Satellite Images Unveil Lost Cities”, National Geographic, 26 April 2014', url:'https://www.nationalgeographic.com/adventure/article/140425-corona-spy-satellite-archaeology-science', note:{en:'J. Casana\'s CORONA Atlas of the Middle East: started from about 4,500 known sites and found about 10,000 previously unknown ones.', ru:'Атлас CORONA Ближнего Востока Дж. Касаны: начав примерно с 4500 известных памятников, нашли около 10 000 ранее неизвестных.'}},

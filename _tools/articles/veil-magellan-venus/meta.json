@@ -7,5 +7,7 @@
  "brand": "VEIL — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE VEILED PLANET",
  "hud1": "ALTITUDE",
- "hud2": "RESOLUTION"
+ "hud2": "RESOLUTION",
+ "hud1_ru": "ВЫСОТА",
+ "hud2_ru": "РАЗРЕШЕНИЕ"
 }

@@ -7,5 +7,7 @@
  "brand": "CORONA — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE SUN",
  "hud1": "DISTANCE",
- "hud2": "SPEED"
+ "hud2": "SPEED",
+ "hud1_ru": "РАССТОЯНИЕ",
+ "hud2_ru": "СКОРОСТЬ"
 }

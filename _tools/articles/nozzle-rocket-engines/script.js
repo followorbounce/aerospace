@@ -28,9 +28,9 @@ function renderNoz(){
   ns('path', {d:shape + 'Z', fill:'#f3e3d6'}, svg);
   ns('path', {d:top, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg); ns('path', {d:bot, fill:'none', stroke:'#0b0b0c', 'stroke-width':2}, svg);
   ns('line', {x1:xt, y1:cy - rts - 14, x2:xt, y2:cy + rts + 14, stroke:'#2f5aa1', 'stroke-dasharray':'3 3'}, svg);
-  txt(svg, xt, cy + rts + 26, T('throat, M = 1','горло, M = 1'), 'svg-small', 'middle');
+  txt(svg, xt, cy + rts + 26, T('throat, M = 1','крит. сечение, M = 1'), 'svg-small', 'middle');
   txt(svg, xc, cy + rc*scaleR + 26, T('chamber','камера'), 'svg-small');
-  if(scaleR < 1) txt(svg, xe, 296, T('radius compressed to fit','радиус сжат по размеру'), 'svg-small', 'end');
+  if(scaleR < 1) txt(svg, xe, 296, T('radius compressed to fit','радиус сжат, чтобы уместиться'), 'svg-small', 'end');
   // Mach along the nozzle (area ∝ r², true geometry before compression)
   var dM = '';
   function Y(M){ return 60 - M/6*50; }
@@ -41,12 +41,12 @@ function renderNoz(){
   txt(svg, xt, 14, T('Mach number along the bell','число Маха вдоль колокола'), 'svg-small');
   cells(document.getElementById('nozReadout'), [
     [T('EXIT MACH NUMBER','ЧИСЛО МАХА НА СРЕЗЕ'), fmt(Me, 2)],
-    [T('EXIT ÷ CHAMBER PRESSURE','ДАВЛЕНИЕ СРЕЗ ÷ КАМЕРА'), pr < 0.001 ? pr.toExponential(2) : fmt(pr, 4)],
-    [T('EXIT ÷ CHAMBER TEMPERATURE','ТЕМПЕРАТУРА СРЕЗ ÷ КАМЕРА'), fmt(tr, 2)],
-    [T('EXIT DIAMETER ÷ THROAT','ДИАМЕТР СРЕЗА ÷ ГОРЛО'), fmt(Math.sqrt(eps), 2)]
+    [T('EXIT ÷ CHAMBER PRESSURE','ДАВЛЕНИЕ: СРЕЗ ÷ КАМЕРА'), pr < 0.001 ? T(pr.toExponential(2), pr.toExponential(2).replace('.', ',').replace('-', '−')) : fmt(pr, 4)],
+    [T('EXIT ÷ CHAMBER TEMPERATURE','ТЕМПЕРАТУРА: СРЕЗ ÷ КАМЕРА'), fmt(tr, 2)],
+    [T('EXIT DIAMETER ÷ THROAT','ДИАМЕТР: СРЕЗ ÷ КРИТ. СЕЧЕНИЕ'), fmt(Math.sqrt(eps), 2)]
   ]);
   hud1.textContent = fmt(Me, 2);
-  document.getElementById('nozStatus').innerHTML = T('The gas leaves at ','Газ выходит при ') + fmt(tr*100, 0) + T(' % of the chamber\'s absolute temperature: heat has been turned into directed speed. Each doubling of the area ratio adds less Mach number than the last.',' % абсолютной температуры камеры: тепло превратилось в направленную скорость. Каждое удвоение степени расширения добавляет меньше числа Маха, чем предыдущее.');
+  document.getElementById('nozStatus').innerHTML = T('The gas leaves at ','Температура газа на выходе — ') + fmt(tr*100, 0) + T(' % of the chamber\'s absolute temperature: heat has been turned into directed speed. Each doubling of the area ratio adds less Mach number than the last.',' % абсолютной температуры в камере: тепло превратилось в направленную скорость. Каждое удвоение степени расширения прибавляет к числу Маха меньше, чем предыдущее.');
   renderAlt();
 }
 [nE, nG].forEach(function(el){ el.addEventListener('input', renderNoz); });
@@ -60,7 +60,7 @@ var NOZ = [
 function renderAlt(){
   if(!aH) return;
   var h = +aH.value, g = +nG.value, mine = {en:T('your nozzle','ваше сопло'), ru:'', eps:+nE.value, pc:1100*PSI, col:'#b5452a'}, all = NOZ.concat([mine]);
-  document.getElementById('aHVal').textContent = fmt(h, 1) + T(' km',' км');
+  document.getElementById('aHVal').textContent = fmt(h, 1) + T(' km',' км');
   var svg = document.getElementById('altSvg'); svg.innerHTML = '';
   var L = 56, R = 465, Tp = 22, B = 250, cmin = 0.8, cmax = 2.0;
   function X(k){ return L + k/60*(R - L); }
@@ -79,12 +79,12 @@ function renderAlt(){
     rows.push([i === 2 ? T('YOUR NOZZLE (ε ','ВАШЕ СОПЛО (ε ') + fmt(n.eps, 1) + ')' : T(n.en, n.ru), fmt(here.cf, 3) + ' · ' + (here.pe > pAir(h)*1.02 ? T('under-expanded','недорасширено') : here.pe < pAir(h)*0.98 ? T('over-expanded','перерасширено') : T('matched','расчётный режим'))]);
   });
   var rs = cF(77.5, g, 3000*PSI, P0).cf/cF(77.5, g, 3000*PSI, 0).cf;
-  rows.push([T('RS-25 SEA LEVEL ÷ VACUUM','RS-25: ЗЕМЛЯ ÷ ВАКУУМ'), fmt(rs, 3) + T(' (NASA: 0.816)',' (NASA: 0,816)')]);
+  rows.push([T('RS-25 SEA LEVEL ÷ VACUUM','RS-25: У ЗЕМЛИ ÷ В ВАКУУМЕ'), fmt(rs, 3) + T(' (NASA: 0.816)',' (NASA: 0,816)')]);
   cells(document.getElementById('altReadout'), rows);
   hud2.textContent = fmt(cF(mine.eps, g, mine.pc, pAir(h)).cf, 3);
   document.getElementById('altStatus').innerHTML = h < 5
-    ? T('Near the ground the large RS-25 bell is over-expanded and loses thrust, while the F-1\'s short nozzle is only mildly over-expanded and comes out ahead — the reason first-stage engines have short nozzles.','У земли большой колокол RS-25 перерасширен и теряет тягу, а короткое сопло F-1 перерасширено лишь слегка и выигрывает — поэтому у двигателей первых ступеней короткие сопла.')
-    : T('As the air thins, the bigger nozzle pulls ahead. In vacuum, the larger the area ratio, the higher the thrust coefficient — limited only by the nozzle\'s size and weight.','По мере разрежения воздуха большое сопло вырывается вперёд. В вакууме чем больше степень расширения, тем выше коэффициент тяги — ограничивают лишь размер и масса сопла.');
+    ? T('Near the ground the large RS-25 bell is over-expanded and loses thrust, while the F-1\'s short nozzle is only mildly over-expanded and comes out ahead — the reason first-stage engines have short nozzles.','У земли большой колокол RS-25 перерасширен и теряет тягу, а короткое сопло F-1 перерасширено лишь немного и выигрывает — вот почему у двигателей первых ступеней короткие сопла.')
+    : T('As the air thins, the bigger nozzle pulls ahead. In vacuum, the larger the area ratio, the higher the thrust coefficient — limited only by the nozzle\'s size and weight.','По мере того как воздух разрежается, вперёд выходит большее сопло. В вакууме чем больше степень расширения, тем выше коэффициент тяги — ограничением служат лишь размеры и масса сопла.');
 }
 aH.addEventListener('input', renderAlt);
 
@@ -92,8 +92,8 @@ aH.addEventListener('input', renderAlt);
 var cyc = 'gg';
 var CYC = {
   press:{name:['Pressure-fed','Вытеснительная подача'], ex:['small thrusters and upper stages','малые двигатели и верхние ступени'], pros:['simplest: no pumps','проще всего: нет насосов'], cons:['heavy tanks, low chamber pressure','тяжёлые баки, низкое давление в камере']},
-  gg:{name:['Gas generator','С газогенератором'], ex:['F-1 [3], Merlin 1D [6]','F-1 [3], Merlin 1D [6]'], pros:['simpler turbomachinery','проще турбонасосный агрегат'], cons:['turbine exhaust thrown away','выхлоп турбины выбрасывается']},
-  sc:{name:['Staged combustion','С дожиганием'], ex:['RS-25 (fuel-rich) [7]','RS-25 (с избытком горючего) [7]'], pros:['nothing wasted, high chamber pressure','ничего не теряется, высокое давление в камере'], cons:['hot, high-pressure plumbing, hard to build','горячие магистрали под высоким давлением, сложно построить']}
+  gg:{name:['Gas generator','Схема с газогенератором'], ex:['F-1 [3], Merlin 1D [6]','F-1 [3], Merlin 1D [6]'], pros:['simpler turbomachinery','более простой ТНА'], cons:['turbine exhaust thrown away','выхлоп турбины выбрасывается']},
+  sc:{name:['Staged combustion','Схема с дожиганием'], ex:['RS-25 (fuel-rich) [7]','RS-25 (с избытком горючего) [7]'], pros:['nothing wasted, high chamber pressure','ничего не теряется, высокое давление в камере'], cons:['hot, high-pressure plumbing, hard to build','горячие магистрали под высоким давлением, сложность изготовления']}
 };
 function renderCyc(){
   var svg = document.getElementById('cycSvg'); svg.innerHTML = '';
@@ -125,12 +125,12 @@ function renderCyc(){
   }
   var c = CYC[cyc];
   cells(document.getElementById('cycReadout'), [
-    [T('CYCLE','ЦИКЛ'), T(c.name[0], c.name[1])],
+    [T('CYCLE','СХЕМА'), T(c.name[0], c.name[1])],
     [T('EXAMPLES','ПРИМЕРЫ'), T(c.ex[0], c.ex[1])],
-    [T('GAIN','ПЛЮС'), T(c.pros[0], c.pros[1])],
+    [T('GAIN','ВЫИГРЫШ'), T(c.pros[0], c.pros[1])],
     [T('PRICE','ЦЕНА'), T(c.cons[0], c.cons[1])]
   ]);
-  document.getElementById('cycStatus').innerHTML = T('Schematic only: real engines add valves, heat exchangers and separate fuel and oxidizer pumps.','Только схема: в реальных двигателях есть клапаны, теплообменники и отдельные насосы горючего и окислителя.');
+  document.getElementById('cycStatus').innerHTML = T('Schematic only: real engines add valves, heat exchangers and separate fuel and oxidizer pumps.','Это лишь схема: в настоящих двигателях есть ещё клапаны, теплообменники и отдельные насосы горючего и окислителя.');
 }
 Array.prototype.forEach.call(document.querySelectorAll('#cycSel .btn'), function(btn){
   btn.addEventListener('click', function(){ cyc = this.getAttribute('data-c'); pressGroup(this.parentNode, this); renderCyc(); });
@@ -138,30 +138,31 @@ Array.prototype.forEach.call(document.querySelectorAll('#cycSel .btn'), function
 
 /* ============ CH5 — TIMELINE ============ */
 var TIMELINE = [
-  ['1960s', 'The F-1 doubles the highest chamber pressure of its day to 1,100 psi; 16:1 nozzle, gas-generator cycle [3].', 'F-1 удваивает самое высокое давление в камере своего времени — до 1100 фунтов на кв. дюйм; сопло 16:1, цикл с газогенератором [3].'],
-  ['1981–2011', 'The Space Shuttle main engine (RS-25) flies 135 missions, reusable, with more than 3,000 starts in all [5][7].', 'Главный двигатель шаттла (RS-25) совершает 135 полётов, многоразово, и всего более 3000 запусков [5][7].'],
-  ['2015', '<b>9 January:</b> first RS-25 test for the Space Launch System, 500 s at Stennis [5]. Falcon 9 Full Thrust enters service [6].', '<b>9 января:</b> первое испытание RS-25 для SLS, 500 с в Стеннисе [5]. В строй входит Falcon 9 Full Thrust [6].'],
-  ['2018', 'Falcon 9 Block 5, with upgraded Merlin engines, built for reuse [6].', 'Falcon 9 Block 5 с улучшенными двигателями Merlin, рассчитанный на повторное использование [6].'],
-  ['2022', 'Four former Shuttle RS-25s launch Artemis I on the SLS core stage [5].', 'Четыре бывших двигателя RS-25 шаттлов выводят «Артемиду-1» на центральной ступени SLS [5].'],
-  ['2024', '<b>3 April:</b> final certification test fire of new-production RS-25s; 24 new engines on order [5].', '<b>3 апреля:</b> последнее сертификационное испытание RS-25 новой постройки; заказано 24 новых двигателя [5].']
+  ['1960s', 'The F-1 doubles the highest chamber pressure of its day to 1,100 psi; 16:1 nozzle, gas-generator cycle [3].', 'F-1 удваивает самое высокое давление в камере своего времени, доводя его до 1100 фунтов на кв. дюйм; сопло 16:1, схема с газогенератором [3].', '1960-е'],
+  ['1981–2011', 'The Space Shuttle main engine (RS-25) flies 135 missions, reusable, with more than 3,000 starts in all [5][7].', 'Многоразовый главный двигатель шаттла (RS-25) участвует в 135 полётах; всего — более 3000 запусков [5][7].'],
+  ['2015', '<b>9 January:</b> first RS-25 test for the Space Launch System, 500 s at Stennis [5]. Falcon 9 Full Thrust enters service [6].', '<b>9 января:</b> первое испытание RS-25 для ракеты SLS — 500"+N+"с на стенде Космического центра имени Стенниса [5]. В эксплуатацию входит Falcon 9 Full Thrust [6].'],
+  ['2018', 'Falcon 9 Block 5, with upgraded Merlin engines, built for reuse [6].', 'Falcon 9 Block 5 с усовершенствованными двигателями Merlin, рассчитанная на многократное использование [6].'],
+  ['2022', 'Four former Shuttle RS-25s launch Artemis I on the SLS core stage [5].', 'Четыре бывших двигателя шаттлов RS-25 на центральной ступени SLS выводят в полёт Artemis I [5].'],
+  ['2024', '<b>3 April:</b> final certification test fire of new-production RS-25s; 24 new engines on order [5].', '<b>3 апреля:</b> последнее сертификационное огневое испытание RS-25 новой постройки; заказано 24 новых двигателя [5].']
 ];
 
 /* ============ CH6 — REFERENCES ============ */
 var REFERENCES = [
-  {title:'NASA Glenn Research Center, “Rocket Thrust Summary”', url:'https://www.grc.nasa.gov/www/k-12/rocket/rktthsum.html', note:{en:'Thrust equation F = ṁv_e + (p_e − p_0)A_e, choked throat and the nozzle relations.', ru:'Уравнение тяги F = ṁv_e + (p_e − p_0)A_e, запирание в горле и соотношения для сопла.'}},
-  {title:'NASA Glenn Research Center, “Isentropic Flow Equations”', url:'https://www.grc.nasa.gov/www/k-12/airplane/isentrop.html', note:{en:'Area–Mach, pressure and temperature relations for isentropic flow.', ru:'Соотношения площадь — число Маха, давления и температуры для изоэнтропического течения.'}},
-  {title:'Rocketdyne / NASA MSFC, “F-1 Saturn V First Stage Engine” (NTRS 20100027316)', url:'https://ntrs.nasa.gov/citations/20100027316', note:{en:'F-1: chamber pressure 1,100 psi (double the 520 psi of the day), nozzle area ratio 16:1, tube wall to 10:1 with turbine exhaust injected below, specific impulse 265 s.', ru:'F-1: давление в камере 1100 фунтов на кв. дюйм (вдвое больше тогдашних 520), степень расширения 16:1, трубчатая стенка до 10:1 с вдувом выхлопа турбины ниже, удельный импульс 265 с.'}},
-  {title:'NASA (2015), Space Transportation System, Historic American Engineering Record HAER No. TX-116', url:'https://www.nasa.gov/wp-content/uploads/2015/12/3.pdf', note:{en:'SSME nozzle: 10.3 in throat, 90.7 in exit, area ratio 77.5:1; 1,080 hydrogen-cooled stainless tubes; 1,035 lb/s and 470,000 lbf vacuum at 100 % power; chamber pressure about 3,000 psi.', ru:'Сопло SSME: горло 10,3 дюйма, срез 90,7 дюйма, степень расширения 77,5:1; 1080 охлаждаемых водородом трубок из нержавеющей стали; 1035 фунтов/с и 470 000 фунтов тяги в вакууме на 100 % мощности; давление в камере около 3000 фунтов на кв. дюйм.'}},
-  {title:'NASA (2025), “RS-25 Core Stage Engine”, SLS fact sheet', url:'https://www.nasa.gov/wp-content/uploads/2025/04/sls-4963-sls-rs-25-engine-fact-sheet-508.pdf', note:{en:'418,000 lbf sea level and 512,300 lbf vacuum at 109 %; 135 Shuttle missions; SLS testing from 9 January 2015; final certification test 3 April 2024; 24 new engines.', ru:'418 000 фунтов у земли и 512 300 фунтов в вакууме на 109 %; 135 полётов шаттлов; испытания для SLS с 9 января 2015; последнее сертификационное испытание 3 апреля 2024; 24 новых двигателя.'}},
-  {title:'SpaceX (2025), Falcon User\'s Guide', url:'https://www.spacex.com/assets/media/falcon-users-guide-2025-05-09.pdf', note:{en:'Merlin 1D and MVac: gas-generator cycle, regeneratively cooled nozzle; Full Thrust (2015) and Block 5 (2018).', ru:'Merlin 1D и MVac: цикл с газогенератором, регенеративно охлаждаемое сопло; Full Thrust (2015) и Block 5 (2018).'}},
-  {title:'J. Ballard et al. (2017), “Next-Generation RS-25 Engines for the NASA Space Launch System” (NTRS 20170008958)', url:'https://ntrs.nasa.gov/citations/20170008958', note:{en:'RS-25 as a pump-fed, fuel-rich staged-combustion LOX/LH₂ engine; 135 missions, 3,000+ ground tests, over a million seconds of hot fire.', ru:'RS-25 — насосный кислородно-водородный двигатель с дожиганием богатого горючим газа; 135 полётов, 3000+ наземных испытаний, более миллиона секунд работы.'}}
+  {title:'NASA Glenn Research Center, “Rocket Thrust Summary”', url:'https://www.grc.nasa.gov/www/k-12/rocket/rktthsum.html', note:{en:'Thrust equation F = ṁv_e + (p_e − p_0)A_e, choked throat and the nozzle relations.', ru:'Уравнение тяги F = ṁv_e + (p_e − p_0)A_e, запирание в критическом сечении и соотношения для сопла.'}},
+  {title:'NASA Glenn Research Center, “Isentropic Flow Equations”', url:'https://www.grc.nasa.gov/www/k-12/airplane/isentrop.html', note:{en:'Area–Mach, pressure and temperature relations for isentropic flow.', ru:'Соотношения «площадь — число Маха», давления и температуры для изоэнтропического течения.'}},
+  {title:'Rocketdyne / NASA MSFC, “F-1 Saturn V First Stage Engine” (NTRS 20100027316)', url:'https://ntrs.nasa.gov/citations/20100027316', note:{en:'F-1: chamber pressure 1,100 psi (double the 520 psi of the day), nozzle area ratio 16:1, tube wall to 10:1 with turbine exhaust injected below, specific impulse 265 s.', ru:'F-1: давление в камере 1100 фунтов на кв. дюйм (вдвое больше тогдашних 520), степень расширения 16:1, трубчатая стенка до сечения 10:1 с вдувом выхлопа турбины ниже, удельный импульс 265"+N+"с.'}},
+  {title:'NASA (2015), Space Transportation System, Historic American Engineering Record HAER No. TX-116', url:'https://www.nasa.gov/wp-content/uploads/2015/12/3.pdf', note:{en:'SSME nozzle: 10.3 in throat, 90.7 in exit, area ratio 77.5:1; 1,080 hydrogen-cooled stainless tubes; 1,035 lb/s and 470,000 lbf vacuum at 100 % power; chamber pressure about 3,000 psi.', ru:'Сопло SSME: критическое сечение 10,3 дюйма, срез 90,7 дюйма, степень расширения 77,5:1; 1080 трубок из нержавеющей стали, охлаждаемых водородом; 1035 фунтов/с и 470"+N+"000 фунтов силы тяги в вакууме на 100"+N+"% мощности; давление в камере около 3000 фунтов на кв. дюйм.'}},
+  {title:'NASA (2025), “RS-25 Core Stage Engine”, SLS fact sheet', url:'https://www.nasa.gov/wp-content/uploads/2025/04/sls-4963-sls-rs-25-engine-fact-sheet-508.pdf', note:{en:'418,000 lbf sea level and 512,300 lbf vacuum at 109 %; 135 Shuttle missions; SLS testing from 9 January 2015; final certification test 3 April 2024; 24 new engines.', ru:'418"+N+"000 фунтов силы у земли и 512"+N+"300 в вакууме на режиме 109"+N+"%; 135 полётов шаттлов; испытания для SLS с 9 января 2015 года; последнее сертификационное испытание 3 апреля 2024 года; 24 новых двигателя.'}},
+  {title:'SpaceX (2025), Falcon User\'s Guide', url:'https://www.spacex.com/assets/media/falcon-users-guide-2025-05-09.pdf', note:{en:'Merlin 1D and MVac: gas-generator cycle, regeneratively cooled nozzle; Full Thrust (2015) and Block 5 (2018).', ru:'Merlin 1D и MVac: схема с газогенератором, сопло с регенеративным охлаждением; Full Thrust (2015) и Block 5 (2018).'}},
+  {title:'J. Ballard et al. (2017), “Next-Generation RS-25 Engines for the NASA Space Launch System” (NTRS 20170008958)', url:'https://ntrs.nasa.gov/citations/20170008958', note:{en:'RS-25 as a pump-fed, fuel-rich staged-combustion LOX/LH₂ engine; 135 missions, 3,000+ ground tests, over a million seconds of hot fire.', ru:'RS-25 — кислородно-водородный двигатель с турбонасосной подачей и дожиганием восстановительного генераторного газа; 135 полётов, 3000+ наземных испытаний, более миллиона секунд огневой работы.'}}
 ];
 
 /* ============ RENDER ALL ============ */
 function renderAll(){
   renderNoz();
   renderCyc();
-  renderTimelineFrom(TIMELINE); renderRefsFrom(REFERENCES);
+  document.querySelectorAll('[data-aria-en]').forEach(function(el){ el.setAttribute('aria-label', el.getAttribute('data-aria-' + lang)); });
+  renderTimelineFrom(TIMELINE.map(function(e){ return [(lang === 'ru' && e[3]) || e[0], e[1], e[2]]; })); renderRefsFrom(REFERENCES);
   onScroll();
 }
 applyLang('en');

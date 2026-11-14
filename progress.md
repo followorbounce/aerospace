@@ -166,3 +166,21 @@ Same process as Waves 5–7: shared author brief (`_tools/WAVE8-BRIEF.md`) → o
 - Found, not caused here: `check-all.sh` reports DRIFT on every generated guide since 2026-10-28, because og_cards/structured_data/ga/ru_pages inject blocks after assemble.py. Running wire.py/ru_pages.py/structured_data.py also re-orders those blocks and bumps dates on every page; only the Wave 8 files were kept. Worth fixing (assemble.py should emit the blocks, or check-all should ignore them).
 - Still to do at push: structured_data.py after the commit (new pages get datePublished from git), homepage card "83" → "88" in followorbounce.github.io engine/aero-shader.html + build.
 - Open SHOULDs per guide in each REVIEW.md (e.g. TOUCHDOWN Monte Carlo error in the readout, FOOTING cite Hall SP-4210, MASCON 15–20 s year on phones).
+
+## 2026-11-12 — Russian quality pass (done locally; push on the owner's word)
+- `_tools/ru-audit.js`: English visible on Russian pages 813 → 48 (the rest are Latin names the style keeps; the index's three
+  widget aria-labels read English only in jsdom, where the widget stops without WebGL).
+- `_tools/RU-STYLE.md` (house style + ~400-term glossary, merged with `_tools/RU-DECISIONS.md`); lead edit of mission-of-day.js
+  (105 of 258 RU fields) and transfer/viking/relay; 11 batch editors over every other guide (native edit, English leftovers,
+  Russian HUD, aria twins); consistency sweep (Russian codenames everywhere incl. links, I_уд, agencies, тайконавт, shared
+  phrases, «Перейти к содержанию»). Briefs: `_tools/RU-PASS-BRIEF.md`.
+- Shared code: helpers.js (RU integers grouped only from 10 000; HUD data-phase-ru; HUD redraw on language switch), assemble.py
+  (bilingual HUD labels hud1_ru/hud2_ru, skip link), site.css (RU headings hyphenate on phones), ru_pages.py (--help no longer
+  regenerates), followorbounce.github.io engine/og_cards.py (Russian "More from" footer on data-edition="ru" pages).
+- English fact-check (`_tools/EN-FIXES.md`, ~40 items found by the editors, each verified): fixed in EN + RU; plus chapter
+  counts on ~38 hand-made pages, "Bracketed numbers…" intros on 20 pages without citations, 11 footers; dangling citations fixed
+  (troy, skycrane, marathon). RETRIEVE's Russian codename is now ДОСТАВКА (clashed with RETURN's ВОЗВРАТ).
+- MASCON's timing check now asks for one slice under the whole 10 ms frame budget (was half; flaky under load).
+- Rebuilt: all 36 generated guides, search.json, ru/ (88), og cards (62 re-rendered via the Chrome shim), JSON-LD.
+  check-all: 1,491 PASS, 0 FAIL (DRIFT on generated guides is the known after-build injection).
+- Open for the owner: Tiangong "2 MAIN ROBOTIC ARMS" wording (no source found for "5").
