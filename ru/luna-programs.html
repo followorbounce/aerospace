@@ -232,7 +232,7 @@
   <div class="section-inner">
     <div class="eyebrow"><span class="fig-num">CH.09 / 11</span> — <span data-en="LUNA 25 AND THE NEW RACE" data-ru="«ЛУНА-25» И НОВАЯ ГОНКА">«ЛУНА-25» И НОВАЯ ГОНКА</span></div>
     <h2 class="h-lg" data-en="Half a century later, back at the pole" data-ru="Спустя полвека — снова у полюса">Спустя полвека — снова у полюса</h2>
-    <p class="lede" data-en="Figures below reflect the state of active programs as of mid-2026; schedules for crewed and robotic lunar missions shift often, so treat dates as current plans, not fixed facts." data-ru="Данные ниже описывают действующие программы по состоянию на середину 2026 года; сроки пилотируемых и автоматических лунных миссий часто меняются, поэтому воспринимайте даты как текущие планы, а не окончательные факты.">Данные ниже описывают действующие программы по состоянию на середину 2026 года; сроки пилотируемых и автоматических лунных миссий часто меняются, поэтому воспринимайте даты как текущие планы, а не окончательные факты.</p>
+    <p class="lede" data-en="Figures below reflect the state of active programs as of November 2026; schedules for crewed and robotic lunar missions shift often, so treat dates as current plans, not fixed facts." data-ru="Данные ниже описывают действующие программы по состоянию на ноябрь 2026 года; сроки пилотируемых и автоматических лунных миссий часто меняются, поэтому воспринимайте даты как текущие планы, а не окончательные факты.">Данные ниже описывают действующие программы по состоянию на ноябрь 2026 года; сроки пилотируемых и автоматических лунных миссий часто меняются, поэтому воспринимайте даты как текущие планы, а не окончательные факты.</p>
     <div class="dash-grid" id="nowGrid"></div>
   </div>
 </section>
@@ -358,7 +358,7 @@ onScroll();
 
 /* ============ CH2 — LUNA TIMELINE ============ */
 var LUNA_EVENTS = [
-  {y:1959, crisis:false, tEn:'Luna 1 & 2', tRu:'«Луна-1» и «Луна-2»', dEn:'Luna 1 flies past the Moon in January, the first spacecraft to escape Earth\'s gravity entirely. Luna 2 corrects course in September and deliberately impacts the surface — the first human-made object to reach another world.', dRu:'В январе «Луна-1» пролетает мимо Луны — первый аппарат, полностью преодолевший земное притяжение. В сентябре «Луна-2» после коррекции курса намеренно врезается в поверхность — первый рукотворный объект, достигший другого небесного тела.'},
+  {y:1959, crisis:false, tEn:'Luna 1 & 2', tRu:'«Луна-1» и «Луна-2»', dEn:'Luna 1 flies past the Moon in January, the first spacecraft to escape Earth\'s gravity entirely. Luna 2 follows in September and deliberately impacts the surface — the first human-made object to reach another world.', dRu:'В январе «Луна-1» пролетает мимо Луны — первый аппарат, полностью преодолевший земное притяжение. В сентябре за ней следует «Луна-2» и намеренно врезается в поверхность — первый рукотворный объект, достигший другого небесного тела.'},
   {y:1959, crisis:false, tEn:'Luna 3', tRu:'«Луна-3»', dEn:'In October, Luna 3 loops behind the Moon and photographs its far side for the first time in history — a hemisphere no human eye had ever seen.', dRu:'В октябре «Луна-3» облетает Луну и впервые в истории фотографирует её обратную сторону — полушарие, которое ранее не видел ни один человеческий глаз.'},
   {y:1966, crisis:false, tEn:'Luna 9', tRu:'«Луна-9»', dEn:'The first soft landing on another world, on February 3. A simple lander with a rudimentary camera transmits the first panoramas from the lunar surface.', dRu:'3 февраля — первая мягкая посадка на другое небесное тело. Простой аппарат с элементарной камерой передаёт первые панорамы лунной поверхности.'},
   {y:1966, crisis:false, tEn:'Luna 10', tRu:'«Луна-10»', dEn:'Launched weeks after Luna 9, it becomes the first spacecraft to enter orbit around another world.', dRu:'Запущенная через несколько недель после «Луны-9», она становится первым аппаратом, вышедшим на орбиту вокруг другого небесного тела.'},
@@ -476,7 +476,7 @@ var FAR = [
   {id:'ice', en:'Water Ice at the Poles', ru:'Водяной лёд на полюсах',
    bEn:'Permanently shadowed craters near both poles never see sunlight and stay cold enough to trap water ice — a resource future missions hope to mine for drinking water, oxygen, and rocket propellant.', bRu:'Постоянно затенённые кратеры вблизи обоих полюсов никогда не видят солнечного света и остаются достаточно холодными, чтобы удерживать водяной лёд, — ресурс, который будущие миссии рассчитывают добывать для питьевой воды, кислорода и ракетного топлива.'},
   {id:'artemis', en:'The Target for Return', ru:'Цель для возвращения',
-   bEn:'Every current crewed lunar program — Artemis included — is now aimed at the south pole specifically, chasing that same ice rather than the equatorial plains Apollo explored.', bRu:'Все нынешние пилотируемые лунные программы, включая Artemis, нацелены именно на южный полюс — в погоне за тем самым льдом, а не за экваториальными равнинами, которые исследовал «Аполлон».'}
+   bEn:'NASA\'s Artemis program is aimed at the south pole specifically, chasing that same ice rather than the equatorial plains Apollo explored.', bRu:'Программа NASA Artemis нацелена именно на южный полюс — в погоне за тем самым льдом, а не за экваториальными равнинами, которые исследовал «Аполлон».'}
 ];
 function renderFarTabs(){
   var tabs = document.getElementById('farTabs');
@@ -507,11 +507,11 @@ var NOW = [
   {en:'Luna 25 (Russia)', ru:'«Луна-25» (Россия)', statusEn:'MISSION LOST', statusRu:'МИССИЯ ПОТЕРЯНА', dead:true,
    rows:[{lEn:'LAUNCHED', lRu:'ЗАПУСК', v:'11 Aug 2023', vRu:'11 авг. 2023'},{lEn:'OUTCOME', lRu:'ИТОГ', v:'Crashed 19 Aug 2023, south pole approach', vRu:'Разбилась 19 авг. 2023 при подходе к южному полюсу'},{lEn:'CONTEXT', lRu:'КОНТЕКСТ', v:'First Russian lunar mission since 1976', vRu:'Первая российская лунная миссия с 1976 года'}]},
   {en:'Chang\'e Program (China)', ru:'Программа «Чанъэ» (Китай)', statusEn:'ACTIVE', statusRu:'АКТИВНА', dead:false,
-   rows:[{lEn:'KEY MILESTONE', lRu:'КЛЮЧЕВАЯ ВЕХА', v:'Chang\'e 4 — first far-side landing, 2019', vRu:'«Чанъэ-4» — первая посадка на обратной стороне, 2019'},{lEn:'NEXT', lRu:'ДАЛЕЕ', v:'Chang\'e 7 — south pole, 2026', vRu:'«Чанъэ-7» — южный полюс, 2026'},{lEn:'GOAL', lRu:'ЦЕЛЬ', v:'Crewed landing targeted around 2030', vRu:'Пилотируемая посадка — около 2030 года'}]},
+   rows:[{lEn:'KEY MILESTONE', lRu:'КЛЮЧЕВАЯ ВЕХА', v:'Chang\'e 4 — first far-side landing, 2019', vRu:'«Чанъэ-4» — первая посадка на обратной стороне, 2019'},{lEn:'NEXT', lRu:'ДАЛЕЕ', v:'Chang\'e 7 — south pole; 2026 launch window missed (announced Aug 2026)', vRu:'«Чанъэ-7» — южный полюс; стартовое окно 2026 года пропущено (объявлено в августе 2026 года)'},{lEn:'GOAL', lRu:'ЦЕЛЬ', v:'Crewed landing targeted around 2030', vRu:'Пилотируемая посадка — около 2030 года'}]},
   {en:'Artemis Program (USA)', ru:'Программа Artemis (США)', statusEn:'ACTIVE', statusRu:'АКТИВНА', dead:false,
-   rows:[{lEn:'ARTEMIS II', lRu:'ARTEMIS II', v:'Crewed lunar flyby', vRu:'Пилотируемый облёт Луны'},{lEn:'ARTEMIS III', lRu:'ARTEMIS III', v:'Targeted crewed south-pole landing', vRu:'Планируемая пилотируемая посадка у южного полюса'},{lEn:'GOAL', lRu:'ЦЕЛЬ', v:'First woman on the Moon; Gateway station', vRu:'Первая женщина на Луне; станция Gateway'}]},
+   rows:[{lEn:'ARTEMIS II', lRu:'ARTEMIS II', v:'Crewed lunar flyby, flown 1–10 April 2026', vRu:'Пилотируемый облёт Луны, 1–10 апреля 2026 года'},{lEn:'ARTEMIS III', lRu:'ARTEMIS III', v:'Lander docking test in low Earth orbit, planned for 2027', vRu:'Испытание стыковки с посадочными модулями на низкой околоземной орбите, план — 2027 год'},{lEn:'GOAL', lRu:'ЦЕЛЬ', v:'Crewed south-pole landing, scheduled for 2028', vRu:'Пилотируемая посадка у южного полюса, намечена на 2028 год'}]},
   {en:'Commercial Landers', ru:'Коммерческие посадочные модули', statusEn:'ACTIVE', statusRu:'АКТИВНА', dead:false,
-   rows:[{lEn:'MODEL', lRu:'МОДЕЛЬ', v:'NASA CLPS + private landers', vRu:'NASA CLPS + частные посадочные модули'},{lEn:'EXAMPLE', lRu:'ПРИМЕР', v:'Blue Moon Mark 1, south pole', vRu:'Blue Moon Mark 1, южный полюс'},{lEn:'SIGNIFICANCE', lRu:'ЗНАЧЕНИЕ', v:'First privately built lunar landings', vRu:'Первые посадки частных аппаратов на Луну'}]}
+   rows:[{lEn:'MODEL', lRu:'МОДЕЛЬ', v:'NASA CLPS + private landers', vRu:'NASA CLPS + частные посадочные модули'},{lEn:'EXAMPLE', lRu:'ПРИМЕР', v:'Odysseus (Intuitive Machines), 22 Feb 2024', vRu:'«Одиссей» (Intuitive Machines), 22 февр. 2024'},{lEn:'SIGNIFICANCE', lRu:'ЗНАЧЕНИЕ', v:'First privately built lunar landings, from 2024', vRu:'Первые посадки частных аппаратов на Луну, с 2024 года'}]}
 ];
 function renderNow(){
   var wrap = document.getElementById('nowGrid');
@@ -531,7 +531,7 @@ var LEGACY = [
   {y:'1969', en:'Apollo 11', ru:'«Аполлон-11»', noteEn:'First crewed landing', noteRu:'Первая пилотируемая посадка', h:40},
   {y:'1970', en:'Luna 16 / Lunokhod', ru:'«Луна-16» / «Луноход»', noteEn:'Robotic sample return + rover', noteRu:'Автоматическая доставка грунта и луноход', h:30},
   {y:'2019', en:'Chang\'e 4', ru:'«Чанъэ-4»', noteEn:'First far-side landing', noteRu:'Первая посадка на обратной стороне', h:26},
-  {y:'2026+', en:'Artemis &amp; Beyond', ru:'Artemis и далее', noteEn:'Return to the south pole', noteRu:'Возвращение к южному полюсу', h:36}
+  {y:'2028+', en:'Artemis &amp; Beyond', ru:'Artemis и далее', noteEn:'Crewed south-pole landing scheduled for 2028', noteRu:'Пилотируемая посадка у южного полюса намечена на 2028 год', h:36}
 ];
 function renderLegacy(){
   var row = document.getElementById('legacyRow');

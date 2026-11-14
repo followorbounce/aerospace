@@ -31,7 +31,7 @@
 - The T90 chart is GBM's sample, which under-represents short bursts relative to BATSE (stated on the page; trigger bias is standard knowledge but not separately cited).
 
 ## Unverified / judgment calls
-- **Swift status is time-critical**: as of 11 Oct 2026 the latest NASA post is 25 Sep (325 km, crossing 300 km expected early–mid October). Re-check before publishing and after any NASA update; Swift may already have stopped observing.
+- **Swift status closed (2026-11-14)**: final observation 20 Oct 2026 at about 275 km, then safe mode and the end-of-operations command (NASA blog, 23 Oct) [29]; re-entry 4 Nov 2026, 7:39 a.m. EST, over North Sumatra, confirmed by the U.S. Space Force (NASA blog, 2 Nov, updated 4 Nov) [30]. Chapter 7, the LEGACY timeline and references updated; freshness row removed. REFERENCES now 30.
 - "Vela launched in pairs" (LANL) — no launch year for the first pair is given on the page (1963 not cited).
 - Klebesadel 1973 and Kouveliotou 1993 cited via INSPIRE (ADS returns 405 to scripts); Abdo 2009 via DOI (403 to scripts, resolves in browsers).
 - Swift GRB count: stats page shows 1,765 with a stale "last updated" date; the page says only "more than 1,700".

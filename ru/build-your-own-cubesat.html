@@ -129,7 +129,7 @@ sup,sub{font-size:0.68em;}
     <div class="grid-2">
       <div class="body-col">
         <p style="margin-bottom:16px;" data-en="Three quantities describe almost any simple circuit. Voltage is the electrical &quot;push&quot; — how hard electrons are being driven around a loop. Current is how many electrons actually flow past a point per second. Resistance is whatever pushes back against that flow — including the resistor you deliberately add to protect a component like an LED." data-ru="Три величины описывают почти любую простую цепь. Напряжение — это электрический «напор»: то, насколько сильно электроны гонит по замкнутой цепи. Ток — сколько электронов на самом деле проходит через точку цепи за секунду. Сопротивление — всё, что препятствует этому потоку, включая резистор, который вы нарочно ставите для защиты компонента вроде светодиода.">Три величины описывают почти любую простую цепь. Напряжение — это электрический «напор»: то, насколько сильно электроны гонит по замкнутой цепи. Ток — сколько электронов на самом деле проходит через точку цепи за секунду. Сопротивление — всё, что препятствует этому потоку, включая резистор, который вы нарочно ставите для защиты компонента вроде светодиода.</p>
-        <p data-en="Ohm's law ties all three together. Drag the sliders and watch the current — and the LED — respond." data-ru="Закон Ома связывает все три величины. Двигайте ползунки и смотрите, как меняются ток и свечение светодиода.">Закон Ома связывает все три величины. Двигайте ползунки и смотрите, как меняются ток и свечение светодиода.</p>
+        <p data-en="Ohm's law ties all three together. An LED is not a plain resistor, though: it drops a roughly fixed forward voltage — taken here as 2 V, typical for a red LED — so the resistor sees only what is left, and the current is I = (V − 2 V) / R. Drag the sliders and watch the current — and the LED — respond." data-ru="Закон Ома связывает все три величины. Но светодиод — не простой резистор: на нём падает почти постоянное прямое напряжение (здесь принято 2 В, типичное значение для красного светодиода), поэтому резистору достаётся только остаток, а ток равен I = (V − 2 В) / R. Двигайте ползунки и смотрите, как меняются ток и свечение светодиода.">Закон Ома связывает все три величины. Но светодиод — не простой резистор: на нём падает почти постоянное прямое напряжение (здесь принято 2 В, типичное значение для красного светодиода), поэтому резистору достаётся только остаток, а ток равен I = (V − 2 В) / R. Двигайте ползунки и смотрите, как меняются ток и свечение светодиода.</p>
       </div>
       <div class="sim-panel corner-frame">
         <div class="sim-viewport" style="max-width:280px;"><svg id="ohmSvg" viewBox="0 0 280 280" width="100%" height="100%"></svg></div>
@@ -140,8 +140,8 @@ sup,sub{font-size:0.68em;}
           <input id="resSlider" type="range" min="50" max="2000" step="10" value="220">
         </div>
         <div class="eq-box" style="margin:16px 0 0;">
-          <div class="eq-label">I = V / R</div>
-          <div class="eq-body" id="currentReadout">22.7 mA</div>
+          <div class="eq-label" data-en="I = (V − 2 V) / R" data-ru="I = (V − 2&nbsp;В) / R">I = (V − 2 В) / R</div>
+          <div class="eq-body" id="currentReadout">13.6 mA</div>
         </div>
         <div class="sim-verdict" id="ohmVerdict"></div>
       </div>
@@ -324,7 +324,8 @@ onScroll();
   function draw(){
     var v = parseFloat(voltSlider.value);
     var r = parseFloat(resSlider.value);
-    var i = v/r; // amps
+    var VF = 2.0; // assumed LED forward voltage, volts (typical red LED)
+    var i = Math.max(0, v - VF)/r; // amps through LED and resistor
     var mA = i*1000;
     voltVal.textContent = lang==='en' ? v.toFixed(1)+' V' : v.toFixed(1).replace('.', ',')+'\u00a0В';
     resVal.textContent = r.toFixed(0)+(lang==='en' ? ' Ω' : '\u00a0Ом');
