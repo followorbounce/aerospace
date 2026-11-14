@@ -22,12 +22,12 @@ const dom = new JSDOM(html, {runScripts: 'dangerously', pretendToBeVisual: true,
 const w = dom.window;
 setTimeout(() => {
   // switch language both ways
-  try { w.document.querySelector('#langtoggle button[data-lang="ru"]').click(); w.document.querySelector('#langtoggle button[data-lang="en"]').click(); } catch(e){ errors.push('lang ' + e.message); }
+  if(w.document.querySelector('#langtoggle')){ try { w.document.querySelector('#langtoggle button[data-lang="ru"]').click(); w.document.querySelector('#langtoggle button[data-lang="en"]').click(); } catch(e){ errors.push('lang ' + e.message); } }   /* pages without a toggle (the essays) are single-language */
   // every data-en has data-ru
   const miss = [...w.document.querySelectorAll('[data-en]')].filter(e => !e.hasAttribute('data-ru')).length;
   // highest citation number vs reference count
   const body = fs.readFileSync(file, 'utf8');
-  const cites = [...body.matchAll(/\[(\d+)\]/g)].map(m => +m[1]).filter(n => n < 100);
+  const cites = [...body.matchAll(/(?<![\w\]\)])\[(\d+)\]/g)]   /* not array indexes in page scripts: x[14] */.map(m => +m[1]).filter(n => n < 100);
   const refs = w.document.querySelectorAll('#refList .ref-item').length;
   // classes used in the rendered page that no stylesheet (assets/site.css + the page's <style>) mentions
   const css = fs.readFileSync(require('path').join(__dirname, '..', 'assets', 'site.css'), 'utf8') + [...w.document.querySelectorAll('style')].map(x => x.textContent).join('\n');

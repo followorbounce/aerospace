@@ -17,7 +17,10 @@ Older guides (before Wave 1, PARABOLA included) are hand-authored and have no so
 | `articles/<slug>/script.js` | the page's interactives; exposes its pure functions as `window.__<name>` for testing |
 | `articles/<slug>/checks.js` | numerical checks against published values, run in jsdom |
 | `articles/<slug>/extra.css` | optional page-specific CSS |
-| `assemble.py` | wraps the sources in the shared head, chrome and CSS (taken live from `parabola-mirrors-and-dishes.html`) plus `helpers.js` |
+| `assemble.py` | wraps the sources in the shared head, chrome and `base.css` plus `helpers.js`, then `blocks.place()`; output is byte-identical to the committed page. `--og` also renders the share picture (coordinator only) |
+| `blocks.py`, `blocks/`, `dates.json` | the shared blocks every page carries (hreflang, analytics, JSON-LD, network footer) in fixed slots; JSON-LD dates |
+| `finalize.py` | the same blocks on hand-made pages; `--touch <slug>` sets a guide's modified date; `--check` |
+| `site-check.py` | internal links, JSON-LD, head tags, manifest (no browser needed) |
 | `helpers.js` | shared page JS: `T()`, SVG helpers, number formatting (EN/RU), HUD, language toggle, timeline/references renderers |
 | `wire.py` | adds a page to `pages.json`, `index.html` and `llms.txt` (and can create a new category) |
 | `test.js` | jsdom smoke test: script errors, missing `data-ru`, citation numbers vs reference count, then `checks.js` |

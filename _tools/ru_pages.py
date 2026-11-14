@@ -9,15 +9,18 @@ what applyLang('ru') does in the browser (outermost [data-en][data-ru] element's
   <html lang="ru" data-edition="ru">, the RU toggle button active, title/description/og in Russian
   (title = pages.json Russian label + site title; description = the hero lede's data-ru), canonical = itself,
   hreflang en / ru / x-default on both editions (the English page gets them between <!-- hreflang --> markers),
-  links to /aerospace/<slug> pointing at the Russian edition, no copied JSON-LD or share-image tags
-  (engine/structured_data.py and engine/og_cards.py in followorbounce.github.io write the edition's own).
+  links to /aerospace/<slug> pointing at the Russian edition, the edition's own share-image tags (og/ru/<slug>.jpg)
+  and, through blocks.place(), its own hreflang / analytics / JSON-LD / network-footer blocks in their fixed slots.
 assets/site.js does the rest at runtime: on data-edition pages it runs the page's own RU handler so script-drawn
 text is Russian too, keeps navigation inside the edition, and turns the EN/RU toggle into a link between editions.
 Run after assemble.py/wire.py and after editing a hand-authored guide; ru/ is generated, never edit it.
---check reports pages whose Russian copy is missing or out of date.
+--check reports pages whose Russian copy is missing or out of date (exact comparison), and writes nothing.
+A page is only written when its bytes change, so a run after a one-guide edit touches that guide alone.
 """
 import html, json, os, re, sys
 from html.parser import HTMLParser
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import blocks
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -121,10 +124,8 @@ def russian(src, slug, site, label, slugs):
     h = set_meta(h, 'property', 'og:locale', 'ru_RU')
     h = set_meta(h, 'property', 'og:locale:alternate', 'en_US')
     h = re.sub(r'<link rel="canonical" href="[^"]*">', '<link rel="canonical" href="%s">' % ru_url, h, count=1)
-    h = re.sub(re.escape(HL_START) + r'[\s\S]*?' + re.escape(HL_END) + r'\n?', '', h)
-    h = re.sub(r'<!-- fob-ld -->[\s\S]*?<!-- /fob-ld -->\n?', '', h)        # structured_data.py writes the edition's own
-    h = re.sub(r'<meta (?:property="og:image[^"]*"|name="twitter:(?:card|image)") content="[^"]*">\n?', '', h)  # og_cards.py
-    h = h.replace('</head>', hreflang(en_url, ru_url) + '</head>', 1)
+    # the edition's own share picture (rendered by engine/og_cards.py in followorbounce.github.io) and alt text
+    h = blocks.share_tags(h, SITE + 'og/ru' + ('/' + slug if slug else '') + '.jpg', t_ru + ' — Aerospace Knowledge Hub')
     # the toggle starts on RU
     h = re.sub(r'(<button[^>]*data-lang="en"[^>]*class=")([^"]*)\bactive\b', r'\1\2', h)
     h = re.sub(r'(<button[^>]*class=")([^"]*)\bactive\b([^"]*)("[^>]*data-lang="en")', r'\1\2\3\4', h)
@@ -138,14 +139,12 @@ def russian(src, slug, site, label, slugs):
     # links between guides stay in the edition
     h = re.sub(r'href="/aerospace/([a-z0-9-]*)(["#])', lambda m: 'href="/aerospace/ru/%s%s' % (m.group(1), m.group(2))
                if (m.group(1) in slugs or m.group(1) == '') else m.group(0), h)
-    return h, len(p.spans)
+    return blocks.place(h, 'ru/' + (slug or 'index') + '.html'), len(p.spans)
 
 
 def english(src, slug):
     """The English page with its hreflang block (idempotent)."""
-    en_url, ru_url = SITE + slug, SITE + 'ru/' + slug
-    h = re.sub(re.escape(HL_START) + r'[\s\S]*?' + re.escape(HL_END) + r'\n?', '', src)
-    return h.replace('</head>', hreflang(en_url, ru_url) + '</head>', 1)
+    return blocks.place(src, (slug or 'index') + '.html')
 
 
 def main():
@@ -157,7 +156,7 @@ def main():
     site, labels = manifest()
     slugs = [s for s in labels if os.path.exists(os.path.join(ROOT, s + '.html'))]
     os.makedirs(os.path.join(ROOT, 'ru'), exist_ok=True)
-    stale, n_el = [], 0
+    stale, wrote, n_el = [], [], 0
     for slug in [''] + slugs:
         f = os.path.join(ROOT, (slug or 'index') + '.html')
         src = open(f, encoding='utf-8').read()
@@ -169,18 +168,18 @@ def main():
         target = os.path.join(ROOT, 'ru', (slug or 'index') + '.html')
         old = open(target, encoding='utf-8').read() if os.path.exists(target) else None
         if check:
-            if en != src or (old is None or re.sub(r'<!-- fob-ld -->[\s\S]*?<!-- /fob-ld -->\n?|<meta (?:property="og:image[^"]*"|name="twitter:(?:card|image)") content="[^"]*">\n?', '', old) != ru):
+            if en != src or old != ru:
                 stale.append(slug or 'index')
             continue
         if en != src:
             open(f, 'w', encoding='utf-8').write(en)
-        # keep what the network scripts added to the edition (JSON-LD, share image) when nothing else changed
-        keep = old if old and re.sub(r'<!-- fob-ld -->[\s\S]*?<!-- /fob-ld -->\n?|<meta (?:property="og:image[^"]*"|name="twitter:(?:card|image)") content="[^"]*">\n?', '', old) == ru else ru
-        open(target, 'w', encoding='utf-8').write(keep)
+        if old != ru:
+            open(target, 'w', encoding='utf-8').write(ru)
+            wrote.append(slug or 'index')
     if check:
         print('stale or missing Russian pages: %s' % (', '.join(stale) or 'none'))
         sys.exit(1 if stale else 0)
-    print('Russian edition: %d pages, %d translated elements' % (len(slugs) + 1, n_el))
+    print('Russian edition: %d pages, %d translated elements, %d rewritten%s' % (len(slugs) + 1, n_el, len(wrote), (': ' + ', '.join(wrote)) if 0 < len(wrote) <= 12 else ''))
 
 
 if __name__ == '__main__':

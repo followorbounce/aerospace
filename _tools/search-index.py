@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Write /aerospace/search.json (what the site search looks through) and check related.json.
 
-  python3 _tools/search-index.py
+  python3 _tools/search-index.py [--check]
 
 For every guide in pages.json: its meta description and its chapter headings (EN and RU, from the
 h2 data-en / data-ru attributes). Labels, codenames and category titles are read from pages.json by
@@ -33,7 +33,12 @@ for s in slugs:
         if b: ru.append(html.unescape(b.group(1)))
     out[s] = {'d': html.unescape(m.group(1)) if m else '', 'h': en, 'hr': ru}
 
-open(R + 'search.json', 'w', encoding='utf-8').write(json.dumps(out, ensure_ascii=False, separators=(',', ':')) + '\n')
+new = json.dumps(out, ensure_ascii=False, separators=(',', ':')) + '\n'
+if '--check' in sys.argv:                       # compare only, write nothing
+    if not os.path.exists(R + 'search.json') or open(R + 'search.json', encoding='utf-8').read() != new:
+        print('search.json is out of date: run python3 _tools/search-index.py'); sys.exit(1)
+else:
+    open(R + 'search.json', 'w', encoding='utf-8').write(new)
 
 rel = json.load(open(R + 'related.json'))
 bad = []

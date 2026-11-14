@@ -1,11 +1,17 @@
-"""Assemble a self-contained aerospace article: shared <head>/<style>/chrome from PARABOLA + per-article parts.
-usage: assemble.py <dir with meta.json, body.html, extra.css, script.js> [out.html]
-The output defaults to <repo>/<slug>.html."""
+"""Assemble a self-contained aerospace article: shared <head>, base.css and chrome + per-article parts.
+usage: assemble.py <dir with meta.json, body.html, extra.css, script.js> [out.html] [--og]
+The output defaults to <repo>/<slug>.html. The page comes out complete: blocks.place() writes the hreflang, analytics,
+JSON-LD and network-footer blocks in their fixed slots, so a rebuild of an unchanged guide is byte-identical to the
+committed page (check-all.sh relies on that). --og also renders the share picture through engine/og_cards.py in the
+followorbounce.github.io repo; that is a coordinator step, never something a guide author runs."""
 import json, re, subprocess, sys, os
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-src = open(os.path.join(ROOT, 'parabola-mirrors-and-dishes.html')).read()
-style = re.search(r'<style>\n(.*?)</style>', src, re.S).group(1)
-style = style.replace(':root{--gold:#a8741a; --ray:#2f5aa1; --err:#b5452a;}\n', '')
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import blocks
+ROOT = os.path.dirname(HERE)
+OG = '--og' in sys.argv
+sys.argv = [a for a in sys.argv if a != '--og']
+style = open(os.path.join(HERE, 'base.css'), encoding='utf-8').read()      # the shared guide CSS (was read live from PARABOLA)
 d = sys.argv[1]; m = json.load(open(os.path.join(d, 'meta.json')))
 body = open(os.path.join(d, 'body.html')).read()
 extra = open(os.path.join(d, 'extra.css')).read() if os.path.exists(os.path.join(d, 'extra.css')) else ''
@@ -82,11 +88,11 @@ out = f'''<!DOCTYPE html>
 </body>
 </html>
 '''
+out = blocks.place(out, m['slug'] + '.html')
 dest = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, m['slug'] + '.html')
 open(dest, 'w').write(out)
 print('wrote', dest, len(out.splitlines()), 'lines')
-if len(sys.argv) <= 2:
-    # share pictures and the "More from Follow or Bounce" block (engine/og_cards.py in the homepage repo, when it sits next to this one)
+if OG:
     og_pass = os.path.join(ROOT, '..', 'followorbounce.github.io', 'engine', 'og_cards.py')
     if os.path.exists(og_pass):
         subprocess.run([sys.executable, og_pass, 'aerospace', '--only', m['slug']])

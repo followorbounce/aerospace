@@ -184,3 +184,13 @@ Same process as Waves 5–7: shared author brief (`_tools/WAVE8-BRIEF.md`) → o
 - Rebuilt: all 36 generated guides, search.json, ru/ (88), og cards (62 re-rendered via the Chrome shim), JSON-LD.
   check-all: 1,491 PASS, 0 FAIL (DRIFT on generated guides is the known after-build injection).
 - Open for the owner: Tiangong "2 MAIN ROBOTIC ARMS" wording (no source found for "5").
+
+## 2026-11-14 — Audit, scope of work (88 → 176), corrections, engineering foundation
+- **Audit + plan** (owner approved all seven decisions): https://claude.ai/artifact/2bpFbThq2Z4pJeP5PuJpQj. 25 guides at full standard, 16 tested but thin, 47 never proofed (7 A / 19 B / 20 C). 88 new guides in 11 waves of 8 (waves 9–19), each through eight proof gates with three separate science signatures. Candidate list with the proof panel's required changes is in the plan; the strategy panel's full 110-row table was a scratch file and is summarised there.
+- **Russian pass published** (017523a).
+- **Workstream A, corrections** (8bec47b): three review panels re-verified and fixed 163 items in 39 guides, EN + RU; log appended to `_tools/EN-FIXES.md` with sources. Lagrange L3 formula + calculator, Physics of Spaceflight Δv table, one dated Mars Sample Return statement in six guides, Swift closed out in BURST. Open items the panels could not verify are listed at the end of each panel's section there.
+- **Workstream B, engineering** (this commit): blocks owned by this repo (`_tools/blocks.py`, `dates.json`, `finalize.py`), byte-identical rebuilds (zero DRIFT), `ru_pages.py --check` exact, `base.css`, check-all in parallel over all 88 guides (34 s) with citation enforcement and whole-site checks (`site-check.py`, `search-index.py --check`), CI workflow `check.yml`, `package-lock.json`, Chrome-capable `shot.sh`. MASCON's timing check is skipped when `CI` is set.
+- **Still to do before wave 9:** E3 (one manifest per guide + `build-site.py` replacing `wire.py` and the hand edits; sitemap generated locally). Then C1 priority rebuilds (Physics of Spaceflight and Lagrange Points ship with wave 9).
+- **Dated updates due:** Voyager 1 one light-day 18 Nov; BepiColombo orbit insertion 21 Nov; Hera images and Shenzhou-24 about 25 Nov; Gaia DR4 2 Dec; Europa Clipper Earth flyby 3 Dec. RIPPLE's LVK plan page (review 16 Nov) blocks automated fetches: check in a browser.
+- Homepage card in followorbounce.github.io still says 83 guides (should be 88).
+

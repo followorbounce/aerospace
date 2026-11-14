@@ -1,0 +1,39 @@
+name: Check
+
+# The whole test suite on every push and pull request: each generated guide must rebuild byte-identical to its committed
+# page and pass its numerical checks; every other guide gets the smoke test; then the whole-site checks
+# (shared blocks in place, Russian edition current, search index current, internal links, JSON-LD).
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: _tools/package-lock.json
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install test dependencies
+        run: npm ci
+        working-directory: _tools
+      - name: Run the suite
+        run: bash _tools/check-all.sh
+        env:
+          JOBS: 4
