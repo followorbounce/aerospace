@@ -23,7 +23,7 @@ for f in files:
     rel = os.path.relpath(f, R)
     h = open(f, encoding='utf-8').read()
     public = 'http-equiv="refresh"' not in h and 'noindex' not in h and '<link rel="canonical"' in h
-    for m in re.finditer(r'(?:href|src)="(/aerospace/[^"]*|https://followorbounce\.github\.io/aerospace/[^"]*)"', h):
+    for m in re.finditer(r'''(?:href|src)=["'](/aerospace/[^"']*|https://followorbounce\.github\.io/aerospace/[^"']*)["']''', h):
         u = re.sub(r'^https://followorbounce\.github\.io', '', m.group(1))[len('/aerospace/'):]
         n_links += 1
         if not resolves(u):

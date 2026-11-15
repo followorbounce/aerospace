@@ -88,6 +88,13 @@ out = f'''<!DOCTYPE html>
 </body>
 </html>
 '''
+# A link to a guide that does not exist yet (a later guide of the same wave, named by slug in the brief) is written as
+# plain text, so nothing published points at a 404. When that guide appears, check-all.sh reports DRIFT here and a
+# rebuild turns the text back into a link.
+def _live(mm):
+    s = mm.group(2)
+    return mm.group(0) if (s == m['slug'] or os.path.exists(os.path.join(ROOT, s + '.html'))) else mm.group(3)
+out = re.sub(r'''<a href=(['"])/aerospace/([a-z0-9-]+)(?:#[^'"]*)?\1[^>]*>(.*?)</a>''', _live, out, flags=re.S)
 out = blocks.place(out, m['slug'] + '.html')
 dest = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, m['slug'] + '.html')
 open(dest, 'w').write(out)

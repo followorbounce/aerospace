@@ -26,7 +26,7 @@ function renderStage(){
   function Y(v){ return B - v/vmax*(B - Tp); }
   [0,4,8,12,16].forEach(function(v){ ns('line', {x1:L, y1:Y(v), x2:R, y2:Y(v), stroke:'#e4e4de'}, svg); txt(svg, L - 6, Y(v) + 3, v, 'svg-small', 'end'); });
   txt(svg, L, 13, T('ideal velocity gained, km/s','идеальный прирост скорости, км/с'), 'svg-small');
-  [[9.4, T('orbit ≈ 9.4','орбита ≈ 9,4')], [12.5, T('Moon ≈ 12.5','Луна ≈ 12,5')]].forEach(function(t){ ns('line', {x1:L, y1:Y(t[0]), x2:R, y2:Y(t[0]), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg); txt(svg, R - 2, Y(t[0]) - 4, t[1], 'svg-small', 'end'); });
+  [[9.3, T('orbit ≈ 9.3','орбита ≈ 9,3')], [12.5, T('Moon ≈ 12.5','Луна ≈ 12,5')]].forEach(function(t){ ns('line', {x1:L, y1:Y(t[0]), x2:R, y2:Y(t[0]), stroke:'#2f5aa1', 'stroke-dasharray':'4 3'}, svg); txt(svg, R - 2, Y(t[0]) - 4, t[1], 'svg-small', 'end'); });
   var cols = ['#0b0b0c', '#8a8a82', '#b5452a'], names = [['S-IC','S-IC'],['S-II','S-II'],['S-IVB','S-IVB']];
   var bx = 90, bw = 90, acc = 0;
   S.forEach(function(s, i){ var y0 = Y(acc), y1 = Y(acc + s.dv/1000); ns('rect', {x:bx, y:y1, width:bw, height:y0 - y1, fill:cols[i]}, svg); var t = txt(svg, bx + bw/2, (y0 + y1)/2 + 4, names[i][0] + ' ' + fmt(s.dv/1000, 2), 'svg-small', 'middle'); t.style.fill = '#fff'; acc += s.dv/1000; });

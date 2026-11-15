@@ -8,7 +8,7 @@ module.exports = (w, C) => {
   ok('S-II parts = 1,058,140', 79714 + 819050 + 158116 + 1260 === 1058140);
   ok('S-IVB parts = 262,613', 24852 + 43608 + 192497 + 1656 === 262613);
   const S = C.stages(1), tot = S.reduce((a, s) => a + s.dv, 0);
-  ok('ideal total Δv ≈ 12.5 km/s (orbit 9.4 + TLI ~3.1)', Math.abs(tot/1000 - 12.4) < 0.3, (tot/1000).toFixed(3));
+  ok('ideal total Δv ≈ 12.5 km/s (orbit 9.3 + TLI ~3.1)', Math.abs(tot/1000 - 12.4) < 0.3, (tot/1000).toFixed(3));
   ok('stage 3 starts with S-IVB + IU + spacecraft (no LES)', Math.abs(S[2].m0 - (262613 + 4275 + 100736)) < 1, S[2].m0);
   const O = C.oneStage(1, 425); ok('single stage at 425 s ≈ 10.4 km/s', Math.abs(O.dv/1000 - 10.40) < 0.05, (O.dv/1000).toFixed(3));
   ok('heavier payload lowers Δv', C.stages(2).reduce((a, s) => a + s.dv, 0) < tot);

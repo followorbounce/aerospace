@@ -1,0 +1,62 @@
+{
+ "slug": "lagrange-points",
+ "title_en": "EQUILIBRIUM — A FIELD GUIDE TO LAGRANGE POINTS",
+ "title_ru": "РАВНОВЕСИЕ — ПОЛЕВОЙ СПРАВОЧНИК ПО ТОЧКАМ ЛАГРАНЖА",
+ "description": "Lagrange points done properly: an exact L1–L3 solver, zero-velocity curves, the L4/L5 stability limit, halo orbits, Trojans and the missions that use them.",
+ "og": "Solve L1, L2 and L3 exactly, open the gates of the effective potential, find where L4 and L5 stop being stable and what it costs to stay: Lagrange points, interactive and sourced.",
+ "brand": "EQUILIBRIUM — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE PROBLEM",
+ "hud1": "SYSTEM",
+ "hud2": "L4 / L5",
+ "hud1_ru": "СИСТЕМА",
+ "hud2_ru": "L4 / L5",
+ "codename": "EQUILIBRIUM",
+ "label": {
+  "en": "Lagrange Points",
+  "ru": "Точки Лагранжа"
+ },
+ "llms": "Lagrange points from the circular restricted three-body problem: rotating frame, effective potential and zero-velocity curves; an exact solver for L1–L3 (the quintic) beside the Hill-radius formula and its error for Sun–Earth, Sun–Jupiter, Earth–Moon and Pluto–Charon; L4/L5 and the stability limit μ < 0.03852 (mass ratio > 24.96); Euler's collinear and Lagrange's triangular points credited separately; halo and Lissajous orbits and published station-keeping costs; Trojan asteroids; a dated register of missions at Sun–Earth L1/L2 and the Earth–Moon points.",
+ "related": [
+  "james-webb-space-telescope",
+  "the-lunar-gateway",
+  "physics-of-spaceflight",
+  "parallax-gaia-mission"
+ ],
+ "freshness": [
+  {
+   "claim": "Roman (launched 30 Aug 2026) still in transfer as of 15 Nov 2026, insertion at Sun–Earth L2 expected about early December 2026; update the register with the arrival date",
+   "source": "https://science.nasa.gov/blogs/roman/",
+   "review_by": "2026-12-31"
+  },
+  {
+   "claim": "Minor Planet Center Trojan counts from the lists dated 30 May 2026: Jupiter 9,823 + 5,942, Mars 18, Neptune 35, Earth 1 (2020 XL5; two known with 2010 TK7, which is not on the MPC list)",
+   "source": "https://www.minorplanetcenter.net/iau/lists/Trojans.html",
+   "review_by": "2027-11-14"
+  },
+  {
+   "claim": "ESA Vigil planned for launch in 2031 to Sun–Earth L5 (as of November 2026)",
+   "source": "https://www.esa.int/Space_Safety/Vigil",
+   "review_by": "2027-11-14"
+  },
+  {
+   "claim": "China's Xihe-2 planned for launch to Sun–Earth L5 between 2028 and 2029 (CASC/CGTN, February 2026), ahead of ESA's Vigil (2031)",
+   "source": "https://english.spacechina.com/n17212/c4541181/content.html",
+   "review_by": "2027-05-14"
+  },
+  {
+   "claim": "Lucy's Trojan flybys still planned from Eurybates on 11 Aug 2027 to Patroclus on 3 Mar 2033",
+   "source": "https://science.nasa.gov/mission/lucy/",
+   "review_by": "2027-09-01"
+  },
+  {
+   "claim": "Mission register: no end date is recorded for Wind, SOHO, ACE, DSCOVR, Aditya-L1, IMAP, SWFO-L1, Spektr-RG, Webb, Euclid, Queqiao, CAPSTONE; add end dates as missions close (Gaia retired 27 Mar 2025 is the latest recorded)",
+   "source": "https://www.esa.int/Enabling_Support/Operations/What_are_Lagrange_points",
+   "review_by": "2027-11-14"
+  },
+  {
+   "claim": "Gateway described as paused by NASA in March 2026; its near-rectilinear halo orbit is described from 2020 design papers; programme status is covered in the-lunar-gateway and may change",
+   "source": "https://ntrs.nasa.gov/citations/20200000733",
+   "review_by": "2027-05-14"
+  }
+ ]
+}

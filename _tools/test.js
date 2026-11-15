@@ -45,6 +45,9 @@ setTimeout(() => {
   const BOOL = new Set(['hidden','disabled','checked','open','defer','async','selected','readonly','multiple','novalidate','autofocus','required']);
   const brokenAttrs = [...w.document.querySelectorAll('[data-en]')].filter(e => [...e.attributes].some(a => a.value === '' && !BOOL.has(a.name) && !/^(data-|aria-)/.test(a.name))).length;
   console.log(JSON.stringify({errors, brokenAttrs, offStep: [...offStep], missingRu: miss, maxCite: Math.max(...cites), refs, timeline: w.document.querySelectorAll('#timeline .tl').length, unstyled}));
-  if(process.argv[4]) require(require('path').resolve(process.argv[4]))(w, w[hook]);
+  // a checks file that throws must fail the run: without this the crash printed a stack trace and no FAIL line
+  process.on('uncaughtException', e => { console.log('FAIL checks crashed: ' + (e && e.stack ? e.stack.split('\n').slice(0, 2).join(' | ') : e)); process.exit(1); });
+  process.on('unhandledRejection', e => { console.log('FAIL checks crashed (promise): ' + (e && e.message || e)); process.exit(1); });
+  if(process.argv[4]){ try { require(require('path').resolve(process.argv[4]))(w, w[hook]); } catch(e){ console.log('FAIL checks crashed: ' + (e && e.stack ? e.stack.split('\n').slice(0, 2).join(' | ') : e)); process.exit(1); } }
   setTimeout(() => process.exit(0), 300);
 }, 600);

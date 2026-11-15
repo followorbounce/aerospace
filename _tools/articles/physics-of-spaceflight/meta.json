@@ -1,0 +1,67 @@
+{
+ "slug": "physics-of-spaceflight",
+ "title_en": "IMPULSE — THE PHYSICS OF SPACEFLIGHT",
+ "title_ru": "ИМПУЛЬС — ФИЗИКА КОСМИЧЕСКОГО ПОЛЁТА",
+ "description": "Interactive guide to spaceflight physics: the rocket equation and staging, orbit speed, Hohmann transfers, the Oberth effect and a computed Δv map.",
+ "og": "Design a staged rocket, size an orbit, fly a Hohmann transfer, burn at the bottom of a gravity well and read a Δv map of the Solar System computed on one stated basis: the physics of spaceflight, interactive and sourced.",
+ "brand": "IMPULSE — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "MOMENTUM",
+ "hud1": "Δv",
+ "hud2": "PAYLOAD",
+ "hud1_ru": "Δv",
+ "hud2_ru": "ПОЛЕЗНАЯ НАГРУЗКА",
+ "codename": "IMPULSE",
+ "label": {
+  "en": "The Physics of Spaceflight",
+  "ru": "Физика космического полёта"
+ },
+ "llms": "Spaceflight from first principles: momentum exchange, the rocket equation with a staging optimiser, vis-viva and orbit speed, Hohmann transfers and plane changes, the Oberth effect, a Δv map of the Solar System computed on one stated basis (from a 200 km orbit, impulsive Hohmann transfers, no losses), and a sourced survey of propulsion types; figures checked against NASA fact sheets and Apollo 11, Dawn, New Horizons and Parker Solar Probe flight data.",
+ "related": [
+  "nozzle-rocket-engines",
+  "transfer-earth-to-mars",
+  "slingshot-gravity-assists",
+  "lagrange-points"
+ ],
+ "freshness": [
+  {
+   "claim": "As of November 2026 no nuclear thermal rocket has flown; DRACO was closed out in 2025",
+   "source": "https://www.govinfo.gov/content/pkg/BUDGET-2027-BUD/pdf/BUDGET-2027-BUD-21.pdf",
+   "review_by": "2027-05-14"
+  },
+  {
+   "claim": "Dawn's 11.5 km/s described as a record for an on-board propulsion system (stated 2018; worded 'at the time')",
+   "source": "https://ntrs.nasa.gov/citations/20210008613",
+   "review_by": "2027-11-14"
+  },
+  {
+   "claim": "Breakthrough Starshot: a study, put on hold in 2024 (Benford, March 2026); the initiative's own page still describes it as live",
+   "source": "https://www.centauri-dreams.org/2026/03/03/starshot-is-a-success-part-i/",
+   "review_by": "2027-05-14"
+  },
+  {
+   "claim": "Parker Solar Probe's about 430,000 mph (24 Dec 2024) is its record speed, matched but not beaten on later passes (NASA, 10 Sep 2026; mission extended into 2029)",
+   "source": "https://science.nasa.gov/blogs/parker-solar-probe/2026/09/10/after-latest-swing-past-sun-nasas-parker-solar-probe-checks-in/",
+   "review_by": "2027-05-14"
+  },
+  {
+   "claim": "As of November 2026 no spacecraft has made a speeding-up burn at closest approach to Jupiter or the Sun (Juno's 2016 burn was a braking burn)",
+   "source": "https://www.nasa.gov/news-release/nasas-juno-spacecraft-in-orbit-around-mighty-jupiter/",
+   "review_by": "2027-11-14"
+  },
+  {
+   "claim": "Five craft are leaving the Solar System (Pioneer 10 and 11, Voyager 1 and 2, New Horizons); four needed Jupiter, New Horizons left on launch energy alone",
+   "source": "https://www2.boulder.swri.edu/pkb/ssr/ssr-mission-design.pdf",
+   "review_by": "2028-11-14"
+  },
+  {
+   "claim": "NEXT ion thruster status taken from a 2008 source (ground testing); a later flight is not covered",
+   "source": "https://ntrs.nasa.gov/api/citations/20080010688/downloads/20080010688.pdf",
+   "review_by": "2027-11-14"
+  },
+  {
+   "claim": "RS-25 specification sheet (452.3 s, 512,300 lb) is a manufacturer document that is reissued",
+   "source": "https://l3harris.com/sites/default/files/2024-07/l3harris-ar-rs-25-spec-sheet.pdf",
+   "review_by": "2027-11-14"
+  }
+ ]
+}
