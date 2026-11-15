@@ -1,0 +1,16 @@
+{
+ "slug": "skycrane-curiosity-rover",
+ "codename": "SKYCRANE",
+ "label": {
+  "en": "The Curiosity Rover",
+  "ru": "Марсоход Curiosity"
+ },
+ "llms": "NASA's Curiosity rover and the Mars Science Laboratory mission.",
+ "related": [
+  "jezero-perseverance-rover",
+  "entry-heat-shields",
+  "marathon-opportunity-rover",
+  "escape-maven-mars-atmosphere"
+ ],
+ "freshness": []
+}

@@ -1,0 +1,16 @@
+{
+ "slug": "orbiter-space-shuttle-program",
+ "codename": "ORBITER",
+ "label": {
+  "en": "Space Shuttle Program",
+  "ru": "Программа «Спейс шаттл»"
+ },
+ "llms": "NASA's Space Shuttle Program, its two disasters, and building the ISS.",
+ "related": [
+  "return-reusable-rockets",
+  "entry-heat-shields",
+  "iss-and-mir",
+  "handoff-commercial-crew-program"
+ ],
+ "freshness": []
+}

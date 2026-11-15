@@ -9,5 +9,18 @@
  "hud1": "DISTANCE",
  "hud2": "SPEED",
  "hud1_ru": "РАССТОЯНИЕ",
- "hud2_ru": "СКОРОСТЬ"
+ "hud2_ru": "СКОРОСТЬ",
+ "codename": "COMET",
+ "label": {
+  "en": "Rosetta & Philae",
+  "ru": "«Розетта» и «Филы»"
+ },
+ "llms": "ESA's Rosetta mission to comet 67P — ten years of flybys and hibernation (solar power vs distance), orbiting a 10¹³ kg nucleus at ~15 cm/s (point-mass orbit calculator from Pätzold et al. 2016), Philae's three touchdowns where escape speed is ~0.9 m/s (bounce-height calculator), and the findings: D/H three times Earth's oceans, primordial O₂, glycine and phosphorus.",
+ "related": [
+  "sample-hayabusa-osiris-rex",
+  "belt-dawn-vesta-ceres",
+  "impact-dart-planetary-defence",
+  "slingshot-gravity-assists"
+ ],
+ "freshness": []
 }

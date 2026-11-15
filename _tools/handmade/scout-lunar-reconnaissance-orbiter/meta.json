@@ -1,0 +1,16 @@
+{
+ "slug": "scout-lunar-reconnaissance-orbiter",
+ "codename": "SCOUT",
+ "label": {
+  "en": "Lunar Reconnaissance Orbiter",
+  "ru": "Орбитальный разведчик Луны"
+ },
+ "llms": "NASA's Lunar Reconnaissance Orbiter.",
+ "related": [
+  "prospect-clementine-mission",
+  "valor-the-chandrayaan-mission",
+  "mascon-grail-lunar-gravity",
+  "tranquility-apollo-program"
+ ],
+ "freshness": []
+}

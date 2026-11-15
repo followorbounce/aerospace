@@ -1,0 +1,16 @@
+{
+ "slug": "infrared-spitzer-telescope",
+ "codename": "INFRARED",
+ "label": {
+  "en": "Spitzer Space Telescope",
+  "ru": "Телескоп «Спитцер»"
+ },
+ "llms": "NASA's Spitzer Space Telescope, cryogenic infrared astronomy, and TRAPPIST-1.",
+ "related": [
+  "james-webb-space-telescope",
+  "transit-kepler-telescope",
+  "spectrum-spectroscopy",
+  "aperture-hubble-telescopes"
+ ],
+ "freshness": []
+}

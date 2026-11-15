@@ -1,0 +1,16 @@
+{
+ "slug": "ascent-mercury-program",
+ "codename": "ASCENT",
+ "label": {
+  "en": "Mercury & the First Astronauts",
+  "ru": "«Меркурий» и первые астронавты"
+ },
+ "llms": "Project Mercury and the beginning of human spaceflight.",
+ "related": [
+  "rendezvous-gemini-program",
+  "passenger-animals-in-space",
+  "first-vostok-voskhod",
+  "entry-heat-shields"
+ ],
+ "freshness": []
+}

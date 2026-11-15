@@ -1,0 +1,16 @@
+{
+ "slug": "viking",
+ "codename": "ARRIVAL",
+ "label": {
+  "en": "Viking & Mars",
+  "ru": "«Викинг» и Марс"
+ },
+ "llms": "the Viking program and the search for life on Mars.",
+ "related": [
+  "bounce-mars-pathfinder",
+  "transfer-earth-to-mars",
+  "skycrane-curiosity-rover",
+  "quake-insight-mars"
+ ],
+ "freshness": []
+}

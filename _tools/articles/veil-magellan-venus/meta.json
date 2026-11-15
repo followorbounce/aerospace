@@ -9,5 +9,18 @@
  "hud1": "ALTITUDE",
  "hud2": "RESOLUTION",
  "hud1_ru": "ВЫСОТА",
- "hud2_ru": "РАЗРЕШЕНИЕ"
+ "hud2_ru": "РАЗРЕШЕНИЕ",
+ "codename": "VEIL",
+ "label": {
+  "en": "Magellan's Radar Map of Venus",
+  "ru": "Радиолокационная карта Венеры «Магеллана»"
+ },
+ "llms": "NASA's Magellan (1989–1994): synthetic-aperture radar at 12.6 cm mapping 98% of Venus at 120–300 m, 243-day mapping cycles, randomly scattered craters and a young surface, and the first aerobraking at another planet; interactive radar geometry, strip-coverage, crater and aerobraking models.",
+ "related": [
+  "furnace-venera-vega",
+  "scorch-mercury-messenger-bepicolombo",
+  "sunsync-earth-observation",
+  "bucket-corona-spy-satellites"
+ ],
+ "freshness": []
 }

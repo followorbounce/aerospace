@@ -1,0 +1,16 @@
+{
+ "slug": "the-lunar-gateway",
+ "codename": "HALO",
+ "label": {
+  "en": "The Lunar Gateway",
+  "ru": "Окололунная станция Gateway"
+ },
+ "llms": "NASA's Lunar Gateway station and its 2026 pause.",
+ "related": [
+  "campaign-artemis-program",
+  "lagrange-points",
+  "horizon-artemis-base-camp",
+  "iss-and-mir"
+ ],
+ "freshness": []
+}

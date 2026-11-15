@@ -1,0 +1,22 @@
+{
+ "slug": "retrieve-mars-sample-return",
+ "codename": "RETRIEVE",
+ "label": {
+  "en": "Mars Sample Return",
+  "ru": "Доставка образцов с Марса"
+ },
+ "llms": "the campaign to bring Perseverance's sealed samples to Earth.",
+ "related": [
+  "jezero-perseverance-rover",
+  "sample-hayabusa-osiris-rex",
+  "transfer-earth-to-mars",
+  "entry-heat-shields"
+ ],
+ "freshness": [
+  {
+   "claim": "Mars Sample Return architecture and budget status",
+   "source": "https://science.nasa.gov/mission/mars-sample-return/",
+   "review_by": "2026-12-31"
+  }
+ ]
+}

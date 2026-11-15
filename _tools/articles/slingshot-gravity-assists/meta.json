@@ -9,5 +9,18 @@
  "hud1": "TURN ANGLE",
  "hud2": "GAIN",
  "hud1_ru": "УГОЛ ПОВОРОТА",
- "hud2_ru": "ПРИБАВКА"
+ "hud2_ru": "ПРИБАВКА",
+ "codename": "SLINGSHOT",
+ "label": {
+  "en": "Gravity Assists & the Grand Tour",
+  "ru": "Гравитационные манёвры и «Большой тур»"
+ },
+ "llms": "How gravity assists work: same speed relative to the planet, kilometres per second gained or lost relative to the Sun, why the planet pays, braking toward Mercury, escaping via Jupiter, and Voyager 2's 12-year Grand Tour vs a 30-year direct flight; checked against Cassini's 1999 Earth flyby.",
+ "related": [
+  "voyager-and-pioner",
+  "transfer-earth-to-mars",
+  "physics-of-spaceflight",
+  "scorch-mercury-messenger-bepicolombo"
+ ],
+ "freshness": []
 }

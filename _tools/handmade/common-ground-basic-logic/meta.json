@@ -1,0 +1,16 @@
+{
+ "slug": "common-ground-basic-logic",
+ "codename": "THRESHOLD",
+ "label": {
+  "en": "Common Ground & Basic Logic",
+  "ru": "Общая основа и базовая логика"
+ },
+ "llms": "binary, logic gates, if/then/else and else-if ladders, FizzBuzz, binary addition and subtraction, binary search, and tracing a program from its inputs to its consequences.",
+ "related": [
+  "cascade-physical-computing",
+  "build-your-own-cubesat",
+  "mathematics-of-music",
+  "physics-of-spaceflight"
+ ],
+ "freshness": []
+}

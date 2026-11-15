@@ -9,5 +9,18 @@
  "hud1": "EXIT MACH",
  "hud2": "THRUST COEFF.",
  "hud1_ru": "ЧИСЛО МАХА НА СРЕЗЕ",
- "hud2_ru": "КОЭФФ. ТЯГИ"
+ "hud2_ru": "КОЭФФ. ТЯГИ",
+ "codename": "NOZZLE",
+ "label": {
+  "en": "How Rocket Engines Work",
+  "ru": "Как работают ракетные двигатели"
+ },
+ "llms": "rocket engines — isentropic nozzle flow (area ratio → exit Mach and pressure), thrust coefficient from sea level to vacuum checked against the RS-25's NASA sea-level/vacuum thrust, gas-generator vs staged-combustion cycles (F-1, Merlin, RS-25)",
+ "related": [
+  "physics-of-spaceflight",
+  "thrust-saturn-v-n1",
+  "return-reusable-rockets",
+  "entry-heat-shields"
+ ],
+ "freshness": []
 }

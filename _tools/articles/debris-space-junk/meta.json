@@ -9,5 +9,18 @@
  "hud1": "IMPACT ENERGY",
  "hud2": "LIFETIME",
  "hud1_ru": "ЭНЕРГИЯ УДАРА",
- "hud2_ru": "СРОК НА ОРБИТЕ"
+ "hud2_ru": "СРОК НА ОРБИТЕ",
+ "codename": "DEBRIS",
+ "label": {
+  "en": "Space Debris & the Kessler Syndrome",
+  "ru": "Космический мусор и синдром Кесслера"
+ },
+ "llms": "orbital debris — impact energy vs fragment size and crossing angle (40 J/g shattering threshold), Fengyun-1C (2007) and Iridium–Cosmos (2009), drag decay lifetime vs altitude checked against NASA ODPO statements, Kessler & Cour-Palais 1978, the FCC five-year rule",
+ "related": [
+  "swarm-megaconstellations",
+  "sunsync-earth-observation",
+  "iss-and-mir",
+  "impact-dart-planetary-defence"
+ ],
+ "freshness": []
 }

@@ -1,0 +1,22 @@
+{
+ "slug": "vessel-shenzhou-program",
+ "codename": "VESSEL",
+ "label": {
+  "en": "Shenzhou & China's Crewed Program",
+  "ru": "«Шэньчжоу» и пилотируемая программа Китая"
+ },
+ "llms": "China's human spaceflight programme 1992–2026 — Project 921's three steps, the three-module Shenzhou ship, Yang Liwei's 14 orbits with an orbit day/night (eclipse fraction vs β) calculator, the first Chinese spacewalk, Tiangong docking with a phasing/catch-up calculator, six-month station crews and 3.5-hour rendezvous, the November 2025 Shenzhou-20 cracked window and lifeboat swap with a debris-energy calculator, and the Mengzhou/Lanyue plan for a Moon landing by 2030.",
+ "related": [
+  "palace-tiangong-station",
+  "union-soyuz-program",
+  "rabbit-change-far-side",
+  "first-vostok-voskhod"
+ ],
+ "freshness": [
+  {
+   "claim": "Shenzhou crew rotation and Mengzhou/Lanyue schedule",
+   "source": "https://www.cmse.gov.cn/",
+   "review_by": "2026-12-31"
+  }
+ ]
+}

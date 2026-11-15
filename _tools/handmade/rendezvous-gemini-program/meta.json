@@ -1,0 +1,16 @@
+{
+ "slug": "rendezvous-gemini-program",
+ "codename": "RENDEZVOUS",
+ "label": {
+  "en": "The Gemini Program",
+  "ru": "Программа «Джемини»"
+ },
+ "llms": "Project Gemini, the bridge between Mercury and Apollo.",
+ "related": [
+  "ascent-mercury-program",
+  "tranquility-apollo-program",
+  "suit-spacesuits-eva",
+  "union-soyuz-program"
+ ],
+ "freshness": []
+}

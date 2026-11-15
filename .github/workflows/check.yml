@@ -2,7 +2,9 @@ name: Check
 
 # The whole test suite on every push and pull request: each generated guide must rebuild byte-identical to its committed
 # page and pass its numerical checks; every other guide gets the smoke test; then the whole-site checks
-# (shared blocks in place, Russian edition current, search index current, internal links, JSON-LD).
+# (shared blocks in place, Russian edition current, internal links, JSON-LD, and build-site.py --check: pages.json,
+# the index lists, llms.txt, related.json, freshness.json, search.json and sitemap.xml all match the manifests).
+# sitemap.xml is generated locally by _tools/build-site.py and committed with the change; no workflow writes to the repo.
 on:
   push:
     branches: [main]

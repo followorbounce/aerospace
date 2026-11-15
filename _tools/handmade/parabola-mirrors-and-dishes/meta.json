@@ -1,0 +1,16 @@
+{
+ "slug": "parabola-mirrors-and-dishes",
+ "codename": "PARABOLA",
+ "label": {
+  "en": "Parabola: Mirrors, Dishes & the Focus",
+  "ru": "Парабола: зеркала, антенны и фокус"
+ },
+ "llms": "an interactive guide to the parabola in telescopes — a live ray tracer (parabola vs sphere, coma), the sphere-vs-parabola tolerance and Hubble's 2 µm flaw recomputed from its conic constants, the Airy pattern and 1.22 λ/D, collecting area and the 8 m single-mirror limit, Webb's 18 segments phased with a real FFT image, radio-dish surface accuracy (Ruze) and FAST's sphere-to-paraboloid trick, the conic family and Cassegrain / Ritchey–Chrétien designs, and what sits at the focus.",
+ "related": [
+  "aperture-hubble-telescopes",
+  "link-deep-space-network",
+  "relay-telstar-syncom",
+  "james-webb-space-telescope"
+ ],
+ "freshness": []
+}

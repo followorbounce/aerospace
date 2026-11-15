@@ -9,5 +9,18 @@
  "hud1": "DISTANCE",
  "hud2": "SIGNAL DELAY",
  "hud1_ru": "РАССТОЯНИЕ",
- "hud2_ru": "ЗАДЕРЖКА СИГНАЛА"
+ "hud2_ru": "ЗАДЕРЖКА СИГНАЛА",
+ "codename": "RABBIT",
+ "label": {
+  "en": "Chang'e & the Far Side of the Moon",
+  "ru": "«Чанъэ» и обратная сторона Луны"
+ },
+ "llms": "China's robotic lunar programme 2007–2024 — Chang'e 1–3 and Yutu, a tidal-locking animation, the Queqiao relay at Earth–Moon L2 (L2 solved from the restricted three-body quintic, ~64,500 km beyond the Moon; why a halo offset of >~2,000 km is needed to be seen from Earth), Chang'e 4's first far-side landing, Chang'e 5's 1,731 g and 2.0-billion-year basalt with a lunar-ascent rocket-equation calculator, and Chang'e 6's 1,935.3 g of far-side samples.",
+ "related": [
+  "valor-the-chandrayaan-mission",
+  "palace-tiangong-station",
+  "luna-programs",
+  "touchdown-commercial-lunar-landers"
+ ],
+ "freshness": []
 }

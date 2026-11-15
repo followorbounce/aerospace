@@ -1,0 +1,16 @@
+{
+ "slug": "valor-the-chandrayaan-mission",
+ "codename": "VALOR",
+ "label": {
+  "en": "The Chandrayaan Missions",
+  "ru": "Миссии «Чандраян»"
+ },
+ "llms": "India's Chandrayaan lunar missions.",
+ "related": [
+  "rabbit-change-far-side",
+  "scout-lunar-reconnaissance-orbiter",
+  "prospect-clementine-mission",
+  "touchdown-commercial-lunar-landers"
+ ],
+ "freshness": []
+}

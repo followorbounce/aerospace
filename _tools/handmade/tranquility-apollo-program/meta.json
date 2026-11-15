@@ -1,0 +1,16 @@
+{
+ "slug": "tranquility-apollo-program",
+ "codename": "TRANQUILITY",
+ "label": {
+  "en": "The Apollo Program",
+  "ru": "Программа «Аполлон»"
+ },
+ "llms": "the Apollo Program and the first crewed Moon landings.",
+ "related": [
+  "thrust-saturn-v-n1",
+  "luna-programs",
+  "campaign-artemis-program",
+  "footing-ranger-surveyor"
+ ],
+ "freshness": []
+}

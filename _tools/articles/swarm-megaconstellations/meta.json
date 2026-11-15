@@ -9,5 +9,59 @@
  "hud1": "SATELLITES",
  "hud2": "ROUND TRIP",
  "hud1_ru": "СПУТНИКИ",
- "hud2_ru": "ТУДА И ОБРАТНО"
+ "hud2_ru": "ТУДА И ОБРАТНО",
+ "codename": "SWARM",
+ "label": {
+  "en": "Megaconstellations: Starlink, OneWeb & Amazon Leo",
+  "ru": "Мегасозвездия: Starlink, OneWeb и Amazon Leo"
+ },
+ "llms": "Satellite megaconstellations from Iridium's 66 satellites and the 1990s bankruptcies to Starlink's 11,000+ (October 2026): footprint and streets-of-coverage satellite counts, LEO vs GEO vs fibre latency for real city pairs (laser links beat fibre beyond ~3,000 km), a telescope streak simulator with Earth-shadow geometry for Rubin Observatory, and Starlink's collision-avoidance numbers.",
+ "related": [
+  "debris-space-junk",
+  "relay-telstar-syncom",
+  "return-reusable-rockets",
+  "navigator-gps"
+ ],
+ "freshness": [
+  {
+   "claim": "Starlink median latency 25.7 ms (June 2025) — already >1 year old",
+   "source": "https://itwire.com/business-it-news/business-technology/starlink-claims-dramatic-improvement-in-network-performance",
+   "review_by": "2026-12-31"
+  },
+  {
+   "claim": "Laser figures (>9,000 lasers, 42 PB/day, Jan 2024) — dated in text",
+   "source": "https://hackaday.com/2024/02/05/starlinks-inter-satellite-laser-links-are-setting-new-record-with-42-million-gb-per-day/",
+   "review_by": "2026-12-31"
+  },
+  {
+   "claim": "Starlink 13,015 launched / 11,154 in orbit / 9,726 operational / 1,861 down / 1,508 disposed (15 Oct 2026)",
+   "source": "https://planet4589.org/space/con/star/stats.html",
+   "review_by": "2027-01-15"
+  },
+  {
+   "claim": "Starlink shell table counts (15 Oct 2026)",
+   "source": "https://planet4589.org/space/con/conlist.html",
+   "review_by": "2027-01-15"
+  },
+  {
+   "claim": "OneWeb 660/636, Amazon Leo 398/355, Guowang 261/213, Qianfan 258/178, filing totals (15 Oct 2026)",
+   "source": "https://planet4589.org/space/con/conlist.html",
+   "review_by": "2027-01-15"
+  },
+  {
+   "claim": "Hero kicker \"11,154 Starlinks in orbit, 15 October 2026\"",
+   "source": "https://planet4589.org/space/con/star/stats.html",
+   "review_by": "2027-01-15"
+  },
+  {
+   "claim": "Collision-avoidance manoeuvres 207,152 (Dec 2025–May 2026) — next SpaceX semiannual report due ~Jan 2027",
+   "source": "https://www.space.com/space-exploration/satellites/every-spacex-starlink-satellite-has-to-dodge-a-collision-almost-weekly-and-experts-fear-the-worst",
+   "review_by": "2027-02-01"
+  },
+  {
+   "claim": "Amazon Leo name and status",
+   "source": "https://www.aboutamazon.com/news/innovation-at-amazon/what-is-amazon-project-kuiper",
+   "review_by": "2027-04-01"
+  }
+ ]
 }

@@ -1,0 +1,16 @@
+{
+ "slug": "transit-kepler-telescope",
+ "codename": "TRANSIT",
+ "label": {
+  "en": "Kepler Space Telescope",
+  "ru": "Телескоп «Кеплер»"
+ },
+ "llms": "NASA's Kepler Space Telescope and the transit method for finding exoplanets.",
+ "related": [
+  "parallax-gaia-mission",
+  "infrared-spitzer-telescope",
+  "spectrum-spectroscopy",
+  "james-webb-space-telescope"
+ ],
+ "freshness": []
+}

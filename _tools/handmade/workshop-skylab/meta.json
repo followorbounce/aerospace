@@ -1,0 +1,16 @@
+{
+ "slug": "workshop-skylab",
+ "codename": "WORKSHOP",
+ "label": {
+  "en": "Skylab & the First Stations",
+  "ru": "«Скайлэб» и первые станции"
+ },
+ "llms": "the first generation of space stations.",
+ "related": [
+  "salute-salyut-program",
+  "iss-and-mir",
+  "thrust-saturn-v-n1",
+  "suit-spacesuits-eva"
+ ],
+ "freshness": []
+}

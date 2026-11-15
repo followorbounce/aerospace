@@ -1,0 +1,16 @@
+{
+ "slug": "jezero-perseverance-rover",
+ "codename": "JEZERO",
+ "label": {
+  "en": "The Perseverance Rover",
+  "ru": "Марсоход Perseverance"
+ },
+ "llms": "NASA's Perseverance rover, the Ingenuity helicopter, and Mars Sample Return caching.",
+ "related": [
+  "retrieve-mars-sample-return",
+  "skycrane-curiosity-rover",
+  "quake-insight-mars",
+  "transfer-earth-to-mars"
+ ],
+ "freshness": []
+}

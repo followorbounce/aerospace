@@ -1,0 +1,16 @@
+{
+ "slug": "union-soyuz-program",
+ "codename": "UNION",
+ "label": {
+  "en": "Soyuz Program",
+  "ru": "Программа «Союз»"
+ },
+ "llms": "the Soyuz spacecraft, nearly sixty years of continuous crewed flight.",
+ "related": [
+  "iss-and-mir",
+  "first-vostok-voskhod",
+  "salute-salyut-program",
+  "handoff-commercial-crew-program"
+ ],
+ "freshness": []
+}

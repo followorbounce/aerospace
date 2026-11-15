@@ -9,5 +9,18 @@
  "hud1": "SUIT PRESSURE",
  "hud2": "TISSUE RATIO R",
  "hud1_ru": "ДАВЛЕНИЕ В СКАФАНДРЕ",
- "hud2_ru": "ТКАНЕВЫЙ КОЭФФИЦИЕНТ R"
+ "hud2_ru": "ТКАНЕВЫЙ КОЭФФИЦИЕНТ R",
+ "codename": "SUIT",
+ "label": {
+  "en": "Spacesuits & Spacewalks",
+  "ru": "Скафандры и выходы в открытый космос"
+ },
+ "llms": "spacesuits and EVA — suit pressure vs mobility vs decompression risk, NASA's tissue ratio R (360-min compartment, R ≤ 1.65 for the 4.3 psi EMU), oxygen prebreathe, the Shuttle staged protocol (model gives 1.65) and the ISS campout",
+ "related": [
+  "rendezvous-gemini-program",
+  "iss-and-mir",
+  "tranquility-apollo-program",
+  "horizon-artemis-base-camp"
+ ],
+ "freshness": []
 }

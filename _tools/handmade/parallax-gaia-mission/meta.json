@@ -1,0 +1,22 @@
+{
+ "slug": "parallax-gaia-mission",
+ "codename": "PARALLAX",
+ "label": {
+  "en": "Gaia Mission",
+  "ru": "Миссия «Гайя»"
+ },
+ "llms": "ESA's Gaia mission and its billion-star map of the Milky Way.",
+ "related": [
+  "transit-kepler-telescope",
+  "lagrange-points",
+  "dark-euclid-roman",
+  "aperture-hubble-telescopes"
+ ],
+ "freshness": [
+  {
+   "claim": "Gaia DR4 scheduled for 2 December 2026; final release (DR5) expected around the end of the decade",
+   "source": "https://www.cosmos.esa.int/web/gaia/release",
+   "review_by": "2026-12-15"
+  }
+ ]
+}

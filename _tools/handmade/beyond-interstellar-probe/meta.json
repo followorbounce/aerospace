@@ -1,0 +1,16 @@
+{
+ "slug": "beyond-interstellar-probe",
+ "codename": "BEYOND",
+ "label": {
+  "en": "Interstellar Probe Concept",
+  "ru": "Концепция межзвёздного зонда"
+ },
+ "llms": "a proposed, purpose-built successor to Voyager's interstellar mission.",
+ "related": [
+  "voyager-and-pioner",
+  "frontier-new-horizons",
+  "sail-solar-sails",
+  "slingshot-gravity-assists"
+ ],
+ "freshness": []
+}

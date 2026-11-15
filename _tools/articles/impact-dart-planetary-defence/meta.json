@@ -9,5 +9,18 @@
  "hud1": "Δv",
  "hud2": "PERIOD CHANGE",
  "hud1_ru": "Δv",
- "hud2_ru": "ИЗМЕНЕНИЕ ПЕРИОДА"
+ "hud2_ru": "ИЗМЕНЕНИЕ ПЕРИОДА",
+ "codename": "IMPACT",
+ "label": {
+  "en": "DART & Planetary Defence",
+  "ru": "DART и планетарная защита"
+ },
+ "llms": "NASA's DART kinetic-impact test on Dimorphos — impact energy vs asteroid size (Chelyabinsk), momentum enhancement β and the −33 min period change, warning time vs deflection (3Δv·t), ESA's Hera follow-up",
+ "related": [
+  "sample-hayabusa-osiris-rex",
+  "debris-space-junk",
+  "comet-rosetta-philae",
+  "belt-dawn-vesta-ceres"
+ ],
+ "freshness": []
 }

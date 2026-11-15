@@ -9,5 +9,39 @@
  "hud1": "SOL",
  "hud2": "CORE RADIUS",
  "hud1_ru": "СОЛ",
- "hud2_ru": "РАДИУС ЯДРА"
+ "hud2_ru": "РАДИУС ЯДРА",
+ "codename": "QUAKE",
+ "label": {
+  "en": "InSight & Marsquakes",
+  "ru": "InSight и марсотрясения"
+ },
+ "llms": "NASA's InSight lander (2018–2022): the SEIS seismometer and its wind shield, 1,319 marsquakes and the M4.7 S1222a, meteoroid impacts heard seismically and confirmed by MRO, crust, mantle and a liquid core revised from 1,830 km to ~1,650–1,675 km (molten silicate layer; 2025 inner-core claim), the HP³ mole's friction failure and the dust that ended the mission — with a moment calculator, a toy ray tracer fitted to S1000a, a mole-friction model and a solar-power model.",
+ "related": [
+  "viking",
+  "escape-maven-mars-atmosphere",
+  "jezero-perseverance-rover",
+  "transfer-earth-to-mars"
+ ],
+ "freshness": [
+  {
+   "claim": "Core radius \"as of November 2026\": liquid core ~1,650–1,675 km under a molten silicate layer",
+   "source": "https://doi.org/10.1038/s41586-023-06586-4",
+   "review_by": "2027-05-12"
+  },
+  {
+   "claim": "Solid inner core (613 ± 67 km, 2025) still debated, not independently confirmed",
+   "source": "https://doi.org/10.1038/s41586-025-09361-9",
+   "review_by": "2027-05-12"
+  },
+  {
+   "claim": "NSSDC Mars fact sheet still lists 1,830 km with a 1,650–1,675 km footnote (retrieved 2026-11-12)",
+   "source": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+   "review_by": "2027-11-12"
+  },
+  {
+   "claim": "1,319 marsquakes = NASA's end-of-mission count; the Marsquake Service reference catalogue (being finalised in 2025) lists over 1,900 events — update when the catalogue paper appears",
+   "source": "https://www.jpl.nasa.gov/news/nasa-retires-insight-mars-lander-mission-after-years-of-science/",
+   "review_by": "2027-05-12"
+  }
+ ]
 }

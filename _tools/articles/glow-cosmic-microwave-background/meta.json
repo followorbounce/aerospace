@@ -9,5 +9,18 @@
  "hud1": "TEMPERATURE",
  "hud2": "AGE THEN",
  "hud1_ru": "ТЕМПЕРАТУРА",
- "hud2_ru": "ВОЗРАСТ ТОГДА"
+ "hud2_ru": "ВОЗРАСТ ТОГДА",
+ "codename": "GLOW",
+ "label": {
+  "en": "The Cosmic Microwave Background: COBE, WMAP & Planck",
+  "ru": "Реликтовое излучение: COBE, WMAP и «Планк»"
+ },
+ "llms": "The cosmic microwave background from Penzias & Wilson's 3.5 K hiss to Planck: Planck's law fitted to the real 43-point COBE/FIRAS spectrum (2.725 K, < 50 ppm), T = T₀(1+z) and the age at last scattering (~370,000 yr) from Planck 2018 densities, the 3.36 mK dipole from our 370 km/s motion and the 1-in-100,000 ripples, and a simulated sky patch seen through COBE 7°, WMAP 13′ and Planck 5′ beams with WMAP's first peak at ℓ = 220.",
+ "related": [
+  "dark-euclid-roman",
+  "spectrum-spectroscopy",
+  "lagrange-points",
+  "ripple-gravitational-waves"
+ ],
+ "freshness": []
 }

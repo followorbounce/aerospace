@@ -1,0 +1,16 @@
+{
+ "slug": "james-webb-space-telescope",
+ "codename": "UNFOLD",
+ "label": {
+  "en": "James Webb Space Telescope",
+  "ru": "«Джеймс Уэбб»"
+ },
+ "llms": "the James Webb Space Telescope, its deployment, and its discoveries.",
+ "related": [
+  "aperture-hubble-telescopes",
+  "infrared-spitzer-telescope",
+  "lagrange-points",
+  "parabola-mirrors-and-dishes"
+ ],
+ "freshness": []
+}

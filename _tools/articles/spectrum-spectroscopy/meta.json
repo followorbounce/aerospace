@@ -9,5 +9,18 @@
  "hud1": "WAVELENGTH",
  "hud2": "READING",
  "hud1_ru": "ДЛИНА ВОЛНЫ",
- "hud2_ru": "ПОКАЗАНИЕ"
+ "hud2_ru": "ПОКАЗАНИЕ",
+ "codename": "SPECTRUM",
+ "label": {
+  "en": "Spectroscopy: What Starlight Says",
+  "ru": "Спектроскопия: о чём говорит свет звёзд"
+ },
+ "llms": "Spectroscopy from Newton's prism to exoplanets: the 1966 solar atlas's dark lines matched to NIST laboratory lines (sodium, iron, hydrogen — and no helium), helium found in the Sun in 1868 and on Earth in 1895, hydrogen's Rydberg ladder checked against NIST to 0.02 nm, the Harvard classification (225,300 HD stars), Cecilia Payne's 1925 temperature sequence and the hydrogen-rich Sun she found and doubted, and the 59 m/s Doppler wobble of 51 Pegasi b.",
+ "related": [
+  "glow-cosmic-microwave-background",
+  "transit-kepler-telescope",
+  "mathematics-of-music",
+  "xray-chandra-observatory"
+ ],
+ "freshness": []
 }

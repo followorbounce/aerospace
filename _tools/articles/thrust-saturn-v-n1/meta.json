@@ -9,5 +9,18 @@
  "hud1": "TOTAL Δv",
  "hud2": "LIFTOFF T/W",
  "hud1_ru": "СУММАРНОЕ Δv",
- "hud2_ru": "ТЯГОВООРУЖЁННОСТЬ"
+ "hud2_ru": "ТЯГОВООРУЖЁННОСТЬ",
+ "codename": "THRUST",
+ "label": {
+  "en": "Saturn V & N1",
+  "ru": "«Сатурн-5» и Н-1"
+ },
+ "llms": "the two Moon rockets — Apollo 11's real Saturn V stage weights through the staged rocket equation (vs. one stage), the N1's 30 NK-15 engines and KORD engine-out thrust-to-weight, and the four N1 failures 1969–1972",
+ "related": [
+  "nozzle-rocket-engines",
+  "tranquility-apollo-program",
+  "return-reusable-rockets",
+  "luna-programs"
+ ],
+ "freshness": []
 }

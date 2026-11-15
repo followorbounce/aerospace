@@ -9,5 +9,29 @@
  "hud1": "RESOLUTION",
  "hud2": "CATCH WINDOW",
  "hud1_ru": "РАЗРЕШЕНИЕ",
- "hud2_ru": "ОКНО ПОДХВАТА"
+ "hud2_ru": "ОКНО ПОДХВАТА",
+ "codename": "BUCKET",
+ "label": {
+  "en": "CORONA, Zenit & the First Spy Satellites",
+  "ru": "CORONA, «Зенит» и первые спутники-разведчики"
+ },
+ "llms": "The first spy satellites: CORONA's twelve failures before Discoverer XIV's film was caught in mid-air on 19 Aug 1960, a retro-burn → re-entry → parachute → air-catch model with the Pacific recovery zone, ground resolution from focal length, film lp/mm and altitude checked against KH-1…KH-4B (12.2 m → 1.8 m), panoramic swath, the low-perigee lifetime trade, the Soviet Zenit, KH-11 (1976) and the 1995 declassification.",
+ "related": [
+  "sunsync-earth-observation",
+  "almaz-program-ussr",
+  "parabola-mirrors-and-dishes",
+  "entry-heat-shields"
+ ],
+ "freshness": [
+  {
+   "claim": "",
+   "source": "---",
+   "review_by": "2027-01-31"
+  },
+  {
+   "claim": "USGS EarthExplorer: existing CORONA scans free to download, on-demand scans $30/frame (as of October 2026)",
+   "source": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-declassified-data-declassified-satellite-imagery-1",
+   "review_by": "2027-10-01"
+  }
+ ]
 }

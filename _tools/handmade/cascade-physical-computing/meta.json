@@ -1,0 +1,16 @@
+{
+ "slug": "cascade-physical-computing",
+ "codename": "CASCADE",
+ "label": {
+  "en": "Physical Computing",
+  "ru": "Физика вычислений"
+ },
+ "llms": "from a voltage crossing a threshold to a switching transistor, logic, memory, clocks, and CPU instructions, up through Arduino, ESP32, Raspberry Pi, FPGAs, and ASICs.",
+ "related": [
+  "common-ground-basic-logic",
+  "build-your-own-cubesat",
+  "mathematics-of-music",
+  "link-deep-space-network"
+ ],
+ "freshness": []
+}

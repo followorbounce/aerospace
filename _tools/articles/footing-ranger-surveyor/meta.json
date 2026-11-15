@@ -9,5 +9,39 @@
  "hud1": "ALTITUDE",
  "hud2": "SPEED",
  "hud1_ru": "ВЫСОТА",
- "hud2_ru": "СКОРОСТЬ"
+ "hud2_ru": "СКОРОСТЬ",
+ "codename": "FOOTING",
+ "label": {
+  "en": "Ranger, Surveyor & the Ground under Apollo",
+  "ru": "«Рейнджер», «Сервейер» и грунт под «Аполлоном»"
+ },
+ "llms": "How robots answered \"will the Moon hold a lander?\" before Apollo: Ranger 1–6's failures and Ranger 7–9's impact cameras (scan-line footprint vs seconds to impact), Surveyor 1's terminal descent from its Hughes flight report (retro ignition window, vernier contour, 12-ft free fall to 3.7 m/s), footpad pressure vs the 2.7 N/cm² Surveyor 5 soil and the 1964 LM design soil, Lunar Orbiter's 1 m from 46 km and image-motion compensation, and Apollo 12's visit to Surveyor 3 with the Streptococcus mitis story re-examined.",
+ "related": [
+  "tranquility-apollo-program",
+  "luna-programs",
+  "scout-lunar-reconnaissance-orbiter",
+  "touchdown-commercial-lunar-landers"
+ ],
+ "freshness": [
+  {
+   "claim": "Surveyor 3's camera is on display at the National Air and Space Museum",
+   "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
+   "review_by": "2028-11-12"
+  },
+  {
+   "claim": "Impact/landing positions \"as determined from LRO images\" (Rangers 6–9, Surveyors, Apollo 12 LM) — could be refined",
+   "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C",
+   "review_by": "2028-11-12"
+  },
+  {
+   "claim": "NASM Surveyor footpad object record (diameter 29.8 cm)",
+   "source": "https://airandspace.si.edu/collection-objects/pad-landing-leg-surveyor/nasm_A19721105000",
+   "review_by": "2028-11-12"
+  },
+  {
+   "claim": "Rummel/Allton/Morrison slides hosted at smd-cms.nasa.gov (link rot risk)",
+   "source": "https://smd-cms.nasa.gov/wp-content/uploads/2023/04/A_Microbe_on_the_Moon_TAGGED.pdf",
+   "review_by": "2027-11-12"
+  }
+ ]
 }

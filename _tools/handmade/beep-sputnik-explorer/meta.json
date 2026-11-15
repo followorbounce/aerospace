@@ -1,0 +1,16 @@
+{
+ "slug": "beep-sputnik-explorer",
+ "codename": "BEEP",
+ "label": {
+  "en": "Sputnik, Explorer & the First Satellites",
+  "ru": "«Спутник», «Эксплорер» и первые спутники"
+ },
+ "llms": "the first satellites of 1957–58 — Kepler orbits of Sputnik 1/2 and Explorer 1, the Doppler curve that let APL fit Sputnik's orbit and became Transit navigation (with an audible pass), Laika, the Geiger-counter dead-time paradox that revealed the Van Allen belts, Explorer 1's major-axis tumble, and Vanguard 1's pear-shaped Earth.",
+ "related": [
+  "first-vostok-voskhod",
+  "passenger-animals-in-space",
+  "luna-programs",
+  "physics-of-spaceflight"
+ ],
+ "freshness": []
+}

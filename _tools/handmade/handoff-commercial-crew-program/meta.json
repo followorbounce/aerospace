@@ -1,0 +1,16 @@
+{
+ "slug": "handoff-commercial-crew-program",
+ "codename": "HANDOFF",
+ "label": {
+  "en": "Commercial Crew Program",
+  "ru": "Программа Commercial Crew"
+ },
+ "llms": "NASA's Commercial Crew Program, Crew Dragon, and Starliner.",
+ "related": [
+  "return-reusable-rockets",
+  "iss-and-mir",
+  "orbiter-space-shuttle-program",
+  "union-soyuz-program"
+ ],
+ "freshness": []
+}

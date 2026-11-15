@@ -9,5 +9,54 @@
  "hud1": "ALTITUDE",
  "hud2": "SPEED",
  "hud1_ru": "ВЫСОТА",
- "hud2_ru": "СКОРОСТЬ"
+ "hud2_ru": "СКОРОСТЬ",
+ "codename": "TOUCHDOWN",
+ "label": {
+  "en": "The New Lunar Landers, 2019–2026",
+  "ru": "Новые лунные посадочные аппараты, 2019–2026"
+ },
+ "llms": "The lunar landing attempts of 2019–2025 (Beresheet, Vikram, HAKUTO-R M1, Luna-25, SLIM, Peregrine, Odysseus, Blue Ghost M1, Athena, Resilience, with Chang'e and Chandrayaan in the scorecard): descent Δv budget and hover margin, an altitude-filter model of HAKUTO-R's 5 km fall, landing ellipse vs pinpoint on a synthetic crater field, a tip-over envelope from centre-of-mass height, stance, slope and sideways speed, and a dated scorecard of every attempt as of November 2026.",
+ "related": [
+  "valor-the-chandrayaan-mission",
+  "footing-ranger-surveyor",
+  "rabbit-change-far-side",
+  "mascon-grail-lunar-gravity"
+ ],
+ "freshness": [
+  {
+   "claim": "\"As of 12 November 2026 no lander has attempted a lunar landing since Resilience on 5 June 2025 (UTC)\"; 525 days (AS_OF in script.js)",
+   "source": "https://en.wikipedia.org/wiki/Commercial_Lunar_Payload_Services",
+   "review_by": "2027-01-15"
+  },
+  {
+   "claim": "Griffin-1 (Astrobotic) listed for no earlier than January 2027 (Aerospace America 15 Sept 2026 said NET November 2026)",
+   "source": "https://en.wikipedia.org/wiki/Commercial_Lunar_Payload_Services",
+   "review_by": "2027-01-15"
+  },
+  {
+   "claim": "Blue Moon MK1 and IM-3 slipped to \"the first part of 2027\"; Blue Ghost M2 later in 2027 (as of 15 Sept 2026)",
+   "source": "https://aerospaceamerica.aiaa.org/nasa-expects-one-lunar-launch-this-year-moon-base-manager-says/",
+   "review_by": "2027-02-15"
+  },
+  {
+   "claim": "Chang'e 7 missed its August 2026 window, no new date announced",
+   "source": "https://www.ksat.com/tech/2026/08/23/china-abruptly-postpones-ambitious-change-7-lunar-mission-launch/",
+   "review_by": "2027-02-15"
+  },
+  {
+   "claim": "Scorecard of 14 missions, 5 upright / 3 down-not-upright / 5 crashed / 1 never arrived (add rows when new attempts happen; update AS_OF, the lede \"fourteen…five\", ch.7 status text, timeline 2026 row and checks)",
+   "source": "(rows' own refs)",
+   "review_by": "2027-01-15"
+  },
+  {
+   "claim": "Outcome labels (IM-1 \"partial failure\", IM-2 \"failure\", Blue Ghost \"first fully successful CLPS landing\")",
+   "source": "https://en.wikipedia.org/wiki/Commercial_Lunar_Payload_Services",
+   "review_by": "2027-05-12"
+  },
+  {
+   "claim": "Beresheet, Luna-25, IM-2 causes are preliminary/company statements; check for final reports",
+   "source": "https://www.timesofisrael.com/5-6-attempts-to-restart-israeli-moon-landers-engine-failed-investigation-finds/",
+   "review_by": "2027-05-12"
+  }
+ ]
 }

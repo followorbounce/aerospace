@@ -9,5 +9,18 @@
  "hud1": "PAYLOAD",
  "hud2": "LANDING",
  "hud1_ru": "ПОЛЕЗНАЯ НАГРУЗКА",
- "hud2_ru": "ПОСАДКА"
+ "hud2_ru": "ПОСАДКА",
+ "codename": "RETURN",
+ "label": {
+  "en": "Falcon 9, Starship & Reusable Rockets",
+  "ru": "Falcon 9, Starship и многоразовые ракеты"
+ },
+ "llms": "reusable boosters — payload cost of keeping propellant for recovery (illustrative two-stage model vs. the MIT IAC-18 ranges), why a Falcon 9 booster cannot hover and must time its landing burn, first landings and reflights, Starship's tower catch",
+ "related": [
+  "nozzle-rocket-engines",
+  "thrust-saturn-v-n1",
+  "swarm-megaconstellations",
+  "handoff-commercial-crew-program"
+ ],
+ "freshness": []
 }

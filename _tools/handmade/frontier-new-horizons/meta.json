@@ -1,0 +1,16 @@
+{
+ "slug": "frontier-new-horizons",
+ "codename": "FRONTIER",
+ "label": {
+  "en": "New Horizons & the Kuiper Belt",
+  "ru": "«Новые горизонты» и пояс Койпера"
+ },
+ "llms": "New Horizons, Pluto, and the Kuiper Belt.",
+ "related": [
+  "voyager-and-pioner",
+  "beyond-interstellar-probe",
+  "slingshot-gravity-assists",
+  "tilt-uranus-neptune"
+ ],
+ "freshness": []
+}

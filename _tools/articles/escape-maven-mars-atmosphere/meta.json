@@ -9,5 +9,49 @@
  "hud1": "READING",
  "hud2": "RESULT",
  "hud1_ru": "ПОКАЗАНИЕ",
- "hud2_ru": "РЕЗУЛЬТАТ"
+ "hud2_ru": "РЕЗУЛЬТАТ",
+ "codename": "ESCAPE",
+ "label": {
+  "en": "MAVEN & Where Mars's Air Went",
+  "ru": "MAVEN: куда делся воздух Марса"
+ },
+ "llms": "How Mars lost its atmosphere: scale height and exobase, Jeans escape of hydrogen (calculator for Mars and Earth), hot oxygen from O2+ recombination versus escape energy, ion pickup and sputtering, why gravity matters more than the missing magnetic field, MAVEN's 2014–2025 loss budget (2–3 kg/s) and its loss in December 2025, solar-storm boosts, argon 38/36 and D/H Rayleigh distillation, and four billion years of loss under a brighter young Sun.",
+ "related": [
+  "transfer-earth-to-mars",
+  "jezero-perseverance-rover",
+  "skycrane-curiosity-rover",
+  "quake-insight-mars"
+ ],
+ "freshness": [
+  {
+   "claim": "MAVEN lost 6 Dec 2025, mission ended 3 Jun 2026, preliminary cause (spin drained batteries), no final root cause published as of Nov 2026",
+   "source": "https://science.nasa.gov/mission/maven/",
+   "review_by": "2027-03-01"
+  },
+  {
+   "claim": "Mars Express: ESA Science Programme Committee endorsed a further extension on 10–11 June 2026, no new end date published (as of Nov 2026)",
+   "source": "https://www.esa.int/Science_Exploration/Space_Science/ESA_science_missions_get_green_light_for_new_discoveries",
+   "review_by": "2027-01-15"
+  },
+  {
+   "claim": "MAVEN \"more than 800 publications\"",
+   "source": "https://www.collectspace.com/news/news-060326a-maven-mars-atmosphere-probe-end-mission.html",
+   "review_by": "2027-06-01"
+  },
+  {
+   "claim": "Tianwen-1 MOMAG measuring since 13 Nov 2021 (implied ongoing)",
+   "source": "https://arxiv.org/abs/2301.00677",
+   "review_by": "2027-05-12"
+  },
+  {
+   "claim": "NSSDC Mars fact sheet values (6.36 mb, 11.0 km, 214 K, 43.49) — revised periodically",
+   "source": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+   "review_by": "2027-11-12"
+  },
+  {
+   "claim": "MAVEN review board final report (expected later in 2026) still unpublished as of 12 Nov 2026",
+   "source": "https://science.nasa.gov/mission/maven/",
+   "review_by": "2027-01-15"
+  }
+ ]
 }

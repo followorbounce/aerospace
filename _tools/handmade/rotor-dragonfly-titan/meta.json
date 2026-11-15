@@ -1,0 +1,16 @@
+{
+ "slug": "rotor-dragonfly-titan",
+ "codename": "ROTOR",
+ "label": {
+  "en": "Dragonfly Mission",
+  "ru": "Миссия Dragonfly"
+ },
+ "llms": "NASA's Dragonfly rotorcraft mission to Saturn's moon Titan.",
+ "related": [
+  "finale-cassini-huygens",
+  "jezero-perseverance-rover",
+  "flyby-europa-clipper",
+  "entry-heat-shields"
+ ],
+ "freshness": []
+}

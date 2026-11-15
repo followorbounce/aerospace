@@ -9,5 +9,34 @@
  "hud1": "ALTITUDE",
  "hud2": "ANOMALY",
  "hud1_ru": "ВЫСОТА",
- "hud2_ru": "АНОМАЛИЯ"
+ "hud2_ru": "АНОМАЛИЯ",
+ "codename": "MASCON",
+ "label": {
+  "en": "Mascons & GRAIL: the Moon's Lumpy Gravity",
+  "ru": "Масконы и GRAIL: неровная гравитация Луны"
+ },
+ "llms": "Lunar gravity from the 1968 discovery of mascons in Lunar Orbiter tracking to GRAIL: point-mass anomalies vs altitude, a satellite integrated in the real GRGM1200A field (PFS-2's 35-day fall, frozen inclinations 27°/50°/76°/86°), Ebb and Flow's Ka-band range-rate signal at 0.05 µm/s, gravity-field degree vs resolution to GL1800F, and the 34–43 km porous crust.",
+ "related": [
+  "scout-lunar-reconnaissance-orbiter",
+  "tranquility-apollo-program",
+  "touchdown-commercial-lunar-landers",
+  "link-deep-space-network"
+ ],
+ "freshness": [
+  {
+   "claim": "GL1800F (degree 1800, posted 2025) is the highest-degree GRAIL field in the PDS archive as of November 2026",
+   "source": "https://pds-geosciences.wustl.edu/grail/grail-l-lgrs-5-rdr-v1/grail_1001/shadr/",
+   "review_by": "2027-11-12"
+  },
+  {
+   "claim": "Park et al. 2025 thermal-asymmetry result (k₃ = 0.0163) as the latest GRAIL interior finding cited",
+   "source": "https://doi.org/10.1038/s41586-025-08949-5",
+   "review_by": "2027-11-12"
+  },
+  {
+   "claim": "\"Bizarre Lunar Orbits\" reachable only via web archive (link rot check)",
+   "source": "https://webarchive.library.unt.edu/eot2008/20090512014231/http:/science.nasa.gov/headlines/y2006/06nov_loworbit.htm",
+   "review_by": "2027-05-12"
+  }
+ ]
 }

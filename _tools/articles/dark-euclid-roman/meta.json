@@ -9,5 +9,29 @@
  "hud1": "DARK SHARE",
  "hud2": "SIGNAL / NOISE",
  "hud1_ru": "ДОЛЯ ТЁМНОЙ МАССЫ",
- "hud2_ru": "СИГНАЛ / ШУМ"
+ "hud2_ru": "СИГНАЛ / ШУМ",
+ "codename": "DARK",
+ "label": {
+  "en": "Euclid & Roman: Dark Matter and Dark Energy",
+  "ru": "Euclid и Roman: тёмная материя и тёмная энергия"
+ },
+ "llms": "Dark matter and dark energy: Zwicky's 1933 cluster, a real dark-halo fit to galaxy NGC 3198 (SPARC data), the 1998 accelerating-universe supernovae in a luminosity-distance calculator, why weak lensing needs a billion galaxies (shape noise), ESA's Euclid (2023) and NASA's Roman (launched 30 Aug 2026), and DESI's evolving-dark-energy hints with their stated significance.",
+ "related": [
+  "glow-cosmic-microwave-background",
+  "parallax-gaia-mission",
+  "james-webb-space-telescope",
+  "lagrange-points"
+ ],
+ "freshness": [
+  {
+   "claim": "Euclid DR1 in November 2026 (exact date not announced)",
+   "source": "https://www.esa.int/Science_Exploration/Space_Science/Euclid",
+   "review_by": "2026-11-30"
+  },
+  {
+   "claim": "Roman launched 30 Aug 2026; first science images expected by early 2027",
+   "source": "https://science.nasa.gov/mission/roman-space-telescope/",
+   "review_by": "2027-01-31"
+  }
+ ]
 }

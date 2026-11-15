@@ -1,0 +1,16 @@
+{
+ "slug": "umbrella-galileo-jupiter",
+ "codename": "UMBRELLA",
+ "label": {
+  "en": "Galileo at Jupiter",
+  "ru": "«Галилео» у Юпитера"
+ },
+ "llms": "NASA's Galileo mission to Jupiter.",
+ "related": [
+  "polar-juno-jupiter",
+  "flyby-europa-clipper",
+  "finale-cassini-huygens",
+  "link-deep-space-network"
+ ],
+ "freshness": []
+}

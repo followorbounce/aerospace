@@ -9,5 +9,24 @@
  "hud1": "SUNLIGHT",
  "hud2": "Δv",
  "hud1_ru": "СОЛНЕЧНЫЙ СВЕТ",
- "hud2_ru": "Δv"
+ "hud2_ru": "Δv",
+ "codename": "SCORCH",
+ "label": {
+  "en": "Mercury: MESSENGER & BepiColombo",
+  "ru": "Меркурий: MESSENGER и BepiColombo"
+ },
+ "llms": "Why orbiting Mercury costs more than leaving the Solar System (Hohmann + capture calculator), Mariner 10 and Colombo's gravity assists, MESSENGER's six flybys and 0.86 km/s capture, sunshade thermal model, the 3:2 spin–orbit resonance animated (176-day solar day, retrograde Sun), polar ice, and BepiColombo's arrival planned for 21 November 2026.",
+ "related": [
+  "slingshot-gravity-assists",
+  "corona-parker-solar-orbiter",
+  "veil-magellan-venus",
+  "physics-of-spaceflight"
+ ],
+ "freshness": [
+  {
+   "claim": "BepiColombo orbit insertion planned for 21 Nov 2026 (status chapter, timeline, hero)",
+   "source": "https://www.esa.int/Science_Exploration/Space_Science/BepiColombo",
+   "review_by": "2026-11-25"
+  }
+ ]
 }

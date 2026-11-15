@@ -1,0 +1,16 @@
+{
+ "slug": "xray-chandra-observatory",
+ "codename": "XRAY",
+ "label": {
+  "en": "Chandra X-ray Observatory",
+  "ru": "Рентгеновская обсерватория «Чандра»"
+ },
+ "llms": "NASA's Chandra X-ray Observatory and its grazing-incidence optics.",
+ "related": [
+  "burst-gamma-ray-bursts",
+  "aperture-hubble-telescopes",
+  "parabola-mirrors-and-dishes",
+  "spectrum-spectroscopy"
+ ],
+ "freshness": []
+}

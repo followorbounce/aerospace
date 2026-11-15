@@ -9,5 +9,79 @@
  "hud1": "PIXEL STRETCH",
  "hud2": "POLAR GAP",
  "hud1_ru": "РАСТЯЖЕНИЕ ПИКСЕЛЯ",
- "hud2_ru": "ПОЛЯРНЫЙ ИНТЕРВАЛ"
+ "hud2_ru": "ПОЛЯРНЫЙ ИНТЕРВАЛ",
+ "codename": "FORECAST",
+ "label": {
+  "en": "Weather Satellites: TIROS, GOES & Meteosat",
+  "ru": "Метеоспутники: TIROS, GOES и «Метеосат»"
+ },
+ "llms": "Weather satellites from TIROS-1's first cloud picture (1960) to GOES-19, Meteosat Third Generation, Himawari and JPSS (as of October 2026): geostationary vs polar coverage and revisit by latitude, ABI pixel growth computed on the GOES fixed grid (2 km at nadir, 2.4 × 3.1 km over Kansas, 2.2 × 5.9 km at 60° N), and Planck inversion of 10.3 µm radiance to cloud-top temperature and height, with the split window.",
+ "related": [
+  "sunsync-earth-observation",
+  "relay-telstar-syncom",
+  "spectrum-spectroscopy",
+  "corona-parker-solar-orbiter"
+ ],
+ "freshness": [
+  {
+   "claim": "Metop-SG-A1 in commissioning (Aug 2026)",
+   "source": "https://space.oscar.wmo.int/satellites/view/metop_sg_a1",
+   "review_by": "2026-12-31"
+  },
+  {
+   "claim": "Metop-SG-B1 at Kourou, launch expected end of 2026",
+   "source": "https://www.esa.int/Applications/Observing_the_Earth/Meteorological_missions/MetOp_Second_Generation/MetOp-SG-B1_weather_satellite_arrives_at_Europe_s_Spaceport",
+   "review_by": "2026-12-31"
+  },
+  {
+   "claim": "MTG-S1 commissioned 2 Jul 2026, at 0°, IRS every 30 min",
+   "source": "https://www.esa.int/Applications/Observing_the_Earth/Meteorological_missions/meteosat_third_generation/MTG-S1_commissioned_and_in_position_for_weather_forecasting",
+   "review_by": "2027-01-31"
+  },
+  {
+   "claim": "MTG-I2 launched 27 Aug 2026, bound for 9.5° E",
+   "source": "https://www.esa.int/ESA_Multimedia/Images/2026/08/MTG-I2_is_launched_from_Europe_s_Spaceport",
+   "review_by": "2027-01-31"
+  },
+  {
+   "claim": "FY-4C launched 27 Dec 2025, to replace FY-4A",
+   "source": "https://wmo.int/node/38159",
+   "review_by": "2027-01-31"
+  },
+  {
+   "claim": "JPSS-4 (NOAA-22) next, launch readiness 2027",
+   "source": "https://www.nesdis.noaa.gov/our-satellites/currently-flying/joint-polar-satellite-system",
+   "review_by": "2027-01-31"
+  },
+  {
+   "claim": "GOES-19 is GOES-East at 75.2° W; GOES-18 GOES-West at 137.0° W; GOES-16 backup at 104.7° W",
+   "source": "https://www.ospo.noaa.gov/operations/goes/status.html",
+   "review_by": "2027-04-01"
+  },
+  {
+   "claim": "GOES-19 safe hold, mid-July 2026",
+   "source": "https://wtop.com/weather-news/2026/07/noaa-weather-satellite-outage-highlights-how-much-forecasters-depend-on-space-based-data/",
+   "review_by": "2027-04-01"
+  },
+  {
+   "claim": "Meteosat-12 operational at 0.3° W",
+   "source": "https://space.oscar.wmo.int/satellites/view/meteosat_12",
+   "review_by": "2027-04-01"
+  },
+  {
+   "claim": "Himawari-9 primary since 13 Dec 2022",
+   "source": "https://www.jma.go.jp/jma/jma-eng/satellite/himawari89.html",
+   "review_by": "2027-04-01"
+  },
+  {
+   "claim": "NOAA-21 operational, 824 km",
+   "source": "https://space.oscar.wmo.int/satellites/view/noaa_21",
+   "review_by": "2027-04-01"
+  },
+  {
+   "claim": "Meteor-M No. 2-4 operational",
+   "source": "https://space.oscar.wmo.int/satellites/view/meteor_m_n2_4",
+   "review_by": "2027-04-01"
+  }
+ ]
 }

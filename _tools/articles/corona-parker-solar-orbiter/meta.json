@@ -9,5 +9,18 @@
  "hud1": "DISTANCE",
  "hud2": "SPEED",
  "hud1_ru": "РАССТОЯНИЕ",
- "hud2_ru": "СКОРОСТЬ"
+ "hud2_ru": "СКОРОСТЬ",
+ "codename": "CORONA",
+ "label": {
+  "en": "Parker Solar Probe & Solar Orbiter",
+  "ru": "Parker Solar Probe и Solar Orbiter"
+ },
+ "llms": "flying to the Sun — why lowering perihelion from 1 AU costs more than escaping the Solar System (Δv calculator), Helios's 1970s records, Parker Solar Probe's 11.43 cm shield with a sunlit-plate equilibrium-temperature model (α/ε), the 2021 first flight through the corona and the 24 December 2024 record (6.17 million km, 192.2 km/s, reproduced by vis-viva), and Solar Orbiter's first views of the Sun's poles.",
+ "related": [
+  "slingshot-gravity-assists",
+  "entry-heat-shields",
+  "scorch-mercury-messenger-bepicolombo",
+  "spectrum-spectroscopy"
+ ],
+ "freshness": []
 }

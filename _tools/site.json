@@ -1,0 +1,349 @@
+{
+  "_about": "The site manifest: site block, external links, and the categories with their titles and their guides in display order. Everything about one guide (codename, labels, llms.txt line, related guides, freshness rows) is in its own meta.json (_tools/articles/<slug>/ for generated guides, _tools/handmade/<slug>/ for the rest). python3 _tools/build-site.py writes pages.json, the guide lists in index.html, llms.txt, related.json, _tools/freshness.json, search.json and sitemap.xml from these; never edit those by hand. In \"guides\": a string is a guide slug, {\"planned\": {en, ru}} is a SOON row, {\"external_links\": true} is where the \"external\" links are listed on the index page, {\"also\": slug} lists a guide a second time on the index page only (its home category is the one that names it as a plain string).",
+  "site": {
+    "base": "/aerospace/",
+    "url": "https://followorbounce.github.io/aerospace/",
+    "title": { "en": "Aerospace Knowledge Hub", "ru": "Аэрокосмический справочник" }
+  },
+  "external": [
+    { "label": "NASA", "url": "https://www.nasa.gov/" },
+    { "label": "SpaceX", "url": "https://www.spacex.com/" },
+    { "label": "arXiv · astro-ph", "url": "https://arxiv.org/search/?query=aerospace&searchtype=all&source=header" }
+  ],
+  "categories": [
+    {
+      "id": "dawn",
+      "title": { "en": "Dawn of the Space Age", "ru": "Начало космической эры" },
+      "guides": [
+        "beep-sputnik-explorer",
+        "first-vostok-voskhod",
+        "passenger-animals-in-space"
+      ]
+    },
+    {
+      "id": "orbit",
+      "title": { "en": "Earth Orbit & Applications", "ru": "Околоземная орбита и её применение" },
+      "guides": [
+        "navigator-gps",
+        "sunsync-earth-observation",
+        "debris-space-junk",
+        "relay-telstar-syncom",
+        "swarm-megaconstellations",
+        "forecast-weather-satellites",
+        "bucket-corona-spy-satellites"
+      ]
+    },
+    {
+      "id": "stations",
+      "title": { "en": "Space Stations", "ru": "Космические станции" },
+      "guides": [
+        "iss-and-mir",
+        "workshop-skylab",
+        "salute-salyut-program",
+        "palace-tiangong-station",
+        "almaz-program-ussr"
+      ]
+    },
+    {
+      "id": "probes",
+      "title": { "en": "Deep Space Probes", "ru": "Межпланетные зонды" },
+      "guides": [
+        "voyager-and-pioner",
+        "frontier-new-horizons",
+        "umbrella-galileo-jupiter",
+        "finale-cassini-huygens",
+        "furnace-venera-vega",
+        "polar-juno-jupiter",
+        "scorch-mercury-messenger-bepicolombo",
+        "veil-magellan-venus"
+      ]
+    },
+    {
+      "id": "sun",
+      "title": { "en": "The Sun & Small Bodies", "ru": "Солнце и малые тела" },
+      "guides": [
+        "corona-parker-solar-orbiter",
+        "comet-rosetta-philae",
+        "sample-hayabusa-osiris-rex",
+        "impact-dart-planetary-defence",
+        "belt-dawn-vesta-ceres"
+      ]
+    },
+    {
+      "id": "moon",
+      "title": { "en": "Moon Exploration", "ru": "Исследование Луны" },
+      "guides": [
+        "luna-programs",
+        "tranquility-apollo-program",
+        "prospect-clementine-mission",
+        "scout-lunar-reconnaissance-orbiter",
+        "valor-the-chandrayaan-mission",
+        "campaign-artemis-program",
+        "rabbit-change-far-side",
+        "footing-ranger-surveyor",
+        "mascon-grail-lunar-gravity",
+        "touchdown-commercial-lunar-landers"
+      ]
+    },
+    {
+      "id": "mars",
+      "title": { "en": "Mars Exploration", "ru": "Исследование Марса" },
+      "guides": [
+        "viking",
+        "bounce-mars-pathfinder",
+        "troy-spirit-rover",
+        "marathon-opportunity-rover",
+        "skycrane-curiosity-rover",
+        "jezero-perseverance-rover",
+        "transfer-earth-to-mars",
+        "quake-insight-mars",
+        "escape-maven-mars-atmosphere"
+      ]
+    },
+    {
+      "id": "telescopes",
+      "title": { "en": "Space Telescopes", "ru": "Космические телескопы" },
+      "guides": [
+        "aperture-hubble-telescopes",
+        "james-webb-space-telescope",
+        "xray-chandra-observatory",
+        "infrared-spitzer-telescope",
+        "transit-kepler-telescope",
+        "parallax-gaia-mission",
+        "parabola-mirrors-and-dishes",
+        "glow-cosmic-microwave-background",
+        "dark-euclid-roman",
+        "ripple-gravitational-waves",
+        "burst-gamma-ray-bursts"
+      ]
+    },
+    {
+      "id": "human",
+      "title": { "en": "Human Spaceflight", "ru": "Пилотируемые полёты" },
+      "guides": [
+        "ascent-mercury-program",
+        "rendezvous-gemini-program",
+        { "also": "tranquility-apollo-program" },
+        "orbiter-space-shuttle-program",
+        "union-soyuz-program",
+        "handoff-commercial-crew-program",
+        "vessel-shenzhou-program",
+        "suit-spacesuits-eva"
+      ]
+    },
+    {
+      "id": "future",
+      "title": { "en": "Future Exploration", "ru": "Будущее освоение космоса" },
+      "guides": [
+        "horizon-artemis-base-camp",
+        "the-lunar-gateway",
+        "retrieve-mars-sample-return",
+        "flyby-europa-clipper",
+        "rotor-dragonfly-titan",
+        "beyond-interstellar-probe",
+        "sail-solar-sails",
+        "tilt-uranus-neptune"
+      ]
+    },
+    {
+      "id": "rockets",
+      "title": { "en": "Rockets & Engineering", "ru": "Ракеты и техника" },
+      "guides": [
+        "thrust-saturn-v-n1",
+        "return-reusable-rockets",
+        "nozzle-rocket-engines",
+        "entry-heat-shields",
+        "link-deep-space-network"
+      ]
+    },
+    {
+      "id": "foundations",
+      "title": { "en": "Foundations & Tools", "ru": "Основы и инструменты" },
+      "guides": [
+        "common-ground-basic-logic",
+        "build-your-own-cubesat",
+        "lagrange-points",
+        "physics-of-spaceflight",
+        "cascade-physical-computing",
+        "mathematics-of-music",
+        { "planned": { "en": "Texas Instruments", "ru": "Texas Instruments" } },
+        { "planned": { "en": "Analog Devices", "ru": "Analog Devices" } },
+        { "external_links": true },
+        "slingshot-gravity-assists",
+        "spectrum-spectroscopy"
+      ]
+    },
+    {
+      "id": "time",
+      "title": { "en": "Space & Time", "ru": "Пространство и время" },
+      "guides": [
+        "time-philosophy/",
+        "time-philosophy/time-as-space"
+      ]
+    }
+  ],
+  "about": {
+    "related": "See also: guide slug -> 3-4 related guide slugs, shown at the end of every guide by assets/site.js. Generated by _tools/build-site.py from the \"related\" list in each guide's meta.json; edit those, not this file.",
+    "freshness": "Dated claims in the guides that go stale. One row per claim: page slug, the claim as the page states it, the source to re-check, and the date to re-check by (YYYY-MM-DD). .github/workflows/freshness.yml opens one GitHub issue listing every row past its date (1st of each month, or run by hand). Generated by _tools/build-site.py from the \"freshness\" rows in each guide's meta.json (_tools/articles/<slug>/ or _tools/handmade/<slug>/). After re-checking: update the page (sources, then assemble.py + check-all.sh), then move review_by forward or delete the row in that meta.json and run build-site.py."
+  },
+  "legacy_order": {
+    "_about": "Row order of related.json and _tools/freshness.json as they stood when build-site.py took them over (2026-11-14), kept so the generated files stayed byte-identical (apart from their \"_about\" lines). \"freshness\" names the guide of each row in turn (the n-th mention of a guide is the n-th row of its manifest). Guides and rows not listed here follow in the natural order: related.json in site order, freshness rows by review_by, then site order. Deleting this block switches both files to the natural order (a pure reordering of rows).",
+    "related": [
+      "beep-sputnik-explorer",
+      "first-vostok-voskhod",
+      "passenger-animals-in-space",
+      "navigator-gps",
+      "sunsync-earth-observation",
+      "debris-space-junk",
+      "relay-telstar-syncom",
+      "swarm-megaconstellations",
+      "forecast-weather-satellites",
+      "bucket-corona-spy-satellites",
+      "iss-and-mir",
+      "workshop-skylab",
+      "salute-salyut-program",
+      "palace-tiangong-station",
+      "almaz-program-ussr",
+      "voyager-and-pioner",
+      "frontier-new-horizons",
+      "umbrella-galileo-jupiter",
+      "finale-cassini-huygens",
+      "furnace-venera-vega",
+      "polar-juno-jupiter",
+      "scorch-mercury-messenger-bepicolombo",
+      "veil-magellan-venus",
+      "corona-parker-solar-orbiter",
+      "comet-rosetta-philae",
+      "sample-hayabusa-osiris-rex",
+      "impact-dart-planetary-defence",
+      "belt-dawn-vesta-ceres",
+      "luna-programs",
+      "tranquility-apollo-program",
+      "prospect-clementine-mission",
+      "scout-lunar-reconnaissance-orbiter",
+      "valor-the-chandrayaan-mission",
+      "campaign-artemis-program",
+      "rabbit-change-far-side",
+      "viking",
+      "bounce-mars-pathfinder",
+      "troy-spirit-rover",
+      "marathon-opportunity-rover",
+      "skycrane-curiosity-rover",
+      "jezero-perseverance-rover",
+      "transfer-earth-to-mars",
+      "aperture-hubble-telescopes",
+      "james-webb-space-telescope",
+      "xray-chandra-observatory",
+      "infrared-spitzer-telescope",
+      "transit-kepler-telescope",
+      "parallax-gaia-mission",
+      "parabola-mirrors-and-dishes",
+      "glow-cosmic-microwave-background",
+      "dark-euclid-roman",
+      "ripple-gravitational-waves",
+      "burst-gamma-ray-bursts",
+      "ascent-mercury-program",
+      "rendezvous-gemini-program",
+      "orbiter-space-shuttle-program",
+      "union-soyuz-program",
+      "handoff-commercial-crew-program",
+      "vessel-shenzhou-program",
+      "suit-spacesuits-eva",
+      "horizon-artemis-base-camp",
+      "the-lunar-gateway",
+      "retrieve-mars-sample-return",
+      "flyby-europa-clipper",
+      "rotor-dragonfly-titan",
+      "beyond-interstellar-probe",
+      "sail-solar-sails",
+      "tilt-uranus-neptune",
+      "thrust-saturn-v-n1",
+      "return-reusable-rockets",
+      "nozzle-rocket-engines",
+      "entry-heat-shields",
+      "link-deep-space-network",
+      "common-ground-basic-logic",
+      "build-your-own-cubesat",
+      "lagrange-points",
+      "physics-of-spaceflight",
+      "cascade-physical-computing",
+      "mathematics-of-music",
+      "slingshot-gravity-assists",
+      "spectrum-spectroscopy",
+      "time-philosophy/",
+      "time-philosophy/time-as-space",
+      "escape-maven-mars-atmosphere",
+      "quake-insight-mars",
+      "touchdown-commercial-lunar-landers",
+      "footing-ranger-surveyor",
+      "mascon-grail-lunar-gravity"
+    ],
+    "freshness": [
+      "ripple-gravitational-waves",
+      "scorch-mercury-messenger-bepicolombo",
+      "dark-euclid-roman",
+      "tilt-uranus-neptune",
+      "campaign-artemis-program",
+      "horizon-artemis-base-camp",
+      "retrieve-mars-sample-return",
+      "flyby-europa-clipper",
+      "polar-juno-jupiter",
+      "vessel-shenzhou-program",
+      "swarm-megaconstellations",
+      "swarm-megaconstellations",
+      "forecast-weather-satellites",
+      "forecast-weather-satellites",
+      "swarm-megaconstellations",
+      "swarm-megaconstellations",
+      "swarm-megaconstellations",
+      "swarm-megaconstellations",
+      "dark-euclid-roman",
+      "relay-telstar-syncom",
+      "forecast-weather-satellites",
+      "forecast-weather-satellites",
+      "forecast-weather-satellites",
+      "forecast-weather-satellites",
+      "bucket-corona-spy-satellites",
+      "swarm-megaconstellations",
+      "swarm-megaconstellations",
+      "forecast-weather-satellites",
+      "forecast-weather-satellites",
+      "forecast-weather-satellites",
+      "forecast-weather-satellites",
+      "forecast-weather-satellites",
+      "forecast-weather-satellites",
+      "passenger-animals-in-space",
+      "passenger-animals-in-space",
+      "relay-telstar-syncom",
+      "bucket-corona-spy-satellites",
+      "relay-telstar-syncom",
+      "relay-telstar-syncom",
+      "relay-telstar-syncom",
+      "footing-ranger-surveyor",
+      "footing-ranger-surveyor",
+      "footing-ranger-surveyor",
+      "footing-ranger-surveyor",
+      "mascon-grail-lunar-gravity",
+      "mascon-grail-lunar-gravity",
+      "mascon-grail-lunar-gravity",
+      "touchdown-commercial-lunar-landers",
+      "touchdown-commercial-lunar-landers",
+      "touchdown-commercial-lunar-landers",
+      "touchdown-commercial-lunar-landers",
+      "touchdown-commercial-lunar-landers",
+      "touchdown-commercial-lunar-landers",
+      "touchdown-commercial-lunar-landers",
+      "quake-insight-mars",
+      "quake-insight-mars",
+      "quake-insight-mars",
+      "quake-insight-mars",
+      "escape-maven-mars-atmosphere",
+      "escape-maven-mars-atmosphere",
+      "escape-maven-mars-atmosphere",
+      "escape-maven-mars-atmosphere",
+      "escape-maven-mars-atmosphere",
+      "escape-maven-mars-atmosphere",
+      "parallax-gaia-mission"
+    ]
+  }
+}

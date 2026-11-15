@@ -1,0 +1,16 @@
+{
+ "slug": "aperture-hubble-telescopes",
+ "codename": "APERTURE",
+ "label": {
+  "en": "Hubble & Space Telescopes",
+  "ru": "«Хаббл» и космические телескопы"
+ },
+ "llms": "the Hubble Space Telescope and the age of space observatories.",
+ "related": [
+  "james-webb-space-telescope",
+  "parabola-mirrors-and-dishes",
+  "xray-chandra-observatory",
+  "spectrum-spectroscopy"
+ ],
+ "freshness": []
+}

@@ -9,5 +9,18 @@
  "hud1": "CLOCK ERROR",
  "hud2": "POSITION ERROR",
  "hud1_ru": "ОШИБКА ЧАСОВ",
- "hud2_ru": "ОШИБКА ПОЛОЖЕНИЯ"
+ "hud2_ru": "ОШИБКА ПОЛОЖЕНИЯ",
+ "codename": "NAVIGATOR",
+ "label": {
+  "en": "GPS & Satellite Navigation",
+  "ru": "GPS и спутниковая навигация"
+ },
+ "llms": "GPS — why four satellites (clock as an unknown, Gauss–Newton fix), 38.6 µs/day of relativity and the 10.22999999543 MHz factory clock setting (Ashby 2003), dilution of precision vs satellite geometry, Selective Availability",
+ "related": [
+  "relay-telstar-syncom",
+  "swarm-megaconstellations",
+  "sunsync-earth-observation",
+  "physics-of-spaceflight"
+ ],
+ "freshness": []
 }

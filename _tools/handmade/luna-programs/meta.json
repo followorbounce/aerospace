@@ -1,0 +1,16 @@
+{
+ "slug": "luna-programs",
+ "codename": "DESCENT",
+ "label": {
+  "en": "Luna & the Moon Race",
+  "ru": "«Луна» и лунная гонка"
+ },
+ "llms": "the Luna program, Apollo, and the exploration of the Moon.",
+ "related": [
+  "tranquility-apollo-program",
+  "thrust-saturn-v-n1",
+  "rabbit-change-far-side",
+  "footing-ranger-surveyor"
+ ],
+ "freshness": []
+}

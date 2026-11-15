@@ -9,5 +9,24 @@
  "hud1": "ORBIT",
  "hud2": "PERIJOVE SPEED",
  "hud1_ru": "ОРБИТА",
- "hud2_ru": "СКОРОСТЬ В ПЕРИЙОВИИ"
+ "hud2_ru": "СКОРОСТЬ В ПЕРИЙОВИИ",
+ "codename": "POLAR",
+ "label": {
+  "en": "Juno at Jupiter",
+  "ru": "«Юнона» у Юпитера"
+ },
+ "llms": "NASA's Juno — first solar-powered Jupiter orbiter; the 8.1 million × 4,200 km polar capture orbit and the cancelled 14-day burn (vis-viva), Doppler gravity science showing 3,000 km-deep jets, polar cyclone clusters, and Ganymede/Europa/Io flybys",
+ "related": [
+  "umbrella-galileo-jupiter",
+  "flyby-europa-clipper",
+  "slingshot-gravity-assists",
+  "voyager-and-pioner"
+ ],
+ "freshness": [
+  {
+   "claim": "Juno extended-mission status",
+   "source": "https://science.nasa.gov/mission/juno/",
+   "review_by": "2026-12-31"
+  }
+ ]
 }

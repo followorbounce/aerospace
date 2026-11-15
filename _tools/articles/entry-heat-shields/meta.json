@@ -9,5 +9,18 @@
  "hud1": "PEAK g",
  "hud2": "PEAK HEATING",
  "hud1_ru": "ПИК ПЕРЕГРУЗКИ",
- "hud2_ru": "ПИК НАГРЕВА"
+ "hud2_ru": "ПИК НАГРЕВА",
+ "codename": "ENTRY",
+ "label": {
+  "en": "Heat Shields & Atmospheric Entry",
+  "ru": "Теплозащита и вход в атмосферу"
+ },
+ "llms": "atmospheric entry — Allen–Eggers ballistic deceleration (peak g independent of mass, checked by RK4), Apollo's lifting entry (36 g ballistic vs 6.56 g flown), Sutton–Graves stagnation heating vs nose radius, Stardust's PICA and Orion's Avcoat char loss",
+ "related": [
+  "skycrane-curiosity-rover",
+  "orbiter-space-shuttle-program",
+  "nozzle-rocket-engines",
+  "finale-cassini-huygens"
+ ],
+ "freshness": []
 }

@@ -1,0 +1,16 @@
+{
+ "slug": "physics-of-spaceflight",
+ "codename": "IMPULSE",
+ "label": {
+  "en": "The Physics of Spaceflight",
+  "ru": "Физика космического полёта"
+ },
+ "llms": "the rocket equation, orbital mechanics, and a Δv map of the Solar System, ending with the engines from chemical rockets to fusion drives.",
+ "related": [
+  "nozzle-rocket-engines",
+  "transfer-earth-to-mars",
+  "slingshot-gravity-assists",
+  "lagrange-points"
+ ],
+ "freshness": []
+}

@@ -9,5 +9,18 @@
  "hud1": "DISTANCE",
  "hud2": "ENERGY",
  "hud1_ru": "РАССТОЯНИЕ",
- "hud2_ru": "ЭНЕРГИЯ"
+ "hud2_ru": "ЭНЕРГИЯ",
+ "codename": "BURST",
+ "label": {
+  "en": "Gamma-Ray Bursts: Swift & Fermi",
+  "ru": "Гамма-всплески: Swift и Fermi"
+ },
+ "llms": "Gamma-ray bursts from Vela to Swift and Fermi: an isotropy model of why an even sky meant cosmological distances, 4,391 real Fermi GBM durations split into short and long families, Swift's coded mask, isotropic energy and cosmic age from fluence and redshift (GRB 221009A ≈ 10^55 erg, GRB 090423 at z ≈ 8.2), jet beaming, and Swift's decaying orbit as of October 2026.",
+ "related": [
+  "ripple-gravitational-waves",
+  "xray-chandra-observatory",
+  "spectrum-spectroscopy",
+  "glow-cosmic-microwave-background"
+ ],
+ "freshness": []
 }

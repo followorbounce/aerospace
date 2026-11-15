@@ -1,0 +1,16 @@
+{
+ "slug": "first-vostok-voskhod",
+ "codename": "FIRST",
+ "label": {
+  "en": "Vostok & Voskhod",
+  "ru": "«Восток» и «Восход»"
+ },
+ "llms": "the first human spaceflights 1961–65 — Gagarin's Vostok 1 minute by minute (ESA timeline), Allen–Eggers ballistic re-entry and its 8 g, the orbital-decay safety net (US Standard Atmosphere 1976 drag model reproduces the ~20-day figure), Titov and the group flights, Tereshkova, Voskhod 1 without spacesuits, and Leonov's spacewalk with an inflated-tube model of his ballooning Berkut suit.",
+ "related": [
+  "beep-sputnik-explorer",
+  "passenger-animals-in-space",
+  "ascent-mercury-program",
+  "union-soyuz-program"
+ ],
+ "freshness": []
+}

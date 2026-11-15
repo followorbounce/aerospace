@@ -1,0 +1,16 @@
+{
+ "slug": "almaz-program-ussr",
+ "codename": "DIAMOND",
+ "label": {
+  "en": "The Almaz Program",
+  "ru": "Программа «Алмаз»"
+ },
+ "llms": "the Soviet Almaz military station program.",
+ "related": [
+  "salute-salyut-program",
+  "bucket-corona-spy-satellites",
+  "workshop-skylab",
+  "union-soyuz-program"
+ ],
+ "freshness": []
+}

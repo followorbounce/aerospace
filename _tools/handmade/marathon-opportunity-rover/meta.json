@@ -1,0 +1,16 @@
+{
+ "slug": "marathon-opportunity-rover",
+ "codename": "MARATHON",
+ "label": {
+  "en": "The Opportunity Rover",
+  "ru": "Марсоход Opportunity"
+ },
+ "llms": "NASA's Opportunity rover and the Mars Exploration Rover mission.",
+ "related": [
+  "troy-spirit-rover",
+  "skycrane-curiosity-rover",
+  "jezero-perseverance-rover",
+  "viking"
+ ],
+ "freshness": []
+}

@@ -9,5 +9,24 @@
  "hud1": "STRAIN",
  "hud2": "FREQUENCY",
  "hud1_ru": "ДЕФОРМАЦИЯ",
- "hud2_ru": "ЧАСТОТА"
+ "hud2_ru": "ЧАСТОТА",
+ "codename": "RIPPLE",
+ "label": {
+  "en": "Gravitational Waves: LIGO, Virgo, KAGRA & LISA",
+  "ru": "Гравитационные волны: LIGO, Virgo, KAGRA и LISA"
+ },
+ "llms": "Gravitational waves: strain of 10⁻²¹ on LIGO's 4 km arms (±0.002 fm), GW150914's chirp and chirp mass with playable audio, 3 M☉c² radiated, Hulse–Taylor orbital decay vs general relativity (0.9983 ± 0.0016), detector bands from pulsar timing to LISA and LIGO, GW170817 and the network's status as of October 2026.",
+ "related": [
+  "burst-gamma-ray-bursts",
+  "glow-cosmic-microwave-background",
+  "dark-euclid-roman",
+  "spectrum-spectroscopy"
+ ],
+ "freshness": [
+  {
+   "claim": "IR1 targeted for mid-January 2027; O5 plans in discussion (plan page updated 16 Oct 2026)",
+   "source": "https://observing.docs.ligo.org/plan/",
+   "review_by": "2026-11-16"
+  }
+ ]
 }

@@ -1,0 +1,22 @@
+{
+ "slug": "campaign-artemis-program",
+ "codename": "CAMPAIGN",
+ "label": {
+  "en": "The Artemis Program",
+  "ru": "Программа Artemis"
+ },
+ "llms": "SLS, Orion, the Artemis Accords, and every mission from Artemis I onward.",
+ "related": [
+  "the-lunar-gateway",
+  "horizon-artemis-base-camp",
+  "tranquility-apollo-program",
+  "touchdown-commercial-lunar-landers"
+ ],
+ "freshness": [
+  {
+   "claim": "Artemis II/III/IV status as of 10 Oct 2026",
+   "source": "https://www.nasa.gov/humans-in-space/artemis/",
+   "review_by": "2026-12-31"
+  }
+ ]
+}

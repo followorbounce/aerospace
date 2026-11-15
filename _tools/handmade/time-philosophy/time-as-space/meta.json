@@ -1,0 +1,15 @@
+{
+ "slug": "time-philosophy/time-as-space",
+ "codename": "02",
+ "label": {
+  "en": "Time as Space",
+  "ru": "Время как пространство"
+ },
+ "llms": "a companion essay on modelling time spatially.",
+ "related": [
+  "time-philosophy/",
+  "physics-of-spaceflight",
+  "ripple-gravitational-waves"
+ ],
+ "freshness": []
+}

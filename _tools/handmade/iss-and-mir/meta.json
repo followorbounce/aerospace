@@ -1,0 +1,16 @@
+{
+ "slug": "iss-and-mir",
+ "codename": "ORBIT",
+ "label": {
+  "en": "ISS & Mir",
+  "ru": "МКС и Мир"
+ },
+ "llms": "orbital mechanics, the ISS, and Mir.",
+ "related": [
+  "salute-salyut-program",
+  "palace-tiangong-station",
+  "union-soyuz-program",
+  "handoff-commercial-crew-program"
+ ],
+ "freshness": []
+}

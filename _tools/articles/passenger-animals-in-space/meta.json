@@ -9,5 +9,29 @@
  "hud1": "CABIN (MODEL)",
  "hud2": "PEAK G",
  "hud1_ru": "КАБИНА (МОДЕЛЬ)",
- "hud2_ru": "ПИКОВАЯ ПЕРЕГРУЗКА"
+ "hud2_ru": "ПИКОВАЯ ПЕРЕГРУЗКА",
+ "codename": "PASSENGER",
+ "label": {
+  "en": "Animals in Space: Laika, Belka & Strelka, Ham",
+  "ru": "Животные в космосе: Лайка, Белка и Стрелка, Хэм"
+ },
+ "llms": "The animals that flew before people, 1947–2025: Sputnik 2's cabin heat balance and why Laika died within hours, Belka and Strelka's first return from orbit, Ham's Mercury-Redstone 2 ballistic arc (14.6 g instead of Shepard's 11) from a checked trajectory model, Enos, Félicette, the Zond 5 tortoises and the Bion biosatellites — and what each answered for Gagarin and Shepard.",
+ "related": [
+  "beep-sputnik-explorer",
+  "first-vostok-voskhod",
+  "ascent-mercury-program",
+  "entry-heat-shields"
+ ],
+ "freshness": [
+  {
+   "claim": "Bion-M No. 2 (Aug–Sep 2025) is the most recent flight in the Bion series \"as of October 2026\"",
+   "source": "https://interfax.com/newsroom/top-stories/113900/",
+   "review_by": "2027-04-01"
+  },
+  {
+   "claim": "Ten of 75 mice died on Bion-M No. 2 (preliminary institute statement)",
+   "source": "https://interfax.com/newsroom/top-stories/113900/",
+   "review_by": "2027-04-01"
+  }
+ ]
 }

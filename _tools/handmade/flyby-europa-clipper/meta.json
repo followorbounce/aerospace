@@ -1,0 +1,22 @@
+{
+ "slug": "flyby-europa-clipper",
+ "codename": "FLYBY",
+ "label": {
+  "en": "Europa Clipper",
+  "ru": "«Европа Клиппер»"
+ },
+ "llms": "NASA's Europa Clipper and the search for a habitable ocean moon.",
+ "related": [
+  "umbrella-galileo-jupiter",
+  "polar-juno-jupiter",
+  "slingshot-gravity-assists",
+  "rotor-dragonfly-titan"
+ ],
+ "freshness": [
+  {
+   "claim": "Europa Clipper cruise status (Earth flyby Dec 2026, Jupiter arrival Apr 2030)",
+   "source": "https://science.nasa.gov/mission/europa-clipper/",
+   "review_by": "2026-12-31"
+  }
+ ]
+}

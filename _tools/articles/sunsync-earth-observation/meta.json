@@ -9,5 +9,18 @@
  "hud1": "INCLINATION",
  "hud2": "REVISIT",
  "hud1_ru": "НАКЛОНЕНИЕ",
- "hud2_ru": "ПЕРИОД ОБЗОРА"
+ "hud2_ru": "ПЕРИОД ОБЗОРА",
+ "codename": "SUNSYNC",
+ "label": {
+  "en": "Earth Observation Satellites",
+  "ru": "Спутники наблюдения Земли"
+ },
+ "llms": "Earth observation — J2 nodal precession and the sun-synchronous inclination vs altitude (matches Landsat 1, Landsat 9 and Sentinel-2 within 0.1°), swath width vs revisit time, diffraction-limited ground resolution",
+ "related": [
+  "forecast-weather-satellites",
+  "bucket-corona-spy-satellites",
+  "navigator-gps",
+  "debris-space-junk"
+ ],
+ "freshness": []
 }

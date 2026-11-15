@@ -1,0 +1,22 @@
+{
+ "slug": "horizon-artemis-base-camp",
+ "codename": "HORIZON",
+ "label": {
+  "en": "Artemis Base Camp",
+  "ru": "Базовый лагерь Artemis"
+ },
+ "llms": "NASA's Artemis Base Camp and the next era of lunar exploration.",
+ "related": [
+  "campaign-artemis-program",
+  "the-lunar-gateway",
+  "valor-the-chandrayaan-mission",
+  "scout-lunar-reconnaissance-orbiter"
+ ],
+ "freshness": [
+  {
+   "claim": "Artemis Base Camp plans",
+   "source": "https://www.nasa.gov/humans-in-space/artemis/",
+   "review_by": "2026-12-31"
+  }
+ ]
+}

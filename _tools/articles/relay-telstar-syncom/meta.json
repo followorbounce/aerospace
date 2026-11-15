@@ -7,5 +7,44 @@
  "brand": "RELAY — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
  "phase0": "THE IDEA",
  "hud1": "ALTITUDE",
- "hud2": "PERIOD"
+ "hud2": "PERIOD",
+ "codename": "RELAY",
+ "label": {
+  "en": "Telstar, Syncom & the Geostationary Orbit",
+  "ru": "«Телстар», «Синком» и геостационарная орбита"
+ },
+ "llms": "Communications satellites from Potočnik's and Clarke's 35,786 km orbit to today's belt: period vs altitude from Kepler's third law and one sidereal day, Telstar 1's real passes over Andover and Pleumeur-Bodou (propagated from CelesTrak elements, checked against SGP4) against a fixed geostationary dish, Syncom 2's figure eight and the 53-year drift of dead GEO satellites, the Molniya orbit's 63.4° critical inclination, and geostationary footprint, latency and station-keeping.",
+ "related": [
+  "swarm-megaconstellations",
+  "navigator-gps",
+  "lagrange-points",
+  "link-deep-space-network"
+ ],
+ "freshness": [
+  {
+   "claim": "",
+   "source": "---",
+   "review_by": "2027-01-31"
+  },
+  {
+   "claim": "568 active geosynchronous satellites as of October 2026 (326 within 0.1°, 369 within 1°); spacing 0.63°",
+   "source": "https://celestrak.org/NORAD/elements/gp.php?GROUP=geo&FORMAT=json",
+   "review_by": "2027-04-22"
+  },
+  {
+   "claim": "Telstar 1 still in orbit, 157.7-min orbit; instrument 2 uses its elements of 21 Oct 2026",
+   "source": "https://celestrak.org/NORAD/elements/gp.php?CATNR=340&FORMAT=tle",
+   "review_by": "2027-10-22"
+  },
+  {
+   "claim": "Syncom 3 inclination 7.27°, Early Bird 7.46° (October 2026; drift ~0.1°/yr changes the \"today\" presets)",
+   "source": "https://celestrak.org/NORAD/elements/gp.php?CATNR=858&FORMAT=tle",
+   "review_by": "2027-10-22"
+  },
+  {
+   "claim": "FCC 0.05° east–west station-keeping rule",
+   "source": "https://www.law.cornell.edu/cfr/text/47/25.210",
+   "review_by": "2027-10-22"
+  }
+ ]
 }

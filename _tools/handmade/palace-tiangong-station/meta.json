@@ -1,0 +1,16 @@
+{
+ "slug": "palace-tiangong-station",
+ "codename": "PALACE",
+ "label": {
+  "en": "Tiangong Space Station",
+  "ru": "Станция «Тяньгун»"
+ },
+ "llms": "China's Tiangong station.",
+ "related": [
+  "vessel-shenzhou-program",
+  "iss-and-mir",
+  "rabbit-change-far-side",
+  "salute-salyut-program"
+ ],
+ "freshness": []
+}

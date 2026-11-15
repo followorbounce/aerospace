@@ -1,0 +1,16 @@
+{
+ "slug": "build-your-own-cubesat",
+ "codename": "ASSEMBLY",
+ "label": {
+  "en": "Build Your Own CubeSat",
+  "ru": "Собери свой кубсат"
+ },
+ "llms": "from Arduino basics and circuit fundamentals to the anatomy of a real CubeSat.",
+ "related": [
+  "cascade-physical-computing",
+  "swarm-megaconstellations",
+  "physics-of-spaceflight",
+  "common-ground-basic-logic"
+ ],
+ "freshness": []
+}

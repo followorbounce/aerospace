@@ -13,7 +13,7 @@ what applyLang('ru') does in the browser (outermost [data-en][data-ru] element's
   and, through blocks.place(), its own hreflang / analytics / JSON-LD / network-footer blocks in their fixed slots.
 assets/site.js does the rest at runtime: on data-edition pages it runs the page's own RU handler so script-drawn
 text is Russian too, keeps navigation inside the edition, and turns the EN/RU toggle into a link between editions.
-Run after assemble.py/wire.py and after editing a hand-authored guide; ru/ is generated, never edit it.
+build-site.py runs this; run it yourself after assemble.py and after editing a hand-authored guide; ru/ is generated, never edit it.
 --check reports pages whose Russian copy is missing or out of date (exact comparison), and writes nothing.
 A page is only written when its bytes change, so a run after a one-guide edit touches that guide alone.
 """

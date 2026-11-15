@@ -5,7 +5,8 @@
 #   hand-made guides with _tools/handmade/<slug>/checks.js   smoke test + checks against the committed page
 #   every other guide in pages.json               smoke test only (script errors, broken bilingual attributes, missing RU)
 #   citations                                     the highest [n] in a page must not exceed its reference count
-#   whole-site (only when no slug is given)       finalize.py --check, ru_pages.py --check, search-index.py --check, site-check.py
+#   whole-site (only when no slug is given)       finalize.py --check, ru_pages.py --check, build-site.py --check (pages.json, index lists,
+#                                                 llms.txt, related.json, freshness.json, search.json, sitemap.xml vs the manifests), site-check.py
 # Pages run in parallel (JOBS, default 4); output is printed in a stable order.
 D=$(cd "$(dirname "$0")"; pwd); REPO=$(dirname "$D"); TMP=$(mktemp -d); JOBS=${JOBS:-4}
 OKLINE='"errors":\[\],"brokenAttrs":0,"offStep":\[\],"missingRu":0'
@@ -53,7 +54,7 @@ if [ $site -eq 1 ]; then
   echo "== site"
   python3 "$D/finalize.py" --check | sed 's/^/   /'; [ ${PIPESTATUS[0]} -eq 0 ] || bad=1
   python3 "$D/ru_pages.py" --check | sed 's/^/   /'; [ ${PIPESTATUS[0]} -eq 0 ] || bad=1
-  python3 "$D/search-index.py" --check | sed 's/^/   /'; [ ${PIPESTATUS[0]} -eq 0 ] || bad=1
+  python3 "$D/build-site.py" --check | sed 's/^/   /'; [ ${PIPESTATUS[0]} -eq 0 ] || bad=1
   python3 "$D/site-check.py" | sed 's/^/   /'; [ ${PIPESTATUS[0]} -eq 0 ] || bad=1
 fi
 rm -rf "$TMP"; [ $bad -eq 0 ] && echo "ALL OK" || { echo "PROBLEMS FOUND"; exit 1; }

@@ -1,0 +1,16 @@
+{
+ "slug": "finale-cassini-huygens",
+ "codename": "FINALE",
+ "label": {
+  "en": "Cassini-Huygens at Saturn",
+  "ru": "«Кассини-Гюйгенс» у Сатурна"
+ },
+ "llms": "the Cassini-Huygens mission to Saturn and Titan.",
+ "related": [
+  "rotor-dragonfly-titan",
+  "umbrella-galileo-jupiter",
+  "voyager-and-pioner",
+  "entry-heat-shields"
+ ],
+ "freshness": []
+}

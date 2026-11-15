@@ -1,0 +1,16 @@
+{
+ "slug": "prospect-clementine-mission",
+ "codename": "PROSPECT",
+ "label": {
+  "en": "The Clementine Mission",
+  "ru": "Миссия «Клементина»"
+ },
+ "llms": "the Clementine lunar mission.",
+ "related": [
+  "scout-lunar-reconnaissance-orbiter",
+  "valor-the-chandrayaan-mission",
+  "horizon-artemis-base-camp",
+  "spectrum-spectroscopy"
+ ],
+ "freshness": []
+}

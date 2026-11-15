@@ -28,8 +28,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           title="Freshness: dated claims to re-check"
-          { echo "These claims in the guides are past their review date (from \`_tools/freshness.json\`)."
+          { echo "These claims in the guides are past their review date (from \`_tools/freshness.json\`, generated from the guides' \`meta.json\`)."
             echo; cat overdue.md; echo
-            echo "Re-check each source, update the guide's sources (then \`assemble.py\` + \`check-all.sh\`), and move \`review_by\` forward or delete the row."; } > body.md
+            echo "Re-check each source, update the guide's sources (then \`assemble.py\` + \`check-all.sh\`), and move \`review_by\` forward or delete the row in the guide's \`meta.json\` (\`_tools/articles/<slug>/\` or \`_tools/handmade/<slug>/\`), then run \`python3 _tools/build-site.py\`."; } > body.md
           n=$(gh issue list --state open --search "\"$title\" in:title" --json number -q '.[0].number')
           if [ -n "$n" ]; then gh issue edit "$n" --body-file body.md; else gh issue create --title "$title" --body-file body.md; fi

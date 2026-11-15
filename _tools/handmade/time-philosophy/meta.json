@@ -1,0 +1,15 @@
+{
+ "slug": "time-philosophy/",
+ "codename": "01",
+ "label": {
+  "en": "Voyager / Heliosphere / Time",
+  "ru": "Вояджер / Гелиосфера / Время"
+ },
+ "llms": "the Voyager trajectories, the heliosphere, and time as a structure rather than a line.",
+ "related": [
+  "time-philosophy/time-as-space",
+  "voyager-and-pioner",
+  "beyond-interstellar-probe"
+ ],
+ "freshness": []
+}

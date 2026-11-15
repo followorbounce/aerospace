@@ -1,0 +1,16 @@
+{
+ "slug": "troy-spirit-rover",
+ "codename": "TROY",
+ "label": {
+  "en": "The Spirit Rover",
+  "ru": "Марсоход Spirit"
+ },
+ "llms": "NASA's Spirit rover and the Mars Exploration Rover mission.",
+ "related": [
+  "marathon-opportunity-rover",
+  "bounce-mars-pathfinder",
+  "skycrane-curiosity-rover",
+  "transfer-earth-to-mars"
+ ],
+ "freshness": []
+}

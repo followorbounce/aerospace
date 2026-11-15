@@ -1,0 +1,16 @@
+{
+ "slug": "transfer-earth-to-mars",
+ "codename": "TRANSFER",
+ "label": {
+  "en": "Earth to Mars: The Transfer",
+  "ru": "Перелёт Земля — Марс"
+ },
+ "llms": "an interactive guide to the Earth–Mars trip — a live orbit model with today's distance and light delay, 26-month launch windows, a Hohmann transfer you can aim, fast-vs-cheap trajectories, the Δv and propellant bill, measured radiation dose (Curiosity RAD) against NASA's 600 mSv limit, plutonium RTG decay, and real mission cruise times.",
+ "related": [
+  "escape-maven-mars-atmosphere",
+  "slingshot-gravity-assists",
+  "viking",
+  "retrieve-mars-sample-return"
+ ],
+ "freshness": []
+}

@@ -1,0 +1,16 @@
+{
+ "slug": "voyager-and-pioner",
+ "codename": "DEPARTURE",
+ "label": {
+  "en": "Voyager & Pioneer",
+  "ru": "«Вояджер» и «Пионер»"
+ },
+ "llms": "the Pioneer and Voyager interstellar missions.",
+ "related": [
+  "frontier-new-horizons",
+  "slingshot-gravity-assists",
+  "beyond-interstellar-probe",
+  "link-deep-space-network"
+ ],
+ "freshness": []
+}

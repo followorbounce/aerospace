@@ -9,5 +9,24 @@
  "hud1": "SUNLIGHT",
  "hud2": "FLIGHT TIME",
  "hud1_ru": "ОСВЕЩЁННОСТЬ",
- "hud2_ru": "ВРЕМЯ ПОЛЁТА"
+ "hud2_ru": "ВРЕМЯ ПОЛЁТА",
+ "codename": "TILT",
+ "label": {
+  "en": "Uranus & Neptune: the Ice Giants",
+  "ru": "Уран и Нептун: ледяные гиганты"
+ },
+ "llms": "Uranus's 98° tilt and 42-year polar days, sunlight and data rates at 19–30 AU, Voyager 2's 1986 and 1989 flybys (Great Dark Spot, Triton's plumes), Hohmann vs faster transfers, and the proposed Uranus Orbiter and Probe's status as of October 2026.",
+ "related": [
+  "voyager-and-pioner",
+  "frontier-new-horizons",
+  "slingshot-gravity-assists",
+  "finale-cassini-huygens"
+ ],
+ "freshness": [
+  {
+   "claim": "Uranus Orbiter and Probe status as of 9 Oct 2026 (continuing resolution to 11 Dec 2026, FY2027 appropriation)",
+   "source": "https://science.nasa.gov/planetary-science/",
+   "review_by": "2026-12-15"
+  }
+ ]
 }

@@ -1,0 +1,16 @@
+{
+ "slug": "furnace-venera-vega",
+ "codename": "FURNACE",
+ "label": {
+  "en": "Venera & Vega",
+  "ru": "«Венера» и «Вега»"
+ },
+ "llms": "the Soviet exploration of Venus 1967–85 — descent through the Venus International Reference Atmosphere with a terminal-velocity model that reproduces Venera 11's 53-minute fall, a pressure-sphere designer (strength vs buckling, NASA SP-8032 knockdown), Venera 4's crushing, Venera 7's 23 minutes from the surface, the first pictures (Venera 9), survival times of every lander (Venera 13: 127 min), and the Vega balloons at 54 km.",
+ "related": [
+  "veil-magellan-venus",
+  "luna-programs",
+  "entry-heat-shields",
+  "scorch-mercury-messenger-bepicolombo"
+ ],
+ "freshness": []
+}

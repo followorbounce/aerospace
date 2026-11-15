@@ -9,5 +9,18 @@
  "hud1": "PROPELLANT",
  "hud2": "ORBIT PERIOD",
  "hud1_ru": "ТОПЛИВО",
- "hud2_ru": "ПЕРИОД ОБРАЩЕНИЯ"
+ "hud2_ru": "ПЕРИОД ОБРАЩЕНИЯ",
+ "codename": "BELT",
+ "label": {
+  "en": "Dawn at Vesta & Ceres",
+  "ru": "Dawn у Весты и Цереры"
+ },
+ "llms": "Dawn's ion engines and the first spacecraft to orbit two destinations beyond Earth: rocket-equation ledger (11.49 km/s from 425 kg of xenon vs ~30 t chemical), thrust-and-mass push calculator, Kepler periods and Edelbaum spirals for every Vesta/Ceres mapping orbit checked against NASA, Vesta vs Ceres scale/interior/landmarks (Rheasilvia, Occator brines).",
+ "related": [
+  "comet-rosetta-philae",
+  "sample-hayabusa-osiris-rex",
+  "nozzle-rocket-engines",
+  "impact-dart-planetary-defence"
+ ],
+ "freshness": []
 }
