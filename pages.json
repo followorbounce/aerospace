@@ -166,10 +166,6 @@
         { "slug": "mathematics-of-music", "codename": "RESONANCE", "label": { "en": "The Mathematics of Music", "ru": "Математика музыки" } },
         { "slug": "slingshot-gravity-assists", "codename": "SLINGSHOT", "label": { "en": "Gravity Assists & the Grand Tour", "ru": "Гравитационные манёвры и «Большой тур»" } },
         { "slug": "spectrum-spectroscopy", "codename": "SPECTRUM", "label": { "en": "Spectroscopy: What Starlight Says", "ru": "Спектроскопия: о чём говорит свет звёзд" } }
-      ],
-      "planned": [
-        { "label": { "en": "Texas Instruments", "ru": "Texas Instruments" } },
-        { "label": { "en": "Analog Devices", "ru": "Analog Devices" } }
       ]
     },
     {

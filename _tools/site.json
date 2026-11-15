@@ -166,8 +166,6 @@
         "physics-of-spaceflight",
         "cascade-physical-computing",
         "mathematics-of-music",
-        { "planned": { "en": "Texas Instruments", "ru": "Texas Instruments" } },
-        { "planned": { "en": "Analog Devices", "ru": "Analog Devices" } },
         { "external_links": true },
         "slingshot-gravity-assists",
         "spectrum-spectroscopy"
