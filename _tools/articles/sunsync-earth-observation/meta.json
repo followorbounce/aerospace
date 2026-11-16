@@ -18,7 +18,7 @@
  "llms": "Earth observation — J2 nodal precession and the sun-synchronous inclination vs altitude (matches Landsat 1, Landsat 9 and Sentinel-2 within 0.1°), swath width vs revisit time, diffraction-limited ground resolution",
  "related": [
   "forecast-weather-satellites",
-  "bucket-corona-spy-satellites",
+  "elements-orbital-elements-ground-tracks",
   "navigator-gps",
   "debris-space-junk"
  ],

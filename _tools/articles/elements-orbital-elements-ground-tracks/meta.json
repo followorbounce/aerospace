@@ -1,0 +1,57 @@
+{
+ "slug": "elements-orbital-elements-ground-tracks",
+ "title_en": "ELEMENTS — ORBITAL ELEMENTS & GROUND TRACKS",
+ "title_ru": "ЭЛЕМЕНТЫ — ЭЛЕМЕНТЫ ОРБИТЫ И ТРАССЫ СПУТНИКОВ",
+ "description": "Interactive guide to the six orbital elements: decode real two-line element sets, draw ground tracks and see how Earth's bulge turns every orbit.",
+ "og": "Six numbers pin down any orbit. Set them with sliders, decode five real two-line element sets from November 2026, draw their ground tracks, see J2 turn the node and the perigee, and check a simple propagator against published SGP4 positions.",
+ "brand": "ELEMENTS — TECHNICAL FIELD GUIDE / ТЕХНИЧЕСКИЙ СПРАВОЧНИК",
+ "phase0": "THE IDEA",
+ "hud1": "BELOW THE SATELLITE",
+ "hud2": "NODE DRIFT",
+ "hud1_ru": "ПОД СПУТНИКОМ",
+ "hud2_ru": "ДРЕЙФ УЗЛА",
+ "codename": "ELEMENTS",
+ "label": {
+  "en": "Orbital Elements & Ground Tracks",
+  "ru": "Элементы орбиты и трассы спутников"
+ },
+ "llms": "How six numbers (a, e, i, Ω, ω, M) pin down an orbit: Kepler's equation, the three orientation angles, two-line element sets decoded field by field on five embedded real TLEs of 12–14 November 2026 (ISS, Landsat 9, GPS IIF-7, Molniya 3-50, GOES-19), ground tracks and why they step west, J2 nodal and apsidal drift checked against published values, drag, and what 'mean elements' means; the page's propagator is Kepler + secular J2 (not SGP4) with its error against published SGP4 positions shown.",
+ "related": [
+  "physics-of-spaceflight",
+  "sunsync-earth-observation",
+  "relay-telstar-syncom",
+  "navigator-gps"
+ ],
+ "freshness": [
+  {
+   "claim": "As of November 2026: ordinary 5-digit catalogue numbers ran out at 69999 on 11 July 2026 and the count continued at 100000; CelesTrak issues no TLEs for 6-digit objects (Space-Track documents Alpha-5 TLEs for them); SATCAT at 101387 on 14 Nov 2026",
+   "source": "https://celestrak.org/NORAD/documentation/gp-data-formats.php",
+   "review_by": "2027-05-14"
+  },
+  {
+   "claim": "Five embedded element sets (ISS, Landsat 9, Navstar 71, Molniya 3-50, GOES 19) are dated 12–14 November 2026 and shown as dated examples; all five satellites still catalogued in orbit",
+   "source": "https://celestrak.org/NORAD/elements/",
+   "review_by": "2027-11-14"
+  },
+  {
+   "claim": "GOES-19 is GOES East at 75.2° W (since 7 April 2025)",
+   "source": "https://www.nesdis.noaa.gov/news/noaas-goes-19-now-operational-goes-east-providing-critical-new-data-forecasters",
+   "review_by": "2027-05-14"
+  },
+  {
+   "claim": "Landsat 9 orbit: 705 km, 98.2°, 16-day repeat, equatorial crossing 10:12 a.m. ± 5 min",
+   "source": "https://www.usgs.gov/landsat-missions/landsat-9",
+   "review_by": "2027-11-14"
+  },
+  {
+   "claim": "Space-Track: element sets come from the 18th Space Defense Squadron; element set number is a constant 999; Alpha-5 covers 100,000–339,999; analyst objects 80,000–89,999",
+   "source": "https://www.space-track.org/documentation",
+   "review_by": "2027-05-14"
+  },
+  {
+   "claim": "Ephemeris type is 0 in the public element sets shown; type 4 marks SGP4-XP elements",
+   "source": "https://ai-solutions.com/_help_Files/two-line_element_set_file.htm",
+   "review_by": "2027-05-14"
+  }
+ ]
+}

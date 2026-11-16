@@ -1,0 +1,28 @@
+/* ELEMENTS: 44 px touch targets, readable small SVG text */
+.btn{min-height:44px; min-width:44px; padding:10px 12px;}
+input[type=range]{height:44px; margin:2px 0; background:linear-gradient(var(--ink),var(--ink)) center/100% 2px no-repeat;}
+.btn:focus-visible, input[type=range]:focus-visible, .tle-box:focus-visible{outline:2px solid #2f5aa1; outline-offset:2px;}
+input[type=range]:disabled{opacity:0.35;}
+.svg-small{fill:#4f4f4a; font-size:10.5px;}
+.svg-halo{paint-order:stroke; stroke:#fff; stroke-width:3px; stroke-linejoin:round;}
+@media (max-width:520px){ .svg-small{font-size:13px;} .svg-label{font-size:14px;} }
+@media (pointer:coarse){
+  input[type=range]{background:transparent;}
+  input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--ink);}
+  input[type=range]::-webkit-slider-thumb{width:26px; height:26px; margin-top:-12px;}
+  input[type=range]::-moz-range-track{height:2px; background:var(--ink);}
+  input[type=range]::-moz-range-thumb{width:24px; height:24px;}
+}
+.grid-2 + p.body-col, p.body-col + .sim-wrap, p.body-col + .tle-wrap{margin-top:20px;}
+.note + .grid-2, .sim-wrap + .grid-2, .grid-2 + .grid-2{margin-top:28px;}
+.readout-cell{overflow-wrap:anywhere;}
+/* TLE decoder: the two 69-character lines scroll inside their own box on a narrow screen */
+.tle-wrap{margin-top:28px; max-width:860px;}
+.tle-box{position:relative; margin-top:14px; border:1px solid var(--ink); background:var(--paper); padding:12px 14px; overflow-x:auto;}
+.tle-line{font-family:var(--font-mono); font-size:13px; line-height:1.9; white-space:nowrap; min-height:1.9em;}
+.tf{border-bottom:1px solid var(--line);}
+.tf.on{background:var(--ink); color:var(--white); border-bottom-color:var(--ink); outline:2px solid var(--ink);}
+/* readout labels are typed in capitals already; the shared uppercase transform would turn ν into Ν, n into N and км into КМ */
+.readout-cell .rl{text-transform:none;}
+.tle-hint{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-top:8px; line-height:1.5;}
+.tle-cols{color:var(--mid);}

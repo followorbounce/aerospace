@@ -18,7 +18,7 @@
  "llms": "Spaceflight from first principles: momentum exchange, the rocket equation with a staging optimiser, vis-viva and orbit speed, Hohmann transfers and plane changes, the Oberth effect, a Δv map of the Solar System computed on one stated basis (from a 200 km orbit, impulsive Hohmann transfers, no losses), and a sourced survey of propulsion types; figures checked against NASA fact sheets and Apollo 11, Dawn, New Horizons and Parker Solar Probe flight data.",
  "related": [
   "nozzle-rocket-engines",
-  "transfer-earth-to-mars",
+  "elements-orbital-elements-ground-tracks",
   "slingshot-gravity-assists",
   "lagrange-points"
  ],

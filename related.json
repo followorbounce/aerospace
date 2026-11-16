@@ -4,7 +4,7 @@
   "first-vostok-voskhod": ["beep-sputnik-explorer", "passenger-animals-in-space", "ascent-mercury-program", "union-soyuz-program"],
   "passenger-animals-in-space": ["beep-sputnik-explorer", "first-vostok-voskhod", "ascent-mercury-program", "entry-heat-shields"],
   "navigator-gps": ["relay-telstar-syncom", "swarm-megaconstellations", "sunsync-earth-observation", "physics-of-spaceflight"],
-  "sunsync-earth-observation": ["forecast-weather-satellites", "bucket-corona-spy-satellites", "navigator-gps", "debris-space-junk"],
+  "sunsync-earth-observation": ["forecast-weather-satellites", "elements-orbital-elements-ground-tracks", "navigator-gps", "debris-space-junk"],
   "debris-space-junk": ["swarm-megaconstellations", "sunsync-earth-observation", "iss-and-mir", "impact-dart-planetary-defence"],
   "relay-telstar-syncom": ["swarm-megaconstellations", "navigator-gps", "lagrange-points", "link-deep-space-network"],
   "swarm-megaconstellations": ["debris-space-junk", "relay-telstar-syncom", "return-reusable-rockets", "navigator-gps"],
@@ -76,7 +76,7 @@
   "common-ground-basic-logic": ["cascade-physical-computing", "build-your-own-cubesat", "mathematics-of-music", "physics-of-spaceflight"],
   "build-your-own-cubesat": ["cascade-physical-computing", "swarm-megaconstellations", "physics-of-spaceflight", "common-ground-basic-logic"],
   "lagrange-points": ["james-webb-space-telescope", "the-lunar-gateway", "physics-of-spaceflight", "parallax-gaia-mission"],
-  "physics-of-spaceflight": ["nozzle-rocket-engines", "transfer-earth-to-mars", "slingshot-gravity-assists", "lagrange-points"],
+  "physics-of-spaceflight": ["nozzle-rocket-engines", "elements-orbital-elements-ground-tracks", "slingshot-gravity-assists", "lagrange-points"],
   "cascade-physical-computing": ["common-ground-basic-logic", "build-your-own-cubesat", "mathematics-of-music", "link-deep-space-network"],
   "mathematics-of-music": ["spectrum-spectroscopy", "cascade-physical-computing", "common-ground-basic-logic", "ripple-gravitational-waves"],
   "slingshot-gravity-assists": ["voyager-and-pioner", "transfer-earth-to-mars", "physics-of-spaceflight", "scorch-mercury-messenger-bepicolombo"],
@@ -87,5 +87,6 @@
   "quake-insight-mars": ["viking", "escape-maven-mars-atmosphere", "jezero-perseverance-rover", "transfer-earth-to-mars"],
   "touchdown-commercial-lunar-landers": ["valor-the-chandrayaan-mission", "footing-ranger-surveyor", "rabbit-change-far-side", "mascon-grail-lunar-gravity"],
   "footing-ranger-surveyor": ["tranquility-apollo-program", "luna-programs", "scout-lunar-reconnaissance-orbiter", "touchdown-commercial-lunar-landers"],
-  "mascon-grail-lunar-gravity": ["scout-lunar-reconnaissance-orbiter", "tranquility-apollo-program", "touchdown-commercial-lunar-landers", "link-deep-space-network"]
+  "mascon-grail-lunar-gravity": ["scout-lunar-reconnaissance-orbiter", "tranquility-apollo-program", "touchdown-commercial-lunar-landers", "link-deep-space-network"],
+  "elements-orbital-elements-ground-tracks": ["physics-of-spaceflight", "sunsync-earth-observation", "relay-telstar-syncom", "navigator-gps"]
 }

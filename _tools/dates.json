@@ -67,6 +67,10 @@
 "published": "2026-10-09",
 "modified": "2026-10-29"
 },
+"elements-orbital-elements-ground-tracks.html": {
+"published": "2026-11-15",
+"modified": "2026-11-15"
+},
 "entry-heat-shields.html": {
 "published": "2026-10-08",
 "modified": "2026-10-29"
@@ -302,6 +306,10 @@
 "ru/debris-space-junk.html": {
 "published": "2026-10-28",
 "modified": "2026-10-29"
+},
+"ru/elements-orbital-elements-ground-tracks.html": {
+"published": "2026-11-15",
+"modified": "2026-11-15"
 },
 "ru/entry-heat-shields.html": {
 "published": "2026-10-28",
